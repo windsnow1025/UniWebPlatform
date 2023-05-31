@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../ico/windsnow1024.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src="../js/time.js"></script>
+    <title>Message Transmitter</title>
+</head>
+
+<body>
+    <h1 class="center">Message Transmitter</h1>
+    <span>
+        <label for="themeSelect">Theme:</label>
+        <select id="themeSelect" title="themeSelect">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>    
+    </span>
+    <div>
+        <div>
+            <h2 class="center">Receive Messages</h2>
+            <div class="rouded-border-container Flex-space-between">
+                <div class="content" id="receiveText"></div>
+            </div>
+            <button type="button" id="receive">Receive</button>
+            <button type="button" id="clearReceive">Clear</button>
+        </div>
+        <div>
+            <h2 class="center">Send Messages</h2>
+            <div class="message_div">
+                <div class="Flex-space-between">
+                    <div class="inFlex-FillSpace" style="margin: 8px; padding: 8px;" id="sendText" contenteditable="plaintext-only"></div>
+                    <div class="button inFlex-flex-end">
+                        <button type="button" id="send" title="Ctrl + Enter">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="TimeScript" class="align-right"></div>
+    <script src="/message-transmitter.min.js"></script>
+</body>
+
+</html>

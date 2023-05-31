@@ -1,0 +1,156 @@
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 2px;
+    cursor: pointer;
+    height: auto;
+}
+
+textarea {
+    resize: none;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.hide {
+    display: none;
+}
+
+.margin {
+    margin: 16px;
+}
+
+.padding {
+    padding: 16px;
+}
+
+.center {
+    text-align: center;
+}
+
+.overflow {
+    overflow: auto;
+}
+
+div.Flex-Center {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+}
+
+div.Flex-space-around {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+div.Flex-space-between {
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+div.Flex-Column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fill all available space in the container */
+div.inFlex-FillSpace {
+    flex: 1;
+    overflow: auto;
+}
+
+/* Align to the bottom in the container*/
+div.inFlex-flex-end {
+    align-self: flex-end;
+}
+
+input.margin {
+    margin: 8px;
+}
+
+.List>div {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.message_div {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.rouded-border-container {
+    border-radius: 8px;
+    padding: 16px;
+    margin: 4px;
+}
+
+/* Color */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
+}
+
+button,
+textarea,
+input,
+input[type="checkbox"],
+select,
+option {
+    background-color: var(--button-background-color);
+    color: var(--text-color);
+}
+
+.rouded-border-container {
+    border: 1px solid var(--border-color);
+}
+
+.message_div {
+    background-color: var(--messagediv-background-color);
+}
+
+option:hover {
+    background-color: #555;
+}
+
+/* Light theme */
+.light-theme {
+    --background-color: #f5f5f5;
+    --text-color: #191919;
+    --link-color: #0077cc;
+    --button-background-color: #dfdfdf;
+    --messagediv-background-color: #ffffff;
+    --border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Dark theme */
+.dark-theme {
+    --background-color: #191919;
+    --text-color: #d4d4d4;
+    --link-color: #9b9b9b;
+    --button-background-color: #2a2c2e;
+    --messagediv-background-color: #0d1117;
+    --border-color: rgba(255, 255, 255, 0.5);
+}
