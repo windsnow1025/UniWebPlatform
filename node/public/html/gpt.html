@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../ico/windsnow1024.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../css/style.css?version=1.0.8">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script src="../js/library/tex-mml-chtml.min.js"></script>
+    <script src="../js/time.js"></script>
+    <base target="_blank">
+    <title>GPT</title>
+</head>
+
+<body>
+    <h1 class="center">WindsnowGPT</h1>
+    <div class="Flex-space-around">
+        <a href="./markdown.html?filename=gpt-documentation.md">Documentation</a>
+        <a href="./markdown.html?filename=gpt-presets.md">System Presets</a>
+        <a href="./account.html" target="_self" id="loginButton">Login / Signup</a>
+        <span id="loggedInUsername" class="hide"></span>
+        <a href="" id="SignOutButton" class="hide">Sign Out</a>
+        <span>
+            <label for="themeSelect">Theme:</label>
+            <select id="themeSelect" title="themeSelect">
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>    
+        </span>
+    </div>
+    <br>
+    <div>
+        <div class="Flex-space-around">
+            <div>
+                <label for="model">model: </label>
+                <select id="model" name="model" title="model">
+                    <option value="gpt-3.5-turbo">gpt-3.5-turbo-0301</option>
+                    <option value="gpt-4">gpt-4-0314</option>
+                </select>    
+            </div>
+            <div>
+                <label for="temperature">temperature: </label>
+                <input type="range" id="temperature" min="0" max="2" step="0.1" value="0">
+                <span id="temperature-value">0</span>
+            </div>
+            <div>
+                <label for="stream">stream</label>    
+                <input type="checkbox" id="stream" checked>
+            </div>
+        </div>
+        <div class="rouded-border-container">
+            <h3>Conversations:</h3>
+            <div id="messages_div" class="margin"></div>
+            <div class="center">
+                <button type="button" id="generate" title="Ctrl + Enter">Generate</button>
+                <div><small>Status: </small><small id="status">Ready</small></div>
+            </div>
+        </div>
+        <div class="center">
+            <i class="fa fa-save" id="save" style="margin: 4px" title="Save"></i>
+            <i class="fa fa-upload" id="load" style="margin: 4px" title="Upload"></i>
+        </div>
+    </div>
+    <p>该服务目前处于试用阶段。由于GPT-4的token费用是GPT-3.5的15到30倍。如果您正在使用GPT-4模型，请一定联系windsnow1024进行捐赠！</p>
+    <p>若无法收到GPT响应，请考虑是否因输入内容超出模型Token限制。若遇到任何问题，请先确保关闭所有可能产生冲突的浏览器插件(尤其是Ad Blocker和Microsoft Editor)，并Ctrl+F5强制刷新页面。若问题依然存在，请立即联系windsnow1024。</p>
+    <p>详细使用说明请查看Documentation。</p>
+    <p class="center">Contact: WeChat: windsnow1024; Email: windsnow1024@gmail.com</p>
+    <div id="TimeScript" class="align-right"></div>
+
+
+    <!--   Template for JS   -->
+    <div class="hide">
+        <div name="message_div">
+            <div class="message_div">
+                <select name="role" title="role">
+                    <option value="user">user</option>
+                    <option value="assistant">assistant</option>
+                    <option value="system">system</option>
+                </select>
+                <div class="Flex-space-between">
+                    <div class="inFlex-FillSpace">
+                        <div name="content" class="markdown-body" style="margin: 8px; padding: 8px; min-height: 24px;" contenteditable="plaintext-only"></div>
+                    </div>
+                    <div class="Flex-Column inFlex-flex-end">
+                        <i name="copy_button" class="fa fa-copy" style="margin: 4px" title="Copy"></i>
+                        <i name="delete_button" class="fa fa-minus-circle" style="margin: 4px" title="Delete"></i>
+                    </div>
+                </div>    
+            </div>
+            <div name="add_button_div" class="Flex-space-between">
+                <div class="inFlex-FillSpace">
+                </div>
+                <div class="Flex-Column inFlex-flex-end">
+                    <i name="add_button" class="fa fa-plus-circle" title="Add"></i>
+                </div>    
+            </div>
+        </div>
+    </div>
+
+    <script src="/gpt.min.js?version=1.0.7"></script>
+</body>
+</html>

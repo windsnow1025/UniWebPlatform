@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  web:
+    image: web
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - MYSQL_USER=<MYSQL_USER>
+      - MYSQL_PASSWORD=<MYSQL_PASSWORD>
+      - MYSQL_DATABASE=<MYSQL_DATABASE>
+
+  pyweb:
+    image: pyweb
+    ports:
+      - "5000:5000"
+    restart: always
+    environment:
+      - OPENAI_API_KEY=<OPENAI_API_KEY>
+
+  sql:
+    image: sql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - MYSQL_USER=<MYSQL_USER>
+      - MYSQL_PASSWORD=<MYSQL_PASSWORD>
+      - MYSQL_DATABASE=<MYSQL_DATABASE>
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:
