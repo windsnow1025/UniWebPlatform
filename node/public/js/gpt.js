@@ -4,7 +4,6 @@ import hljs from "highlight.js";
 import 'highlight.js/styles/github-dark.css';
 import 'github-markdown-css/github-markdown-dark.css';
 import 'font-awesome/css/font-awesome.min.css';
-
 import '../css/markdown.css';
 
 // Account
