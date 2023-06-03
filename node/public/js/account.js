@@ -10,6 +10,7 @@ class Account {
         this.username = null;
         this.password = null;
     }
+
     getData() {
         this.username = document.getElementById("username").value;
         this.password = document.getElementById("password").value;
@@ -38,20 +39,25 @@ class Account {
         })
     }
 
+    isValidInput(input) {
+        // Check if input contains only ASCII characters and has a length between 6 and 20
+        const asciiRegex = /^[\x00-\x7F]{4,32}$/;
+        return asciiRegex.test(input);
+    }
+
     async signup() {
         this.getData();
-        if (this.username == "" || this.password == "") {
-            this.prompt.innerHTML = "Username or Password is empty";
-            console.log("Username or Password is empty");
+        if (!this.isValidInput(this.username) || !this.isValidInput(this.password)) {
+            alert("Username or Password contains invalid characters or has an invalid length.");
             return;
         }
         axios.post("/api/user-api", {
             data: { username: this.username, password: this.password }
         }).then(res => {
-            this.prompt.innerHTML = "Signup Success";
+            alert("Signup Success");
             console.log(res.data);
         }).catch(err => {
-            this.prompt.innerHTML = "Signup Fail";
+            alert("Signup Fail");
             console.error(err);
         })
     }
