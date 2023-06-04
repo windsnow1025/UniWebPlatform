@@ -137,7 +137,7 @@ option:hover {
 
 /* Light theme */
 .light-theme {
-    --background-color: #f5f5f5;
+    --background-color: #e0e0e0;
     --text-color: #191919;
     --link-color: #0077cc;
     --button-background-color: #dfdfdf;
