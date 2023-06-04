@@ -54,6 +54,10 @@ class Account {
         axios.post("/api/user-api", {
             data: { username: this.username, password: this.password }
         }).then(res => {
+            if (res.data == false) {
+                alert("Username already exists.");
+                return;
+            }
             alert("Signup Success");
             console.log(res.data);
         }).catch(err => {
