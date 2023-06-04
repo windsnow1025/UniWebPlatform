@@ -5,19 +5,32 @@ const UserSQL = require("./user-sql");
 
 // Data Processing
 
-router.get('/', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
     try {
         // Get Data
-        let data = await UserSQL.Show();
+        let data = req.body.data;
+        let result = await UserSQL.Show();
+        // Judge if data.username and data.password match
+        let isLoggedIn = false;
+        result.forEach(element => {
+            if (data.username == element.username && data.password == element.password) {
+                isLoggedIn = true;
+                res.send(true);
+                next();
+            }
+        });
         // Response, Next
-        res.send(data);
+        if (isLoggedIn == false) {
+            res.send(false);
+            next();
+        }
     } catch (err) {
         console.error("Error in GET /:", err);
         next(err);
     }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
     try {
         // Get Data
         let data = req.body.data;

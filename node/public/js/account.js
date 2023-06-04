@@ -18,20 +18,17 @@ class Account {
 
     async login() {
         this.getData();
-        await axios.get("/api/user-api").then(res => {
-            let isLoggedIn = false;
-            res.data.forEach(element => {
-                if (this.username == element.username && this.password == element.password) {
-                    isLoggedIn = true;
-                }
-            });
+        await axios.post("/api/user-api/login", {
+            data: { username: this.username, password: this.password }
+        }).then(res => {
+            let isLoggedIn = res.data;
             if (isLoggedIn) {
                 document.cookie = "username=" + this.username + "; path=/";
-                this.prompt.innerHTML = "Login Success";
+                alert("Login Success");
                 console.log("Login Success");
                 window.history.back();
             } else {
-                this.prompt.innerHTML = "Login Fail";
+                alert("Login Fail");
                 console.log("Login Fail");
             }
         }).catch(err => {
@@ -51,7 +48,7 @@ class Account {
             alert("Username or Password contains invalid characters or has an invalid length.");
             return;
         }
-        axios.post("/api/user-api", {
+        axios.post("/api/user-api/signup", {
             data: { username: this.username, password: this.password }
         }).then(res => {
             if (res.data == false) {
