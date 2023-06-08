@@ -1,4 +1,4 @@
-openai==0.27.6
-Flask==2.3.2
-waitress==2.1.2
-retry==0.9.2
+openai
+Flask
+waitress
+retry
