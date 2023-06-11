@@ -151,3 +151,10 @@ git branch -m main
 
 git push -f origin main
 ```
+
+- Delete a file from all commits
+
+```git
+git filter-branch --tree-filter 'rm -f <path_to_file>' HEAD
+git push origin --force --all
+```
