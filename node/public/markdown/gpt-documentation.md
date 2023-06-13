@@ -2,13 +2,13 @@
 
 ## Introduction
 
-Windsnow GPT is powered by OpenAI `gpt-4-0314` model with a maximum token of 8192. The `api_key` is provided by windsnow1024.
+Windsnow GPT is powered by OpenAI completion models. Any cost will incur to windsnow1024, the owner of the API key.
 
-Each `gpt-4-0314` request will incur a cost (Prompt: `$0.03 / 1,000 tokens`, Completion: `$0.06 / 1000 tokens`) for the `api_key` which price is between 15 times and 30 times of `gpt-3.5-turbo-0301` which price is `$0.002 / 1,000 tokens`. All history in your current webpage will be sent to API. If you have a frequent usage, please contact windsnow1024 for donations.
+See [OpenAI Pricing](https://openai.com/pricing), [OpenAI Models](https://platform.openai.com/docs/models), [OpenAI API Reference](https://platform.openai.com/docs/api-reference/) for more information.
 
-All contents are parsed by Marked.js and MathJax.
+All messages are parsed by Marked.js and MathJax.
 
-Your data won't be stored in the server currently. Login system is still under development, which will enable users to save their conversations to the cloud. More features will be added in the future.
+Login system is under development. Cloud storage of conversations is under development. More features will be added in the future.
 
 ## Instructions
 
@@ -27,6 +27,8 @@ You could add a message at any place as any role in Windsnow GPT, while ChatGPT 
 Any message at any place can be added, edited or deleted in Windsnow GPT, which is not possible in ChatGPT.
 
 You could set the system role to define global rules in Windsnow GPT, while the content of the system role in ChatGPT is fixed.
+
+You could select the model freely in Windsnow GPT, while ChatGPT only uses the default model.
 
 Every message content is parsed to display the markdown and latex in Windsnow GPT, while ChatGPT only render the content output by the assistant.
 
