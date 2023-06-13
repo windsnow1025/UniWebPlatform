@@ -23,7 +23,7 @@ def generate():
     api_key = os.environ["OPENAI_API_KEY"]
     openai.api_key = api_key
 
-    logging.info(f"messages: {messages}")
+    logging.info(f"model: {model}, messages: {messages}")
 
     try:
         # Stream mode off
