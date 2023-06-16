@@ -21,9 +21,9 @@ Match User User1
     ForceCommand internal-sftp
     ChrootDirectory "[Root Directory 1]"
 
-Match User User1
+Match User User2
     ForceCommand internal-sftp
-    ChrootDirectory "[Root Directory 1]"
+    ChrootDirectory "[Root Directory 2]"
 ```
 
 `Service` >> `OpenSSH SSH Server`: `Restart`
