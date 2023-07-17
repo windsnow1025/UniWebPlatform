@@ -1,27 +1,35 @@
-export function getToken() {
-    return localStorage.getItem('token');
-}
+import axios from 'axios';
 
-export function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+// export function parseJwt(token) {
+//     const base64Url = token.split('.')[1];
+//     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+//     const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+//         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+//     }).join(''));
+//
+//     return JSON.parse(jsonPayload);
+// }
 
-    return JSON.parse(jsonPayload);
-};
-
-export function getUsername() {
-    const token = getToken();
-    if (token) {
-        const payload = parseJwt(token);
-        return payload.sub;
+export async function getUsername() {
+    const token = localStorage.getItem('token');
+    // if (token) {
+    //     const payload = parseJwt(token);
+    //     return payload.sub;
+    // }
+    // return null;
+    try {
+        const res = await axios.get('/api/auth-api/', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return res.data;
+    } catch (err) {
+        return null;
     }
-    return null;
 }
 
-export function handleAuth() {
+export async function handleAuth() {
     // Get elements
     const loginButton = document.getElementById("loginButton");
     const loggedInUsername = document.getElementById("loggedInUsername");
@@ -34,9 +42,9 @@ export function handleAuth() {
     };
 
     // Check if user is logged in
-    const username = getUsername();
+    const username = await getUsername();
 
-    // If user is logged in, show username and SignOut button
+    // If user is logged in
     if (username) {
         // Hide login button
         loginButton.style.display = "none";

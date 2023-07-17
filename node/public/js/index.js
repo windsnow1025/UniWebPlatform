@@ -1,5 +1,5 @@
 import { handleAuth } from "./auth";
-handleAuth();
+await handleAuth();
 
 import { initializeTheme } from "./theme";
 initializeTheme();

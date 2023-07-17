@@ -8,7 +8,7 @@ import '../css/markdown.css';
 
 // Account
 import { handleAuth } from './auth.js';
-handleAuth();
+await handleAuth();
 
 // Theme
 import { initializeTheme } from './theme.js';
