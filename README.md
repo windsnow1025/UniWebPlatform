@@ -2,7 +2,7 @@
 
 Front End: Node.js + Webpack
 
-Back End: Node.js Express + Python Flask + MySQL
+Back End: Node.js Express + Python Flask + MySQL + Nginx
 
 ## Live Demo
 
