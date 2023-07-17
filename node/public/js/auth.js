@@ -38,7 +38,7 @@ export async function handleAuth() {
     // Add event listeners
     SignOutButton.onclick = function () {
         localStorage.removeItem('token');
-        location.reload();
+        handleAuth();
     };
 
     // Check if user is logged in
