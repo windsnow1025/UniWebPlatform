@@ -1,5 +1,7 @@
-import { handleAuth } from "./auth";
-await handleAuth();
+import {init} from "./auth";
 
-import { initializeTheme } from "./theme";
+await init();
+
+import {initializeTheme} from "./theme";
+
 initializeTheme();
