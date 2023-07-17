@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+// APIs
+const authAPI = require('./auth-api');
 const userAPI = require('./user-api');
 const messageAPI = require('./message-api');
 const bookmarkAPI = require('./bookmark-api');
@@ -28,7 +30,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-// Router
+// Routers
+app.use('/api/auth-api', authAPI);
 app.use('/api/user-api', userAPI);
 app.use('/api/message-api', messageAPI);
 app.use('/api/bookmark-api', bookmarkAPI);

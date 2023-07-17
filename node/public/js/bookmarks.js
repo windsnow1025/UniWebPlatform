@@ -3,7 +3,7 @@ import axios from 'axios';
 // Account
 import {handleAuth} from './auth.js';
 
-handleAuth();
+await handleAuth();
 
 // Theme
 import {initializeTheme} from './theme';

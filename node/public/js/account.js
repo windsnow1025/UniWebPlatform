@@ -66,13 +66,13 @@ class Account {
 }
 
 
-var account = new Account();
-var loginButton = document.getElementById("login");
-var signupButton = document.getElementById("signup");
+const account = new Account();
+const loginButton = document.getElementById("login");
+const signupButton = document.getElementById("signup");
 loginButton.onclick = account.login.bind(account);
 signupButton.onclick = account.signup.bind(account);
 
-// Bind Enter to login
+// Bind Enter to login button
 document.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
         loginButton.click();
