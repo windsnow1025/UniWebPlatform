@@ -1,5 +1,5 @@
 import axios from "axios";
-import { marked } from "marked";
+import {marked} from "marked";
 import hljs from "highlight.js";
 import 'highlight.js/styles/github-dark.css';
 import 'github-markdown-css/github-markdown-dark.css';
@@ -7,18 +7,20 @@ import 'font-awesome/css/font-awesome.min.css';
 import '../css/markdown.css';
 
 // Account
-import { handleAuth } from './auth.js';
-await handleAuth();
+import {init} from './auth.js';
+
+await init();
 
 // Theme
-import { initializeTheme } from './theme.js';
+import {initializeTheme} from './theme.js';
+
 initializeTheme();
 
 marked.setOptions({
     renderer: new marked.Renderer(),
     highlight: function (code, lang) {
         const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-        return hljs.highlight(code, { language }).value;
+        return hljs.highlight(code, {language}).value;
     },
     langPrefix: 'hljs language-', // highlight.js css expects a top-level 'hljs' class.
     pedantic: false,
@@ -219,7 +221,7 @@ class GPT {
                 content = content.replace("<", "&lt;").replace(">", "&gt;");
 
                 // Update the last message div
-                this.messages.push({ "role": "assistant", "content": content });
+                this.messages.push({"role": "assistant", "content": content});
 
                 // Render the new message div
                 this.create_render_message_div(this.messages.length - 1);
@@ -237,7 +239,7 @@ class GPT {
         }
 
         async function processChunk(reader, controller) {
-            const { done, value } = await reader.read();
+            const {done, value} = await reader.read();
             if (done) {
                 controller.close();
                 return;
@@ -272,11 +274,11 @@ class GPT {
                 const reader = response.body.getReader();
                 const processedStream = new ReadableStream({
                     async start(controller) {
-                        gpt.messages.push({ role: "assistant", content: "" });
+                        gpt.messages.push({role: "assistant", content: ""});
                         gpt.create_render_message_div(gpt.messages.length - 1);
                         await processChunk(reader, controller);
                     },
-                }, { signal: this.controller.signal });
+                }, {signal: this.controller.signal});
 
                 await processedStream.getReader().read();
 
@@ -336,7 +338,7 @@ class GPT {
             console.log("Invalid index");
             return;
         }
-        this.messages.splice(index, 0, { "role": "user", "content": "" });
+        this.messages.splice(index, 0, {"role": "user", "content": ""});
 
         // Create and render the new message div at index
         this.create_render_message_div(index);
@@ -410,7 +412,7 @@ class GPT {
     async save() {
         const fileName = 'messages.json';
         const data = JSON.stringify(this.messages);
-        const blob = new Blob([data], { type: 'application/json' });
+        const blob = new Blob([data], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
