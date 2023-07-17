@@ -200,3 +200,10 @@ document.querySelector('#searchFirstTitle').addEventListener('input', bookmarks.
 document.querySelector('#searchSecondTitle').addEventListener('input', bookmarks.filterBookmarks.bind(bookmarks));
 document.querySelector('#searchUrl').addEventListener('input', bookmarks.filterBookmarks.bind(bookmarks));
 document.querySelector('#searchComment').addEventListener('input', bookmarks.filterBookmarks.bind(bookmarks));
+
+// Bind CTRL + Enter to the add button
+document.addEventListener('keydown', event => {
+    if (event.ctrlKey && event.key === 'Enter') {
+        document.querySelector('#addButton').click();
+    }
+});
