@@ -49,21 +49,24 @@ async function Show() {
     return result;
 }
 
-async function Store(firstTitle, secondTitle, url, comment) {
+async function Store(data) {
     const sql = "INSERT INTO bookmarks (first_title, second_title, url, comment) VALUES (?,?,?,?)";
-    await poolQuery(sql, [firstTitle, secondTitle, url, comment]);
+    const sqlParams = [data.firstTitle, data.secondTitle, data.url, data.comment];
+    await poolQuery(sql, sqlParams);
     console.log("1 bookmark inserted");
 }
 
-async function Update(id, firstTitle, secondTitle, url, comment) {
+async function Update(id, data) {
     const sql = "UPDATE bookmarks SET first_title = ?, second_title = ?, url = ?, comment = ? WHERE id = ?";
-    await poolQuery(sql, [firstTitle, secondTitle, url, comment, id]);
+    const sqlParams = [data.firstTitle, data.secondTitle, data.url, data.comment, id];
+    await poolQuery(sql, sqlParams);
     console.log("1 bookmark updated");
 }
 
 async function Delete(id) {
     const sql = "DELETE FROM bookmarks WHERE id = ?";
-    await poolQuery(sql, [id]);
+    const sqlParams = [id];
+    await poolQuery(sql, sqlParams);
     console.log("1 bookmark deleted");
 }
 

@@ -93,7 +93,9 @@ class Bookmarks {
             url: row.children[2].textContent,
             comment: row.children[3].textContent
         };
-        await this.instance.post('/api/bookmark-api/', bookmark);
+        await this.instance.post('/api/bookmark-api/', {
+            data: bookmark
+        });
 
         // Clear the input fields
         for (let i = 0; i < 4; i++) {
@@ -131,13 +133,15 @@ class Bookmarks {
             editButton.textContent = 'Edit';
 
             // Update the bookmark
-            const updatedBookmark = {
+            const bookmark = {
                 firstTitle: firstTitleTd.textContent,
                 secondTitle: secondTitleTd.textContent,
                 url: urlTd.textContent,
                 comment: commentTd.textContent
             };
-            await this.instance.put(`/api/bookmark-api/${id}`, updatedBookmark);
+            await this.instance.put(`/api/bookmark-api/${id}`, {
+                data: bookmark
+            });
 
             // reload bookmarks
             let res = await this.instance.get('/api/bookmark-api/');
