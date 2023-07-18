@@ -44,8 +44,8 @@ router.use((req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        let { firstTitle, secondTitle, url, comment } = req.body;
-        await BookmarkSQL.Store(firstTitle, secondTitle, url, comment);
+        let data = req.body.data;
+        await BookmarkSQL.Store(data);
         res.send(true);
         next();
     } catch (err) {
@@ -58,8 +58,8 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
-        let { firstTitle, secondTitle, url, comment } = req.body;
-        await BookmarkSQL.Update(id, firstTitle, secondTitle, url, comment);
+        let data = req.body.data;
+        await BookmarkSQL.Update(id, data);
         res.send(true);
         next();
     } catch (err) {
