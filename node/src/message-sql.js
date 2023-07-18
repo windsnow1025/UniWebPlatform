@@ -19,7 +19,7 @@ async function testConnection() {
     let delay = 5000;
 
     await new Promise(resolve => setTimeout(resolve, delay));
-    
+
     while (true) {
         try {
             await poolQuery('SELECT * FROM messages');
@@ -43,51 +43,30 @@ testConnection();
 
 // MySQL Functions
 
-async function Show(callback) {
-    try {
-        const sql = "SELECT * FROM messages";
-        const result = await poolQuery(sql);
-        return result;
-    } catch (err) {
-        console.error("Error in Show function:", err);
-        throw err;
-    }
+async function Show() {
+    const sql = "SELECT * FROM messages";
+    const result = await poolQuery(sql);
+    return result;
 }
 
 async function Store(data) {
-    try {
-        const message = data.message;
-        const sql = "INSERT INTO messages (message) VALUES (?)";
-        const sqldata = message;
-        await poolQuery(sql, sqldata);
-        console.log("1 record inserted");
-    } catch (err) {
-        console.error("Error in Store function:", err);
-        throw err;
-    }
+    const sql = "INSERT INTO messages (message) VALUES (?)";
+    const sqlParams = [data.message];
+    await poolQuery(sql, sqlParams);
+    console.log("1 record inserted");
 }
 
 async function Delete(id) {
-    try {
-        const sql = "DELETE FROM messages WHERE id = ?";
-        const sqldata = id;
-        const result = await poolQuery(sql, sqldata);
-        console.log("Number of records deleted: " + result.affectedRows);
-    } catch (err) {
-        console.error("Error in Delete function:", err);
-        throw err;
-    }
+    const sql = "DELETE FROM messages WHERE id = ?";
+    const sqlParams = [id];
+    await poolQuery(sql, sqlParams);
+    console.log("1 record deleted");
 }
 
 async function DeleteAll() {
-    try {
-        const sql = "DELETE FROM messages";
-        const result = await poolQuery(sql);
-        console.log("Number of records deleted: " + result.affectedRows);
-    } catch (err) {
-        console.error("Error in DeleteAll function:", err);
-        throw err;
-    }
+    const sql = "DELETE FROM messages";
+    const result = await poolQuery(sql);
+    console.log("Number of records deleted: " + result.affectedRows);
 }
 
 module.exports = {
