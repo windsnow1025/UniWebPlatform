@@ -66,6 +66,7 @@ div.Flex-space-around {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-items: center;
 }
 
 div.Flex-space-between {

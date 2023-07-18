@@ -14,24 +14,26 @@
 
 <body>
     <div class="Flex-space-around">
-        <h2><a href="./html/bookmarks.html">Bookmarks</a></h2>
-        <h4><a href="./html/message-transmitter.html">Message Transmitter</a></h4>
-        <h4><a href="./html/gpt.html">GPT</a></h4>
-        <a href="./html/account.html" target="_self" id="loginButton">Login / Signup</a>
-        <span id="loggedInUsername" class="hide"></span>
-        <a href="" id="SignOutButton" class="hide">Sign Out</a>
-        <span>
+        <a href="./html/bookmarks.html">Bookmarks</a>
+        <a href="./html/message-transmitter.html">Message Transmitter</a>
+        <a href="./html/gpt.html">GPT</a>
+        <div class="Flex-space-around">
+            <a href="./html/account.html" target="_self" id="loginButton">Login / Signup</a>
+            <div id="loggedInUsername" class="hide"></div>
+            <button id="SignOutButton" class="hide">Sign Out</button>
+        </div>
+        <div>
             <label for="themeSelect">Theme:</label>
             <select id="themeSelect" title="themeSelect">
                 <option value="system">System</option>
                 <option value="light">Light</option>
                 <option value="dark">Dark</option>
             </select>    
-        </span>
+        </div>
     </div>
     <div class="Flex-space-around">
         <div class="List">
-            <h3>Tables</h3>
+            <h3 class="center">Tables</h3>
             <div><a href="./html/markdown.html?filename=tables/adb.md">Android Debug Bridge</a></div>
             <div><a href="./html/markdown.html?filename=tables/cmd.md">Command Prompt</a></div>
             <div><a href="./html/markdown.html?filename=tables/winR.md">Windows + R</a></div>
@@ -39,8 +41,8 @@
             <div><a href="./html/markdown.html?filename=tables/win-file-location.md">Windows File Location</a></div>
         </div>
         <div class="List">
-            <h3>Guides</h3>
-            <div><a href="./html/markdown.html?filename=guides/disable-windows-defender-windows-update.md">Disable Windows Defender & Windows Update</a></div>
+            <h3 class="center">Guides</h3>
+            <div><a href="./html/markdown.html?filename=guides/disable-windows-defender-windows-update.md">Disable Win Defender & Update</a></div>
             <div><a href="./html/markdown.html?filename=guides/docker.md">Docker</a></div>
             <div><a href="./html/markdown.html?filename=guides/frp.md">Frp</a></div>
             <div><a href="./html/markdown.html?filename=guides/openssh-sftp.md">OpenSSH SFTP</a></div>
@@ -52,7 +54,7 @@
             <div><a href="./html/markdown.html?filename=guides/win-auto-login.md">Windows Auto Login</a></div>
         </div>
         <div class="List">
-            <h3>Scripts</h3>
+            <h3 class="center">Scripts</h3>
             <div><a href="./html/markdown.html?filename=scripts/cloudflare-ddns.md">Batch: Cloudflare DDNS</a></div>
             <div><a href="./html/markdown.html?filename=scripts/linked-list.md">C: LinkedList</a></div>
         </div>
