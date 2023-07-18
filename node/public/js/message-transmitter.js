@@ -20,8 +20,6 @@ class MessageTransmitter {
         }
         await axios.post("/api/message-api", {
             data: { message: this.sendTextValue }
-        }).then(res => {
-            console.log(res.data);
         }).catch(err => {
             console.error(err);
         })
