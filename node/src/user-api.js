@@ -10,18 +10,13 @@ const jwt = require('jsonwebtoken');
 router.post('/login', async (req, res, next) => {
     try {
         let data = req.body.data;
-        let result = await UserSQL.Show();
-        let isSuccess = false;
-        result.forEach(element => {
-            if (data.username == element.username && data.password == element.password) {
-                isSuccess = true;
-                // Generate token
-                const token = jwt.sign({ sub: data.username }, process.env.JWT_SECRET, { expiresIn: '24h' });
-                res.status(200).json({ token });
-                next();
-            }
-        });
-        if (!isSuccess) {
+        let result = await UserSQL.Exists(data);
+        if (result.length > 0) {
+            // Generate token
+            const token = jwt.sign({ sub: data.username }, process.env.JWT_SECRET, { expiresIn: '72h' });
+            res.status(200).json({ token });
+            next();
+        } else {
             res.status(401).send("Invalid Username or Password");
             next();
         }
