@@ -49,9 +49,16 @@ async function Show() {
     return result;
 }
 
-async function Exists(data) {
+async function Match(data) {
     const sql = "SELECT * FROM users WHERE username = ? AND password = ?";
     const sqlParams = [data.username, data.password];
+    const result = await poolQuery(sql, sqlParams);
+    return result;
+}
+
+async function Exist(data) {
+    const sql = "SELECT * FROM users WHERE username = ?";
+    const sqlParams = [data.username];
     const result = await poolQuery(sql, sqlParams);
     return result;
 }
@@ -72,7 +79,8 @@ async function Delete(id) {
 
 module.exports = {
     Show: Show,
-    Exists: Exists,
+    Match: Match,
+    Exist: Exist,
     Store: Store,
     Delete: Delete
 };
