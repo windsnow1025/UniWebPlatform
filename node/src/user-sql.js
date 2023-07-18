@@ -45,8 +45,8 @@ testConnection();
 
 async function Show(callback) {
     try {
-        let sql = "SELECT * FROM users";
-        let result = await poolQuery(sql);
+        const sql = "SELECT * FROM users";
+        const result = await poolQuery(sql);
         return result;
     } catch (err) {
         console.error("Error in Show function:", err);
@@ -56,10 +56,10 @@ async function Show(callback) {
 
 async function Store(data) {
     try {
-        var username = data.username;
-        var password = data.password;
-        let sql = "INSERT INTO users (username, password) VALUES (?,?)";
-        let sqldata = [username, password];
+        const username = data.username;
+        const password = data.password;
+        const sql = "INSERT INTO users (username, password) VALUES (?,?)";
+        const sqldata = [username, password];
         await poolQuery(sql, sqldata);
         console.log("1 record inserted");
     } catch (err) {
@@ -70,9 +70,9 @@ async function Store(data) {
 
 async function Delete(id) {
     try {
-        var sql = "DELETE FROM users WHERE id = ?";
-        var sqldata = id;
-        let result = await poolQuery(sql, sqldata);
+        const sql = "DELETE FROM users WHERE id = ?";
+        const sqldata = id;
+        const result = await poolQuery(sql, sqldata);
         console.log("Number of records deleted: " + result.affectedRows);
     } catch (err) {
         console.error("Error in Delete function:", err);

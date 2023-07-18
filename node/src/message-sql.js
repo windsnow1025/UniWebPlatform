@@ -45,8 +45,8 @@ testConnection();
 
 async function Show(callback) {
     try {
-        let sql = "SELECT * FROM messages";
-        let result = await poolQuery(sql);
+        const sql = "SELECT * FROM messages";
+        const result = await poolQuery(sql);
         return result;
     } catch (err) {
         console.error("Error in Show function:", err);
@@ -56,9 +56,9 @@ async function Show(callback) {
 
 async function Store(data) {
     try {
-        var message = data.message;
-        let sql = "INSERT INTO messages (message) VALUES (?)";
-        let sqldata = message;
+        const message = data.message;
+        const sql = "INSERT INTO messages (message) VALUES (?)";
+        const sqldata = message;
         await poolQuery(sql, sqldata);
         console.log("1 record inserted");
     } catch (err) {
@@ -69,9 +69,9 @@ async function Store(data) {
 
 async function Delete(id) {
     try {
-        var sql = "DELETE FROM messages WHERE id = ?";
-        var sqldata = id;
-        let result = await poolQuery(sql, sqldata);
+        const sql = "DELETE FROM messages WHERE id = ?";
+        const sqldata = id;
+        const result = await poolQuery(sql, sqldata);
         console.log("Number of records deleted: " + result.affectedRows);
     } catch (err) {
         console.error("Error in Delete function:", err);
@@ -81,8 +81,8 @@ async function Delete(id) {
 
 async function DeleteAll() {
     try {
-        let sql = "DELETE FROM messages";
-        let result = await poolQuery(sql);
+        const sql = "DELETE FROM messages";
+        const result = await poolQuery(sql);
         console.log("Number of records deleted: " + result.affectedRows);
     } catch (err) {
         console.error("Error in DeleteAll function:", err);
