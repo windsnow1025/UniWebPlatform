@@ -44,25 +44,25 @@ testConnection();
 // MySQL Functions
 
 async function Show() {
-    let sql = "SELECT * FROM bookmarks";
-    let result = await poolQuery(sql);
+    const sql = "SELECT * FROM bookmarks";
+    const result = await poolQuery(sql);
     return result;
 }
 
 async function Store(firstTitle, secondTitle, url, comment) {
-    let sql = "INSERT INTO bookmarks (first_title, second_title, url, comment) VALUES (?,?,?,?)";
+    const sql = "INSERT INTO bookmarks (first_title, second_title, url, comment) VALUES (?,?,?,?)";
     await poolQuery(sql, [firstTitle, secondTitle, url, comment]);
     console.log("1 bookmark inserted");
 }
 
 async function Update(id, firstTitle, secondTitle, url, comment) {
-    let sql = "UPDATE bookmarks SET first_title = ?, second_title = ?, url = ?, comment = ? WHERE id = ?";
+    const sql = "UPDATE bookmarks SET first_title = ?, second_title = ?, url = ?, comment = ? WHERE id = ?";
     await poolQuery(sql, [firstTitle, secondTitle, url, comment, id]);
     console.log("1 bookmark updated");
 }
 
 async function Delete(id) {
-    let sql = "DELETE FROM bookmarks WHERE id = ?";
+    const sql = "DELETE FROM bookmarks WHERE id = ?";
     await poolQuery(sql, [id]);
     console.log("1 bookmark deleted");
 }
