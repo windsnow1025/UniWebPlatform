@@ -120,7 +120,8 @@ Firstly, you should count total number of the words.
 Then, create a table including the new English words and their Chinese meaning. 
 After that, compose a paragraph using these new words, and **bold** these words and add its No using `<sup>No.</sup>` after each bolded word.
 The final No. should match with the total number of the words you have counted.
-Note that do not denote the Chinese meanings. Do not follow the word order in the word list.
+Note that do not denote the Chinese meanings. The word order in the paragraph should not follow the order in the word list.
+```
 
 For example:
 
