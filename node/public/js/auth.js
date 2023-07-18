@@ -42,5 +42,12 @@ export async function handleAuth() {
         loggedInUsername.innerHTML = username;
         // Show SignOut button
         SignOutButton.style.display = "block";
+    } else {
+        // Show login button
+        loginButton.style.display = "block";
+        // Hide username
+        loggedInUsername.style.display = "none";
+        // Hide SignOut button
+        SignOutButton.style.display = "none";
     }
 }
