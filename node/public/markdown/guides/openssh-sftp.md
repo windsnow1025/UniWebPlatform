@@ -12,7 +12,7 @@ Single User:
 ChrootDirectory "[Root Directory]"
 ```
 
-(Login SFTP with Local Administrator Account)
+(Login SFTP with Local Administrator User)
 
 Multiple Users:
 

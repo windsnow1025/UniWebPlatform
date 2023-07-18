@@ -9,7 +9,7 @@
         1. `Advanced` >> `Owner: Change` >> Enter `[Username]` >> `Check Names` >> OK >> Tick `Replace owner on subcontainers and objects` >> OK
 	    2. Group or user names: Remove `Full Control` for `SYSTEM` & `Administrator` & `WinDefend` & `Trusted Installer`
 	    3. Add… >> Enter `[Username]` >> Check Names >> OK
-	    4. Grant `[Username]` Account with Full Control >> OK (Restart Windows)
+	    4. Grant `[Username]` User with Full Control >> OK (Restart Windows)
     2. Set `DisableAntiSpyware` (DWORD (32-bit)) Value to `1`
     3. Set `DisableAntiVirus` (DWORD (32-bit)) Value to `1`
 

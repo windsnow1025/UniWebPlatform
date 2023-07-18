@@ -4,7 +4,7 @@ import axios from "axios";
 import { initializeTheme } from './theme.js';
 initializeTheme();
 
-class Account {
+class User {
     constructor() {
         this.prompt = document.getElementById("prompt");
         this.username = null;
@@ -66,11 +66,11 @@ class Account {
 }
 
 
-const account = new Account();
+const user = new User();
 const loginButton = document.getElementById("login");
 const signupButton = document.getElementById("signup");
-loginButton.onclick = account.login.bind(account);
-signupButton.onclick = account.signup.bind(account);
+loginButton.onclick = user.login.bind(user);
+signupButton.onclick = user.signup.bind(user);
 
 // Bind Enter to login button
 document.addEventListener("keyup", function (event) {
