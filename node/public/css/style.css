@@ -112,7 +112,7 @@ input.margin {
     border-radius: 8px;
 }
 
-.rouded-border-container {
+.rounded-border-container {
     border-radius: 8px;
     padding: 16px;
     margin: 4px;
@@ -138,7 +138,7 @@ option {
     color: var(--text-color);
 }
 
-.rouded-border-container {
+.rounded-border-container {
     border: 1px solid var(--border-color);
 }
 
