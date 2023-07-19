@@ -6,7 +6,6 @@ initializeTheme();
 
 class User {
     constructor() {
-        this.prompt = document.getElementById("prompt");
         this.username = null;
         this.password = null;
     }
@@ -24,7 +23,6 @@ class User {
             });
             // Save token
             localStorage.setItem('token', res.data.token);
-            alert("Login Success");
             window.history.back();
         } catch (err) {
             if (err.response.status == 401) {
