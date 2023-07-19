@@ -1,3 +1,9 @@
+await fetch('/html/theme.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('theme').innerHTML = data;
+    });
+
 export function applyTheme(theme) {
     const body = document.body;
 
