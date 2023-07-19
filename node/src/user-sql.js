@@ -70,6 +70,13 @@ async function Store(data) {
     console.log("1 record inserted");
 }
 
+async function Update(data) {
+    const sql = "UPDATE users SET username = ?, password = ? WHERE id = ?";
+    const sqlParams = [data.username, data.password, data.id];
+    await poolQuery(sql, sqlParams);
+    console.log("1 record updated");
+}
+
 async function Delete(id) {
     const sql = "DELETE FROM users WHERE id = ?";
     const sqlParams = [id];
@@ -82,5 +89,6 @@ module.exports = {
     Match: Match,
     Exist: Exist,
     Store: Store,
+    Update: Update,
     Delete: Delete
 };
