@@ -4,6 +4,12 @@ const loginButton = document.getElementById("loginButton");
 const loggedInUsername = document.getElementById("loggedInUsername");
 const SignOutButton = document.getElementById("SignOutButton");
 
+loginButton.addEventListener('click', function(event) {
+    event.preventDefault(); // prevent the default action
+    localStorage.setItem('prevUrl', window.location.href);
+    window.location.href = "/html/user.html";
+});
+
 export async function getUsername() {
     const token = localStorage.getItem('token');
     try {
