@@ -124,7 +124,10 @@
 ## Git
 
 - Remove cached files
-    `git rm --cached <file>`
+
+```git
+git rm --cached <file>
+```
 
 - Delete all commit history
 
@@ -159,4 +162,11 @@ git push -f origin main
 ```git
 git filter-branch --tree-filter 'rm -f <path_to_file>' HEAD
 git push origin --force --all
+```
+
+- Edit commit message after push
+
+```git
+git rebase -i HEAD~n
+git push -f
 ```
