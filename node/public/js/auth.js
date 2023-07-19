@@ -1,10 +1,16 @@
 import axios from 'axios';
 
+await fetch('/html/auth.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('user').innerHTML = data;
+    });
+
 const loginButton = document.getElementById("loginButton");
 const loggedInUsername = document.getElementById("loggedInUsername");
 const SignOutButton = document.getElementById("SignOutButton");
 
-loginButton.addEventListener('click', function(event) {
+loginButton.addEventListener('click', function (event) {
     event.preventDefault(); // prevent the default action
     localStorage.setItem('prevUrl', window.location.href);
     window.location.href = "/html/user.html";
@@ -26,6 +32,7 @@ export async function getUsername() {
 }
 
 export async function init() {
+
     // Add event listeners
     SignOutButton.onclick = function () {
         localStorage.removeItem('token');
