@@ -18,12 +18,21 @@ class User {
     async login() {
         this.getData();
         try {
+            // Send login request
             let res = await axios.post("/api/user-api/login", {
                 data: { username: this.username, password: this.password }
             });
+
             // Save token
             localStorage.setItem('token', res.data.token);
-            window.history.back();
+
+            // Redirect to previous URL
+            let prevUrl = localStorage.getItem('prevUrl');
+            if (prevUrl) {
+                window.location.href = prevUrl;
+            } else {
+                window.location.href = "/"; // default URL if no previous URL was stored
+            }
         } catch (err) {
             if (err.response.status == 401) {
                 alert("Invalid Username or Password");
@@ -47,11 +56,10 @@ class User {
             return;
         }
         try {
-            let res = await axios.post("/api/user-api/signup", {
+            await axios.post("/api/user-api/signup", {
                 data: { username: this.username, password: this.password }
             });
             alert("Signup Success");
-            window.history.back();
         } catch (err) {
             if (err.response.status == 401) {
                 alert("Username already exists.");
