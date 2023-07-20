@@ -7,14 +7,14 @@ await fetch('/html/auth.html')
         document.getElementById('user').innerHTML = data;
     });
 
-const loginButton = document.getElementById("loginButton");
-const loggedInUsername = document.getElementById("loggedInUsername");
+const SignInSignUpButton = document.getElementById("SignInSignUpButton");
+const SignedInUsername = document.getElementById("SignedInUsername");
 const SignOutButton = document.getElementById("SignOutButton");
 
-const loggedOutDiv = document.getElementById("loggedOut");
-const loggedInDiv = document.getElementById("loggedIn");
+const SignedOutDiv = document.getElementById("signOut");
+const SignedInDiv = document.getElementById("signIn");
 
-loginButton.addEventListener('click', function (event) {
+SignInSignUpButton.addEventListener('click', function (event) {
     event.preventDefault(); // prevent the default action
     localStorage.setItem('prevUrl', window.location.href);
     window.location.href = "/html/user.html";
@@ -47,23 +47,23 @@ export async function init() {
 }
 
 export async function handleAuth() {
-    // Check if user is logged in
+    // Check if user is signed in
     const username = await getUsername();
 
-    // If user is logged in
+    // If signed in
     if (username) {
-        // Hide logged out div
-        loggedOutDiv.style.display = "none";
+        // Hide signed out div
+        SignedOutDiv.style.display = "none";
         // Get username
-        loggedInUsername.innerHTML = username;
-        // Show logged in div
-        loggedInDiv.style.display = "block";
+        SignedInUsername.innerHTML = username;
+        // Show signed in div
+        SignedInDiv.style.display = "block";
     } else {
-        // Hide logged in div
-        loggedInDiv.style.display = "none";
+        // Hide signed in div
+        SignedInDiv.style.display = "none";
         // Remove username
-        loggedInUsername.innerHTML = "";
-        // Show logged out div
-        loggedOutDiv.style.display = "block";
+        SignedInUsername.innerHTML = "";
+        // Show signed out div
+        SignedOutDiv.style.display = "block";
     }
 }

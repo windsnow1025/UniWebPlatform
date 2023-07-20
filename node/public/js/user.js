@@ -15,11 +15,11 @@ class User {
         this.password = document.getElementById("password").value;
     }
 
-    async login() {
+    async signIn() {
         this.getData();
         try {
-            // Send login request
-            let res = await axios.post("/api/user-api/login", {
+            // Send sign in request
+            let res = await axios.post("/api/user-api/sign-in", {
                 data: { username: this.username, password: this.password }
             });
 
@@ -37,7 +37,7 @@ class User {
             if (err.response.status == 401) {
                 alert("Invalid Username or Password");
             } else {
-                alert("Login Fail");
+                alert("Sign In Fail");
                 console.error(err);
             }
         }
@@ -49,22 +49,22 @@ class User {
         return asciiRegex.test(input);
     }
 
-    async signup() {
+    async signUp() {
         this.getData();
         if (!this.isValidInput(this.username) || !this.isValidInput(this.password)) {
             alert("Username or Password contains invalid characters or has an invalid length.");
             return;
         }
         try {
-            await axios.post("/api/user-api/signup", {
+            await axios.post("/api/user-api/sign-up", {
                 data: { username: this.username, password: this.password }
             });
-            alert("Signup Success");
+            alert("Sign Up Success");
         } catch (err) {
             if (err.response.status == 401) {
                 alert("Username already exists.");
             } else {
-                alert("Signup Fail");
+                alert("Sign Up Fail");
                 console.error(err);
             }
         }
@@ -74,7 +74,7 @@ class User {
 
 
 const user = new User();
-const loginButton = document.getElementById("login");
-const signupButton = document.getElementById("signup");
-loginButton.onclick = user.login.bind(user);
-signupButton.onclick = user.signup.bind(user);
+const SignInButton = document.getElementById("signIn");
+const SignUpButton = document.getElementById("signUp");
+SignInButton.onclick = user.signIn.bind(user);
+SignUpButton.onclick = user.signUp.bind(user);

@@ -177,7 +177,7 @@ class GPT {
         // If not logged in, return
         const token = localStorage.getItem('token');
         if (!token) {
-            alert("Please login first.");
+            alert("Please sign in first.");
             return;
         }
 
