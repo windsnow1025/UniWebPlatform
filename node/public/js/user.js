@@ -70,42 +70,14 @@ class User {
         }
     }
 
-    async update() {
-        this.getData();
-        if (!this.isValidInput(this.username) || !this.isValidInput(this.password)) {
-            alert("Username or Password contains invalid characters or has an invalid length.");
-            return;
-        }
-
-        const token = localStorage.getItem('token');
-        try {
-            await axios.put(`/api/user-api/`, {
-                data: { username: this.username, password: this.password }
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            alert("Update Success");
-        } catch (err) {
-            if (err.response.status == 409) {
-                alert("Username already exists.");
-            } else {
-                alert("Update Fail");
-                console.error(err);
-            }
-        }
-    }
 }
 
 
 const user = new User();
 const loginButton = document.getElementById("login");
 const signupButton = document.getElementById("signup");
-const updateButton = document.getElementById("update");
 loginButton.onclick = user.login.bind(user);
 signupButton.onclick = user.signup.bind(user);
-updateButton.onclick = user.update.bind(user);
 
 // Bind Enter to login button
 document.addEventListener("keyup", function (event) {
