@@ -1,5 +1,11 @@
 # Full Stack Web
 
+## Introduction
+
+A full stack web application for my personal website containing static blogs, a user system, an editable bookmark, a message transmitter and a private gpt.
+
+## Tech Stack
+
 Front End: Node.js + Webpack
 
 Back End: Node.js Express + Python Flask + MySQL + Nginx
