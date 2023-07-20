@@ -52,32 +52,51 @@ router.post('/signup', async (req, res, next) => {
     }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.use((req, res, next) => {
+
+    const authHeader = req.headers.authorization;
+
+    if (authHeader) {
+        const token = authHeader.split(' ')[1];
+
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+            if (err) {
+                return res.sendStatus(403);
+            }
+
+            req.user = user;
+
+            next();
+        });
+    } else {
+        res.sendStatus(401);
+    }
+});
+
+router.put('/', async (req, res, next) => {
     try {
-        let id = req.params.id;
         let data = req.body.data;
 
-        // Judge if data.username exists
-        let result = await UserSQL.Exist(data);
-        if (result.length > 0) {
-            res.status(401).send("Username already exists");
-            next();
-        } else {
-            // Update Data
-            await UserSQL.Update(id, data);
-            res.status(200).send(true);
+        let existSqlData = {username: data.username};
+        let result = await UserSQL.Exist(existSqlData);
+
+        // Judge if data.username is different from req.user.sub and data.username exists
+        if (data.username != req.user.sub && result.length > 0) {
+            res.status(409).send("Username already exists");
             next();
         }
 
         // Update Data
-        await UserSQL.Update(id, data);
+        let updateSqlData = {id: result.id, username: data.username, password: data.password};
+        await UserSQL.Update(updateSqlData);
         res.status(200).send(true);
         next();
     } catch (err) {
-        console.error("Error in PUT /:id:", err);
+        console.error("Error in PUT /:", err);
         res.status(500).send("Error occurred while updating data.");
         next(err);
     }
+
 });
 
 router.delete('/:id', async (req, res, next) => {
