@@ -10,6 +10,9 @@ const loginButton = document.getElementById("loginButton");
 const loggedInUsername = document.getElementById("loggedInUsername");
 const SignOutButton = document.getElementById("SignOutButton");
 
+const loggedOutDiv = document.getElementById("loggedOut");
+const loggedInDiv = document.getElementById("loggedIn");
+
 loginButton.addEventListener('click', function (event) {
     event.preventDefault(); // prevent the default action
     localStorage.setItem('prevUrl', window.location.href);
@@ -48,19 +51,18 @@ export async function handleAuth() {
 
     // If user is logged in
     if (username) {
-        // Hide login button
-        loginButton.style.display = "none";
-        // Show username
-        loggedInUsername.style.display = "block";
+        // Hide logged out div
+        loggedOutDiv.style.display = "none";
+        // Get username
         loggedInUsername.innerHTML = username;
-        // Show SignOut button
-        SignOutButton.style.display = "block";
+        // Show logged in div
+        loggedInDiv.style.display = "block";
     } else {
-        // Show login button
-        loginButton.style.display = "block";
-        // Hide username
-        loggedInUsername.style.display = "none";
-        // Hide SignOut button
-        SignOutButton.style.display = "none";
+        // Hide logged in div
+        loggedInDiv.style.display = "none";
+        // Remove username
+        loggedInUsername.innerHTML = "";
+        // Show logged out div
+        loggedOutDiv.style.display = "block";
     }
 }

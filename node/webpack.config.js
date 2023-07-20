@@ -7,6 +7,7 @@ module.exports = {
         "index": "./public/js/index.js",
         "markdown": "./public/js/markdown.js",
         "user": "./public/js/user.js",
+        "user-center": "./public/js/user-center.js",
         "message-transmitter": "./public/js/message-transmitter.js",
         "gpt": "./public/js/gpt.js",
         "bookmarks": "./public/js/bookmarks.js",

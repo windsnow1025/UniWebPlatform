@@ -17,10 +17,8 @@ router.post('/login', async (req, res, next) => {
             // Generate token
             const token = jwt.sign({sub: data.username}, process.env.JWT_SECRET, {expiresIn: '72h'});
             res.status(200).json({token});
-            next();
         } else {
             res.status(401).send("Invalid Username or Password");
-            next();
         }
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -38,12 +36,10 @@ router.post('/signup', async (req, res, next) => {
         let result = await UserSQL.Exist(sqlData);
         if (result.length > 0) {
             res.status(401).send("Username already exists");
-            next();
         } else {
             // Store Data
             await UserSQL.Store(data);
             res.status(200).send(true);
-            next();
         }
     } catch (err) {
         console.error("Error in POST /:", err);
@@ -87,7 +83,7 @@ router.put('/', async (req, res, next) => {
         }
 
         // Update Data
-        let updateSqlData = {id: result.id, username: data.username, password: data.password};
+        let updateSqlData = {id: result[0].id, username: data.username, password: data.password};
         await UserSQL.Update(updateSqlData);
         res.status(200).send(true);
         next();
