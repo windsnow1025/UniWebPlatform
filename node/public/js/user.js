@@ -78,10 +78,3 @@ const loginButton = document.getElementById("login");
 const signupButton = document.getElementById("signup");
 loginButton.onclick = user.login.bind(user);
 signupButton.onclick = user.signup.bind(user);
-
-// Bind Enter to login button
-document.addEventListener("keyup", function (event) {
-    if (event.key === "Enter") {
-        loginButton.click();
-    }
-});

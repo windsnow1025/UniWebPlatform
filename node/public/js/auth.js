@@ -1,4 +1,5 @@
 import axios from 'axios';
+import 'font-awesome/css/font-awesome.min.css';
 
 await fetch('/html/auth.html')
     .then(response => response.text())
