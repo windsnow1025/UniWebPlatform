@@ -42,7 +42,7 @@ class GPT {
         this.token = localStorage.getItem('token');
     }
 
-    async parse(content_div, content_value) {
+    parse(content_div, content_value) {
         content_value = content_value.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
         content_value = marked.parse(content_value);
         content_div.innerHTML = content_value;
@@ -50,7 +50,7 @@ class GPT {
     }
 
     // Create and render message_div[] from messages[]
-    async create_render_message_divs() {
+    create_render_message_divs() {
         // Clear messages_div
         const messages_div = document.querySelector("#messages_div");
         messages_div.innerHTML = "";
@@ -72,7 +72,7 @@ class GPT {
     }
 
     // Create and render message_div[index] from messages[index]
-    async create_render_message_div(index) {
+    create_render_message_div(index) {
         const render_index = index + 1;
 
         // Get the template message div
@@ -139,7 +139,7 @@ class GPT {
     }
 
     // Render message_div[index] from messages[index]
-    async render_message_div(index, parse = true) {
+    render_message_div(index, parse = true) {
         // Get the message div
         const message_div = document.querySelector('div[name="message_div"]:nth-child(' + (index + 2) + ')');
 
@@ -161,7 +161,7 @@ class GPT {
     }
 
     // Append a new chunk to message_div[index]
-    async append_chunk_to_message_div(index, chunk) {
+    append_chunk_to_message_div(index, chunk) {
         // Get the message div
         const message_div = document.querySelector('div[name="message_div"]:nth-child(' + (index + 2) + ')');
 
@@ -302,7 +302,7 @@ class GPT {
     }
 
     // Stop generating response
-    async stop() {
+    stop() {
         // Set last wait_response status to false
         this.wait_response[this.wait_response.length - 1] = false;
 
@@ -317,13 +317,13 @@ class GPT {
     }
 
     // Focus on the content of message at index
-    async focus(index) {
+    focus(index) {
         const message = document.getElementById("messages_div").childNodes[index + 1];
         message.querySelector('div[name="content"]').focus();
     }
 
     // Add a new message at index
-    async add(index) {
+    add(index) {
         // Abort controller
         if (this.controller) {
             this.controller.abort();
@@ -353,7 +353,7 @@ class GPT {
     }
 
     // Delete the message at index
-    async delete(index) {
+    delete(index) {
         // Abort controller
         if (this.controller) {
             this.controller.abort();
@@ -381,7 +381,7 @@ class GPT {
     }
 
     // Copy to clipboard
-    async copy(index) {
+    copy(index) {
         // Get message content
         const message = this.messages[index];
         const content = message["content"];
@@ -409,7 +409,7 @@ class GPT {
     // }
 
     // Save the messages array as a JSON file
-    async save() {
+    save() {
         const fileName = 'messages.json';
         const data = JSON.stringify(this.messages);
         const blob = new Blob([data], {type: 'application/json'});
@@ -427,7 +427,7 @@ class GPT {
     }
 
     // Load the messages array from a JSON file
-    async load() {
+    load() {
         // Request a JSON file from the user
         const input = document.createElement('input');
         input.type = 'file';
