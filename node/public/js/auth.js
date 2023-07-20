@@ -23,7 +23,7 @@ SignInSignUpButton.addEventListener('click', function (event) {
 export async function getUsername() {
     const token = localStorage.getItem('token');
     try {
-        const res = await axios.get('/api/auth-api/', {
+        const res = await axios.get('/api/auth/', {
             headers: {
                 Authorization: `Bearer ${token}`
             }

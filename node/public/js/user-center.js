@@ -13,7 +13,7 @@ class User {
     async getUsername() {
         const token = localStorage.getItem('token');
         try {
-            const res = await axios.get('/api/auth-api/', {
+            const res = await axios.get('/api/auth/', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -45,7 +45,7 @@ class User {
 
         const token = localStorage.getItem('token');
         try {
-            await axios.put(`/api/user-api/`, {
+            await axios.put(`/api/user/`, {
                 data: { username: this.username, password: this.password }
             }, {
                 headers: {

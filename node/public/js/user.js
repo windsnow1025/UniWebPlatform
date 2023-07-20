@@ -19,7 +19,7 @@ class User {
         this.getData();
         try {
             // Send sign in request
-            let res = await axios.post("/api/user-api/sign-in", {
+            let res = await axios.post("/api/user/sign-in", {
                 data: { username: this.username, password: this.password }
             });
 
@@ -56,7 +56,7 @@ class User {
             return;
         }
         try {
-            await axios.post("/api/user-api/sign-up", {
+            await axios.post("/api/user/sign-up", {
                 data: { username: this.username, password: this.password }
             });
             alert("Sign Up Success");
