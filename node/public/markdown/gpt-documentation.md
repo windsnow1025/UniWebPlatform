@@ -8,7 +8,7 @@ See [OpenAI Pricing](https://openai.com/pricing), [OpenAI Models](https://platfo
 
 All messages are parsed by Marked.js and MathJax.
 
-Login system is under development. Cloud storage of conversations is under development. More features will be added in the future.
+Cloud storage of conversations is under development. More features will be added in the future.
 
 ## Instructions
 

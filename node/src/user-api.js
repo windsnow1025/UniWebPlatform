@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 // Data Processing
 
-router.post('/login', async (req, res, next) => {
+router.post('/sign-in', async (req, res, next) => {
     try {
         let data = req.body.data;
         let result = await UserSQL.Match(data);
@@ -27,7 +27,7 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
-router.post('/signup', async (req, res, next) => {
+router.post('/sign-up', async (req, res, next) => {
     try {
         let data = req.body.data;
         let sqlData = {username: data.username};
