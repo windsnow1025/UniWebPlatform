@@ -18,7 +18,7 @@ class MessageTransmitter {
             console.log("Empty message.");
             return;
         }
-        await axios.post("/api/message-api", {
+        await axios.post("/api/message", {
             data: { message: this.sendTextValue }
         }).catch(err => {
             console.error(err);
@@ -28,7 +28,7 @@ class MessageTransmitter {
     }
 
     async receiveMessage() {
-        await axios.get("/api/message-api").then(res => {
+        await axios.get("/api/message").then(res => {
             this.receiveText.innerHTML = "";
             for (let i = 0; i < res.data.length; i++) {
                 this.receiveText.innerHTML += res.data[i].message + "<br>";
@@ -39,7 +39,7 @@ class MessageTransmitter {
     }
 
     async clearReceiveMessage() {
-        await axios.delete("/api/message-api").then(res => {
+        await axios.delete("/api/message").then(res => {
             this.receiveText.innerHTML = "";
         }).catch(err => {
             console.error(err);

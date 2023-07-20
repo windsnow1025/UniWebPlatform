@@ -78,7 +78,7 @@ class Bookmarks {
     async fetchBookmarks() {
         const token = localStorage.getItem('token');
 
-        let res = await this.instance.get('/api/bookmark-api/');
+        let res = await this.instance.get('/api/bookmark/');
 
         this.bookmarks = res.data;
         this.displayBookmarks(this.bookmarks);
@@ -93,7 +93,7 @@ class Bookmarks {
             url: row.children[2].textContent,
             comment: row.children[3].textContent
         };
-        await this.instance.post('/api/bookmark-api/', {
+        await this.instance.post('/api/bookmark/', {
             data: bookmark
         });
 
@@ -103,7 +103,7 @@ class Bookmarks {
         }
 
         // reload bookmarks
-        let res = await this.instance.get('/api/bookmark-api/');
+        let res = await this.instance.get('/api/bookmark/');
         this.bookmarks = res.data;
 
         // filter bookmarks
@@ -139,12 +139,12 @@ class Bookmarks {
                 url: urlTd.textContent,
                 comment: commentTd.textContent
             };
-            await this.instance.put(`/api/bookmark-api/${id}`, {
+            await this.instance.put(`/api/bookmark/${id}`, {
                 data: bookmark
             });
 
             // reload bookmarks
-            let res = await this.instance.get('/api/bookmark-api/');
+            let res = await this.instance.get('/api/bookmark/');
             this.bookmarks = res.data;
 
             // filter bookmarks
@@ -154,9 +154,9 @@ class Bookmarks {
     }
 
     async deleteBookmark(id) {
-        await this.instance.delete(`/api/bookmark-api/${id}`);
+        await this.instance.delete(`/api/bookmark/${id}`);
         // reload bookmarks
-        let res = await this.instance.get('/api/bookmark-api/');
+        let res = await this.instance.get('/api/bookmark/');
         this.bookmarks = res.data;
 
         // filter bookmarks

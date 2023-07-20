@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // Routers
-app.use('/api/auth-api', authAPI);
-app.use('/api/user-api', userAPI);
-app.use('/api/message-api', messageAPI);
-app.use('/api/bookmark-api', bookmarkAPI);
+app.use('/api/auth', authAPI);
+app.use('/api/user', userAPI);
+app.use('/api/message', messageAPI);
+app.use('/api/bookmark', bookmarkAPI);
