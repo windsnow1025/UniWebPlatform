@@ -408,6 +408,31 @@ class GPT {
         URL.revokeObjectURL(url);
     }
 
+    async cloudUpload() {
+        // Set status to uploading
+        this.status.innerHTML = "Uploading";
+
+        // Get name and conversation
+        const name = document.getElementById("conversation-name").value;
+        const conversation = JSON.stringify(this.messages);
+        const data = {
+            name: name,
+            conversation: conversation
+        };
+
+        // Upload to cloud
+        await axios.post("/api/conversation/", {
+            data: data
+        }, {
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
+
+        // Set status to uploaded
+        this.status.innerHTML = "Uploaded";
+    }
+
     // Load the messages array from a JSON file
     upload() {
         // Request a JSON file from the user
@@ -441,6 +466,10 @@ class GPT {
         // Scroll to the bottom of the page
         window.scrollTo(0, document.body.scrollHeight);
     }
+
+    async cloudDownload() {
+
+    }
 }
 
 const gpt = new GPT();
@@ -462,7 +491,9 @@ generateButton.onclick = function () {
     }
 }
 downloadButton.onclick = gpt.download.bind(gpt);
+CloudUploadButton.onclick = gpt.cloudUpload.bind(gpt);
 uploadButton.onclick = gpt.upload.bind(gpt);
+CloudDownloadButton.onclick = gpt.cloudDownload.bind(gpt);
 
 // Bind Ctrl+Enter to generate
 document.addEventListener('keydown', function (event) {

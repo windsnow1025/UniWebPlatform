@@ -36,7 +36,7 @@
         <div class="Flex-space-around">
             <div>
                 <label for="model">model: </label>
-                <select id="model" name="model" title="model">
+                <select name="model" id="model">
                     <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
                     <option value="gpt-3.5-turbo-0301">gpt-3.5-turbo-0301</option>
                     <option value="gpt-3.5-turbo-0613">gpt-3.5-turbo-0613</option>
@@ -66,11 +66,19 @@
                 <div><small>Status: </small><small id="status">Ready</small></div>
             </div>
         </div>
+        <div class="Flex-space-around">
+            <div>
+                <i class="fa fa-cloud-upload" id="cloud-upload" style="margin: 4px" title="Cloud Upload"></i>
+                <input type="text" id="conversation-name" placeholder="Conversation Name">
+            </div>
+            <div>
+                <i class="fa fa-cloud-download" id="cloud-download" style="margin: 4px" title="Cloud Download"></i>
+                <select name="conversations" id="conversations"></select>
+            </div>
+        </div>
         <div class="center">
             <i class="fa fa-download" id="download" style="margin: 4px" title="Download"></i>
-            <i class="fa fa-cloud-upload" id="cloud-upload" style="margin: 4px" title="Cloud Upload"></i>
             <i class="fa fa-upload" id="upload" style="margin: 4px" title="Upload"></i>
-            <i class="fa fa-cloud-download" id="cloud-download" style="margin: 4px" title="Cloud Download"></i>
         </div>
     </div>
     <!-- <p>该服务处于试用阶段。由于GPT-4的token费用可最高达到GPT-3.5的80倍。如果您正在使用GPT-4模型，请一定联系windsnow1024进行捐赠！</p>

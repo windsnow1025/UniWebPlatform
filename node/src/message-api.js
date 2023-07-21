@@ -8,7 +8,7 @@ const MessageSQL = require("./message-sql");
 router.get('/', async (req, res, next) => {
     try {
         let data = await MessageSQL.Show();
-        res.status(200).send(data);
+        res.status(200).json(data);
         next();
     } catch (err) {
         console.error("Error in GET /:", err);
