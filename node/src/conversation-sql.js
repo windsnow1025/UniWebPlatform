@@ -50,6 +50,13 @@ async function Show(data) {
     return result;
 }
 
+async function Exist(data) {
+    const sql = "SELECT * FROM conversations WHERE user_id = ? AND id = ?";
+    const sqlParams = [data.user_id, data.id];
+    const result = await poolQuery(sql, sqlParams);
+    return result;
+}
+
 async function Store(data) {
     const sql = "INSERT INTO conversations (user_id, name, conversation) VALUES (?,?,?)";
     const sqlParams = [data.user_id, data.name, data.conversation];
@@ -73,6 +80,7 @@ async function Delete(id) {
 
 module.exports = {
     Show: Show,
+    Exist: Exist,
     Store: Store,
     Update: Update,
     Delete: Delete
