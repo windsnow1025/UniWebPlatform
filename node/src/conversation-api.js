@@ -33,6 +33,7 @@ router.get('/', async (req, res, next) => {
 
         // User can only access their own data
         if (req.user.sub != data.username) {
+            console.log("req.body", req.body);
             return res.sendStatus(403);
         }
 
