@@ -7,22 +7,25 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
 // Data Processing
-router.use((req, res, next) => {
+router.use(async (req, res, next) => {
 
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
-        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
-
-            req.user = user;
+        try {
+            const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
+            const user = await axios.post("http://localhost:3000/api/user", {
+                data: { username: username }
+            });
+            req.user_id = user.data.id;
 
             next();
-        });
+        } catch (err) {
+            res.sendStatus(403);
+        }
+
     } else {
         res.sendStatus(401);
     }
@@ -30,12 +33,7 @@ router.use((req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        // Get user_id from token by user-api
-        let username = req.user.sub;
-        let user = await axios.post("http://localhost:3000/user", { data: { username: username } });
-        let user_id = user.data.id;
-
-        let conversations = await UserSQL.Show(user_id);
+        let conversations = await UserSQL.Show(req.user_id);
         res.status(200).json(conversations);
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -50,15 +48,8 @@ router.post('/', async (req, res, next) => {
         let name = data.name;
         let conversation = data.conversation;
 
-        // Get user_id from token by user-api
-        let username = req.user.sub;
-        let user = await axios.post("http://localhost:3000/api/user", {
-            data: { username: username }
-        });
-        let user_id = user.data.id;
-
         let sqlData = {
-            user_id: user_id,
+            user_id: req.user_id,
             name: name,
             conversation: conversation
         }
