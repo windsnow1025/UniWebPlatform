@@ -33,7 +33,9 @@ router.use(async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        let conversations = await UserSQL.Show(req.user_id);
+        let conversations = await UserSQL.Show({
+            user_id: req.user_id
+        });
         res.status(200).json(conversations);
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -66,10 +68,18 @@ router.post('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
     try {
         let data = req.body.data;
+        let name = data.name;
+        let conversation = data.conversation;
+        let id = data.id;
 
+        let sqlData = {
+            user_id: req.user_id,
+            name: name,
+            conversation: conversation,
+            id: id
+        }
 
-
-        await UserSQL.Update(data);
+        await UserSQL.Update(sqlData);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in PUT /:", err);
@@ -80,10 +90,14 @@ router.put('/', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
     try {
-        let data = req.body.data;
         let id = req.params.id;
 
-
+        // Judge if the conversation belongs to the user
+        let result = await UserSQL.Exist({id: id, user_id: req.user_id});
+        if (result.length == 0) {
+            res.status(409).send("Conversation does not exist");
+            next();
+        }
 
         await UserSQL.Delete(id);
         res.status(200).send(true);

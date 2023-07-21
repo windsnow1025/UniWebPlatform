@@ -33,6 +33,7 @@ marked.setOptions({
 
 class GPT {
     constructor() {
+        this.conversations = [];
         this.messages = [];
         this.status = document.getElementById("status");
         this.wait_response = [];
@@ -47,6 +48,20 @@ class GPT {
         content_value = marked.parse(content_value);
         content_div.innerHTML = content_value;
         MathJax.typeset([content_div]);
+    }
+
+    async fetch_conversations() {
+        try {
+            const res = await axios.get('/api/conversation/', {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            });
+            this.conversations = res.data;
+            this.status.innerHTML = "Conversations loaded.";
+        } catch (err) {
+            this.status.innerHTML = "Error loading conversations.";
+        }
     }
 
     // Create and render message_div[] from messages[]
@@ -334,10 +349,6 @@ class GPT {
         document.getElementById("generate").innerHTML = "Generate";
 
         // Add a new message at index
-        if (index < 0 || index > this.messages.length) {
-            console.log("Invalid index");
-            return;
-        }
         this.messages.splice(index, 0, {"role": "user", "content": ""});
 
         // Create and render the new message div at index
@@ -467,7 +478,17 @@ class GPT {
         window.scrollTo(0, document.body.scrollHeight);
     }
 
-    async cloudDownload() {
+    cloudDownload() {
+        // Get the selected conversation index
+        const index = document.getElementById("conversations").selectedIndex;
+
+        const conversation = this.conversations[index].conversation;
+
+        // Update the messages array
+        this.messages = JSON.parse(conversation);
+
+        // Re-render the messages div
+        this.create_render_message_divs();
 
     }
 }
@@ -511,3 +532,13 @@ const temperatureValue = document.getElementById('temperature-value');
 temperatureInput.addEventListener('input', () => {
     temperatureValue.textContent = temperatureInput.value;
 });
+
+// Set conversation options
+await gpt.fetch_conversations();
+const conversationsSelect = document.getElementById("conversations");
+for (let i = 0; i < gpt.conversations.length; i++) {
+    const option = document.createElement("option");
+    option.value = gpt.conversations[i]["name"];
+    option.text = gpt.conversations[i]["name"];
+    conversationsSelect.appendChild(option);
+}
