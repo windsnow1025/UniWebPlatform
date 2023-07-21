@@ -51,6 +51,7 @@ class GPT {
     }
 
     async fetch_conversations() {
+        // Fetch conversations
         try {
             const res = await axios.get('/api/conversation/', {
                 headers: {
@@ -61,6 +62,19 @@ class GPT {
             this.status.innerHTML = "Conversations loaded.";
         } catch (err) {
             this.status.innerHTML = "Error loading conversations.";
+            return;
+        }
+
+        // Clear conversations
+        const conversationsSelect = document.getElementById("conversations");
+        conversationsSelect.innerHTML = "";
+
+        // Render conversations
+        for (let i = 0; i < this.conversations.length; i++) {
+            const option = document.createElement("option");
+            option.value = this.conversations[i]["name"];
+            option.text = this.conversations[i]["name"];
+            conversationsSelect.appendChild(option);
         }
     }
 
@@ -419,31 +433,6 @@ class GPT {
         URL.revokeObjectURL(url);
     }
 
-    async cloudUpload() {
-        // Set status to uploading
-        this.status.innerHTML = "Uploading";
-
-        // Get name and conversation
-        const name = document.getElementById("conversation-name").value;
-        const conversation = JSON.stringify(this.messages);
-        const data = {
-            name: name,
-            conversation: conversation
-        };
-
-        // Upload to cloud
-        await axios.post("/api/conversation/", {
-            data: data
-        }, {
-            headers: {
-                Authorization: `Bearer ${this.token}`
-            }
-        });
-
-        // Set status to uploaded
-        this.status.innerHTML = "Uploaded";
-    }
-
     // Load the messages array from a JSON file
     upload() {
         // Request a JSON file from the user
@@ -478,6 +467,35 @@ class GPT {
         window.scrollTo(0, document.body.scrollHeight);
     }
 
+    async cloudUpload() {
+        // Set status to uploading
+        this.status.innerHTML = "Uploading";
+
+        // Get name and conversation
+        const name = document.getElementById("conversation-name").value;
+        const conversation = JSON.stringify(this.messages);
+        const data = {
+            name: name,
+            conversation: conversation
+        };
+
+        // Upload to cloud
+        await axios.post("/api/conversation/", {
+            data: data
+        }, {
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
+
+        // Set status to uploaded
+        this.status.innerHTML = "Uploaded";
+
+        // Fetch conversations
+        await this.fetch_conversations();
+
+    }
+
     cloudDownload() {
         // Get the selected conversation index
         const index = document.getElementById("conversations").selectedIndex;
@@ -491,6 +509,27 @@ class GPT {
         this.create_render_message_divs();
 
     }
+
+    async cloudDelete() {
+        // Set status to deleting
+        this.status.innerHTML = "Deleting";
+
+        // Get the selected conversation index
+        const index = document.getElementById("conversations").selectedIndex;
+
+        // Delete from cloud
+        await axios.delete(`/api/conversation/${this.conversations[index].id}`, {
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
+
+        // Set status to deleted
+        this.status.innerHTML = "Deleted";
+
+        // Fetch conversations
+        await this.fetch_conversations();
+    }
 }
 
 const gpt = new GPT();
@@ -498,9 +537,10 @@ const gpt = new GPT();
 // Get buttons
 const generateButton = document.getElementById("generate");
 const downloadButton = document.getElementById("download");
-const CloudUploadButton = document.getElementById("cloud-upload");
 const uploadButton = document.getElementById("upload");
+const CloudUploadButton = document.getElementById("cloud-upload");
 const CloudDownloadButton = document.getElementById("cloud-download");
+const CloudDeleteButton = document.getElementById("cloud-delete");
 
 // Bind buttons
 generateButton.onclick = function () {
@@ -512,9 +552,10 @@ generateButton.onclick = function () {
     }
 }
 downloadButton.onclick = gpt.download.bind(gpt);
-CloudUploadButton.onclick = gpt.cloudUpload.bind(gpt);
 uploadButton.onclick = gpt.upload.bind(gpt);
+CloudUploadButton.onclick = gpt.cloudUpload.bind(gpt);
 CloudDownloadButton.onclick = gpt.cloudDownload.bind(gpt);
+CloudDeleteButton.onclick = gpt.cloudDelete.bind(gpt);
 
 // Bind Ctrl+Enter to generate
 document.addEventListener('keydown', function (event) {
@@ -535,10 +576,3 @@ temperatureInput.addEventListener('input', () => {
 
 // Set conversation options
 await gpt.fetch_conversations();
-const conversationsSelect = document.getElementById("conversations");
-for (let i = 0; i < gpt.conversations.length; i++) {
-    const option = document.createElement("option");
-    option.value = gpt.conversations[i]["name"];
-    option.text = gpt.conversations[i]["name"];
-    conversationsSelect.appendChild(option);
-}
