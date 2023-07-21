@@ -4,6 +4,7 @@ const router = express.Router();
 const UserSQL = require("./conversation-sql");
 
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 // Data Processing
 router.use((req, res, next) => {
@@ -29,16 +30,13 @@ router.use((req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        let data = req.body.data;
+        // Get user_id from token by user-api
+        let username = req.user.sub;
+        let user = await axios.post("http://localhost:3000/user", { data: { username: username } });
+        let user_id = user.data.id;
 
-        // User can only access their own data
-        if (req.user.sub != data.username) {
-            console.log("req.body", req.body);
-            return res.sendStatus(403);
-        }
-
-        let conversations = await UserSQL.Show();
-        res.json(conversations);
+        let conversations = await UserSQL.Show(user_id);
+        res.status(200).json(conversations);
     } catch (err) {
         console.error("Error in GET /:", err);
         res.status(500).send("Error occurred while fetching data.");
@@ -49,13 +47,23 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     try {
         let data = req.body.data;
+        let name = data.name;
+        let conversation = data.conversation;
 
-        // User can only access their own data
-        if (req.user.sub != data.username) {
-            return res.sendStatus(403);
+        // Get user_id from token by user-api
+        let username = req.user.sub;
+        let user = await axios.post("http://localhost:3000/api/user", {
+            data: { username: username }
+        });
+        let user_id = user.data.id;
+
+        let sqlData = {
+            user_id: user_id,
+            name: name,
+            conversation: conversation
         }
 
-        await UserSQL.Store(data);
+        await UserSQL.Store(sqlData);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
@@ -68,10 +76,7 @@ router.put('/', async (req, res, next) => {
     try {
         let data = req.body.data;
 
-        // User can only access their own data
-        if (req.user.sub != data.username) {
-            return res.sendStatus(403);
-        }
+
 
         await UserSQL.Update(data);
         res.status(200).send(true);
@@ -87,10 +92,7 @@ router.delete('/:id', async (req, res, next) => {
         let data = req.body.data;
         let id = req.params.id;
 
-        // User can only access their own data
-        if (req.user.sub != data.username) {
-            return res.sendStatus(403);
-        }
+
 
         await UserSQL.Delete(id);
         res.status(200).send(true);

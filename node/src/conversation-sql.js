@@ -43,9 +43,10 @@ testConnection();
 
 // MySQL Functions
 
-async function Show() {
-    const sql = "SELECT * FROM conversations";
-    const result = await poolQuery(sql);
+async function Show(data) {
+    const sql = "SELECT * FROM conversations WHERE user_id = ?";
+    const sqlParams = [data.user_id];
+    const result = await poolQuery(sql, sqlParams);
     return result;
 }
 

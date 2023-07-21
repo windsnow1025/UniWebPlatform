@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 router.get('/', async (req, res, next) => {
     try {
         let bookmarks = await BookmarkSQL.Show();
-        res.json(bookmarks);
+        res.status(200).json(bookmarks);
     } catch (err) {
         console.error("Error in GET /:", err);
         res.status(500).send("Error occurred while fetching data.");

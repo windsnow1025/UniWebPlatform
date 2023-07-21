@@ -7,6 +7,18 @@ const jwt = require('jsonwebtoken');
 
 // Data Processing
 
+router.post('/', async (req, res, next) => {
+    try {
+        let data = req.body.data;
+        let result = await UserSQL.Exist(data);
+        res.status(200).json(result[0]);
+    } catch (err) {
+        console.error("Error in GET /:", err);
+        res.status(500).send("Error occurred while fetching data.");
+        next(err);
+    }
+});
+
 router.post('/sign-in', async (req, res, next) => {
     try {
         let data = req.body.data;
