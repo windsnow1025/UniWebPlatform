@@ -9,6 +9,7 @@ const authAPI = require('./auth-api');
 const userAPI = require('./user-api');
 const messageAPI = require('./message-api');
 const bookmarkAPI = require('./bookmark-api');
+const conversationAPI = require('./conversation-api');
 
 
 // HTTP
@@ -35,3 +36,4 @@ app.use('/api/auth', authAPI);
 app.use('/api/user', userAPI);
 app.use('/api/message', messageAPI);
 app.use('/api/bookmark', bookmarkAPI);
+app.use('/api/conversation', conversationAPI);
