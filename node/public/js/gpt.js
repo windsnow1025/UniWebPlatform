@@ -496,6 +496,39 @@ class GPT {
 
     }
 
+    async cloudUpdate() {
+        // Set status to updating
+        this.status.innerHTML = "Updating";
+
+        // Get the selected conversation index
+        const index = document.getElementById("conversations").selectedIndex;
+
+        // Get name and conversation
+        const name = document.getElementById("conversation-name").value;
+        const conversation = JSON.stringify(this.messages);
+        const id = this.conversations[index].id;
+        const data = {
+            name: name,
+            conversation: conversation,
+            id: id
+        };
+
+        // Update to cloud
+        await axios.put(`/api/conversation/`, {
+            data: data
+        }, {
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
+
+        // Set status to updated
+        this.status.innerHTML = "Updated";
+
+        // Fetch conversations
+        await this.fetch_conversations();
+    }
+
     cloudDownload() {
         // Get the selected conversation index
         const index = document.getElementById("conversations").selectedIndex;
@@ -539,6 +572,7 @@ const generateButton = document.getElementById("generate");
 const downloadButton = document.getElementById("download");
 const uploadButton = document.getElementById("upload");
 const CloudUploadButton = document.getElementById("cloud-upload");
+const CloudUpdateButton = document.getElementById("cloud-update");
 const CloudDownloadButton = document.getElementById("cloud-download");
 const CloudDeleteButton = document.getElementById("cloud-delete");
 
@@ -554,6 +588,7 @@ generateButton.onclick = function () {
 downloadButton.onclick = gpt.download.bind(gpt);
 uploadButton.onclick = gpt.upload.bind(gpt);
 CloudUploadButton.onclick = gpt.cloudUpload.bind(gpt);
+CloudUpdateButton.onclick = gpt.cloudUpdate.bind(gpt);
 CloudDownloadButton.onclick = gpt.cloudDownload.bind(gpt);
 CloudDeleteButton.onclick = gpt.cloudDelete.bind(gpt);
 
