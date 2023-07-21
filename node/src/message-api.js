@@ -48,7 +48,7 @@ router.delete('/', async (req, res, next) => {
         // Delete Data
         await MessageSQL.DeleteAll();
         // Response, Next
-        res.send(true);
+        res.status(200).send(true);
         next();
     } catch (err) {
         console.error("Error in DELETE /:", err);
