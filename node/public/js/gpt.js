@@ -390,26 +390,8 @@ class GPT {
         navigator.clipboard.writeText(content);
     }
 
-    // Not supported in mobile browsers
-
-    // async save() {
-    //     const fileHandle = await window.showSaveFilePicker({
-    //         suggestedName: 'messages.json',
-    //         types: [{
-    //             description: 'JSON Files',
-    //             accept: {
-    //                 'application/json': ['.json'],
-    //             },
-    //         }],
-    //     });
-
-    //     const writable = await fileHandle.createWritable();
-    //     await writable.write(JSON.stringify(this.messages));
-    //     await writable.close();
-    // }
-
     // Save the messages array as a JSON file
-    save() {
+    download() {
         const fileName = 'messages.json';
         const data = JSON.stringify(this.messages);
         const blob = new Blob([data], {type: 'application/json'});
@@ -427,7 +409,7 @@ class GPT {
     }
 
     // Load the messages array from a JSON file
-    load() {
+    upload() {
         // Request a JSON file from the user
         const input = document.createElement('input');
         input.type = 'file';
@@ -465,8 +447,10 @@ const gpt = new GPT();
 
 // Get buttons
 const generateButton = document.getElementById("generate");
-const saveButton = document.getElementById("save");
-const loadButton = document.getElementById("load");
+const downloadButton = document.getElementById("download");
+const CloudUploadButton = document.getElementById("cloud-upload");
+const uploadButton = document.getElementById("upload");
+const CloudDownloadButton = document.getElementById("cloud-download");
 
 // Bind buttons
 generateButton.onclick = function () {
@@ -477,8 +461,8 @@ generateButton.onclick = function () {
         gpt.generate();
     }
 }
-saveButton.onclick = gpt.save.bind(gpt);
-loadButton.onclick = gpt.load.bind(gpt);
+downloadButton.onclick = gpt.download.bind(gpt);
+uploadButton.onclick = gpt.upload.bind(gpt);
 
 // Bind Ctrl+Enter to generate
 document.addEventListener('keydown', function (event) {
