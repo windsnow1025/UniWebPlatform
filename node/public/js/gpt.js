@@ -533,10 +533,14 @@ class GPT {
         // Get the selected conversation index
         const index = document.getElementById("conversations").selectedIndex;
 
+        // Get the conversation
         const conversation = this.conversations[index].conversation;
 
         // Update the messages array
         this.messages = JSON.parse(conversation);
+
+        // Set the conversation name
+        document.getElementById("conversation-name").value = this.conversations[index].name;
 
         // Re-render the messages div
         this.create_render_message_divs();
