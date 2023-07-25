@@ -92,14 +92,12 @@ router.delete('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
 
-        // Judge if the conversation belongs to the user
-        let result = await UserSQL.Exist({id: id, user_id: req.user_id});
-        if (result.length == 0) {
-            res.status(409).send("Conversation does not exist");
-            next();
+        let sqlData = {
+            user_id: req.user_id,
+            id: id
         }
 
-        await UserSQL.Delete(id);
+        await UserSQL.Delete(sqlData);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in DELETE /:", err);
