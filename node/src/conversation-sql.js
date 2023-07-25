@@ -50,13 +50,6 @@ async function Show(data) {
     return result;
 }
 
-async function Exist(data) {
-    const sql = "SELECT * FROM conversations WHERE user_id = ? AND id = ?";
-    const sqlParams = [data.user_id, data.id];
-    const result = await poolQuery(sql, sqlParams);
-    return result;
-}
-
 async function Store(data) {
     const sql = "INSERT INTO conversations (user_id, name, conversation) VALUES (?,?,?)";
     const sqlParams = [data.user_id, data.name, data.conversation];
@@ -65,15 +58,15 @@ async function Store(data) {
 }
 
 async function Update(data) {
-    const sql = "UPDATE conversations SET name = ?, conversation = ? WHERE id = ?";
-    const sqlParams = [data.name, data.conversation, data.id];
+    const sql = "UPDATE conversations SET name = ?, conversation = ? WHERE user_id = ? AND id = ?";
+    const sqlParams = [data.name, data.conversation, data.user_id, data.id];
     await poolQuery(sql, sqlParams);
     console.log("1 record updated");
 }
 
-async function Delete(id) {
-    const sql = "DELETE FROM conversations WHERE id = ?";
-    const sqlParams = [id];
+async function Delete(data) {
+    const sql = "DELETE FROM conversations WHERE user_id = ? AND id = ?";
+    const sqlParams = [data.user_id, data.id];
     await poolQuery(sql, sqlParams);
     console.log("1 record deleted");
 }
