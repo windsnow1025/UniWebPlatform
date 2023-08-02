@@ -13,13 +13,19 @@ initializeTheme();
 class Bookmarks {
     constructor() {
         this.bookmarks = [];
+        this.token = null;
+        this.instance = null;
+        this.updateInstance();
+        this.fetchBookmarks();
+    }
+
+    updateInstance() {
         this.token = localStorage.getItem('token');
         this.instance = axios.create({
             headers: {
                 Authorization: `Bearer ${this.token}`
             }
         });
-        this.fetchBookmarks();
     }
 
     displayBookmarks(bookmarks) {
@@ -86,6 +92,7 @@ class Bookmarks {
 
     async addBookmark() {
 
+        // Get the input fields
         const row = document.querySelector('#addBookmarkRow');
         const bookmark = {
             firstTitle: row.children[0].textContent,
@@ -93,9 +100,18 @@ class Bookmarks {
             url: row.children[2].textContent,
             comment: row.children[3].textContent
         };
-        await this.instance.post('/api/bookmark/', {
-            data: bookmark
-        });
+
+        // Add the bookmark
+        this.updateInstance();
+        try {
+            await this.instance.post('/api/bookmark/', {
+                data: bookmark
+            });
+        } catch (error) {
+            if (error.response.status === 403) {
+                alert('Unauthorized');
+            }
+        }
 
         // Clear the input fields
         for (let i = 0; i < 4; i++) {
@@ -113,6 +129,7 @@ class Bookmarks {
 
     async editBookmark(id, editButton, firstTitleTd, secondTitleTd, urlTd, commentTd) {
 
+        // Check if the button text is 'Edit'
         if (editButton.textContent === 'Edit') {
             // Make the fields editable
             firstTitleTd.contentEditable = "plaintext-only";
@@ -132,16 +149,25 @@ class Bookmarks {
             // Change the button text back to 'Edit'
             editButton.textContent = 'Edit';
 
-            // Update the bookmark
+            // Get the bookmark
             const bookmark = {
                 firstTitle: firstTitleTd.textContent,
                 secondTitle: secondTitleTd.textContent,
                 url: urlTd.textContent,
                 comment: commentTd.textContent
             };
-            await this.instance.put(`/api/bookmark/${id}`, {
-                data: bookmark
-            });
+
+            // Update the bookmark
+            this.updateInstance();
+            try {
+                await this.instance.put(`/api/bookmark/${id}`, {
+                    data: bookmark
+                });
+            } catch (error) {
+                if (error.response.status === 403) {
+                    alert('Unauthorized');
+                }
+            }
 
             // reload bookmarks
             let res = await this.instance.get('/api/bookmark/');
@@ -154,7 +180,16 @@ class Bookmarks {
     }
 
     async deleteBookmark(id) {
-        await this.instance.delete(`/api/bookmark/${id}`);
+        // Delete the bookmark
+        this.updateInstance();
+        try {
+            await this.instance.delete(`/api/bookmark/${id}`);
+        } catch (error) {
+            if (error.response.status === 403) {
+                alert('Unauthorized');
+            }
+        }
+
         // reload bookmarks
         let res = await this.instance.get('/api/bookmark/');
         this.bookmarks = res.data;
