@@ -73,7 +73,6 @@ async function Delete(data) {
 
 module.exports = {
     Show: Show,
-    Exist: Exist,
     Store: Store,
     Update: Update,
     Delete: Delete
