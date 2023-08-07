@@ -67,21 +67,21 @@ async function Store(data) {
     const sql = "INSERT INTO users (username, password) VALUES (?,?)";
     const sqlParams = [data.username, data.password];
     await poolQuery(sql, sqlParams);
-    console.log("1 record inserted");
+    console.log("1 user inserted");
 }
 
 async function Update(data) {
     const sql = "UPDATE users SET username = ?, password = ? WHERE id = ?";
     const sqlParams = [data.username, data.password, data.id];
     await poolQuery(sql, sqlParams);
-    console.log("1 record updated");
+    console.log("1 user updated");
 }
 
 async function Delete(id) {
     const sql = "DELETE FROM users WHERE id = ?";
     const sqlParams = [id];
     await poolQuery(sql, sqlParams);
-    console.log("1 record deleted");
+    console.log("1 user deleted");
 }
 
 module.exports = {

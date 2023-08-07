@@ -54,21 +54,21 @@ async function Store(data) {
     const sql = "INSERT INTO conversations (user_id, name, conversation) VALUES (?,?,?)";
     const sqlParams = [data.user_id, data.name, data.conversation];
     await poolQuery(sql, sqlParams);
-    console.log("1 record inserted");
+    console.log("1 conversation inserted");
 }
 
 async function Update(data) {
     const sql = "UPDATE conversations SET name = ?, conversation = ? WHERE user_id = ? AND id = ?";
     const sqlParams = [data.name, data.conversation, data.user_id, data.id];
     await poolQuery(sql, sqlParams);
-    console.log("1 record updated");
+    console.log("1 conversation updated");
 }
 
 async function Delete(data) {
     const sql = "DELETE FROM conversations WHERE user_id = ? AND id = ?";
     const sqlParams = [data.user_id, data.id];
     await poolQuery(sql, sqlParams);
-    console.log("1 record deleted");
+    console.log("1 conversation deleted");
 }
 
 module.exports = {

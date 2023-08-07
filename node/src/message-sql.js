@@ -53,20 +53,20 @@ async function Store(data) {
     const sql = "INSERT INTO messages (message) VALUES (?)";
     const sqlParams = [data.message];
     await poolQuery(sql, sqlParams);
-    console.log("1 record inserted");
+    console.log("1 message inserted");
 }
 
 async function Delete(id) {
     const sql = "DELETE FROM messages WHERE id = ?";
     const sqlParams = [id];
     await poolQuery(sql, sqlParams);
-    console.log("1 record deleted");
+    console.log("1 message deleted");
 }
 
 async function DeleteAll() {
     const sql = "DELETE FROM messages";
     const result = await poolQuery(sql);
-    console.log("Number of records deleted: " + result.affectedRows);
+    console.log("Number of messages deleted: " + result.affectedRows);
 }
 
 module.exports = {
