@@ -170,3 +170,17 @@ git push origin --force --all
 git rebase -i HEAD~n
 git push -f
 ```
+
+## Python
+
+- Use specific version of Python
+
+```bash
+py -<version> -m <command>
+```
+
+Example:
+
+```bash
+py -3.8 -m pip install -r requirements.txt
+```
