@@ -164,10 +164,15 @@ git filter-branch --tree-filter 'rm -f <path_to_file>' HEAD
 git push origin --force --all
 ```
 
-- Edit commit message after push
+- Edit or delete commit after push
 
 ```git
 git rebase -i HEAD~n
+```
+
+`Ctrl + X` to change the command of the commit to `edit` or `drop`
+
+```git
 git push -f
 ```
 
