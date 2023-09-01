@@ -13,12 +13,11 @@ class ChatCompletionFactory:
 
         # Should be deleted after the main API_KEY has access to the gpt-4-32k model
         if "gpt-4-32k" in model:
-            self.api_key = os.environ["OPENAI_API_KEY_32K"]
+            openai.api_key = os.environ["OPENAI_API_KEY_32K"]
             openai.api_base = os.environ["OPENAI_API_BASE_32K"]
         else:
-            self.api_key = os.environ["OPENAI_API_KEY"]
-
-        openai.api_key = self.api_key
+            openai.api_key = os.environ["OPENAI_API_KEY"]
+            openai.api_base = os.environ["OPENAI_API_BASE"]
 
     def create_chat_completion(self):
         if self.stream:
