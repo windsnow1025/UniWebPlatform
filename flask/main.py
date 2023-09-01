@@ -48,17 +48,13 @@ def generate():
             return completion.choices[0]["message"]["content"]
 
         # Stream mode on
-        @retry(tries=5, delay=2, backoff=2, max_delay=10, jitter=(0, 1))
-        def create_completion_with_retry():
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                future = executor.submit(openai.ChatCompletion.create,model=model,messages=messages,temperature=temperature,stream=stream)
-                try:
-                    return future.result(timeout=5)
-                except concurrent.futures.TimeoutError:
-                    raise Exception("Function timed out")
-
         logging.info("Before calling openai.ChatCompletion.create")
-        completion = create_completion_with_retry()
+        completion = openai.ChatCompletion.create(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            stream=stream,
+        )
         logging.info("After calling openai.ChatCompletion.create")
 
         def process_delta(completion_delta):
@@ -85,7 +81,7 @@ def generate():
 
 @app.route("/", methods=["GET"])
 def index():
-    return "gpt-4-0314"
+    return "gpt-4-0613"
 
 
 if __name__ == "__main__":
