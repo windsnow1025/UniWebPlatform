@@ -220,6 +220,7 @@ class GPT {
 
         // Get parameters
         const messages = JSON.stringify(this.messages);
+        const api_type = document.getElementById("api_type").value;
         const model = document.getElementById("model").value;
         const temperature = document.getElementById("temperature").value;
         const stream = document.getElementById("stream").checked;
@@ -227,6 +228,7 @@ class GPT {
         // Create a new form data object
         const formData = new FormData();
         formData.append("messages", messages);
+        formData.append("api_type", api_type);
         formData.append("model", model);
         formData.append("temperature", temperature);
         formData.append("stream", stream);
@@ -612,6 +614,44 @@ const temperatureValue = document.getElementById('temperature-value');
 temperatureInput.addEventListener('input', () => {
     temperatureValue.textContent = temperatureInput.value;
 });
+
+// Update model options when api_type changes
+const apiTypeSelect = document.getElementById("api_type");
+apiTypeSelect.addEventListener("change", updateModelOptions);
+
+function updateModelOptions() {
+    const apiTypeSelect = document.getElementById("api_type");
+    const modelSelect = document.getElementById("model");
+
+    // Clear existing options
+    modelSelect.innerHTML = "";
+
+    // Get the selected api_type value
+    const selectedApiType = apiTypeSelect.value;
+
+    // Add options based on the selected api_type
+    if (selectedApiType === "open_ai") {
+        addOption(modelSelect, "gpt-3.5-turbo", "gpt-3.5-turbo");
+        addOption(modelSelect, "gpt-3.5-turbo-0301", "gpt-3.5-turbo-0301");
+        addOption(modelSelect, "gpt-3.5-turbo-0613", "gpt-3.5-turbo-0613");
+        addOption(modelSelect, "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k");
+        addOption(modelSelect, "gpt-3.5-turbo-16k-0613", "gpt-3.5-turbo-16k-0613");
+        addOption(modelSelect, "gpt-4", "gpt-4");
+        addOption(modelSelect, "gpt-4-0314", "gpt-4-0314");
+        addOption(modelSelect, "gpt-4-0613", "gpt-4-0613");
+        addOption(modelSelect, "gpt-4-32k", "gpt-4-32k");
+    } else if (selectedApiType === "azure") {
+        addOption(modelSelect, "gpt-35-turbo", "gpt-35-turbo");
+        addOption(modelSelect, "gpt-35-turbo-16k", "gpt-35-turbo-16k");
+    }
+}
+
+function addOption(selectElement, value, text) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.text = text;
+    selectElement.appendChild(option);
+}
 
 // Set conversation options
 await gpt.fetch_conversations();

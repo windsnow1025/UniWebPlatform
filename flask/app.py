@@ -22,12 +22,13 @@ def generate():
     messages = request.form.get("messages")
     messages = list(eval(messages))
     model = request.form.get("model")
+    api_type = request.form.get("api_type")
     temperature = request.form.get("temperature")
     temperature = float(temperature)
     stream = request.form.get("stream")
     stream = True if stream == "true" else False
 
-    factory = ChatCompletionFactory(model, messages, temperature, stream)
+    factory = ChatCompletionFactory(messages, model, api_type, temperature, stream)
     completion = factory.create_chat_completion()
     response = completion.process_request()
     return response
