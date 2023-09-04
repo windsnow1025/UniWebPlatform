@@ -73,6 +73,51 @@ export function applyMarkdownTheme(theme) {
     localStorage.setItem("markdownTheme", theme);
 }
 
+export function applyHighlightTheme(theme) {
+    // Get all link elements
+    const links = document.getElementsByTagName('link');
+
+    // Loop through all link elements
+    for (let i = 0; i < links.length; i++) {
+        const link = links[i];
+        const href = link.getAttribute('href');
+
+        // If link is for highlight.js, remove it
+        if (href && href.includes('highlight.js/styles')) {
+            link.parentNode.removeChild(link);
+        }
+    }
+
+    // Add new link element
+    if (theme === 'dark') {
+        const darkCss = document.createElement('link');
+        darkCss.setAttribute('rel', 'stylesheet');
+        darkCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/dark.min.css');
+        document.head.appendChild(darkCss);
+    } else if (theme === 'light') {
+        const lightCss = document.createElement('link');
+        lightCss.setAttribute('rel', 'stylesheet');
+        lightCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css');
+        document.head.appendChild(lightCss);
+    } else {
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+        if (prefersDarkScheme.matches) {
+            const darkCss = document.createElement('link');
+            darkCss.setAttribute('rel', 'stylesheet');
+            darkCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/dark.min.css');
+            document.head.appendChild(darkCss);
+        } else {
+            const lightCss = document.createElement('link');
+            lightCss.setAttribute('rel', 'stylesheet');
+            lightCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css');
+            document.head.appendChild(lightCss);
+        }
+    }
+
+    // Save theme to local storage
+    localStorage.setItem("highlightTheme", theme);
+}
+
 export function initializeTheme() {
 
     // Listen for theme change
@@ -81,13 +126,16 @@ export function initializeTheme() {
         const selectedTheme = event.target.value;
         applyTheme(selectedTheme);
         applyMarkdownTheme(selectedTheme);
+        applyHighlightTheme(selectedTheme);
     });
 
     // Get theme from local storage
     const localStorageTheme = localStorage.getItem("theme");
     const localStorageMarkdownTheme = localStorage.getItem("markdownTheme");
+    const localStorageHighlightTheme = localStorage.getItem("highlightTheme");
 
     // Apply the theme
     applyTheme(localStorageTheme);
     applyMarkdownTheme(localStorageMarkdownTheme);
+    applyHighlightTheme(localStorageHighlightTheme);
 }
