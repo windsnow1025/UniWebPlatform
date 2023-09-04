@@ -4,7 +4,7 @@ await fetch('/html/theme.html')
         document.getElementById('theme').innerHTML = data;
     });
 
-export function applyTheme(theme) {
+function applyTheme(theme) {
     const body = document.body;
 
     if (theme === "light") {
@@ -28,7 +28,7 @@ export function applyTheme(theme) {
     localStorage.setItem("theme", theme);
 }
 
-export function applyMarkdownTheme(theme) {
+function applyMarkdownTheme(theme) {
     // Get all link elements
     const links = document.getElementsByTagName('link');
 
@@ -38,7 +38,7 @@ export function applyMarkdownTheme(theme) {
         const href = link.getAttribute('href');
 
         // If link is for github-markdown-css, remove it
-        if (href && href.includes('github-markdown-css')) {
+        if (href && href.includes('/markdown/')) {
             link.parentNode.removeChild(link);
         }
     }
@@ -47,24 +47,24 @@ export function applyMarkdownTheme(theme) {
     if (theme === 'dark') {
         const darkCss = document.createElement('link');
         darkCss.setAttribute('rel', 'stylesheet');
-        darkCss.setAttribute('href', 'https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown-dark.css');
+        darkCss.setAttribute('href', '/css/markdown/github-markdown-dark.css');
         document.head.appendChild(darkCss);
     } else if (theme === 'light') {
         const lightCss = document.createElement('link');
         lightCss.setAttribute('rel', 'stylesheet');
-        lightCss.setAttribute('href', 'https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown-light.css');
+        lightCss.setAttribute('href', '/css/markdown/github-markdown-light.css');
         document.head.appendChild(lightCss);
     } else {
         const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
         if (prefersDarkScheme.matches) {
             const darkCss = document.createElement('link');
             darkCss.setAttribute('rel', 'stylesheet');
-            darkCss.setAttribute('href', 'https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown-dark.css');
+            darkCss.setAttribute('href', '/css/markdown/github-markdown-dark.css');
             document.head.appendChild(darkCss);
         } else {
             const lightCss = document.createElement('link');
             lightCss.setAttribute('rel', 'stylesheet');
-            lightCss.setAttribute('href', 'https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown-light.css');
+            lightCss.setAttribute('href', '/css/markdown/github-markdown-light.css');
             document.head.appendChild(lightCss);
         }
     }
@@ -73,7 +73,7 @@ export function applyMarkdownTheme(theme) {
     localStorage.setItem("markdownTheme", theme);
 }
 
-export function applyHighlightTheme(theme) {
+function applyHighlightTheme(theme) {
     // Get all link elements
     const links = document.getElementsByTagName('link');
 
@@ -83,7 +83,7 @@ export function applyHighlightTheme(theme) {
         const href = link.getAttribute('href');
 
         // If link is for highlight.js, remove it
-        if (href && href.includes('highlight.js/styles')) {
+        if (href && href.includes('highlight')) {
             link.parentNode.removeChild(link);
         }
     }
@@ -92,24 +92,24 @@ export function applyHighlightTheme(theme) {
     if (theme === 'dark') {
         const darkCss = document.createElement('link');
         darkCss.setAttribute('rel', 'stylesheet');
-        darkCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/dark.min.css');
+        darkCss.setAttribute('href', '/css/highlight/github-dark.css');
         document.head.appendChild(darkCss);
     } else if (theme === 'light') {
         const lightCss = document.createElement('link');
         lightCss.setAttribute('rel', 'stylesheet');
-        lightCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css');
+        lightCss.setAttribute('href', '/css/highlight/github.css');
         document.head.appendChild(lightCss);
     } else {
         const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
         if (prefersDarkScheme.matches) {
             const darkCss = document.createElement('link');
             darkCss.setAttribute('rel', 'stylesheet');
-            darkCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/dark.min.css');
+            darkCss.setAttribute('href', '/css/highlight/github-dark.css');
             document.head.appendChild(darkCss);
         } else {
             const lightCss = document.createElement('link');
             lightCss.setAttribute('rel', 'stylesheet');
-            lightCss.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css');
+            lightCss.setAttribute('href', '/css/highlight/github.css');
             document.head.appendChild(lightCss);
         }
     }
