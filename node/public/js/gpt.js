@@ -655,5 +655,20 @@ function addOption(selectElement, value, text) {
     selectElement.appendChild(option);
 }
 
-// Set conversation options
+// Fetch conversation options
 await gpt.fetch_conversations();
+
+// Editable checkbox (contenteditable="plaintext-only" -> contenteditable="false")
+const editableCheckbox = document.getElementById("editable");
+editableCheckbox.addEventListener("change", function () {
+    const messagesDiv = document.getElementById("messages_div");
+    const messages = messagesDiv.querySelectorAll('div[name="message_div"]');
+    for (let i = 0; i < messages.length; i++) {
+        const content = messages[i].querySelector('div[name="content"]');
+        if (editableCheckbox.checked) {
+            content.setAttribute("contenteditable", "plaintext-only");
+        } else {
+            content.setAttribute("contenteditable", "false");
+        }
+    }
+});
