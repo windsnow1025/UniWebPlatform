@@ -7,20 +7,20 @@ await fetch('/html/theme.html')
 function applyTheme(theme) {
     const body = document.body;
 
+    // Remove all theme classes
+    body.classList.remove("light-theme");
+    body.classList.remove("dark-theme");
+
     if (theme === "light") {
         body.classList.add("light-theme");
-        body.classList.remove("dark-theme");
     } else if (theme === "dark") {
         body.classList.add("dark-theme");
-        body.classList.remove("light-theme");
     } else {
         const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
         if (prefersDarkScheme.matches) {
             body.classList.add("dark-theme");
-            body.classList.remove("light-theme");
         } else {
             body.classList.add("light-theme");
-            body.classList.remove("dark-theme");
         }
     }
 
