@@ -17,10 +17,6 @@ class ChatCompletionFactory:
             openai.api_base = "https://api.openai.com/v1"
             openai.api_version = None
             openai.api_key = os.environ["OPENAI_API_KEY"]
-            # Should be removed after main api_key have access to gpt-4-32k
-            if model == "gpt-4-32k":
-                openai.api_base = os.environ["OPENAI_API_BASE_32K"]
-                openai.api_key = os.environ["OPENAI_API_KEY_32K"]
         elif api_type == "azure":
             openai.api_type = "azure"
             openai.api_base = os.environ["AZURE_API_BASE"]
