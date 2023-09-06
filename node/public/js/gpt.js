@@ -637,7 +637,6 @@ function updateModelOptions() {
         addOption(modelSelect, "gpt-4", "gpt-4");
         addOption(modelSelect, "gpt-4-0314", "gpt-4-0314");
         addOption(modelSelect, "gpt-4-0613", "gpt-4-0613");
-        addOption(modelSelect, "gpt-4-32k", "gpt-4-32k");
     } else if (selectedApiType === "azure") {
         addOption(modelSelect, "gpt-35-turbo", "gpt-35-turbo");
         addOption(modelSelect, "gpt-35-turbo-16k", "gpt-35-turbo-16k");
