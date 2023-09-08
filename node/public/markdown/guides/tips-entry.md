@@ -84,6 +84,11 @@
     - Select next: Alt + J
     - Select all: Ctrl + Shift + Alt + J
 
+### CLion
+
+- dll not found
+    - Environment Variables >> System Variables >> Path >> Add `%HOMEPATH%\AppData\Local\Programs\CLion\bin\mingw\bin`
+
 ## Visual Studio Code
 
 - Add cursors to end of selected lines
