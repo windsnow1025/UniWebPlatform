@@ -87,7 +87,7 @@
 ### CLion
 
 - dll not found
-    - Environment Variables >> System Variables >> Path >> Add `%HOMEPATH%\AppData\Local\Programs\CLion\bin\mingw\bin`
+    - Environment Variables >> System Variables >> Path >> Add `%HOMEPATH%\AppData\Local\Programs\CLion\bin\mingw\bin` or `%HOMEPATH%\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\<Version>\bin\mingw\bin`
 
 ## Visual Studio Code
 
