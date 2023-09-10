@@ -1,8 +1,10 @@
-await fetch('/html/theme.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('theme').innerHTML = data;
-    });
+async function setThemeHtml() {
+    await fetch('/html/theme.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('theme').innerHTML = data;
+        });
+}
 
 function applyMainTheme(theme) {
     const body = document.body;
@@ -110,13 +112,20 @@ function applyHighlightTheme(theme) {
 }
 
 export function applyTheme(theme) {
+    /**
+     * Apply the theme to the page
+     * @param {string} theme - system / light / dark
+     * @returns {void}
+     */
     applyMainTheme(theme);
     applyMarkdownTheme(theme);
     applyHighlightTheme(theme);
     localStorage.setItem("theme", theme);
 }
 
-export function initializeTheme() {
+export async function initializeTheme() {
+    // Add theme html
+    await setThemeHtml();
 
     // Listen for theme change
     const themeSelect = document.getElementById("themeSelect");

@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/github-dark.css';
-import 'github-markdown-css/github-markdown-dark.css';
 import '../css/markdown.css';
+
+import {applyTheme} from "./theme";
+const theme = localStorage.getItem("theme");
+applyTheme(theme);
 
 marked.setOptions({
     renderer: new marked.Renderer(),
