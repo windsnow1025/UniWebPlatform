@@ -4,7 +4,7 @@ await fetch('/html/theme.html')
         document.getElementById('theme').innerHTML = data;
     });
 
-function applyTheme(theme) {
+function applyMainTheme(theme) {
     const body = document.body;
 
     // Remove all theme classes
@@ -23,9 +23,6 @@ function applyTheme(theme) {
             body.classList.add("light-theme");
         }
     }
-
-    // Save theme to local storage
-    localStorage.setItem("theme", theme);
 }
 
 function applyMarkdownTheme(theme) {
@@ -68,9 +65,6 @@ function applyMarkdownTheme(theme) {
             document.head.appendChild(lightCss);
         }
     }
-
-    // Save theme to local storage
-    localStorage.setItem("markdownTheme", theme);
 }
 
 function applyHighlightTheme(theme) {
@@ -113,9 +107,13 @@ function applyHighlightTheme(theme) {
             document.head.appendChild(lightCss);
         }
     }
+}
 
-    // Save theme to local storage
-    localStorage.setItem("highlightTheme", theme);
+export function applyTheme(theme) {
+    applyMainTheme(theme);
+    applyMarkdownTheme(theme);
+    applyHighlightTheme(theme);
+    localStorage.setItem("theme", theme);
 }
 
 export function initializeTheme() {
@@ -125,17 +123,11 @@ export function initializeTheme() {
     themeSelect.addEventListener("change", (event) => {
         const selectedTheme = event.target.value;
         applyTheme(selectedTheme);
-        applyMarkdownTheme(selectedTheme);
-        applyHighlightTheme(selectedTheme);
     });
 
     // Get theme from local storage
     const localStorageTheme = localStorage.getItem("theme");
-    const localStorageMarkdownTheme = localStorage.getItem("markdownTheme");
-    const localStorageHighlightTheme = localStorage.getItem("highlightTheme");
 
     // Apply the theme
     applyTheme(localStorageTheme);
-    applyMarkdownTheme(localStorageMarkdownTheme);
-    applyHighlightTheme(localStorageHighlightTheme);
 }
