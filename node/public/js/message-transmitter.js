@@ -47,11 +47,11 @@ class MessageTransmitter {
     }
 }
 
-var messageTransmitter = new MessageTransmitter();
+const messageTransmitter = new MessageTransmitter();
 
-var sendButton = document.getElementById("send");
-var receiveButton = document.getElementById("receive");
-var clearReceiveButton = document.getElementById("clearReceive");
+const sendButton = document.getElementById("send");
+const receiveButton = document.getElementById("receive");
+const clearReceiveButton = document.getElementById("clearReceive");
 
 sendButton.onclick = messageTransmitter.sendMessage.bind(messageTransmitter);
 receiveButton.onclick = messageTransmitter.receiveMessage.bind(messageTransmitter);
