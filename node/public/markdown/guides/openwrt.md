@@ -86,19 +86,17 @@ opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-ful
 ```
 
 5. Relogin Dashboard to access Services: OpenClash
-6. OpenClash >> Global Settings >> Version Update
+6. Plugin Settings >> Version Update
 7. Config Update >> Add >> Update Config
-8. Overviews >> Running Mode >> TUN
-9. Global Settings
-    1. Operation Mode
-        1. Switch page to Fake-IP mode
-        2. Select Mode >> fake-ip(tun mode) >> Commit Settings
-    2. General Settings
-        1. Log Level: Info Mode
+8. Plugin Settings >> Operation Mode
+   1. Switch page to Tun mode
+   2. Select Mode >> fake-ip(tun mode)
+   3. Enable Meta Core
+9. Overwrite Settings >> General Settings >> Log Level >> Info Mode
 
 ### Install Clash Core manually
 
-1. GUI: OpenClash >> Global Settings >> Version Update >> Download Core
+1. OpenClash >> Plugin Settings >> Version Update
 2. Download `<clash>.tar.gz` of `dev`, `meta`, `premium` from [https://github.com/vernesong/OpenClash/tree/core/master](https://github.com/vernesong/OpenClash/tree/core/master)
 3. Extract and rename `clash` files to `clash`(`dev`), `clash_tun`(`premium`), `clash_meta`(`meta`)
 4. Copy to `/etc/openclash/core`
