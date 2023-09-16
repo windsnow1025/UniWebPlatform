@@ -50,6 +50,10 @@ Type `Esc` then `:wq` to save and quit
 
 Install `Tabby Terminal` from [https://github.com/Eugeny/tabby/releases/](https://github.com/Eugeny/tabby/releases/) and connect to `<IP Address>`
 
+### Problems
+
+1. Read-only file system: `e2fsck -y /dev/sda2`
+
 ## OpenClash Installation
 
 1. In OpenWRT
