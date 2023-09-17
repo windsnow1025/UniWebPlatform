@@ -133,3 +133,7 @@ docker rmi $(docker images -q)
 ```bash
 docker volume rm $(docker volume ls -q)
 ```
+
+## Problem
+
+1. Endless loading: Add host `http.docker.internal` linked to local machine IP
