@@ -14,4 +14,6 @@ Task Scheduler >> Create Task
         2. Repeat task every: 5 minutes, for a duration of Indefinitely
         3. Enabled
 3. Action >> New >> Start a program
+   1. Program/script
+   2. Start in (Optional)
 4. Settings >>Enable: `Allow task to be run on demand`, `If the task fail, restart every 1 minute`
