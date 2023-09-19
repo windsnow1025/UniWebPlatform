@@ -29,6 +29,51 @@ marked.setOptions({
     xhtml: false
 });
 
+class Message {
+    constructor(role, content, message_div) {
+        this.role = role;
+        this.content = content;
+        this.role_select = message_div.querySelector('select[name="role"]');
+        this.content_div = message_div.querySelector('div[name="content"]');
+        this.bind();
+        this.render();
+    }
+
+    parse() {
+        let content = this.content;
+        content = content.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        content = marked.parse(content);
+        this.content_div.innerHTML = content;
+        MathJax.typeset([this.content_div]);
+    }
+
+    render(parse = true) {
+        this.role_select.value = this.role;
+        this.content_div.innerHTML = this.content;
+        if (parse) {
+            this.parse();
+        }
+    }
+
+    bind() {
+        // On role change, update role value
+        this.role_select.addEventListener("change", function () {
+            this.role = this.role_select.value;
+        }.bind(this));
+
+        // On content blur, update content value
+        this.content_div.addEventListener("blur", function () {
+            this.content = this.content_div.innerHTML;
+            this.render();
+        }.bind(this));
+
+        // On content focus, show unparsed content
+        this.content_div.addEventListener("focus", function () {
+            this.content_div.innerHTML = this.content;
+        }.bind(this));
+    }
+}
+
 class GPT {
     constructor() {
         this.conversations = [];
@@ -36,48 +81,14 @@ class GPT {
         this.status = document.getElementById("status");
         this.wait_response = [];
         this.controller = null;
-        this.create_render_message_divs();
-        this.add(0);
         this.token = localStorage.getItem('token');
-    }
-
-    parse(content_div, content_value) {
-        content_value = content_value.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-        content_value = marked.parse(content_value);
-        content_div.innerHTML = content_value;
-        MathJax.typeset([content_div]);
-    }
-
-    async fetch_conversations() {
-        // Fetch conversations
-        try {
-            const res = await axios.get('/api/conversation/', {
-                headers: {
-                    Authorization: `Bearer ${this.token}`
-                }
-            });
-            this.conversations = res.data;
-            this.status.innerHTML = "Conversations loaded.";
-        } catch (err) {
-            this.status.innerHTML = "Error loading conversations.";
-            return;
-        }
-
-        // Clear conversations
-        const conversationsSelect = document.getElementById("conversations");
-        conversationsSelect.innerHTML = "";
-
-        // Render conversations
-        for (let i = 0; i < this.conversations.length; i++) {
-            const option = document.createElement("option");
-            option.value = this.conversations[i]["name"];
-            option.text = this.conversations[i]["name"];
-            conversationsSelect.appendChild(option);
-        }
+        this.clear_message_divs();
+        this.add(0);
+        this.fetch_conversations();
     }
 
     // Create and render message_div[] from messages[]
-    create_render_message_divs() {
+    clear_message_divs() {
         // Clear messages_div
         const messages_div = document.querySelector("#messages_div");
         messages_div.innerHTML = "";
@@ -91,72 +102,33 @@ class GPT {
         add_button.onclick = function () {
             this.add(0);
         }.bind(this);
-
-        for (let i = 0; i < this.messages.length; i++) {
-            this.create_render_message_div(i);
-        }
-
     }
 
     // Create and render message_div[index] from messages[index]
-    create_render_message_div(index) {
+    create_render_message_div(index, message_div) {
         const render_index = index + 1;
-
-        // Get the template message div
-        const template_message_div = document.querySelector('div[name="message_div"]');
-
-        // Create the new message div
-        const message_div = template_message_div.cloneNode(true);
-
-        // Get the role and content elements
-        const role_select = message_div.querySelector('select[name="role"]');
-        const content_div = message_div.querySelector('div[name="content"]');
-
-        // Get the role and content values in the messages array
-        let role_value = this.messages[index]["role"];
-        let content_value = this.messages[index]["content"];
-
-        // Update the role and content elements
-        role_select.value = role_value;
-        this.parse(content_div, content_value);
-
-        // On role change, update messages array
-        role_select.addEventListener("change", function () {
-            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div) - 1;
-            this.messages[currentIndex]["role"] = role_select.value;
-        }.bind(this));
-
-        // On content focus, show the message content in original format
-        content_div.addEventListener("focus", function () {
-            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div) - 1;
-            content_div.innerHTML = this.messages[currentIndex]["content"];
-        }.bind(this));
-
-        // On content blur, update messages array
-        content_div.addEventListener("blur", function () {
-            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div) - 1;
-            this.messages[currentIndex]["content"] = content_div.innerHTML;
-            this.render_message_div(currentIndex);
-        }.bind(this));
 
         // Copy button
         const copy_button = message_div.querySelector('i[name="copy_button"]');
         copy_button.onclick = function () {
-            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div) - 1;
+            // -1 for the add button
+            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div)-1;
             this.copy(currentIndex);
         }.bind(this);
 
         // Delete button
         const delete_button = message_div.querySelector('i[name="delete_button"]');
         delete_button.onclick = function () {
-            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div) - 1;
+            // -1 for the add button
+            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div)-1;
             this.delete(currentIndex);
         }.bind(this);
 
         // Add Button
         const add_button = message_div.querySelector('i[name="add_button"]');
         add_button.onclick = function () {
-            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div) - 1;
+            // -1 for the add button
+            const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div)-1;
             this.add(currentIndex + 1);
         }.bind(this);
 
@@ -167,36 +139,13 @@ class GPT {
 
     // Render message_div[index] from messages[index]
     render_message_div(index, parse = true) {
-        // Get the message div
-        const message_div = document.querySelector('div[name="message_div"]:nth-child(' + (index + 2) + ')');
+        const message = this.messages[index];
 
-        // Get the role and content elements
-        const role_select = message_div.querySelector('select[name="role"]');
-        const content_div = message_div.querySelector('div[name="content"]');
-
-        // Get the role and content values in the messages array
-        let role_value = this.messages[index]["role"];
-        let content_value = this.messages[index]["content"];
-
-        // Update the role and content elements
-        role_select.value = role_value;
-        if (content_div == document.activeElement || parse == false) {
-            content_div.innerHTML = content_value;
+        if (message.content_div == document.activeElement || parse == false) {
+            message.render(false);
         } else {
-            this.parse(content_div, content_value);
+            message.render(parse);
         }
-    }
-
-    // Append a new chunk to message_div[index]
-    append_chunk_to_message_div(index, chunk) {
-        // Get the message div
-        const message_div = document.querySelector('div[name="message_div"]:nth-child(' + (index + 2) + ')');
-
-        // Get the content div
-        const content_div = message_div.querySelector('div[name="content"]');
-
-        // Append the chunk
-        content_div.innerHTML += chunk;
     }
 
     // Generate Response
@@ -217,7 +166,12 @@ class GPT {
         const stream_index = this.wait_response.length - 1;
 
         // Get parameters
-        const messages = JSON.stringify(this.messages);
+        const messages = JSON.stringify(this.messages.map(message => {
+            return {
+                role: message.role,
+                content: message.content
+            }
+        }));
         const api_type = document.getElementById("api_type").value;
         const model = document.getElementById("model").value;
         const temperature = document.getElementById("temperature").value;
@@ -250,15 +204,12 @@ class GPT {
                 content = content.replace("<", "&lt;").replace(">", "&gt;");
 
                 // Update the last message div
-                this.messages.push({"role": "assistant", "content": content});
-
-                // Render the new message div
-                this.create_render_message_div(this.messages.length - 1);
+                this.add(this.messages.length, "assistant", content, false, false);
 
                 // Add a new message div
                 this.add(this.messages.length);
 
-                // Set status to ready
+                // Set status
                 this.status.innerHTML = "Ready";
                 document.getElementById("generate").innerHTML = "Generate";
             } catch (err) {
@@ -279,10 +230,11 @@ class GPT {
             chunk = chunk.replace("<", "&lt;").replace(">", "&gt;");
 
             // Update messages array
-            gpt.messages[gpt.messages.length - 1]["content"] += chunk;
+            gpt.messages[gpt.messages.length - 1].content += chunk;
 
             // Append the chunk to the message div
-            gpt.append_chunk_to_message_div(gpt.messages.length - 1, chunk);
+            const message = gpt.messages[gpt.messages.length - 1];
+            message.content_div.innerHTML += chunk;
 
             await processChunk(reader, controller);
         }
@@ -303,8 +255,7 @@ class GPT {
                 const reader = response.body.getReader();
                 const processedStream = new ReadableStream({
                     async start(controller) {
-                        gpt.messages.push({role: "assistant", content: ""});
-                        gpt.create_render_message_div(gpt.messages.length - 1);
+                        gpt.add(gpt.messages.length, "assistant", "", false, false);
                         await processChunk(reader, controller);
                     },
                 }, {signal: this.controller.signal});
@@ -347,14 +298,14 @@ class GPT {
 
     // Focus on the content of message at index
     focus(index) {
-        const message = document.getElementById("messages_div").childNodes[index + 1];
+        const message = document.getElementById("messages_div").childNodes[index + 1]; // +1 for the add button
         message.querySelector('div[name="content"]').focus();
     }
 
     // Add a new message at index
-    add(index) {
+    add(index, role = "user", content = "", abort = true, focus = true) {
         // Abort controller
-        if (this.controller) {
+        if (this.controller && abort) {
             this.controller.abort();
         }
 
@@ -362,11 +313,14 @@ class GPT {
         this.status.innerHTML = "Ready";
         document.getElementById("generate").innerHTML = "Generate";
 
-        // Add a new message at index
-        this.messages.splice(index, 0, {"role": "user", "content": ""});
+        // Get the template message div and clone it
+        const template_message_div = document.querySelector('div[name="message_div"]');
+        const message_div = template_message_div.cloneNode(true);
 
         // Create and render the new message div at index
-        this.create_render_message_div(index);
+        const message = new Message(role, content, message_div);
+        this.messages.splice(index, 0, message);
+        this.create_render_message_div(index, message_div);
 
         // Re-render the messages div from index + 1
         for (let i = index + 1; i < this.messages.length; i++) {
@@ -374,7 +328,8 @@ class GPT {
         }
 
         // Focus on the new message div
-        this.focus(index);
+        if (focus)
+            this.focus(index);
     }
 
     // Delete the message at index
@@ -389,27 +344,15 @@ class GPT {
         document.getElementById("generate").innerHTML = "Generate";
 
         // Delete the message at index
-        if (index < 0 || index >= this.messages.length) {
-            console.log("Invalid index");
-            return;
-        }
         this.messages.splice(index, 1);
-
-        // Re-render the messages div from index
-        for (let i = index; i < this.messages.length; i++) {
-            this.render_message_div(i);
-        }
-
-        // Remove the last message div
         const messages_div = document.getElementById("messages_div");
-        messages_div.removeChild(messages_div.lastChild);
+        messages_div.removeChild(messages_div.childNodes[index + 1]); // +1 for the add button
     }
 
     // Copy to clipboard
     copy(index) {
         // Get message content
-        const message = this.messages[index];
-        const content = message["content"];
+        const content = this.messages[index].content;
 
         // Copy to clipboard
         navigator.clipboard.writeText(content);
@@ -418,7 +361,12 @@ class GPT {
     // Save the messages array as a JSON file
     download() {
         const fileName = 'messages.json';
-        const data = JSON.stringify(this.messages);
+        const data = JSON.stringify(this.messages.map(message => {
+            return {
+                role: message.role,
+                content: message.content
+            }
+        }));
         const blob = new Blob([data], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
 
@@ -452,13 +400,11 @@ class GPT {
                 // Parse the JSON file
                 const messages = JSON.parse(content);
 
-                // Update the messages array
-                this.messages = messages;
-
-                // Re-render the messages div
-                const messages_div = document.getElementById("messages_div");
-                messages_div.innerHTML = "";
-                this.create_render_message_divs();
+                this.clear_message_divs();
+                this.messages = [];
+                for (let i = 0; i < messages.length; i++) {
+                    this.add(i, messages[i].role, messages[i].content);
+                }
             }
         }
         input.click();
@@ -467,13 +413,46 @@ class GPT {
         window.scrollTo(0, document.body.scrollHeight);
     }
 
+    async fetch_conversations() {
+        // Fetch conversations
+        try {
+            const res = await axios.get('/api/conversation/', {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            });
+            this.conversations = res.data;
+            this.status.innerHTML = "Conversations loaded.";
+        } catch (err) {
+            this.status.innerHTML = "Error loading conversations.";
+            return;
+        }
+
+        // Clear conversations options
+        const conversationsSelect = document.getElementById("conversations");
+        conversationsSelect.innerHTML = "";
+
+        // Add options
+        for (let i = 0; i < this.conversations.length; i++) {
+            const option = document.createElement("option");
+            option.value = this.conversations[i]["name"];
+            option.text = this.conversations[i]["name"];
+            conversationsSelect.appendChild(option);
+        }
+    }
+
     async cloudUpload() {
         // Set status to uploading
         this.status.innerHTML = "Uploading";
 
         // Get name and conversation
         const name = document.getElementById("conversation-name").value;
-        const conversation = JSON.stringify(this.messages);
+        const conversation = JSON.stringify(this.messages.map(message => {
+            return {
+                role: message.role,
+                content: message.content
+            }
+        }));
         const data = {
             name: name,
             conversation: conversation
@@ -505,7 +484,12 @@ class GPT {
 
         // Get name and conversation
         const name = document.getElementById("conversation-name").value;
-        const conversation = JSON.stringify(this.messages);
+        const conversation = JSON.stringify(this.messages.map(message => {
+            return {
+                role: message.role,
+                content: message.content
+            }
+        }));
         const id = this.conversations[index].id;
         const data = {
             name: name,
@@ -534,16 +518,17 @@ class GPT {
         const index = document.getElementById("conversations").selectedIndex;
 
         // Get the conversation
-        const conversation = this.conversations[index].conversation;
-
-        // Update the messages array
-        this.messages = JSON.parse(conversation);
+        const messages = JSON.parse(this.conversations[index].conversation);
 
         // Set the conversation name
         document.getElementById("conversation-name").value = this.conversations[index].name;
 
         // Re-render the messages div
-        this.create_render_message_divs();
+        this.clear_message_divs();
+        this.messages = [];
+        for (let i = 0; i < messages.length; i++) {
+            this.add(i, messages[i].role, messages[i].content);
+        }
 
     }
 
@@ -652,10 +637,7 @@ function addOption(selectElement, value, text) {
     selectElement.appendChild(option);
 }
 
-// Fetch conversation options
-await gpt.fetch_conversations();
-
-// Editable checkbox (contenteditable="plaintext-only" -> contenteditable="false")
+// Editable checkbox
 const editableCheckbox = document.getElementById("editable");
 editableCheckbox.addEventListener("change", function () {
     const messagesDiv = document.getElementById("messages_div");
