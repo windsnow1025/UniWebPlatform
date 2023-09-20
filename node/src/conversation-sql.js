@@ -3,7 +3,7 @@ const util = require("util");
 
 // MySQL Connection Pool
 const pool = mysql.createPool({
-    host: "sql",
+    host: "mysql",
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE

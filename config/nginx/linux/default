@@ -22,15 +22,19 @@ server {
 
 	server_name <server_name>;
 
+	location / {
+		proxy_pass http://localhost:3000/;
+	}
+
+	location /api/ {
+		proxy_pass http://localhost:8000/;
+	}
+
 	location /api/gpt/ {
         proxy_pass http://localhost:5000/;
         proxy_buffering off;
         proxy_request_buffering off;
     }
-
-	location / {
-		proxy_pass http://localhost:3000/;
-	}
 
 }
 

@@ -11,18 +11,11 @@ const messageAPI = require('./message-api');
 const bookmarkAPI = require('./bookmark-api');
 const conversationAPI = require('./conversation-api');
 
-
 // HTTP
 const port = 3000;
 http.createServer(app.listen(port, () => {
     console.log(`Server listening at port ${port}...`);
 }));
-
-
-// Serve Static Files
-app.use(express.static('public'));
-app.use(express.static('dist'));
-
 
 // support parsing of application/json type post data
 app.use(bodyParser.json());
@@ -30,10 +23,9 @@ app.use(bodyParser.json());
 // support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 // Routers
-app.use('/api/auth', authAPI);
-app.use('/api/user', userAPI);
-app.use('/api/message', messageAPI);
-app.use('/api/bookmark', bookmarkAPI);
-app.use('/api/conversation', conversationAPI);
+app.use('/auth', authAPI);
+app.use('/user', userAPI);
+app.use('/message', messageAPI);
+app.use('/bookmark', bookmarkAPI);
+app.use('/conversation', conversationAPI);
