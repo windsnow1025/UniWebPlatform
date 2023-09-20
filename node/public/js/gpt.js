@@ -30,10 +30,18 @@ marked.setOptions({
 });
 
 class Message {
+    /**
+     * Constructor
+     * @param {string} role
+     * @param {string} content
+     * @param {HTMLElement} message_div
+     */
     constructor(role, content, message_div) {
         this.role = role;
         this.content = content;
+        /** @type {HTMLElement} */
         this.role_select = message_div.querySelector('select[name="role"]');
+        /** @type {HTMLElement} */
         this.content_div = message_div.querySelector('div[name="content"]');
         this.bind();
         this.render();
@@ -76,17 +84,24 @@ class Message {
 
 class GPT {
     constructor() {
+        /** @type {Array} */
         this.conversations = [];
+        /** @type {Message[]} */
         this.messages = [];
+        /** @type {HTMLElement} */
         this.status = document.getElementById("status");
+        /** @type {boolean[]} */
         this.wait_response = [];
+        /** @type {AbortController} */
         this.controller = null;
+        /** @type {string} */
         this.token = localStorage.getItem('token');
         this.clear_message_divs();
         this.add(0);
         this.fetch_conversations();
     }
 
+    // Serialize messages[] to JSON
     serializeMessages() {
         return JSON.stringify(this.messages.map(message => {
             return {
@@ -160,8 +175,8 @@ class GPT {
     // Generate Response
     async generate() {
         // If not logged in, return
-        const token = localStorage.getItem('token');
-        if (!token) {
+        this.token = localStorage.getItem('token');
+        if (!this.token) {
             alert("Please sign in first.");
             return;
         }
