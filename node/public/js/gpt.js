@@ -602,20 +602,16 @@ function updateModelOptions() {
     const selectedApiType = apiTypeSelect.value;
 
     // Add options based on the selected api_type
+    const open_ai_models = ["gpt-3.5-turbo", "gpt-3.5-turbo-0301", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k-0613", "gpt-4", "gpt-4-0314", "gpt-4-0613"];
+    const azure_models = ["gpt-35-turbo", "gpt-35-turbo-16k", "gpt-4", "gpt-4-32k"];
     if (selectedApiType === "open_ai") {
-        addOption(modelSelect, "gpt-3.5-turbo", "gpt-3.5-turbo");
-        addOption(modelSelect, "gpt-3.5-turbo-0301", "gpt-3.5-turbo-0301");
-        addOption(modelSelect, "gpt-3.5-turbo-0613", "gpt-3.5-turbo-0613");
-        addOption(modelSelect, "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k");
-        addOption(modelSelect, "gpt-3.5-turbo-16k-0613", "gpt-3.5-turbo-16k-0613");
-        addOption(modelSelect, "gpt-4", "gpt-4");
-        addOption(modelSelect, "gpt-4-0314", "gpt-4-0314");
-        addOption(modelSelect, "gpt-4-0613", "gpt-4-0613");
+        for (let i = 0; i < open_ai_models.length; i++) {
+            addOption(modelSelect, open_ai_models[i], open_ai_models[i]);
+        }
     } else if (selectedApiType === "azure") {
-        addOption(modelSelect, "gpt-35-turbo", "gpt-35-turbo");
-        addOption(modelSelect, "gpt-35-turbo-16k", "gpt-35-turbo-16k");
-        addOption(modelSelect, "gpt-4", "gpt-4");
-        addOption(modelSelect, "gpt-4-32k", "gpt-4-32k");
+        for (let i = 0; i < azure_models.length; i++) {
+            addOption(modelSelect, azure_models[i], azure_models[i]);
+        }
     }
 }
 
