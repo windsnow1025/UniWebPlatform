@@ -87,6 +87,15 @@ class GPT {
         this.fetch_conversations();
     }
 
+    serializeMessages() {
+        return JSON.stringify(this.messages.map(message => {
+            return {
+                role: message.role,
+                content: message.content
+            }
+        }));
+    }
+
     // Create and render message_div[] from messages[]
     clear_message_divs() {
         // Clear messages_div
@@ -166,12 +175,7 @@ class GPT {
         const stream_index = this.wait_response.length - 1;
 
         // Get parameters
-        const messages = JSON.stringify(this.messages.map(message => {
-            return {
-                role: message.role,
-                content: message.content
-            }
-        }));
+        const messages = this.serializeMessages();
         const api_type = document.getElementById("api_type").value;
         const model = document.getElementById("model").value;
         const temperature = document.getElementById("temperature").value;
@@ -361,12 +365,7 @@ class GPT {
     // Save the messages array as a JSON file
     download() {
         const fileName = 'messages.json';
-        const data = JSON.stringify(this.messages.map(message => {
-            return {
-                role: message.role,
-                content: message.content
-            }
-        }));
+        const data = this.serializeMessages();
         const blob = new Blob([data], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
 
@@ -447,12 +446,7 @@ class GPT {
 
         // Get name and conversation
         const name = document.getElementById("conversation-name").value;
-        const conversation = JSON.stringify(this.messages.map(message => {
-            return {
-                role: message.role,
-                content: message.content
-            }
-        }));
+        const conversation = this.serializeMessages();
         const data = {
             name: name,
             conversation: conversation
@@ -484,12 +478,7 @@ class GPT {
 
         // Get name and conversation
         const name = document.getElementById("conversation-name").value;
-        const conversation = JSON.stringify(this.messages.map(message => {
-            return {
-                role: message.role,
-                content: message.content
-            }
-        }));
+        const conversation = this.serializeMessages();
         const id = this.conversations[index].id;
         const data = {
             name: name,
