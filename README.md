@@ -72,25 +72,32 @@ echo \
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
+### React.js
+
+```bash
+cd FullStack-Web/react
+docker build -t react .
+```
+
 ### Node.js
 
 ```bash
 cd FullStack-Web/node
-docker build -t web .
+docker build -t node .
 ```
 
 ### Python Flask
 
 ```bash
 cd FullStack-Web/flask
-docker build -t pyweb .
+docker build -t flask .
 ```
 
 ### MySQL
 
 ```bash
 cd FullStack-Web/mysql
-docker build -t sql .
+docker build -t mysql .
 ```
 
 ### Docker Compose

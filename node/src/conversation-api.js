@@ -16,7 +16,7 @@ router.use(async (req, res, next) => {
 
         try {
             const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
-            const user = await axios.post("http://localhost:3000/api/user", {
+            const user = await axios.post("http://localhost:3000/user", {
                 data: { username: username }
             });
             req.user_id = user.data.id;

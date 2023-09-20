@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmarks</title>
+    <link rel="icon" href="../ico/bookmarks.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src="../js/time.js"></script>
+    <base target="_blank">
+</head>
+
+<body>
+<div class="Flex-space-around">
+    <div id="user"></div>
+    <div id="theme"></div>
+</div>
+<div class="search-container">
+    <input type="text" id="searchFirstTitle" placeholder="Search by First Title...">
+    <input type="text" id="searchSecondTitle" placeholder="Search by Second Title...">
+    <input type="text" id="searchUrl" placeholder="Search by URL...">
+    <input type="text" id="searchComment" placeholder="Search by Comment...">
+    <input type="text" id="searchInput" placeholder="Global Search...">
+</div>
+<table id="bookmarksTable">
+    <thead>
+    <tr>
+        <th>First Title</th>
+        <th>Second Title</th>
+        <th>URL</th>
+        <th>Comment</th>
+        <th>Link</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr id="addBookmarkRow">
+        <td contenteditable="plaintext-only"></td>
+        <td contenteditable="plaintext-only"></td>
+        <td contenteditable="plaintext-only"></td>
+        <td contenteditable="plaintext-only"></td>
+        <td></td>
+        <td><button id="addButton">Add</button></td>
+    </tr>
+    </tbody>
+</table>
+<div class="hide">
+    <table>
+        <tr name="bookmarkRow">
+            <td name="firstTitle"></td>
+            <td name="secondTitle"></td>
+            <td name="url" class="word-break"></td>
+            <td name="comment"></td>
+            <td name="link"><a></a></td>
+            <td>
+                <button name="editButton">Edit</button>
+                <button name="deleteButton">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="/bookmarks.min.js"></script>
+<div id="TimeScript" class="align-right"></div>
+</body>
