@@ -223,7 +223,7 @@ class GPT {
                 content = content.replace("<", "&lt;").replace(">", "&gt;");
 
                 // Update the last message div
-                this.add(this.messages.length, "assistant", content, false, false);
+                this.add(this.messages.length, "assistant", content, true);
 
                 // Add a new message div
                 this.add(this.messages.length);
@@ -274,7 +274,7 @@ class GPT {
                 const reader = response.body.getReader();
                 const processedStream = new ReadableStream({
                     async start(controller) {
-                        gpt.add(gpt.messages.length, "assistant", "", false, false);
+                        gpt.add(gpt.messages.length, "assistant", "", true);
                         await processChunk(reader, controller);
                     },
                 }, {signal: this.controller.signal});
@@ -322,15 +322,17 @@ class GPT {
     }
 
     // Add a new message at index
-    add(index, role = "user", content = "", abort = true, focus = true) {
+    add(index, role = "user", content = "", generating = false) {
         // Abort controller
-        if (this.controller && abort) {
+        if (this.controller && !generating) {
             this.controller.abort();
         }
 
         // Set status to ready
-        this.status.innerHTML = "Ready";
-        document.getElementById("generate").innerHTML = "Generate";
+        if (!generating) {
+            this.status.innerHTML = "Ready";
+            document.getElementById("generate").innerHTML = "Generate";
+        }
 
         // Get the template message div and clone it
         const template_message_div = document.querySelector('div[name="message_div"]');
@@ -347,8 +349,9 @@ class GPT {
         }
 
         // Focus on the new message div
-        if (focus)
+        if (!generating) {
             this.focus(index);
+        }
     }
 
     // Delete the message at index
