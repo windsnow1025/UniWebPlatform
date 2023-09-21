@@ -17,13 +17,6 @@ function applyMainTheme(theme) {
         body.classList.add("light-theme");
     } else if (theme === "dark") {
         body.classList.add("dark-theme");
-    } else {
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-        if (prefersDarkScheme.matches) {
-            body.classList.add("dark-theme");
-        } else {
-            body.classList.add("light-theme");
-        }
     }
 }
 
@@ -53,19 +46,6 @@ function applyMarkdownTheme(theme) {
         lightCss.setAttribute('rel', 'stylesheet');
         lightCss.setAttribute('href', '/css/markdown/github-markdown-light.css');
         document.head.appendChild(lightCss);
-    } else {
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-        if (prefersDarkScheme.matches) {
-            const darkCss = document.createElement('link');
-            darkCss.setAttribute('rel', 'stylesheet');
-            darkCss.setAttribute('href', '/css/markdown/github-markdown-dark.css');
-            document.head.appendChild(darkCss);
-        } else {
-            const lightCss = document.createElement('link');
-            lightCss.setAttribute('rel', 'stylesheet');
-            lightCss.setAttribute('href', '/css/markdown/github-markdown-light.css');
-            document.head.appendChild(lightCss);
-        }
     }
 }
 
@@ -95,28 +75,33 @@ function applyHighlightTheme(theme) {
         lightCss.setAttribute('rel', 'stylesheet');
         lightCss.setAttribute('href', '/css/highlight/github.css');
         document.head.appendChild(lightCss);
-    } else {
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-        if (prefersDarkScheme.matches) {
-            const darkCss = document.createElement('link');
-            darkCss.setAttribute('rel', 'stylesheet');
-            darkCss.setAttribute('href', '/css/highlight/github-dark.css');
-            document.head.appendChild(darkCss);
-        } else {
-            const lightCss = document.createElement('link');
-            lightCss.setAttribute('rel', 'stylesheet');
-            lightCss.setAttribute('href', '/css/highlight/github.css');
-            document.head.appendChild(lightCss);
-        }
     }
 }
 
-export function applyTheme(theme) {
+export function convertTheme(systemTheme) {
+    let theme;
+    if (systemTheme === "light") {
+        theme = "light";
+    } else if (systemTheme === "dark") {
+        theme = "dark";
+    } else {
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+        if (prefersDarkScheme.matches) {
+            theme = "dark";
+        } else {
+            theme = "light";
+        }
+    }
+    return theme;
+}
+
+export function applyTheme(systemTheme) {
     /**
      * Apply the theme to the page
      * @param {string} theme - system / light / dark
      * @returns {void}
      */
+    const theme = convertTheme(systemTheme);
     applyMainTheme(theme);
     applyMarkdownTheme(theme);
     applyHighlightTheme(theme);
@@ -137,6 +122,18 @@ export async function initializeTheme() {
     // Get theme from local storage
     const localStorageTheme = localStorage.getItem("theme");
 
+    // Convert theme
+    const theme = convertTheme(localStorageTheme);
+
     // Apply the theme
-    applyTheme(localStorageTheme);
+    applyTheme(theme);
+}
+
+import {createTheme} from "@mui/material/styles";
+export function applyMUITheme(theme) {
+    return createTheme({
+        palette: {
+            mode: theme === 'dark' ? 'dark' : 'light',
+        },
+    });
 }
