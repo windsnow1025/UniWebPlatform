@@ -133,7 +133,7 @@ import {createTheme} from "@mui/material/styles";
 export function applyMUITheme(theme) {
     return createTheme({
         palette: {
-            mode: theme === 'dark' ? 'dark' : 'light',
+            mode: theme,
         },
     });
 }

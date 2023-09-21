@@ -1,5 +1,4 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import React, { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -11,7 +10,7 @@ const systemTheme = localStorage.getItem("theme");
 const theme = convertTheme(systemTheme);
 const MUITheme = applyMUITheme(theme);
 
-function Select() {
+function SelectApp() {
     const [options, setOptions] = useState([
         { label: 'Option 1', value: 'option1' },
         { label: 'Option 2', value: 'option2' },
@@ -23,7 +22,7 @@ function Select() {
     };
 
     return (
-        <div>
+        <ThemeProvider theme={MUITheme}>
             <Autocomplete
                 options={options}
                 getOptionLabel={(option) => option.label}
@@ -40,17 +39,6 @@ function Select() {
                     </li>
                 )}
             />
-        </div>
-    );
-}
-
-function SelectApp() {
-    return (
-        <ThemeProvider theme={MUITheme}>
-            <CssBaseline />
-            <main>
-                <Select />
-            </main>
         </ThemeProvider>
     );
 }
