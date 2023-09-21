@@ -10,9 +10,16 @@ import {init} from './auth.js';
 await init();
 
 // Theme
-import {initializeTheme} from './theme.js';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import ThemeSelect from './theme.js';
 
-initializeTheme();
+const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
+theme_div.render(
+    <React.StrictMode>
+        <ThemeSelect />
+    </React.StrictMode>
+);
 
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -655,8 +662,6 @@ editableCheckbox.addEventListener("change", function () {
     }
 });
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
 import Select from './select.js';
 
 const select_div = ReactDOM.createRoot(document.getElementById('select'));

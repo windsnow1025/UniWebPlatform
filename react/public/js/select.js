@@ -4,11 +4,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { convertTheme, applyMUITheme } from './theme';
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+    }
+});
 
-const systemTheme = localStorage.getItem("theme");
-const theme = convertTheme(systemTheme);
-const MUITheme = applyMUITheme(theme);
 
 function Select() {
     const [options, setOptions] = useState([
@@ -22,7 +23,7 @@ function Select() {
     };
 
     return (
-        <ThemeProvider theme={MUITheme}>
+        <ThemeProvider theme={theme}>
             <Autocomplete
                 options={options}
                 getOptionLabel={(option) => option.label}
