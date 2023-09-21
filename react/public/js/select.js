@@ -10,7 +10,7 @@ const systemTheme = localStorage.getItem("theme");
 const theme = convertTheme(systemTheme);
 const MUITheme = applyMUITheme(theme);
 
-function SelectApp() {
+function Select() {
     const [options, setOptions] = useState([
         { label: 'Option 1', value: 'option1' },
         { label: 'Option 2', value: 'option2' },
@@ -43,4 +43,4 @@ function SelectApp() {
     );
 }
 
-export default SelectApp;
+export default Select;
