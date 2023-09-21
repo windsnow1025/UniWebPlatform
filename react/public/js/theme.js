@@ -98,9 +98,10 @@ export function convertTheme(systemTheme) {
 export function applyTheme(systemTheme) {
     /**
      * Apply the theme to the page
-     * @param {string} theme - system / light / dark
+     * @param {string} systemTheme - system / light / dark
      * @returns {void}
      */
+    /** @type {string} theme - light / dark */
     const theme = convertTheme(systemTheme);
     applyMainTheme(theme);
     applyMarkdownTheme(theme);
@@ -112,21 +113,20 @@ export async function initializeTheme() {
     // Add theme html
     await setThemeHtml();
 
-    // Listen for theme change
+    // Get theme from local storage and apply it
+    const theme = localStorage.getItem("theme");
+    applyTheme(theme);
+
+    // Set theme select value and add event listener
     const themeSelect = document.getElementById("themeSelect");
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    if ((theme === "light" && prefersDarkScheme.matches) || (theme === "dark" && !prefersDarkScheme.matches)) {
+        themeSelect.value = theme;
+    }
     themeSelect.addEventListener("change", (event) => {
         const selectedTheme = event.target.value;
         applyTheme(selectedTheme);
     });
-
-    // Get theme from local storage
-    const localStorageTheme = localStorage.getItem("theme");
-
-    // Convert theme
-    const theme = convertTheme(localStorageTheme);
-
-    // Apply the theme
-    applyTheme(theme);
 }
 
 import {createTheme} from "@mui/material/styles";

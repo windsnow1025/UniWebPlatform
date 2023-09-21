@@ -657,11 +657,11 @@ editableCheckbox.addEventListener("change", function () {
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import SelectApp from './select.js';
+import Select from './select.js';
 
 const select_div = ReactDOM.createRoot(document.getElementById('select'));
 select_div.render(
     <React.StrictMode>
-        <SelectApp />
+        <Select />
     </React.StrictMode>
 );
