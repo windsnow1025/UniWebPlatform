@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { convertTheme } from "./theme";
 
 function Select() {
     const [options, setOptions] = useState([
@@ -10,18 +11,6 @@ function Select() {
         { label: 'Option 2', value: 'option2' },
         { label: 'Option 3', value: 'option3' },
     ]);
-
-    const convertTheme = (systemTheme) => {
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-        if (systemTheme !== "system") {
-            return systemTheme;
-        }
-        if (prefersDarkScheme.matches) {
-            return "dark";
-        } else if (!prefersDarkScheme.matches) {
-            return "light";
-        }
-    }
 
     const [muiTheme, setMuiTheme] = useState(createTheme({
         palette: {

@@ -1,7 +1,16 @@
+// Auth
 import {init} from "./auth";
 
 await init();
 
-import {initializeTheme} from "./theme";
+// Theme
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import ThemeSelect from './ThemeSelect.js';
 
-initializeTheme();
+const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
+theme_div.render(
+    <React.StrictMode>
+        <ThemeSelect />
+    </React.StrictMode>
+);
