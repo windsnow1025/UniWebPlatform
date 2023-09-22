@@ -104,8 +104,21 @@ class GPT {
         /** @type {string} */
         this.token = localStorage.getItem('token');
         this.clear_message_divs();
-        this.add(0);
-        this.fetch_display_conversations();
+        const system_content = this.getSystemContent();
+        this.add(0, "system", system_content);
+        this.add(1);
+        this.fetch_conversations();
+    }
+
+    getSystemContent() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are 0-based in JavaScript
+        const day = ("0" + date.getDate()).slice(-2);
+        const currentDate = `${year}-${month}-${day}`;
+        return "You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\n" +
+            "Knowledge cutoff: 2022-01\n" +
+            "Current date: " + currentDate;
     }
 
     // Serialize messages[] to JSON
