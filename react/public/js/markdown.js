@@ -24,8 +24,7 @@ marked.setOptions({
 
 function getFileName() {
     const urlParams = new URLSearchParams(window.location.search);
-    const filename = urlParams.get('filename');
-    return filename;
+    return urlParams.get('filename');
 }
 
 function setTitle(filename) {
@@ -33,22 +32,20 @@ function setTitle(filename) {
 }
 
 async function parseMarkdown(filename) {
-    await axios.get('../markdown/' + filename).then(response => {
-        markdown = response.data;
-        markdown = marked.parse(markdown);
-    }).catch(function (error) {
-        console.log(error);
-    });
+    try {
+        const response = await axios.get('../markdown/' + filename);
+        return marked.parse(response.data);
+    } catch (error) {
+        return error;
+    }
 }
 
 async function process() {
-    var filename = getFileName();
+    const filename = getFileName();
     setTitle(filename);
-    await parseMarkdown(filename);
-    var markdown_div = document.getElementById('markdown');
+    const markdown = await parseMarkdown(filename);
+    const markdown_div = document.getElementById('markdown');
     markdown_div.innerHTML = markdown;
 }
 
-
-var markdown;
-process();
+await process();
