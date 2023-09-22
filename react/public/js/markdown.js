@@ -3,7 +3,7 @@ import { marked } from 'marked';
 import hljs from 'highlight.js';
 import '../css/markdown.css';
 
-import {applyTheme} from "./theme";
+import { applyTheme } from "./theme.js";
 const theme = localStorage.getItem("theme");
 applyTheme(theme);
 

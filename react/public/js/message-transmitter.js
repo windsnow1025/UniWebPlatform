@@ -1,8 +1,16 @@
 import axios from "axios";
 
 // Theme
-import { initializeTheme } from './theme.js';
-initializeTheme();
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import ThemeSelect from './ThemeSelect.js';
+
+const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
+theme_div.render(
+    <React.StrictMode>
+        <ThemeSelect />
+    </React.StrictMode>
+);
 
 class MessageTransmitter {
     constructor() {
