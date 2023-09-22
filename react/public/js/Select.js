@@ -4,13 +4,10 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { convertTheme } from "./theme";
+import axios from "axios";
 
 function Select() {
-    const [options, setOptions] = useState([
-        { label: 'Option 1', value: 'option1' },
-        { label: 'Option 2', value: 'option2' },
-        { label: 'Option 3', value: 'option3' },
-    ]);
+    const [options, setOptions] = useState([]);
 
     const [muiTheme, setMuiTheme] = useState(createTheme({
         palette: {
@@ -35,6 +32,23 @@ function Select() {
             window.removeEventListener('themeChanged', handleThemeChange);
         };
     }, []);
+
+    useEffect(() => {
+        fetch_conversations();
+    });
+
+    async function fetch_conversations() {
+        try {
+            const res = await axios.get('/api/conversation/', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setOptions(res.data.map(conversation => ({ label: conversation.name, value: conversation.id })));
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     const handleDelete = (optionToDelete) => {
         setOptions(options.filter((option) => option !== optionToDelete));
