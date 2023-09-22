@@ -105,7 +105,7 @@ class GPT {
         this.token = localStorage.getItem('token');
         this.clear_message_divs();
         this.add(0);
-        this.fetch_conversations();
+        this.fetch_display_conversations();
     }
 
     // Serialize messages[] to JSON
@@ -438,7 +438,6 @@ class GPT {
     }
 
     async fetch_conversations() {
-        // Fetch conversations
         try {
             const res = await axios.get('/api/conversation/', {
                 headers: {
@@ -446,6 +445,15 @@ class GPT {
                 }
             });
             this.conversations = res.data;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async fetch_display_conversations() {
+        // Fetch conversations
+        try {
+            await this.fetch_conversations();
             this.status.innerHTML = "Conversations loaded.";
         } catch (err) {
             this.status.innerHTML = "Error loading conversations.";
@@ -490,7 +498,7 @@ class GPT {
         this.status.innerHTML = "Uploaded";
 
         // Fetch conversations
-        await this.fetch_conversations();
+        await this.fetch_display_conversations();
 
     }
 
@@ -524,7 +532,7 @@ class GPT {
         this.status.innerHTML = "Updated";
 
         // Fetch conversations
-        await this.fetch_conversations();
+        await this.fetch_display_conversations();
     }
 
     cloudDownload() {
@@ -564,7 +572,7 @@ class GPT {
         this.status.innerHTML = "Deleted";
 
         // Fetch conversations
-        await this.fetch_conversations();
+        await this.fetch_display_conversations();
     }
 }
 
