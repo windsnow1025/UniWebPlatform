@@ -8,8 +8,13 @@ const ThemeSelect = () => {
     }, [theme]);
 
     const handleThemeChange = (event) => {
-        setTheme(event.target.value);
-        localStorage.setItem('theme', event.target.value);
+        const newTheme = event.target.value;
+        localStorage.setItem('theme', newTheme);
+        setTheme(newTheme);
+
+        // Dispatch custom event
+        const themeChangeEvent = new Event('themeChanged');
+        window.dispatchEvent(themeChangeEvent);
     };
 
     const applyTheme = (systemTheme) => {
