@@ -662,7 +662,7 @@ editableCheckbox.addEventListener("change", function () {
     }
 });
 
-import Select from './select.js';
+import Select from './Select.js';
 
 const select_div = ReactDOM.createRoot(document.getElementById('select'));
 select_div.render(
