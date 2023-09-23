@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { ThemeContext } from './ThemeContext';
-import ThemeSelect from './ThemeSelect';
 import ConversationsSelect from './ConversationsSelect';
 
 function ConversationsSelectApp() {
@@ -11,7 +10,6 @@ function ConversationsSelectApp() {
 
         const handleThemeChange = (event) => {
             const theme = event.detail;
-            console.log('theme', theme)
             setTheme(theme);
         };
 
