@@ -566,7 +566,15 @@ class GPT {
 
     }
 
-    async cloudDelete() {
+    async cloudDelete(index) {
+        await axios.delete(`/api/conversation/${this.conversations[index].id}`, {
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
+    }
+
+    async cloud_delete_display() {
         // Set status to deleting
         this.status.innerHTML = "Deleting";
 
@@ -574,11 +582,7 @@ class GPT {
         const index = document.getElementById("conversations").selectedIndex;
 
         // Delete from cloud
-        await axios.delete(`/api/conversation/${this.conversations[index].id}`, {
-            headers: {
-                Authorization: `Bearer ${this.token}`
-            }
-        });
+        await this.cloudDelete(index);
 
         // Set status to deleted
         this.status.innerHTML = "Deleted";
@@ -613,7 +617,7 @@ uploadButton.onclick = gpt.upload.bind(gpt);
 CloudUploadButton.onclick = gpt.cloudUpload.bind(gpt);
 CloudUpdateButton.onclick = gpt.cloudUpdate.bind(gpt);
 CloudDownloadButton.onclick = gpt.cloudDownload.bind(gpt);
-CloudDeleteButton.onclick = gpt.cloudDelete.bind(gpt);
+CloudDeleteButton.onclick = gpt.cloud_delete_display.bind(gpt);
 
 // Bind Ctrl+Enter to generate
 document.addEventListener('keydown', function (event) {

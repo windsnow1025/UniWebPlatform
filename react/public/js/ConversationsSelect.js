@@ -12,15 +12,17 @@ function ConversationsSelect(props) {
         window.addEventListener('themeChanged', handleThemeChange);
     }, []);
 
+    const gpt = props.gpt;
     const [options, setOptions] = useState([]);
 
     useEffect(() => {
-        console.log(props.gpt)
-        setOptions(props.gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
+        setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     }, []);
 
-    const handleDelete = (optionToDelete) => {
-        setOptions(options.filter((option) => option !== optionToDelete));
+    const handleDelete = async (index) => {
+        await gpt.cloudDelete(index);
+        console.log(gpt);
+        setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     };
 
     return (
