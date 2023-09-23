@@ -1,0 +1,7 @@
+.deleteIcon {
+    margin-left: auto;
+}
+
+.deleteIcon:hover {
+    color: red;
+}
