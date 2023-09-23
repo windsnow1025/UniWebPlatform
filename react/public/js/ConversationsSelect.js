@@ -21,7 +21,7 @@ function ConversationsSelect(props) {
 
     const handleDelete = async (index) => {
         await gpt.cloudDelete(index);
-        console.log(gpt);
+        await gpt.fetch_conversations();
         setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     };
 
