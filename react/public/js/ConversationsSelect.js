@@ -1,28 +1,19 @@
 import { ThemeProvider } from '@mui/material/styles';
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from "axios";
-import { ThemeContext } from "./ThemeContext";
+import { getInitMUITheme } from "./theme";
 import Select from './Select';
 
 function ConversationsSelect() {
-    const [options, setOptions] = useState([]);
-
-    const initTheme = useContext(ThemeContext);
-    const [theme, setTheme] = useState(initTheme);
-
+    const [theme, setTheme] = useState(getInitMUITheme());
     useEffect(() => {
         const handleThemeChange = (event) => {
-            const theme = event.detail;
-            setTheme(theme);
+            setTheme(event.detail);
         };
-
-        // Listen for custom event
         window.addEventListener('themeChanged', handleThemeChange);
-
-        return () => {
-            window.removeEventListener('themeChanged', handleThemeChange);
-        };
     }, []);
+
+    const [options, setOptions] = useState([]);
 
     useEffect(() => {
         fetch_conversations();
