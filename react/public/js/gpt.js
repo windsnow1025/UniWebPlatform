@@ -462,29 +462,6 @@ class GPT {
         }
     }
 
-    async fetch_display_conversations() {
-        // Fetch conversations
-        try {
-            await this.fetch_conversations();
-            this.status.innerHTML = "Conversations loaded.";
-        } catch (err) {
-            this.status.innerHTML = "Error loading conversations.";
-            return;
-        }
-
-        // Clear conversations options
-        const conversationsSelect = document.getElementById("conversations");
-        conversationsSelect.innerHTML = "";
-
-        // Add options
-        for (let i = 0; i < this.conversations.length; i++) {
-            const option = document.createElement("option");
-            option.value = this.conversations[i]["name"];
-            option.text = this.conversations[i]["name"];
-            conversationsSelect.appendChild(option);
-        }
-    }
-
     async cloudUpload() {
         // Set status to uploading
         this.status.innerHTML = "Uploading";
@@ -510,7 +487,7 @@ class GPT {
         this.status.innerHTML = "Uploaded";
 
         // Fetch conversations
-        await this.fetch_display_conversations();
+        await this.fetch_conversations();
 
     }
 
@@ -544,18 +521,12 @@ class GPT {
         this.status.innerHTML = "Updated";
 
         // Fetch conversations
-        await this.fetch_display_conversations();
+        await this.fetch_conversations();
     }
 
-    cloudDownload() {
-        // Get the selected conversation index
-        const index = document.getElementById("conversations").selectedIndex;
-
+    setConversation(index) {
         // Get the conversation
         const messages = JSON.parse(this.conversations[index].conversation);
-
-        // Set the conversation name
-        document.getElementById("conversation-name").value = this.conversations[index].name;
 
         // Re-render the messages div
         this.clear_message_divs();
@@ -563,7 +534,6 @@ class GPT {
         for (let i = 0; i < messages.length; i++) {
             this.add(i, messages[i].role, messages[i].content);
         }
-
     }
 
     async cloudDelete(index) {
@@ -572,23 +542,6 @@ class GPT {
                 Authorization: `Bearer ${this.token}`
             }
         });
-    }
-
-    async cloud_delete_display() {
-        // Set status to deleting
-        this.status.innerHTML = "Deleting";
-
-        // Get the selected conversation index
-        const index = document.getElementById("conversations").selectedIndex;
-
-        // Delete from cloud
-        await this.cloudDelete(index);
-
-        // Set status to deleted
-        this.status.innerHTML = "Deleted";
-
-        // Fetch conversations
-        await this.fetch_display_conversations();
     }
 }
 
@@ -600,8 +553,6 @@ const downloadButton = document.getElementById("download");
 const uploadButton = document.getElementById("upload");
 const CloudUploadButton = document.getElementById("cloud-upload");
 const CloudUpdateButton = document.getElementById("cloud-update");
-const CloudDownloadButton = document.getElementById("cloud-download");
-const CloudDeleteButton = document.getElementById("cloud-delete");
 
 // Bind buttons
 generateButton.onclick = function () {
@@ -616,8 +567,6 @@ downloadButton.onclick = gpt.download.bind(gpt);
 uploadButton.onclick = gpt.upload.bind(gpt);
 CloudUploadButton.onclick = gpt.cloudUpload.bind(gpt);
 CloudUpdateButton.onclick = gpt.cloudUpdate.bind(gpt);
-CloudDownloadButton.onclick = gpt.cloudDownload.bind(gpt);
-CloudDeleteButton.onclick = gpt.cloud_delete_display.bind(gpt);
 
 // Bind Ctrl+Enter to generate
 document.addEventListener('keydown', function (event) {
@@ -686,7 +635,7 @@ editableCheckbox.addEventListener("change", function () {
     }
 });
 
-await gpt.fetch_display_conversations();
+await gpt.fetch_conversations();
 
 import ConversationsSelect from './ConversationsSelect.js';
 

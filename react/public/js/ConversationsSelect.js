@@ -19,6 +19,10 @@ function ConversationsSelect(props) {
         setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     }, []);
 
+    const handleOptionClick = async (index) => {
+        await gpt.setConversation(index);
+    }
+
     const handleDelete = async (index) => {
         await gpt.cloudDelete(index);
         await gpt.fetch_conversations();
@@ -27,7 +31,12 @@ function ConversationsSelect(props) {
 
     return (
         <ThemeProvider theme={theme}>
-            <Select options={options} handleDelete={handleDelete} />
+            <Select
+                options={options}
+                label={"Select a conversation"}
+                handleOptionClick={handleOptionClick}
+                handleDelete={handleDelete}
+            />
         </ThemeProvider>
     );
 }
