@@ -12,10 +12,6 @@ const ThemeSelect = () => {
         const newTheme = event.target.value;
         localStorage.setItem('theme', newTheme);
         setTheme(newTheme);
-
-        // Dispatch custom event
-        const themeChangeEvent = new Event('themeChanged');
-        window.dispatchEvent(themeChangeEvent);
     };
 
     return (
