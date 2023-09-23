@@ -107,7 +107,7 @@ class GPT {
         const system_content = this.getSystemContent();
         this.add(0, "system", system_content);
         this.add(1);
-        this.fetch_conversations();
+        this.fetch_display_conversations();
     }
 
     getSystemContent() {
@@ -683,11 +683,11 @@ editableCheckbox.addEventListener("change", function () {
     }
 });
 
-import Select from './Select.js';
+import ConversationsSelect from './ConversationsSelect.js';
 
 const select_div = ReactDOM.createRoot(document.getElementById('select'));
 select_div.render(
     <React.StrictMode>
-        <Select />
+        <ConversationsSelect />
     </React.StrictMode>
 );

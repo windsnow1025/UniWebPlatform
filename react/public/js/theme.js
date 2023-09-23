@@ -88,4 +88,4 @@ function applyHighlightTheme (theme) {
         lightCss.setAttribute('href', '/css/highlight/github.css');
         document.head.appendChild(lightCss);
     }
-};
+}
