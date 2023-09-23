@@ -11,12 +11,12 @@ function Select({ options, handleDelete }) {
             renderInput={(params) => (
                 <TextField {...params} label="Select an option" variant="outlined" style={{ width: '300px' }} />
             )}
-            renderOption={(props, option) => (
+            renderOption={(props, option, state) => (
                 <li {...props}>
                     {option.label}
                     <DeleteIcon
                         style={{ marginLeft: 'auto', cursor: 'pointer' }}
-                        onClick={() => handleDelete(option)}
+                        onClick={() => handleDelete(state.index)}
                     />
                 </li>
             )}
