@@ -1,9 +1,12 @@
+import {createTheme} from "@mui/material/styles";
+
 export function applyTheme (systemTheme) {
     localStorage.setItem("theme", systemTheme);
     const theme = convertTheme(systemTheme);
     applyMainTheme(theme);
     applyMarkdownTheme(theme);
     applyHighlightTheme(theme);
+    applyMuiTheme(theme);
 }
 
 export function convertTheme (systemTheme) {
@@ -88,4 +91,16 @@ function applyHighlightTheme (theme) {
         lightCss.setAttribute('href', '/css/highlight/github.css');
         document.head.appendChild(lightCss);
     }
+}
+
+function applyMuiTheme(theme) {
+    const muiTheme = createTheme({
+        palette: {
+            mode: theme,
+        },
+    });
+
+    // Dispatch custom event with the new theme
+    const themeChangeEvent = new CustomEvent('themeChanged', { detail: muiTheme });
+    window.dispatchEvent(themeChangeEvent);
 }

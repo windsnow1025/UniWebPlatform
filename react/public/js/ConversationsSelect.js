@@ -1,35 +1,13 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import React, { useState, useEffect } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import React, {useState, useEffect, useContext} from 'react';
 import axios from "axios";
-import { convertTheme } from "./theme";
+import { ThemeContext } from "./ThemeContext";
 import Select from './Select';
 
 function ConversationsSelect() {
     const [options, setOptions] = useState([]);
 
-    const [muiTheme, setMuiTheme] = useState(createTheme({
-        palette: {
-            mode: convertTheme(localStorage.getItem('theme')),
-        }
-    }));
-
-    useEffect(() => {
-        const handleThemeChange = () => {
-            const newTheme = createTheme({
-                palette: {
-                    mode: convertTheme(localStorage.getItem('theme')),
-                },
-            });
-            setMuiTheme(newTheme);
-        };
-
-        // Listen for custom event
-        window.addEventListener('themeChanged', handleThemeChange);
-
-        return () => {
-            window.removeEventListener('themeChanged', handleThemeChange);
-        };
-    }, []);
+    const muiTheme = useContext(ThemeContext);
 
     useEffect(() => {
         fetch_conversations();
