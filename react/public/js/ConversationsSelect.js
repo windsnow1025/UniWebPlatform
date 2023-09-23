@@ -7,7 +7,22 @@ import Select from './Select';
 function ConversationsSelect() {
     const [options, setOptions] = useState([]);
 
-    const muiTheme = useContext(ThemeContext);
+    const initTheme = useContext(ThemeContext);
+    const [theme, setTheme] = useState(initTheme);
+
+    useEffect(() => {
+        const handleThemeChange = (event) => {
+            const theme = event.detail;
+            setTheme(theme);
+        };
+
+        // Listen for custom event
+        window.addEventListener('themeChanged', handleThemeChange);
+
+        return () => {
+            window.removeEventListener('themeChanged', handleThemeChange);
+        };
+    }, []);
 
     useEffect(() => {
         fetch_conversations();
@@ -31,7 +46,7 @@ function ConversationsSelect() {
     };
 
     return (
-        <ThemeProvider theme={muiTheme}>
+        <ThemeProvider theme={theme}>
             <Select options={options} handleDelete={handleDelete} />
         </ThemeProvider>
     );
