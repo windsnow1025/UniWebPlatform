@@ -683,11 +683,11 @@ editableCheckbox.addEventListener("change", function () {
     }
 });
 
-import ConversationsSelectApp from './ConversationsSelectApp.js';
+import ConversationsSelect from './ConversationsSelect.js';
 
 const select_div = ReactDOM.createRoot(document.getElementById('select'));
 select_div.render(
     <React.StrictMode>
-        <ConversationsSelectApp />
+        <ConversationsSelect />
     </React.StrictMode>
 );
