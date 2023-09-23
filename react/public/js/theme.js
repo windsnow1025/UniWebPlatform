@@ -104,3 +104,13 @@ function applyMuiTheme(theme) {
     const themeChangeEvent = new CustomEvent('themeChanged', { detail: muiTheme });
     window.dispatchEvent(themeChangeEvent);
 }
+
+export function getInitMUITheme() {
+    const systemTheme = localStorage.getItem('theme') || 'system';
+    const theme = convertTheme(systemTheme);
+    return createTheme({
+        palette: {
+            mode: theme,
+        }
+    });
+}
