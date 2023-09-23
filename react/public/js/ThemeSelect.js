@@ -9,9 +9,9 @@ const ThemeSelect = () => {
     }, [theme]);
 
     const handleThemeChange = (event) => {
-        const newTheme = event.target.value;
-        localStorage.setItem('theme', newTheme);
-        setTheme(newTheme);
+        const theme = event.target.value;
+        localStorage.setItem('theme', theme);
+        setTheme(theme);
     };
 
     return (

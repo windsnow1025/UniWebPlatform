@@ -25,7 +25,6 @@ function ConversationsSelectApp() {
 
     return (
         <ThemeContext.Provider value={theme}>
-            <ThemeSelect />
             <ConversationsSelect />
         </ThemeContext.Provider>
     );
