@@ -29,6 +29,12 @@ function ConversationsSelect(props) {
         setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     };
 
+    const handleAdd = async (value) => {
+        await gpt.cloudUpload(value);
+        await gpt.fetch_conversations();
+        setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Select
