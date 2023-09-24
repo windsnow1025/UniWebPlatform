@@ -6,7 +6,7 @@ A full stack web application for my personal website containing static blogs, a 
 
 ## Tech Stack
 
-Front End: Node.js + Webpack
+Front End: Node.js: Express, Webpack, Axios, React
 
 Back End: Node.js Express + Python Flask + MySQL + Nginx
 
@@ -72,28 +72,28 @@ echo \
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-### React.js
+### Front End - React.js
 
 ```bash
 cd FullStack-Web/react
 docker build -t react .
 ```
 
-### Node.js
+### Back End - Node.js
 
 ```bash
 cd FullStack-Web/node
 docker build -t node .
 ```
 
-### Python Flask
+### Back End - Python Flask
 
 ```bash
 cd FullStack-Web/flask
 docker build -t flask .
 ```
 
-### MySQL
+### Back End - MySQL
 
 ```bash
 cd FullStack-Web/mysql
