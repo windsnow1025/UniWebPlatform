@@ -462,7 +462,25 @@ class GPT {
         }
     }
 
-    async cloudUpload() {
+    async cloudUpload(name) {
+        // Prepare data
+        const conversation = this.serializeMessages();
+        const data = {
+            name: name,
+            conversation: conversation
+        };
+
+        // Upload to cloud
+        await axios.post("/api/conversation/", {
+            data: data
+        }, {
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
+    }
+
+    async cloud_upload_deprecated() {
         // Set status to uploading
         this.status.innerHTML = "Uploading";
 
@@ -488,7 +506,6 @@ class GPT {
 
         // Fetch conversations
         await this.fetch_conversations();
-
     }
 
     async cloudUpdate() {
@@ -565,7 +582,7 @@ generateButton.onclick = function () {
 }
 downloadButton.onclick = gpt.download.bind(gpt);
 uploadButton.onclick = gpt.upload.bind(gpt);
-CloudUploadButton.onclick = gpt.cloudUpload.bind(gpt);
+CloudUploadButton.onclick = gpt.cloud_upload_deprecated.bind(gpt);
 CloudUpdateButton.onclick = gpt.cloudUpdate.bind(gpt);
 
 // Bind Ctrl+Enter to generate
