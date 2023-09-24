@@ -42,6 +42,7 @@ function ConversationsSelect(props) {
                 label={"Select a conversation"}
                 handleOptionClick={handleOptionClick}
                 handleDelete={handleDelete}
+                handleAdd={handleAdd}
             />
         </ThemeProvider>
     );

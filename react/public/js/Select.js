@@ -6,7 +6,7 @@ import '../css/react-style.css';
 
 const filter = createFilterOptions();
 
-function Select({ options, label, handleOptionClick, handleDelete}) {
+function Select({ options, label, handleOptionClick, handleDelete, handleAdd }) {
     const [value, setValue] = useState(null);
 
     const handleDeleteClick = (event, index) => {
@@ -18,17 +18,7 @@ function Select({ options, label, handleOptionClick, handleDelete}) {
         <Autocomplete
             value={value}
             onChange={(event, newValue) => {
-                if (typeof newValue === 'string') {
-                    setValue({
-                        label: newValue,
-                    });
-                } else if (newValue && newValue.inputValue) {
-                    setValue({
-                        label: newValue.inputValue,
-                    });
-                } else {
-                    setValue(newValue);
-                }
+                setValue(newValue);
             }}
             filterOptions={(options, params) => {
                 const filtered = filter(options, params);
@@ -39,6 +29,7 @@ function Select({ options, label, handleOptionClick, handleDelete}) {
                     filtered.push({
                         inputValue,
                         label: `Add "${inputValue}"`,
+                        isNew: true,
                     });
                 }
 
@@ -58,9 +49,15 @@ function Select({ options, label, handleOptionClick, handleDelete}) {
                 return option.label;
             }}
             renderOption={(props, option, state) => (
-                <li {...props} onClick={() => handleOptionClick(state.index)}>
+                <li {...props} onClick={() => {
+                    if (option.isNew) {
+                        handleAdd(option.inputValue);
+                    } else {
+                        handleOptionClick(state.index);
+                    }
+                }}>
                     {option.label}
-                    {!option.inputValue && <DeleteIcon className="deleteIcon" onClick={(event) => handleDeleteClick(event, state.index)} />}
+                    {!option.isNew && <DeleteIcon className="deleteIcon" onClick={(event) => handleDeleteClick(event, state.index)} />}
                 </li>
             )}
             freeSolo

@@ -508,15 +508,8 @@ class GPT {
         await this.fetch_conversations();
     }
 
-    async cloudUpdate() {
-        // Set status to updating
-        this.status.innerHTML = "Updating";
-
-        // Get the selected conversation index
-        const index = document.getElementById("conversations").selectedIndex;
-
-        // Get name and conversation
-        const name = document.getElementById("conversation-name").value;
+    async cloudUpdate(index, name) {
+        // Prepare data
         const conversation = this.serializeMessages();
         const id = this.conversations[index].id;
         const data = {
@@ -533,12 +526,6 @@ class GPT {
                 Authorization: `Bearer ${this.token}`
             }
         });
-
-        // Set status to updated
-        this.status.innerHTML = "Updated";
-
-        // Fetch conversations
-        await this.fetch_conversations();
     }
 
     setConversation(index) {
@@ -568,8 +555,6 @@ const gpt = new GPT();
 const generateButton = document.getElementById("generate");
 const downloadButton = document.getElementById("download");
 const uploadButton = document.getElementById("upload");
-const CloudUploadButton = document.getElementById("cloud-upload");
-const CloudUpdateButton = document.getElementById("cloud-update");
 
 // Bind buttons
 generateButton.onclick = function () {
@@ -582,8 +567,6 @@ generateButton.onclick = function () {
 }
 downloadButton.onclick = gpt.download.bind(gpt);
 uploadButton.onclick = gpt.upload.bind(gpt);
-CloudUploadButton.onclick = gpt.cloud_upload_deprecated.bind(gpt);
-CloudUpdateButton.onclick = gpt.cloudUpdate.bind(gpt);
 
 // Bind Ctrl+Enter to generate
 document.addEventListener('keydown', function (event) {
