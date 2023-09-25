@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,7 +7,6 @@ import '../css/react-style.css';
 const filter = createFilterOptions();
 
 function Select({ options, label, handleOptionClick, handleDelete, handleAdd }) {
-    const [value, setValue] = useState(null);
 
     const handleDeleteClick = (event, index) => {
         event.stopPropagation();
@@ -16,10 +15,6 @@ function Select({ options, label, handleOptionClick, handleDelete, handleAdd }) 
 
     return (
         <Autocomplete
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
-            }}
             filterOptions={(options, params) => {
                 const filtered = filter(options, params);
 
@@ -40,9 +35,6 @@ function Select({ options, label, handleOptionClick, handleDelete, handleAdd }) 
             handleHomeEndKeys
             options={options}
             getOptionLabel={(option) => {
-                if (typeof option === 'string') {
-                    return option;
-                }
                 if (option.inputValue) {
                     return option.inputValue;
                 }
