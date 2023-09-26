@@ -1,9 +1,9 @@
 import { ThemeProvider } from '@mui/material/styles';
 import React, {useState, useEffect} from 'react';
-import { getInitMUITheme } from "./theme";
-import Select from './Select';
+import { getInitMUITheme } from "../theme";
+import AutocompleteComponent from './AutocompleteComponent';
 
-function ConversationsSelect(props) {
+function ConversationAutocomplete(props) {
     const [theme, setTheme] = useState(getInitMUITheme());
     useEffect(() => {
         const handleThemeChange = (event) => {
@@ -37,7 +37,7 @@ function ConversationsSelect(props) {
 
     return (
         <ThemeProvider theme={theme}>
-            <Select
+            <AutocompleteComponent
                 options={options}
                 label={"Select a conversation"}
                 handleOptionClick={handleOptionClick}
@@ -48,4 +48,4 @@ function ConversationsSelect(props) {
     );
 }
 
-export default ConversationsSelect;
+export default ConversationAutocomplete;

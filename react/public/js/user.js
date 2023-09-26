@@ -3,7 +3,7 @@ import axios from "axios";
 // Theme
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ThemeSelect from './ThemeSelect.js';
+import ThemeSelect from './components/ThemeSelect.js';
 
 const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
 theme_div.render(
