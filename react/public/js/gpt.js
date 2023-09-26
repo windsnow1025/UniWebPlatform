@@ -12,7 +12,7 @@ await init();
 // Theme
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ThemeSelect from './ThemeSelect.js';
+import ThemeSelect from './components/ThemeSelect.js';
 
 const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
 theme_div.render(
@@ -637,11 +637,11 @@ editableCheckbox.addEventListener("change", function () {
 
 await gpt.fetch_conversations();
 
-import ConversationsSelect from './ConversationsSelect.js';
+import ConversationAutocomplete from './components/ConversationAutocomplete.js';
 
 const select_div = ReactDOM.createRoot(document.getElementById('select'));
 select_div.render(
     <React.StrictMode>
-        <ConversationsSelect gpt={gpt} />
+        <ConversationAutocomplete gpt={gpt} />
     </React.StrictMode>
 );

@@ -2,11 +2,11 @@ import React from 'react';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
-import '../css/react-style.css';
+import '../../css/react-style.css';
 
 const filter = createFilterOptions();
 
-function Select({ options, label, handleOptionClick, handleDelete, handleAdd }) {
+function AutocompleteComponent({ options, label, handleOptionClick, handleDelete, handleAdd }) {
 
     const handleDeleteClick = (event, index) => {
         event.stopPropagation();
@@ -60,4 +60,4 @@ function Select({ options, label, handleOptionClick, handleDelete, handleAdd }) 
     );
 }
 
-export default Select;
+export default AutocompleteComponent;
