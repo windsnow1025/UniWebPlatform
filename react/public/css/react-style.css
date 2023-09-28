@@ -1,7 +1,9 @@
-.deleteIcon {
-    margin-left: auto;
+.iconContainer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
 }
 
-.deleteIcon:hover {
+.icon:hover {
     color: red;
 }
