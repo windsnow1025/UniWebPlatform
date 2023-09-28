@@ -35,6 +35,12 @@ function ConversationAutocomplete(props) {
         setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     }
 
+    const handleUpdate = async (index, value) => {
+        await gpt.cloudUpdate(index, value);
+        await gpt.fetch_conversations();
+        setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <AutocompleteComponent
@@ -43,6 +49,7 @@ function ConversationAutocomplete(props) {
                 handleOptionClick={handleOptionClick}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
+                handleUpdate={handleUpdate}
             />
         </ThemeProvider>
     );

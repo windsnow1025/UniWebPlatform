@@ -480,34 +480,6 @@ class GPT {
         });
     }
 
-    async cloud_upload_deprecated() {
-        // Set status to uploading
-        this.status.innerHTML = "Uploading";
-
-        // Get name and conversation
-        const name = document.getElementById("conversation-name").value;
-        const conversation = this.serializeMessages();
-        const data = {
-            name: name,
-            conversation: conversation
-        };
-
-        // Upload to cloud
-        await axios.post("/api/conversation/", {
-            data: data
-        }, {
-            headers: {
-                Authorization: `Bearer ${this.token}`
-            }
-        });
-
-        // Set status to uploaded
-        this.status.innerHTML = "Uploaded";
-
-        // Fetch conversations
-        await this.fetch_conversations();
-    }
-
     async cloudUpdate(index, name) {
         // Prepare data
         const conversation = this.serializeMessages();
