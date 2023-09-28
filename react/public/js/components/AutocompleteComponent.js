@@ -2,7 +2,7 @@ import React from 'react';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
-import UpdateIcon from '@mui/icons-material/Update'; // Import the UpdateIcon
+import UpdateIcon from '@mui/icons-material/Update';
 import '../../css/react-style.css';
 
 const filter = createFilterOptions();
@@ -14,9 +14,9 @@ function AutocompleteComponent({ options, label, handleOptionClick, handleDelete
         handleDelete(index);
     };
 
-    const handleUpdateClick = (event, index) => { // Add handleUpdateClick function
+    const handleUpdateClick = (event, index, value) => { // Add handleUpdateClick function
         event.stopPropagation();
-        handleUpdate(index);
+        handleUpdate(index, value);
     };
 
     return (
@@ -57,7 +57,7 @@ function AutocompleteComponent({ options, label, handleOptionClick, handleDelete
                     {option.label}
                     {!option.isNew &&
                         <div className="iconContainer">
-                            <UpdateIcon className="icon" onClick={(event) => handleUpdateClick(event, state.index)} /> {/* Add UpdateIcon */}
+                            <UpdateIcon className="icon" onClick={(event) => handleUpdateClick(event, state.index, option.label)} />
                             <DeleteIcon className="icon" onClick={(event) => handleDeleteClick(event, state.index)} />
                         </div>
                     }
