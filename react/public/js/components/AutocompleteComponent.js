@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import '../../css/react-style.css';
+import {Tooltip} from "@mui/material";
 
 const filter = createFilterOptions();
 
@@ -65,8 +66,12 @@ function AutocompleteComponent({ options, label, handleOptionClick, handleDelete
                     {option.label}
                     {!option.isNew &&
                         <div className="iconContainer">
-                            <UpdateIcon className="icon" onClick={(event) => handleUpdateClick(event, state.index, option.label)} />
-                            <DeleteIcon className="icon" onClick={(event) => handleDeleteClick(event, state.index)} />
+                            <Tooltip title="Update">
+                                <UpdateIcon className="icon" onClick={(event) => handleUpdateClick(event, state.index, option.label)} />
+                            </Tooltip>
+                            <Tooltip title="Delete">
+                                <DeleteIcon className="icon" onClick={(event) => handleDeleteClick(event, state.index)} />
+                            </Tooltip>
                         </div>
                     }
                 </li>
