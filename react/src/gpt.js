@@ -2,7 +2,7 @@ import axios from "axios";
 import {marked} from "marked";
 import hljs from "highlight.js";
 import 'font-awesome/css/font-awesome.min.css';
-import '../css/markdown.css';
+import '/public/css/markdown.css';
 
 // Account
 import {init} from './auth.js';
