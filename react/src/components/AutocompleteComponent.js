@@ -3,8 +3,8 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
-import '../../css/react-style.css';
 import {Tooltip} from "@mui/material";
+import '/public/css/react-style.css';
 
 const filter = createFilterOptions();
 

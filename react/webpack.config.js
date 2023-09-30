@@ -4,13 +4,13 @@ module.exports = {
     mode: 'development',
     devtool: 'inline-source-map',
     entry: {
-        "index": "./public/js/index.js",
-        "markdown": "./public/js/markdown.js",
-        "user": "./public/js/user.js",
-        "user-center": "./public/js/user-center.js",
-        "message-transmitter": "./public/js/message-transmitter.js",
-        "gpt": "./public/js/gpt.js",
-        "bookmarks": "./public/js/bookmarks.js",
+        "index": "./src/index.js",
+        "markdown": "./src/markdown.js",
+        "user": "./src/user.js",
+        "user-center": "./src/user-center.js",
+        "message-transmitter": "./src/message-transmitter.js",
+        "gpt": "./src/gpt.js",
+        "bookmarks": "./src/bookmarks.js",
     },
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -19,7 +19,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/, // Add jsx here
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
