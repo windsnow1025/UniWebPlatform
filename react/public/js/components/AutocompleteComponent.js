@@ -7,16 +7,20 @@ import '../../css/react-style.css';
 
 const filter = createFilterOptions();
 
-function AutocompleteComponent({ options, label, handleOptionClick, handleDelete, handleAdd, handleUpdate }) { // Add handleUpdate prop
+function AutocompleteComponent({ options, label, handleOptionClick, handleDelete, handleAdd, handleUpdate }) {
 
     const handleDeleteClick = (event, index) => {
         event.stopPropagation();
-        handleDelete(index);
+        if (window.confirm('Are you sure you want to delete this item?')) {
+            handleDelete(index);
+        }
     };
 
-    const handleUpdateClick = (event, index, value) => { // Add handleUpdateClick function
+    const handleUpdateClick = (event, index, value) => {
         event.stopPropagation();
-        handleUpdate(index, value);
+        if (window.confirm('Are you sure you want to update this item?')) {
+            handleUpdate(index, value);
+        }
     };
 
     return (
@@ -49,9 +53,13 @@ function AutocompleteComponent({ options, label, handleOptionClick, handleDelete
             renderOption={(props, option, state) => (
                 <li {...props} onClick={() => {
                     if (option.isNew) {
-                        handleAdd(option.inputValue);
+                        if (window.confirm('Are you sure you want to add this item?')) {
+                            handleAdd(option.inputValue);
+                        }
                     } else {
-                        handleOptionClick(state.index);
+                        if (window.confirm('Are you sure you want to select this item?')) {
+                            handleOptionClick(state.index);
+                        }
                     }
                 }}>
                     {option.label}
