@@ -88,6 +88,27 @@ router.put('/', async (req, res, next) => {
     }
 });
 
+router.put('/name', async (req, res, next) => {
+    try {
+        let data = req.body.data;
+        let name = data.name;
+        let id = data.id;
+
+        let sqlData = {
+            user_id: req.user_id,
+            name: name,
+            id: id
+        }
+
+        await UserSQL.UpdateName(sqlData);
+        res.status(200).send(true);
+    } catch (err) {
+        console.error("Error in PUT /:", err);
+        res.status(500).send("Error occurred while updating data.");
+        next(err);
+    }
+});
+
 router.delete('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
