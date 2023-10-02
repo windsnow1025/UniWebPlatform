@@ -64,6 +64,13 @@ async function Update(data) {
     console.log("1 conversation updated");
 }
 
+async function UpdateName(data) {
+    const sql = "UPDATE conversations SET name = ? WHERE user_id = ? AND id = ?";
+    const sqlParams = [data.name, data.user_id, data.id];
+    await poolQuery(sql, sqlParams);
+    console.log("1 conversation name updated");
+}
+
 async function Delete(data) {
     const sql = "DELETE FROM conversations WHERE user_id = ? AND id = ?";
     const sqlParams = [data.user_id, data.id];
@@ -75,5 +82,6 @@ module.exports = {
     Show: Show,
     Store: Store,
     Update: Update,
+    UpdateName: UpdateName,
     Delete: Delete
 };

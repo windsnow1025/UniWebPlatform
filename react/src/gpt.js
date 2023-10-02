@@ -500,6 +500,24 @@ class GPT {
         });
     }
 
+    async cloudUpdateName(index, name) {
+        // Prepare data
+        const id = this.conversations[index].id;
+        const data = {
+            name: name,
+            id: id
+        };
+
+        // Update to cloud
+        await axios.put(`/api/conversation/name`, {
+            data: data
+        }, {
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
+    }
+
     setConversation(index) {
         // Get the conversation
         const messages = JSON.parse(this.conversations[index].conversation);
