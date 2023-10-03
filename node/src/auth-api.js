@@ -9,21 +9,16 @@ router.get('/', (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
-        if (token == "null") {
+        if (!token) {
             return res.status(401).send("No token provided");
         }
 
         jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
             if (err) {
-                console.log(err);
                 return res.status(403).send("Invalid token");
             }
 
-            req.user = user;
-
-            res.status(200).send(req.user.sub);
-
-            next();
+            res.status(200).send(user.sub);
         });
     } else {
         res.status(401).send("No token provided");

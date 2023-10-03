@@ -1,27 +1,19 @@
 import axios from 'axios';
-import 'font-awesome/css/font-awesome.min.css';
 
-await fetch('/html/auth.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('user').innerHTML = data;
-    });
+async function fetchUserDiv() {
+    await fetch('/html/auth.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('user').innerHTML = data;
+        });
+}
 
-const SignInSignUpButton = document.getElementById("SignInSignUpButton");
-const SignedInUsername = document.getElementById("SignedInUsername");
-const SignOutButton = document.getElementById("SignOutButton");
-
-const SignedOutDiv = document.getElementById("signOut");
-const SignedInDiv = document.getElementById("signIn");
-
-SignInSignUpButton.addEventListener('click', function (event) {
-    event.preventDefault(); // prevent the default action
-    localStorage.setItem('prevUrl', window.location.href);
-    window.location.href = "/html/user.html";
-});
 
 export async function getUsername() {
     const token = localStorage.getItem('token');
+    if (!token) {
+        return null;
+    }
     try {
         const res = await axios.get('/api/auth/', {
             headers: {
@@ -35,9 +27,21 @@ export async function getUsername() {
     }
 }
 
-export async function init() {
+export async function initAuth() {
+    await fetchUserDiv();
 
-    // Add event listeners
+    // Get elements
+    const SignInSignUpButton = document.getElementById("SignInSignUpButton");
+    const SignOutButton = document.getElementById("SignOutButton");
+
+    // Add event listeners for Sign in / Sign up buttons
+    SignInSignUpButton.addEventListener('click', function (event) {
+        event.preventDefault(); // prevent the default action
+        localStorage.setItem('prevUrl', window.location.href);
+        window.location.href = "/html/user.html";
+    });
+
+    // Add event listeners for Sign out button
     SignOutButton.onclick = function () {
         localStorage.removeItem('token');
         handleAuth();
@@ -47,6 +51,11 @@ export async function init() {
 }
 
 export async function handleAuth() {
+    // Get elements
+    const SignedInUsername = document.getElementById("SignedInUsername");
+    const SignedOutDiv = document.getElementById("signOut");
+    const SignedInDiv = document.getElementById("signIn");
+
     // Check if user is signed in
     const username = await getUsername();
 

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 // Account
-import {init} from './auth.js';
+import {initAuth} from './auth.js';
 
-await init();
+await initAuth();
 
 // Theme
 import React from 'react';
