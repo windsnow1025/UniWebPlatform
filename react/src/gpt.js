@@ -5,9 +5,9 @@ import 'font-awesome/css/font-awesome.min.css';
 import '/public/css/markdown.css';
 
 // Account
-import {init} from './auth.js';
+import {initAuth} from './auth.js';
 
-await init();
+await initAuth();
 
 // Theme
 import React from 'react';
@@ -625,7 +625,9 @@ editableCheckbox.addEventListener("change", function () {
     }
 });
 
-await gpt.fetch_conversations();
+if (localStorage.getItem('token')) {
+    await gpt.fetch_conversations();
+}
 
 import ConversationAutocomplete from './components/ConversationAutocomplete.js';
 
