@@ -1,7 +1,7 @@
 // Auth
-import {init} from "./auth";
+import {initAuth} from "./auth";
 
-await init();
+await initAuth();
 
 // Theme
 import React from 'react';
