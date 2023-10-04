@@ -112,7 +112,6 @@ opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-ful
    1. Disable QUIC
    2. Disable dns > prefer-h3: true in clash config
    3. Disable dns > fallback > 'https://1.0.0.1/dns-query' in clash config
-   4. OpenClash >> Plugin Settings >> Uncheck `Disable Dnsmasq's DNS Cache`
 
 ## Shadowsocks Installation
 
