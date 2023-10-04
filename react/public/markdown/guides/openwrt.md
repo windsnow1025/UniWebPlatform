@@ -108,6 +108,11 @@ opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-ful
 3. Avoid DNS Server conflicts;
 4. Avoid IP Address conflicts;
 5. Synchronize System Time;
+6. YouTube Problem:
+   1. Disable QUIC
+   2. Disable dns > prefer-h3: true in clash config
+   3. Disable dns > fallback > 'https://1.0.0.1/dns-query' in clash config
+   4. OpenClash >> Plugin Settings >> Uncheck `Disable Dnsmasq's DNS Cache`
 
 ## Shadowsocks Installation
 
