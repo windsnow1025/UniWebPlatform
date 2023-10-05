@@ -22,7 +22,7 @@ async function testConnection() {
 
     while (true) {
         try {
-            await poolQuery('SELECT * FROM conversations');
+            await poolQuery('SELECT * FROM conversation');
             console.log('ConversationSQL Connected!');
             break;
         } catch (err) {
@@ -44,35 +44,35 @@ testConnection();
 // MySQL Functions
 
 async function Show(data) {
-    const sql = "SELECT * FROM conversations WHERE user_id = ?";
+    const sql = "SELECT * FROM conversation WHERE user_id = ?";
     const sqlParams = [data.user_id];
     const result = await poolQuery(sql, sqlParams);
     return result;
 }
 
 async function Store(data) {
-    const sql = "INSERT INTO conversations (user_id, name, conversation) VALUES (?,?,?)";
+    const sql = "INSERT INTO conversation (user_id, name, conversation) VALUES (?,?,?)";
     const sqlParams = [data.user_id, data.name, data.conversation];
     await poolQuery(sql, sqlParams);
     console.log("1 conversation inserted");
 }
 
 async function Update(data) {
-    const sql = "UPDATE conversations SET name = ?, conversation = ? WHERE user_id = ? AND id = ?";
+    const sql = "UPDATE conversation SET name = ?, conversation = ? WHERE user_id = ? AND id = ?";
     const sqlParams = [data.name, data.conversation, data.user_id, data.id];
     await poolQuery(sql, sqlParams);
     console.log("1 conversation updated");
 }
 
 async function UpdateName(data) {
-    const sql = "UPDATE conversations SET name = ? WHERE user_id = ? AND id = ?";
+    const sql = "UPDATE conversation SET name = ? WHERE user_id = ? AND id = ?";
     const sqlParams = [data.name, data.user_id, data.id];
     await poolQuery(sql, sqlParams);
     console.log("1 conversation name updated");
 }
 
 async function Delete(data) {
-    const sql = "DELETE FROM conversations WHERE user_id = ? AND id = ?";
+    const sql = "DELETE FROM conversation WHERE user_id = ? AND id = ?";
     const sqlParams = [data.user_id, data.id];
     await poolQuery(sql, sqlParams);
     console.log("1 conversation deleted");

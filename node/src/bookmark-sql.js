@@ -22,7 +22,7 @@ async function testConnection() {
     
     while (true) {
         try {
-            await poolQuery('SELECT * FROM bookmarks');
+            await poolQuery('SELECT * FROM bookmark');
             console.log('BookmarkSQL Connected!');
             break;
         } catch (err) {
@@ -44,27 +44,27 @@ testConnection();
 // MySQL Functions
 
 async function Show() {
-    const sql = "SELECT * FROM bookmarks";
+    const sql = "SELECT * FROM bookmark";
     const result = await poolQuery(sql);
     return result;
 }
 
 async function Store(data) {
-    const sql = "INSERT INTO bookmarks (first_title, second_title, url, comment) VALUES (?,?,?,?)";
+    const sql = "INSERT INTO bookmark (first_title, second_title, url, comment) VALUES (?,?,?,?)";
     const sqlParams = [data.firstTitle, data.secondTitle, data.url, data.comment];
     await poolQuery(sql, sqlParams);
     console.log("1 bookmark inserted");
 }
 
 async function Update(id, data) {
-    const sql = "UPDATE bookmarks SET first_title = ?, second_title = ?, url = ?, comment = ? WHERE id = ?";
+    const sql = "UPDATE bookmark SET first_title = ?, second_title = ?, url = ?, comment = ? WHERE id = ?";
     const sqlParams = [data.firstTitle, data.secondTitle, data.url, data.comment, id];
     await poolQuery(sql, sqlParams);
     console.log("1 bookmark updated");
 }
 
 async function Delete(id) {
-    const sql = "DELETE FROM bookmarks WHERE id = ?";
+    const sql = "DELETE FROM bookmark WHERE id = ?";
     const sqlParams = [id];
     await poolQuery(sql, sqlParams);
     console.log("1 bookmark deleted");

@@ -22,7 +22,7 @@ async function testConnection() {
 
     while (true) {
         try {
-            await poolQuery('SELECT * FROM users');
+            await poolQuery('SELECT * FROM user');
             console.log('UserSQL Connected!');
             break;
         } catch (err) {
@@ -43,49 +43,42 @@ testConnection();
 
 // MySQL Functions
 
-async function Show() {
-    const sql = "SELECT * FROM users";
-    const result = await poolQuery(sql);
-    return result;
-}
-
 async function Match(data) {
-    const sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    const sql = "SELECT * FROM user WHERE username = ? AND password = ?";
     const sqlParams = [data.username, data.password];
     const result = await poolQuery(sql, sqlParams);
     return result;
 }
 
 async function Exist(data) {
-    const sql = "SELECT * FROM users WHERE username = ?";
+    const sql = "SELECT * FROM user WHERE username = ?";
     const sqlParams = [data.username];
     const result = await poolQuery(sql, sqlParams);
     return result;
 }
 
 async function Store(data) {
-    const sql = "INSERT INTO users (username, password) VALUES (?,?)";
+    const sql = "INSERT INTO user (username, password) VALUES (?,?)";
     const sqlParams = [data.username, data.password];
     await poolQuery(sql, sqlParams);
     console.log("1 user inserted");
 }
 
 async function Update(data) {
-    const sql = "UPDATE users SET username = ?, password = ? WHERE id = ?";
+    const sql = "UPDATE user SET username = ?, password = ? WHERE id = ?";
     const sqlParams = [data.username, data.password, data.id];
     await poolQuery(sql, sqlParams);
     console.log("1 user updated");
 }
 
 async function Delete(id) {
-    const sql = "DELETE FROM users WHERE id = ?";
+    const sql = "DELETE FROM user WHERE id = ?";
     const sqlParams = [id];
     await poolQuery(sql, sqlParams);
     console.log("1 user deleted");
 }
 
 module.exports = {
-    Show: Show,
     Match: Match,
     Exist: Exist,
     Store: Store,
