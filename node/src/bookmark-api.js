@@ -46,12 +46,10 @@ router.post('/', async (req, res, next) => {
     try {
         let data = req.body.data;
         await BookmarkSQL.Store(data);
-        res.status(200).send(true);
-        next();
+        res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
         res.status(500).send("Error occurred while storing data.");
-        next(err);
     }
 });
 
@@ -61,11 +59,9 @@ router.put('/:id', async (req, res, next) => {
         let data = req.body.data;
         await BookmarkSQL.Update(id, data);
         res.status(200).send(true);
-        next();
     } catch (err) {
         console.error("Error in PUT /:id:", err);
         res.status(500).send("Error occurred while updating data.");
-        next(err);
     }
 });
 
@@ -74,11 +70,9 @@ router.delete('/:id', async (req, res, next) => {
         let id = req.params.id;
         await BookmarkSQL.Delete(id);
         res.status(200).send(true);
-        next();
     } catch (err) {
         console.error("Error in DELETE /:id:", err);
         res.status(500).send("Error occurred while deleting data.");
-        next(err);
     }
 });
 

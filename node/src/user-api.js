@@ -1,5 +1,4 @@
 const express = require('express');
-
 const router = express.Router();
 const UserSQL = require("./user-sql");
 
@@ -7,15 +6,15 @@ const jwt = require('jsonwebtoken');
 
 // Data Processing
 
-router.post('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
-        let data = req.body.data;
-        let result = await UserSQL.Exist(data);
+        let result = await UserSQL.Exist({
+            username: req.query.username
+        });
         res.status(200).json(result[0]);
     } catch (err) {
         console.error("Error in GET /:", err);
         res.status(500).send("Error occurred while fetching data.");
-        next(err);
     }
 });
 
@@ -33,9 +32,8 @@ router.post('/sign-in', async (req, res, next) => {
             res.status(401).send("Invalid Username or Password");
         }
     } catch (err) {
-        console.error("Error in GET /:", err);
+        console.error("Error in POST /sign-in:", err);
         res.status(500).send("Error occurred while fetching data.");
-        next(err);
     }
 });
 
@@ -54,9 +52,8 @@ router.post('/sign-up', async (req, res, next) => {
             res.status(200).send(true);
         }
     } catch (err) {
-        console.error("Error in POST /:", err);
+        console.error("Error in POST /sign-up:", err);
         res.status(500).send("Error occurred while storing data.");
-        next(err);
     }
 });
 
@@ -98,11 +95,9 @@ router.put('/', async (req, res, next) => {
         let updateSqlData = {id: result[0].id, username: data.username, password: data.password};
         await UserSQL.Update(updateSqlData);
         res.status(200).send(true);
-        next();
     } catch (err) {
         console.error("Error in PUT /:", err);
         res.status(500).send("Error occurred while updating data.");
-        next(err);
     }
 
 });
@@ -110,14 +105,11 @@ router.put('/', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
-        // Delete Data
         await UserSQL.Delete(id);
         res.status(200).send(true);
-        next();
     } catch (err) {
         console.error("Error in DELETE /:id:", err);
         res.status(500).send("Error occurred while deleting data.");
-        next(err);
     }
 });
 
