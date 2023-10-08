@@ -19,7 +19,7 @@ CREATE TABLE conversation (
     user_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
     conversation JSON NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE bookmark (
