@@ -1,3 +1,5 @@
+const { testConnection } = require("./test-connection");
+
 const mysql = require("mysql");
 const util = require("util");
 
@@ -13,33 +15,7 @@ const pool = mysql.createPool({
 const poolQuery = util.promisify(pool.query).bind(pool);
 
 // MySQL Connection Test
-async function testConnection() {
-    let attempts = 0;
-    let maxAttempts = 5;
-    let delay = 5000;
-
-    await new Promise(resolve => setTimeout(resolve, delay));
-
-    while (true) {
-        try {
-            await poolQuery('SELECT * FROM conversation');
-            console.log('ConversationSQL Connected!');
-            break;
-        } catch (err) {
-            console.error('Error connecting to ConversationSQL:', err);
-            attempts++;
-            if (attempts < maxAttempts) {
-                console.log(`Attempts ${attempts + 1},Retrying in ${delay / 1000} seconds...`);
-                await new Promise(resolve => setTimeout(resolve, delay));
-            } else {
-                console.error('Max attempts reached. ConversationSQL connection failed.');
-                throw err;
-            }
-        }
-    }
-}
-
-testConnection();
+testConnection("conversation");
 
 // MySQL Functions
 
