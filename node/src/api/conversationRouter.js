@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ConversationSQL = require("./conversation-sql");
+const ConversationSQL = require("../sql/conversationDAO");
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 

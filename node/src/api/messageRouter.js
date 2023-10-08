@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const MessageSQL = require("./message-sql");
+const MessageSQL = require("../sql/messageDAO");
 
 // Data Processing
 

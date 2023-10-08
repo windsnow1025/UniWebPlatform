@@ -5,11 +5,11 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // APIs
-const authAPI = require('./auth-api');
-const userAPI = require('./user-api');
-const messageAPI = require('./message-api');
-const bookmarkAPI = require('./bookmark-api');
-const conversationAPI = require('./conversation-api');
+const authAPI = require('./api/authRouter');
+const userAPI = require('./api/userRouter');
+const messageAPI = require('./api/messageRouter');
+const bookmarkAPI = require('./api/bookmarkRouter');
+const conversationAPI = require('./api/conversationRouter');
 
 // HTTP
 const port = 3000;
