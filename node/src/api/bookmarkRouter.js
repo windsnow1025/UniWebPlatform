@@ -45,7 +45,8 @@ router.use((req, res, next) => {
 router.post('/', async (req, res, next) => {
     try {
         let data = req.body.data;
-        await BookmarkSQL.Store(data);
+        let bookmark = new Bookmark(data.firstTitle, data.secondTitle, data.url, data.comment);
+        await BookmarkSQL.Store(bookmark);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
@@ -57,7 +58,8 @@ router.put('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
         let data = req.body.data;
-        await BookmarkSQL.Update(id, data);
+        let bookmark = new Bookmark(data.firstTitle, data.secondTitle, data.url, data.comment);
+        await BookmarkSQL.Update(id, bookmark);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in PUT /:id:", err);
