@@ -4,13 +4,13 @@ const { ConnectionTest, poolQuery } = require("./DatabaseConnection");
 ConnectionTest("bookmark");
 
 
-async function Show() {
+async function SelectAll() {
     const sql = "SELECT * FROM bookmark";
     const result = await poolQuery(sql);
     return result;
 }
 
-async function Store(bookmark) {
+async function Insert(bookmark) {
     const sql = "INSERT INTO bookmark (first_title, second_title, url, comment) VALUES (?,?,?,?)";
     const sqlParams = [bookmark.firstTitle, bookmark.secondTitle, bookmark.url, bookmark.comment];
     await poolQuery(sql, sqlParams);
@@ -32,8 +32,8 @@ async function Delete(id) {
 }
 
 module.exports = {
-    Show: Show,
-    Store: Store,
+    SelectAll: SelectAll,
+    Insert: Insert,
     Update: Update,
     Delete: Delete
 };

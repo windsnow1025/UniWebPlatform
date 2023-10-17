@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 router.get('/', async (req, res, next) => {
     try {
-        let result = await UserSQL.Exist({
+        let result = await UserSQL.SelectUsername({
             username: req.query.username
         });
         res.status(200).json(result[0]);
@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
 router.post('/sign-in', async (req, res, next) => {
     try {
         let data = req.body.data;
-        let result = await UserSQL.Match(data);
+        let result = await UserSQL.SelectUsernamePassword(data);
 
         // Judge if data.username and data.password match
         if (result.length > 0) {
@@ -43,12 +43,12 @@ router.post('/sign-up', async (req, res, next) => {
         let sqlData = {username: data.username};
 
         // Judge if data.username exists
-        let result = await UserSQL.Exist(sqlData);
+        let result = await UserSQL.SelectUsername(sqlData);
         if (result.length > 0) {
             res.status(401).send("Username already exists");
         } else {
             // Store Data
-            await UserSQL.Store(data);
+            await UserSQL.Insert(data);
             res.status(200).send(true);
         }
     } catch (err) {
@@ -83,7 +83,7 @@ router.put('/', async (req, res, next) => {
         let data = req.body.data;
 
         let existSqlData = {username: data.username};
-        let result = await UserSQL.Exist(existSqlData);
+        let result = await UserSQL.SelectUsername(existSqlData);
 
         // Judge if data.username is different from req.user.sub and data.username exists
         if (data.username != req.user.sub && result.length > 0) {
