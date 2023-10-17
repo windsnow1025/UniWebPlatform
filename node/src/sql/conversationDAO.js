@@ -1,23 +1,8 @@
-const { testConnection } = require("./test-connection");
+const { ConnectionTest, poolQuery } = require("./DatabaseConnection");
 
-const mysql = require("mysql");
-const util = require("util");
 
-// MySQL Connection Pool
-const pool = mysql.createPool({
-    host: "mysql",
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
-});
+ConnectionTest("conversation");
 
-// MySQL Promisify
-const poolQuery = util.promisify(pool.query).bind(pool);
-
-// MySQL Connection Test
-testConnection("conversation");
-
-// MySQL Functions
 
 async function Show(data) {
     const sql = "SELECT * FROM conversation WHERE user_id = ?";
