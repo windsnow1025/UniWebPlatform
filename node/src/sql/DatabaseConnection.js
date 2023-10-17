@@ -12,7 +12,7 @@ const pool = mysql.createPool({
 // MySQL Promisify
 const poolQuery = util.promisify(pool.query).bind(pool);
 
-async function testConnection(table) {
+async function ConnectionTest(table) {
     let attempts = 0;
     let maxAttempts = 5;
     let delay = 5000;
@@ -39,5 +39,6 @@ async function testConnection(table) {
 }
 
 module.exports = {
-    testConnection,
+    poolQuery: poolQuery,
+    ConnectionTest: ConnectionTest,
 }
