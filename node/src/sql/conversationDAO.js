@@ -4,14 +4,14 @@ const { ConnectionTest, poolQuery } = require("./DatabaseConnection");
 ConnectionTest("conversation");
 
 
-async function Show(data) {
+async function Select(data) {
     const sql = "SELECT * FROM conversation WHERE user_id = ?";
     const sqlParams = [data.user_id];
     const result = await poolQuery(sql, sqlParams);
     return result;
 }
 
-async function Store(data) {
+async function Insert(data) {
     const sql = "INSERT INTO conversation (user_id, name, conversation) VALUES (?,?,?)";
     const sqlParams = [data.user_id, data.name, data.conversation];
     await poolQuery(sql, sqlParams);
@@ -40,8 +40,8 @@ async function Delete(data) {
 }
 
 module.exports = {
-    Show: Show,
-    Store: Store,
+    Select: Select,
+    Insert: Insert,
     Update: Update,
     UpdateName: UpdateName,
     Delete: Delete

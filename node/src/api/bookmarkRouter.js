@@ -3,9 +3,11 @@ const router = express.Router();
 const BookmarkSQL = require("../sql/bookmarkDAO");
 const jwt = require('jsonwebtoken');
 
+const Bookmark = require("../object/bookmark");
+
 router.get('/', async (req, res, next) => {
     try {
-        let bookmarks = await BookmarkSQL.Show();
+        let bookmarks = await BookmarkSQL.SelectAll();
         res.status(200).json(bookmarks);
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -46,7 +48,7 @@ router.post('/', async (req, res, next) => {
     try {
         let data = req.body.data;
         let bookmark = new Bookmark(data.firstTitle, data.secondTitle, data.url, data.comment);
-        await BookmarkSQL.Store(bookmark);
+        await BookmarkSQL.Insert(bookmark);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);

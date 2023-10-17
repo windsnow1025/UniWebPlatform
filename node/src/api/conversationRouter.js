@@ -33,7 +33,7 @@ router.use(async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        let conversations = await ConversationSQL.Show({
+        let conversations = await ConversationSQL.Select({
             user_id: req.user_id
         });
         res.status(200).json(conversations);
@@ -55,7 +55,7 @@ router.post('/', async (req, res, next) => {
             conversation: conversation
         }
 
-        await ConversationSQL.Store(sqlData);
+        await ConversationSQL.Insert(sqlData);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);

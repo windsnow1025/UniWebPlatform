@@ -4,13 +4,13 @@ const { ConnectionTest, poolQuery } = require("./DatabaseConnection");
 ConnectionTest("message");
 
 
-async function Show() {
+async function SelectAll() {
     const sql = "SELECT * FROM message";
     const result = await poolQuery(sql);
     return result;
 }
 
-async function Store(data) {
+async function Insert(data) {
     const sql = "INSERT INTO message (message) VALUES (?)";
     const sqlParams = [data.message];
     await poolQuery(sql, sqlParams);
@@ -31,8 +31,8 @@ async function DeleteAll() {
 }
 
 module.exports = {
-    Show: Show,
-    Store: Store,
+    SelectAll: SelectAll,
+    Insert: Insert,
     Delete: Delete,
     DeleteAll: DeleteAll
 };

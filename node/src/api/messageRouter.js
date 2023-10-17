@@ -6,7 +6,7 @@ const MessageSQL = require("../sql/messageDAO");
 
 router.get('/', async (req, res, next) => {
     try {
-        let data = await MessageSQL.Show();
+        let data = await MessageSQL.SelectAll();
         res.status(200).json(data);
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     try {
         let data = req.body.data;
-        await MessageSQL.Store(data);
+        await MessageSQL.Insert(data);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
