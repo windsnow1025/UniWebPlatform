@@ -109,10 +109,9 @@ opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-ful
 4. Avoid IP Address conflicts;
 5. Synchronize System Time;
 6. YouTube Problem:
-   1. Disable dns > prefer-h3: true in clash config
-   2. Disable dns > fallback > 'https://1.0.0.1/dns-query' in clash config
-   3. Disable all dns in Overwrite Settings >> Developer Settings
-   4. Disable QUIC (Not Recommended)
+   1. Change dns > fallback in clash config
+   2. Disable all dns in Overwrite Settings >> Developer Settings
+   3. Disable QUIC in Browser (Not Recommended)
 
 ## Shadowsocks Installation
 
