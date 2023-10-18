@@ -37,8 +37,12 @@ marked.setOptions({
 
 import {Conversation} from './class/conversation.js';
 
+// Get divs
+const messages_div = document.querySelector("#messages_div")
+const template_message_div = document.querySelector("div[name='message_div']");
 
-const conversation = new Conversation();
+// Create conversation
+const conversation = new Conversation(messages_div, template_message_div);
 
 // Get buttons
 const generateButton = document.getElementById("generate");

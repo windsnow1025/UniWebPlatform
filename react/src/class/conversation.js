@@ -2,29 +2,37 @@ import axios from "axios";
 import {Message} from "./message";
 
 export class Conversation {
-    constructor() {
+    /**
+     *
+     * @param {HTMLDivElement} messages_div
+     * @param {HTMLDivElement} template_message_div
+     */
+    constructor(messages_div, template_message_div) {
+        this.messages_div = messages_div;
+        this.template_message_div = template_message_div;
+
         /** @type {Array} */
         this.conversations = [];
         /** @type {Message[]} */
         this.messages = [];
-        /** @type {HTMLElement} */
-        this.status = document.getElementById("status");
         /** @type {boolean[]} */
         this.wait_response = [];
         /** @type {AbortController} */
         this.controller = null;
+        /** @type {HTMLElement} */
+        this.status = document.querySelector('#status');
         /** @type {string} */
         this.token = localStorage.getItem('token');
+
         this.clear_message_divs();
-        const system_content = this.getSystemContent();
-        this.add(0, "system", system_content);
+        this.add(0, "system", this.getSystemContent());
         this.add(1);
     }
 
     getSystemContent() {
         const date = new Date();
         const year = date.getFullYear();
-        const month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are 0-based in JavaScript
+        const month = ("0" + (date.getMonth() + 1)).slice(-2);
         const day = ("0" + date.getDate()).slice(-2);
         const currentDate = `${year}-${month}-${day}`;
         return "You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\n" +
@@ -45,15 +53,14 @@ export class Conversation {
     // Create and render message_div[] from messages[]
     clear_message_divs() {
         // Clear messages_div
-        const messages_div = document.querySelector("#messages_div");
-        messages_div.innerHTML = "";
+        this.messages_div.innerHTML = "";
 
         // Create and render
         // Add Button
-        const add_button_div_template = document.querySelector('div[name="add_button_div"]');
+        const add_button_div_template = this.template_message_div.querySelector('div[name="add_button_div"]');
         const add_button_div = add_button_div_template.cloneNode(true);
         const add_button = add_button_div.querySelector('i[name="add_button"]');
-        messages_div.appendChild(add_button_div);
+        this.messages_div.appendChild(add_button_div);
         add_button.onclick = function () {
             this.add(0);
         }.bind(this);
@@ -61,12 +68,10 @@ export class Conversation {
 
     // Create and render message_div[index] from messages[index]
     create_render_message_div(index, message_div) {
-        const render_index = index + 1;
-
         // Copy button
         const copy_button = message_div.querySelector('i[name="copy_button"]');
         copy_button.onclick = function () {
-            // -1 for the add button
+            // UI to logic: index - 1
             const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div)-1;
             this.copy(currentIndex);
         }.bind(this);
@@ -74,7 +79,7 @@ export class Conversation {
         // Delete button
         const delete_button = message_div.querySelector('i[name="delete_button"]');
         delete_button.onclick = function () {
-            // -1 for the add button
+            // UI to logic: index - 1
             const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div)-1;
             this.delete(currentIndex);
         }.bind(this);
@@ -82,14 +87,14 @@ export class Conversation {
         // Add Button
         const add_button = message_div.querySelector('i[name="add_button"]');
         add_button.onclick = function () {
-            // -1 for the add button
+            // UI to logic: index - 1
             const currentIndex = Array.from(message_div.parentElement.children).indexOf(message_div)-1;
             this.add(currentIndex + 1);
         }.bind(this);
 
         // Insert the new message div to the messages div
-        const messages_div = document.querySelector("#messages_div");
-        messages_div.insertBefore(message_div, messages_div.childNodes[render_index]);
+        // Logic to UI: index + 1
+        this.messages_div.insertBefore(message_div, this.messages_div.childNodes[index + 1]);
     }
 
     // Render message_div[index] from messages[index]
@@ -267,8 +272,7 @@ export class Conversation {
         }
 
         // Get the template message div and clone it
-        const template_message_div = document.querySelector('div[name="message_div"]');
-        const message_div = template_message_div.cloneNode(true);
+        const message_div = this.template_message_div.cloneNode(true);
 
         // Create and render the new message div at index
         const message = new Message(role, content, message_div);
