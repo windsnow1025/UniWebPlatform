@@ -37,36 +37,36 @@ marked.setOptions({
 
 import {Conversation} from './class/conversation.js';
 
-// Get divs
+// Get elements
 const messages_div = document.querySelector("#messages_div")
 const template_message_div = document.querySelector("div[name='message_div']");
+const status_elem = document.querySelector('#status');
 
 // Create conversation
-const conversation = new Conversation(messages_div, template_message_div);
+const conversation = new Conversation(messages_div, template_message_div, status_elem);
 
 // Get buttons
-const generateButton = document.getElementById("generate");
-const downloadButton = document.getElementById("download");
-const uploadButton = document.getElementById("upload");
+const generate_button = document.querySelector('#generate');
+const download_button = document.querySelector('#download');
+const upload_button = document.querySelector('#upload');
 
 // Bind buttons
-generateButton.onclick = function () {
-    // Switch between generate and stop
-    if (generateButton.innerHTML === "Stop") {
+generate_button.onclick = function () {
+    if (generate_button.innerHTML === "Stop") {
         conversation.stop();
     } else {
         conversation.generate();
     }
 }
-downloadButton.onclick = conversation.download.bind(conversation);
-uploadButton.onclick = conversation.upload.bind(conversation);
+download_button.onclick = conversation.download.bind(conversation);
+upload_button.onclick = conversation.upload.bind(conversation);
 
 // Bind Ctrl+Enter to generate
 document.addEventListener('keydown', function (event) {
     if (event.repeat) return;
     if (event.ctrlKey && event.key === 'Enter') {
         document.activeElement.blur();
-        generateButton.click();
+        generate_button.click();
     }
 });
 
