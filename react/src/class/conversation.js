@@ -6,8 +6,9 @@ export class Conversation {
      *
      * @param {HTMLDivElement} messages_div
      * @param {HTMLDivElement} template_message_div
+     * @param {HTMLElement} status_elem
      */
-    constructor(messages_div, template_message_div) {
+    constructor(messages_div, template_message_div, status_elem) {
         this.messages_div = messages_div;
         this.template_message_div = template_message_div;
 
@@ -20,7 +21,7 @@ export class Conversation {
         /** @type {AbortController} */
         this.controller = null;
         /** @type {HTMLElement} */
-        this.status = document.querySelector('#status');
+        this.status_elem = status_elem;
         /** @type {string} */
         this.token = localStorage.getItem('token');
 
@@ -118,7 +119,7 @@ export class Conversation {
         }
 
         // Set status to generating
-        this.status.innerHTML = "Generating...";
+        this.status_elem.innerHTML = "Generating...";
         document.getElementById("generate").innerHTML = "Stop";
 
         // Set streaming status
@@ -165,15 +166,15 @@ export class Conversation {
                 this.add(this.messages.length);
 
                 // Set status
-                this.status.innerHTML = "Ready";
+                this.status_elem.innerHTML = "Ready";
                 document.getElementById("generate").innerHTML = "Generate";
             } catch (err) {
-                this.status.innerHTML = err;
+                this.status_elem.innerHTML = err;
                 document.getElementById("generate").innerHTML = "Generate";
             }
         }
 
-        async function processChunk(reader, controller, conversation) {
+        async function processChunk(reader, controller) {
             const {done, value} = await reader.read();
             if (done) {
                 controller.close();
@@ -185,13 +186,13 @@ export class Conversation {
             chunk = chunk.replace("<", "&lt;").replace(">", "&gt;");
 
             // Update messages array
-            conversation.messages[conversation.messages.length - 1].content += chunk;
+            this.messages[this.messages.length - 1].content += chunk;
 
             // Append the chunk to the message div
-            const message = conversation.messages[conversation.messages.length - 1];
+            const message = this.messages[this.messages.length - 1];
             message.content_div.innerHTML += chunk;
 
-            await processChunk(reader, controller, conversation);
+            await processChunk.bind(this)(reader, controller);
         }
 
         // Stream mode on
@@ -208,18 +209,17 @@ export class Conversation {
                 });
 
                 const reader = response.body.getReader();
-                const currentConversation = this;
                 const processedStream = new ReadableStream({
-                    async start(controller) {
-                        currentConversation.add(currentConversation.messages.length, "assistant", "", true);
-                        await processChunk(reader, controller, currentConversation);
+                    start: async (controller) => {
+                        this.add(this.messages.length, "assistant", "", true);
+                        await processChunk.bind(this)(reader, controller);
                     },
                 }, {signal: this.controller.signal});
 
                 await processedStream.getReader().read();
 
                 // Set status
-                this.status.innerHTML = "Ready";
+                this.status_elem.innerHTML = "Ready";
                 document.getElementById("generate").innerHTML = "Generate";
 
                 // Render the last message div
@@ -228,7 +228,7 @@ export class Conversation {
                 // Add a new message div
                 this.add(this.messages.length);
             } catch (error) {
-                this.status.innerHTML = error;
+                this.status_elem.innerHTML = error;
                 document.getElementById("generate").innerHTML = "Generate";
             }
         }
@@ -248,7 +248,7 @@ export class Conversation {
         }
 
         // Set status to ready
-        this.status.innerHTML = "Ready";
+        this.status_elem.innerHTML = "Ready";
         document.getElementById("generate").innerHTML = "Generate";
     }
 
@@ -267,7 +267,7 @@ export class Conversation {
 
         // Set status to ready
         if (!generating) {
-            this.status.innerHTML = "Ready";
+            this.status_elem.innerHTML = "Ready";
             document.getElementById("generate").innerHTML = "Generate";
         }
 
@@ -298,7 +298,7 @@ export class Conversation {
         }
 
         // Set status to ready
-        this.status.innerHTML = "Ready";
+        this.status_elem.innerHTML = "Ready";
         document.getElementById("generate").innerHTML = "Generate";
 
         // Delete the message at index
