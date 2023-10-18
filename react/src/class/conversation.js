@@ -6,9 +6,9 @@ export class Conversation {
      *
      * @param {HTMLDivElement} messages_div
      * @param {HTMLDivElement} template_message_div
-     * @param {HTMLElement} status_elem
+     * @param {HTMLDivElement} status_div
      */
-    constructor(messages_div, template_message_div, status_elem) {
+    constructor(messages_div, template_message_div, status_div) {
         this.messages_div = messages_div;
         this.template_message_div = template_message_div;
 
@@ -20,8 +20,10 @@ export class Conversation {
         this.wait_response = [];
         /** @type {AbortController} */
         this.controller = null;
+        /** @type {HTMLButtonElement} */
+        this.generate_button = document.querySelector('#generate');
         /** @type {HTMLElement} */
-        this.status_elem = status_elem;
+        this.status_elem = status_div.querySelector('#status');
         /** @type {string} */
         this.token = localStorage.getItem('token');
 
@@ -120,7 +122,7 @@ export class Conversation {
 
         // Set status to generating
         this.status_elem.innerHTML = "Generating...";
-        document.getElementById("generate").innerHTML = "Stop";
+        this.generate_button.innerHTML = "Stop";
 
         // Set streaming status
         this.wait_response.push(true);
@@ -167,10 +169,10 @@ export class Conversation {
 
                 // Set status
                 this.status_elem.innerHTML = "Ready";
-                document.getElementById("generate").innerHTML = "Generate";
-            } catch (err) {
-                this.status_elem.innerHTML = err;
-                document.getElementById("generate").innerHTML = "Generate";
+            } catch (error) {
+                this.status_elem.innerHTML = error;
+            } finally {
+                this.generate_button.innerHTML = "Generate";
             }
         }
 
@@ -220,7 +222,6 @@ export class Conversation {
 
                 // Set status
                 this.status_elem.innerHTML = "Ready";
-                document.getElementById("generate").innerHTML = "Generate";
 
                 // Render the last message div
                 this.render_message_div(this.messages.length - 1);
@@ -229,7 +230,8 @@ export class Conversation {
                 this.add(this.messages.length);
             } catch (error) {
                 this.status_elem.innerHTML = error;
-                document.getElementById("generate").innerHTML = "Generate";
+            } finally {
+                this.generate_button.innerHTML = "Generate";
             }
         }
 
@@ -249,7 +251,7 @@ export class Conversation {
 
         // Set status to ready
         this.status_elem.innerHTML = "Ready";
-        document.getElementById("generate").innerHTML = "Generate";
+        this.generate_button.innerHTML = "Generate";
     }
 
     // Focus on the content of message at index
@@ -268,7 +270,7 @@ export class Conversation {
         // Set status to ready
         if (!generating) {
             this.status_elem.innerHTML = "Ready";
-            document.getElementById("generate").innerHTML = "Generate";
+            this.generate_button.innerHTML = "Generate";
         }
 
         // Get the template message div and clone it
@@ -299,7 +301,7 @@ export class Conversation {
 
         // Set status to ready
         this.status_elem.innerHTML = "Ready";
-        document.getElementById("generate").innerHTML = "Generate";
+        this.generate_button.innerHTML = "Generate";
 
         // Delete the message at index
         this.messages.splice(index, 1);
