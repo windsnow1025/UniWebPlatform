@@ -159,7 +159,7 @@ export class Conversation {
                 let content = res.data;
                 content = content.replace("<", "&lt;").replace(">", "&gt;");
 
-                // Update the last message div
+                // Add the response to the last message div
                 this.add(this.messages.length, "assistant", content);
 
                 // Add a new message div
@@ -167,9 +167,9 @@ export class Conversation {
 
                 // Set status
                 this.status_elem.innerHTML = "Ready";
+                this.generate_button.innerHTML = "Generate";
             } catch (error) {
                 this.status_elem.innerHTML = error;
-            } finally {
                 this.generate_button.innerHTML = "Generate";
             }
         }
@@ -226,9 +226,9 @@ export class Conversation {
 
                 // Set status
                 this.status_elem.innerHTML = "Ready";
+                this.generate_button.innerHTML = "Generate";
             } catch (error) {
                 this.status_elem.innerHTML = error;
-            } finally {
                 this.generate_button.innerHTML = "Generate";
             }
         }
@@ -266,7 +266,7 @@ export class Conversation {
             if (this.controller) {
                 this.controller.abort();
             }
-            
+
             // Set status
             this.status_elem.innerHTML = "Ready";
             this.generate_button.innerHTML = "Generate";
