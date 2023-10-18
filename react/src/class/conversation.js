@@ -120,14 +120,6 @@ export class Conversation {
             return;
         }
 
-        // Set status to generating
-        this.status_elem.innerHTML = "Generating...";
-        this.generate_button.innerHTML = "Stop";
-
-        // Set streaming status
-        this.wait_response.push(true);
-        const stream_index = this.wait_response.length - 1;
-
         // Get parameters
         const messages = this.serializeMessages();
         const api_type = document.getElementById("api_type").value;
@@ -143,9 +135,17 @@ export class Conversation {
         formData.append("temperature", temperature);
         formData.append("stream", stream);
 
+        // Set status
+        this.status_elem.innerHTML = "Generating...";
+        this.generate_button.innerHTML = "Stop";
+
         // Stream mode off
         if (!stream) {
             try {
+                // Set wait_response status to true
+                this.wait_response.push(true);
+                const current_wait_response_index = this.wait_response.length - 1;
+
                 const res = await axios.post("/api/gpt/", formData, {
                     headers: {
                         'Authorization': `Bearer ${this.token}`
@@ -153,16 +153,14 @@ export class Conversation {
                 });
 
                 // Stop if not waiting for response
-                if (!this.wait_response[stream_index]) {
-                    return;
-                }
+                if (!this.wait_response[current_wait_response_index]) return;
 
                 // Get the response
                 let content = res.data;
                 content = content.replace("<", "&lt;").replace(">", "&gt;");
 
                 // Update the last message div
-                this.add(this.messages.length, "assistant", content, true);
+                this.add(this.messages.length, "assistant", content);
 
                 // Add a new message div
                 this.add(this.messages.length);
@@ -220,14 +218,14 @@ export class Conversation {
 
                 await processedStream.getReader().read();
 
-                // Set status
-                this.status_elem.innerHTML = "Ready";
-
                 // Render the last message div
                 this.render_message_div(this.messages.length - 1);
 
                 // Add a new message div
                 this.add(this.messages.length);
+
+                // Set status
+                this.status_elem.innerHTML = "Ready";
             } catch (error) {
                 this.status_elem.innerHTML = error;
             } finally {
@@ -241,8 +239,8 @@ export class Conversation {
 
     // Stop generating response
     stop() {
-        // Set last wait_response status to false
-        this.wait_response[this.wait_response.length - 1] = false;
+        // Set all wait_response status to false
+        this.wait_response = this.wait_response.map(() => false);
 
         // Abort controller
         if (this.controller) {
@@ -262,13 +260,14 @@ export class Conversation {
 
     // Add a new message at index
     add(index, role = "user", content = "", generating = false) {
-        // Abort controller
-        if (this.controller && !generating) {
-            this.controller.abort();
-        }
-
-        // Set status to ready
+        // If not generating
         if (!generating) {
+            // Abort controller
+            if (this.controller) {
+                this.controller.abort();
+            }
+            
+            // Set status
             this.status_elem.innerHTML = "Ready";
             this.generate_button.innerHTML = "Generate";
         }
