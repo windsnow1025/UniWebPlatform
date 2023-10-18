@@ -12,33 +12,33 @@ function ConversationAutocomplete(props) {
         window.addEventListener('themeChanged', handleThemeChange);
     }, []);
 
-    const gpt = props.gpt;
+    const conversation = props.conversation;
     const [options, setOptions] = useState([]);
 
     useEffect(() => {
-        setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
+        setOptions(conversation.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     }, []);
 
     const handleOptionClick = async (index) => {
-        await gpt.setConversation(index);
+        await conversation.setConversation(index);
     }
 
     const handleDelete = async (index) => {
-        await gpt.cloudDelete(index);
-        await gpt.fetch_conversations();
-        setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
+        await conversation.cloudDelete(index);
+        await conversation.fetch_conversations();
+        setOptions(conversation.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     };
 
     const handleAdd = async (value) => {
-        await gpt.cloudUpload(value);
-        await gpt.fetch_conversations();
-        setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
+        await conversation.cloudUpload(value);
+        await conversation.fetch_conversations();
+        setOptions(conversation.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     }
 
     const handleUpdate = async (index, value) => {
-        await gpt.cloudUpdate(index, value);
-        await gpt.fetch_conversations();
-        setOptions(gpt.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
+        await conversation.cloudUpdate(index, value);
+        await conversation.fetch_conversations();
+        setOptions(conversation.conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
     }
 
     return (
