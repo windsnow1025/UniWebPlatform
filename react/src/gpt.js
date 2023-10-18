@@ -40,10 +40,10 @@ import {Conversation} from './class/conversation.js';
 // Get elements
 const messages_div = document.querySelector("#messages_div")
 const template_message_div = document.querySelector("div[name='message_div']");
-const status_elem = document.querySelector('#status');
+const status_div = document.querySelector('#status_div');
 
 // Create conversation
-const conversation = new Conversation(messages_div, template_message_div, status_elem);
+const conversation = new Conversation(messages_div, template_message_div, status_div);
 
 // Get buttons
 const generate_button = document.querySelector('#generate');
