@@ -16,6 +16,16 @@ marked.setOptions({
     xhtml: false
 });
 
+require('mathjax').init({
+    loader: {load: ['input/tex', 'output/svg']},
+    tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    svg: {
+        fontCache: 'global'
+    }
+});
+
 export class MessageView {
     constructor() {
         this.role_select = null;
