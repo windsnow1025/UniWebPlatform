@@ -7,10 +7,13 @@ export class Conversation {
      * @param {HTMLDivElement} messages_div
      * @param {HTMLDivElement} template_message_div
      * @param {HTMLDivElement} status_div
+     * @param {HTMLDivElement} parameter_div
      */
-    constructor(messages_div, template_message_div, status_div) {
+    constructor(messages_div, template_message_div, status_div, parameter_div) {
         this.messages_div = messages_div;
         this.template_message_div = template_message_div;
+        this.status_div = status_div;
+        this.parameter_div = parameter_div;
 
         /** @type {Array} */
         this.conversations = [];
@@ -20,10 +23,12 @@ export class Conversation {
         this.wait_response = [];
         /** @type {AbortController} */
         this.controller = null;
+
         /** @type {HTMLButtonElement} */
-        this.generate_button = status_div.querySelector('#generate');
+        this.generate_button = this.status_div.querySelector('#generate');
         /** @type {HTMLElement} */
-        this.status_elem = status_div.querySelector('#status');
+        this.status_elem = this.status_div.querySelector('#status');
+
         /** @type {string} */
         this.token = localStorage.getItem('token');
 
@@ -122,10 +127,10 @@ export class Conversation {
 
         // Get parameters
         const messages = this.serializeMessages();
-        const api_type = document.getElementById("api_type").value;
-        const model = document.getElementById("model").value;
-        const temperature = document.getElementById("temperature").value;
-        const stream = document.getElementById("stream").checked;
+        const api_type = this.parameter_div.querySelector("#api_type").value;
+        const model = this.parameter_div.querySelector("#model").value;
+        const temperature = this.parameter_div.querySelector("#temperature").value;
+        const stream = this.parameter_div.querySelector("#stream").checked;
 
         // Create a new form data object
         const formData = new FormData();
