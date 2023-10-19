@@ -21,7 +21,7 @@ export class Conversation {
         /** @type {AbortController} */
         this.controller = null;
         /** @type {HTMLButtonElement} */
-        this.generate_button = document.querySelector('#generate');
+        this.generate_button = status_div.querySelector('#generate');
         /** @type {HTMLElement} */
         this.status_elem = status_div.querySelector('#status');
         /** @type {string} */
@@ -254,7 +254,8 @@ export class Conversation {
 
     // Focus on the content of message at index
     focus(index) {
-        const message = document.getElementById("messages_div").childNodes[index + 1]; // +1 for the add button
+        // Logic to UI: index + 1
+        const message = this.messages_div.childNodes[index + 1];
         message.querySelector('div[name="content"]').focus();
     }
 
@@ -304,8 +305,8 @@ export class Conversation {
 
         // Delete the message at index
         this.messages.splice(index, 1);
-        const messages_div = document.getElementById("messages_div");
-        messages_div.removeChild(messages_div.childNodes[index + 1]); // +1 for the add button
+        // Logic to UI: index + 1
+        this.messages_div.removeChild(this.messages_div.childNodes[index + 1]);
     }
 
     // Copy to clipboard
