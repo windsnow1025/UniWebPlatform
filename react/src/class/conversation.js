@@ -3,7 +3,7 @@ import {Message} from "./message";
 
 export class Conversation {
     /**
-     *
+     * Constructor
      * @param {HTMLDivElement} messages_div
      * @param {HTMLDivElement} template_message_div
      * @param {HTMLDivElement} status_div
