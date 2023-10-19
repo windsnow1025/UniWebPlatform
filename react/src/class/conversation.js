@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Message} from "./message";
+import { MessageController } from "../controller/MessageController.js";
 
 export class Conversation {
     /**
@@ -17,8 +17,8 @@ export class Conversation {
 
         /** @type {Array} */
         this.conversations = [];
-        /** @type {Message[]} */
-        this.messages = [];
+        /** @type {MessageController[]} */
+        this.messageControllers = [];
         /** @type {boolean[]} */
         this.wait_response = [];
         /** @type {AbortController} */
@@ -50,10 +50,10 @@ export class Conversation {
 
     // Serialize messages[] to JSON
     serializeMessages() {
-        return JSON.stringify(this.messages.map(message => {
+        return JSON.stringify(this.messageControllers.map(messageController => {
             return {
-                role: message.role,
-                content: message.content
+                role: messageController.model.role,
+                content: messageController.model.content
             }
         }));
     }
@@ -107,12 +107,12 @@ export class Conversation {
 
     // Render message_div[index] from messages[index]
     render_message_div(index, parse = true) {
-        const message = this.messages[index];
+        const messageController = this.messageControllers[index];
 
-        if (message.content_div == document.activeElement || parse == false) {
-            message.render(false);
+        if (messageController.view.content_div == document.activeElement) {
+            messageController.view.render(messageController.model.role, messageController.model.content, false);
         } else {
-            message.render(parse);
+            messageController.view.render(messageController.model.role, messageController.model.content, parse);
         }
     }
 
@@ -165,10 +165,10 @@ export class Conversation {
                 content = content.replace("<", "&lt;").replace(">", "&gt;");
 
                 // Add the response to the last message div
-                this.add(this.messages.length, "assistant", content);
+                this.add(this.messageControllers.length, "assistant", content);
 
                 // Add a new message div
-                this.add(this.messages.length);
+                this.add(this.messageControllers.length);
 
                 // Set status
                 this.status_elem.innerHTML = "Ready";
@@ -191,11 +191,11 @@ export class Conversation {
             chunk = chunk.replace("<", "&lt;").replace(">", "&gt;");
 
             // Update messages array
-            this.messages[this.messages.length - 1].content += chunk;
+            this.messageControllers[this.messageControllers.length - 1].model.content += chunk;
 
             // Append the chunk to the message div
-            const message = this.messages[this.messages.length - 1];
-            message.content_div.innerHTML += chunk;
+            const messageController = this.messageControllers[this.messageControllers.length - 1];
+            messageController.view.content_div.innerHTML += chunk;
 
             await processChunk.bind(this)(reader, controller);
         }
@@ -216,7 +216,7 @@ export class Conversation {
                 const reader = response.body.getReader();
                 const processedStream = new ReadableStream({
                     start: async (controller) => {
-                        this.add(this.messages.length, "assistant", "", true);
+                        this.add(this.messageControllers.length, "assistant", "", true);
                         await processChunk.bind(this)(reader, controller);
                     },
                 }, {signal: this.controller.signal});
@@ -224,10 +224,10 @@ export class Conversation {
                 await processedStream.getReader().read();
 
                 // Render the last message div
-                this.render_message_div(this.messages.length - 1);
+                this.render_message_div(this.messageControllers.length - 1);
 
                 // Add a new message div
-                this.add(this.messages.length);
+                this.add(this.messageControllers.length);
 
                 // Set status
                 this.status_elem.innerHTML = "Ready";
@@ -260,8 +260,8 @@ export class Conversation {
     // Focus on the content of message at index
     focus(index) {
         // Logic to UI: index + 1
-        const message = this.messages_div.childNodes[index + 1];
-        message.querySelector('div[name="content"]').focus();
+        const message_div = this.messages_div.childNodes[index + 1];
+        message_div.querySelector('div[name="content"]').focus();
     }
 
     // Add a new message at index
@@ -282,12 +282,12 @@ export class Conversation {
         const message_div = this.template_message_div.cloneNode(true);
 
         // Create and render the new message div at index
-        const message = new Message(role, content, message_div);
-        this.messages.splice(index, 0, message);
+        const messageController = new MessageController(role, content, message_div);
+        this.messageControllers.splice(index, 0, messageController);
         this.create_render_message_div(index, message_div);
 
         // Re-render the messages div from index + 1
-        for (let i = index + 1; i < this.messages.length; i++) {
+        for (let i = index + 1; i < this.messageControllers.length; i++) {
             this.render_message_div(i);
         }
 
@@ -309,7 +309,7 @@ export class Conversation {
         this.generate_button.innerHTML = "Generate";
 
         // Delete the message at index
-        this.messages.splice(index, 1);
+        this.messageControllers.splice(index, 1);
         // Logic to UI: index + 1
         this.messages_div.removeChild(this.messages_div.childNodes[index + 1]);
     }
@@ -317,7 +317,7 @@ export class Conversation {
     // Copy to clipboard
     copy(index) {
         // Get message content
-        const content = this.messages[index].content;
+        const content = this.messageControllers[index].model.content;
 
         // Copy to clipboard
         navigator.clipboard.writeText(content);
@@ -361,7 +361,7 @@ export class Conversation {
                 const messages = JSON.parse(content);
 
                 this.clear_message_divs();
-                this.messages = [];
+                this.messageControllers = [];
                 for (let i = 0; i < messages.length; i++) {
                     this.add(i, messages[i].role, messages[i].content);
                 }
@@ -448,7 +448,7 @@ export class Conversation {
 
         // Re-render the messages div
         this.clear_message_divs();
-        this.messages = [];
+        this.messageControllers = [];
         for (let i = 0; i < messages.length; i++) {
             this.add(i, messages[i].role, messages[i].content);
         }
