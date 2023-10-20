@@ -16,15 +16,17 @@ marked.setOptions({
     xhtml: false
 });
 
-require('mathjax').init({
-    loader: {load: ['input/tex', 'output/svg']},
-    tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-    },
-    svg: {
-        fontCache: 'global'
-    }
-});
+import 'katex/dist/katex.min.css';
+import renderMathInElement from 'katex/dist/contrib/auto-render';
+
+const katex_config = {
+    delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+    ],
+};
 
 export class MessageView {
     constructor() {
@@ -70,7 +72,7 @@ export class MessageView {
                 this.content_div.innerHTML = content;
             } else {
                 this.content_div.innerHTML = this.parseContent(content);
-                MathJax.typeset([this.content_div]); // Assuming MathJax is globally available
+                renderMathInElement(this.content_div, katex_config);
             }
         }
     }
