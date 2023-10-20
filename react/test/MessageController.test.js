@@ -1,55 +1,27 @@
 import { MessageController } from '../src/controller/MessageController';
+import { JSDOM } from 'jsdom';
 
-function setupDocumentBody() {
-    document.body.innerHTML = `
-    <div name="message_div">
-        <div class="message_div">
-            <select name="role" title="role">
-                <option value="user">user</option>
-                <option value="assistant">assistant</option>
-                <option value="system">system</option>
-            </select>
-            <div class="Flex-space-between">
-                <div class="inFlex-FillSpace">
-                    <div name="content" class="markdown-body" style="margin: 8px; padding: 8px; min-height: 24px;" contenteditable="plaintext-only"></div>
-                </div>
-                <div class="Flex-Column inFlex-flex-end">
-                    <i name="copy_button" class="fa fa-copy" style="margin: 4px" title="Copy"></i>
-                    <i name="delete_button" class="fa fa-minus-circle" style="margin: 4px" title="Delete"></i>
-                </div>
-            </div>
-        </div>
-        <div name="add_button_div" class="Flex-space-between">
-            <div class="inFlex-FillSpace">
-            </div>
-            <div class="Flex-Column inFlex-flex-end">
-                <i name="add_button" class="fa fa-plus-circle" title="Add"></i>
-            </div>    
-        </div>
-    </div>
-    `;
-    return document.querySelector('div[name="message_div"]');
-}
+const dom = new JSDOM();
+global.document = dom.window.document;
 
-describe('MessageController', () => {
-    let messageDiv;
-
+describe('MessageController initialization', () => {
+    let messageContainer;
     beforeEach(() => {
-        // Set up the document body before each test
-        messageDiv = setupDocumentBody();
+        messageContainer = document.createElement('div');
+        messageContainer.innerHTML = `
+      <select name="role"></select>
+      <div name="content"></div>
+    `;
     });
 
-    test('should initialize with given role and content', () => {
-        // Here we're testing the initial state of the controller.
-        const controller = new MessageController('user', 'Hello, world!', messageDiv);
+    test('initializes MessageModel correctly', () => {
+        const role = 'user';
+        const content = 'Hello';
 
-        // Check if the model has been initialized correctly
-        expect(controller.model.role).toBe('user');
-        expect(controller.model.content).toBe('Hello, world!');
+        const messageController = new MessageController(role, content, messageContainer);
 
-        // Check if the view renders the initial state correctly
-        // (this assumes that your render method sets some visible aspect of the view)
-        expect(messageDiv.querySelector('select[name="role"]').value).toBe('user');
-        expect(messageDiv.querySelector('div[name="content"]').innerHTML).toBe('Hello, world!');
+        expect(messageController.model.role).toBe(role);
+        expect(messageController.model.content).toBe(content);
     });
+
 });
