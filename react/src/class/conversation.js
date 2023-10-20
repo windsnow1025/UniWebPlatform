@@ -109,11 +109,9 @@ export class Conversation {
     render_message_div(index, parse = true) {
         const messageController = this.messageControllers[index];
 
-        if (messageController.view.content_div == document.activeElement) {
-            messageController.view.render(messageController.model.role, messageController.model.content, false);
-        } else {
-            messageController.view.render(messageController.model.role, messageController.model.content, parse);
-        }
+        if (messageController.view.content_div == document.activeElement) parse = false;
+
+        messageController.view.render({ role: messageController.model.role, content: messageController.model.content, parseContent: parse });
     }
 
     // Generate Response
