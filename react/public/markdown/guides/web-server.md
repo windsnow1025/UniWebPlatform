@@ -64,6 +64,14 @@ cmd > cd <NodeJS Directory>
 cmd > npm install
 ```
 
+4. Update package.json
+
+```powershell
+npm install -g npm-check-updates
+ncu -u
+npm install
+```
+
 ### Nginx
 
 Download Nginx
