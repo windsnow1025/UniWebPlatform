@@ -1,5 +1,4 @@
 const express = require('express');
-const http = require("http");
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -13,9 +12,9 @@ const conversationAPI = require('./api/conversationRouter');
 
 // HTTP
 const port = 3000;
-http.createServer(app.listen(port, () => {
+app.listen(port, () => {
     console.log(`Server listening at port ${port}...`);
-}));
+});
 
 // support parsing of application/json type post data
 app.use(bodyParser.json());
