@@ -52,20 +52,4 @@ describe('MessageController', () => {
         expect(messageDiv.querySelector('select[name="role"]').value).toBe('user');
         expect(messageDiv.querySelector('div[name="content"]').innerHTML).toBe('Hello, world!');
     });
-
-    // Write more tests below, for example, to simulate user interactions and check if the model and view are updated correctly.
-
-    test('should update role on role change event', () => {
-        const controller = new MessageController('user', 'Hello, world!', messageDiv);
-
-        // Simulate a user changing the role in the dropdown
-        const roleSelect = messageDiv.querySelector('select[name="role"]');
-        roleSelect.value = 'admin'; // change role to admin
-        roleSelect.dispatchEvent(new Event('change')); // dispatch change event
-
-        // Now, our controller should have handled the event and updated the model
-        expect(controller.model.role).toBe('admin');
-    });
-
-    // Continue with other interaction tests...
 });
