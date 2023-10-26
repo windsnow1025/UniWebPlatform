@@ -191,9 +191,19 @@ export class Conversation {
             // Update messages array
             this.messageControllers[this.messageControllers.length - 1].model.content += chunk;
 
+
+            // Check if user is at the bottom of the page before appending the chunk
+            // Compare the scroll height minus the scroll position with the client height (plus an offset if necessary).
+            const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+
             // Append the chunk to the message div
             const messageController = this.messageControllers[this.messageControllers.length - 1];
             messageController.view.content_div.innerHTML += chunk;
+
+            if (isAtBottom) {
+                // Scroll to the bottom of the page
+                window.scrollTo(0, document.body.scrollHeight);
+            }
 
             await processChunk.bind(this)(reader, controller);
         }
