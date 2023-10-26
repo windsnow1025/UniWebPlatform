@@ -1,26 +1,23 @@
 import axios from 'axios';
-import { marked } from 'marked';
-import hljs from 'highlight.js';
 import '/public/css/markdown.css';
 
 import { applyTheme } from "./theme.js";
 const theme = localStorage.getItem("theme");
 applyTheme(theme);
 
-marked.setOptions({
-    renderer: new marked.Renderer(),
-    highlight: function (code, lang) {
-        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-        return hljs.highlight(code, { language }).value;
-    },
-    langPrefix: 'hljs language-', // highlight.js css expects a top-level 'hljs' class.
-    pedantic: false,
-    gfm: true,
-    breaks: false,
-    sanitize: false,
-    smartypants: false,
-    xhtml: false
-});
+import {Marked} from "marked";
+import {markedHighlight} from "marked-highlight";
+import hljs from 'highlight.js';
+
+const marked = new Marked(
+    markedHighlight({
+        langPrefix: 'hljs language-',
+        highlight(code, lang) {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            return hljs.highlight(code, { language }).value;
+        }
+    })
+);
 
 function getFileName() {
     const urlParams = new URLSearchParams(window.location.search);
