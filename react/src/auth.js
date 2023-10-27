@@ -32,14 +32,20 @@ export async function initAuth() {
     await fetchUserDiv();
 
     // Get elements
-    const SignInSignUpButton = document.getElementById("SignInSignUpButton");
+    const SignInButton = document.getElementById("SignInButton");
+    const SignUpButton = document.getElementById("SignUpButton");
     const SignOutButton = document.getElementById("SignOutButton");
 
     // Add event listeners for Sign in / Sign up buttons
-    SignInSignUpButton.addEventListener('click', function (event) {
+    SignInButton.addEventListener('click', function (event) {
         event.preventDefault(); // prevent the default action
         localStorage.setItem('prevUrl', window.location.href);
-        window.location.href = "/html/user.html";
+        window.location.href = "/html/signin.html";
+    });
+    SignUpButton.addEventListener('click', function (event) {
+        event.preventDefault(); // prevent the default action
+        localStorage.setItem('prevUrl', window.location.href);
+        window.location.href = "/html/signup.html";
     });
 
     // Add event listeners for Sign out button

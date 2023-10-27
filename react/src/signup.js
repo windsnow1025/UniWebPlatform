@@ -12,7 +12,7 @@ theme_div.render(
     </React.StrictMode>
 );
 
-class User {
+class Signup {
     constructor() {
         this.username = null;
         this.password = null;
@@ -23,33 +23,6 @@ class User {
         this.password = document.getElementById("password").value;
     }
 
-    async signIn() {
-        this.getData();
-        try {
-            // Send sign in request
-            let res = await axios.post("/api/user/sign-in", {
-                data: { username: this.username, password: this.password }
-            });
-
-            // Save token
-            localStorage.setItem('token', res.data.token);
-
-            // Redirect to previous URL
-            let prevUrl = localStorage.getItem('prevUrl');
-            if (prevUrl) {
-                window.location.href = prevUrl;
-            } else {
-                window.location.href = "/"; // default URL if no previous URL was stored
-            }
-        } catch (err) {
-            if (err.response.status == 401) {
-                alert("Invalid Username or Password");
-            } else {
-                alert("Sign In Fail");
-                console.error(err);
-            }
-        }
-    }
 
     isValidInput(input) {
         // Check if input contains only ASCII characters and has a length between 6 and 20
@@ -68,6 +41,14 @@ class User {
                 data: { username: this.username, password: this.password }
             });
             alert("Sign Up Success");
+
+            // Redirect to previous URL
+            let prevUrl = localStorage.getItem('prevUrl');
+            if (prevUrl) {
+                window.location.href = prevUrl;
+            } else {
+                window.location.href = "/"; // default URL if no previous URL was stored
+            }
         } catch (err) {
             if (err.response.status == 401) {
                 alert("Username already exists.");
@@ -81,8 +62,6 @@ class User {
 }
 
 
-const user = new User();
-const SignInButton = document.getElementById("signIn");
+const signup = new Signup();
 const SignUpButton = document.getElementById("signUp");
-SignInButton.onclick = user.signIn.bind(user);
-SignUpButton.onclick = user.signUp.bind(user);
+SignUpButton.onclick = signup.signUp.bind(signup);
