@@ -82,17 +82,18 @@ router.put('/', async (req, res, next) => {
     try {
         let data = req.body.data;
 
-        let existSqlData = {username: data.username};
-        let result = await UserSQL.SelectUsername(existSqlData);
+        // Get current user data
+        let current_user = await UserSQL.SelectUsername({username: req.user.sub});
+        let potential_new_user = await UserSQL.SelectUsername({username: data.username});
 
-        // Judge if data.username is different from req.user.sub and data.username exists
-        if (data.username != req.user.sub && result.length > 0) {
+        // Judge if the username is changed but already exists
+        if (data.username != req.user.sub && potential_new_user.length > 0) {
             res.status(409).send("Username already exists");
             next();
         }
 
         // Update Data
-        let updateSqlData = {id: result[0].id, username: data.username, password: data.password};
+        let updateSqlData = {id: current_user[0].id, username: data.username, password: data.password};
         await UserSQL.Update(updateSqlData);
         res.status(200).send(true);
     } catch (err) {
