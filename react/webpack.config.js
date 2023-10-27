@@ -6,7 +6,8 @@ module.exports = {
     entry: {
         "index": "./src/index.js",
         "markdown": "./src/markdown.js",
-        "user": "./src/user.js",
+        "signin": "./src/signin.js",
+        "signup": "./src/signup.js",
         "user-center": "./src/user-center.js",
         "message-transmitter": "./src/message-transmitter.js",
         "gpt": "./src/gpt.js",
