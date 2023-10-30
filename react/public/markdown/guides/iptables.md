@@ -21,3 +21,9 @@ service iptables restart
 ```bash
 iptables -t nat -nL
 ```
+
+## Delete rules
+
+```bash
+iptables -t nat -D <rule>
+```
