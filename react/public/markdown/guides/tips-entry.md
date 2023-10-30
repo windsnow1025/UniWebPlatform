@@ -197,6 +197,12 @@ py -3.8 -m pip install -r requirements.txt
 
 ## Java
 
+- Build with Maven
+
+```bash
+./mvnw install
+```
+
 - Error: JAVA_HOME not found in your environment
 
 Set `JAVA_HOME` in `System Variables` to `C:\Program Files\Java\jdk-<version>`
