@@ -36,49 +36,25 @@ FLUSH PRIVILEGES;
 
 ### Node.JS
 
-1. Install Node JS
-2. Run Forever (For Production)
+- Update package.json
 
-```powershell
-cmd > cd <NodeJS Directory>
-cmd > npm install --global forever
-cmd > forever start src/app.js
-```
-
-    - Stop Forever: `forever stopall`
-    - Restart Forever: `forever restartall`
-
-3. Run Nodemon (For Development)
-
-```powershell
-cmd > cd <NodeJS Directory>
-cmd > npm install --global nodemon
-cmd > nodemon src/app.js
-```
-
-- Stop Nodemon: `ctrl + c`
-- Reinstall Node Modules: delete `node_modules`, `package-lock.json`
-
-```powershell
-cmd > cd <NodeJS Directory>
-cmd > npm install
-```
-
-4. Update package.json
-
-```powershell
+```bash
 npm install -g npm-check-updates
 ncu -u
 npm install
 ```
 
+#### Webpack
+
+```bash
+npx webpack --watch
+```
+
 ### Nginx
 
-Download Nginx
-
-```powershell
-cmd > cd <Nginx Directory>
-cmd > start nginx
+```bash
+cd <Nginx Directory>
+start nginx
 ```
 
 - Reload config: `cmd > nginx -s reload`
