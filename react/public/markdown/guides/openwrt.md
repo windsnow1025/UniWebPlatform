@@ -103,15 +103,17 @@ opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-ful
 
 ### Possible solutions of network problems
 
-1. Disable Private DNS;
-2. Use Device MAC Address;
-3. Avoid DNS Server conflicts;
-4. Avoid IP Address conflicts;
-5. Synchronize System Time;
-6. YouTube Problem:
+1. Disable Private DNS
+2. Use Device MAC Address
+3. Avoid DNS Server conflicts
+4. Avoid IP Address conflicts
+5. Synchronize System Time
+6. YouTube Problem
    1. Change dns > fallback in clash config
    2. Disable all dns in Overwrite Settings >> Developer Settings
    3. Disable QUIC in Browser (Not Recommended)
+7. Meta Core only display IP in Log
+   - Overwrite Settings >> Meta Settings >> Enable `Enable Sniffer`, `Forced Sniff Pure IP`, `Custom Sniffer Settings`
 
 ## Shadowsocks Installation
 
