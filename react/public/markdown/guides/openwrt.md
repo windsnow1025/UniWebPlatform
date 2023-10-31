@@ -114,6 +114,9 @@ opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-ful
    3. Disable QUIC in Browser (Not Recommended)
 7. Meta Core only display IP in Log
    - Overwrite Settings >> Meta Settings >> Enable `Enable Sniffer`, `Forced Sniff Pure IP`, `Custom Sniffer Settings`
+8. OpenWRT Hostname not working
+   1. Network >> Global network options >> Set `IPv6 ULA-Prefix`
+   2. Set Client IPv6 DNS Server
 
 ## Shadowsocks Installation
 
