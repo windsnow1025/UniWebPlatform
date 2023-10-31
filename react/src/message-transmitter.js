@@ -14,41 +14,28 @@ theme_div.render(
 
 class MessageTransmitter {
     constructor() {
-        this.sendText = document.getElementById("sendText");
-        this.sendTextValue = null;
-        this.receiveText = document.getElementById("receiveText");
-        this.receiveMessage();
+        this.messages = [];
     }
-    
-    async sendMessage() {
-        this.sendTextValue = this.sendText.innerHTML;
-        if (this.sendTextValue == "") {
-            console.log("Empty message.");
-            return;
-        }
+
+    async send_message(message) {
         await axios.post("/api/message", {
-            data: { message: this.sendTextValue }
+            data: { message: message }
         }).catch(err => {
             console.error(err);
         })
-        this.sendText.innerHTML = "";
-        this.receiveMessage();
     }
 
-    async receiveMessage() {
+    async fetch_messages() {
         await axios.get("/api/message").then(res => {
-            this.receiveText.innerHTML = "";
-            for (let i = 0; i < res.data.length; i++) {
-                this.receiveText.innerHTML += res.data[i].message + "<br>";
-            }
+            this.messages = res.data;
         }).catch(err => {
             console.error(err);
         })
     }
 
-    async clearReceiveMessage() {
+    async delete_messages() {
         await axios.delete("/api/message").then(res => {
-            this.receiveText.innerHTML = "";
+            this.messages = [];
         }).catch(err => {
             console.error(err);
         })
@@ -57,18 +44,49 @@ class MessageTransmitter {
 
 const messageTransmitter = new MessageTransmitter();
 
-const sendButton = document.getElementById("send");
+const send_text_div = document.getElementById("sendText");
+const receive_text_div = document.getElementById("receiveText");
+
+const send_button = document.getElementById("send");
 const receiveButton = document.getElementById("receive");
 const clearReceiveButton = document.getElementById("clearReceive");
 
-sendButton.onclick = messageTransmitter.sendMessage.bind(messageTransmitter);
-receiveButton.onclick = messageTransmitter.receiveMessage.bind(messageTransmitter);
-clearReceiveButton.onclick = messageTransmitter.clearReceiveMessage.bind(messageTransmitter);
+await messageTransmitter.fetch_messages();
+for (let i = 0; i < messageTransmitter.messages.length; i++) {
+    receive_text_div.innerHTML += messageTransmitter.messages[i].message + "<br>";
+}
 
-// Bind Ctrl+Enter to generate
+send_button.addEventListener('click', async function (event) {
+    event.preventDefault(); // prevent the default action
+    const message = send_text_div.innerHTML;
+    await messageTransmitter.send_message(message);
+    send_text_div.innerHTML = "";
+    receive_text_div.innerHTML = "";
+    await messageTransmitter.fetch_messages();
+    for (let i = 0; i < messageTransmitter.messages.length; i++) {
+        receive_text_div.innerHTML += messageTransmitter.messages[i].message + "<br>";
+    }
+});
+
+receiveButton.addEventListener('click', async function (event) {
+    event.preventDefault(); // prevent the default action
+    await messageTransmitter.fetch_messages();
+    receive_text_div.innerHTML = "";
+    for (let i = 0; i < messageTransmitter.messages.length; i++) {
+        receive_text_div.innerHTML += messageTransmitter.messages[i].message + "<br>";
+    }
+});
+
+clearReceiveButton.addEventListener('click', async function (event) {
+    event.preventDefault(); // prevent the default action
+    await messageTransmitter.delete_messages();
+    receive_text_div.innerHTML = "";
+});
+
+// Bind Ctrl+Enter to send
 document.addEventListener('keydown', function (event) {
     if (event.repeat) return;
     if (event.ctrlKey && event.key === 'Enter') {
-        sendButton.click();
+        send_button.click();
     }
 });
