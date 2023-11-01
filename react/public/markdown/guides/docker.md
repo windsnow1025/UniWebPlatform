@@ -105,7 +105,7 @@ docker rm $(docker ps -aq)
 3. Delete all images
 
 ```bash
-docker rmi $(docker images -q)
+docker rmi $(docker images -aq)
 ```
 
 4. Delete all volumes
