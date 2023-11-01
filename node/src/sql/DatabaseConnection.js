@@ -15,16 +15,14 @@ const poolQuery = util.promisify(pool.query).bind(pool);
 async function ConnectionTest() {
     let delay = 1000;
 
-    await new Promise(resolve => setTimeout(resolve, delay));
-
     while (true) {
         try {
+            await new Promise(resolve => setTimeout(resolve, delay));
             await poolQuery('SELECT 1');
             console.log('SQL Connected!');
             return true;
         } catch (err) {
             console.error('Error connecting to SQL:', err);
-            await new Promise(resolve => setTimeout(resolve, delay));
         }
     }
 }
