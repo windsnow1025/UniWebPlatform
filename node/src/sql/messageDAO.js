@@ -10,9 +10,9 @@ async function SelectAll() {
     return result;
 }
 
-async function Insert(data) {
-    const sql = "INSERT INTO message (message) VALUES (?)";
-    const sqlParams = [data.message];
+async function Insert(message) {
+    const sql = "INSERT INTO message (username, content) VALUES (?,?)";
+    const sqlParams = [message.username, message.content];
     await poolQuery(sql, sqlParams);
     console.log("1 message inserted");
 }

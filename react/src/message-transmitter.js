@@ -1,4 +1,10 @@
 import axios from "axios";
+import {MessageController} from "./controller/MessageController";
+
+// Account
+import {initAuth, getUsername} from './auth.js';
+
+await initAuth();
 
 // Theme
 import React from 'react';
@@ -14,12 +20,16 @@ theme_div.render(
 
 class MessageTransmitter {
     constructor() {
+        this.username = null;
         this.messages = [];
     }
 
-    async send_message(message) {
+    async send_message(content) {
         await axios.post("/api/message", {
-            data: { message: message }
+            data: {
+                username: this.username,
+                content: content
+            }
         }).catch(err => {
             console.error(err);
         })
@@ -42,45 +52,55 @@ class MessageTransmitter {
     }
 }
 
+function appendMessage(username, content, messages_div) {
+    const template_message_div = document.querySelector("[name='message_div']")
+    const message_div = template_message_div.cloneNode(true);
+    const messageController = new MessageController(username, content, message_div);
+    messages_div.appendChild(message_div);
+}
+
+function appendMessages(messages, messages_div) {
+    for (let i = 0; i < messages.length; i++) {
+        let message = messages[i];
+        appendMessage(message.username, message.content, messages_div);
+    }
+}
+
 const messageTransmitter = new MessageTransmitter();
 
+messageTransmitter.username = await getUsername();
+
 const send_text_div = document.getElementById("sendText");
-const receive_text_div = document.getElementById("receiveText");
+const messages_div = document.getElementById("messages_div");
 
 const send_button = document.getElementById("send");
-const receiveButton = document.getElementById("receive");
-const clearReceiveButton = document.getElementById("clearReceive");
+const receive_button = document.getElementById("receive");
+const clear_receive_button = document.getElementById("clearReceive");
 
 await messageTransmitter.fetch_messages();
-for (let i = 0; i < messageTransmitter.messages.length; i++) {
-    receive_text_div.innerHTML += messageTransmitter.messages[i].message + "<br>";
-}
+appendMessages(messageTransmitter.messages, messages_div);
 
 send_button.addEventListener('click', async function (event) {
     event.preventDefault(); // prevent the default action
     const message = send_text_div.innerHTML;
     await messageTransmitter.send_message(message);
     send_text_div.innerHTML = "";
-    receive_text_div.innerHTML = "";
+    messages_div.innerHTML = "";
     await messageTransmitter.fetch_messages();
-    for (let i = 0; i < messageTransmitter.messages.length; i++) {
-        receive_text_div.innerHTML += messageTransmitter.messages[i].message + "<br>";
-    }
+    appendMessages(messageTransmitter.messages, messages_div);
 });
 
-receiveButton.addEventListener('click', async function (event) {
+receive_button.addEventListener('click', async function (event) {
     event.preventDefault(); // prevent the default action
     await messageTransmitter.fetch_messages();
-    receive_text_div.innerHTML = "";
-    for (let i = 0; i < messageTransmitter.messages.length; i++) {
-        receive_text_div.innerHTML += messageTransmitter.messages[i].message + "<br>";
-    }
+    messages_div.innerHTML = "";
+    appendMessages(messageTransmitter.messages, messages_div);
 });
 
-clearReceiveButton.addEventListener('click', async function (event) {
+clear_receive_button.addEventListener('click', async function (event) {
     event.preventDefault(); // prevent the default action
     await messageTransmitter.delete_messages();
-    receive_text_div.innerHTML = "";
+    messages_div.innerHTML = "";
 });
 
 // Bind Ctrl+Enter to send

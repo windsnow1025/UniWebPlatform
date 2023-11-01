@@ -13,17 +13,20 @@
 
 <body>
     <h1 class="center">Message Transmitter</h1>
-    <div>
+    <div class="Flex-space-around">
+        <div id="user"></div>
         <div id="theme"></div>
     </div>
     <div>
         <div>
             <h2 class="center">Receive Messages</h2>
-            <div class="rounded-border-container Flex-space-between">
-                <div class="content" id="receiveText"></div>
+            <div class="rounded-border-container">
+                <div id="messages_div" class="margin"></div>
             </div>
-            <button type="button" id="receive">Receive</button>
-            <button type="button" id="clearReceive">Clear</button>
+            <div class="center">
+                <button type="button" id="receive">Receive</button>
+                <button type="button" id="clearReceive">Clear</button>
+            </div>
         </div>
         <div>
             <h2 class="center">Send Messages</h2>
@@ -38,6 +41,21 @@
         </div>
     </div>
     <div id="TimeScript" class="align-right"></div>
+
+    <!--   Template for JS   -->
+    <div class="hide">
+        <div name="message_div">
+            <div class="message_div">
+                <div name="role" contenteditable="plaintext-only"></div>
+                <div class="Flex-space-between">
+                    <div class="inFlex-FillSpace">
+                        <div name="content" class="markdown-body" style="margin: 8px; padding: 8px; min-height: 24px;" contenteditable="plaintext-only"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/message-transmitter.min.js"></script>
 </body>
 

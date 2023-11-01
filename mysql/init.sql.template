@@ -11,7 +11,8 @@ CREATE TABLE user (
 
 CREATE TABLE message (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    message TEXT NOT NULL
+    username VARCHAR(64) NOT NULL,
+    content TEXT NOT NULL
 );
 
 CREATE TABLE conversation (
