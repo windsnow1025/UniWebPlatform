@@ -85,7 +85,7 @@ class DatabaseHelper {
             }
             return results[0].version;
         } catch (error) {
-            console.error(error);
+            console.error("Database version not found");
             return null;
         }
     }
