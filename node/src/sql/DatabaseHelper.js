@@ -2,7 +2,7 @@ const { poolQuery } = require("./DatabaseConnection");
 
 class DatabaseHelper {
     constructor() {
-        this.version = '1.0';
+        this.version = '1.1';
     }
 
     CREATE_TABLE_USER = `
@@ -41,6 +41,14 @@ class DatabaseHelper {
         );
     `
 
+    CREATE_TABLE_MARKDOWN = `
+        CREATE TABLE IF NOT EXISTS markdown(
+            id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+            title VARCHAR(255) NOT NULL,
+            content TEXT NOT NULL
+        );
+    `
+
     CREATE_TABLE_METADATA = `
         CREATE TABLE IF NOT EXISTS metadata(
             version VARCHAR(16) NOT NULL
@@ -67,13 +75,15 @@ class DatabaseHelper {
         await poolQuery(this.CREATE_TABLE_MESSAGE);
         await poolQuery(this.CREATE_TABLE_CONVERSATION);
         await poolQuery(this.CREATE_TABLE_BOOKMARK);
+        await poolQuery(this.CREATE_TABLE_MARKDOWN);
         await poolQuery(this.CREATE_TABLE_METADATA);
         await poolQuery(this.INSERT_METADATA);
         console.log('Database created');
     }
 
+    // Change this function for each new version
     async onUpgrade() {
-        await poolQuery(this.CREATE_TABLE_METADATA);
+        await poolQuery(this.CREATE_TABLE_MARKDOWN);
         console.log('Database upgraded');
     }
 
