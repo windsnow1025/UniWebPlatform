@@ -28,3 +28,20 @@ app.use('/user', userAPI);
 app.use('/message', messageAPI);
 app.use('/bookmark', bookmarkAPI);
 app.use('/conversation', conversationAPI);
+
+// SQL
+const DatabaseHelper = require('./sql/DatabaseHelper');
+const { ConnectionTest } = require('./sql/DatabaseConnection');
+
+async function sql_init() {
+    const isConnected = await ConnectionTest();
+
+    if (isConnected) {
+        const databaseHelper = new DatabaseHelper();
+        databaseHelper.manageMigrations();
+    } else {
+        console.error("Unable to establish a connection to the SQL database.");
+    }
+}
+
+sql_init();
