@@ -1,7 +1,4 @@
-const { ConnectionTest, poolQuery } = require("./DatabaseConnection");
-
-
-ConnectionTest("conversation");
+const { poolQuery } = require("./DatabaseConnection");
 
 
 async function Select(data) {

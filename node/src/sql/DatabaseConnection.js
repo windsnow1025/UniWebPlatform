@@ -12,28 +12,19 @@ const pool = mysql.createPool({
 // MySQL Promisify
 const poolQuery = util.promisify(pool.query).bind(pool);
 
-async function ConnectionTest(table) {
-    let attempts = 0;
-    let maxAttempts = 5;
+async function ConnectionTest() {
     let delay = 5000;
 
     await new Promise(resolve => setTimeout(resolve, delay));
 
     while (true) {
         try {
-            await poolQuery('SELECT * FROM ' + table);
-            console.log(table + 'SQL Connected!');
-            break;
+            await poolQuery('SELECT 1');
+            console.log('SQL Connected!');
+            return true;
         } catch (err) {
-            console.error('Error connecting to ' + table + 'SQL:', err);
-            attempts++;
-            if (attempts < maxAttempts) {
-                console.log(`Attempts ${attempts + 1},Retrying in ${delay / 1000} seconds...`);
-                await new Promise(resolve => setTimeout(resolve, delay));
-            } else {
-                console.error('Max attempts reached. ' + table + 'SQL connection failed.');
-                throw err;
-            }
+            console.error('Error connecting to SQL:', err);
+            await new Promise(resolve => setTimeout(resolve, delay));
         }
     }
 }
