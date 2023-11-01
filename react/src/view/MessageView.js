@@ -26,19 +26,24 @@ const katex_config = {
 
 export class MessageView {
     constructor() {
-        this.role_select = null;
+        this.role_element = null;
         this.content_div = null;
     }
 
     init(message_div) {
-        this.role_select = message_div.querySelector('select[name="role"]');
+        this.role_element = message_div.querySelector('[name="role"]');
         this.content_div = message_div.querySelector('div[name="content"]');
     }
 
     bindRoleChange(handler) {
-        this.role_select.addEventListener("change", () => {
+        this.role_element.addEventListener("change", () => {
             // View -> Model
-            handler(this.role_select.value);
+            if (this.role_element.tagName === "SELECT") {
+                handler(this.role_element.value);
+            } else {
+                handler(this.role_element.innerHTML);
+            }
+
         });
     }
 
@@ -62,7 +67,13 @@ export class MessageView {
     }
 
     render({ role, content, parseContent = true } = {}) {
-        if (role) this.role_select.value = role;
+        if (role) {
+            if (this.role_element.tagName === "SELECT") {
+                this.role_element.value = role;
+            } else {
+                this.role_element.innerHTML = role;
+            }
+        }
         if (content) {
             if (!parseContent) {
                 this.content_div.innerHTML = content;
