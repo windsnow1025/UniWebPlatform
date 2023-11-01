@@ -13,7 +13,7 @@ const pool = mysql.createPool({
 const poolQuery = util.promisify(pool.query).bind(pool);
 
 async function ConnectionTest() {
-    let delay = 5000;
+    let delay = 1000;
 
     await new Promise(resolve => setTimeout(resolve, delay));
 
