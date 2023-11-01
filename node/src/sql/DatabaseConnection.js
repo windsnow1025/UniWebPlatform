@@ -19,10 +19,10 @@ async function ConnectionTest() {
         try {
             await new Promise(resolve => setTimeout(resolve, delay));
             await poolQuery('SELECT 1');
-            console.log('SQL Connected!');
+            console.log('SQL Connected');
             return true;
         } catch (err) {
-            console.error('Error connecting to SQL:', err);
+            console.info('SQL Unconnected');
         }
     }
 }
