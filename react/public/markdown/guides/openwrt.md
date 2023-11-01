@@ -109,9 +109,10 @@ opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-ful
 4. Avoid IP Address conflicts
 5. Synchronize System Time
 6. YouTube Problem
-   1. Change dns > fallback in clash config
-   2. Disable all dns in Overwrite Settings >> Developer Settings
-   3. Disable QUIC in Browser (Not Recommended)
+   - Disable all dns in Overwrite Settings >> Developer Settings
+   - Change clash config: dns > fallback
+   - Add clash config: dns > nameserver-policy > "+.googlevideo.com": 8.8.8.8
+   - Disable QUIC in Browser
 7. Meta Core only display IP in Log
    - Overwrite Settings >> Meta Settings >> Enable `Enable Sniffer`, `Forced Sniff Pure IP`, `Custom Sniffer Settings`
 8. OpenWRT Hostname not working
