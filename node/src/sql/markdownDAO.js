@@ -7,9 +7,9 @@ async function SelectAll() {
     return result;
 }
 
-async function Select(data) {
+async function Select(id) {
     const sql = "SELECT * FROM markdown WHERE id = ?";
-    const sqlParams = [data.id];
+    const sqlParams = [id];
     const result = await poolQuery(sql, sqlParams);
     return result;
 }
@@ -29,9 +29,9 @@ async function Update(data) {
 }
 
 
-async function Delete(data) {
+async function Delete(id) {
     const sql = "DELETE FROM markdown WHERE id = ?";
-    const sqlParams = [data.id];
+    const sqlParams = [id];
     await poolQuery(sql, sqlParams);
     console.log("1 markdown deleted");
 }
