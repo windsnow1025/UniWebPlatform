@@ -5,7 +5,8 @@ module.exports = {
     devtool: 'inline-source-map',
     entry: {
         "index": "./src/index.js",
-        "markdown": "./src/markdown.js",
+        "markdown-edit": "./src/markdown-edit.js",
+        "markdown-add": "./src/markdown-add.js",
         "signin": "./src/signin.js",
         "signup": "./src/signup.js",
         "user-center": "./src/user-center.js",

@@ -23,7 +23,7 @@ const data = res.data;
 data.forEach(markdown => {
     const li = document.createElement('li');
     const a = document.createElement('a');
-    a.href = `/html/markdown.html?id=${markdown.id}`;
+    a.href = `/html/markdown-edit.html?id=${markdown.id}`;
     a.innerText = markdown.title;
     li.appendChild(a);
     markdown_list.appendChild(li);
