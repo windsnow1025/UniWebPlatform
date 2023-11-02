@@ -14,7 +14,7 @@ const markdown_div = document.querySelector('#markdown-div');
 
 await markdown.fetchMarkdown();
 document.title = markdown.title;
-markdown_div.innerHTML = markdown.parseMarkdown();
+markdown_div.innerHTML = markdown.parseContent();
 
 const edit_button = document.querySelector('#edit-button');
 const confirm_button = document.querySelector('#confirm-button');
@@ -29,8 +29,8 @@ edit_button.addEventListener('click', () => {
     confirm_button.classList.remove('hide');
 });
 confirm_button.addEventListener('click', () => {
-    markdown.content = markdown_div.innerHTML;
-    markdown_div.innerHTML = markdown.parseMarkdown();
+    markdown.content = markdown_div.innerHTML.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+    markdown_div.innerHTML = markdown.parseContent();
 
     markdown_div.contentEditable = false;
     edit_button.classList.remove('hide');
