@@ -1,9 +1,4 @@
 import axios from 'axios';
-import '/public/css/markdown.css';
-
-import { applyTheme } from "./theme.js";
-const theme = localStorage.getItem("theme");
-applyTheme(theme);
 
 import {Marked} from "marked";
 import {markedHighlight} from "marked-highlight";
@@ -20,19 +15,23 @@ const marked = new Marked(
 );
 
 
-class Markdown {
-    constructor(markdown_div) {
-        this.id = new URLSearchParams(window.location.search).get('id');
+export class Markdown {
+    constructor(id, markdown_div) {
+        this.id = id;
         this.title = "";
         this.content = "";
         this.markdown_div = markdown_div;
         this.token = localStorage.getItem('token');
     }
 
+    parseMarkdown(content) {
+        return marked.parse(content);
+    }
+
     async init() {
         await this.fetchMarkdown();
         document.title = this.title;
-        this.markdown_div.innerHTML = marked.parse(this.content);
+        this.markdown_div.innerHTML = this.parseMarkdown(this.content);
     }
 
     async fetchMarkdown() {
@@ -43,6 +42,24 @@ class Markdown {
             this.content = data.content;
         } catch (error) {
             return error;
+        }
+    }
+
+    async addMarkdown() {
+        this.get_title_from_content();
+        try {
+            await axios.post('/api/markdown/', {
+                data: {
+                    title: this.title,
+                    content: this.content
+                }
+            }, {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            });
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -69,31 +86,3 @@ class Markdown {
         this.title = this.content.split('\n')[0].replace('# ', '');
     }
 }
-
-const markdown_div = document.querySelector('#markdown-div');
-
-const markdown = new Markdown(markdown_div);
-await markdown.init();
-
-const edit_button = document.querySelector('#edit-button');
-const confirm_button = document.querySelector('#confirm-button');
-const update_button = document.querySelector('#update-button');
-
-edit_button.addEventListener('click', () => {
-    markdown_div.innerHTML = markdown.content;
-
-    markdown_div.contentEditable = "plaintext-only";
-    edit_button.classList.add('hide');
-    confirm_button.classList.remove('hide');
-});
-confirm_button.addEventListener('click', () => {
-    markdown.content = markdown_div.innerHTML;
-    markdown_div.innerHTML = marked.parse(markdown.content);
-
-    markdown_div.contentEditable = false;
-    edit_button.classList.remove('hide');
-    confirm_button.classList.add('hide');
-});
-update_button.addEventListener('click', async () => {
-    await markdown.updateMarkdown();
-});
