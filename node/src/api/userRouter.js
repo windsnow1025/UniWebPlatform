@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const UserSQL = require("../sql/userDAO");
+const UserDAO = require("../sql/userDAO");
 
 const jwt = require('jsonwebtoken');
 
-// Data Processing
 
 router.get('/', async (req, res, next) => {
     try {
-        let result = await UserSQL.SelectUsername({
+        let result = await UserDAO.SelectUsername({
             username: req.query.username
         });
         res.status(200).json(result[0]);
@@ -21,7 +20,7 @@ router.get('/', async (req, res, next) => {
 router.post('/sign-in', async (req, res, next) => {
     try {
         let data = req.body.data;
-        let result = await UserSQL.SelectUsernamePassword(data);
+        let result = await UserDAO.SelectUsernamePassword(data);
 
         // Judge if data.username and data.password match
         if (result.length > 0) {
@@ -43,12 +42,12 @@ router.post('/sign-up', async (req, res, next) => {
         let sqlData = {username: data.username};
 
         // Judge if data.username exists
-        let result = await UserSQL.SelectUsername(sqlData);
+        let result = await UserDAO.SelectUsername(sqlData);
         if (result.length > 0) {
             res.status(401).send("Username already exists");
         } else {
             // Store Data
-            await UserSQL.Insert(data);
+            await UserDAO.Insert(data);
             res.status(200).send(true);
         }
     } catch (err) {
@@ -69,7 +68,7 @@ router.use((req, res, next) => {
                 return res.sendStatus(403);
             }
 
-            req.user = user;
+            req.username = user.sub;
 
             next();
         });
@@ -83,18 +82,18 @@ router.put('/', async (req, res, next) => {
         let data = req.body.data;
 
         // Get current user data
-        let current_user = await UserSQL.SelectUsername({username: req.user.sub});
-        let potential_new_user = await UserSQL.SelectUsername({username: data.username});
+        let current_user = await UserDAO.SelectUsername({username: req.username});
+        let potential_new_user = await UserDAO.SelectUsername({username: data.username});
 
         // Judge if the username is changed but already exists
-        if (data.username != req.user.sub && potential_new_user.length > 0) {
+        if (data.username != req.username && potential_new_user.length > 0) {
             res.status(409).send("Username already exists");
             next();
         }
 
         // Update Data
         let updateSqlData = {id: current_user[0].id, username: data.username, password: data.password};
-        await UserSQL.Update(updateSqlData);
+        await UserDAO.Update(updateSqlData);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in PUT /:", err);
@@ -106,7 +105,7 @@ router.put('/', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
-        await UserSQL.Delete(id);
+        await UserDAO.Delete(id);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in DELETE /:id:", err);

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const ConversationSQL = require("../sql/conversationDAO");
+const ConversationDAO = require("../sql/conversationDAO");
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
-// Data Processing
+
 router.use(async (req, res, next) => {
 
     const authHeader = req.headers.authorization;
@@ -33,7 +33,7 @@ router.use(async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        let conversations = await ConversationSQL.Select({
+        let conversations = await ConversationDAO.Select({
             user_id: req.user_id
         });
         res.status(200).json(conversations);
@@ -55,7 +55,7 @@ router.post('/', async (req, res, next) => {
             conversation: conversation
         }
 
-        await ConversationSQL.Insert(sqlData);
+        await ConversationDAO.Insert(sqlData);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
@@ -77,7 +77,7 @@ router.put('/', async (req, res, next) => {
             id: id
         }
 
-        await ConversationSQL.Update(sqlData);
+        await ConversationDAO.Update(sqlData);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in PUT /:", err);
@@ -97,7 +97,7 @@ router.put('/name', async (req, res, next) => {
             id: id
         }
 
-        await ConversationSQL.UpdateName(sqlData);
+        await ConversationDAO.UpdateName(sqlData);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in PUT /name:", err);
@@ -114,7 +114,7 @@ router.delete('/:id', async (req, res, next) => {
             id: id
         }
 
-        await ConversationSQL.Delete(sqlData);
+        await ConversationDAO.Delete(sqlData);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in DELETE /:id:", err);

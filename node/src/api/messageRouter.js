@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const MessageSQL = require("../sql/messageDAO");
+const MessageDAO = require("../sql/messageDAO");
 
-// Data Processing
 
 router.get('/', async (req, res, next) => {
     try {
-        let data = await MessageSQL.SelectAll();
+        let data = await MessageDAO.SelectAll();
         res.status(200).json(data);
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -17,7 +16,7 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     try {
         let data = req.body.data;
-        await MessageSQL.Insert(data);
+        await MessageDAO.Insert(data);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
@@ -28,7 +27,7 @@ router.post('/', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
-        await MessageSQL.Delete(id);
+        await MessageDAO.Delete(id);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in DELETE /:id:", err);
@@ -38,7 +37,7 @@ router.delete('/:id', async (req, res, next) => {
 
 router.delete('/', async (req, res, next) => {
     try {
-        await MessageSQL.DeleteAll();
+        await MessageDAO.DeleteAll();
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in DELETE /:", err);
