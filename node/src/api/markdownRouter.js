@@ -15,6 +15,18 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+router.get('/:id', async (req, res, next) => {
+    try {
+        let id = req.params.id;
+        let markdown = await MarkdownDAO.Select(id);
+        res.status(200).json(markdown);
+    } catch (err) {
+        console.error("Error in GET /:", err);
+        res.status(500).send("Error occurred while fetching data.");
+        next(err);
+    }
+});
+
 const rootUser = "windsnow1025@gmail.com";
 
 router.use(async (req, res, next) => {
@@ -77,7 +89,5 @@ router.delete('/:id', async (req, res, next) => {
         res.status(500).send("Error occurred while deleting data.");
     }
 });
-
-module.exports = router;
 
 module.exports = router;
