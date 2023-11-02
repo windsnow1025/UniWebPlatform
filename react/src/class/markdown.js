@@ -24,14 +24,14 @@ export class Markdown {
         this.token = localStorage.getItem('token');
     }
 
-    parseMarkdown(content) {
-        return marked.parse(content);
+    parseMarkdown() {
+        return marked.parse(this.content);
     }
 
     async init() {
         await this.fetchMarkdown();
         document.title = this.title;
-        this.markdown_div.innerHTML = this.parseMarkdown(this.content);
+        this.markdown_div.innerHTML = this.parseMarkdown();
     }
 
     async fetchMarkdown() {
@@ -58,6 +58,7 @@ export class Markdown {
                     Authorization: `Bearer ${this.token}`
                 }
             });
+            alert('Add Success!')
         } catch (error) {
             console.error(error);
         }
@@ -77,6 +78,7 @@ export class Markdown {
                     Authorization: `Bearer ${this.token}`
                 }
             });
+            alert('Update Success!')
         } catch (error) {
             console.error(error);
         }
