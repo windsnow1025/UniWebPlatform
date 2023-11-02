@@ -35,7 +35,7 @@ export class Markdown {
         });
     }
 
-    parseMarkdown() {
+    parseContent() {
         return marked.parse(this.content);
     }
 

@@ -57,13 +57,12 @@ export class MessageView {
     bindContentBlur(handler) {
         this.content_div.addEventListener("blur", () => {
             // View -> Model
-            handler(this.content_div.innerHTML);
+            handler(this.content_div.innerHTML.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">"));
         });
     }
 
     parseContent(content) {
-        let parsedContent = content.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-        return marked.parse(parsedContent);
+        return marked.parse(content);
     }
 
     render({ role, content, parseContent = true } = {}) {
