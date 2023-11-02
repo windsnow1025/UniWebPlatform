@@ -6,16 +6,20 @@ applyTheme(theme);
 import '/public/css/markdown.css';
 import {Markdown} from "./class/markdown";
 
-const markdown_div = document.querySelector('#markdown-div');
-
 const id = new URLSearchParams(window.location.search).get('id');
 
-const markdown = new Markdown(id, markdown_div);
-await markdown.init();
+const markdown = new Markdown(id);
+
+const markdown_div = document.querySelector('#markdown-div');
+
+await markdown.fetchMarkdown();
+document.title = markdown.title;
+markdown_div.innerHTML = markdown.parseMarkdown();
 
 const edit_button = document.querySelector('#edit-button');
 const confirm_button = document.querySelector('#confirm-button');
 const update_button = document.querySelector('#update-button');
+const delete_button = document.querySelector('#delete-button');
 
 edit_button.addEventListener('click', () => {
     markdown_div.innerHTML = markdown.content;
@@ -34,4 +38,7 @@ confirm_button.addEventListener('click', () => {
 });
 update_button.addEventListener('click', async () => {
     await markdown.updateMarkdown();
+});
+delete_button.addEventListener('click', async () => {
+    await markdown.deleteMarkdown();
 });

@@ -6,9 +6,9 @@ applyTheme(theme);
 import '/public/css/markdown.css';
 import {Markdown} from "./class/markdown";
 
-const markdown_div = document.querySelector('#markdown-div');
+const markdown = new Markdown(null);
 
-const markdown = new Markdown(null, markdown_div);
+const markdown_div = document.querySelector('#markdown-div');
 
 const edit_button = document.querySelector('#edit-button');
 const confirm_button = document.querySelector('#confirm-button');

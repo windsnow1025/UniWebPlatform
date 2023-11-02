@@ -16,71 +16,87 @@ const marked = new Marked(
 
 
 export class Markdown {
-    constructor(id, markdown_div) {
+    constructor(id) {
         this.id = id;
         this.title = "";
         this.content = "";
-        this.markdown_div = markdown_div;
+
+        this.token = null;
+        this.instance = null;
+        this.updateInstance();
+    }
+
+    updateInstance() {
         this.token = localStorage.getItem('token');
+        this.instance = axios.create({
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
     }
 
     parseMarkdown() {
         return marked.parse(this.content);
     }
 
-    async init() {
-        await this.fetchMarkdown();
-        document.title = this.title;
-        this.markdown_div.innerHTML = this.parseMarkdown();
-    }
-
     async fetchMarkdown() {
+        this.updateInstance();
         try {
-            const res = await axios.get('/api/markdown/' + this.id);
+            const res = await this.instance.get('/api/markdown/' + this.id);
             const data = res.data;
             this.title = data.title;
             this.content = data.content;
         } catch (error) {
-            return error;
+            console.log(error);
         }
     }
 
     async addMarkdown() {
         this.get_title_from_content();
+        this.updateInstance();
         try {
-            await axios.post('/api/markdown/', {
+            await this.instance.post('/api/markdown/', {
                 data: {
                     title: this.title,
                     content: this.content
                 }
-            }, {
-                headers: {
-                    Authorization: `Bearer ${this.token}`
-                }
             });
             alert('Add Success!')
         } catch (error) {
-            console.error(error);
+            if (error.response.status === 403) {
+                alert('Unauthorized');
+            }
         }
     }
 
     async updateMarkdown() {
         this.get_title_from_content();
+        this.updateInstance();
         try {
-            await axios.put('/api/markdown/', {
+            await this.instance.put('/api/markdown/', {
                 data: {
                     id: this.id,
                     title: this.title,
                     content: this.content
                 }
-            }, {
-                headers: {
-                    Authorization: `Bearer ${this.token}`
-                }
             });
             alert('Update Success!')
         } catch (error) {
-            console.error(error);
+            if (error.response.status === 403) {
+                alert('Unauthorized');
+            }
+        }
+    }
+
+    async deleteMarkdown() {
+        this.updateInstance();
+        try {
+            await this.instance.delete('/api/markdown/' + this.id);
+            alert('Delete Success!')
+        } catch (error) {
+            if (error.response.status === 403) {
+                alert('Unauthorized');
+            }
         }
     }
 
