@@ -23,7 +23,7 @@ edit_button.addEventListener('click', () => {
 });
 confirm_button.addEventListener('click', () => {
     markdown.content = markdown_div.innerHTML;
-    markdown_div.innerHTML = markdown.parseMarkdown(markdown.content);
+    markdown_div.innerHTML = markdown.parseMarkdown();
 
     markdown_div.contentEditable = false;
     edit_button.classList.remove('hide');
