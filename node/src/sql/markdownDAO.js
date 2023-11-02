@@ -11,7 +11,7 @@ async function Select(id) {
     const sql = "SELECT * FROM markdown WHERE id = ?";
     const sqlParams = [id];
     const result = await poolQuery(sql, sqlParams);
-    return result;
+    return result[0];
 }
 
 async function Insert(data) {
