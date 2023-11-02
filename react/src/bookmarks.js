@@ -20,9 +20,11 @@ theme_div.render(
 class Bookmarks {
     constructor() {
         this.bookmarks = [];
+
         this.token = null;
         this.instance = null;
         this.updateInstance();
+
         this.fetchBookmarks();
     }
 
@@ -89,8 +91,6 @@ class Bookmarks {
     }
 
     async fetchBookmarks() {
-        const token = localStorage.getItem('token');
-
         let res = await this.instance.get('/api/bookmark/');
 
         this.bookmarks = res.data;
