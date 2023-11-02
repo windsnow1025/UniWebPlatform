@@ -61,12 +61,11 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/', async (req, res, next) => {
     try {
-        let id = req.params.id;
         let data = req.body.data;
         let sqlData = {
-            id: id,
+            id: data.id,
             title: data.title,
             content: data.content
         }

@@ -19,30 +19,81 @@ const marked = new Marked(
     })
 );
 
-function getFileName() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('filename');
-}
 
-function setTitle(filename) {
-    document.title = filename;
-}
+class Markdown {
+    constructor(markdown_div) {
+        this.id = new URLSearchParams(window.location.search).get('id');
+        this.title = "";
+        this.content = "";
+        this.markdown_div = markdown_div;
+        this.token = localStorage.getItem('token');
+    }
 
-async function parseMarkdown(filename) {
-    try {
-        const response = await axios.get('../markdown/' + filename);
-        return marked.parse(response.data);
-    } catch (error) {
-        return error;
+    async init() {
+        await this.fetchMarkdown();
+        document.title = this.title;
+        this.markdown_div.innerHTML = marked.parse(this.content);
+    }
+
+    async fetchMarkdown() {
+        try {
+            const res = await axios.get('/api/markdown/' + this.id);
+            const data = res.data;
+            this.title = data.title;
+            this.content = data.content;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async updateMarkdown() {
+        this.get_title_from_content();
+        try {
+            await axios.put('/api/markdown/', {
+                data: {
+                    id: this.id,
+                    title: this.title,
+                    content: this.content
+                }
+            }, {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    get_title_from_content() {
+        this.title = this.content.split('\n')[0].replace('# ', '');
     }
 }
 
-async function process() {
-    const filename = getFileName();
-    setTitle(filename);
-    const markdown = await parseMarkdown(filename);
-    const markdown_div = document.getElementById('markdown');
-    markdown_div.innerHTML = markdown;
-}
+const markdown_div = document.querySelector('#markdown-div');
 
-await process();
+const markdown = new Markdown(markdown_div);
+await markdown.init();
+
+const edit_button = document.querySelector('#edit-button');
+const confirm_button = document.querySelector('#confirm-button');
+const update_button = document.querySelector('#update-button');
+
+edit_button.addEventListener('click', () => {
+    markdown_div.innerHTML = markdown.content;
+
+    markdown_div.contentEditable = "plaintext-only";
+    edit_button.classList.add('hide');
+    confirm_button.classList.remove('hide');
+});
+confirm_button.addEventListener('click', () => {
+    markdown.content = markdown_div.innerHTML;
+    markdown_div.innerHTML = marked.parse(markdown.content);
+
+    markdown_div.contentEditable = false;
+    edit_button.classList.remove('hide');
+    confirm_button.classList.add('hide');
+});
+update_button.addEventListener('click', async () => {
+    await markdown.updateMarkdown();
+});
