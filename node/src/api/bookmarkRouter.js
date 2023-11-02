@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const BookmarkSQL = require("../sql/bookmarkDAO");
+const BookmarkDAO = require("../sql/bookmarkDAO");
 const jwt = require('jsonwebtoken');
 
 const Bookmark = require("../class/bookmark");
 
+
 router.get('/', async (req, res, next) => {
     try {
-        let bookmarks = await BookmarkSQL.SelectAll();
+        let bookmarks = await BookmarkDAO.SelectAll();
         res.status(200).json(bookmarks);
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -18,29 +19,24 @@ router.get('/', async (req, res, next) => {
 
 const rootUser = "windsnow1025@gmail.com";
 
-router.use((req, res, next) => {
+router.use(async (req, res, next) => {
 
     const authHeader = req.headers.authorization;
 
-    if (authHeader) {
-        const token = authHeader.split(' ')[1];
-
-        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
-
-            req.user = user;
-
-            // Only allow root user to access
-            if (req.user.sub != rootUser) {
-                return res.sendStatus(403);
-            }
-
-            next();
-        });
-    } else {
+    if (!authHeader) {
         res.sendStatus(401);
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+        const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
+        if (username != rootUser) {
+            return res.sendStatus(403);
+        }
+        next();
+    } catch (err) {
+        res.sendStatus(403);
     }
 });
 
@@ -48,7 +44,7 @@ router.post('/', async (req, res, next) => {
     try {
         let data = req.body.data;
         let bookmark = new Bookmark(data.firstTitle, data.secondTitle, data.url, data.comment);
-        await BookmarkSQL.Insert(bookmark);
+        await BookmarkDAO.Insert(bookmark);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
@@ -61,7 +57,7 @@ router.put('/:id', async (req, res, next) => {
         let id = req.params.id;
         let data = req.body.data;
         let bookmark = new Bookmark(data.firstTitle, data.secondTitle, data.url, data.comment);
-        await BookmarkSQL.Update(id, bookmark);
+        await BookmarkDAO.Update(id, bookmark);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in PUT /:id:", err);
@@ -72,7 +68,7 @@ router.put('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
     try {
         let id = req.params.id;
-        await BookmarkSQL.Delete(id);
+        await BookmarkDAO.Delete(id);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in DELETE /:id:", err);
