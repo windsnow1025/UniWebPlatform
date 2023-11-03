@@ -63,8 +63,8 @@ export class MessageView {
 
     parseContent(content) {
         let decodeEntitiesInParsedCode = function(html) {
-            return html.replace(/<code>([^<]*)<\/code>/g, function(match, p1) {
-                return '<code>' + p1.replace(/&amp;/g, "&") + '</code>';
+            return html.replace(/<code([^>]*)>((?:[^<]+|<(?!\/code>))+)<\/code>/g, function(match, p1, p2) {
+                return '<code' + p1 + '>' + p2.replace(/&amp;/g, "&") + '</code>';
             });
         }
 
