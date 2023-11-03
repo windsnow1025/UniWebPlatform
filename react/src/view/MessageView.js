@@ -62,8 +62,14 @@ export class MessageView {
     }
 
     parseContent(content) {
-        let parsedContent = content.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-        return marked.parse(parsedContent);
+        let decodeEntitiesInParsedCode = function(html) {
+            return html.replace(/<code>([^<]*)<\/code>/g, function(match, p1) {
+                return '<code>' + p1.replace(/&amp;/g, "&") + '</code>';
+            });
+        }
+
+        const parsedContent = marked.parse(content);
+        return decodeEntitiesInParsedCode(parsedContent);
     }
 
     render({ role, content, parseContent = true } = {}) {

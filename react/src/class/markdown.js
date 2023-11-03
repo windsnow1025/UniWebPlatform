@@ -36,7 +36,16 @@ export class Markdown {
     }
 
     parseContent() {
-        return marked.parse(this.content);
+        const content = this.content;
+
+        let decodeEntitiesInParsedCode = function(html) {
+            return html.replace(/<code>([^<]*)<\/code>/g, function(match, p1) {
+                return '<code>' + p1.replace(/&amp;/g, "&") + '</code>';
+            });
+        }
+
+        const parsedContent = marked.parse(content);
+        return decodeEntitiesInParsedCode(parsedContent);
     }
 
     async fetchMarkdown() {
