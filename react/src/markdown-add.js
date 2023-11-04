@@ -5,6 +5,7 @@ applyTheme(theme);
 
 import '/public/css/markdown.css';
 import {Markdown} from "./class/markdown";
+import {parseMarkdown} from "./parse";
 
 const markdown = new Markdown(null);
 
@@ -23,7 +24,7 @@ edit_button.addEventListener('click', () => {
 });
 confirm_button.addEventListener('click', () => {
     markdown.content = markdown_div.innerHTML.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-    markdown_div.innerHTML = markdown.parseContent();
+    markdown_div.innerHTML = parseMarkdown(markdown.content);
 
     markdown_div.contentEditable = false;
     edit_button.classList.remove('hide');

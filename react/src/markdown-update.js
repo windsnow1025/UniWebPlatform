@@ -5,6 +5,7 @@ applyTheme(theme);
 
 import '/public/css/markdown.css';
 import {Markdown} from "./class/markdown";
+import {parseMarkdown} from "./parse";
 
 const id = new URLSearchParams(window.location.search).get('id');
 
@@ -14,7 +15,7 @@ const markdown_div = document.querySelector('#markdown-div');
 
 await markdown.fetchMarkdown();
 document.title = markdown.title;
-markdown_div.innerHTML = markdown.parseContent();
+markdown_div.innerHTML = parseMarkdown(markdown.content);
 
 const edit_button = document.querySelector('#edit-button');
 const confirm_button = document.querySelector('#confirm-button');
@@ -30,7 +31,7 @@ edit_button.addEventListener('click', () => {
 });
 confirm_button.addEventListener('click', () => {
     markdown.content = markdown_div.innerHTML.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-    markdown_div.innerHTML = markdown.parseContent();
+    markdown_div.innerHTML = parseMarkdown(markdown.content);
 
     markdown_div.contentEditable = false;
     edit_button.classList.remove('hide');
