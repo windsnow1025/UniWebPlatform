@@ -30,7 +30,7 @@ edit_button.addEventListener('click', () => {
     confirm_button.classList.remove('hide');
 });
 confirm_button.addEventListener('click', () => {
-    markdown.content = markdown_div.innerHTML.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+    markdown.content = markdown_div.innerHTML;
     markdown_div.innerHTML = parseMarkdown(markdown.content);
 
     markdown_div.contentEditable = false;
