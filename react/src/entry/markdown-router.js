@@ -1,7 +1,7 @@
 import axios from 'axios';
 import '/public/css/markdown.css';
 
-import { applyTheme } from "./theme.js";
+import { applyTheme } from "../manager/ThemeManager.js";
 const theme = localStorage.getItem("theme");
 applyTheme(theme);
 

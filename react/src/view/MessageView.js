@@ -1,4 +1,4 @@
-import {parseMarkdown} from "../parse";
+import {parseMarkdown} from "../util/MarkdownParser";
 import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/dist/contrib/auto-render';
 

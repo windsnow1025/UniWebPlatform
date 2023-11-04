@@ -1,26 +1,19 @@
-import { applyTheme } from "./theme.js";
+import { applyTheme } from "../manager/ThemeManager.js";
 const theme = localStorage.getItem("theme");
 applyTheme(theme);
 
 
 import '/public/css/markdown.css';
-import {Markdown} from "./class/markdown";
-import {parseMarkdown} from "./parse";
+import {MarkdownService} from "../service/MarkdownService";
+import {parseMarkdown} from "../util/MarkdownParser";
 
-const id = new URLSearchParams(window.location.search).get('id');
-
-const markdown = new Markdown(id);
+const markdown = new MarkdownService(null);
 
 const markdown_div = document.querySelector('#markdown-div');
 
-await markdown.fetchMarkdown();
-document.title = markdown.title;
-markdown_div.innerHTML = parseMarkdown(markdown.content);
-
 const edit_button = document.querySelector('#edit-button');
 const confirm_button = document.querySelector('#confirm-button');
-const update_button = document.querySelector('#update-button');
-const delete_button = document.querySelector('#delete-button');
+const add_button = document.querySelector('#add-button');
 
 edit_button.addEventListener('click', () => {
     markdown_div.innerHTML = markdown.content;
@@ -37,9 +30,6 @@ confirm_button.addEventListener('click', () => {
     edit_button.classList.remove('hide');
     confirm_button.classList.add('hide');
 });
-update_button.addEventListener('click', async () => {
-    await markdown.updateMarkdown();
-});
-delete_button.addEventListener('click', async () => {
-    await markdown.deleteMarkdown();
+add_button.addEventListener('click', async () => {
+    await markdown.addMarkdown();
 });

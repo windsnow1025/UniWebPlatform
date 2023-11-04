@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 import React, {useState, useEffect} from 'react';
-import { getInitMUITheme } from "../theme";
+import { getInitMUITheme } from "../manager/ThemeManager";
 import AutocompleteComponent from './AutocompleteComponent';
 
 function ConversationAutocomplete(props) {

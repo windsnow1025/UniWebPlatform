@@ -1,15 +1,15 @@
 import axios from "axios";
-import {MessageController} from "./controller/MessageController";
+import {MessageController} from "../controller/MessageController";
 
 // Account
-import {initAuth, getUsername} from './auth.js';
+import {initAuth, getUsername} from '../manager/AuthManager.js';
 
 await initAuth();
 
 // Theme
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ThemeSelect from './components/ThemeSelect.js';
+import ThemeSelect from '../component/ThemeSelect.js';
 
 const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
 theme_div.render(

@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 // Account
-import {initAuth} from './auth.js';
+import {initAuth} from '../manager/AuthManager.js';
 
 await initAuth();
 
 // Theme
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ThemeSelect from './components/ThemeSelect.js';
+import ThemeSelect from '../component/ThemeSelect.js';
 
 const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
 theme_div.render(
