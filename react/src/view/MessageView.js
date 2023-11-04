@@ -1,17 +1,4 @@
-import {Marked} from "marked";
-import {markedHighlight} from "marked-highlight";
-import hljs from 'highlight.js';
-
-const marked = new Marked(
-    markedHighlight({
-        langPrefix: 'hljs language-',
-        highlight(code, lang) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
-        }
-    })
-);
-
+import {parseMarkdown} from "../parse";
 import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/dist/contrib/auto-render';
 
@@ -61,17 +48,6 @@ export class MessageView {
         });
     }
 
-    parseContent(content) {
-        let decodeEntitiesInParsedCode = function(html) {
-            return html.replace(/<code([^>]*)>((?:[^<]+|<(?!\/code>))+)<\/code>/g, function(match, p1, p2) {
-                return '<code' + p1 + '>' + p2.replace(/&amp;/g, "&") + '</code>';
-            });
-        }
-
-        const parsedContent = marked.parse(content);
-        return decodeEntitiesInParsedCode(parsedContent);
-    }
-
     render({ role, content, parseContent = true } = {}) {
         if (role) {
             if (this.role_element.tagName === "SELECT") {
@@ -84,7 +60,7 @@ export class MessageView {
             if (!parseContent) {
                 this.content_div.innerHTML = content;
             } else {
-                this.content_div.innerHTML = this.parseContent(content);
+                this.content_div.innerHTML = parseMarkdown(content);
                 renderMathInElement(this.content_div, katex_config);
             }
         }
