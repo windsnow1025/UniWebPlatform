@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { applyTheme } from '../theme.js';
+import { applyTheme } from '../manager/ThemeManager.js';
 
 const ThemeSelect = () => {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'system');

@@ -2,14 +2,14 @@ import 'font-awesome/css/font-awesome.min.css';
 import '/public/css/markdown.css';
 
 // Account
-import {initAuth} from './auth.js';
+import {initAuth} from '../manager/AuthManager.js';
 
 await initAuth();
 
 // Theme
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import ThemeSelect from './components/ThemeSelect.js';
+import ThemeSelect from '../component/ThemeSelect.js';
 
 const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
 theme_div.render(
@@ -18,7 +18,7 @@ theme_div.render(
     </React.StrictMode>
 );
 
-import {Conversation} from './class/conversation.js';
+import {Conversation} from '../class/conversation.js';
 
 // Get elements
 const messages_div = document.querySelector("#messages_div")
@@ -116,7 +116,7 @@ if (localStorage.getItem('token')) {
     await conversation.fetch_conversations();
 }
 
-import ConversationAutocomplete from './components/ConversationAutocomplete.js';
+import ConversationAutocomplete from '../component/ConversationAutocomplete.js';
 
 const select_div = ReactDOM.createRoot(document.getElementById('select'));
 select_div.render(

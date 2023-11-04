@@ -1,20 +1,20 @@
+const fs = require('fs');
 const path = require('path');
+
+const entryDir = path.resolve(__dirname, 'src', 'entry');
+const entryFiles = fs.readdirSync(entryDir).filter(file => file.endsWith('.js'));
+
+const entry = {};
+
+entryFiles.forEach(file => {
+    const name = path.basename(file, '.js');
+    entry[name] = path.join(entryDir, file);
+});
 
 module.exports = {
     mode: 'development',
     devtool: 'inline-source-map',
-    entry: {
-        "index": "./src/index.js",
-        "markdown-router": "./src/markdown-router.js",
-        "markdown-update": "./src/markdown-update.js",
-        "markdown-add": "./src/markdown-add.js",
-        "signin": "./src/signin.js",
-        "signup": "./src/signup.js",
-        "user-center": "./src/user-center.js",
-        "message-transmitter": "./src/message-transmitter.js",
-        "gpt": "./src/gpt.js",
-        "bookmarks": "./src/bookmarks.js",
-    },
+    entry: entry,
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: '[name].min.js'
