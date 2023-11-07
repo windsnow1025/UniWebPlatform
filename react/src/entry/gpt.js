@@ -14,7 +14,7 @@ import ThemeSelect from '../component/ThemeSelect.js';
 const theme_div = ReactDOM.createRoot(document.getElementById('theme'));
 theme_div.render(
     <React.StrictMode>
-        <ThemeSelect />
+        <ThemeSelect/>
     </React.StrictMode>
 );
 
@@ -63,6 +63,7 @@ temperatureInput.addEventListener('input', () => {
 });
 
 // Update model options when api_type changes
+updateModelOptions();
 const apiTypeSelect = document.getElementById("api_type");
 apiTypeSelect.addEventListener("change", updateModelOptions);
 
@@ -76,9 +77,25 @@ function updateModelOptions() {
     // Get the selected api_type value
     const selectedApiType = apiTypeSelect.value;
 
-    // Add options based on the selected api_type
-    const open_ai_models = ["gpt-3.5-turbo", "gpt-3.5-turbo-0301", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k-0613", "gpt-4", "gpt-4-0314", "gpt-4-0613"];
-    const azure_models = ["gpt-35-turbo", "gpt-35-turbo-16k", "gpt-4", "gpt-4-32k"];
+    const open_ai_models = [
+        "gpt-3.5-turbo",
+        "gpt-3.5-turbo-0301",
+        "gpt-3.5-turbo-0613",
+        "gpt-3.5-turbo-1106",
+        "gpt-3.5-turbo-16k",
+        "gpt-3.5-turbo-16k-0613",
+        "gpt-4",
+        "gpt-4-0314",
+        "gpt-4-0613",
+        "gpt-4-1106-preview",
+        "gpt-4-vision-preview"
+    ];
+    const azure_models = [
+        "gpt-35-turbo",
+        "gpt-35-turbo-16k",
+        "gpt-4",
+        "gpt-4-32k"
+    ];
     if (selectedApiType === "open_ai") {
         for (let i = 0; i < open_ai_models.length; i++) {
             addOption(modelSelect, open_ai_models[i], open_ai_models[i]);
@@ -121,6 +138,6 @@ import ConversationAutocomplete from '../component/ConversationAutocomplete.js';
 const select_div = ReactDOM.createRoot(document.getElementById('select'));
 select_div.render(
     <React.StrictMode>
-        <ConversationAutocomplete conversation={conversation} />
+        <ConversationAutocomplete conversation={conversation}/>
     </React.StrictMode>
 );
