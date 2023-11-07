@@ -45,24 +45,24 @@ class ChatCompletion:
 class NonStreamChatCompletion(ChatCompletion):
     def process_request(self):
         try:
-            logging.info("Before calling openai.ChatCompletion.create")
+            logging.info("Before completion creation")
             if self.api_type == "open_ai":
-                completion = openai.ChatCompletion.create(
+                completion = openai.chat.completions.create(
                     model=self.model,
                     messages=self.messages,
                     temperature=self.temperature,
                     stream=False,
                 )
             elif self.api_type == "azure":
-                completion = openai.ChatCompletion.create(
-                    engine=self.model,
+                completion = openai.chat.completions.create(
+                    model=self.model,
                     messages=self.messages,
                     temperature=self.temperature,
                     stream=False,
                 )
-            logging.info("After calling openai.ChatCompletion.create")
-            logging.info("content: " + completion.choices[0]["message"]["content"])
-            return completion.choices[0]["message"]["content"]
+            logging.info("After completion creation")
+            logging.info("content: " + completion.choices[0].message.content)
+            return completion.choices[0].message.content
         except Exception as e:
             logging.error(f"openai.ChatCompletion.create error: {e}")
             return str(e)
@@ -71,28 +71,27 @@ class NonStreamChatCompletion(ChatCompletion):
 class StreamChatCompletion(ChatCompletion):
     def process_request(self):
         try:
-            logging.info("Before calling openai.ChatCompletion.create")
+            logging.info("Before completion creation")
             if self.api_type == "open_ai":
-                completion = openai.ChatCompletion.create(
+                completion = openai.chat.completions.create(
                     model=self.model,
                     messages=self.messages,
                     temperature=self.temperature,
                     stream=True,
                 )
             elif self.api_type == "azure":
-                completion = openai.ChatCompletion.create(
-                    engine=self.model,
+                completion = openai.chat.completions.create(
+                    model=self.model,
                     messages=self.messages,
                     temperature=self.temperature,
                     stream=True,
                 )
-            logging.info("After calling openai.ChatCompletion.create")
+            logging.info("After completion creation")
 
             def process_delta(completion_delta):
-                if not completion_delta['choices']:
-                    return ""
-                delta = completion_delta['choices'][0]['delta']
-                content_delta = delta.get('content', '')
+                content_delta = completion_delta.choices[0].delta.content
+                if not content_delta:
+                    content_delta = ""
                 logging.debug(f"chunk: {content_delta}")
                 return content_delta
 
