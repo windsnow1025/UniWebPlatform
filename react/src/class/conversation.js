@@ -33,19 +33,8 @@ export class Conversation {
         this.token = localStorage.getItem('token');
 
         this.clear_message_divs();
-        this.add(0, "system", this.getSystemContent());
+        this.add(0, "system", "You are a helpful assistant.");
         this.add(1);
-    }
-
-    getSystemContent() {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-        const day = ("0" + date.getDate()).slice(-2);
-        const currentDate = `${year}-${month}-${day}`;
-        return "You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\n" +
-            "Knowledge cutoff: 2022-01\n" +
-            "Current date: " + currentDate;
     }
 
     // Serialize messages[] to JSON
