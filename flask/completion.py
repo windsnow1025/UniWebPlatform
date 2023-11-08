@@ -14,11 +14,13 @@ class ChatCompletionFactory:
 
         if api_type == "open_ai":
             openai.api_type = "open_ai"
-            # openai.base_url = "https://api.openai.com/v1"
+            openai.base_url = "https://api.openai.com/v1/"
+            openai.azure_endpoint = None
             openai.api_version = None
             openai.api_key = os.environ["OPENAI_API_KEY"]
         elif api_type == "azure":
             openai.api_type = "azure"
+            openai.base_url = None
             openai.azure_endpoint = os.environ["AZURE_API_BASE"]
             openai.api_version = "2023-07-01-preview"
             openai.api_key = os.environ["AZURE_API_KEY"]
