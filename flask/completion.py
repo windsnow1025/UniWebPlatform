@@ -1,7 +1,8 @@
 from flask import Response
 import logging
 import os
-import openai
+from openai import OpenAI
+from openai import AzureOpenAI
 
 
 class ChatCompletionFactory:
@@ -11,34 +12,34 @@ class ChatCompletionFactory:
         self.api_type = api_type
         self.temperature = temperature
         self.stream = stream
+        self.openai = None
 
         if api_type == "open_ai":
-            openai.api_type = "open_ai"
-            openai.base_url = "https://api.openai.com/v1/"
-            openai.azure_endpoint = None
-            openai.api_version = None
-            openai.api_key = os.environ["OPENAI_API_KEY"]
+            self.openai = OpenAI(
+                api_key=os.environ["OPENAI_API_KEY"],
+            )
         elif api_type == "azure":
-            openai.api_type = "azure"
-            openai.base_url = None
-            openai.azure_endpoint = os.environ["AZURE_API_BASE"]
-            openai.api_version = "2023-07-01-preview"
-            openai.api_key = os.environ["AZURE_API_KEY"]
+            self.openai = AzureOpenAI(
+                api_version="2023-07-01-preview",
+                azure_endpoint=os.environ["AZURE_API_BASE"],
+                api_key=os.environ["AZURE_API_KEY"],
+            )
 
     def create_chat_completion(self):
 
         if self.stream:
-            return StreamChatCompletion(self.model, self.messages, self.temperature, self.api_type)
+            return StreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai)
         else:
-            return NonStreamChatCompletion(self.model, self.messages, self.temperature, self.api_type)
+            return NonStreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai)
 
 
 class ChatCompletion:
-    def __init__(self, model, messages, temperature, api_type):
+    def __init__(self, model, messages, temperature, api_type, openai):
         self.model = model
         self.messages = messages
         self.temperature = temperature
         self.api_type = api_type
+        self.openai = openai
 
     def process_request(self):
         raise NotImplementedError
@@ -48,20 +49,12 @@ class NonStreamChatCompletion(ChatCompletion):
     def process_request(self):
         try:
             logging.info("Before completion creation")
-            if self.api_type == "open_ai":
-                completion = openai.chat.completions.create(
-                    model=self.model,
-                    messages=self.messages,
-                    temperature=self.temperature,
-                    stream=False,
-                )
-            elif self.api_type == "azure":
-                completion = openai.chat.completions.create(
-                    model=self.model,
-                    messages=self.messages,
-                    temperature=self.temperature,
-                    stream=False,
-                )
+            completion = self.openai.chat.completions.create(
+                model=self.model,
+                messages=self.messages,
+                temperature=self.temperature,
+                stream=False,
+            )
             logging.info("After completion creation")
             logging.info("content: " + completion.choices[0].message.content)
             return completion.choices[0].message.content
@@ -74,20 +67,12 @@ class StreamChatCompletion(ChatCompletion):
     def process_request(self):
         try:
             logging.info("Before completion creation")
-            if self.api_type == "open_ai":
-                completion = openai.chat.completions.create(
-                    model=self.model,
-                    messages=self.messages,
-                    temperature=self.temperature,
-                    stream=True,
-                )
-            elif self.api_type == "azure":
-                completion = openai.chat.completions.create(
-                    model=self.model,
-                    messages=self.messages,
-                    temperature=self.temperature,
-                    stream=True,
-                )
+            completion = self.openai.chat.completions.create(
+                model=self.model,
+                messages=self.messages,
+                temperature=self.temperature,
+                stream=True,
+            )
             logging.info("After completion creation")
 
             def process_delta(completion_delta):
