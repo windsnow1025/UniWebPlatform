@@ -14,12 +14,12 @@ class ChatCompletionFactory:
 
         if api_type == "open_ai":
             openai.api_type = "open_ai"
-            openai.api_base = "https://api.openai.com/v1"
+            # openai.base_url = "https://api.openai.com/v1"
             openai.api_version = None
             openai.api_key = os.environ["OPENAI_API_KEY"]
         elif api_type == "azure":
             openai.api_type = "azure"
-            openai.api_base = os.environ["AZURE_API_BASE"]
+            openai.azure_endpoint = os.environ["AZURE_API_BASE"]
             openai.api_version = "2023-07-01-preview"
             openai.api_key = os.environ["AZURE_API_KEY"]
 
@@ -64,7 +64,7 @@ class NonStreamChatCompletion(ChatCompletion):
             logging.info("content: " + completion.choices[0].message.content)
             return completion.choices[0].message.content
         except Exception as e:
-            logging.error(f"openai.ChatCompletion.create error: {e}")
+            logging.error(f"Exception: {e}")
             return str(e)
 
 
@@ -89,6 +89,10 @@ class StreamChatCompletion(ChatCompletion):
             logging.info("After completion creation")
 
             def process_delta(completion_delta):
+                # Necessary for Azure
+                if not completion_delta.choices:
+                    return ""
+
                 content_delta = completion_delta.choices[0].delta.content
                 if not content_delta:
                     content_delta = ""
@@ -107,5 +111,5 @@ class StreamChatCompletion(ChatCompletion):
             return Response(generate_chunk(), mimetype='text/plain')
 
         except Exception as e:
-            logging.error(f"openai.ChatCompletion.create error: {e}")
+            logging.error(f"Exception: {e}")
             return str(e)
