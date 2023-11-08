@@ -17,7 +17,6 @@ jwt = JWTManager(app)
 @jwt_required()
 def generate():
     username = get_jwt_identity()
-    logging.info(f"username: {username}")
 
     messages = request.form.get("messages")
     messages = list(eval(messages))
@@ -27,6 +26,8 @@ def generate():
     temperature = float(temperature)
     stream = request.form.get("stream")
     stream = True if stream == "true" else False
+
+    logging.info(f"username: {username}, model: {model}, api_type: {api_type}")
 
     factory = ChatCompletionFactory(messages, model, api_type, temperature, stream)
     completion = factory.create_chat_completion()
