@@ -1,10 +1,14 @@
-from config import *
+import json
 import os
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-os.environ["AZURE_API_KEY"] = AZURE_API_KEY
-os.environ["AZURE_API_BASE"] = AZURE_API_BASE
-
 from completion import ChatCompletionFactory
+
+# Load configuration from config.json
+with open("test/config.json") as config_file:
+    config = json.load(config_file)
+
+os.environ["OPENAI_API_KEY"] = config["OPENAI_API_KEY"]
+os.environ["AZURE_API_KEY"] = config["AZURE_API_KEY"]
+os.environ["AZURE_API_BASE"] = config["AZURE_API_BASE"]
 
 messages = [
     {
