@@ -48,15 +48,14 @@ class ChatCompletion:
 class NonStreamChatCompletion(ChatCompletion):
     def process_request(self):
         try:
-            logging.info("Before completion creation")
+            logging.info(f"messages: {self.messages}")
             completion = self.openai.chat.completions.create(
                 model=self.model,
                 messages=self.messages,
                 temperature=self.temperature,
                 stream=False,
             )
-            logging.info("After completion creation")
-            logging.info("content: " + completion.choices[0].message.content)
+            logging.info(f"Output: {completion.choices[0].message.content}")
             return completion.choices[0].message.content
         except Exception as e:
             logging.error(f"Exception: {e}")
@@ -66,14 +65,13 @@ class NonStreamChatCompletion(ChatCompletion):
 class StreamChatCompletion(ChatCompletion):
     def process_request(self):
         try:
-            logging.info("Before completion creation")
+            logging.info(f"messages: {self.messages}")
             completion = self.openai.chat.completions.create(
                 model=self.model,
                 messages=self.messages,
                 temperature=self.temperature,
                 stream=True,
             )
-            logging.info("After completion creation")
 
             def process_delta(completion_delta):
                 # Necessary for Azure
