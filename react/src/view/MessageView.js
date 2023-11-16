@@ -1,6 +1,4 @@
 import {parseMarkdown, parseLaTeX} from "../util/MarkdownParser";
-import 'katex/dist/katex.min.css';
-
 
 export class MessageView {
     constructor() {

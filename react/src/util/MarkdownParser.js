@@ -24,6 +24,7 @@ export function parseMarkdown(content) {
 }
 
 import renderMathInElement from "katex/contrib/auto-render";
+import 'katex/dist/katex.min.css';
 
 const katex_config = {
     delimiters: [
