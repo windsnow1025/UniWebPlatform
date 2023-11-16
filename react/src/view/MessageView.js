@@ -1,15 +1,6 @@
-import {parseMarkdown} from "../util/MarkdownParser";
+import {parseMarkdown, parseLaTeX} from "../util/MarkdownParser";
 import 'katex/dist/katex.min.css';
-import renderMathInElement from 'katex/dist/contrib/auto-render';
 
-const katex_config = {
-    delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false},
-        {left: '\\(', right: '\\)', display: false},
-        {left: '\\[', right: '\\]', display: true}
-    ],
-};
 
 export class MessageView {
     constructor() {
@@ -61,7 +52,7 @@ export class MessageView {
                 this.content_div.innerHTML = content;
             } else {
                 this.content_div.innerHTML = parseMarkdown(content);
-                renderMathInElement(this.content_div, katex_config);
+                parseLaTeX(this.content_div);
             }
         }
     }

@@ -5,7 +5,7 @@ applyTheme(theme);
 
 import '/public/css/markdown.css';
 import {MarkdownService} from "../service/MarkdownService";
-import {parseMarkdown} from "../util/MarkdownParser";
+import {parseLaTeX, parseMarkdown} from "../util/MarkdownParser";
 
 const id = new URLSearchParams(window.location.search).get('id');
 
@@ -32,6 +32,7 @@ edit_button.addEventListener('click', () => {
 confirm_button.addEventListener('click', () => {
     markdown.content = markdown_div.innerHTML;
     markdown_div.innerHTML = parseMarkdown(markdown.content);
+    parseLaTeX(markdown_div);
 
     markdown_div.contentEditable = false;
     edit_button.classList.remove('hide');
