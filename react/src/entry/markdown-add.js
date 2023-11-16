@@ -5,7 +5,7 @@ applyTheme(theme);
 
 import '/public/css/markdown.css';
 import {MarkdownService} from "../service/MarkdownService";
-import {parseMarkdown} from "../util/MarkdownParser";
+import {parseMarkdown, parseLaTeX} from "../util/MarkdownParser";
 
 const markdown = new MarkdownService(null);
 
@@ -25,6 +25,7 @@ edit_button.addEventListener('click', () => {
 confirm_button.addEventListener('click', () => {
     markdown.content = markdown_div.innerHTML;
     markdown_div.innerHTML = parseMarkdown(markdown.content);
+    parseLaTeX(markdown_div);
 
     markdown_div.contentEditable = false;
     edit_button.classList.remove('hide');

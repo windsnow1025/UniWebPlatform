@@ -22,3 +22,18 @@ export function parseMarkdown(content) {
     const parsedContent = marked.parse(content);
     return decodeEntitiesInParsedCode(parsedContent);
 }
+
+import renderMathInElement from "katex/contrib/auto-render";
+
+const katex_config = {
+    delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+    ],
+};
+
+export function parseLaTeX(content_div) {
+    renderMathInElement(content_div, katex_config)
+}
