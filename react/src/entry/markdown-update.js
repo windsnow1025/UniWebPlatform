@@ -16,6 +16,7 @@ const markdown_div = document.querySelector('#markdown-div');
 await markdown.fetchMarkdown();
 document.title = markdown.title;
 markdown_div.innerHTML = parseMarkdown(markdown.content);
+parseLaTeX(markdown_div);
 
 const edit_button = document.querySelector('#edit-button');
 const confirm_button = document.querySelector('#confirm-button');
