@@ -49,12 +49,22 @@ class NonStreamChatCompletion(ChatCompletion):
     def process_request(self):
         try:
             logging.info(f"messages: {self.messages}")
-            completion = self.openai.chat.completions.create(
-                model=self.model,
-                messages=self.messages,
-                temperature=self.temperature,
-                stream=False,
-            )
+            if self.model == "gpt-4-vision-preview":
+                completion = self.openai.chat.completions.create(
+                    model=self.model,
+                    messages=self.messages,
+                    temperature=self.temperature,
+                    stream=False,
+                    max_tokens=4096,
+                )
+            else:
+                completion = self.openai.chat.completions.create(
+                    model=self.model,
+                    messages=self.messages,
+                    temperature=self.temperature,
+                    stream=False,
+                )
+
             logging.info(f"Output: {completion.choices[0].message.content}")
             return completion.choices[0].message.content
         except Exception as e:
@@ -66,12 +76,21 @@ class StreamChatCompletion(ChatCompletion):
     def process_request(self):
         try:
             logging.info(f"messages: {self.messages}")
-            completion = self.openai.chat.completions.create(
-                model=self.model,
-                messages=self.messages,
-                temperature=self.temperature,
-                stream=True,
-            )
+            if self.model == "gpt-4-vision-preview":
+                completion = self.openai.chat.completions.create(
+                    model=self.model,
+                    messages=self.messages,
+                    temperature=self.temperature,
+                    stream=True,
+                    max_tokens=4096,
+                )
+            else:
+                completion = self.openai.chat.completions.create(
+                    model=self.model,
+                    messages=self.messages,
+                    temperature=self.temperature,
+                    stream=True,
+                )
 
             def process_delta(completion_delta):
                 # Necessary for Azure
