@@ -119,13 +119,13 @@ export class Conversation {
         const temperature = this.parameter_div.querySelector("#temperature").value;
         const stream = this.parameter_div.querySelector("#stream").checked;
 
-        // Create a new form data object
-        const formData = new FormData();
-        formData.append("messages", messages);
-        formData.append("api_type", api_type);
-        formData.append("model", model);
-        formData.append("temperature", temperature);
-        formData.append("stream", stream);
+        const requestData = {
+            messages: messages, // This should be an array of objects with 'role' and 'content' keys
+            model: model,
+            api_type: api_type,
+            temperature: temperature,
+            stream: stream
+        };
 
         // Set status
         this.status_elem.innerHTML = "Generating...";
@@ -138,7 +138,7 @@ export class Conversation {
                 this.wait_response.push(true);
                 const current_wait_response_index = this.wait_response.length - 1;
 
-                const res = await axios.post("/api/gpt/", formData, {
+                const res = await axios.post("/api/gpt/", requestData, {
                     headers: {
                         'Authorization': `Bearer ${this.token}`
                     }
@@ -203,7 +203,7 @@ export class Conversation {
             try {
                 const response = await fetch("/api/gpt/", {
                     method: "POST",
-                    body: formData,
+                    body: requestData,
                     signal: this.controller.signal,
                     headers: {
                         Authorization: `Bearer ${this.token}`
