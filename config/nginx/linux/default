@@ -31,7 +31,7 @@ server {
 	}
 
 	location /api/gpt/ {
-        proxy_pass http://localhost:5000/;
+        proxy_pass http://localhost:81/;
         proxy_buffering off;
         proxy_request_buffering off;
     }
