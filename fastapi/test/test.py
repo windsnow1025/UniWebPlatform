@@ -1,7 +1,10 @@
+import asyncio
 import json
 import os
-from completion import ChatCompletionFactory
+
 from fastapi.responses import StreamingResponse
+
+from completion import ChatCompletionFactory
 
 # Load configuration from config.json
 with open("config.json") as config_file:
@@ -73,5 +76,4 @@ def openai_vision_test():
         print(response)
 
 
-import asyncio
 asyncio.run(openai_test())
