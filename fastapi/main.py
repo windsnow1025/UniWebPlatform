@@ -1,20 +1,25 @@
-from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.responses import StreamingResponse
-from fastapi.security import OAuth2PasswordBearer
-from pydantic import BaseModel
-from typing import List, Union
-from jose import JWTError, jwt
-
 import logging
 import os
+from typing import List
+
+from fastapi import FastAPI, Depends
+from fastapi.responses import StreamingResponse
+from fastapi.security import OAuth2PasswordBearer
+from jose import jwt
+from pydantic import BaseModel
 
 from completion import ChatCompletionFactory
 
 app = FastAPI()
 
 
+class Message(BaseModel):
+    role: str
+    content: str
+
+
 class ChatRequest(BaseModel):
-    messages: List[Union[str, dict]]
+    messages: List[Message]
     model: str
     api_type: str
     temperature: float
@@ -29,18 +34,12 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # JWT authentication
 async def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
+    except Exception as e:
+        logging.error(f"Exception: {e}")
+        raise e
     return username
 
 
