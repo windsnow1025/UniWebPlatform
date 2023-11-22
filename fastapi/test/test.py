@@ -16,7 +16,7 @@ def fastapi_response_handler(generator):
     return StreamingResponse(generator(), media_type='text/plain')
 
 
-def openai_test():
+async def openai_test():
     messages = [
         {
             "role": "user",
@@ -26,14 +26,14 @@ def openai_test():
     model = "gpt-4"
     api_type = "open_ai"
     temperature = 0
-    stream = False
+    stream = True
 
     factory = ChatCompletionFactory(messages, model, api_type, temperature, stream, fastapi_response_handler)
     completion = factory.create_chat_completion()
     response = completion.process_request()
 
     if stream:
-        for content in response.body_iterator:
+        async for content in response.body_iterator:
             print(content, end='')
     else:
         print(response)
@@ -73,4 +73,5 @@ def openai_vision_test():
         print(response)
 
 
-openai_test()
+import asyncio
+asyncio.run(openai_test())
