@@ -38,13 +38,21 @@ export class Conversation {
     }
 
     // Serialize messages[] to JSON
+    // serializeMessages() {
+    //     return JSON.stringify(this.messageControllers.map(messageController => {
+    //         return {
+    //             role: messageController.model.role,
+    //             content: messageController.model.content
+    //         }
+    //     }));
+    // }
     serializeMessages() {
-        return JSON.stringify(this.messageControllers.map(messageController => {
+        return this.messageControllers.map(messageController => {
             return {
                 role: messageController.model.role,
                 content: messageController.model.content
-            }
-        }));
+            };
+        });
     }
 
     // Create and render message_div[] from messages[]
@@ -120,7 +128,7 @@ export class Conversation {
         const stream = this.parameter_div.querySelector("#stream").checked;
 
         const requestData = {
-            messages: messages, // This should be an array of objects with 'role' and 'content' keys
+            messages: messages,
             model: model,
             api_type: api_type,
             temperature: temperature,
@@ -138,11 +146,15 @@ export class Conversation {
                 this.wait_response.push(true);
                 const current_wait_response_index = this.wait_response.length - 1;
 
-                const res = await axios.post("/api/gpt/", requestData, {
-                    headers: {
-                        'Authorization': `Bearer ${this.token}`
+                const res = await axios.post(
+                    "/api/gpt/",
+                    requestData,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`
+                        }
                     }
-                });
+                );
 
                 // Stop if not waiting for response
                 if (!this.wait_response[current_wait_response_index]) return;
@@ -203,9 +215,10 @@ export class Conversation {
             try {
                 const response = await fetch("/api/gpt/", {
                     method: "POST",
-                    body: requestData,
+                    body: JSON.stringify(requestData),
                     signal: this.controller.signal,
                     headers: {
+                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${this.token}`
                     }
                 });
