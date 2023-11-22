@@ -2,3 +2,4 @@ openai
 fastapi
 uvicorn
 pydantic
+python-jose[cryptography]
