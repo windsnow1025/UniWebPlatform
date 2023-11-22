@@ -1,4 +1,0 @@
-openai
-flask
-flask-jwt-extended
-waitress
