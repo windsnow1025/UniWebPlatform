@@ -18,6 +18,24 @@ theme_div.render(
     </React.StrictMode>
 );
 
+// Credit
+import axios from "axios";
+import {getUsername} from "../manager/AuthManager.js";
+const credit_div = document.querySelector('#credit');
+const username = await getUsername();
+const token = localStorage.getItem('token');
+if (username) {
+    const res = await axios.get(`/api/user/credit?username=${username}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    const credit = res.data.credit;
+    credit_div.innerHTML = `Credit: ${credit}`;
+}
+
+
+// Main
 import {Conversation} from '../class/conversation.js';
 
 // Get elements
