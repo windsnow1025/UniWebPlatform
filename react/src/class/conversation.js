@@ -37,15 +37,6 @@ export class Conversation {
         this.add(1);
     }
 
-    // Serialize messages[] to JSON
-    // serializeMessages() {
-    //     return JSON.stringify(this.messageControllers.map(messageController => {
-    //         return {
-    //             role: messageController.model.role,
-    //             content: messageController.model.content
-    //         }
-    //     }));
-    // }
     serializeMessages() {
         return this.messageControllers.map(messageController => {
             return {

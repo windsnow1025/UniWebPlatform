@@ -77,6 +77,18 @@ router.use((req, res, next) => {
     }
 });
 
+router.get('/credit', async (req, res, next) => {
+    try {
+        let result = await UserDAO.SelectCredit({
+            username: req.username
+        });
+        res.status(200).json(result[0]);
+    } catch (err) {
+        console.error("Error in GET /credit:", err);
+        res.status(500).send("Error occurred while fetching data.");
+    }
+});
+
 router.put('/', async (req, res, next) => {
     try {
         let data = req.body.data;

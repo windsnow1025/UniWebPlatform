@@ -15,6 +15,13 @@ async function SelectUsername(data) {
     return result;
 }
 
+async function SelectCredit(data) {
+    const sql = "SELECT credit FROM user WHERE username = ?";
+    const sqlParams = [data.username];
+    const result = await poolQuery(sql, sqlParams);
+    return result;
+}
+
 async function Insert(data) {
     const sql = "INSERT INTO user (username, password) VALUES (?,?)";
     const sqlParams = [data.username, data.password];
@@ -39,6 +46,7 @@ async function Delete(id) {
 module.exports = {
     SelectUsernamePassword: SelectUsernamePassword,
     SelectUsername: SelectUsername,
+    SelectCredit: SelectCredit,
     Insert: Insert,
     Update: Update,
     Delete: Delete
