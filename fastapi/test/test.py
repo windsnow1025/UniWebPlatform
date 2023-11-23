@@ -5,6 +5,7 @@ import os
 from fastapi.responses import StreamingResponse
 
 from completion import ChatCompletionFactory
+from pricing import calculate_cost
 
 # Load configuration from config.json
 with open("config.json") as config_file:
@@ -35,45 +36,20 @@ async def openai_test():
     completion = factory.create_chat_completion()
     response = completion.process_request()
 
+    prompt_tokens = sum(len(message["content"]) for message in messages)
+    completion_tokens = 0
+
     if stream:
         async for content in response.body_iterator:
             print(content, end='')
+            completion_tokens += len(content)
+        print()
     else:
         print(response)
+        completion_tokens += len(response)
 
-
-def openai_vision_test():
-    messages = [
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": "What’s in this image?"
-                },
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
-                    },
-                },
-            ],
-        }
-    ]
-    model = "gpt-4-vision-preview"
-    api_type = "open_ai"
-    temperature = 0
-    stream = False
-
-    factory = ChatCompletionFactory(messages, model, api_type, temperature, stream, fastapi_response_handler)
-    completion = factory.create_chat_completion()
-    response = completion.process_request()
-
-    if stream:
-        for content in response.body_iterator:
-            print(content, end='')
-    else:
-        print(response)
+    cost = calculate_cost(api_type, model, prompt_tokens, completion_tokens)
+    print(f"Cost: ${cost:.4f}")
 
 
 asyncio.run(openai_test())
