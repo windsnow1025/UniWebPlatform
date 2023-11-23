@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 router.get('/', async (req, res, next) => {
     try {
-        let result = await UserDAO.SelectUsername({
+        let result = await UserDAO.SelectByUsername({
             username: req.query.username
         });
         res.status(200).json(result[0]);
@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
 router.post('/sign-in', async (req, res, next) => {
     try {
         let data = req.body.data;
-        let result = await UserDAO.SelectUsernamePassword(data);
+        let result = await UserDAO.SelectByUsernamePassword(data);
 
         // Judge if data.username and data.password match
         if (result.length > 0) {
@@ -42,7 +42,7 @@ router.post('/sign-up', async (req, res, next) => {
         let sqlData = {username: data.username};
 
         // Judge if data.username exists
-        let result = await UserDAO.SelectUsername(sqlData);
+        let result = await UserDAO.SelectByUsername(sqlData);
         if (result.length > 0) {
             res.status(401).send("Username already exists");
         } else {
@@ -79,7 +79,7 @@ router.use((req, res, next) => {
 
 router.get('/credit', async (req, res, next) => {
     try {
-        let result = await UserDAO.SelectCredit({
+        let result = await UserDAO.SelectCreditByUsername({
             username: req.username
         });
         res.status(200).json(result[0]);
@@ -89,13 +89,15 @@ router.get('/credit', async (req, res, next) => {
     }
 });
 
+// Do not expose credit update API to the frontend!
+
 router.put('/', async (req, res, next) => {
     try {
         let data = req.body.data;
 
         // Get current user data
-        let current_user = await UserDAO.SelectUsername({username: req.username});
-        let potential_new_user = await UserDAO.SelectUsername({username: data.username});
+        let current_user = await UserDAO.SelectByUsername({username: req.username});
+        let potential_new_user = await UserDAO.SelectByUsername({username: data.username});
 
         // Judge if the username is changed but already exists
         if (data.username != req.username && potential_new_user.length > 0) {
