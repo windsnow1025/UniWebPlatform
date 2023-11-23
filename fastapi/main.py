@@ -9,6 +9,8 @@ from jose import jwt
 from pydantic import BaseModel
 
 from completion import ChatCompletionFactory
+from database_utils import create_connection, select_credit, update_credit
+from pricing import calculate_cost
 
 app = FastAPI()
 
@@ -33,7 +35,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 # JWT authentication
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_username(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -48,8 +50,17 @@ def fastapi_response_handler(generator):
 
 
 @app.post("/")
-async def generate(chat_request: ChatRequest, current_user: str = Depends(get_current_user)):
-    logging.info(f"username: {current_user}, model: {chat_request.model}")
+async def generate(chat_request: ChatRequest, username: str = Depends(get_username)):
+    connection = create_connection()
+    credit = select_credit(username, connection)
+    if credit <= 0:
+        return "Insufficient credit. Please contact \"windsnow1024@gmail.com\"."
+
+    logging.info(f"username: {username}, model: {chat_request.model}, credit: {credit}")
+    prompt_tokens = sum(len(message.content) for message in chat_request.messages)
+    credit -= calculate_cost(chat_request.api_type, chat_request.model, prompt_tokens, 0)
+    update_credit(username, credit, connection)
+    logging.info(f"username: {username}, model: {chat_request.model}, credit: {credit}")
 
     factory = ChatCompletionFactory(
         messages=chat_request.messages,
@@ -61,6 +72,7 @@ async def generate(chat_request: ChatRequest, current_user: str = Depends(get_cu
     )
     completion = factory.create_chat_completion()
     response = completion.process_request()
+
     return response
 
 
