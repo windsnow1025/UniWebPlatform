@@ -3,3 +3,4 @@ fastapi
 pydantic
 uvicorn
 python-jose[cryptography]
+mysql-connector-python
