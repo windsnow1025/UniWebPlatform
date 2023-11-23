@@ -2,14 +2,15 @@ const { poolQuery } = require("./DatabaseConnection");
 
 class DatabaseHelper {
     constructor() {
-        this.version = '1.1';
+        this.version = '1.2';
     }
 
     CREATE_TABLE_USER = `
         CREATE TABLE IF NOT EXISTS user (
             id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
             username VARCHAR(64) NOT NULL UNIQUE,
-            password VARCHAR(64) NOT NULL
+            password VARCHAR(64) NOT NULL,
+            credit FLOAT NOT NULL DEFAULT 0
         );
     `
 
@@ -83,7 +84,10 @@ class DatabaseHelper {
 
     // Change this function for each new version
     async onUpgrade() {
-        await poolQuery(this.CREATE_TABLE_MARKDOWN);
+        const ALTER_TABLE_USER_ADD_CREDITS = `
+            ALTER TABLE user ADD COLUMN credit FLOAT NOT NULL DEFAULT 0;
+        `
+        await poolQuery(ALTER_TABLE_USER_ADD_CREDITS);
         console.log('Database upgraded');
     }
 
