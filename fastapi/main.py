@@ -95,5 +95,4 @@ def get_models():
     return ModelList(open_ai_models=open_ai_models, azure_models=azure_models)
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
