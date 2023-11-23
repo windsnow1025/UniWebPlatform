@@ -25,7 +25,7 @@ router.post('/sign-in', async (req, res, next) => {
         // Judge if data.username and data.password match
         if (result.length > 0) {
             // Generate token
-            const token = jwt.sign({sub: data.username}, process.env.JWT_SECRET, {expiresIn: '72h'});
+            const token = jwt.sign({sub: data.username}, process.env.JWT_SECRET, {expiresIn: '144h'});
             res.status(200).json({token});
         } else {
             res.status(401).send("Invalid Username or Password");
