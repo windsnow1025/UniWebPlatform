@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const MarkdownDAO = require("../sql/markdownDAO");
+const MarkdownDAO = require("../db/markdownDAO");
 const jwt = require('jsonwebtoken');
 
 
