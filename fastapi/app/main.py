@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Callable, Generator
 
 from fastapi import FastAPI, Depends
 from fastapi.responses import StreamingResponse
@@ -35,7 +36,7 @@ def get_username(token: str = Depends(oauth2_scheme)) -> str:
     return username
 
 
-def fastapi_response_handler(generator_function) -> StreamingResponse:
+def fastapi_response_handler(generator_function: Callable[[], Generator[str, None, None]]) -> StreamingResponse:
     return StreamingResponse(generator_function(), media_type='text/plain')
 
 
