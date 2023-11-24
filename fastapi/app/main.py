@@ -39,8 +39,8 @@ async def get_username(token: str = Depends(oauth2_scheme)):
     return username
 
 
-def fastapi_response_handler(generator):
-    return StreamingResponse(generator(), media_type='text/plain')
+def fastapi_response_handler(generator_function):
+    return StreamingResponse(generator_function(), media_type='text/plain')
 
 
 @app.post("/")
