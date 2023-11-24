@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const BookmarkDAO = require("../sql/bookmarkDAO");
+const BookmarkDAO = require("../db/bookmarkDAO");
 const jwt = require('jsonwebtoken');
 
 const Bookmark = require("../class/bookmark");

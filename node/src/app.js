@@ -34,8 +34,8 @@ app.use('/user', userAPI);
 
 
 // SQL
-const DatabaseHelper = require('./sql/DatabaseHelper');
-const { ConnectionTest } = require('./sql/DatabaseConnection');
+const DatabaseHelper = require('./db/DatabaseHelper');
+const { ConnectionTest } = require('./db/DatabaseConnection');
 
 async function sql_init() {
     const isConnected = await ConnectionTest();
