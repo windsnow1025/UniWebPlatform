@@ -4,8 +4,8 @@ import os
 
 from fastapi.responses import StreamingResponse
 
-from completion import ChatCompletionFactory
-from pricing import calculate_cost
+from app.completion import ChatCompletionFactory
+from app.pricing import calculate_cost
 
 # Load configuration from config.json
 with open("config.json") as config_file:

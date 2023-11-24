@@ -7,9 +7,9 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import BaseModel
 
-from completion import ChatCompletionFactory
-from database_utils import select_credit, update_credit
-from pricing import calculate_cost
+from app.completion import ChatCompletionFactory
+from app.database_utils import select_credit, update_credit
+from app.pricing import calculate_cost
 
 app = FastAPI()
 
