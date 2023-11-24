@@ -1,25 +1,23 @@
 import os
 import mysql.connector
+from mysql.connector.pooling import PooledMySQLConnection
+
+dbconfig = {
+    "host": "mysql",
+    "user": os.getenv('MYSQL_USER'),
+    "password": os.getenv('MYSQL_PASSWORD'),
+    "database": os.getenv('MYSQL_DATABASE')
+}
+
+connection_pool = mysql.connector.pooling.MySQLConnectionPool(**dbconfig)
 
 
-mysql_user = os.getenv('MYSQL_USER')
-mysql_password = os.getenv('MYSQL_PASSWORD')
-mysql_database = os.getenv('MYSQL_DATABASE')
-
-
-def create_connection() -> mysql.connector.MySQLConnection:
-    connection = mysql.connector.connect(
-        host='mysql',
-        user=mysql_user,
-        password=mysql_password,
-        database=mysql_database
-    )
-    print("Successfully connected to the database.")
-    return connection
+def get_connection() -> PooledMySQLConnection:
+    return connection_pool.get_connection()
 
 
 def select_credit(username: str) -> float:
-    connection = create_connection()
+    connection = get_connection()
     cursor = connection.cursor()
     query = "SELECT credit FROM user WHERE username = %s"
     cursor.execute(query, (username,))
@@ -30,7 +28,7 @@ def select_credit(username: str) -> float:
 
 
 def update_credit(username: str, credit: float) -> bool:
-    connection = create_connection()
+    connection = get_connection()
     cursor = connection.cursor()
     query = "UPDATE user SET credit = %s WHERE username = %s"
     cursor.execute(query, (credit, username))
