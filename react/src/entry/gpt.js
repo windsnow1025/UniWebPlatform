@@ -18,22 +18,6 @@ theme_div.render(
     </React.StrictMode>
 );
 
-// Credit
-import axios from "axios";
-import {getUsername} from "../manager/AuthManager.js";
-const credit_div = document.querySelector('#credit');
-const username = await getUsername();
-const token = localStorage.getItem('token');
-if (username) {
-    const res = await axios.get(`/api/user/credit?username=${username}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
-    const credit = res.data.credit;
-    credit_div.innerHTML = `Credit: ${credit}`;
-}
-
 
 // Main
 import {Conversation} from '../class/conversation.js';
@@ -43,9 +27,10 @@ const messages_div = document.querySelector("#messages_div")
 const template_message_div = document.querySelector("div[name='message_div']");
 const status_div = document.querySelector('#status_div');
 const parameter_div = document.querySelector('#parameter_div')
+const credit_div = document.querySelector('#credit');
 
 // Create conversation
-const conversation = new Conversation(messages_div, template_message_div, status_div, parameter_div);
+const conversation = new Conversation(messages_div, template_message_div, status_div, parameter_div, credit_div);
 
 // Get buttons
 const generate_button = document.querySelector('#generate');
@@ -147,15 +132,32 @@ editableCheckbox.addEventListener("change", function () {
     }
 });
 
-if (localStorage.getItem('token')) {
-    await conversation.fetch_conversations();
+// Conversations
+import ConversationAutocomplete from '../component/ConversationAutocomplete.js';
+async function initConversationSelect() {
+    if (localStorage.getItem('token')) {
+        await conversation.fetch_conversations();
+    }
+
+    // Conversation autocomplete
+    const select_div = ReactDOM.createRoot(document.getElementById('select'));
+    select_div.render(
+        <React.StrictMode>
+            <ConversationAutocomplete conversation={conversation}/>
+        </React.StrictMode>
+    );
 }
 
-import ConversationAutocomplete from '../component/ConversationAutocomplete.js';
+initConversationSelect();
 
-const select_div = ReactDOM.createRoot(document.getElementById('select'));
-select_div.render(
-    <React.StrictMode>
-        <ConversationAutocomplete conversation={conversation}/>
-    </React.StrictMode>
-);
+// Credit
+async function initCredit() {
+    if (localStorage.getItem('token')) {
+        const credit = await conversation.fetch_credit();
+        credit_div.innerHTML = `Credit: ${credit}`;
+    }
+}
+
+initCredit();
+
+
