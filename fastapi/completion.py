@@ -1,11 +1,20 @@
 import logging
 import os
-from openai import OpenAI
-from openai import AzureOpenAI
+from typing import Any
+
+from openai import OpenAI, AzureOpenAI
 
 
 class ChatCompletionFactory:
-    def __init__(self, messages, model, api_type, temperature, stream, response_handler=None):
+    def __init__(
+        self,
+        messages: list[dict[str, str]],
+        model: str,
+        api_type: str,
+        temperature: float,
+        stream: bool,
+        response_handler=None
+    ):
         self.messages = messages
         self.model = model
         self.api_type = api_type
@@ -25,7 +34,7 @@ class ChatCompletionFactory:
                 api_key=os.environ["AZURE_API_KEY"],
             )
 
-    def create_chat_completion(self):
+    def create_chat_completion(self) -> 'ChatCompletion':
 
         if self.stream:
             return StreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai, self.response_handler)
@@ -34,7 +43,15 @@ class ChatCompletionFactory:
 
 
 class ChatCompletion:
-    def __init__(self, model, messages, temperature, api_type, openai, response_handler=None):
+    def __init__(
+        self,
+        model: str,
+        messages: list[dict[str, str]],
+        temperature: float,
+        api_type: str,
+        openai: Any,
+        response_handler=None
+    ):
         self.model = model
         self.messages = messages
         self.temperature = temperature
@@ -47,7 +64,7 @@ class ChatCompletion:
 
 
 class NonStreamChatCompletion(ChatCompletion):
-    def process_request(self):
+    def process_request(self) -> str:
         try:
             logging.info(f"messages: {self.messages}")
             if self.model == "gpt-4-vision-preview":
@@ -93,7 +110,7 @@ class StreamChatCompletion(ChatCompletion):
                     stream=True,
                 )
 
-            def process_delta(completion_delta):
+            def process_delta(completion_delta: Any) -> str:
                 # Necessary for Azure
                 if not completion_delta.choices:
                     return ""
