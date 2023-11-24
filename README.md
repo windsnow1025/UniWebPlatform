@@ -2,13 +2,13 @@
 
 ## Introduction
 
-A full stack web application for my personal website containing static blogs, a user system, an editable bookmark, a message transmitter and a private gpt.
+A full stack web application for my personal website containing markdown blogs, a user system, an editable bookmark, a message transmitter and a private gpt.
 
 ## Tech Stack
 
 Front End: Node.js: Express, Webpack, Axios, React
 
-Back End: Node.js Express + Python Flask + MySQL + Nginx
+Back End: Node.js Express + Python FastAPI + MySQL + Nginx
 
 ## Live Demo
 
@@ -16,7 +16,7 @@ Back End: Node.js Express + Python Flask + MySQL + Nginx
 
 ## Requirements
 
-Logged in as the root user in Debian 11 with a minimum RAM of 2GB.
+Logged in as the root user in Debian 11 with a minimum RAM of 4GB.
 
 ## Setup
 
@@ -86,11 +86,11 @@ cd FullStack-Web/node
 docker build -t node .
 ```
 
-### Back End - Python Flask
+### Back End - Python FastAPI
 
 ```bash
-cd FullStack-Web/flask
-docker build -t flask .
+cd FullStack-Web/fastapi
+docker build -t fastapi .
 ```
 
 ### Back End - MySQL
