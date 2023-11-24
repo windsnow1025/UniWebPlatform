@@ -1,4 +1,8 @@
-model_pricing = {
+PricingDetails = dict[str, float]
+
+ModelPricing = dict[str, dict[str, PricingDetails]]
+
+model_pricing: ModelPricing = {
     "open_ai": {
         "gpt-3.5-turbo": {"input": 0.0010, "output": 0.0020},
         "gpt-3.5-turbo-0301": {"input": 0.0015, "output": 0.0020},
