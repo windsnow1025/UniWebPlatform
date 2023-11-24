@@ -8,12 +8,14 @@ export class Conversation {
      * @param {HTMLDivElement} template_message_div
      * @param {HTMLDivElement} status_div
      * @param {HTMLDivElement} parameter_div
+     * @param {HTMLDivElement} credit_div
      */
-    constructor(messages_div, template_message_div, status_div, parameter_div) {
+    constructor(messages_div, template_message_div, status_div, parameter_div, credit_div) {
         this.messages_div = messages_div;
         this.template_message_div = template_message_div;
         this.status_div = status_div;
         this.parameter_div = parameter_div;
+        this.credit_div = credit_div;
 
         /** @type {Array} */
         this.conversations = [];
@@ -241,6 +243,10 @@ export class Conversation {
 
         // Scroll to the bottom of the page
         window.scrollTo(0, document.body.scrollHeight);
+
+        // Set credit
+        const credit = await this.fetch_credit();
+        this.credit_div.innerHTML = `Credit: ${credit}`;
     }
 
     // Stop generating response
@@ -322,6 +328,15 @@ export class Conversation {
 
         // Copy to clipboard
         navigator.clipboard.writeText(content);
+    }
+
+    async fetch_credit() {
+        const res = await axios.get("/api/user/credit", {
+            headers: {
+                Authorization: `Bearer ${this.token}`
+            }
+        });
+        return res.data.credit;
     }
 
     // Save the messages array as a JSON file
