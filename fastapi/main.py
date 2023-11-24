@@ -1,6 +1,5 @@
 import logging
 import os
-from typing import List
 
 from fastapi import FastAPI, Depends
 from fastapi.responses import StreamingResponse
@@ -71,8 +70,8 @@ async def generate(chat_request: ChatRequest, username: str = Depends(get_userna
 
 
 class ModelList(BaseModel):
-    open_ai_models: List[str]
-    azure_models: List[str]
+    open_ai_models: list[str]
+    azure_models: list[str]
 
 
 open_ai_models = [

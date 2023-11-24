@@ -1,6 +1,5 @@
 import logging
 import os
-from typing import Any
 
 from openai import OpenAI, AzureOpenAI
 
@@ -49,7 +48,7 @@ class ChatCompletion:
         messages: list[dict[str, str]],
         temperature: float,
         api_type: str,
-        openai: Any,
+        openai,
         response_handler=None
     ):
         self.model = model
@@ -110,7 +109,7 @@ class StreamChatCompletion(ChatCompletion):
                     stream=True,
                 )
 
-            def process_delta(completion_delta: Any) -> str:
+            def process_delta(completion_delta) -> str:
                 # Necessary for Azure
                 if not completion_delta.choices:
                     return ""
