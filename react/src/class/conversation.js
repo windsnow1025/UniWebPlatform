@@ -342,7 +342,7 @@ export class Conversation {
     // Save the messages array as a JSON file
     download() {
         const fileName = 'messages.json';
-        const data = this.serializeMessages();
+        const data = JSON.stringify(this.serializeMessages());
         const blob = new Blob([data], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
 
@@ -404,7 +404,7 @@ export class Conversation {
 
     async cloudUpload(name) {
         // Prepare data
-        const conversation = this.serializeMessages();
+        const conversation = JSON.stringify(this.serializeMessages());
         const data = {
             name: name,
             conversation: conversation
@@ -422,7 +422,7 @@ export class Conversation {
 
     async cloudUpdate(index, name) {
         // Prepare data
-        const conversation = this.serializeMessages();
+        const conversation = JSON.stringify(this.serializeMessages());
         const id = this.conversations[index].id;
         const data = {
             name: name,
