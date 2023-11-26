@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import Any
+from typing import Generator
 
 from openai import OpenAI, AzureOpenAI
 
@@ -49,7 +49,7 @@ class ChatCompletion:
         messages: list[dict[str, str]],
         temperature: float,
         api_type: str,
-        openai: Any,
+        openai,
         response_handler=None
     ):
         self.model = model
@@ -110,7 +110,7 @@ class StreamChatCompletion(ChatCompletion):
                     stream=True,
                 )
 
-            def process_delta(completion_delta: Any) -> str:
+            def process_delta(completion_delta) -> str:
                 # Necessary for Azure
                 if not completion_delta.choices:
                     return ""
@@ -121,7 +121,7 @@ class StreamChatCompletion(ChatCompletion):
                 logging.debug(f"chunk: {content_delta}")
                 return content_delta
 
-            def generate_chunk():
+            def generate_chunk(completion) -> Generator[str, None, None]:
                 content = ""
                 for completion_delta in completion:
                     content_delta = process_delta(completion_delta)
@@ -130,7 +130,7 @@ class StreamChatCompletion(ChatCompletion):
 
                 logging.info(f"content: {content}")
 
-            return self.response_handler(generate_chunk)
+            return self.response_handler(lambda: generate_chunk(completion))
 
         except Exception as e:
             logging.error(f"Exception: {e}")

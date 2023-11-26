@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import List
+from typing import Callable, Generator
 
 from fastapi import FastAPI, Depends
 from fastapi.responses import StreamingResponse
@@ -8,9 +8,9 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import BaseModel
 
-from completion import ChatCompletionFactory
-from database_utils import select_credit, update_credit
-from pricing import calculate_cost
+from app.completion import ChatCompletionFactory
+from app.database_utils import select_credit, update_credit
+from app.pricing import calculate_cost
 
 app = FastAPI()
 
@@ -30,22 +30,18 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 # JWT authentication
-async def get_username(token: str = Depends(oauth2_scheme)):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-    except Exception as e:
-        logging.error(f"Exception: {e}")
-        raise e
+def get_username(token: str = Depends(oauth2_scheme)) -> str:
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    username = payload.get("sub")
     return username
 
 
-def fastapi_response_handler(generator):
-    return StreamingResponse(generator(), media_type='text/plain')
+def fastapi_response_handler(generator_function: Callable[[], Generator[str, None, None]]) -> StreamingResponse:
+    return StreamingResponse(generator_function(), media_type='text/plain')
 
 
 @app.post("/")
-async def generate(chat_request: ChatRequest, username: str = Depends(get_username)):
+def generate(chat_request: ChatRequest, username: str = Depends(get_username)):
     credit = select_credit(username)
     if credit <= 0:
         return "Insufficient credit. Please contact \"windsnow1024@gmail.com\"."
@@ -71,8 +67,8 @@ async def generate(chat_request: ChatRequest, username: str = Depends(get_userna
 
 
 class ModelList(BaseModel):
-    open_ai_models: List[str]
-    azure_models: List[str]
+    open_ai_models: list[str]
+    azure_models: list[str]
 
 
 open_ai_models = [
@@ -97,7 +93,7 @@ azure_models = [
 
 
 @app.get("/", response_model=ModelList)
-def get_models():
+def get_models() -> ModelList:
     return ModelList(open_ai_models=open_ai_models, azure_models=azure_models)
 
 
