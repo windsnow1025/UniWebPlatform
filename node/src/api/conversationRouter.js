@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const ConversationDAO = require("../db/conversationDAO");
+const UserDAO = require("../db/userDAO");
 const jwt = require('jsonwebtoken');
-const axios = require('axios');
 
 
 router.use(async (req, res, next) => {
@@ -17,10 +17,11 @@ router.use(async (req, res, next) => {
             const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
 
             // Get user_id from username
-            const user = await axios.get("http://localhost:3000/user?username=" + username);
+            const userResult = await UserDAO.SelectByUsername({username: username});
+            const user = userResult[0];
 
             // Set req.user_id
-            req.user_id = user.data.id;
+            req.user_id = user.id;
             next();
         } catch (err) {
             res.sendStatus(403);
