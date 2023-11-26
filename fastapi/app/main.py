@@ -41,7 +41,7 @@ def fastapi_response_handler(generator_function: Callable[[], Generator[str, Non
 
 
 @app.post("/")
-def generate(chat_request: ChatRequest, username: str = Depends(get_username)):
+async def generate(chat_request: ChatRequest, username: str = Depends(get_username)):
     credit = select_credit(username)
     if credit <= 0:
         return "Insufficient credit. Please contact \"windsnow1024@gmail.com\"."
@@ -93,7 +93,7 @@ azure_models = [
 
 
 @app.get("/", response_model=ModelList)
-def get_models() -> ModelList:
+async def get_models() -> ModelList:
     return ModelList(open_ai_models=open_ai_models, azure_models=azure_models)
 
 
