@@ -3,7 +3,7 @@ const router = express.Router();
 const BookmarkDAO = require("../db/bookmarkDAO");
 const jwt = require('jsonwebtoken');
 
-const Bookmark = require("../class/bookmark");
+const Bookmark = require("../model/bookmark");
 
 
 router.get('/', async (req, res, next) => {
