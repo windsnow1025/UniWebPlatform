@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faUser} from '@fortawesome/free-solid-svg-icons';
 
 function AuthDiv() {
   const [username, setUsername] = useState(null);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsername();
@@ -38,7 +40,7 @@ function AuthDiv() {
         <div className="Flex-space-around">
           <span>{username}</span>
           <a href="/html/user-center.html">
-            <i className="fa fa-user"></i>
+            <FontAwesomeIcon icon={faUser} />
           </a>
           <button onClick={handleSignOut}>Sign Out</button>
         </div>
