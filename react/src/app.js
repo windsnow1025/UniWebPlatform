@@ -16,7 +16,9 @@ function App() {
         <a href="./html/message-transmitter.html">Message Transmitter</a>
         <a href="./html/gpt.html">GPT</a>
       </div>
-      <MarkdownList />
+      <div className="Flex-space-around" style={{margin: "16px"}}>
+        <MarkdownList />
+      </div>
     </div>
   );
 }
