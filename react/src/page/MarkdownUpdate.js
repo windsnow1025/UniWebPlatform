@@ -8,8 +8,8 @@ import '../markdown.css';
 function MarkdownUpdate() {
   const [markdown, setMarkdown] = useState({ title: '', content: '' });
   const [isEditing, setIsEditing] = useState(false);
-  const markdownRef = useRef(null);
   const { id } = useParams();
+  const markdownRef = useRef(null);
   const markdownService = useRef(null);
 
   useEffect(() => {
