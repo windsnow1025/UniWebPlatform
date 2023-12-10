@@ -1,23 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+
+import MarkdownList from './components/MarkdownList';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="Flex-space-around" style={{margin: "16px"}}>
+        <a href="./html/bookmarks.html">Bookmarks</a>
+        <a href="./html/message-transmitter.html">Message Transmitter</a>
+        <a href="./html/gpt.html">GPT</a>
+      </div>
+      <MarkdownList />
     </div>
   );
 }
