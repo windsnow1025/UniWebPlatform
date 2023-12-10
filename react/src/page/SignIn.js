@@ -10,8 +10,7 @@ function SignIn() {
   const handleSignIn = async () => {
     try {
       const res = await axios.post("/api/user/sign-in", {
-        username,
-        password
+        data: { username: username, password: password }
       });
       localStorage.setItem('token', res.data.token);
       let prevUrl = localStorage.getItem('prevUrl') || "/";
