@@ -58,7 +58,7 @@ function MarkdownUpdate() {
         className="markdown-body"
         ref={markdownRef}
         style={{ padding: '16px' }}
-        contentEditable={isEditing}
+        contentEditable={isEditing ? "plaintext-only" : false}
         dangerouslySetInnerHTML={{ __html: isEditing ? markdown.content : parseMarkdown(markdown.content) }}
       />
 
