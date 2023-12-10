@@ -7,6 +7,7 @@ import SignIn from "./page/SignIn";
 import SignUp from "./page/SignUp";
 import UserCenter from "./page/UserCenter";
 import MarkdownUpdate from "./page/MarkdownUpdate";
+import MarkdownAdd from "./page/MarkdownAdd";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +19,7 @@ root.render(
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user-center" element={<UserCenter />} />
         <Route path="/markdown/update/:id" element={<MarkdownUpdate />} />
+        <Route path="/markdown/add" element={<MarkdownAdd />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
