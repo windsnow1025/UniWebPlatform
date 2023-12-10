@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 function MarkdownList() {
   const [markdowns, setMarkdowns] = useState([]);
@@ -20,13 +19,13 @@ function MarkdownList() {
       <ul>
         {markdowns.map(markdown => (
           <li key={markdown.id}>
-            <Link to={`/markdown/update/${markdown.id}`}>
+            <a href={`/markdown/update/${markdown.id}`} target="_blank" rel="noopener noreferrer">
               {markdown.title}
-            </Link>
+            </a>
           </li>
         ))}
       </ul>
-      <Link to="/markdown/add">Add Markdown</Link>
+      <a href="/markdown/add" target="_blank" rel="noopener noreferrer">Add Markdown</a>
     </div>
   );
 }
