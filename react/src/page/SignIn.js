@@ -29,7 +29,7 @@ function SignIn() {
     <div className="Flex-Center">
       <div>
         <h1 className="center">Sign In</h1>
-        <div id="theme" className="center">
+        <div className="center">
           <ThemeSelect />
         </div>
         <div className="center">

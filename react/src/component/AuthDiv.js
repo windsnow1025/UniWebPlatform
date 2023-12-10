@@ -39,7 +39,7 @@ function AuthDiv() {
       {username ? (
         <div className="Flex-space-around">
           <span>{username}</span>
-          <a href="/html/user-center.html">
+          <a href="/user-center">
             <FontAwesomeIcon icon={faUser} />
           </a>
           <button onClick={handleSignOut}>Sign Out</button>
