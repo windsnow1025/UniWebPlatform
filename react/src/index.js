@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import SignIn from "./page/SignIn";
+import SignUp from "./page/SignUp";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,6 +13,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
