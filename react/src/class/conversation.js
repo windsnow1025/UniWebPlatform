@@ -460,7 +460,7 @@ export class Conversation {
 
     setConversation(index) {
         // Get the conversation
-        const messages = JSON.parse(this.conversations[index].conversation);
+        const messages = this.conversations[index].conversation;
 
         // Re-render the messages div
         this.clear_message_divs();
