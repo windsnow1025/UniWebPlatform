@@ -1,34 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ThemeSelect from '../component/ThemeSelect';
 
-function SignUp() {
+function UserCenter() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        return;
+      }
+      try {
+        const res = await axios.get('/api/auth/', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setUsername(res.data);
+      } catch (err) {
+        localStorage.removeItem('token');
+      }
+    };
+
+    fetchUsername();
+  }, []);
+
   const isValidInput = (input) => {
-    // Check if input contains only ASCII characters and has a length between 6 and 20
     const asciiRegex = /^[\x00-\x7F]{4,32}$/;
     return asciiRegex.test(input);
   };
 
-  const handleSignUp = async () => {
+  const handleUpdate = async () => {
     if (!isValidInput(username) || !isValidInput(password)) {
       alert("Username or Password contains invalid characters or has an invalid length.");
       return;
     }
+
+    const token = localStorage.getItem('token');
     try {
-      await axios.post("/api/user/sign-up", {
+      await axios.put(`/api/user/`, {
         data: { username, password }
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      alert("Sign Up Success");
-      let prevUrl = localStorage.getItem('prevUrl') || "/";
-      window.location.href = prevUrl;
+      alert("Update Success");
     } catch (err) {
-      if (err.response && err.response.status === 401) {
+      if (err.response && err.response.status === 409) {
         alert("Username already exists.");
       } else {
-        alert("Sign Up Fail");
+        alert("Update Fail");
         console.error(err);
       }
     }
@@ -37,7 +57,7 @@ function SignUp() {
   return (
     <div className="Flex-Center">
       <div>
-        <h1 className="center">Sign Up</h1>
+        <h1 className="center">User Center</h1>
         <div className="center">
           <ThemeSelect />
         </div>
@@ -61,7 +81,7 @@ function SignUp() {
             />
           </div>
           <div>
-            <button type="button" onClick={handleSignUp} title="Enter">Sign Up</button>
+            <button type="button" onClick={handleUpdate} title="Enter">Update</button>
           </div>
         </div>
       </div>
@@ -69,4 +89,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default UserCenter;
