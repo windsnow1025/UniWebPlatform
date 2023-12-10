@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { applyTheme } from "../manager/ThemeManager";
 import { parseLaTeX, parseMarkdown } from '../util/MarkdownParser';
 import { MarkdownService } from '../service/MarkdownService';
@@ -8,19 +8,21 @@ import '../markdown.css';
 function MarkdownUpdate() {
   const [markdown, setMarkdown] = useState({ title: '', content: '' });
   const [isEditing, setIsEditing] = useState(false);
-  const markdownRef = useRef(null); // useRef to reference the div
-  const navigate = useNavigate();
-  const { id } = useParams(); // get the id from the URL
+  const markdownRef = useRef(null);
+  const { id } = useParams();
+  const markdownService = useRef(null);
 
   useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    applyTheme(theme);
+    applyTheme(localStorage.getItem("theme"));
+    markdownService.current = new MarkdownService(id);
 
     const fetchMarkdown = async () => {
-      const service = new MarkdownService(id);
-      await service.fetchMarkdown();
-      setMarkdown({ title: service.title, content: service.content });
-      document.title = service.title;
+      await markdownService.current.fetchMarkdown();
+      setMarkdown({
+        title: markdownService.current.title,
+        content: markdownService.current.content
+      });
+      document.title = markdownService.current.title;
       parseLaTeX(markdownRef.current);
     };
 
@@ -33,23 +35,26 @@ function MarkdownUpdate() {
 
   const handleConfirm = () => {
     if (markdownRef.current) {
-      setMarkdown({ ...markdown, content: markdownRef.current.innerText });
+      markdownService.current.content = markdownRef.current.innerText;
+      setMarkdown({
+        title: markdownService.current.title,
+        content: markdownService.current.content
+      });
     }
     setIsEditing(false);
   };
 
   const handleUpdate = async () => {
-    const service = new MarkdownService(id);
-    await service.updateMarkdown({ ...markdown, content: parseMarkdown(markdown.content) });
-    // Update the displayed markdown
-    setMarkdown({ ...markdown, content: parseMarkdown(markdown.content) });
+    await markdownService.current.updateMarkdown();
+    setMarkdown({
+      title: markdownService.current.title,
+      content: parseMarkdown(markdownService.current.content)
+    });
     parseLaTeX(markdownRef.current);
   };
 
   const handleDelete = async () => {
-    const service = new MarkdownService(id);
-    await service.deleteMarkdown();
-    navigate('/');
+    await markdownService.current.deleteMarkdown();
   };
 
   return (
@@ -58,7 +63,7 @@ function MarkdownUpdate() {
         className="markdown-body"
         ref={markdownRef}
         style={{ padding: '16px' }}
-        contentEditable={isEditing ? "plaintext-only" : false}
+        contentEditable={isEditing ? "plaintext-only" : "false"}
         dangerouslySetInnerHTML={{ __html: isEditing ? markdown.content : parseMarkdown(markdown.content) }}
       />
 
