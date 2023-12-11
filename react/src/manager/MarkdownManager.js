@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export class MarkdownService {
+export class MarkdownManager {
   constructor(id) {
     this.id = id;
     this.title = "";
