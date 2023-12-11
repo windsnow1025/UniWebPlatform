@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 import axios from 'axios';
 
 import ThemeSelect from '../component/ThemeSelect';
@@ -6,6 +7,7 @@ import ThemeSelect from '../component/ThemeSelect';
 function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSignIn = async () => {
     try {
@@ -14,7 +16,7 @@ function SignIn() {
       });
       localStorage.setItem('token', res.data.token);
       let prevUrl = localStorage.getItem('prevUrl') || "/";
-      window.location.href = prevUrl;
+      navigate(prevUrl);
     } catch (err) {
       if (err.response && err.response.status === 401) {
         alert("Invalid Username or Password");

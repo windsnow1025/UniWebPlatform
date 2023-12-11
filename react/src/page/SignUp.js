@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 import axios from 'axios';
+
 import ThemeSelect from '../component/ThemeSelect';
 
 function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const isValidInput = (input) => {
     // Check if input contains only ASCII characters and has a length between 6 and 20
@@ -23,7 +26,7 @@ function SignUp() {
       });
       alert("Sign Up Success");
       let prevUrl = localStorage.getItem('prevUrl') || "/";
-      window.location.href = prevUrl;
+      navigate(prevUrl);
     } catch (err) {
       if (err.response && err.response.status === 401) {
         alert("Username already exists.");

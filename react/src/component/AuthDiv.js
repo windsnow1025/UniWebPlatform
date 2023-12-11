@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 function AuthDiv() {
   const [username, setUsername] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     fetchUsername();
@@ -34,23 +35,33 @@ function AuthDiv() {
     setUsername(null);
   };
 
+  const handleSignIn = () => {
+    localStorage.setItem('prevUrl', location.pathname);
+    navigate('/signin');
+  };
+
+  const handleSignUp = () => {
+    localStorage.setItem('prevUrl', location.pathname);
+    navigate('/signup');
+  };
+
   return (
-    <div>
-      {username ? (
-        <div className="Flex-space-around">
-          <span>{username}</span>
-          <a href="/user-center">
-            <FontAwesomeIcon icon={faUser} />
-          </a>
-          <button onClick={handleSignOut}>Sign Out</button>
-        </div>
-      ) : (
-        <div className="Flex-space-around">
-          <button onClick={() => navigate('/signin')}>Sign in</button>
-          <button onClick={() => navigate('/signup')}>Sign up</button>
-        </div>
-      )}
-    </div>
+      <div>
+        {username ? (
+            <div className="Flex-space-around">
+              <span>{username}</span>
+              <a href="/user-center">
+                <FontAwesomeIcon icon={faUser} />
+              </a>
+              <button onClick={handleSignOut}>Sign Out</button>
+            </div>
+        ) : (
+            <div className="Flex-space-around">
+              <button onClick={handleSignIn}>Sign in</button>
+              <button onClick={handleSignUp}>Sign up</button>
+            </div>
+        )}
+      </div>
   );
 }
 

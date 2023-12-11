@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { applyTheme } from "../manager/ThemeManager";
 import { parseLaTeX, parseMarkdown } from '../util/MarkdownParser';
-import { MarkdownService } from '../service/MarkdownService';
+import { MarkdownManager } from '../manager/MarkdownManager';
 import '../markdown.css';
 
 function MarkdownUpdate() {
@@ -14,7 +14,7 @@ function MarkdownUpdate() {
 
   useEffect(() => {
     applyTheme(localStorage.getItem("theme"));
-    markdownService.current = new MarkdownService(id);
+    markdownService.current = new MarkdownManager(id);
 
     const fetchMarkdown = async () => {
       await markdownService.current.fetchMarkdown();

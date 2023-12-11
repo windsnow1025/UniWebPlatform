@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { applyTheme } from "../manager/ThemeManager";
 import { parseMarkdown, parseLaTeX } from '../util/MarkdownParser';
-import { MarkdownService } from '../service/MarkdownService';
+import { MarkdownManager } from '../manager/MarkdownManager';
 import '../markdown.css';
 
 function MarkdownAdd() {
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const markdownService = useRef(new MarkdownService(null));
+  const markdownService = useRef(new MarkdownManager(null));
   const markdownRef = useRef(null);
 
   useEffect(() => {
