@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './asset/index.css';
+import './asset/css/index.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import App from './App';
 import SignIn from "./page/SignIn";
@@ -9,6 +9,7 @@ import UserCenter from "./page/UserCenter";
 import MarkdownUpdate from "./page/MarkdownUpdate";
 import MarkdownAdd from "./page/MarkdownAdd";
 import Bookmark from "./page/Bookmark";
+import MarkdownStaticRouter from "./page/MarkdownStaticRouter";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,6 +23,7 @@ root.render(
         <Route path="/markdown/update/:id" element={<MarkdownUpdate />} />
         <Route path="/markdown/add" element={<MarkdownAdd />} />
         <Route path="/bookmark" element={<Bookmark />} />
+        <Route path="/markdown/:filename" element={<MarkdownStaticRouter />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
