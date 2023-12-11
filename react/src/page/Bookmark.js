@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import BookmarkService from "../service/BookmarkService";
@@ -15,8 +14,7 @@ function Bookmark() {
   const [searchUrl, setSearchUrl] = useState('');
   const [searchComment, setSearchComment] = useState('');
 
-  const token = localStorage.getItem('token');
-  const bookmarkService = new BookmarkService(token);
+  const bookmarkService = new BookmarkService();
 
   useEffect(() => {
     loadBookmarks();
@@ -34,21 +32,8 @@ function Bookmark() {
       });
       setEditStates(initEditStates);
     } catch (error) {
-      console.error('Error fetching bookmarks:', error);
+      console.error(error);
     }
-  };
-
-  const sortBookmarks = (bookmarks) => {
-    bookmarks.sort((a, b) => {
-      if (a.first_title < b.first_title) return -1;
-      if (a.first_title > b.first_title) return 1;
-      if (a.second_title < b.second_title) return -1;
-      if (a.second_title > b.second_title) return 1;
-      if (a.comment < b.comment) return -1;
-      if (a.comment > b.comment) return 1;
-      return 0;
-    });
-    return bookmarks
   };
 
   const handleAddBookmark = async () => {
@@ -57,7 +42,9 @@ function Bookmark() {
       loadBookmarks();
       setNewBookmark({firstTitle: '', secondTitle: '', url: '', comment: ''});
     } catch (error) {
-      console.error('Error adding bookmark:', error);
+      if (error.response.status === 403) {
+        alert('Unauthorized');
+      }
     }
   };
 
@@ -87,7 +74,9 @@ function Bookmark() {
       await bookmarkService.updateBookmark(id, updatedBookmark);
       loadBookmarks();
     } catch (error) {
-      console.error('Error updating bookmark:', error);
+      if (error.response.status === 403) {
+        alert('Unauthorized');
+      }
     }
   };
 
@@ -103,8 +92,23 @@ function Bookmark() {
       await bookmarkService.deleteBookmark(id);
       loadBookmarks();
     } catch (error) {
-      console.error('Error deleting bookmark:', error);
+      if (error.response.status === 403) {
+        alert('Unauthorized');
+      }
     }
+  };
+
+  const sortBookmarks = (bookmarks) => {
+    bookmarks.sort((a, b) => {
+      if (a.first_title < b.first_title) return -1;
+      if (a.first_title > b.first_title) return 1;
+      if (a.second_title < b.second_title) return -1;
+      if (a.second_title > b.second_title) return 1;
+      if (a.comment < b.comment) return -1;
+      if (a.comment > b.comment) return 1;
+      return 0;
+    });
+    return bookmarks;
   };
 
   const filteredBookmarks = bookmarks.filter(bookmark =>
@@ -118,7 +122,6 @@ function Bookmark() {
     (searchUrl === '' || bookmark.url.toLowerCase().includes(searchUrl.toLowerCase())) &&
     (searchComment === '' || bookmark.comment.toLowerCase().includes(searchComment.toLowerCase()))
   );
-
 
   return (
     <div>
