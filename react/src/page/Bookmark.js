@@ -160,13 +160,17 @@ function Bookmark() {
         {/* Add bookmark row */}
         <tr>
           <td contentEditable="plaintext-only"
-              onInput={e => setNewBookmark({...newBookmark, firstTitle: e.target.textContent})}></td>
+              onBlur={e => setNewBookmark({...newBookmark, firstTitle: e.target.textContent})}>
+            {newBookmark.firstTitle}</td>
           <td contentEditable="plaintext-only"
-              onInput={e => setNewBookmark({...newBookmark, secondTitle: e.target.textContent})}></td>
+              onBlur={e => setNewBookmark({...newBookmark, secondTitle: e.target.textContent})}>
+            {newBookmark.secondTitle}</td>
           <td contentEditable="plaintext-only"
-              onInput={e => setNewBookmark({...newBookmark, url: e.target.textContent})}></td>
+              onBlur={e => setNewBookmark({...newBookmark, url: e.target.textContent})}>
+            {newBookmark.url}</td>
           <td contentEditable="plaintext-only"
-              onInput={e => setNewBookmark({...newBookmark, comment: e.target.textContent})}></td>
+              onBlur={e => setNewBookmark({...newBookmark, comment: e.target.textContent})}>
+            {newBookmark.comment}</td>
           <td></td>
           <td>
             <button onClick={handleAddBookmark}>Add</button>
@@ -176,20 +180,20 @@ function Bookmark() {
         {filteredBookmarks.map(bookmark => (
           <tr key={bookmark.id}>
             <td contentEditable={editStates[bookmark.id]}
-                onInput={e => handleEditableContentChange(bookmark.id, 'firstTitle', e.target.textContent)}
+                onBlur={e => handleEditableContentChange(bookmark.id, 'firstTitle', e.target.textContent)}
                 suppressContentEditableWarning={true}>
               {bookmark.first_title}</td>
             <td contentEditable={editStates[bookmark.id]}
-                onInput={e => handleEditableContentChange(bookmark.id, 'secondTitle', e.target.textContent)}
+                onBlur={e => handleEditableContentChange(bookmark.id, 'secondTitle', e.target.textContent)}
                 suppressContentEditableWarning={true}>
               {bookmark.second_title}</td>
             <td contentEditable={editStates[bookmark.id]}
-                onInput={e => handleEditableContentChange(bookmark.id, 'url', e.target.textContent)}
+                onBlur={e => handleEditableContentChange(bookmark.id, 'url', e.target.textContent)}
                 suppressContentEditableWarning={true}
                 className="word-break">
               {bookmark.url}</td>
             <td contentEditable={editStates[bookmark.id]}
-                onInput={e => handleEditableContentChange(bookmark.id, 'comment', e.target.textContent)}
+                onBlur={e => handleEditableContentChange(bookmark.id, 'comment', e.target.textContent)}
                 suppressContentEditableWarning={true}>
               {bookmark.comment}</td>
             <td className="word-break">
