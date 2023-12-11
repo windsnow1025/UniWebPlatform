@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { applyTheme } from "../manager/ThemeManager";
 import { parseMarkdown, parseLaTeX } from '../util/MarkdownParser';
 import { MarkdownManager } from '../manager/MarkdownManager';
-import '../markdown.css';
+import '../asset/markdown.css';
 
 function MarkdownAdd() {
   const [content, setContent] = useState('');

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { applyTheme } from "../manager/ThemeManager";
 import { parseLaTeX, parseMarkdown } from '../util/MarkdownParser';
 import { MarkdownManager } from '../manager/MarkdownManager';
-import '../markdown.css';
+import '../asset/markdown.css';
 
 function MarkdownUpdate() {
   const [markdown, setMarkdown] = useState({ title: '', content: '' });
