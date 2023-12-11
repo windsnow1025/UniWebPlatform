@@ -1,4 +1,4 @@
-import axios from 'axios';
+import MarkdownService from "../service/MarkdownService";
 
 
 export class MarkdownManager {
@@ -7,41 +7,25 @@ export class MarkdownManager {
     this.title = "";
     this.content = "";
 
-    this.token = null;
-    this.instance = null;
-    this.updateInstance();
-  }
-
-  updateInstance() {
-    this.token = localStorage.getItem('token');
-    this.instance = axios.create({
-      headers: {
-        Authorization: `Bearer ${this.token}`
-      }
-    });
+    this.markdownService = new MarkdownService();
   }
 
   async fetchMarkdown() {
-    this.updateInstance();
     try {
-      const res = await this.instance.get('/api/markdown/' + this.id);
-      const data = res.data;
-      this.title = data.title;
-      this.content = data.content;
+      const markdown = await this.markdownService.fetchMarkdown(this.id);
+      this.title = markdown.title;
+      this.content = markdown.content;
     } catch (error) {
       console.log(error);
     }
   }
 
   async addMarkdown() {
-    this.get_title_from_content();
-    this.updateInstance();
+    this.set_title_by_content();
     try {
-      await this.instance.post('/api/markdown/', {
-        data: {
-          title: this.title,
-          content: this.content
-        }
+      await this.markdownService.addMarkdown({
+        title: this.title,
+        content: this.content
       });
       alert('Add Success!')
     } catch (error) {
@@ -52,15 +36,11 @@ export class MarkdownManager {
   }
 
   async updateMarkdown() {
-    this.get_title_from_content();
-    this.updateInstance();
+    this.set_title_by_content();
     try {
-      await this.instance.put('/api/markdown/', {
-        data: {
-          id: this.id,
-          title: this.title,
-          content: this.content
-        }
+      await this.markdownService.updateMarkdown(this.id, {
+        title: this.title,
+        content: this.content
       });
       alert('Update Success!')
     } catch (error) {
@@ -71,9 +51,8 @@ export class MarkdownManager {
   }
 
   async deleteMarkdown() {
-    this.updateInstance();
     try {
-      await this.instance.delete('/api/markdown/' + this.id);
+      await this.markdownService.deleteMarkdown(this.id);
       alert('Delete Success!')
     } catch (error) {
       if (error.response.status === 403) {
@@ -82,7 +61,7 @@ export class MarkdownManager {
     }
   }
 
-  get_title_from_content() {
+  set_title_by_content() {
     this.title = this.content.split('\n')[0].replace('# ', '');
   }
 }
