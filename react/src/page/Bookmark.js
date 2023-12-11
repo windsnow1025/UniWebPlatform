@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
-import BookmarkService from "../service/BookmarkService";
+import {BookmarkManager} from "../manager/BookmarkManager";
 
 function Bookmark() {
   const [bookmarks, setBookmarks] = useState([]);
@@ -14,7 +14,7 @@ function Bookmark() {
   const [searchUrl, setSearchUrl] = useState('');
   const [searchComment, setSearchComment] = useState('');
 
-  const bookmarkService = new BookmarkService();
+  const bookmarkManager = new BookmarkManager();
 
   useEffect(() => {
     loadBookmarks();
@@ -22,12 +22,11 @@ function Bookmark() {
 
   const loadBookmarks = async () => {
     try {
-      let fetchedBookmarks = await bookmarkService.fetchBookmarks();
-      fetchedBookmarks = sortBookmarks(fetchedBookmarks);
-      setBookmarks(fetchedBookmarks);
+      const bookmarks = await bookmarkManager.fetchBookmarks();
+      setBookmarks(bookmarks);
       // Initialize edit states
       let initEditStates = {};
-      fetchedBookmarks.forEach(bookmark => {
+      bookmarks.forEach(bookmark => {
         initEditStates[bookmark.id] = false;
       });
       setEditStates(initEditStates);
@@ -38,9 +37,39 @@ function Bookmark() {
 
   const handleAddBookmark = async () => {
     try {
-      await bookmarkService.addBookmark(newBookmark);
+      await bookmarkManager.addBookmark(newBookmark);
       loadBookmarks();
       setNewBookmark({firstTitle: '', secondTitle: '', url: '', comment: ''});
+    } catch (error) {
+      if (error.response.status === 403) {
+        alert('Unauthorized');
+      }
+    }
+  };
+
+  const handleUpdateBookmark = async (id, updatedFields) => {
+    const updatedBookmark = {...bookmarks.find(bookmark => bookmark.id === id), ...updatedFields};
+    try {
+      await bookmarkManager.updateBookmark(id, updatedBookmark);
+      loadBookmarks();
+    } catch (error) {
+      if (error.response.status === 403) {
+        alert('Unauthorized');
+      }
+    }
+  };
+
+  const handleEditableContentChange = (id, field, value) => {
+    setEditableContents(prev => ({
+      ...prev,
+      [id]: {...prev[id], [field]: value}
+    }));
+  };
+
+  const handleDeleteBookmark = async (id) => {
+    try {
+      await bookmarkManager.deleteBookmark(id);
+      loadBookmarks();
     } catch (error) {
       if (error.response.status === 403) {
         alert('Unauthorized');
@@ -68,60 +97,9 @@ function Bookmark() {
     }
   };
 
-  const handleUpdateBookmark = async (id, updatedFields) => {
-    const updatedBookmark = {...bookmarks.find(bookmark => bookmark.id === id), ...updatedFields};
-    try {
-      await bookmarkService.updateBookmark(id, updatedBookmark);
-      loadBookmarks();
-    } catch (error) {
-      if (error.response.status === 403) {
-        alert('Unauthorized');
-      }
-    }
-  };
-
-  const handleEditableContentChange = (id, field, value) => {
-    setEditableContents(prev => ({
-      ...prev,
-      [id]: {...prev[id], [field]: value}
-    }));
-  };
-
-  const handleDeleteBookmark = async (id) => {
-    try {
-      await bookmarkService.deleteBookmark(id);
-      loadBookmarks();
-    } catch (error) {
-      if (error.response.status === 403) {
-        alert('Unauthorized');
-      }
-    }
-  };
-
-  const sortBookmarks = (bookmarks) => {
-    bookmarks.sort((a, b) => {
-      if (a.first_title < b.first_title) return -1;
-      if (a.first_title > b.first_title) return 1;
-      if (a.second_title < b.second_title) return -1;
-      if (a.second_title > b.second_title) return 1;
-      if (a.comment < b.comment) return -1;
-      if (a.comment > b.comment) return 1;
-      return 0;
-    });
-    return bookmarks;
-  };
-
-  const filteredBookmarks = bookmarks.filter(bookmark =>
-    (searchGlobal === '' ||
-      bookmark.first_title.toLowerCase().includes(searchGlobal.toLowerCase()) ||
-      bookmark.second_title.toLowerCase().includes(searchGlobal.toLowerCase()) ||
-      bookmark.url.toLowerCase().includes(searchGlobal.toLowerCase()) ||
-      bookmark.comment.toLowerCase().includes(searchGlobal.toLowerCase())) &&
-    (searchFirstTitle === '' || bookmark.first_title.toLowerCase().includes(searchFirstTitle.toLowerCase())) &&
-    (searchSecondTitle === '' || bookmark.second_title.toLowerCase().includes(searchSecondTitle.toLowerCase())) &&
-    (searchUrl === '' || bookmark.url.toLowerCase().includes(searchUrl.toLowerCase())) &&
-    (searchComment === '' || bookmark.comment.toLowerCase().includes(searchComment.toLowerCase()))
-  );
+  const filteredBookmarks = bookmarkManager.filterBookmarks(bookmarks, {
+    searchGlobal, searchFirstTitle, searchSecondTitle, searchUrl, searchComment
+  });
 
   return (
     <div>
