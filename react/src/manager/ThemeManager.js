@@ -1,6 +1,6 @@
 import {createTheme} from "@mui/material/styles";
 
-export function applyTheme (systemTheme) {
+export function applyTheme(systemTheme) {
   localStorage.setItem("theme", systemTheme);
   const theme = convertTheme(systemTheme);
   applyMainTheme(theme);
@@ -9,7 +9,7 @@ export function applyTheme (systemTheme) {
   applyMuiTheme(theme);
 }
 
-export function convertTheme (systemTheme) {
+function convertTheme(systemTheme) {
   const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
   if (systemTheme !== "system") {
     return systemTheme;
@@ -21,7 +21,7 @@ export function convertTheme (systemTheme) {
   }
 }
 
-function applyMainTheme (theme) {
+function applyMainTheme(theme) {
   const body = document.body;
 
   // Remove all theme classes
@@ -35,7 +35,7 @@ function applyMainTheme (theme) {
   }
 }
 
-function applyMarkdownTheme (theme) {
+function applyMarkdownTheme(theme) {
   // Get all link elements
   const links = document.getElementsByTagName('link');
 
@@ -64,7 +64,7 @@ function applyMarkdownTheme (theme) {
   }
 }
 
-function applyHighlightTheme (theme) {
+function applyHighlightTheme(theme) {
   // Get all link elements
   const links = document.getElementsByTagName('link');
 
@@ -101,7 +101,7 @@ function applyMuiTheme(theme) {
   });
 
   // Dispatch custom event with the new theme
-  const themeChangeEvent = new CustomEvent('themeChanged', { detail: muiTheme });
+  const themeChangeEvent = new CustomEvent('themeChanged', {detail: muiTheme});
   window.dispatchEvent(themeChangeEvent);
 }
 
