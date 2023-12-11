@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
+import BookmarkService from "../service/BookmarkService";
 
 function Bookmark() {
   const [bookmarks, setBookmarks] = useState([]);
@@ -14,20 +15,21 @@ function Bookmark() {
   const [searchUrl, setSearchUrl] = useState('');
   const [searchComment, setSearchComment] = useState('');
 
+  const token = localStorage.getItem('token');
+  const bookmarkService = new BookmarkService(token);
+
   useEffect(() => {
-    fetchBookmarks();
+    loadBookmarks();
   }, []);
 
-  const fetchBookmarks = async () => {
-    const token = localStorage.getItem('token');
+  const loadBookmarks = async () => {
     try {
-      const res = await axios.get('/api/bookmark/', {
-        headers: {Authorization: `Bearer ${token}`}
-      });
-      sortAndSetBookmarks(res.data);
+      let fetchedBookmarks = await bookmarkService.fetchBookmarks();
+      fetchedBookmarks = sortBookmarks(fetchedBookmarks);
+      setBookmarks(fetchedBookmarks);
       // Initialize edit states
       let initEditStates = {};
-      res.data.forEach(bookmark => {
+      fetchedBookmarks.forEach(bookmark => {
         initEditStates[bookmark.id] = false;
       });
       setEditStates(initEditStates);
@@ -36,8 +38,8 @@ function Bookmark() {
     }
   };
 
-  const sortAndSetBookmarks = (bookmarksArray) => {
-    bookmarksArray.sort((a, b) => {
+  const sortBookmarks = (bookmarks) => {
+    bookmarks.sort((a, b) => {
       if (a.first_title < b.first_title) return -1;
       if (a.first_title > b.first_title) return 1;
       if (a.second_title < b.second_title) return -1;
@@ -46,16 +48,13 @@ function Bookmark() {
       if (a.comment > b.comment) return 1;
       return 0;
     });
-    setBookmarks(bookmarksArray);
+    return bookmarks
   };
 
   const handleAddBookmark = async () => {
-    const token = localStorage.getItem('token');
     try {
-      await axios.post('/api/bookmark/', {data: newBookmark}, {
-        headers: {Authorization: `Bearer ${token}`}
-      });
-      fetchBookmarks();
+      await bookmarkService.addBookmark(newBookmark);
+      loadBookmarks();
       setNewBookmark({firstTitle: '', secondTitle: '', url: '', comment: ''});
     } catch (error) {
       console.error('Error adding bookmark:', error);
@@ -84,12 +83,9 @@ function Bookmark() {
 
   const handleUpdateBookmark = async (id, updatedFields) => {
     const updatedBookmark = {...bookmarks.find(bookmark => bookmark.id === id), ...updatedFields};
-    const token = localStorage.getItem('token');
     try {
-      await axios.put(`/api/bookmark/${id}`, {data: updatedBookmark}, {
-        headers: {Authorization: `Bearer ${token}`}
-      });
-      fetchBookmarks();
+      await bookmarkService.updateBookmark(id, updatedBookmark);
+      loadBookmarks();
     } catch (error) {
       console.error('Error updating bookmark:', error);
     }
@@ -103,12 +99,9 @@ function Bookmark() {
   };
 
   const handleDeleteBookmark = async (id) => {
-    const token = localStorage.getItem('token');
     try {
-      await axios.delete(`/api/bookmark/${id}`, {
-        headers: {Authorization: `Bearer ${token}`}
-      });
-      fetchBookmarks();
+      await bookmarkService.deleteBookmark(id);
+      loadBookmarks();
     } catch (error) {
       console.error('Error deleting bookmark:', error);
     }
@@ -180,21 +173,17 @@ function Bookmark() {
         {filteredBookmarks.map(bookmark => (
           <tr key={bookmark.id}>
             <td contentEditable={editStates[bookmark.id]}
-                onBlur={e => handleEditableContentChange(bookmark.id, 'firstTitle', e.target.textContent)}
-                suppressContentEditableWarning={true}>
+                onBlur={e => handleEditableContentChange(bookmark.id, 'firstTitle', e.target.textContent)}>
               {bookmark.first_title}</td>
             <td contentEditable={editStates[bookmark.id]}
-                onBlur={e => handleEditableContentChange(bookmark.id, 'secondTitle', e.target.textContent)}
-                suppressContentEditableWarning={true}>
+                onBlur={e => handleEditableContentChange(bookmark.id, 'secondTitle', e.target.textContent)}>
               {bookmark.second_title}</td>
             <td contentEditable={editStates[bookmark.id]}
                 onBlur={e => handleEditableContentChange(bookmark.id, 'url', e.target.textContent)}
-                suppressContentEditableWarning={true}
                 className="word-break">
               {bookmark.url}</td>
             <td contentEditable={editStates[bookmark.id]}
-                onBlur={e => handleEditableContentChange(bookmark.id, 'comment', e.target.textContent)}
-                suppressContentEditableWarning={true}>
+                onBlur={e => handleEditableContentChange(bookmark.id, 'comment', e.target.textContent)}>
               {bookmark.comment}</td>
             <td className="word-break">
               <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.url}</a>
