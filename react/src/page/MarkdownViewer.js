@@ -4,7 +4,7 @@ import axios from 'axios';
 import { applyTheme } from "../manager/ThemeManager";
 import { parseMarkdown, parseLaTeX } from "../util/MarkdownParser";
 
-function MarkdownStaticRouter() {
+function MarkdownViewer() {
   const [markdown, setMarkdown] = useState('');
   const { filename } = useParams();
   const markdownRef = useRef(null);
@@ -16,7 +16,6 @@ function MarkdownStaticRouter() {
       const res = await axios.get(`/markdown/${filename}`);
       const markdown = res.data;
 
-      console.log(markdown);
       setMarkdown(parseMarkdown(markdown));
       parseLaTeX(markdownRef.current);
     };
@@ -36,4 +35,4 @@ function MarkdownStaticRouter() {
   );
 }
 
-export default MarkdownStaticRouter;
+export default MarkdownViewer;
