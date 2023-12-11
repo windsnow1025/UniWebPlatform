@@ -9,7 +9,7 @@ import UserCenter from "./page/UserCenter";
 import MarkdownUpdate from "./page/MarkdownUpdate";
 import MarkdownAdd from "./page/MarkdownAdd";
 import Bookmark from "./page/Bookmark";
-import MarkdownStaticRouter from "./page/MarkdownStaticRouter";
+import MarkdownViewer from "./page/MarkdownViewer";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,7 +23,7 @@ root.render(
         <Route path="/markdown/update/:id" element={<MarkdownUpdate />} />
         <Route path="/markdown/add" element={<MarkdownAdd />} />
         <Route path="/bookmark" element={<Bookmark />} />
-        <Route path="/markdown/:filename" element={<MarkdownStaticRouter />} />
+        <Route path="/markdown/view/:filename" element={<MarkdownViewer />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
