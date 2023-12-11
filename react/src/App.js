@@ -1,4 +1,4 @@
-import './App.css';
+import './asset/App.css';
 
 import MarkdownList from './component/MarkdownList';
 import ThemeSelect from "./component/ThemeSelect";
