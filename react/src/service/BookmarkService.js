@@ -1,9 +1,6 @@
 import axios from 'axios';
 
 export default class BookmarkService {
-  constructor(token) {
-    this.token = token;
-  }
 
   async fetchBookmarks() {
     const res = await axios.get('/api/bookmark/');
@@ -11,20 +8,23 @@ export default class BookmarkService {
   }
 
   async addBookmark(newBookmark) {
+    const token = localStorage.getItem('token');
     await axios.post('/api/bookmark/', { data: newBookmark }, {
-      headers: { Authorization: `Bearer ${this.token}` }
+      headers: { Authorization: `Bearer ${token}` }
     });
   }
 
   async updateBookmark(id, updatedFields) {
+    const token = localStorage.getItem('token');
     await axios.put(`/api/bookmark/${id}`, { data: updatedFields }, {
-      headers: { Authorization: `Bearer ${this.token}` }
+      headers: { Authorization: `Bearer ${token}` }
     });
   }
 
   async deleteBookmark(id) {
+    const token = localStorage.getItem('token');
     await axios.delete(`/api/bookmark/${id}`, {
-      headers: { Authorization: `Bearer ${this.token}` }
+      headers: { Authorization: `Bearer ${token}` }
     });
   }
 }
