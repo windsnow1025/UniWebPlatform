@@ -10,6 +10,7 @@ import MarkdownUpdate from "./page/MarkdownUpdate";
 import MarkdownAdd from "./page/MarkdownAdd";
 import Bookmark from "./page/Bookmark";
 import MarkdownViewer from "./page/MarkdownViewer";
+import MessageTransmitter from "./page/MessageTransmitter";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,6 +25,7 @@ root.render(
         <Route path="/markdown/add" element={<MarkdownAdd />} />
         <Route path="/bookmark" element={<Bookmark />} />
         <Route path="/markdown/view/:filename" element={<MarkdownViewer />} />
+        <Route path="/message" element={<MessageTransmitter />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
