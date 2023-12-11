@@ -5,19 +5,8 @@ import { applyTheme } from "../manager/ThemeManager.js";
 const theme = localStorage.getItem("theme");
 applyTheme(theme);
 
-import {Marked} from "marked";
-import {markedHighlight} from "marked-highlight";
-import hljs from 'highlight.js';
+import { parseMarkdown, parseLaTeX } from "../util/MarkdownParser.js";
 
-const marked = new Marked(
-    markedHighlight({
-        langPrefix: 'hljs language-',
-        highlight(code, lang) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
-        }
-    })
-);
 
 async function init() {
     const filename = new URLSearchParams(window.location.search).get('filename');
@@ -25,7 +14,8 @@ async function init() {
     const res = await axios.get('../markdown/' + filename);
     const markdown = res.data;
     const markdown_div = document.querySelector('#markdown-div');
-    markdown_div.innerHTML = marked.parse(markdown);
+    markdown_div.innerHTML = parseMarkdown(markdown);
+    parseLaTeX(markdown_div);
 }
 
 await init();
