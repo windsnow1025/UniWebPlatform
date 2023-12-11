@@ -10,19 +10,19 @@ function MarkdownUpdate() {
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const markdownRef = useRef(null);
-  const markdownService = useRef(null);
+  const markdownManager = useRef(null);
 
   useEffect(() => {
     applyTheme(localStorage.getItem("theme"));
-    markdownService.current = new MarkdownManager(id);
+    markdownManager.current = new MarkdownManager(id);
 
     const fetchMarkdown = async () => {
-      await markdownService.current.fetchMarkdown();
+      await markdownManager.current.fetchMarkdown();
       setMarkdown({
-        title: markdownService.current.title,
-        content: markdownService.current.content
+        title: markdownManager.current.title,
+        content: markdownManager.current.content
       });
-      document.title = markdownService.current.title;
+      document.title = markdownManager.current.title;
       parseLaTeX(markdownRef.current);
     };
 
@@ -35,26 +35,26 @@ function MarkdownUpdate() {
 
   const handleConfirm = () => {
     if (markdownRef.current) {
-      markdownService.current.content = markdownRef.current.innerText;
+      markdownManager.current.content = markdownRef.current.innerText;
       setMarkdown({
-        title: markdownService.current.title,
-        content: markdownService.current.content
+        title: markdownManager.current.title,
+        content: markdownManager.current.content
       });
     }
     setIsEditing(false);
   };
 
   const handleUpdate = async () => {
-    await markdownService.current.updateMarkdown();
+    await markdownManager.current.updateMarkdown();
     setMarkdown({
-      title: markdownService.current.title,
-      content: parseMarkdown(markdownService.current.content)
+      title: markdownManager.current.title,
+      content: parseMarkdown(markdownManager.current.content)
     });
     parseLaTeX(markdownRef.current);
   };
 
   const handleDelete = async () => {
-    await markdownService.current.deleteMarkdown();
+    await markdownManager.current.deleteMarkdown();
   };
 
   return (
