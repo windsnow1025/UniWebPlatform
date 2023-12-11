@@ -5,10 +5,10 @@ import ThemeSelect from '../component/ThemeSelect';
 
 function Bookmark() {
   const [bookmarks, setBookmarks] = useState([]);
-  const [editStates, setEditStates] = useState({});
-  const [editableContent, setEditableContent] = useState({});
   const [newBookmark, setNewBookmark] = useState({firstTitle: '', secondTitle: '', url: '', comment: ''});
-  const [globalSearchTerm, setGlobalSearchTerm] = useState('');
+  const [editStates, setEditStates] = useState({});
+  const [editableContents, setEditableContents] = useState({});
+  const [searchGlobal, setSearchGlobal] = useState('');
   const [searchFirstTitle, setSearchFirstTitle] = useState('');
   const [searchSecondTitle, setSearchSecondTitle] = useState('');
   const [searchUrl, setSearchUrl] = useState('');
@@ -64,13 +64,26 @@ function Bookmark() {
 
   const toggleEditState = (id) => {
     setEditStates(prev => ({...prev, [id]: !prev[id]}));
-    if (editStates[id]) {
-      handleUpdateBookmark(id, editableContent[id]);
+    if (!editStates[id]) {
+      // Entering edit mode
+      const bookmarkToEdit = bookmarks.find(bookmark => bookmark.id === id);
+      setEditableContents(prev => ({
+        ...prev,
+        [id]: {
+          firstTitle: bookmarkToEdit.first_title,
+          secondTitle: bookmarkToEdit.second_title,
+          url: bookmarkToEdit.url,
+          comment: bookmarkToEdit.comment
+        }
+      }));
+    } else {
+      // Leaving edit mode
+      handleUpdateBookmark(id, editableContents[id]);
     }
   };
 
   const handleUpdateBookmark = async (id, updatedFields) => {
-    const updatedBookmark = {...bookmarks.find(b => b.id === id), ...updatedFields};
+    const updatedBookmark = {...bookmarks.find(bookmark => bookmark.id === id), ...updatedFields};
     const token = localStorage.getItem('token');
     try {
       await axios.put(`/api/bookmark/${id}`, {data: updatedBookmark}, {
@@ -83,7 +96,7 @@ function Bookmark() {
   };
 
   const handleEditableContentChange = (id, field, value) => {
-    setEditableContent(prev => ({
+    setEditableContents(prev => ({
       ...prev,
       [id]: {...prev[id], [field]: value}
     }));
@@ -102,11 +115,11 @@ function Bookmark() {
   };
 
   const filteredBookmarks = bookmarks.filter(bookmark =>
-    (globalSearchTerm === '' ||
-      bookmark.first_title.toLowerCase().includes(globalSearchTerm.toLowerCase()) ||
-      bookmark.second_title.toLowerCase().includes(globalSearchTerm.toLowerCase()) ||
-      bookmark.url.toLowerCase().includes(globalSearchTerm.toLowerCase()) ||
-      bookmark.comment.toLowerCase().includes(globalSearchTerm.toLowerCase())) &&
+    (searchGlobal === '' ||
+      bookmark.first_title.toLowerCase().includes(searchGlobal.toLowerCase()) ||
+      bookmark.second_title.toLowerCase().includes(searchGlobal.toLowerCase()) ||
+      bookmark.url.toLowerCase().includes(searchGlobal.toLowerCase()) ||
+      bookmark.comment.toLowerCase().includes(searchGlobal.toLowerCase())) &&
     (searchFirstTitle === '' || bookmark.first_title.toLowerCase().includes(searchFirstTitle.toLowerCase())) &&
     (searchSecondTitle === '' || bookmark.second_title.toLowerCase().includes(searchSecondTitle.toLowerCase())) &&
     (searchUrl === '' || bookmark.url.toLowerCase().includes(searchUrl.toLowerCase())) &&
@@ -121,7 +134,7 @@ function Bookmark() {
         <ThemeSelect/>
       </div>
       <div className="search-container">
-        <input type="text" value={globalSearchTerm} onChange={e => setGlobalSearchTerm(e.target.value)}
+        <input type="text" value={searchGlobal} onChange={e => setSearchGlobal(e.target.value)}
                placeholder="Global Search..."/>
         <input type="text" value={searchFirstTitle} onChange={e => setSearchFirstTitle(e.target.value)}
                placeholder="Search by First Title..."/>
@@ -163,19 +176,25 @@ function Bookmark() {
         {filteredBookmarks.map(bookmark => (
           <tr key={bookmark.id}>
             <td contentEditable={editStates[bookmark.id]}
-                onInput={e => handleEditableContentChange(bookmark.id, 'firstTitle', e.target.textContent)}>
+                onInput={e => handleEditableContentChange(bookmark.id, 'firstTitle', e.target.textContent)}
+                suppressContentEditableWarning={true}>
               {bookmark.first_title}</td>
             <td contentEditable={editStates[bookmark.id]}
-                onInput={e => handleEditableContentChange(bookmark.id, 'secondTitle', e.target.textContent)}>
+                onInput={e => handleEditableContentChange(bookmark.id, 'secondTitle', e.target.textContent)}
+                suppressContentEditableWarning={true}>
               {bookmark.second_title}</td>
             <td contentEditable={editStates[bookmark.id]}
                 onInput={e => handleEditableContentChange(bookmark.id, 'url', e.target.textContent)}
-                className="word-break">{bookmark.url}</td>
+                suppressContentEditableWarning={true}
+                className="word-break">
+              {bookmark.url}</td>
             <td contentEditable={editStates[bookmark.id]}
-                onInput={e => handleEditableContentChange(bookmark.id, 'comment', e.target.textContent)}>
+                onInput={e => handleEditableContentChange(bookmark.id, 'comment', e.target.textContent)}
+                suppressContentEditableWarning={true}>
               {bookmark.comment}</td>
-            <td className="word-break"><a href={bookmark.url} target="_blank"
-                                          rel="noopener noreferrer">{bookmark.url}</a></td>
+            <td className="word-break">
+              <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.url}</a>
+            </td>
             <td>
               <button onClick={() => toggleEditState(bookmark.id)}>
                 {editStates[bookmark.id] ? 'Submit' : 'Edit'}
