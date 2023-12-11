@@ -10,19 +10,15 @@ function MarkdownStaticRouter() {
   const markdownRef = useRef(null);
 
   useEffect(() => {
+    applyTheme(localStorage.getItem("theme"));
+
     const fetchMarkdown = async () => {
-      try {
-        const theme = localStorage.getItem("theme");
-        applyTheme(theme);
+      const res = await axios.get(`/markdown/${filename}`);
+      const markdown = res.data;
 
-        const res = await axios.get(`/markdown/${filename}`);
-        const markdown = res.data;
-
-        setMarkdown(parseMarkdown(markdown));
-        parseLaTeX(markdownRef.current);
-      } catch (error) {
-        console.error('Error fetching markdown:', error);
-      }
+      console.log(markdown);
+      setMarkdown(parseMarkdown(markdown));
+      parseLaTeX(markdownRef.current);
     };
 
     fetchMarkdown();
@@ -34,9 +30,8 @@ function MarkdownStaticRouter() {
         className="markdown-body"
         ref={markdownRef}
         style={{padding: '16px'}}
-        dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}>
-        {/* Rendered markdown content */}
-      </div>
+        dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}
+      />
     </div>
   );
 }
