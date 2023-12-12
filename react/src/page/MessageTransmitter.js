@@ -76,7 +76,6 @@ function MessageTransmitter() {
       <div>
         <h2 className="center">Send Messages</h2>
         <MessageDiv
-          key={newMessage.username + newMessage.content}
           roleInitial={newMessage.username}
           contentInitial={newMessage.content}
           onRoleChange={onNewMessageRoleChange}
