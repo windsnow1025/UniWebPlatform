@@ -3,7 +3,7 @@ import axios from "axios";
 export class MessageService {
   async sendMessage(username, content) {
     await axios.post("/api/message", {
-      data: { username, content }
+      data: { username: username, content: content }
     });
   }
 
