@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MessageService } from "../service/MessageService";
 import { AuthManager } from "../manager/AuthManager";
 import AuthDiv from '../component/AuthDiv';
@@ -6,10 +6,10 @@ import ThemeSelect from '../component/ThemeSelect';
 
 function MessageTransmitter() {
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
   const [username, setUsername] = useState(null);
   const messageService = new MessageService();
   const authManager = new AuthManager();
+  const messageInputRef = useRef(null);
 
   useEffect(() => {
     fetchMessages();
@@ -22,14 +22,17 @@ function MessageTransmitter() {
   };
 
   const fetchUsername = async () => {
-    const username = await authManager.fetchUsername();
-    setUsername(username);
-  }
+    const fetchedUsername = await authManager.fetchUsername();
+    setUsername(fetchedUsername);
+  };
 
   const handleSendMessage = async () => {
-    await messageService.sendMessage(username, newMessage);
-    setNewMessage('');
-    fetchMessages();
+    if (messageInputRef.current) {
+      const message = messageInputRef.current.textContent;
+      await messageService.sendMessage(username, message);
+      messageInputRef.current.textContent = '';
+      fetchMessages();
+    }
   };
 
   const handleClearMessages = async () => {
@@ -47,9 +50,9 @@ function MessageTransmitter() {
       <div>
         <h2 className="center">Receive Messages</h2>
         <div className="rounded-border-container">
-          <div id="messages_div" className="margin">
+          <div className="margin">
             {messages.map((msg, index) => (
-              <div key={index}>{msg.content}</div> // Customize this as needed
+              <div key={index} className="message_div">{msg.content}</div>
             ))}
           </div>
         </div>
@@ -62,14 +65,12 @@ function MessageTransmitter() {
         <h2 className="center">Send Messages</h2>
         <div className="message_div">
           <div className="Flex-space-between">
-            <div className="inFlex-FillSpace" style={{margin: '8px', padding: '8px'}}>
-              <input
-                type="text"
-                value={newMessage}
-                onChange={e => setNewMessage(e.target.value)}
-                placeholder="Type your message"
-              />
-            </div>
+            <div
+              ref={messageInputRef}
+              className="inFlex-FillSpace markdown-body"
+              style={{ margin: '8px', padding: '8px', minHeight: '24px' }}
+              contentEditable="plaintext-only"
+            ></div>
             <div className="button inFlex-flex-end">
               <button type="button" onClick={handleSendMessage} title="Ctrl + Enter">Send</button>
             </div>
