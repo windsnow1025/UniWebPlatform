@@ -16,17 +16,23 @@ function MessageTransmitter() {
   useEffect(() => {
     fetchMessages();
     fetchUsername();
-  });
+  }, []);
 
   const fetchMessages = async () => {
-    const fetchedMessages = await messageService.fetchMessages();
-    setMessages(fetchedMessages);
+    try {
+      const messages = await messageService.fetchMessages();
+      setMessages(messages);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const fetchUsername = async () => {
-    const fetchedUsername = await userLogic.fetchUsername();
-    setUsername(fetchedUsername);
-    setNewMessage(prev => ({...prev, username: fetchedUsername}));
+    const username = await userLogic.fetchUsername();
+    if (username) {
+      setUsername(username);
+      setNewMessage(prev => ({...prev, username: username}));
+    }
   };
 
   const handleSendMessage = async () => {

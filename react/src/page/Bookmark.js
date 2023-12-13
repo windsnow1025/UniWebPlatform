@@ -18,7 +18,7 @@ function Bookmark() {
 
   useEffect(() => {
     loadBookmarks();
-  });
+  }, []);
 
   const loadBookmarks = async () => {
     try {

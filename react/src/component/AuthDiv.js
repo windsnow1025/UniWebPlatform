@@ -18,7 +18,7 @@ function AuthDiv() {
     };
 
     fetchUsername();
-  });
+  }, []);
 
   const handleSignOut = () => {
     localStorage.removeItem('token');

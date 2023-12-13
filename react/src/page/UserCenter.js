@@ -16,7 +16,7 @@ function UserCenter() {
     };
 
     fetchUsername();
-  });
+  }, []);
 
   const handleUpdate = async () => {
     if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {
