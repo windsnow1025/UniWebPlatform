@@ -13,6 +13,7 @@
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
     "axios": "^1.6.2",
+    "github-markdown-css": "^5.5.0",
     "highlight.js": "^11.9.0",
     "katex": "^0.16.9",
     "marked": "^11.0.1",
