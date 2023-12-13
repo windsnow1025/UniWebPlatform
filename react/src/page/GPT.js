@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import UserService from "../service/UserService";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import MessageDiv from "../component/MessageDiv";
@@ -15,6 +16,21 @@ function GPT() {
   const [model, setModel] = useState('gpt-3.5-turbo');
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
+
+  const [credit, setCredit] = useState(0);
+
+  const userService = new UserService();
+
+  useEffect(() => {
+    fetchCredit();
+  }, []);
+
+  const fetchCredit = async () => {
+    if (localStorage.getItem('token')) {
+      const credit = await userService.fetchCredit();
+      setCredit(credit);
+    }
+  }
 
   return (
     <div>
