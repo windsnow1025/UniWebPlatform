@@ -11,8 +11,7 @@ function MarkdownAdd() {
   const markdownRef = useRef(null);
 
   useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    applyTheme(theme);
+    applyTheme(localStorage.getItem("theme"));
   }, []);
 
   const handleEdit = () => {
