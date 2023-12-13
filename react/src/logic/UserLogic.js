@@ -21,6 +21,7 @@ export class UserLogic {
     try {
       const token = await this.userService.signIn(username, password);
       localStorage.setItem('token', token);
+      return true;
     } catch (err) {
       if (err.response && err.response.status === 401) {
         alert("Invalid Username or Password");
@@ -28,6 +29,7 @@ export class UserLogic {
         alert("Sign In Fail");
         console.error(err);
       }
+      return false;
     }
   }
 
@@ -35,6 +37,7 @@ export class UserLogic {
     try {
       await this.userService.signUp(username, password);
       alert("Sign Up Success");
+      return true;
     } catch (err) {
       if (err.response && err.response.status === 409) {
         alert("Username already exists.");
@@ -42,6 +45,7 @@ export class UserLogic {
         alert("Sign Up Fail");
         console.error(err);
       }
+      return false;
     }
   }
 
@@ -49,6 +53,7 @@ export class UserLogic {
     try {
       await this.userService.updateUser(username, password);
       alert("Update Success");
+      return true;
     } catch (err) {
       if (err.response && err.response.status === 409) {
         alert("Username already exists.");
@@ -56,10 +61,11 @@ export class UserLogic {
         alert("Update Fail");
         console.error(err);
       }
+      return false;
     }
   }
 
-  isValidInput(input) {
+  validateInput(input) {
     const asciiRegex = /^[\x20-\x7F]{4,32}$/;
     return asciiRegex.test(input);
   }
