@@ -1,6 +1,6 @@
 import BookmarkService from "../service/BookmarkService";
 
-export class BookmarkManager {
+export class BookmarkLogic {
 
   constructor() {
     this.bookmarkService = new BookmarkService();

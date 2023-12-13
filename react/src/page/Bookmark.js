@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
-import {BookmarkManager} from "../manager/BookmarkManager";
+import {BookmarkLogic} from "../logic/BookmarkLogic";
 
 function Bookmark() {
   const [bookmarks, setBookmarks] = useState([]);
@@ -14,15 +14,15 @@ function Bookmark() {
   const [searchUrl, setSearchUrl] = useState('');
   const [searchComment, setSearchComment] = useState('');
 
-  const bookmarkManager = new BookmarkManager();
+  const bookmarkLogic = new BookmarkLogic();
 
   useEffect(() => {
     loadBookmarks();
-  }, []);
+  });
 
   const loadBookmarks = async () => {
     try {
-      const bookmarks = await bookmarkManager.fetchBookmarks();
+      const bookmarks = await bookmarkLogic.fetchBookmarks();
       setBookmarks(bookmarks);
       // Initialize edit states
       let initEditStates = {};
@@ -37,7 +37,7 @@ function Bookmark() {
 
   const handleAddBookmark = async () => {
     try {
-      await bookmarkManager.addBookmark(newBookmark);
+      await bookmarkLogic.addBookmark(newBookmark);
       loadBookmarks();
       setNewBookmark({firstTitle: '', secondTitle: '', url: '', comment: ''});
     } catch (error) {
@@ -50,7 +50,7 @@ function Bookmark() {
   const handleUpdateBookmark = async (id, updatedFields) => {
     const updatedBookmark = {...bookmarks.find(bookmark => bookmark.id === id), ...updatedFields};
     try {
-      await bookmarkManager.updateBookmark(id, updatedBookmark);
+      await bookmarkLogic.updateBookmark(id, updatedBookmark);
       loadBookmarks();
     } catch (error) {
       if (error.response.status === 403) {
@@ -68,7 +68,7 @@ function Bookmark() {
 
   const handleDeleteBookmark = async (id) => {
     try {
-      await bookmarkManager.deleteBookmark(id);
+      await bookmarkLogic.deleteBookmark(id);
       loadBookmarks();
     } catch (error) {
       if (error.response.status === 403) {
@@ -97,7 +97,7 @@ function Bookmark() {
     }
   };
 
-  const filteredBookmarks = bookmarkManager.filterBookmarks(bookmarks, {
+  const filteredBookmarks = bookmarkLogic.filterBookmarks(bookmarks, {
     searchGlobal, searchFirstTitle, searchSecondTitle, searchUrl, searchComment
   });
 

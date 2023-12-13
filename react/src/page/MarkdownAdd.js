@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { applyTheme } from "../manager/ThemeManager";
+import { applyTheme } from "../logic/ThemeLogic";
 import { parseMarkdown, parseLaTeX } from '../util/MarkdownParser';
-import { MarkdownManager } from '../manager/MarkdownManager';
+import { MarkdownLogic } from '../logic/MarkdownLogic';
 import '../asset/css/markdown.css';
 
 function MarkdownAdd() {
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const markdownService = useRef(new MarkdownManager(null));
+  const markdownLogic = useRef(new MarkdownLogic(null));
   const markdownRef = useRef(null);
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     applyTheme(theme);
-  }, []);
+  });
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -21,7 +21,7 @@ function MarkdownAdd() {
 
   const handleConfirm = () => {
     if (markdownRef.current) {
-      markdownService.current.content = markdownRef.current.innerText;
+      markdownLogic.current.content = markdownRef.current.innerText;
       setContent(parseMarkdown(markdownRef.current.innerText));
       parseLaTeX(markdownRef.current);
     }
@@ -29,7 +29,7 @@ function MarkdownAdd() {
   };
 
   const handleAdd = async () => {
-    await markdownService.current.addMarkdown();
+    await markdownLogic.current.addMarkdown();
   };
 
   return (

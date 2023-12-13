@@ -1,57 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import ThemeSelect from '../component/ThemeSelect';
+import {UserLogic} from "../logic/UserLogic";
 
 function UserCenter() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const userLogic = new UserLogic();
 
   useEffect(() => {
     const fetchUsername = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        return;
-      }
-      try {
-        const res = await axios.get('/api/auth/', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setUsername(res.data);
-      } catch (err) {
-        localStorage.removeItem('token');
+      const username = await userLogic.fetchUsername();
+      if (username) {
+        setUsername(username);
       }
     };
 
     fetchUsername();
-  }, []);
-
-  const isValidInput = (input) => {
-    const asciiRegex = /^[\x00-\x7F]{4,32}$/;
-    return asciiRegex.test(input);
-  };
+  });
 
   const handleUpdate = async () => {
-    if (!isValidInput(username) || !isValidInput(password)) {
+    if (!userLogic.isValidInput(username) || !userLogic.isValidInput(password)) {
       alert("Username or Password contains invalid characters or has an invalid length.");
       return;
     }
 
-    const token = localStorage.getItem('token');
-    try {
-      await axios.put(`/api/user/`, {
-        data: { username, password }
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      alert("Update Success");
-    } catch (err) {
-      if (err.response && err.response.status === 409) {
-        alert("Username already exists.");
-      } else {
-        alert("Update Fail");
-        console.error(err);
-      }
-    }
+    await userLogic.updateUser(username, password);
   };
 
   return (
