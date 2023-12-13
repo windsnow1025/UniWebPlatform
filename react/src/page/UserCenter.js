@@ -19,7 +19,7 @@ function UserCenter() {
   });
 
   const handleUpdate = async () => {
-    if (!userLogic.isValidInput(username) || !userLogic.isValidInput(password)) {
+    if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {
       alert("Username or Password contains invalid characters or has an invalid length.");
       return;
     }
