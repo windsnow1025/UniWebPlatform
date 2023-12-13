@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { applyTheme } from "../manager/ThemeManager";
+import { applyTheme } from "../logic/ThemeLogic";
 import { parseLaTeX, parseMarkdown } from '../util/MarkdownParser';
-import { MarkdownManager } from '../manager/MarkdownManager';
+import { MarkdownLogic } from '../logic/MarkdownLogic';
 import '../asset/css/markdown.css';
 
 function MarkdownUpdate() {
@@ -10,19 +10,19 @@ function MarkdownUpdate() {
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const markdownRef = useRef(null);
-  const markdownManager = useRef(null);
+  const markdownLogic = useRef(null);
 
   useEffect(() => {
     applyTheme(localStorage.getItem("theme"));
-    markdownManager.current = new MarkdownManager(id);
+    markdownLogic.current = new MarkdownLogic(id);
 
     const fetchMarkdown = async () => {
-      await markdownManager.current.fetchMarkdown();
+      await markdownLogic.current.fetchMarkdown();
       setMarkdown({
-        title: markdownManager.current.title,
-        content: markdownManager.current.content
+        title: markdownLogic.current.title,
+        content: markdownLogic.current.content
       });
-      document.title = markdownManager.current.title;
+      document.title = markdownLogic.current.title;
       parseLaTeX(markdownRef.current);
     };
 
@@ -35,26 +35,26 @@ function MarkdownUpdate() {
 
   const handleConfirm = () => {
     if (markdownRef.current) {
-      markdownManager.current.content = markdownRef.current.innerText;
+      markdownLogic.current.content = markdownRef.current.innerText;
       setMarkdown({
-        title: markdownManager.current.title,
-        content: markdownManager.current.content
+        title: markdownLogic.current.title,
+        content: markdownLogic.current.content
       });
     }
     setIsEditing(false);
   };
 
   const handleUpdate = async () => {
-    await markdownManager.current.updateMarkdown();
+    await markdownLogic.current.updateMarkdown();
     setMarkdown({
-      title: markdownManager.current.title,
-      content: parseMarkdown(markdownManager.current.content)
+      title: markdownLogic.current.title,
+      content: parseMarkdown(markdownLogic.current.content)
     });
     parseLaTeX(markdownRef.current);
   };
 
   const handleDelete = async () => {
-    await markdownManager.current.deleteMarkdown();
+    await markdownLogic.current.deleteMarkdown();
   };
 
   return (

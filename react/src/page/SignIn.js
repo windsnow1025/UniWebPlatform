@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom";
-import axios from 'axios';
+import {UserLogic} from "../logic/UserLogic";
 
 import ThemeSelect from '../component/ThemeSelect';
 
@@ -8,23 +8,12 @@ function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const userLogic = new UserLogic();
 
   const handleSignIn = async () => {
-    try {
-      const res = await axios.post("/api/user/sign-in", {
-        data: { username: username, password: password }
-      });
-      localStorage.setItem('token', res.data.token);
+      await userLogic.signIn(username, password);
       let prevUrl = localStorage.getItem('prevUrl') || "/";
       navigate(prevUrl);
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
-        alert("Invalid Username or Password");
-      } else {
-        alert("Sign In Fail");
-        console.error(err);
-      }
-    }
   };
 
   return (
