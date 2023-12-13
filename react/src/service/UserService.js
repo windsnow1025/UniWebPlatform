@@ -30,4 +30,12 @@ export default class UserService {
       headers: {Authorization: `Bearer ${token}`}
     });
   }
+
+  async fetchCredit() {
+    const token = localStorage.getItem('token');
+    const res = await axios.get("/api/user/credit", {
+      headers: {Authorization: `Bearer ${token}`}
+    });
+    return res.data.credit;
+  }
 }
