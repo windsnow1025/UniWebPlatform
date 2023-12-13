@@ -13,7 +13,7 @@ function MarkdownAdd() {
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     applyTheme(theme);
-  });
+  }, []);
 
   const handleEdit = () => {
     setIsEditing(true);
