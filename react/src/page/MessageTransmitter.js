@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {MessageService} from "../service/MessageService";
-import {AuthManager} from "../manager/AuthManager";
+import {UserLogic} from "../logic/UserLogic";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import MessageDiv from '../component/MessageDiv';
@@ -11,12 +11,12 @@ function MessageTransmitter() {
   const [newMessage, setNewMessage] = useState({username: '', content: ''});
   const messageService = new MessageService();
 
-  const authManager = new AuthManager();
+  const userLogic = new UserLogic();
 
   useEffect(() => {
     fetchMessages();
     fetchUsername();
-  }, []);
+  });
 
   const fetchMessages = async () => {
     const fetchedMessages = await messageService.fetchMessages();
@@ -24,7 +24,7 @@ function MessageTransmitter() {
   };
 
   const fetchUsername = async () => {
-    const fetchedUsername = await authManager.fetchUsername();
+    const fetchedUsername = await userLogic.fetchUsername();
     setUsername(fetchedUsername);
     setNewMessage(prev => ({...prev, username: fetchedUsername}));
   };

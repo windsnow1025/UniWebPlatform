@@ -1,40 +1,22 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import axios from 'axios';
-
 import ThemeSelect from '../component/ThemeSelect';
+import {UserLogic} from "../logic/UserLogic";
 
 function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const isValidInput = (input) => {
-    // Check if input contains only ASCII characters and has a length between 6 and 20
-    const asciiRegex = /^[\x00-\x7F]{4,32}$/;
-    return asciiRegex.test(input);
-  };
+  const userLogic = new UserLogic();
 
   const handleSignUp = async () => {
-    if (!isValidInput(username) || !isValidInput(password)) {
+    if (!userLogic.isValidInput(username) || !userLogic.isValidInput(password)) {
       alert("Username or Password contains invalid characters or has an invalid length.");
       return;
     }
-    try {
-      await axios.post("/api/user/sign-up", {
-        data: { username, password }
-      });
-      alert("Sign Up Success");
-      let prevUrl = localStorage.getItem('prevUrl') || "/";
-      navigate(prevUrl);
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
-        alert("Username already exists.");
-      } else {
-        alert("Sign Up Fail");
-        console.error(err);
-      }
-    }
+    await userLogic.signUp(username, password);
+    let prevUrl = localStorage.getItem('prevUrl') || "/";
+    navigate(prevUrl);
   };
 
   return (
@@ -42,7 +24,7 @@ function SignUp() {
       <div>
         <h1 className="center">Sign Up</h1>
         <div className="center">
-          <ThemeSelect />
+          <ThemeSelect/>
         </div>
         <div className="center">
           <div>

@@ -44,7 +44,7 @@ router.post('/sign-up', async (req, res, next) => {
         // Judge if data.username exists
         let result = await UserDAO.SelectByUsername(sqlData);
         if (result.length > 0) {
-            res.status(401).send("Username already exists");
+            res.status(409).send("Username already exists");
         } else {
             // Store Data
             await UserDAO.Insert(data);

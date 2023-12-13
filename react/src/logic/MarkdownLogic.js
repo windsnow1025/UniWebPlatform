@@ -1,7 +1,7 @@
 import MarkdownService from "../service/MarkdownService";
 
 
-export class MarkdownManager {
+export class MarkdownLogic {
   constructor(id) {
     this.id = id;
     this.title = "";

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { applyTheme } from "../manager/ThemeManager";
+import { applyTheme } from "../logic/ThemeLogic";
 import { parseMarkdown, parseLaTeX } from "../util/MarkdownParser";
 
 function MarkdownViewer() {
