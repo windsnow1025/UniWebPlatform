@@ -71,6 +71,7 @@ function MessageTransmitter() {
               contentInitial={message.content}
               onRoleChange={() => {}}
               onContentChange={() => {}}
+              useSelect={false}
             />
           ))}
         </div>
