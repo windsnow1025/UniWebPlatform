@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class UserService {
+export default class UserService {
   async signIn(username, password) {
     const res = await axios.post("/api/user/sign-in", {
       data: {username, password}

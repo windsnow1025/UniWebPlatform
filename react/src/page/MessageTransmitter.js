@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {MessageService} from "../service/MessageService";
+import MessageService from "../service/MessageService";
 import {UserLogic} from "../logic/UserLogic";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
