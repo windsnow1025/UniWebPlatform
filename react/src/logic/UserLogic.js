@@ -1,4 +1,4 @@
-import {UserService} from "../service/UserService";
+import UserService from "../service/UserService";
 
 export class UserLogic {
   constructor() {

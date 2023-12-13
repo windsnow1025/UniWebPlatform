@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export class MessageService {
+export default class MessageService {
   async sendMessage(username, content) {
     await axios.post("/api/message", {
       data: { username: username, content: content }
