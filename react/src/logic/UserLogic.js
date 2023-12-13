@@ -60,7 +60,7 @@ export class UserLogic {
   }
 
   isValidInput(input) {
-    const asciiRegex = /^[\x00-\x7F]{4,32}$/;
+    const asciiRegex = /^[\x20-\x7F]{4,32}$/;
     return asciiRegex.test(input);
   }
 }
