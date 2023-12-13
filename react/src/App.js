@@ -14,7 +14,7 @@ function App() {
       <div className="Flex-space-around" style={{margin: "16px"}}>
         <a href="/bookmark">Bookmarks</a>
         <a href="/message">Message Transmitter</a>
-        <a href="./html/gpt.html">GPT</a>
+        <a href="/gpt">GPT</a>
       </div>
       <div className="Flex-space-around" style={{margin: "16px"}}>
         <MarkdownList />
