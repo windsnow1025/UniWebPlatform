@@ -11,9 +11,10 @@ function SignIn() {
   const userLogic = new UserLogic();
 
   const handleSignIn = async () => {
-      await userLogic.signIn(username, password);
-      let prevUrl = localStorage.getItem('prevUrl') || "/";
-      navigate(prevUrl);
+      if (await userLogic.signIn(username, password)) {
+        let prevUrl = localStorage.getItem('prevUrl') || "/";
+        navigate(prevUrl);
+      }
   };
 
   return (

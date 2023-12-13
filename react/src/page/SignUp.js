@@ -10,13 +10,14 @@ function SignUp() {
   const userLogic = new UserLogic();
 
   const handleSignUp = async () => {
-    if (!userLogic.isValidInput(username) || !userLogic.isValidInput(password)) {
+    if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {
       alert("Username or Password contains invalid characters or has an invalid length.");
       return;
     }
-    await userLogic.signUp(username, password);
-    let prevUrl = localStorage.getItem('prevUrl') || "/";
-    navigate(prevUrl);
+    if (await userLogic.signUp(username, password)) {
+      let prevUrl = localStorage.getItem('prevUrl') || "/";
+      navigate(prevUrl);
+    }
   };
 
   return (
