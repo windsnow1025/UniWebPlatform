@@ -1,14 +1,22 @@
 import React from 'react';
 import RoleDiv from './RoleDiv';
+import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 
-function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange }) {
+function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange, useSelect }) {
   return (
     <div className="message_div">
-      <RoleDiv
-        roleInitial={roleInitial}
-        onRoleChange={onRoleChange}
-      />
+      {useSelect ?
+        <RoleSelect
+          roleInitial={roleInitial}
+          onRoleChange={onRoleChange}
+        />
+        :
+        <RoleDiv
+          roleInitial={roleInitial}
+          onRoleChange={onRoleChange}
+        />
+      }
       <div className="Flex-space-between">
         <div className="inFlex-FillSpace">
           <ContentDiv
@@ -22,4 +30,3 @@ function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange
 }
 
 export default MessageDiv;
-
