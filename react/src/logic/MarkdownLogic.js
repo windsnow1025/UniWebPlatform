@@ -1,67 +1,58 @@
 import MarkdownService from "../service/MarkdownService";
 
-
 export class MarkdownLogic {
-  constructor(id) {
-    this.id = id;
-    this.title = "";
-    this.content = "";
-
+  constructor() {
     this.markdownService = new MarkdownService();
   }
 
-  async fetchMarkdown() {
+  async fetchMarkdown(id) {
     try {
-      const markdown = await this.markdownService.fetchMarkdown(this.id);
-      this.title = markdown.title;
-      this.content = markdown.content;
+      return await this.markdownService.fetchMarkdown(id);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
-  async addMarkdown() {
-    this.set_title_by_content();
+  async addMarkdown(title, content) {
     try {
-      await this.markdownService.addMarkdown({
-        title: this.title,
-        content: this.content
-      });
-      alert('Add Success!')
+      await this.markdownService.addMarkdown({ title, content });
+      alert('Add Success!');
     } catch (error) {
       if (error.response.status === 403) {
         alert('Unauthorized');
+      } else {
+        console.error(error);
       }
     }
   }
 
-  async updateMarkdown() {
-    this.set_title_by_content();
+  async updateMarkdown(id, title, content) {
     try {
-      await this.markdownService.updateMarkdown(this.id, {
-        title: this.title,
-        content: this.content
-      });
-      alert('Update Success!')
+      await this.markdownService.updateMarkdown(id, { title, content });
+      alert('Update Success!');
     } catch (error) {
       if (error.response.status === 403) {
         alert('Unauthorized');
+      } else {
+        console.error(error);
       }
     }
   }
 
-  async deleteMarkdown() {
+  async deleteMarkdown(id) {
     try {
-      await this.markdownService.deleteMarkdown(this.id);
-      alert('Delete Success!')
+      await this.markdownService.deleteMarkdown(id);
+      alert('Delete Success!');
     } catch (error) {
       if (error.response.status === 403) {
         alert('Unauthorized');
+      } else {
+        console.error(error);
       }
     }
   }
 
-  set_title_by_content() {
-    this.title = this.content.split('\n')[0].replace('# ', '');
+  getTitleFromContent(content) {
+    return content.split('\n')[0].replace('# ', '');
   }
 }
