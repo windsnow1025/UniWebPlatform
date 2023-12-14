@@ -12,9 +12,9 @@ function App() {
         <ThemeSelect />
       </div>
       <div className="Flex-space-around" style={{margin: "16px"}}>
-        <a href="/bookmark">Bookmarks</a>
-        <a href="/message">Message Transmitter</a>
-        <a href="/gpt">GPT</a>
+        <a href="/bookmark" target="_blank" rel="noopener noreferrer">Bookmarks</a>
+        <a href="/message" target="_blank" rel="noopener noreferrer">Message Transmitter</a>
+        <a href="/gpt" target="_blank" rel="noopener noreferrer">GPT</a>
       </div>
       <div className="Flex-space-around" style={{margin: "16px"}}>
         <MarkdownList />
