@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {GPTLogic} from "../logic/GPTLogic";
 import UserService from "../service/UserService";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
@@ -6,14 +7,11 @@ import MessageDiv from "../component/MessageDiv";
 import axios from 'axios';
 
 function GPT() {
-  const [messages, setMessages] = useState([
-    {
-      "role": "system",
-      "content": "You are a helpful assistant."
-    }
-  ]);
+  const gptLogic = new GPTLogic();
+
+  const [messages, setMessages] = useState(gptLogic.initMessages);
   const [apiType, setApiType] = useState('open_ai');
-  const [model, setModel] = useState('gpt-3.5-turbo');
+  const [model, setModel] = useState(gptLogic.models.open_ai[0]);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
 
@@ -74,7 +72,11 @@ function GPT() {
         </div>
         <div>
           <label htmlFor="model">model: </label>
-          <select name="model" value={model} onChange={e => setModel(e.target.value)}></select>
+          <select name="model" value={model} onChange={e => setModel(e.target.value)}>
+            {(apiType === 'open_ai' ? gptLogic.models.open_ai : gptLogic.models.azure).map(model => (
+              <option key={model} value={model}>{model}</option>
+            ))}
+          </select>
         </div>
         <div>
           <label htmlFor="temperature">temperature: </label>
@@ -90,7 +92,7 @@ function GPT() {
       <div className="rounded-border-container">
         <h3>Conversations:</h3>
         <div className="margin">
-        {/*  Message Div  */}
+          {/*  Message Div  */}
         </div>
         <div className="center">
           <button type="button" title="Ctrl + Enter" onClick={handleGenerate}>Generate</button>
