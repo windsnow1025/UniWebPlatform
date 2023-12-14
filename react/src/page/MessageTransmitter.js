@@ -18,6 +18,18 @@ function MessageTransmitter() {
     fetchUsername();
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key === 'Enter') {
+        handleSendMessage();
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [newMessage]);
+
   const fetchMessages = async () => {
     try {
       const messages = await messageService.fetchMessages();
