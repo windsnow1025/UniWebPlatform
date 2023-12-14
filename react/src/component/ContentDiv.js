@@ -16,20 +16,20 @@ function ContentDiv({ contentInitial, onContentChange }) {
         contentRef.current.innerHTML = parseMarkdown(content);
         parseLaTeX(contentRef.current);
       } else {
-        contentRef.current.textContent = content;
+        contentRef.current.innerHTML = content;
       }
     }
   }, [content, editing]);
 
   const handleContentBlur = () => {
-    const newContent = contentRef.current.textContent;
+    const newContent = contentRef.current.innerHTML;
     setContent(newContent);
     onContentChange(newContent);
     setEditing(false);
   };
 
   const handleContentChange = () => {
-    const newContent = contentRef.current.textContent;
+    const newContent = contentRef.current.innerHTML;
     setContent(newContent);
     onContentChange(newContent);
   }
