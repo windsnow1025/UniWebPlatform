@@ -20,8 +20,8 @@ function MarkdownAdd() {
 
   const handleConfirm = () => {
     if (markdownRef.current) {
-      markdownLogic.current.content = markdownRef.current.innerText;
-      setContent(parseMarkdown(markdownRef.current.innerText));
+      markdownLogic.current.content = markdownRef.current.innerHTML;
+      setContent(parseMarkdown(markdownRef.current.innerHTML));
       parseLaTeX(markdownRef.current);
     }
     setIsEditing(false);

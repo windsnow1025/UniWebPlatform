@@ -35,7 +35,7 @@ function MarkdownUpdate() {
 
   const handleConfirm = () => {
     if (markdownRef.current) {
-      markdownLogic.current.content = markdownRef.current.innerText;
+      markdownLogic.current.content = markdownRef.current.innerHTML;
       setMarkdown({
         title: markdownLogic.current.title,
         content: markdownLogic.current.content
