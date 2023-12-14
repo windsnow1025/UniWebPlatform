@@ -44,6 +44,15 @@ function GPT() {
     }
   }, [messages]);
 
+  useEffect(() => {
+    const contentEditableValue = isEditable ? 'plaintext-only' : 'false';
+    const contentEditableElements = document.querySelectorAll('[contenteditable]');
+
+    contentEditableElements.forEach(element => {
+      element.setAttribute('contenteditable', contentEditableValue);
+    });
+  }, [isEditable]);
+
   const fetchCredit = async () => {
     if (localStorage.getItem('token')) {
       const credit = await userService.fetchCredit();
