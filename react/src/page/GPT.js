@@ -18,6 +18,7 @@ function GPT() {
   const [stream, setStream] = useState(true);
 
   const [credit, setCredit] = useState(0);
+  const [generate, setGenerate] = useState("Generate");
   const [status, setStatus] = useState('Ready');
 
   const userService = new UserService();
@@ -74,8 +75,13 @@ function GPT() {
   };
 
   const handleGenerate = async () => {
-    // Generate
-    console.log('Generate');
+    if (generate === "Generate") {
+      setGenerate("Stop");
+      setStatus('Generating...');
+    } else {
+      setGenerate("Generate");
+      setStatus('Ready');
+    }
   }
 
   return (
@@ -145,7 +151,7 @@ function GPT() {
           ))}
         </div>
         <div className="center">
-          <button type="button" title="Ctrl + Enter" onClick={handleGenerate}>Generate</button>
+          <button type="button" title="Ctrl + Enter" onClick={handleGenerate}>{generate}</button>
           <div><small>Status: {status}</small></div>
         </div>
       </div>
