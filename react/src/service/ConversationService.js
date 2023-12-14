@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default class ConversationService {
-  async fetch_conversations() {
+  async fetchConversations() {
     const token = localStorage.getItem('token');
     const res = await axios.get('/api/conversation/', {
       headers: {
