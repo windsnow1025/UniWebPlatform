@@ -1,28 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { applyTheme } from "../logic/ThemeLogic";
 import { parseLaTeX, parseMarkdown } from '../util/MarkdownParser';
 import { MarkdownLogic } from '../logic/MarkdownLogic';
 import '../asset/css/markdown.css';
+import AuthDiv from "../component/AuthDiv";
+import ThemeSelect from "../component/ThemeSelect";
 
 function MarkdownUpdate() {
   const [markdown, setMarkdown] = useState({ title: '', content: '' });
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const markdownRef = useRef(null);
-  const markdownLogic = useRef(null);
+  const markdownLogic = new MarkdownLogic();
 
   useEffect(() => {
-    applyTheme(localStorage.getItem("theme"));
-    markdownLogic.current = new MarkdownLogic(id);
 
     const fetchMarkdown = async () => {
-      await markdownLogic.current.fetchMarkdown();
+      const markdown = await markdownLogic.fetchMarkdown(id);
       setMarkdown({
-        title: markdownLogic.current.title,
-        content: markdownLogic.current.content
+        title: markdown.title,
+        content: markdown.content
       });
-      document.title = markdownLogic.current.title;
+      document.title = markdown.title;
+      markdownRef.current.innerHTML = parseMarkdown(markdown.content);
       parseLaTeX(markdownRef.current);
     };
 
@@ -30,43 +30,41 @@ function MarkdownUpdate() {
   }, [id]);
 
   const handleEdit = () => {
+    markdownRef.current.innerHTML = markdown.content;
     setIsEditing(true);
   };
 
   const handleConfirm = () => {
     if (markdownRef.current) {
-      markdownLogic.current.content = markdownRef.current.innerHTML;
-      setMarkdown({
-        title: markdownLogic.current.title,
-        content: markdownLogic.current.content
-      });
+      const content = markdownRef.current.innerHTML;
+      setMarkdown(prev => ({ ...prev, content: content }));
+      markdownRef.current.innerHTML = parseMarkdown(content);
+      parseLaTeX(markdownRef.current);
     }
     setIsEditing(false);
   };
 
   const handleUpdate = async () => {
-    await markdownLogic.current.updateMarkdown();
-    setMarkdown({
-      title: markdownLogic.current.title,
-      content: parseMarkdown(markdownLogic.current.content)
-    });
-    parseLaTeX(markdownRef.current);
+    setMarkdown(prev => ({ ...prev, title: markdownLogic.getTitleFromContent(markdown.content) }));
+    await markdownLogic.updateMarkdown(id, markdown.title, markdown.content);
   };
 
   const handleDelete = async () => {
-    await markdownLogic.current.deleteMarkdown();
+    await markdownLogic.deleteMarkdown(id);
   };
 
   return (
     <div>
+      <div className="Flex-space-around">
+        <AuthDiv/>
+        <ThemeSelect/>
+      </div>
       <div
         className="markdown-body"
         ref={markdownRef}
-        style={{ padding: '16px' }}
+        style={{margin: '8px', padding: '8px', minHeight: '24px'}}
         contentEditable={isEditing ? "plaintext-only" : "false"}
-        dangerouslySetInnerHTML={{ __html: isEditing ? markdown.content : parseMarkdown(markdown.content) }}
       />
-
       <div className="center">
         {!isEditing && <button onClick={handleEdit}>Edit</button>}
         {isEditing && <button onClick={handleConfirm}>Confirm</button>}
