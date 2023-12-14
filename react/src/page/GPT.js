@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import {GPTLogic} from "../logic/GPTLogic";
 import UserService from "../service/UserService";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import MessageDiv from "../component/MessageDiv";
-import axios from 'axios';
 
 function GPT() {
   const gptLogic = new GPTLogic();
@@ -30,7 +32,7 @@ function GPT() {
         document.activeElement.blur();
         handleGenerate();
       }
-    }
+    };
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
@@ -42,7 +44,34 @@ function GPT() {
       const credit = await userService.fetchCredit();
       setCredit(credit);
     }
-  }
+  };
+
+  const handleRoleChange = (index, role) => {
+    const newMessages = [...messages];
+    newMessages[index].role = role;
+    setMessages(newMessages);
+  };
+
+  const handleContentChange = (index, content) => {
+    const newMessages = [...messages];
+    newMessages[index].content = content;
+    setMessages(newMessages);
+  };
+
+  const handleContentDelete = (index) => {
+    const newMessages = [...messages];
+    newMessages.splice(index, 1);
+    setMessages(newMessages);
+  };
+
+  const handleMessageAdd = (index) => {
+    const newMessages = [...messages];
+    newMessages.splice(index + 1, 0, {
+      "role": "user",
+      "content": ""
+    });
+    setMessages(newMessages);
+  };
 
   const handleGenerate = async () => {
     // Generate
@@ -93,15 +122,26 @@ function GPT() {
         <h3>Conversations:</h3>
         <div className="margin">
           {messages.map((message, index) => (
-            <MessageDiv
-              key={index}
-              roleInitial={message.role}
-              contentInitial={message.content}
-              onRoleChange={() => {}}
-              onContentChange={() => {}}
-              useRoleSelect={true}
-              onContentDelete={() => {}}
-            />
+            <div>
+              <MessageDiv
+                key={index}
+                roleInitial={message.role}
+                contentInitial={message.content}
+                onRoleChange={(role) => handleRoleChange(index, role)}
+                onContentChange={(content) => handleContentChange(index, content)}
+                useRoleSelect={true}
+                onContentDelete={() => handleContentDelete(index)}
+              />
+              <div className="Flex-space-between">
+                <div className="inFlex-FillSpace"/>
+                <div className="Flex-Column inFlex-flex-end">
+                  <FontAwesomeIcon
+                    icon={faPlusCircle}
+                    title="Add"
+                    onClick={() => handleMessageAdd(index)}/>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
         <div className="center">

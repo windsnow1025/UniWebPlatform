@@ -1,9 +1,9 @@
 import React from 'react';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCopy, faMinusCircle} from '@fortawesome/free-solid-svg-icons';
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange, useRoleSelect, onContentDelete }) {
   const handleContentCopy = () => {
@@ -36,14 +36,12 @@ function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange
               icon={faCopy}
               style={{margin: "4px"}}
               title="Copy"
-              onClick={handleContentCopy}>
-            </FontAwesomeIcon>
+              onClick={handleContentCopy}/>
             <FontAwesomeIcon
               icon={faMinusCircle}
               style={{margin: "4px"}}
               title="Delete"
-              onClick={onContentDelete}>
-            </FontAwesomeIcon>
+              onClick={onContentDelete}/>
           </div>
         }
       </div>
