@@ -18,6 +18,7 @@ function GPT() {
   const [stream, setStream] = useState(true);
 
   const [credit, setCredit] = useState(0);
+  const [status, setStatus] = useState('Ready');
 
   const userService = new UserService();
 
@@ -25,11 +26,29 @@ function GPT() {
     fetchCredit();
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key === 'Enter') {
+        document.activeElement.blur();
+        handleGenerate();
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, []);
+
   const fetchCredit = async () => {
     if (localStorage.getItem('token')) {
       const credit = await userService.fetchCredit();
       setCredit(credit);
     }
+  }
+
+  const handleGenerate = async () => {
+    // Generate
+    console.log('Generate');
   }
 
   return (
@@ -45,7 +64,7 @@ function GPT() {
         <a href="/markdown/view/gpt-presets.md">System Presets</a>
         <div>Credit: {credit}</div>
       </div>
-      <div className="Flex-space-around" id="parameter_div">
+      <div className="Flex-space-around">
         <div>
           <label htmlFor="api_type">api_type: </label>
           <select name="api_type" value={apiType} onChange={e => setApiType(e.target.value)}>
@@ -59,12 +78,23 @@ function GPT() {
         </div>
         <div>
           <label htmlFor="temperature">temperature: </label>
-          <input type="range" min="0" max="2" step="0.1" value={temperature} onChange={e => setTemperature(parseFloat(e.target.value))}/>
+          <input type="range" min="0" max="2" step="0.1" value={temperature}
+                 onChange={e => setTemperature(parseFloat(e.target.value))}/>
           <span>{temperature.toFixed(1)}</span>
         </div>
         <div>
           <label htmlFor="stream">stream</label>
-          <input type="checkbox" id="stream" checked={stream} onChange={e => setStream(e.target.checked)}/>
+          <input type="checkbox" checked={stream} onChange={e => setStream(e.target.checked)}/>
+        </div>
+      </div>
+      <div className="rounded-border-container">
+        <h3>Conversations:</h3>
+        <div className="margin">
+        {/*  Message Div  */}
+        </div>
+        <div className="center">
+          <button type="button" title="Ctrl + Enter" onClick={handleGenerate}>Generate</button>
+          <div><small>Status: {status}</small></div>
         </div>
       </div>
     </div>
