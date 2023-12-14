@@ -7,16 +7,19 @@ import UserService from "../service/UserService";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import MessageDiv from "../component/MessageDiv";
+import ConversationAutocomplete from "../component/ConversationAutocomplete";
 
 function GPT() {
   const gptLogic = new GPTLogic();
 
+  // GPT Parameters
   const [messages, setMessages] = useState(gptLogic.initMessages);
   const [apiType, setApiType] = useState('open_ai');
   const [model, setModel] = useState(gptLogic.models.open_ai[0]);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
 
+  // Others
   const [credit, setCredit] = useState(0);
   const [generate, setGenerate] = useState("Generate");
   const [status, setStatus] = useState('Ready');
@@ -82,6 +85,10 @@ function GPT() {
       setGenerate("Generate");
       setStatus('Ready');
     }
+  }
+
+  const onConversationOptionClick = async (conversation) => {
+    setMessages(conversation.conversation);
   }
 
   const handleConversationUpload = async () => {
@@ -169,7 +176,9 @@ function GPT() {
           <label htmlFor="editable">editable</label>
           <input type="checkbox" id="editable" checked/>
         </div>
-        <div id="select"></div>
+        <ConversationAutocomplete
+          conversation={messages}
+          onConversationClick={onConversationOptionClick}/>
         <div>
           <FontAwesomeIcon
             icon={faDownload}

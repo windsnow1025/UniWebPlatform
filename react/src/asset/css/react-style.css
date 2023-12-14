@@ -1,0 +1,9 @@
+.iconContainer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.icon:hover {
+    color: red;
+}
