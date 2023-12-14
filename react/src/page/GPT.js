@@ -92,7 +92,17 @@ function GPT() {
       <div className="rounded-border-container">
         <h3>Conversations:</h3>
         <div className="margin">
-          {/*  Message Div  */}
+          {messages.map((message, index) => (
+            <MessageDiv
+              key={index}
+              roleInitial={message.role}
+              contentInitial={message.content}
+              onRoleChange={() => {}}
+              onContentChange={() => {}}
+              useRoleSelect={true}
+              onContentDelete={() => {}}
+            />
+          ))}
         </div>
         <div className="center">
           <button type="button" title="Ctrl + Enter" onClick={handleGenerate}>Generate</button>

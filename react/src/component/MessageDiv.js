@@ -1,12 +1,18 @@
 import React from 'react';
+import {faCopy, faMinusCircle} from '@fortawesome/free-solid-svg-icons';
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange, useSelect }) {
+function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange, useRoleSelect, onContentDelete }) {
+  const handleContentCopy = () => {
+    navigator.clipboard.writeText(contentInitial);
+  }
+
   return (
     <div className="message_div">
-      {useSelect ?
+      {useRoleSelect ?
         <RoleSelect
           roleInitial={roleInitial}
           onRoleChange={onRoleChange}
@@ -24,6 +30,22 @@ function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange
             onContentChange={onContentChange}
           />
         </div>
+        {onContentDelete &&
+          <div className="Flex-Column inFlex-flex-end">
+            <FontAwesomeIcon
+              icon={faCopy}
+              style={{margin: "4px"}}
+              title="Copy"
+              onClick={handleContentCopy}>
+            </FontAwesomeIcon>
+            <FontAwesomeIcon
+              icon={faMinusCircle}
+              style={{margin: "4px"}}
+              title="Delete"
+              onClick={onContentDelete}>
+            </FontAwesomeIcon>
+          </div>
+        }
       </div>
     </div>
   );
