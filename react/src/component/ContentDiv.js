@@ -21,12 +21,18 @@ function ContentDiv({ contentInitial, onContentChange }) {
     }
   }, [content, editing]);
 
-  const handleContentChange = () => {
+  const handleContentBlur = () => {
     const newContent = contentRef.current.textContent;
     setContent(newContent);
     onContentChange(newContent);
     setEditing(false);
   };
+
+  const handleContentChange = () => {
+    const newContent = contentRef.current.textContent;
+    setContent(newContent);
+    onContentChange(newContent);
+  }
 
   return (
     <div
@@ -35,7 +41,8 @@ function ContentDiv({ contentInitial, onContentChange }) {
       contentEditable="plaintext-only"
       ref={contentRef}
       onFocus={() => setEditing(true)}
-      onBlur={handleContentChange}
+      onInput={handleContentChange}
+      onBlur={handleContentBlur}
     ></div>
   );
 }
