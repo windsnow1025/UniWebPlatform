@@ -12,7 +12,7 @@ function GPT() {
       "content": "You are a helpful assistant."
     }
   ]);
-  const [api_type, setApi_type] = useState('open_ai');
+  const [apiType, setApiType] = useState('open_ai');
   const [model, setModel] = useState('gpt-3.5-turbo');
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
@@ -39,12 +39,34 @@ function GPT() {
         <AuthDiv/>
         <ThemeSelect/>
       </div>
+      <br/>
       <div className="Flex-space-around">
         <a href="/markdown/view/gpt-documentation.md">Documentation</a>
         <a href="/markdown/view/gpt-presets.md">System Presets</a>
-        <div>Credit</div>
+        <div>Credit: {credit}</div>
       </div>
-
+      <div className="Flex-space-around" id="parameter_div">
+        <div>
+          <label htmlFor="api_type">api_type: </label>
+          <select name="api_type" value={apiType} onChange={e => setApiType(e.target.value)}>
+            <option value="open_ai">open_ai</option>
+            <option value="azure">azure</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="model">model: </label>
+          <select name="model" value={model} onChange={e => setModel(e.target.value)}></select>
+        </div>
+        <div>
+          <label htmlFor="temperature">temperature: </label>
+          <input type="range" min="0" max="2" step="0.1" value={temperature} onChange={e => setTemperature(parseFloat(e.target.value))}/>
+          <span>{temperature.toFixed(1)}</span>
+        </div>
+        <div>
+          <label htmlFor="stream">stream</label>
+          <input type="checkbox" id="stream" checked={stream} onChange={e => setStream(e.target.checked)}/>
+        </div>
+      </div>
     </div>
   )
 }
