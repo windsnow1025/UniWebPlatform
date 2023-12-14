@@ -60,8 +60,8 @@ function GPT() {
       </div>
       <br/>
       <div className="Flex-space-around">
-        <a href="/markdown/view/gpt-documentation.md">Documentation</a>
-        <a href="/markdown/view/gpt-presets.md">System Presets</a>
+        <a href="/markdown/view/gpt-documentation.md" target="_blank" rel="noopener noreferrer">Documentation</a>
+        <a href="/markdown/view/gpt-presets.md" target="_blank" rel="noopener noreferrer">System Presets</a>
         <div>Credit: {credit}</div>
       </div>
       <div className="Flex-space-around">
