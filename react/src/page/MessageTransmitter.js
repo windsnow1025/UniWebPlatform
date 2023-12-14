@@ -12,7 +12,6 @@ function MessageTransmitter() {
   const messageService = new MessageService();
 
   const userLogic = new UserLogic();
-  console.log("Refresh");
 
   useEffect(() => {
     fetchMessages();
