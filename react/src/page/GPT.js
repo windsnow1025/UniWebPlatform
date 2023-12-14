@@ -155,6 +155,8 @@ function GPT() {
           <div><small>Status: {status}</small></div>
         </div>
       </div>
+      <p className="center">Email: windsnow1024@gmail.com</p>
+      <p className="center">GitHub: <a href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
     </div>
   )
 }

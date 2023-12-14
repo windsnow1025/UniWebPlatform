@@ -15,7 +15,7 @@ const ThemeSelect = () => {
 
   return (
     <div>
-      <label htmlFor="theme-select">Theme:</label>
+      <label htmlFor="theme-select">Theme: </label>
       <select value={theme} onChange={handleThemeChange}>
         <option value="system">System</option>
         <option value="light">Light</option>
