@@ -23,6 +23,7 @@ function GPT() {
   const [credit, setCredit] = useState(0);
   const [generate, setGenerate] = useState("Generate");
   const [status, setStatus] = useState('Ready');
+  const [isEditable, setIsEditable] = useState(true);
 
   const userService = new UserService();
 
@@ -144,9 +145,8 @@ function GPT() {
         <h3>Conversations:</h3>
         <div className="margin">
           {messages.map((message, index) => (
-            <div>
+            <div key={index}>
               <MessageDiv
-                key={index}
                 roleInitial={message.role}
                 contentInitial={message.content}
                 onRoleChange={(role) => handleRoleChange(index, role)}
@@ -174,7 +174,7 @@ function GPT() {
       <div className="Flex-space-around">
         <div>
           <label htmlFor="editable">editable</label>
-          <input type="checkbox" id="editable" checked/>
+          <input type="checkbox" checked={isEditable} onChange={e => setIsEditable(e.target.checked)}/>
         </div>
         <ConversationAutocomplete
           conversation={messages}
@@ -193,8 +193,7 @@ function GPT() {
         </div>
       </div>
       <p className="center">Email: windsnow1024@gmail.com</p>
-      <p className="center">GitHub: <a
-        href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
+      <p className="center">GitHub: <a href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
     </div>
   )
 }
