@@ -16,6 +16,7 @@ function RoleDiv({ roleInitial, onRoleChange }) {
   return (
     <div
       contentEditable="plaintext-only"
+      onInput={handleRoleChange}
       onBlur={handleRoleChange}
       dangerouslySetInnerHTML={{ __html: role }}
     ></div>

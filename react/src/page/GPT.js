@@ -37,7 +37,7 @@ function GPT() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     }
-  }, []);
+  }, [messages]);
 
   const fetchCredit = async () => {
     if (localStorage.getItem('token')) {
