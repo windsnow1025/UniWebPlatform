@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
+import {faPlusCircle, faDownload, faUpload} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import {GPTLogic} from "../logic/GPTLogic";
 import UserService from "../service/UserService";
@@ -84,6 +84,15 @@ function GPT() {
     }
   }
 
+  const handleConversationUpload = async () => {
+    const messages = await gptLogic.upload();
+    setMessages(messages);
+  }
+
+  const handleConversationDownload = async () => {
+    gptLogic.download(messages);
+  }
+
   return (
     <div>
       <h1 className="center">WindsnowGPT</h1>
@@ -155,8 +164,28 @@ function GPT() {
           <div><small>Status: {status}</small></div>
         </div>
       </div>
+      <div className="Flex-space-around">
+        <div>
+          <label htmlFor="editable">editable</label>
+          <input type="checkbox" id="editable" checked/>
+        </div>
+        <div id="select"></div>
+        <div>
+          <FontAwesomeIcon
+            icon={faDownload}
+            style={{margin: "4px"}}
+            title="Download"
+            onClick={handleConversationDownload}/>
+          <FontAwesomeIcon
+            icon={faUpload}
+            style={{margin: "4px"}}
+            title="Upload"
+            onClick={handleConversationUpload}/>
+        </div>
+      </div>
       <p className="center">Email: windsnow1024@gmail.com</p>
-      <p className="center">GitHub: <a href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
+      <p className="center">GitHub: <a
+        href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
     </div>
   )
 }

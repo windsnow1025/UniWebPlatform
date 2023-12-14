@@ -33,7 +33,57 @@ export class GPTLogic {
         "gpt-4-32k"
       ]
     }
+  }
 
+  // Save the messages array as a JSON file
+  download(messages) {
+    const fileName = 'messages.json';
+    const data = JSON.stringify(messages);
+    const blob = new Blob([data], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
 
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+  }
+
+  // Load the messages array from a JSON file
+  upload() {
+    return new Promise((resolve, reject) => {
+      // Request a JSON file from the user
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/json';
+      input.onchange = e => {
+        // Get the file
+        const file = e.target.files[0];
+
+        // Read the file
+        const reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = readerEvent => {
+          const content = readerEvent.target.result;
+
+          // Parse the JSON file
+          const messages = JSON.parse(content);
+
+          // Resolve the promise with the messages
+          resolve(messages);
+        }
+
+        // Reject the promise if there's an error
+        reader.onerror = error => reject(error);
+      }
+      input.click();
+
+      // Scroll to the bottom of the page
+      window.scrollTo(0, document.body.scrollHeight);
+    });
   }
 }
