@@ -24,8 +24,8 @@ function ContentDiv({ contentInitial, onContentChange }) {
   const handleContentBlur = () => {
     const newContent = contentRef.current.innerHTML;
     setContent(newContent);
-    onContentChange(newContent);
     setEditing(false);
+    onContentChange(newContent);
   };
 
   return (
