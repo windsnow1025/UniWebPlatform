@@ -103,9 +103,11 @@ function GPT() {
         }]);
 
         for await (const chunk of gptLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
-          const newMessages = [...messages];
-          newMessages[newMessages.length - 1].content = chunk;
-          setMessages(newMessages);
+          setMessages(prevMessages => {
+            const newMessages = [...prevMessages];
+            newMessages[newMessages.length - 1].content += chunk;
+            return newMessages;
+          });
         }
 
         setMessages(prevMessages => [...prevMessages, {
@@ -118,7 +120,6 @@ function GPT() {
       window.scrollTo(0, document.body.scrollHeight);
       setGenerate("Generate");
       setStatus('Ready');
-
 
     } else {
 
