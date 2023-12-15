@@ -24,6 +24,7 @@ function GPT() {
   const [generate, setGenerate] = useState("Generate");
   const [status, setStatus] = useState('Ready');
   const [isEditable, setIsEditable] = useState(true);
+  const [waitResponse, setWaitResponse] = useState([]);
 
   const userService = new UserService();
 
@@ -90,6 +91,7 @@ function GPT() {
 
   const handleGenerate = async () => {
     if (generate === "Generate") {
+
       if (!localStorage.getItem('token')) {
         alert('Please login first.');
         return;
@@ -99,7 +101,16 @@ function GPT() {
       setStatus('Generating...');
 
       if (!stream) {
+
+        const currentWaitResponseIndex = waitResponse.length;
+        setWaitResponse(prevState => [...prevState, true]);
+
         const content = await gptLogic.generate(messages, apiType, model, temperature, stream);
+
+        if (!waitResponse[currentWaitResponseIndex]) {
+          return;
+        }
+
         setMessages([...messages, {
           "role": "assistant",
           "content": content
@@ -109,10 +120,17 @@ function GPT() {
         }]);
         setGenerate("Generate");
         setStatus('Ready');
+
       }
     } else {
+
+      let newWaitResponse = [...waitResponse];
+      newWaitResponse[waitResponse.length - 1] = false;
+      setWaitResponse(newWaitResponse);
+
       setGenerate("Generate");
       setStatus('Ready');
+
     }
   }
 
