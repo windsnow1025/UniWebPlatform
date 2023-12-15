@@ -24,13 +24,23 @@ function GPT() {
   const [generate, setGenerate] = useState("Generate");
   const [status, setStatus] = useState('Ready');
   const [isEditable, setIsEditable] = useState(true);
+
+  // Abort controller
   const currentRequestIndex = useRef(0);
+  const isRequesting = useRef(false);
 
   const userService = new UserService();
 
   useEffect(() => {
+    const fetchCredit = async () => {
+      if (localStorage.getItem('token')) {
+        const credit = await userService.fetchCredit();
+        setCredit(credit);
+      }
+    };
+
     fetchCredit();
-  }, []);
+  }, [messages]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -55,10 +65,48 @@ function GPT() {
     });
   }, [isEditable]);
 
-  const fetchCredit = async () => {
-    if (localStorage.getItem('token')) {
-      const credit = await userService.fetchCredit();
-      setCredit(credit);
+  const handleGenerate = async () => {
+    if (generate === "Generate") {
+
+      if (!localStorage.getItem('token')) {
+        alert('Please login first.');
+        return;
+      }
+
+      setGenerate("Stop");
+      setStatus('Generating...');
+
+      if (!stream) {
+
+        isRequesting.current = true;
+        currentRequestIndex.current += 1;
+        const thisRequestIndex = currentRequestIndex.current;
+
+        const content = await gptLogic.generate(messages, apiType, model, temperature, stream);
+
+        if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
+          return;
+        }
+
+        setMessages(prevMessages => [...prevMessages, {
+          "role": "assistant",
+          "content": content
+        }, {
+          "role": "user",
+          "content": ""
+        }]);
+
+        setGenerate("Generate");
+        setStatus('Ready');
+
+      }
+    } else {
+
+      isRequesting.current = false;
+
+      setGenerate("Generate");
+      setStatus('Ready');
+
     }
   };
 
@@ -89,61 +137,18 @@ function GPT() {
     setMessages(newMessages);
   };
 
-  const handleGenerate = async () => {
-    if (generate === "Generate") {
-
-      if (!localStorage.getItem('token')) {
-        alert('Please login first.');
-        return;
-      }
-
-      setGenerate("Stop");
-      setStatus('Generating...');
-
-      if (!stream) {
-
-        currentRequestIndex.current += 1;
-        const thisRequestIndex = currentRequestIndex.current;
-
-        const content = await gptLogic.generate(messages, apiType, model, temperature, stream);
-
-        if (!thisRequestIndex === currentRequestIndex.current) {
-          return;
-        }
-
-        setMessages([...messages, {
-          "role": "assistant",
-          "content": content
-        }, {
-          "role": "user",
-          "content": ""
-        }]);
-        setGenerate("Generate");
-        setStatus('Ready');
-
-      }
-    } else {
-
-      currentRequestIndex.current += 1;
-
-      setGenerate("Generate");
-      setStatus('Ready');
-
-    }
-  }
-
   const onConversationOptionClick = async (conversation) => {
     setMessages(conversation.conversation);
-  }
+  };
 
   const handleConversationUpload = async () => {
     const messages = await gptLogic.upload();
     setMessages(messages);
-  }
+  };
 
   const handleConversationDownload = async () => {
     gptLogic.download(messages);
-  }
+  };
 
   return (
     <div>
