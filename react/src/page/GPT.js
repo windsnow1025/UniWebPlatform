@@ -75,11 +75,11 @@ function GPT() {
       setGenerate("Stop");
       setStatus('Generating...');
 
-      if (!stream) {
+      isRequesting.current = true;
+      currentRequestIndex.current += 1;
+      const thisRequestIndex = currentRequestIndex.current;
 
-        isRequesting.current = true;
-        currentRequestIndex.current += 1;
-        const thisRequestIndex = currentRequestIndex.current;
+      if (!stream) {
 
         const content = await gptLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
 
@@ -103,6 +103,10 @@ function GPT() {
         }]);
 
         for await (const chunk of gptLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
+          if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
+            return;
+          }
+
           setMessages(prevMessages => {
             const newMessages = [...prevMessages];
             newMessages[newMessages.length - 1].content += chunk;
