@@ -19,17 +19,17 @@ export class GPTLogic {
 
     this.models = {
       "open_ai": [
-          "gpt-3.5-turbo",
-          "gpt-3.5-turbo-0301",
-          "gpt-3.5-turbo-0613",
-          "gpt-3.5-turbo-1106",
-          "gpt-3.5-turbo-16k",
-          "gpt-3.5-turbo-16k-0613",
-          "gpt-4",
-          "gpt-4-0314",
-          "gpt-4-0613",
-          "gpt-4-1106-preview",
-          "gpt-4-vision-preview"
+        "gpt-3.5-turbo",
+        "gpt-3.5-turbo-0301",
+        "gpt-3.5-turbo-0613",
+        "gpt-3.5-turbo-1106",
+        "gpt-3.5-turbo-16k",
+        "gpt-3.5-turbo-16k-0613",
+        "gpt-4",
+        "gpt-4-0314",
+        "gpt-4-0613",
+        "gpt-4-1106-preview",
+        "gpt-4-vision-preview"
       ],
       "azure": [
         "gpt-35-turbo",
@@ -92,15 +92,42 @@ export class GPTLogic {
     });
   }
 
-  async generate(messages, api_type, model, temperature, stream) {
-    try{
-      if (!stream) {
-        const content = await this.gptService.generate(messages, api_type, model, temperature, stream);
-        return this.sanitize(content);
-      }
+  async nonStreamGenerate(messages, api_type, model, temperature, stream) {
+    try {
+      const content = await this.gptService.generate(messages, api_type, model, temperature, stream);
+      return this.sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
       return "Error occurred while generating data.";
+    }
+  }
+
+  async *streamGenerate(messages, api_type, model, temperature, stream) {
+    let controller;
+
+    try {
+
+      const response = await this.gptService.generate(messages, api_type, model, temperature, stream);
+      controller = response.controller;
+      const reader = response.reader;
+
+      while (true) {
+        const {value, done} = await reader.read();
+        if (done) break;
+        yield this.sanitize(new TextDecoder().decode(value));
+      }
+
+    } catch (err) {
+
+      console.error("Error in POST /:", err);
+      return "Error occurred while generating data.";
+
+    } finally {
+
+      if (controller) {
+        controller.abort();
+      }
+
     }
   }
 
