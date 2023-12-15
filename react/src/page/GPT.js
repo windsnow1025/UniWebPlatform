@@ -35,7 +35,8 @@ function GPT() {
     const handleKeyDown = (e) => {
       if (e.ctrlKey && e.key === 'Enter') {
         document.activeElement.blur();
-        handleGenerate();
+        const generateButton = document.getElementById('generate');
+        setTimeout(() => generateButton.click(), 0);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -176,7 +177,7 @@ function GPT() {
           ))}
         </div>
         <div className="center">
-          <button type="button" title="Ctrl + Enter" onClick={handleGenerate}>{generate}</button>
+          <button id="generate" type="button" title="Ctrl + Enter" onClick={handleGenerate}>{generate}</button>
           <div><small>Status: {status}</small></div>
         </div>
       </div>
