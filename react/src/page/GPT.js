@@ -95,14 +95,21 @@ function GPT() {
 
     } else {
 
-      setMessages(prevMessages => [...prevMessages, {
-        "role": "assistant",
-        "content": ""
-      }]);
+      let isFirstChunk = true;
 
       for await (const chunk of gptLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
         if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
           return;
+        }
+
+        const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+
+        if (isFirstChunk) {
+          setMessages(prevMessages => [...prevMessages, {
+            "role": "assistant",
+            "content": ""
+          }]);
+          isFirstChunk = false;
         }
 
         setMessages(prevMessages => {
@@ -111,7 +118,7 @@ function GPT() {
           return newMessages;
         });
 
-        window.scrollTo(0, document.body.scrollHeight);
+        if (isAtBottom) window.scrollTo(0, document.body.scrollHeight);
       }
 
       setMessages(prevMessages => [...prevMessages, {
