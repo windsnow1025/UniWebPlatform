@@ -19,9 +19,11 @@ function MessageTransmitter() {
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = async (e) => {
       if (e.ctrlKey && e.key === 'Enter') {
-        handleSendMessage();
+        document.activeElement.blur();
+        const sendButton = document.getElementById('send');
+        setTimeout(() => sendButton.click(), 0);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -100,7 +102,7 @@ function MessageTransmitter() {
           onContentChange={onNewMessageContentChange}
         />
         <div className="center">
-          <button type="button" onClick={handleSendMessage}>Send</button>
+          <button id="send" type="button" onClick={handleSendMessage}>Send</button>
         </div>
       </div>
     </div>
