@@ -6,7 +6,7 @@ A full stack web application for my personal website containing markdown blogs, 
 
 ## Tech Stack
 
-Front End: Node.js: Express, Webpack, Axios, React
+Front End: Create-React-App
 
 Back End: Node.js Express + Python FastAPI + MySQL + Nginx
 
