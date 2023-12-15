@@ -90,8 +90,26 @@ function GPT() {
 
   const handleGenerate = async () => {
     if (generate === "Generate") {
+      if (!localStorage.getItem('token')) {
+        alert('Please login first.');
+        return;
+      }
+
       setGenerate("Stop");
       setStatus('Generating...');
+
+      if (!stream) {
+        const content = await gptLogic.generate(messages, apiType, model, temperature, stream);
+        setMessages([...messages, {
+          "role": "assistant",
+          "content": content
+        }, {
+          "role": "user",
+          "content": ""
+        }]);
+        setGenerate("Generate");
+        setStatus('Ready');
+      }
     } else {
       setGenerate("Generate");
       setStatus('Ready');

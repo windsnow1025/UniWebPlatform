@@ -1,9 +1,10 @@
-import ConversationService from "../service/ConversationService";
+import GPTService from "../service/GPTService";
 
 export class GPTLogic {
 
   constructor() {
-    this.conversationService = new ConversationService();
+
+    this.gptService = new GPTService();
 
     this.initMessages = [
       {
@@ -89,5 +90,21 @@ export class GPTLogic {
       // Scroll to the bottom of the page
       window.scrollTo(0, document.body.scrollHeight);
     });
+  }
+
+  async generate(messages, api_type, model, temperature, stream) {
+    try{
+      if (!stream) {
+        const content = await this.gptService.generate(messages, api_type, model, temperature, stream);
+        return this.sanitize(content);
+      }
+    } catch (err) {
+      console.error("Error in POST /:", err);
+      return "Error occurred while generating data.";
+    }
+  }
+
+  sanitize(content) {
+    return content.replace("<", "&lt;").replace(">", "&gt;");
   }
 }
