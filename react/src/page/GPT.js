@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faDownload, faUpload} from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import {GPTLogic} from "../logic/GPTLogic";
 import UserService from "../service/UserService";
 import AuthDiv from '../component/AuthDiv';
@@ -82,7 +81,7 @@ function GPT() {
         currentRequestIndex.current += 1;
         const thisRequestIndex = currentRequestIndex.current;
 
-        const content = await gptLogic.generate(messages, apiType, model, temperature, stream);
+        const content = await gptLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
 
         if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
           return;
@@ -96,10 +95,31 @@ function GPT() {
           "content": ""
         }]);
 
-        setGenerate("Generate");
-        setStatus('Ready');
+      } else {
+
+        setMessages(prevMessages => [...prevMessages, {
+          "role": "assistant",
+          "content": ""
+        }]);
+
+        for await (const chunk of gptLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
+          const newMessages = [...messages];
+          newMessages[newMessages.length - 1].content = chunk;
+          setMessages(newMessages);
+        }
+
+        setMessages(prevMessages => [...prevMessages, {
+          "role": "user",
+          "content": ""
+        }]);
 
       }
+
+      window.scrollTo(0, document.body.scrollHeight);
+      setGenerate("Generate");
+      setStatus('Ready');
+
+
     } else {
 
       isRequesting.current = false;
