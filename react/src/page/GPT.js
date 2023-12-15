@@ -64,74 +64,79 @@ function GPT() {
     });
   }, [isEditable]);
 
-  const handleGenerate = async () => {
-    if (generate === "Generate") {
+  const startGenerate = async () => {
+    if (!localStorage.getItem('token')) {
+      alert('Please login first.');
+      return;
+    }
 
-      if (!localStorage.getItem('token')) {
-        alert('Please login first.');
+    setGenerate("Stop");
+    setStatus('Generating...');
+
+    isRequesting.current = true;
+    currentRequestIndex.current += 1;
+    const thisRequestIndex = currentRequestIndex.current;
+
+    if (!stream) {
+
+      const content = await gptLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
+
+      if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
         return;
       }
 
-      setGenerate("Stop");
-      setStatus('Generating...');
+      setMessages(prevMessages => [...prevMessages, {
+        "role": "assistant",
+        "content": content
+      }, {
+        "role": "user",
+        "content": ""
+      }]);
 
-      isRequesting.current = true;
-      currentRequestIndex.current += 1;
-      const thisRequestIndex = currentRequestIndex.current;
+    } else {
 
-      if (!stream) {
+      setMessages(prevMessages => [...prevMessages, {
+        "role": "assistant",
+        "content": ""
+      }]);
 
-        const content = await gptLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
-
+      for await (const chunk of gptLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
         if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
           return;
         }
 
-        setMessages(prevMessages => [...prevMessages, {
-          "role": "assistant",
-          "content": content
-        }, {
-          "role": "user",
-          "content": ""
-        }]);
+        setMessages(prevMessages => {
+          const newMessages = [...prevMessages];
+          newMessages[newMessages.length - 1].content += chunk;
+          return newMessages;
+        });
 
-      } else {
-
-        setMessages(prevMessages => [...prevMessages, {
-          "role": "assistant",
-          "content": ""
-        }]);
-
-        for await (const chunk of gptLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
-          if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
-            return;
-          }
-
-          setMessages(prevMessages => {
-            const newMessages = [...prevMessages];
-            newMessages[newMessages.length - 1].content += chunk;
-            return newMessages;
-          });
-        }
-
-        setMessages(prevMessages => [...prevMessages, {
-          "role": "user",
-          "content": ""
-        }]);
-
+        window.scrollTo(0, document.body.scrollHeight);
       }
 
-      window.scrollTo(0, document.body.scrollHeight);
-      setGenerate("Generate");
-      setStatus('Ready');
+      setMessages(prevMessages => [...prevMessages, {
+        "role": "user",
+        "content": ""
+      }]);
 
+    }
+
+    window.scrollTo(0, document.body.scrollHeight);
+    setGenerate("Generate");
+    setStatus('Ready');
+  }
+
+  const stopGenerate = () => {
+    isRequesting.current = false;
+    setGenerate("Generate");
+    setStatus('Ready');
+  }
+
+  const handleGenerate = async () => {
+    if (generate === "Generate") {
+      startGenerate();
     } else {
-
-      isRequesting.current = false;
-
-      setGenerate("Generate");
-      setStatus('Ready');
-
+      stopGenerate();
     }
   };
 
