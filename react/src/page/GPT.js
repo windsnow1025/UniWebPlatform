@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faDownload, faUpload} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
@@ -24,7 +24,7 @@ function GPT() {
   const [generate, setGenerate] = useState("Generate");
   const [status, setStatus] = useState('Ready');
   const [isEditable, setIsEditable] = useState(true);
-  const [waitResponse, setWaitResponse] = useState([]);
+  const currentRequestIndex = useRef(0);
 
   const userService = new UserService();
 
@@ -102,12 +102,12 @@ function GPT() {
 
       if (!stream) {
 
-        const currentWaitResponseIndex = waitResponse.length;
-        setWaitResponse(prevState => [...prevState, true]);
+        currentRequestIndex.current += 1;
+        const thisRequestIndex = currentRequestIndex.current;
 
         const content = await gptLogic.generate(messages, apiType, model, temperature, stream);
 
-        if (!waitResponse[currentWaitResponseIndex]) {
+        if (!thisRequestIndex === currentRequestIndex.current) {
           return;
         }
 
@@ -124,9 +124,7 @@ function GPT() {
       }
     } else {
 
-      let newWaitResponse = [...waitResponse];
-      newWaitResponse[waitResponse.length - 1] = false;
-      setWaitResponse(newWaitResponse);
+      currentRequestIndex.current += 1;
 
       setGenerate("Generate");
       setStatus('Ready');
