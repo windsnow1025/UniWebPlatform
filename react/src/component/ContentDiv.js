@@ -28,12 +28,6 @@ function ContentDiv({ contentInitial, onContentChange }) {
     setEditing(false);
   };
 
-  const handleContentChange = () => {
-    const newContent = contentRef.current.innerHTML;
-    setContent(newContent);
-    onContentChange(newContent);
-  }
-
   return (
     <div
       className="markdown-body"
@@ -41,7 +35,6 @@ function ContentDiv({ contentInitial, onContentChange }) {
       contentEditable="plaintext-only"
       ref={contentRef}
       onFocus={() => setEditing(true)}
-      onInput={handleContentChange}
       onBlur={handleContentBlur}
     ></div>
   );
