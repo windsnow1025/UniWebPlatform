@@ -23,11 +23,11 @@ function MessageTransmitter() {
       if (e.ctrlKey && e.key === 'Enter') {
         handleSendMessage();
       }
-    }
+    };
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-    }
+    };
   }, [newMessage]);
 
   const fetchMessages = async () => {
