@@ -7,8 +7,19 @@ import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import MessageDiv from "../component/MessageDiv";
 import ConversationAutocomplete from "../component/ConversationAutocomplete";
+import {ThemeProvider} from "@mui/material/styles";
+import {getInitMUITheme} from "../logic/ThemeLogic";
 
 function GPT() {
+  const [theme, setTheme] = useState(getInitMUITheme());
+
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setTheme(event.detail);
+    };
+    window.addEventListener('themeChanged', handleThemeChange);
+  }, []);
+
   const gptLogic = new GPTLogic();
 
   // GPT Parameters
@@ -193,7 +204,7 @@ function GPT() {
   };
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <h1 className="center">WindsnowGPT</h1>
       <div className="Flex-space-around">
         <AuthDiv/>
@@ -285,7 +296,7 @@ function GPT() {
       </div>
       <p className="center">Email: windsnow1024@gmail.com</p>
       <p className="center">GitHub: <a href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
-    </div>
+    </ThemeProvider>
   )
 }
 

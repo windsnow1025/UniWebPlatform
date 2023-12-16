@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useLocation} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
+import {useNavigate, useLocation, Link} from 'react-router-dom';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 import {UserLogic} from "../logic/UserLogic";
+import {IconButton} from "@mui/material";
 
 function AuthDiv() {
   const [username, setUsername] = useState(null);
@@ -40,7 +40,11 @@ function AuthDiv() {
       {username ? (
         <div className="Flex-space-around">
           <span>{username}</span>
-          <a href="/user-center"><FontAwesomeIcon icon={faUser}/></a>
+          <Link to="/user-center">
+            <IconButton aria-label="Manage Account">
+              <ManageAccountsIcon />
+            </IconButton>
+          </Link>
           <button onClick={handleSignOut}>Sign Out</button>
         </div>
       ) : (
