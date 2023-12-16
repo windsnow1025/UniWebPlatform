@@ -21,6 +21,7 @@ function MarkdownUpdate() {
         title: markdown.title,
         content: markdown.content
       });
+
       document.title = markdown.title;
       markdownRef.current.innerHTML = parseMarkdown(markdown.content);
       parseLaTeX(markdownRef.current);

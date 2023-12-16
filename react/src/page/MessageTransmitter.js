@@ -14,6 +14,7 @@ function MessageTransmitter() {
   const userLogic = new UserLogic();
 
   useEffect(() => {
+    document.title = "Message Transmitter";
     fetchMessages();
     fetchUsername();
   }, []);

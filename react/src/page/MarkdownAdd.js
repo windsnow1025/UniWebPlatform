@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { parseMarkdown, parseLaTeX } from '../util/MarkdownParser';
 import { MarkdownLogic } from '../logic/MarkdownLogic';
 import '../asset/css/markdown.css';
@@ -10,6 +10,10 @@ function MarkdownAdd() {
   const [isEditing, setIsEditing] = useState(false);
   const markdownRef = useRef(null);
   const markdownLogic = new MarkdownLogic();
+
+  useEffect(() => {
+    document.title = "Markdown Add";
+  }, []);
 
   const handleEdit = () => {
     markdownRef.current.innerHTML = content;

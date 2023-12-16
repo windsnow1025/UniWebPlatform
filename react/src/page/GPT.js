@@ -31,6 +31,10 @@ function GPT() {
   const userService = new UserService();
 
   useEffect(() => {
+    document.title = "GPT";
+  }, []);
+
+  useEffect(() => {
     const fetchCredit = async () => {
       if (localStorage.getItem('token')) {
         const credit = await userService.fetchCredit();
