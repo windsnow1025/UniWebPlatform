@@ -89,12 +89,12 @@ function AutocompleteComponent({ options, label, handleOptionClick, handleDelete
         }}>
           {option.title}
           {!option.isNew &&
-            <div className="iconContainer">
+            <div className="icon-container">
               <Tooltip title="Update">
-                <UpdateIcon className="icon" onClick={(event) => handleUpdateClick(event, state.index, option.title)} />
+                <UpdateIcon className="icon-hover" onClick={(event) => handleUpdateClick(event, state.index, option.title)} />
               </Tooltip>
               <Tooltip title="Delete">
-                <DeleteIcon className="icon" onClick={(event) => handleDeleteClick(event, state.index)} />
+                <DeleteIcon className="icon-hover" onClick={(event) => handleDeleteClick(event, state.index)} />
               </Tooltip>
             </div>
           }

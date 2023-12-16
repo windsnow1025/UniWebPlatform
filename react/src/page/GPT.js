@@ -1,13 +1,15 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlusCircle, faDownload, faUpload} from '@fortawesome/free-solid-svg-icons';
+import {ThemeProvider} from "@mui/material/styles";
+import {IconButton} from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DownloadIcon from '@mui/icons-material/Download';
+import UploadIcon from '@mui/icons-material/Upload';
 import {GPTLogic} from "../logic/GPTLogic";
 import UserService from "../service/UserService";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import MessageDiv from "../component/MessageDiv";
 import ConversationAutocomplete from "../component/ConversationAutocomplete";
-import {ThemeProvider} from "@mui/material/styles";
 import {getInitMUITheme} from "../logic/ThemeLogic";
 
 function GPT() {
@@ -246,6 +248,14 @@ function GPT() {
       <div className="rounded-border-container">
         <h3>Conversations:</h3>
         <div className="margin">
+          <div className="Flex-space-between">
+            <div className="inFlex-FillSpace"/>
+            <div className="Flex-Column inFlex-flex-end">
+              <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
+                <AddCircleIcon fontSize="small"/>
+              </IconButton>
+            </div>
+          </div>
           {messages.map((message, index) => (
             <div key={index}>
               <MessageDiv
@@ -259,10 +269,9 @@ function GPT() {
               <div className="Flex-space-between">
                 <div className="inFlex-FillSpace"/>
                 <div className="Flex-Column inFlex-flex-end">
-                  <FontAwesomeIcon
-                    icon={faPlusCircle}
-                    title="Add"
-                    onClick={() => handleMessageAdd(index)}/>
+                  <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
+                    <AddCircleIcon fontSize="small"/>
+                  </IconButton>
                 </div>
               </div>
             </div>
@@ -282,20 +291,17 @@ function GPT() {
           conversation={messages}
           onConversationClick={onConversationOptionClick}/>
         <div>
-          <FontAwesomeIcon
-            icon={faDownload}
-            style={{margin: "4px"}}
-            title="Download"
-            onClick={handleConversationDownload}/>
-          <FontAwesomeIcon
-            icon={faUpload}
-            style={{margin: "4px"}}
-            title="Upload"
-            onClick={handleConversationUpload}/>
+          <IconButton aria-label="download" onClick={handleConversationDownload}>
+            <DownloadIcon/>
+          </IconButton>
+          <IconButton aria-label="upload" onClick={handleConversationUpload}>
+            <UploadIcon/>
+          </IconButton>
         </div>
       </div>
       <p className="center">Email: windsnow1024@gmail.com</p>
-      <p className="center">GitHub: <a href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
+      <p className="center">GitHub: <a
+        href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
     </ThemeProvider>
   )
 }
