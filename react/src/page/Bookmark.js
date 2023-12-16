@@ -18,6 +18,7 @@ function Bookmark() {
 
   useEffect(() => {
     loadBookmarks();
+    document.title = "Bookmark";
   }, []);
 
   const loadBookmarks = async () => {

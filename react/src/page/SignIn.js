@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {UserLogic} from "../logic/UserLogic";
 
@@ -9,6 +9,10 @@ function SignIn() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const userLogic = new UserLogic();
+
+  useEffect(() => {
+    document.title = "Sign In";
+  }, []);
 
   const handleSignIn = async () => {
       if (await userLogic.signIn(username, password)) {

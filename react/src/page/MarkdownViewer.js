@@ -10,6 +10,7 @@ function MarkdownViewer() {
   const markdownRef = useRef(null);
 
   useEffect(() => {
+    document.title = "Markdown Viewer";
     applyTheme(localStorage.getItem("theme"));
 
     const fetchMarkdown = async () => {
