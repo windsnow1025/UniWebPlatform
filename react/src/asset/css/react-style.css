@@ -1,9 +1,9 @@
-.iconContainer {
+.icon-container {
     display: flex;
     justify-content: flex-end;
     width: 100%;
 }
 
-.icon:hover {
+.icon-hover:hover {
     color: red;
 }
