@@ -27,7 +27,7 @@ function ConversationAutocomplete({ conversation, onConversationClick }) {
     try {
       const conversations = await conversationService.fetchConversations();
       setConversations(conversations);
-      setOptions(conversations.map(conversation => ({ label: conversation.name, value: conversation.id })));
+      setOptions(conversations.map(conversation => ({ title: conversation.name, value: conversation.id })));
     } catch (err) {
       console.error(err);
     }
