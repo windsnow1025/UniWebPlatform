@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select} from "@mui/material";
+import {Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select, Slider} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -222,7 +222,7 @@ function GPT() {
         <a href="/markdown/view/gpt-presets.md" target="_blank" rel="noopener noreferrer">System Presets</a>
         <div>Credit: {credit}</div>
       </div>
-      <div className="Flex-space-around">
+      <div className="Flex-space-around" style={{ margin:4 }}>
         <div>
           <FormControl fullWidth>
             <InputLabel id="api-type-select-label">API Type</InputLabel>
@@ -255,10 +255,17 @@ function GPT() {
           </FormControl>
         </div>
         <div>
-          <label htmlFor="temperature">temperature: </label>
-          <input type="range" min="0" max="2" step="0.1" value={temperature}
-                 onChange={e => setTemperature(parseFloat(e.target.value))}/>
-          <span>{temperature.toFixed(1)}</span>
+          <InputLabel htmlFor="temperature">Temperature: {temperature.toFixed(1)}</InputLabel>
+          <Slider
+            aria-label="Temperature"
+            value={temperature}
+            onChange={(e, newValue) => setTemperature(newValue)}
+            valueLabelDisplay="auto"
+            step={0.1}
+            marks
+            min={0}
+            max={2}
+          />
         </div>
         <div>
           <label htmlFor="stream">stream</label>
