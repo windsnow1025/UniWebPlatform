@@ -1,9 +1,10 @@
 import React from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCopy, faMinusCircle} from '@fortawesome/free-solid-svg-icons';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
+import {IconButton} from "@mui/material";
 
 function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange, useRoleSelect, onContentDelete }) {
   const handleContentCopy = () => {
@@ -32,16 +33,12 @@ function MessageDiv({ roleInitial, contentInitial, onRoleChange, onContentChange
         </div>
         {onContentDelete &&
           <div className="Flex-Column inFlex-flex-end">
-            <FontAwesomeIcon
-              icon={faCopy}
-              style={{margin: "4px"}}
-              title="Copy"
-              onClick={handleContentCopy}/>
-            <FontAwesomeIcon
-              icon={faMinusCircle}
-              style={{margin: "4px"}}
-              title="Delete"
-              onClick={onContentDelete}/>
+            <IconButton aria-label="copy" onClick={handleContentCopy}>
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+            <IconButton aria-label="delete" onClick={onContentDelete}>
+              <RemoveCircleOutlineIcon fontSize="small"/>
+            </IconButton>
           </div>
         }
       </div>
