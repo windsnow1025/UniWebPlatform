@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import ThemeSelect from '../component/ThemeSelect';
 import {UserLogic} from "../logic/UserLogic";
+import {getInitMUITheme} from "../logic/ThemeLogic";
+import {ThemeProvider} from "@mui/material/styles";
 
 function UserCenter() {
+  const [theme, setTheme] = useState(getInitMUITheme());
+
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setTheme(event.detail);
+    };
+    window.addEventListener('themeChanged', handleThemeChange);
+  }, []);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const userLogic = new UserLogic();
@@ -30,37 +41,39 @@ function UserCenter() {
   };
 
   return (
-    <div className="Flex-Center">
-      <div>
-        <h1 className="center">User Center</h1>
-        <div className="center">
-          <ThemeSelect />
-        </div>
-        <div className="center">
-          <div>
-            <input
-              className="margin"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
-            />
+    <ThemeProvider theme={theme}>
+      <div className="Flex-Center">
+        <div>
+          <h1 className="center">User Center</h1>
+          <div className="center">
+            <ThemeSelect/>
           </div>
-          <div>
-            <input
-              className="margin"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
-          </div>
-          <div>
-            <button type="button" onClick={handleUpdate} title="Enter">Update</button>
+          <div className="center">
+            <div>
+              <input
+                className="margin"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+              />
+            </div>
+            <div>
+              <input
+                className="margin"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+              />
+            </div>
+            <div>
+              <button type="button" onClick={handleUpdate} title="Enter">Update</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 

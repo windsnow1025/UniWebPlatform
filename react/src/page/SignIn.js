@@ -3,8 +3,19 @@ import {useNavigate} from "react-router-dom";
 import {UserLogic} from "../logic/UserLogic";
 
 import ThemeSelect from '../component/ThemeSelect';
+import {getInitMUITheme} from "../logic/ThemeLogic";
+import {ThemeProvider} from "@mui/material/styles";
 
 function SignIn() {
+  const [theme, setTheme] = useState(getInitMUITheme());
+
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setTheme(event.detail);
+    };
+    window.addEventListener('themeChanged', handleThemeChange);
+  }, []);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -22,37 +33,39 @@ function SignIn() {
   };
 
   return (
-    <div className="Flex-Center">
-      <div>
-        <h1 className="center">Sign In</h1>
-        <div className="center">
-          <ThemeSelect />
-        </div>
-        <div className="center">
-          <div>
-            <input
-              className="margin"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
-            />
+    <ThemeProvider theme={theme}>
+      <div className="Flex-Center">
+        <div>
+          <h1 className="center">Sign In</h1>
+          <div className="center">
+            <ThemeSelect />
           </div>
-          <div>
-            <input
-              className="margin"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
-          </div>
-          <div>
-            <button type="button" onClick={handleSignIn} title="Enter">Sign In</button>
+          <div className="center">
+            <div>
+              <input
+                className="margin"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+              />
+            </div>
+            <div>
+              <input
+                className="margin"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+              />
+            </div>
+            <div>
+              <button type="button" onClick={handleSignIn} title="Enter">Sign In</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
