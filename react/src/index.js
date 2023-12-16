@@ -15,21 +15,19 @@ import GPT from "./page/GPT";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/user-center" element={<UserCenter />} />
-        <Route path="/markdown/update/:id" element={<MarkdownUpdate />} />
-        <Route path="/markdown/add" element={<MarkdownAdd />} />
-        <Route path="/bookmark" element={<Bookmark />} />
-        <Route path="/markdown/view/:filename" element={<MarkdownViewer />} />
-        <Route path="/message" element={<MessageTransmitter />} />
-        <Route path="/gpt" element={<GPT />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App/>}/>
+      <Route path="/signin" element={<SignIn/>}/>
+      <Route path="/signup" element={<SignUp/>}/>
+      <Route path="/user-center" element={<UserCenter/>}/>
+      <Route path="/markdown/update/:id" element={<MarkdownUpdate/>}/>
+      <Route path="/markdown/add" element={<MarkdownAdd/>}/>
+      <Route path="/bookmark" element={<Bookmark/>}/>
+      <Route path="/markdown/view/:filename" element={<MarkdownViewer/>}/>
+      <Route path="/message" element={<MessageTransmitter/>}/>
+      <Route path="/gpt" element={<GPT/>}/>
+    </Routes>
+  </BrowserRouter>
 );
 
