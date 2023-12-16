@@ -14,9 +14,7 @@ export default class GPTService {
     }
 
     if (!stream) {
-      const res = await axios.post("/api/gpt/", {
-          requestData
-        }, {
+      const res = await axios.post("/api/gpt/", requestData, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
