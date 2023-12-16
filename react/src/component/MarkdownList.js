@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {MarkdownLogic} from "../logic/MarkdownLogic";
 
 function MarkdownList() {
   const [markdowns, setMarkdowns] = useState([]);
+  const markdownLogic = new MarkdownLogic();
 
   useEffect(() => {
     async function fetchMarkdowns() {
-      const res = await axios.get('/api/markdown/');
-      setMarkdowns(res.data);
+      const markdowns = await markdownLogic.fetchMarkdowns();
+      if (markdowns) {
+        setMarkdowns(markdowns);
+      }
     }
 
     fetchMarkdowns();

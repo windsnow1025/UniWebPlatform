@@ -5,6 +5,14 @@ export class MarkdownLogic {
     this.markdownService = new MarkdownService();
   }
 
+  async fetchMarkdowns() {
+    try {
+      return await this.markdownService.fetchMarkdowns();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async fetchMarkdown(id) {
     try {
       return await this.markdownService.fetchMarkdown(id);
