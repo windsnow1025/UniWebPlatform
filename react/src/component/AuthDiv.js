@@ -41,7 +41,7 @@ function AuthDiv() {
         <div className="Flex-space-around">
           <span>{username}</span>
           <Link to="/user-center">
-            <IconButton aria-label="Manage Account">
+            <IconButton aria-label="manage account">
               <ManageAccountsIcon />
             </IconButton>
           </Link>
