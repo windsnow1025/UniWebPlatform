@@ -15,20 +15,22 @@ const ThemeSelect = () => {
   };
 
   return (
-    <FormControl fullWidth>
-      <InputLabel id="theme-select-label">Theme</InputLabel>
-      <Select
-        labelId="theme-select-label"
-        id="theme-select"
-        value={theme}
-        label="Theme"
-        onChange={handleThemeChange}
-      >
-        <MenuItem value="system">System</MenuItem>
-        <MenuItem value="light">Light</MenuItem>
-        <MenuItem value="dark">Dark</MenuItem>
-      </Select>
-    </FormControl>
+    <div>
+      <FormControl fullWidth>
+        <InputLabel id="theme-select-label">Theme</InputLabel>
+        <Select
+          labelId="theme-select-label"
+          id="theme-select"
+          value={theme}
+          label="Theme"
+          onChange={handleThemeChange}
+        >
+          <MenuItem value="system">System</MenuItem>
+          <MenuItem value="light">Light</MenuItem>
+          <MenuItem value="dark">Dark</MenuItem>
+        </Select>
+      </FormControl>
+    </div>
   );
 };
 
