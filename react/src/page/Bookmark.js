@@ -1,9 +1,20 @@
 import React, {useState, useEffect} from 'react';
+import {ThemeProvider} from "@mui/material/styles";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import {BookmarkLogic} from "../logic/BookmarkLogic";
+import {getInitMUITheme} from "../logic/ThemeLogic";
 
 function Bookmark() {
+  const [theme, setTheme] = useState(getInitMUITheme());
+
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setTheme(event.detail);
+    };
+    window.addEventListener('themeChanged', handleThemeChange);
+  }, []);
+
   const [bookmarks, setBookmarks] = useState([]);
   const [newBookmark, setNewBookmark] = useState({firstTitle: '', secondTitle: '', url: '', comment: ''});
   const [editStates, setEditStates] = useState({});
@@ -103,7 +114,7 @@ function Bookmark() {
   });
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <div className="Flex-space-around">
         <AuthDiv/>
         <ThemeSelect/>
@@ -180,7 +191,7 @@ function Bookmark() {
         ))}
         </tbody>
       </table>
-    </div>
+    </ThemeProvider>
   );
 }
 

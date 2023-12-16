@@ -4,8 +4,19 @@ import {UserLogic} from "../logic/UserLogic";
 import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import MessageDiv from '../component/MessageDiv';
+import {getInitMUITheme} from "../logic/ThemeLogic";
+import {ThemeProvider} from "@mui/material/styles";
 
 function MessageTransmitter() {
+  const [theme, setTheme] = useState(getInitMUITheme());
+
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setTheme(event.detail);
+    };
+    window.addEventListener('themeChanged', handleThemeChange);
+  }, []);
+
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
   const [newMessage, setNewMessage] = useState({username: '', content: ''});
@@ -70,7 +81,7 @@ function MessageTransmitter() {
   };
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <h1 className="center">Message Transmitter</h1>
       <div className="Flex-space-around">
         <AuthDiv/>
@@ -106,7 +117,7 @@ function MessageTransmitter() {
           <button id="send" type="button" onClick={handleSendMessage}>Send</button>
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 

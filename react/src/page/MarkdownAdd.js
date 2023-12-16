@@ -1,11 +1,22 @@
 import React, {useState, useRef, useEffect} from 'react';
+import {ThemeProvider} from "@mui/material/styles";
 import { parseMarkdown, parseLaTeX } from '../util/MarkdownParser';
 import { MarkdownLogic } from '../logic/MarkdownLogic';
 import '../asset/css/markdown.css';
 import AuthDiv from "../component/AuthDiv";
 import ThemeSelect from "../component/ThemeSelect";
+import {getInitMUITheme} from "../logic/ThemeLogic";
 
 function MarkdownAdd() {
+  const [theme, setTheme] = useState(getInitMUITheme());
+
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setTheme(event.detail);
+    };
+    window.addEventListener('themeChanged', handleThemeChange);
+  }, []);
+
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const markdownRef = useRef(null);
@@ -36,7 +47,7 @@ function MarkdownAdd() {
   };
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <div className="Flex-space-around">
         <AuthDiv/>
         <ThemeSelect/>
@@ -52,7 +63,7 @@ function MarkdownAdd() {
         {isEditing && <button onClick={handleConfirm}>Confirm</button>}
         <button onClick={handleAdd}>Add</button>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 

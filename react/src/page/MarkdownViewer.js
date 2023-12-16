@@ -1,10 +1,20 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { applyTheme } from "../logic/ThemeLogic";
+import {applyTheme, getInitMUITheme} from "../logic/ThemeLogic";
 import { parseMarkdown, parseLaTeX } from "../util/MarkdownParser";
+import {ThemeProvider} from "@mui/material/styles";
 
 function MarkdownViewer() {
+  const [theme, setTheme] = useState(getInitMUITheme());
+
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setTheme(event.detail);
+    };
+    window.addEventListener('themeChanged', handleThemeChange);
+  }, []);
+
   const [markdown, setMarkdown] = useState('');
   const { filename } = useParams();
   const markdownRef = useRef(null);
@@ -25,14 +35,14 @@ function MarkdownViewer() {
   }, [filename]);
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <div
         className="markdown-body"
         ref={markdownRef}
         style={{padding: '16px'}}
         dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}
       />
-    </div>
+    </ThemeProvider>
   );
 }
 

@@ -5,8 +5,19 @@ import { MarkdownLogic } from '../logic/MarkdownLogic';
 import '../asset/css/markdown.css';
 import AuthDiv from "../component/AuthDiv";
 import ThemeSelect from "../component/ThemeSelect";
+import {getInitMUITheme} from "../logic/ThemeLogic";
+import {ThemeProvider} from "@mui/material/styles";
 
 function MarkdownUpdate() {
+  const [theme, setTheme] = useState(getInitMUITheme());
+
+  useEffect(() => {
+    const handleThemeChange = (event) => {
+      setTheme(event.detail);
+    };
+    window.addEventListener('themeChanged', handleThemeChange);
+  }, []);
+
   const [markdown, setMarkdown] = useState({ title: '', content: '' });
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
@@ -55,7 +66,7 @@ function MarkdownUpdate() {
   };
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <div className="Flex-space-around">
         <AuthDiv/>
         <ThemeSelect/>
@@ -72,7 +83,7 @@ function MarkdownUpdate() {
         <button onClick={handleUpdate}>Update</button>
         <button onClick={handleDelete}>Delete</button>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
