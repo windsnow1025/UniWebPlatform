@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import ThemeSelect from '../component/ThemeSelect';
 import {UserLogic} from "../logic/UserLogic";
@@ -8,6 +8,10 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const userLogic = new UserLogic();
+
+  useEffect(() => {
+    document.title = "Sign Up";
+  }, []);
 
   const handleSignUp = async () => {
     if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {

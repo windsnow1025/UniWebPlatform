@@ -8,6 +8,8 @@ function UserCenter() {
   const userLogic = new UserLogic();
 
   useEffect(() => {
+    document.title = "User Center";
+
     const fetchUsername = async () => {
       const username = await userLogic.fetchUsername();
       if (username) {
