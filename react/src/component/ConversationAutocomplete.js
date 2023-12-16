@@ -1,19 +1,9 @@
-import { ThemeProvider } from '@mui/material/styles';
 import React, {useState, useEffect} from 'react';
-import { getInitMUITheme } from "../logic/ThemeLogic";
 import CustomAutocomplete from './CustomAutocomplete';
 import ConversationService from "../service/ConversationService";
 
-function ConversationAutocomplete({ conversation, onConversationClick }) {
-  const [theme, setTheme] = useState(getInitMUITheme());
+function ConversationAutocomplete({conversation, onConversationClick}) {
   const [conversations, setConversations] = useState([]);
-
-  useEffect(() => {
-    const handleThemeChange = (event) => {
-      setTheme(event.detail);
-    };
-    window.addEventListener('themeChanged', handleThemeChange);
-  }, []);
 
   const conversationService = new ConversationService();
   const [options, setOptions] = useState([]);
@@ -27,7 +17,7 @@ function ConversationAutocomplete({ conversation, onConversationClick }) {
     try {
       const conversations = await conversationService.fetchConversations();
       setConversations(conversations);
-      setOptions(conversations.map(conversation => ({ title: conversation.name, value: conversation.id })));
+      setOptions(conversations.map(conversation => ({title: conversation.name, value: conversation.id})));
     } catch (err) {
       console.error(err);
     }
@@ -65,16 +55,14 @@ function ConversationAutocomplete({ conversation, onConversationClick }) {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <CustomAutocomplete
-        options={options}
-        label={"Select a conversation"}
-        handleOptionClick={handleOptionClick}
-        handleDelete={handleDelete}
-        handleAdd={handleAdd}
-        handleUpdate={handleUpdate}
-      />
-    </ThemeProvider>
+    <CustomAutocomplete
+      options={options}
+      label={"Select a conversation"}
+      handleOptionClick={handleOptionClick}
+      handleDelete={handleDelete}
+      handleAdd={handleAdd}
+      handleUpdate={handleUpdate}
+    />
   );
 }
 
