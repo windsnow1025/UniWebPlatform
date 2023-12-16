@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Checkbox, IconButton} from "@mui/material";
+import {Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -71,6 +71,10 @@ function GPT() {
       document.removeEventListener('keydown', handleKeyDown);
     }
   }, [messages]);
+
+  useEffect(() => {
+    setModel(gptLogic.models[apiType][0]);
+  }, [apiType]);
 
   useEffect(() => {
     const contentEditableValue = isEditable ? 'plaintext-only' : 'false';
@@ -220,19 +224,35 @@ function GPT() {
       </div>
       <div className="Flex-space-around">
         <div>
-          <label htmlFor="api_type">api_type: </label>
-          <select name="api_type" value={apiType} onChange={e => setApiType(e.target.value)}>
-            <option value="open_ai">open_ai</option>
-            <option value="azure">azure</option>
-          </select>
+          <FormControl fullWidth>
+            <InputLabel id="api-type-select-label">API Type</InputLabel>
+            <Select
+              labelId="api-type-select-label"
+              id="api-type-select"
+              value={apiType}
+              label="API Type"
+              onChange={e => setApiType(e.target.value)}
+            >
+              <MenuItem value="open_ai">Open AI</MenuItem>
+              <MenuItem value="azure">Azure</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <div>
-          <label htmlFor="model">model: </label>
-          <select name="model" value={model} onChange={e => setModel(e.target.value)}>
-            {(apiType === 'open_ai' ? gptLogic.models.open_ai : gptLogic.models.azure).map(model => (
-              <option key={model} value={model}>{model}</option>
-            ))}
-          </select>
+          <FormControl fullWidth>
+            <InputLabel id="model-select-label">Model</InputLabel>
+            <Select
+              labelId="model-select-label"
+              id="model-select"
+              value={model}
+              label="Model"
+              onChange={e => setModel(e.target.value)}
+            >
+              {(apiType === 'open_ai' ? gptLogic.models.open_ai : gptLogic.models.azure).map(model => (
+                <MenuItem key={model} value={model}>{model}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </div>
         <div>
           <label htmlFor="temperature">temperature: </label>
