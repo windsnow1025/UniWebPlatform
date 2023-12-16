@@ -95,7 +95,10 @@ function GPT() {
 
     } else {
 
-      let isFirstChunk = true;
+      setMessages(prevMessages => [...prevMessages, {
+        "role": "assistant",
+        "content": ""
+      }]);
 
       for await (const chunk of gptLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
         if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
@@ -103,14 +106,6 @@ function GPT() {
         }
 
         const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
-
-        if (isFirstChunk) {
-          setMessages(prevMessages => [...prevMessages, {
-            "role": "assistant",
-            "content": ""
-          }]);
-          isFirstChunk = false;
-        }
 
         setMessages(prevMessages => {
           const newMessages = [...prevMessages];
