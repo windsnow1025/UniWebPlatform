@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { applyTheme } from '../logic/ThemeLogic.js';
+import React, {useState, useEffect} from 'react';
+import {applyTheme} from '../logic/ThemeLogic.js';
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 const ThemeSelect = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'system');
@@ -14,14 +15,20 @@ const ThemeSelect = () => {
   };
 
   return (
-    <div>
-      <label htmlFor="theme-select">Theme: </label>
-      <select value={theme} onChange={handleThemeChange}>
-        <option value="system">System</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    </div>
+    <FormControl fullWidth>
+      <InputLabel id="theme-select-label">Theme</InputLabel>
+      <Select
+        labelId="theme-select-label"
+        id="theme-select"
+        value={theme}
+        label="Theme"
+        onChange={handleThemeChange}
+      >
+        <MenuItem value="system">System</MenuItem>
+        <MenuItem value="light">Light</MenuItem>
+        <MenuItem value="dark">Dark</MenuItem>
+      </Select>
+    </FormControl>
   );
 };
 
