@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {IconButton} from "@mui/material";
+import {Checkbox, IconButton} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -242,7 +242,8 @@ function GPT() {
         </div>
         <div>
           <label htmlFor="stream">stream</label>
-          <input type="checkbox" checked={stream} onChange={e => setStream(e.target.checked)}/>
+          {/*<input type="checkbox" checked={stream} onChange={e => setStream(e.target.checked)}/>*/}
+          <Checkbox checked={stream} onChange={e => setStream(e.target.checked)}/>
         </div>
       </div>
       <div className="rounded-border-container">
