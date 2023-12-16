@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select, Slider} from "@mui/material";
+import {Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Select, Slider} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -222,7 +222,7 @@ function GPT() {
         <a href="/markdown/view/gpt-presets.md" target="_blank" rel="noopener noreferrer">System Presets</a>
         <div>Credit: {credit}</div>
       </div>
-      <div className="Flex-space-around" style={{ margin:4 }}>
+      <div className="Flex-space-around" style={{margin: 4}}>
         <div>
           <FormControl fullWidth>
             <InputLabel id="api-type-select-label">API Type</InputLabel>
@@ -268,9 +268,9 @@ function GPT() {
           />
         </div>
         <div>
-          <label htmlFor="stream">stream</label>
-          {/*<input type="checkbox" checked={stream} onChange={e => setStream(e.target.checked)}/>*/}
-          <Checkbox checked={stream} onChange={e => setStream(e.target.checked)}/>
+          <FormControlLabel control={
+            <Checkbox id="stream-check-box" checked={stream} onChange={e => setStream(e.target.checked)}/>
+          } label="Stream"/>
         </div>
       </div>
       <div className="rounded-border-container">
@@ -312,8 +312,9 @@ function GPT() {
       </div>
       <div className="Flex-space-around">
         <div>
-          <label htmlFor="editable">editable</label>
-          <input type="checkbox" checked={isEditable} onChange={e => setIsEditable(e.target.checked)}/>
+          <FormControlLabel control={
+            <Checkbox id="editable-check-box" checked={isEditable} onChange={e => setIsEditable(e.target.checked)}/>
+          } label="Editable"/>
         </div>
         <ConversationAutocomplete
           conversation={messages}
