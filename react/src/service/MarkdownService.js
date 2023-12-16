@@ -2,6 +2,11 @@ import axios from 'axios';
 
 export default class MarkdownService {
 
+  async fetchMarkdowns() {
+    const res = await axios.get('/api/markdown/');
+    return res.data;
+  }
+
   async fetchMarkdown(id) {
     const res = await axios.get('/api/markdown/' + id);
     return res.data;
