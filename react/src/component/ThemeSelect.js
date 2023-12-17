@@ -16,7 +16,7 @@ const ThemeSelect = () => {
 
   return (
     <div>
-      <FormControl fullWidth>
+      <FormControl fullWidth style={{margin: 8}}>
         <InputLabel id="theme-select-label">Theme</InputLabel>
         <Select
           labelId="theme-select-label"

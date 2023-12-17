@@ -227,7 +227,7 @@ function GPT() {
       <AppBar position="static" className="Flex-Center">
         <h1 className="center">WindsnowGPT</h1>
       </AppBar>
-      <div className="Flex-space-around" style={{margin: 8}}>
+      <div className="Flex-space-around" style={{margin: 4}}>
         <AuthDiv/>
         <ThemeSelect/>
       </div>
@@ -238,7 +238,7 @@ function GPT() {
         <div>Credit: {credit}</div>
       </div>
       <div className="Flex-space-around" style={{margin: 4}}>
-        <div>
+        <div style={{margin: 4}}>
           <FormControl fullWidth>
             <InputLabel id="api-type-select-label">API Type</InputLabel>
             <Select
@@ -253,7 +253,7 @@ function GPT() {
             </Select>
           </FormControl>
         </div>
-        <div>
+        <div style={{margin: 4}}>
           <FormControl fullWidth>
             <InputLabel id="model-select-label">Model</InputLabel>
             <Select
@@ -269,7 +269,7 @@ function GPT() {
             </Select>
           </FormControl>
         </div>
-        <div>
+        <div style={{margin: 16}}>
           <InputLabel htmlFor="temperature">Temperature: {temperature.toFixed(1)}</InputLabel>
           <Slider
             aria-label="Temperature"
@@ -343,7 +343,7 @@ function GPT() {
           </IconButton>
         </div>
       </div>
-      <div className="center">
+      <div className="center" style={{margin: 8}}>
         <span style={{margin: 8}}>windsnow1024@gmail.com</span>
         <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank" rel="noopener noreferrer"><GitHubIcon/></a>
       </div>
