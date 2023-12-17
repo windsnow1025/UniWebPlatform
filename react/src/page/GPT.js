@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {
+  AppBar,
   Button,
   Checkbox,
   FormControl,
@@ -223,8 +224,10 @@ function GPT() {
 
   return (
     <ThemeProvider theme={theme}>
-      <h1 className="center">WindsnowGPT</h1>
-      <div className="Flex-space-around">
+      <AppBar position="static" className="Flex-Center">
+        <h1 className="center">WindsnowGPT</h1>
+      </AppBar>
+      <div className="Flex-space-around" style={{margin: 8}}>
         <AuthDiv/>
         <ThemeSelect/>
       </div>
@@ -282,7 +285,7 @@ function GPT() {
         <div>
           <FormControlLabel control={
             <Switch checked={stream} onChange={e => setStream(e.target.checked)}/>
-          } label="Stream" />
+          } label="Stream"/>
         </div>
       </div>
       <div className="rounded-border-container">
