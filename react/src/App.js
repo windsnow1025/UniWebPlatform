@@ -20,16 +20,16 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <div className="Flex-space-around" style={{margin: "16px"}}>
+        <div className="Flex-space-around" style={{margin: 16}}>
           <AuthDiv/>
           <ThemeSelect/>
         </div>
-        <div className="Flex-space-around" style={{margin: "16px"}}>
+        <div className="Flex-space-around" style={{margin: 16}}>
           <a href="/bookmark" target="_blank" rel="noopener noreferrer">Bookmarks</a>
           <a href="/message" target="_blank" rel="noopener noreferrer">Message Transmitter</a>
           <a href="/gpt" target="_blank" rel="noopener noreferrer">GPT</a>
         </div>
-        <div className="Flex-space-around" style={{margin: "16px"}}>
+        <div className="Flex-space-around" style={{margin: 16}}>
           <MarkdownList/>
         </div>
       </div>

@@ -31,7 +31,7 @@ function ContentDiv({ contentInitial, onContentChange }) {
   return (
     <div
       className="markdown-body"
-      style={{ margin: '8px', padding: '8px', minHeight: '24px' }}
+      style={{ margin: 8, padding: 8, minHeight: 24 }}
       contentEditable="plaintext-only"
       ref={contentRef}
       onFocus={() => setEditing(true)}

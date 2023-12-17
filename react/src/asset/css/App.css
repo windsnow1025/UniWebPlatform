@@ -93,9 +93,7 @@ a {
   color: var(--link-color);
 }
 
-button,
-select,
-option {
+button {
   background-color: var(--button-background-color);
   color: var(--text-color);
 }
@@ -106,10 +104,6 @@ option {
 
 .message_div {
   background-color: var(--messagediv-background-color);
-}
-
-option:hover {
-  background-color: #555;
 }
 
 /* Light theme */
