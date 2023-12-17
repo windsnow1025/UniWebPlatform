@@ -4,6 +4,7 @@ import {Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, MenuIte
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import {GPTLogic} from "../logic/GPTLogic";
 import UserService from "../service/UserService";
 import AuthDiv from '../component/AuthDiv';
@@ -275,7 +276,7 @@ function GPT() {
       </div>
       <div className="rounded-border-container">
         <h3>Conversations:</h3>
-        <div className="margin">
+        <div>
           <div className="Flex-space-between">
             <div className="inFlex-FillSpace"/>
             <div className="Flex-Column inFlex-flex-end">
@@ -310,7 +311,7 @@ function GPT() {
           <div><small>Status: {status}</small></div>
         </div>
       </div>
-      <div className="Flex-space-around">
+      <div className="Flex-space-around" style={{margin: 8}}>
         <div>
           <FormControlLabel control={
             <Checkbox id="editable-check-box" checked={isEditable} onChange={e => setIsEditable(e.target.checked)}/>
@@ -328,9 +329,10 @@ function GPT() {
           </IconButton>
         </div>
       </div>
-      <p className="center">Email: windsnow1024@gmail.com</p>
-      <p className="center">GitHub: <a
-        href="https://github.com/windsnow1025/FullStack-Web">https://github.com/windsnow1025/FullStack-Web</a></p>
+      <div className="center">
+        <span style={{margin: 8}}>windsnow1024@gmail.com</span>
+        <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank"><GitHubIcon/></a>
+      </div>
     </ThemeProvider>
   )
 }
