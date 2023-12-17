@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {
+  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -317,7 +318,7 @@ function GPT() {
           ))}
         </div>
         <div className="center">
-          <button id="generate" type="button" title="Ctrl + Enter" onClick={handleGenerate}>{generate}</button>
+          <Button id="generate" variant="contained" onClick={handleGenerate}>{generate}</Button>
           <div><small>Status: {status}</small></div>
         </div>
       </div>
