@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
-function RoleSelect({ roleInitial, onRoleChange }) {
+function RoleSelect({roleInitial, onRoleChange}) {
   const [role, setRole] = useState(roleInitial);
 
   useEffect(() => {
@@ -14,16 +15,20 @@ function RoleSelect({ roleInitial, onRoleChange }) {
   };
 
   return (
-    <select
-      name="role"
-      title="role"
-      value={role}
-      onChange={handleRoleChange}
-    >
-      <option value="user">user</option>
-      <option value="assistant">assistant</option>
-      <option value="system">system</option>
-    </select>
+    <FormControl size="small">
+      <InputLabel id="role-select-label">Role</InputLabel>
+      <Select
+        labelId="role-select-label"
+        id="role-select"
+        value={role}
+        label="Role"
+        onChange={handleRoleChange}
+      >
+        <MenuItem value="user">user</MenuItem>
+        <MenuItem value="assistant">assistant</MenuItem>
+        <MenuItem value="system">system</MenuItem>
+      </Select>
+    </FormControl>
   );
 }
 
