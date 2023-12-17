@@ -39,7 +39,7 @@ function MarkdownViewer() {
       <div
         className="markdown-body"
         ref={markdownRef}
-        style={{padding: '16px'}}
+        style={{padding: 16}}
         dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}
       />
     </ThemeProvider>

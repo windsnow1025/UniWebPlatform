@@ -74,7 +74,7 @@ function MarkdownUpdate() {
       <div
         className="markdown-body"
         ref={markdownRef}
-        style={{margin: '8px', padding: '8px', minHeight: '24px'}}
+        style={{ margin: 8, padding: 8, minHeight: 24 }}
         contentEditable={isEditing ? "plaintext-only" : "false"}
       />
       <div className="center">

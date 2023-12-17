@@ -6,6 +6,7 @@ import ThemeSelect from '../component/ThemeSelect';
 import MessageDiv from '../component/MessageDiv';
 import {getInitMUITheme} from "../logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
+import {Button} from "@mui/material";
 
 function MessageTransmitter() {
   const [theme, setTheme] = useState(getInitMUITheme());
@@ -101,8 +102,8 @@ function MessageTransmitter() {
           ))}
         </div>
         <div className="center">
-          <button type="button" onClick={fetchMessages}>Receive</button>
-          <button type="button" onClick={handleClearMessages}>Clear</button>
+          <Button variant="outlined" onClick={fetchMessages} style={{margin: 4}}>Receive</Button>
+          <Button variant="outlined" onClick={handleClearMessages} style={{margin: 4}}>Clear</Button>
         </div>
       </div>
       <div>
@@ -114,7 +115,7 @@ function MessageTransmitter() {
           onContentChange={onNewMessageContentChange}
         />
         <div className="center">
-          <button id="send" type="button" onClick={handleSendMessage}>Send</button>
+          <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>
         </div>
       </div>
     </ThemeProvider>
