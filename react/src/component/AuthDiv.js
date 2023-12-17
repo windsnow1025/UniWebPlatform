@@ -3,7 +3,7 @@ import {useNavigate, useLocation, Link} from 'react-router-dom';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 import {UserLogic} from "../logic/UserLogic";
-import {IconButton} from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 
 function AuthDiv() {
   const [username, setUsername] = useState(null);
@@ -45,12 +45,12 @@ function AuthDiv() {
               <ManageAccountsIcon />
             </IconButton>
           </Link>
-          <button onClick={handleSignOut}>Sign Out</button>
+          <Button variant="outlined" onClick={handleSignOut} style={{margin: 4}}>Sign Out</Button>
         </div>
       ) : (
         <div className="Flex-space-around">
-          <button onClick={handleSignInRouter}>Sign in</button>
-          <button onClick={handleSignUpRouter}>Sign up</button>
+          <Button variant="outlined" onClick={handleSignInRouter} style={{margin: 4}}>Sign In</Button>
+          <Button variant="outlined" onClick={handleSignUpRouter} style={{margin: 4}}>Sign Up</Button>
         </div>
       )}
     </div>
