@@ -229,7 +229,7 @@ function GPT() {
         <ThemeSelect/>
       </div>
       <br/>
-      <div className="Flex-space-around">
+      <div className="Flex-space-around" style={{margin: 4}}>
         <a href="/markdown/view/gpt-documentation.md" target="_blank" rel="noopener noreferrer">Documentation</a>
         <a href="/markdown/view/gpt-presets.md" target="_blank" rel="noopener noreferrer">System Presets</a>
         <div>Credit: {credit}</div>
@@ -342,7 +342,7 @@ function GPT() {
       </div>
       <div className="center">
         <span style={{margin: 8}}>windsnow1024@gmail.com</span>
-        <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank"><GitHubIcon/></a>
+        <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank" rel="noopener noreferrer"><GitHubIcon/></a>
       </div>
     </ThemeProvider>
   )
