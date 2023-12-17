@@ -20,6 +20,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
+        <h1 className="center">Windsnow1025</h1>
         <div className="Flex-space-around" style={{margin: 16}}>
           <AuthDiv/>
           <ThemeSelect/>
