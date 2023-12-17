@@ -5,6 +5,7 @@ import {UserLogic} from "../logic/UserLogic";
 import ThemeSelect from '../component/ThemeSelect';
 import {getInitMUITheme} from "../logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
+import {Button} from "@mui/material";
 
 function SignIn() {
   const [theme, setTheme] = useState(getInitMUITheme());
@@ -60,7 +61,7 @@ function SignIn() {
               />
             </div>
             <div>
-              <button type="button" onClick={handleSignIn} title="Enter">Sign In</button>
+              <Button variant="outlined" onClick={handleSignIn}>Sign In</Button>
             </div>
           </div>
         </div>
