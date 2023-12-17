@@ -3,6 +3,8 @@ import ThemeSelect from '../component/ThemeSelect';
 import {UserLogic} from "../logic/UserLogic";
 import {getInitMUITheme} from "../logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import {Button} from "@mui/material";
 
 function UserCenter() {
   const [theme, setTheme] = useState(getInitMUITheme());
@@ -50,25 +52,27 @@ function UserCenter() {
           </div>
           <div className="center">
             <div>
-              <input
-                className="margin"
+              <TextField
+                label="Username"
+                variant="outlined"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
+                style={{margin: 8}}
               />
             </div>
             <div>
-              <input
-                className="margin"
+              <TextField
+                label="Password"
+                variant="outlined"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                style={{margin: 8}}
               />
             </div>
             <div>
-              <button type="button" onClick={handleUpdate} title="Enter">Update</button>
+              <Button variant="outlined" onClick={handleUpdate}>Update</Button>
             </div>
           </div>
         </div>
