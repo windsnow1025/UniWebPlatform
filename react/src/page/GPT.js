@@ -1,6 +1,16 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Select, Slider} from "@mui/material";
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Slider,
+  Switch
+} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -270,8 +280,8 @@ function GPT() {
         </div>
         <div>
           <FormControlLabel control={
-            <Checkbox id="stream-check-box" checked={stream} onChange={e => setStream(e.target.checked)}/>
-          } label="Stream"/>
+            <Switch checked={stream} onChange={e => setStream(e.target.checked)}/>
+          } label="Stream" />
         </div>
       </div>
       <div className="rounded-border-container">
