@@ -15,12 +15,6 @@ button {
   height: auto;
 }
 
-textarea {
-  resize: none;
-  overflow: hidden;
-  border-radius: 8px;
-}
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -31,20 +25,8 @@ table, th, td {
   text-align: center;
 }
 
-.hide {
-  display: none;
-}
-
-.padding {
-  padding: 16px;
-}
-
 .center {
   text-align: center;
-}
-
-.overflow {
-  overflow: auto;
 }
 
 .word-break {
@@ -88,19 +70,6 @@ div.inFlex-flex-end {
   align-self: flex-end;
 }
 
-input.margin {
-  margin: 8px;
-}
-
-.List>div {
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.align-right {
-  text-align: right;
-}
-
 .message_div {
   margin-top: 4px;
   margin-bottom: 4px;
@@ -125,9 +94,6 @@ a {
 }
 
 button,
-textarea,
-input,
-input[type="checkbox"],
 select,
 option {
   background-color: var(--button-background-color);
