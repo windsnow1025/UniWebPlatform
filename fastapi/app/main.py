@@ -44,7 +44,7 @@ def fastapi_response_handler(generator_function: Callable[[], Generator[str, Non
 async def generate(chat_request: ChatRequest, username: str = Depends(get_username)):
     credit = select_credit(username)
     if credit <= 0:
-        return "Insufficient credit. Please contact \"windsnow1024@gmail.com\"."
+        return f"Insufficient credit for {username}. Please contact author \"windsnow1024@gmail.com\" to recharge."
 
     logging.info(f"username: {username}, model: {chat_request.model}")
 
