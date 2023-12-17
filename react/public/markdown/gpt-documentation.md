@@ -6,7 +6,7 @@ Windsnow GPT is powered by OpenAI completion models. Any cost will incur to wind
 
 See [OpenAI Pricing](https://openai.com/pricing), [OpenAI Models](https://platform.openai.com/docs/models), [OpenAI API Reference](https://platform.openai.com/docs/api-reference/), [GPT Guide](https://platform.openai.com/docs/guides/gpt) for more information.
 
-All messages are parsed by Marked.js and MathJax.
+All messages are parsed by Marked.js and Katex.
 
 Cloud storage of conversations is under development. More features will be added in the future.
 
