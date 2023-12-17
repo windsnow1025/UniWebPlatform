@@ -164,70 +164,72 @@ function Bookmark() {
           style={{margin: 8}}
         />
       </div>
-      <table id="bookmarksTable">
-        <thead>
-        <tr>
-          <th>First Title</th>
-          <th>Second Title</th>
-          <th>URL</th>
-          <th>Comment</th>
-          <th>Link</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {/* Add bookmark row */}
-        <tr>
-          <td contentEditable="plaintext-only"
-              onBlur={e => setNewBookmark({...newBookmark, firstTitle: e.target.textContent})}>
-            {newBookmark.firstTitle}</td>
-          <td contentEditable="plaintext-only"
-              onBlur={e => setNewBookmark({...newBookmark, secondTitle: e.target.textContent})}>
-            {newBookmark.secondTitle}</td>
-          <td contentEditable="plaintext-only"
-              onBlur={e => setNewBookmark({...newBookmark, url: e.target.textContent})}>
-            {newBookmark.url}</td>
-          <td contentEditable="plaintext-only"
-              onBlur={e => setNewBookmark({...newBookmark, comment: e.target.textContent})}>
-            {newBookmark.comment}</td>
-          <td></td>
-          <td>
-            <Button variant="outlined" size="small" onClick={handleAddBookmark}>
-              Add
-            </Button>
-          </td>
-        </tr>
-        {/* Bookmark rows */}
-        {filteredBookmarks.map(bookmark => (
-          <tr key={bookmark.id}>
-            <td contentEditable={editStates[bookmark.id]}
-                onBlur={e => handleEditableContentChange(bookmark.id, 'firstTitle', e.target.textContent)}>
-              {bookmark.first_title}</td>
-            <td contentEditable={editStates[bookmark.id]}
-                onBlur={e => handleEditableContentChange(bookmark.id, 'secondTitle', e.target.textContent)}>
-              {bookmark.second_title}</td>
-            <td contentEditable={editStates[bookmark.id]}
-                onBlur={e => handleEditableContentChange(bookmark.id, 'url', e.target.textContent)}
-                className="word-break">
-              {bookmark.url}</td>
-            <td contentEditable={editStates[bookmark.id]}
-                onBlur={e => handleEditableContentChange(bookmark.id, 'comment', e.target.textContent)}>
-              {bookmark.comment}</td>
-            <td className="word-break">
-              <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.url}</a>
-            </td>
+      <div style={{padding: 16}}>
+        <table>
+          <thead>
+          <tr>
+            <th>First Title</th>
+            <th>Second Title</th>
+            <th>URL</th>
+            <th>Comment</th>
+            <th>Link</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          {/* Add bookmark row */}
+          <tr>
+            <td contentEditable="plaintext-only"
+                onBlur={e => setNewBookmark({...newBookmark, firstTitle: e.target.textContent})}>
+              {newBookmark.firstTitle}</td>
+            <td contentEditable="plaintext-only"
+                onBlur={e => setNewBookmark({...newBookmark, secondTitle: e.target.textContent})}>
+              {newBookmark.secondTitle}</td>
+            <td contentEditable="plaintext-only"
+                onBlur={e => setNewBookmark({...newBookmark, url: e.target.textContent})}>
+              {newBookmark.url}</td>
+            <td contentEditable="plaintext-only"
+                onBlur={e => setNewBookmark({...newBookmark, comment: e.target.textContent})}>
+              {newBookmark.comment}</td>
+            <td></td>
             <td>
-              <Button variant="outlined" size="small" onClick={() => toggleEditState(bookmark.id)}>
-                {editStates[bookmark.id] ? 'Submit' : 'Edit'}
-              </Button>
-              <Button variant="outlined" size="small" onClick={() => handleDeleteBookmark(bookmark.id)}>
-                Delete
+              <Button variant="outlined" size="small" onClick={handleAddBookmark}>
+                Add
               </Button>
             </td>
           </tr>
-        ))}
-        </tbody>
-      </table>
+          {/* Bookmark rows */}
+          {filteredBookmarks.map(bookmark => (
+            <tr key={bookmark.id}>
+              <td contentEditable={editStates[bookmark.id]}
+                  onBlur={e => handleEditableContentChange(bookmark.id, 'firstTitle', e.target.textContent)}>
+                {bookmark.first_title}</td>
+              <td contentEditable={editStates[bookmark.id]}
+                  onBlur={e => handleEditableContentChange(bookmark.id, 'secondTitle', e.target.textContent)}>
+                {bookmark.second_title}</td>
+              <td contentEditable={editStates[bookmark.id]}
+                  onBlur={e => handleEditableContentChange(bookmark.id, 'url', e.target.textContent)}
+                  className="word-break">
+                {bookmark.url}</td>
+              <td contentEditable={editStates[bookmark.id]}
+                  onBlur={e => handleEditableContentChange(bookmark.id, 'comment', e.target.textContent)}>
+                {bookmark.comment}</td>
+              <td className="word-break">
+                <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.url}</a>
+              </td>
+              <td>
+                <Button variant="outlined" size="small" onClick={() => toggleEditState(bookmark.id)}>
+                  {editStates[bookmark.id] ? 'Submit' : 'Edit'}
+                </Button>
+                <Button variant="outlined" size="small" onClick={() => handleDeleteBookmark(bookmark.id)}>
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
+      </div>
     </ThemeProvider>
   );
 }
