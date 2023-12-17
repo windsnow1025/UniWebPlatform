@@ -5,6 +5,7 @@ import {UserLogic} from "../logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {getInitMUITheme} from "../logic/ThemeLogic";
 import {Button} from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 function SignUp() {
   const [theme, setTheme] = useState(getInitMUITheme());
@@ -46,21 +47,23 @@ function SignUp() {
           </div>
           <div className="center">
             <div>
-              <input
-                className="margin"
+              <TextField
+                label="Username"
+                variant="outlined"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
+                style={{margin: 8}}
               />
             </div>
             <div>
-              <input
-                className="margin"
+              <TextField
+                label="Password"
+                variant="outlined"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                style={{margin: 8}}
               />
             </div>
             <div>
