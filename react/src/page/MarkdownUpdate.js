@@ -7,6 +7,7 @@ import AuthDiv from "../component/AuthDiv";
 import ThemeSelect from "../component/ThemeSelect";
 import {getInitMUITheme} from "../logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
+import {Button} from "@mui/material";
 
 function MarkdownUpdate() {
   const [theme, setTheme] = useState(getInitMUITheme());
@@ -78,10 +79,10 @@ function MarkdownUpdate() {
         contentEditable={isEditing ? "plaintext-only" : "false"}
       />
       <div className="center">
-        {!isEditing && <button onClick={handleEdit}>Edit</button>}
-        {isEditing && <button onClick={handleConfirm}>Confirm</button>}
-        <button onClick={handleUpdate}>Update</button>
-        <button onClick={handleDelete}>Delete</button>
+        {!isEditing && <Button variant="outlined" onClick={handleEdit} style={{margin: 4}}>Edit</Button>}
+        {isEditing && <Button variant="outlined" onClick={handleConfirm} style={{margin: 4}}>Confirm</Button>}
+        <Button variant="outlined" onClick={handleUpdate} style={{margin: 4}}>Update</Button>
+        <Button variant="outlined" onClick={handleDelete} style={{margin: 4}}>Delete</Button>
       </div>
     </ThemeProvider>
   );

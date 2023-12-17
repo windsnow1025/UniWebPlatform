@@ -6,6 +6,7 @@ import '../asset/css/markdown.css';
 import AuthDiv from "../component/AuthDiv";
 import ThemeSelect from "../component/ThemeSelect";
 import {getInitMUITheme} from "../logic/ThemeLogic";
+import {Button} from "@mui/material";
 
 function MarkdownAdd() {
   const [theme, setTheme] = useState(getInitMUITheme());
@@ -48,6 +49,7 @@ function MarkdownAdd() {
 
   return (
     <ThemeProvider theme={theme}>
+      <h1 className="center">Markdown Add</h1>
       <div className="Flex-space-around">
         <AuthDiv/>
         <ThemeSelect/>
@@ -59,9 +61,9 @@ function MarkdownAdd() {
         contentEditable={isEditing ? "plaintext-only" : "false"}
       />
       <div className="center">
-        {!isEditing && <button onClick={handleEdit}>Edit</button>}
-        {isEditing && <button onClick={handleConfirm}>Confirm</button>}
-        <button onClick={handleAdd}>Add</button>
+        {!isEditing && <Button variant="outlined" onClick={handleEdit} style={{margin: 4}}>Edit</Button>}
+        {isEditing && <Button variant="outlined" onClick={handleConfirm} style={{margin: 4}}>Confirm</Button>}
+        <Button variant="outlined" onClick={handleAdd} style={{margin: 4}}>Add</Button>
       </div>
     </ThemeProvider>
   );
