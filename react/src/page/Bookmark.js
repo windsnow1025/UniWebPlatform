@@ -4,6 +4,8 @@ import AuthDiv from '../component/AuthDiv';
 import ThemeSelect from '../component/ThemeSelect';
 import {BookmarkLogic} from "../logic/BookmarkLogic";
 import {getInitMUITheme} from "../logic/ThemeLogic";
+import TextField from "@mui/material/TextField";
+import {Button} from "@mui/material";
 
 function Bookmark() {
   const [theme, setTheme] = useState(getInitMUITheme());
@@ -115,21 +117,52 @@ function Bookmark() {
 
   return (
     <ThemeProvider theme={theme}>
+      <h1 className="center">Bookmarks</h1>
       <div className="Flex-space-around">
         <AuthDiv/>
         <ThemeSelect/>
       </div>
-      <div className="search-container">
-        <input type="text" value={searchGlobal} onChange={e => setSearchGlobal(e.target.value)}
-               placeholder="Global Search..."/>
-        <input type="text" value={searchFirstTitle} onChange={e => setSearchFirstTitle(e.target.value)}
-               placeholder="Search by First Title..."/>
-        <input type="text" value={searchSecondTitle} onChange={e => setSearchSecondTitle(e.target.value)}
-               placeholder="Search by Second Title..."/>
-        <input type="text" value={searchUrl} onChange={e => setSearchUrl(e.target.value)}
-               placeholder="Search by URL..."/>
-        <input type="text" value={searchComment} onChange={e => setSearchComment(e.target.value)}
-               placeholder="Search by Comment..."/>
+      <div className="center">
+        <TextField
+          label="Global Search..."
+          variant="outlined"
+          type="text"
+          value={searchGlobal}
+          onChange={(e) => setSearchGlobal(e.target.value)}
+          style={{margin: 8}}
+        />
+        <TextField
+          label="Search by First Title..."
+          variant="outlined"
+          type="text"
+          value={searchFirstTitle}
+          onChange={(e) => setSearchFirstTitle(e.target.value)}
+          style={{margin: 8}}
+        />
+        <TextField
+          label="Search by Second Title..."
+          variant="outlined"
+          type="text"
+          value={searchSecondTitle}
+          onChange={(e) => setSearchSecondTitle(e.target.value)}
+          style={{margin: 8}}
+        />
+        <TextField
+          label="Search by URL..."
+          variant="outlined"
+          type="text"
+          value={searchUrl}
+          onChange={(e) => setSearchUrl(e.target.value)}
+          style={{margin: 8}}
+        />
+        <TextField
+          label="Search by Comment..."
+          variant="outlined"
+          type="text"
+          value={searchComment}
+          onChange={(e) => setSearchComment(e.target.value)}
+          style={{margin: 8}}
+        />
       </div>
       <table id="bookmarksTable">
         <thead>
@@ -159,7 +192,9 @@ function Bookmark() {
             {newBookmark.comment}</td>
           <td></td>
           <td>
-            <button onClick={handleAddBookmark}>Add</button>
+            <Button variant="outlined" size="small" onClick={handleAddBookmark}>
+              Add
+            </Button>
           </td>
         </tr>
         {/* Bookmark rows */}
@@ -182,10 +217,12 @@ function Bookmark() {
               <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.url}</a>
             </td>
             <td>
-              <button onClick={() => toggleEditState(bookmark.id)}>
+              <Button variant="outlined" size="small" onClick={() => toggleEditState(bookmark.id)}>
                 {editStates[bookmark.id] ? 'Submit' : 'Edit'}
-              </button>
-              <button onClick={() => handleDeleteBookmark(bookmark.id)}>Delete</button>
+              </Button>
+              <Button variant="outlined" size="small" onClick={() => handleDeleteBookmark(bookmark.id)}>
+                Delete
+              </Button>
             </td>
           </tr>
         ))}
