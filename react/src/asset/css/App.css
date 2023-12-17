@@ -6,15 +6,6 @@ a {
   text-decoration: none;
 }
 
-button {
-  border: none;
-  border-radius: 4px;
-  padding: 4px;
-  margin: 2px;
-  cursor: pointer;
-  height: auto;
-}
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -93,11 +84,6 @@ a {
   color: var(--link-color);
 }
 
-button {
-  background-color: var(--button-background-color);
-  color: var(--text-color);
-}
-
 .rounded-border-container {
   border: 1px solid var(--border-color);
 }
@@ -111,7 +97,6 @@ button {
   --background-color: #e0e0e0;
   --text-color: #191919;
   --link-color: #0077cc;
-  --button-background-color: #aaaaaa;
   --messagediv-background-color: #ffffff;
   --border-color: rgba(0, 0, 0, 0.2);
 }
@@ -121,7 +106,6 @@ button {
   --background-color: #191919;
   --text-color: #d4d4d4;
   --link-color: #9b9b9b;
-  --button-background-color: #2a2c2e;
   --messagediv-background-color: #0d1117;
   --border-color: rgba(255, 255, 255, 0.5);
 }
