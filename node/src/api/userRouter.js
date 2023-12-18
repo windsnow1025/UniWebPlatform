@@ -5,7 +5,7 @@ const UserDAO = require("../db/userDAO");
 const jwt = require('jsonwebtoken');
 
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     try {
         let result = await UserDAO.SelectByUsername({
             username: req.query.username
@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.post('/sign-in', async (req, res, next) => {
+router.post('/sign-in', async (req, res) => {
     try {
         let data = req.body.data;
         let result = await UserDAO.SelectByUsernamePassword(data);
@@ -36,7 +36,7 @@ router.post('/sign-in', async (req, res, next) => {
     }
 });
 
-router.post('/sign-up', async (req, res, next) => {
+router.post('/sign-up', async (req, res) => {
     try {
         let data = req.body.data;
         let sqlData = {username: data.username};
@@ -77,7 +77,7 @@ router.use((req, res, next) => {
     }
 });
 
-router.get('/credit', async (req, res, next) => {
+router.get('/credit', async (req, res) => {
     try {
         let result = await UserDAO.SelectCreditByUsername({
             username: req.username
@@ -91,7 +91,7 @@ router.get('/credit', async (req, res, next) => {
 
 // Do not expose credit update API to the frontend!
 
-router.put('/', async (req, res, next) => {
+router.put('/', async (req, res) => {
     try {
         let data = req.body.data;
 
@@ -102,7 +102,6 @@ router.put('/', async (req, res, next) => {
         // Judge if the username is changed but already exists
         if (data.username != req.username && potential_new_user.length > 0) {
             res.status(409).send("Username already exists");
-            next();
         }
 
         // Update Data
@@ -116,7 +115,7 @@ router.put('/', async (req, res, next) => {
 
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res) => {
     try {
         let id = req.params.id;
         await UserDAO.Delete(id);

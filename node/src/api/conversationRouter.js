@@ -32,7 +32,7 @@ router.use(async (req, res, next) => {
     }
 });
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     try {
         let conversations = await ConversationDAO.Select({
             user_id: req.user_id
@@ -44,7 +44,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
     try {
         let data = req.body.data;
         let name = data.name;
@@ -64,7 +64,7 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-router.put('/', async (req, res, next) => {
+router.put('/', async (req, res) => {
     try {
         let data = req.body.data;
         let name = data.name;
@@ -86,7 +86,7 @@ router.put('/', async (req, res, next) => {
     }
 });
 
-router.put('/name', async (req, res, next) => {
+router.put('/name', async (req, res) => {
     try {
         let data = req.body.data;
         let name = data.name;
@@ -106,7 +106,7 @@ router.put('/name', async (req, res, next) => {
     }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res) => {
     try {
         let id = req.params.id;
 
