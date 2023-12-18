@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const BookmarkDAO = require("../db/BbookmarkDAO");
+const BookmarkDAO = require("../db/BookmarkDAO");
 const jwt = require('jsonwebtoken');
 
-const Bookmark = require("../model/Bbookmark");
+const Bookmark = require("../model/Bookmark");
 
 
 router.get('/', async (req, res, next) => {

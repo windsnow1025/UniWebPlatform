@@ -19,12 +19,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // Routers
-const authAPI = require('./api/AauthRouter');
-const bookmarkAPI = require('./api/BbookmarkRouter');
-const conversationAPI = require('./api/CconversationRouter');
-const markdownAPI = require('./api/MmarkdownRouter');
-const messageAPI = require('./api/MmessageRouter');
-const userAPI = require('./api/UuserRouter');
+const authAPI = require('./api/AuthRouter');
+const bookmarkAPI = require('./api/BookmarkRouter');
+const conversationAPI = require('./api/ConversationRouter');
+const markdownAPI = require('./api/MarkdownRouter');
+const messageAPI = require('./api/MessageRouter');
+const userAPI = require('./api/UserRouter');
 app.use('/auth', authAPI);
 app.use('/bookmark', bookmarkAPI);
 app.use('/conversation', conversationAPI);
