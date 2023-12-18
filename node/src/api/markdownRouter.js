@@ -4,18 +4,17 @@ const MarkdownDAO = require("../db/markdownDAO");
 const jwt = require('jsonwebtoken');
 
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     try {
         let markdowns = await MarkdownDAO.SelectAll();
         res.status(200).json(markdowns);
     } catch (err) {
         console.error("Error in GET /:", err);
         res.status(500).send("Error occurred while fetching data.");
-        next(err);
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', async (req, res) => {
     try {
         let id = req.params.id;
         let markdown = await MarkdownDAO.Select(id);
@@ -23,7 +22,6 @@ router.get('/:id', async (req, res, next) => {
     } catch (err) {
         console.error("Error in GET /:", err);
         res.status(500).send("Error occurred while fetching data.");
-        next(err);
     }
 });
 
@@ -50,7 +48,7 @@ router.use(async (req, res, next) => {
     }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
     try {
         let data = req.body.data;
         await MarkdownDAO.Insert(data);
@@ -61,7 +59,7 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-router.put('/', async (req, res, next) => {
+router.put('/', async (req, res) => {
     try {
         let data = req.body.data;
         let sqlData = {
@@ -78,7 +76,7 @@ router.put('/', async (req, res, next) => {
     }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res) => {
     try {
         let id = req.params.id;
         await MarkdownDAO.Delete(id);

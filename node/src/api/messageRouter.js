@@ -3,7 +3,7 @@ const router = express.Router();
 const MessageDAO = require("../db/messageDAO");
 
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     try {
         let data = await MessageDAO.SelectAll();
         res.status(200).json(data);
@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
     try {
         let data = req.body.data;
         await MessageDAO.Insert(data);
@@ -24,7 +24,7 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res) => {
     try {
         let id = req.params.id;
         await MessageDAO.Delete(id);
@@ -35,7 +35,7 @@ router.delete('/:id', async (req, res, next) => {
     }
 })
 
-router.delete('/', async (req, res, next) => {
+router.delete('/', async (req, res) => {
     try {
         await MessageDAO.DeleteAll();
         res.status(200).send(true);
