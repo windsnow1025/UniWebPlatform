@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { Conversation } from '../model/Conversation.ts';
 
 export default class ConversationService {
-  async fetchConversations() {
+  async fetchConversations(): Promise<Conversation[]> {
     const token = localStorage.getItem('token');
     const res = await axios.get('/api/conversation/', {
       headers: {
@@ -11,7 +12,7 @@ export default class ConversationService {
     return res.data;
   }
 
-  async addConversation(name, conversation) {
+  async addConversation(name, conversation: Conversation) {
     const token = localStorage.getItem('token');
     await axios.post("/api/conversation/", {
       data: {
@@ -25,7 +26,7 @@ export default class ConversationService {
     });
   }
 
-  async updateConversation(name, conversation, id) {
+  async updateConversation(name, conversation: Conversation, id) {
     const token = localStorage.getItem('token');
     await axios.put(`/api/conversation/`, {
       data: {
