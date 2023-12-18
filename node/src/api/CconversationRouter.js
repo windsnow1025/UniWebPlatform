@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const ConversationDAO = require("../db/conversationDAO");
-const UserDAO = require("../db/userDAO");
+const ConversationDAO = require("../db/CconversationDAO");
+const UserDAO = require("../db/UuserDAO");
 const jwt = require('jsonwebtoken');
 
 
