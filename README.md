@@ -20,35 +20,6 @@ Logged in as the root user in Debian 11 with a minimum RAM of 4GB.
 
 ## Setup
 
-### Nginx
-
-#### Install
-
-Edit `FullStack-Web/config/linux/nginx/default`, change `server_name` to your domain name.
-
-```bash
-apt update
-apt install nginx
-```
-
-#### Configure
-
-Copy `FullStack-Web/config/linux/nginx/default` to `/etc/nginx/sites-available/default`.
-
-```bash
-systemctl start nginx
-```
-
-### Certbot
-
-```bash
-apt install snapd
-snap install core
-snap install --classic certbot
-ln -s /snap/bin/certbot /usr/bin/certbot
-certbot --nginx
-```
-
 ### Docker
 
 ```bash
@@ -70,6 +41,13 @@ echo \
 
 ```bash
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+### Nginx
+
+```bash
+cd FullStack-Web/nginx
+docker build -t nginx .
 ```
 
 ### Front End - React.js
@@ -102,9 +80,9 @@ docker build -t mysql .
 
 ### Docker Compose
 
-Edit `FullStack-Web/config/docker-compose/docker-compose.yaml`, change `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`, `JWT_SECRET`, `OPENAI_API_KEY` to your own.
+Edit `FullStack-Web/config/docker-compose.yaml`, change environment variables.
 
-Copy `FullStack-Web/config/docker-compose/docker-compose.yaml` to `/root/docker-compose.yaml`.
+Copy `FullStack-Web/config/docker-compose.yaml` to `/root/docker-compose.yaml`.
 
 ```bash
 docker compose up
