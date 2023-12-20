@@ -7,20 +7,55 @@ export class BookmarkLogic {
   }
 
   async fetchBookmarks() {
-    const bookmarks = await this.bookmarkService.fetchBookmarks();
-    return this.sortBookmarks(bookmarks);
+    try {
+      const bookmarks = await this.bookmarkService.fetchBookmarks();
+      return this.sortBookmarks(bookmarks);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async addBookmark(newBookmark) {
-    await this.bookmarkService.addBookmark(newBookmark);
+    // await this.bookmarkService.addBookmark(newBookmark);
+    try {
+      await this.bookmarkService.addBookmark(newBookmark);
+    } catch (error) {
+      if (error.response.status === 401) {
+        alert('Unauthorized');
+      } else if (error.response.status === 403) {
+        alert('Forbidden');
+      } else {
+        console.error(error);
+      }
+    }
   }
 
   async updateBookmark(id, updatedFields) {
-    await this.bookmarkService.updateBookmark(id, updatedFields);
+    try {
+      await this.bookmarkService.updateBookmark(id, updatedFields);
+    } catch (error) {
+      if (error.response.status === 401) {
+        alert('Unauthorized');
+      } else if (error.response.status === 403) {
+        alert('Forbidden');
+      } else {
+        console.error(error);
+      }
+    }
   }
 
   async deleteBookmark(id) {
-    await this.bookmarkService.deleteBookmark(id);
+    try {
+      await this.bookmarkService.deleteBookmark(id);
+    } catch (error) {
+      if (error.response.status === 401) {
+        alert('Unauthorized');
+      } else if (error.response.status === 403) {
+        alert('Forbidden');
+      } else {
+        console.error(error);
+      }
+    }
   }
 
   sortBookmarks(bookmarks) {

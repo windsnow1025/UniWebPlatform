@@ -26,8 +26,10 @@ export class MarkdownLogic {
       await this.markdownService.addMarkdown({ title, content });
       alert('Add Success!');
     } catch (error) {
-      if (error.response.status === 403) {
+      if (error.response.status === 401) {
         alert('Unauthorized');
+      } else if (error.response.status === 403) {
+        alert('Forbidden');
       } else {
         console.error(error);
       }
@@ -39,8 +41,10 @@ export class MarkdownLogic {
       await this.markdownService.updateMarkdown(id, { title, content });
       alert('Update Success!');
     } catch (error) {
-      if (error.response.status === 403) {
+      if (error.response.status === 401) {
         alert('Unauthorized');
+      } else if (error.response.status === 403) {
+        alert('Forbidden');
       } else {
         console.error(error);
       }
@@ -52,8 +56,10 @@ export class MarkdownLogic {
       await this.markdownService.deleteMarkdown(id);
       alert('Delete Success!');
     } catch (error) {
-      if (error.response.status === 403) {
+      if (error.response.status === 401) {
         alert('Unauthorized');
+      } else if (error.response.status === 403) {
+        alert('Forbidden');
       } else {
         console.error(error);
       }
