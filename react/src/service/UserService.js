@@ -19,7 +19,7 @@ export default class UserService {
   async fetchUsername() {
     const token = localStorage.getItem('token');
     const res = await axios.get('/api/auth/', {
-      headers: {Authorization: `Bearer ${token}`}
+      headers: {Authorization: token}
     });
     return res.data;
   }
@@ -30,14 +30,14 @@ export default class UserService {
       username: username,
       password: password
     }, {
-      headers: {Authorization: `Bearer ${token}`}
+      headers: {Authorization: token}
     });
   }
 
   async fetchCredit() {
     const token = localStorage.getItem('token');
     const res = await axios.get("/api/user/credit", {
-      headers: {Authorization: `Bearer ${token}`}
+      headers: {Authorization: token}
     });
     return res.data.credit;
   }

@@ -100,7 +100,7 @@ function GPT() {
 
   const startGenerate = async () => {
     if (!localStorage.getItem('token')) {
-      alert('Please login first.');
+      alert('Please Sign In.');
       return;
     }
 

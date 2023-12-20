@@ -2,9 +2,8 @@ import logging
 import os
 from typing import Callable, Generator
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Header, HTTPException
 from fastapi.responses import StreamingResponse
-from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import BaseModel
 
@@ -23,17 +22,16 @@ class ChatRequest(BaseModel):
     stream: bool
 
 
-# JWT configurations
-SECRET_KEY = os.environ["JWT_SECRET"]
-ALGORITHM = "HS256"
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+def get_username(authorization: str = Header(...)) -> str:
+    if not authorization:
+        raise HTTPException(status_code=401)
 
-
-# JWT authentication
-def get_username(token: str = Depends(oauth2_scheme)) -> str:
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    username = payload.get("sub")
-    return username
+    try:
+        payload = jwt.decode(authorization, os.environ["JWT_SECRET"], algorithms=["HS256"])
+        username = payload.get("sub")
+        return username
+    except jwt.JWTError:
+        raise HTTPException(status_code=403)
 
 
 def fastapi_response_handler(generator_function: Callable[[], Generator[str, None, None]]) -> StreamingResponse:

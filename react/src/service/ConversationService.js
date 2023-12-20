@@ -6,7 +6,7 @@ export default class ConversationService {
     const token = localStorage.getItem('token');
     const res = await axios.get('/api/conversation/', {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: token
       }
     });
     return res.data;
@@ -19,7 +19,7 @@ export default class ConversationService {
       conversation: conversation
     }, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: token
       }
     });
   }
@@ -32,7 +32,7 @@ export default class ConversationService {
       id: id
     }, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: token
       }
     });
   }
@@ -44,7 +44,7 @@ export default class ConversationService {
       id: id
     }, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: token
       }
     });
   }
@@ -53,7 +53,7 @@ export default class ConversationService {
     const token = localStorage.getItem('token');
     await axios.delete(`/api/conversation/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: token
       }
     });
   }
