@@ -3,12 +3,10 @@ const router = express.Router();
 const BookmarkDAO = require("../db/BookmarkDAO");
 const jwt = require('jsonwebtoken');
 
-const Bookmark = require("../model/Bookmark");
-
 
 router.get('/', async (req, res, next) => {
     try {
-        let bookmarks = await BookmarkDAO.SelectAll();
+        const bookmarks = await BookmarkDAO.SelectAll();
         res.status(200).json(bookmarks);
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -42,8 +40,7 @@ router.use(async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        let data = req.body.data;
-        let bookmark = new Bookmark(data.firstTitle, data.secondTitle, data.url, data.comment);
+        const bookmark = req.body.data;
         await BookmarkDAO.Insert(bookmark);
         res.status(201).send(true);
     } catch (err) {
@@ -54,9 +51,8 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
     try {
-        let id = req.params.id;
-        let data = req.body.data;
-        let bookmark = new Bookmark(data.firstTitle, data.secondTitle, data.url, data.comment);
+        const id = req.params.id;
+        const bookmark = req.body.data;
         await BookmarkDAO.Update(id, bookmark);
         res.status(200).send(true);
     } catch (err) {
@@ -67,7 +63,7 @@ router.put('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
     try {
-        let id = req.params.id;
+        const id = req.params.id;
         await BookmarkDAO.Delete(id);
         res.status(200).send(true);
     } catch (err) {
