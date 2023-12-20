@@ -15,7 +15,7 @@ export default class MarkdownService {
   async addMarkdown(markdown) {
     const token = localStorage.getItem('token');
     await axios.post('/api/markdown/', markdown, {
-      headers: {Authorization: `Bearer ${token}`}
+      headers: {Authorization: token}
     });
   }
 
@@ -26,14 +26,14 @@ export default class MarkdownService {
       title: markdown.title,
       content: markdown.content
     }, {
-      headers: {Authorization: `Bearer ${token}`}
+      headers: {Authorization: token}
     });
   }
 
   async deleteMarkdown(id) {
     const token = localStorage.getItem('token');
     await axios.delete('/api/markdown/' + id, {
-      headers: {Authorization: `Bearer ${token}`}
+      headers: {Authorization: token}
     });
   }
 }

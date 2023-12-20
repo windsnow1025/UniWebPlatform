@@ -16,7 +16,7 @@ export default class GPTService {
     if (!stream) {
       const res = await axios.post("/api/gpt/", requestData, {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: token
           }
         }
       );
@@ -30,7 +30,7 @@ export default class GPTService {
         signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': token
         }
       });
 
