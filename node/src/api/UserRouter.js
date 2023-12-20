@@ -5,18 +5,6 @@ const UserDAO = require("../db/UserDAO");
 const jwt = require('jsonwebtoken');
 
 
-router.get('/', async (req, res) => {
-    try {
-        let result = await UserDAO.SelectByUsername({
-            username: req.query.username
-        });
-        res.status(200).json(result[0]);
-    } catch (err) {
-        console.error("Error in GET /:", err);
-        res.status(500).send("Error occurred while fetching data.");
-    }
-});
-
 router.post('/sign-in', async (req, res) => {
     try {
         let data = req.body.data;
