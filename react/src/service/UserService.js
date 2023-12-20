@@ -3,14 +3,16 @@ import axios from 'axios';
 export default class UserService {
   async signIn(username, password) {
     const res = await axios.post("/api/user/sign-in", {
-      data: {username, password}
+      username: username,
+      password: password
     });
     return res.data.token;
   }
 
   async signUp(username, password) {
     await axios.post("/api/user/sign-up", {
-      data: {username, password}
+      username: username,
+      password: password
     });
   }
 
@@ -25,7 +27,8 @@ export default class UserService {
   async updateUser(username, password) {
     const token = localStorage.getItem('token');
     await axios.put(`/api/user/`, {
-      data: {username, password}
+      username: username,
+      password: password
     }, {
       headers: {Authorization: `Bearer ${token}`}
     });

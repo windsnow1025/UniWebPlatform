@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Conversation } from '../model/Conversation.ts';
+import {Conversation} from '../model/Conversation.ts';
 
 export default class ConversationService {
   async fetchConversations(): Promise<Conversation[]> {
@@ -15,10 +15,8 @@ export default class ConversationService {
   async addConversation(name, conversation: Conversation) {
     const token = localStorage.getItem('token');
     await axios.post("/api/conversation/", {
-      data: {
-        name: name,
-        conversation: conversation
-      }
+      name: name,
+      conversation: conversation
     }, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -29,11 +27,9 @@ export default class ConversationService {
   async updateConversation(name, conversation: Conversation, id) {
     const token = localStorage.getItem('token');
     await axios.put(`/api/conversation/`, {
-      data: {
-        name: name,
-        conversation: conversation,
-        id: id
-      }
+      name: name,
+      conversation: conversation,
+      id: id
     }, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -44,10 +40,8 @@ export default class ConversationService {
   async updateConversationName(name, id) {
     const token = localStorage.getItem('token');
     await axios.put(`/api/conversation/name`, {
-      data: {
-        name: name,
-        id: id
-      }
+      name: name,
+      id: id
     }, {
       headers: {
         Authorization: `Bearer ${token}`
