@@ -35,42 +35,31 @@ function Bookmark() {
   }, []);
 
   const loadBookmarks = async () => {
-    try {
-      const bookmarks = await bookmarkLogic.fetchBookmarks();
-      setBookmarks(bookmarks);
-      // Initialize edit states
-      let initEditStates = {};
-      bookmarks.forEach(bookmark => {
-        initEditStates[bookmark.id] = false;
-      });
-      setEditStates(initEditStates);
-    } catch (error) {
-      console.error(error);
+    const bookmarks = await bookmarkLogic.fetchBookmarks();
+
+    if (!bookmarks) {
+      return;
     }
+
+    setBookmarks(bookmarks);
+    // Initialize edit states
+    let initEditStates = {};
+    bookmarks.forEach(bookmark => {
+      initEditStates[bookmark.id] = false;
+    });
+    setEditStates(initEditStates);
   };
 
   const handleAddBookmark = async () => {
-    try {
-      await bookmarkLogic.addBookmark(newBookmark);
-      loadBookmarks();
-      setNewBookmark({firstTitle: '', secondTitle: '', url: '', comment: ''});
-    } catch (error) {
-      if (error.response.status === 403) {
-        alert('Unauthorized');
-      }
-    }
+    await bookmarkLogic.addBookmark(newBookmark);
+    loadBookmarks();
+    setNewBookmark({firstTitle: '', secondTitle: '', url: '', comment: ''});
   };
 
   const handleUpdateBookmark = async (id, updatedFields) => {
     const updatedBookmark = {...bookmarks.find(bookmark => bookmark.id === id), ...updatedFields};
-    try {
-      await bookmarkLogic.updateBookmark(id, updatedBookmark);
-      loadBookmarks();
-    } catch (error) {
-      if (error.response.status === 403) {
-        alert('Unauthorized');
-      }
-    }
+    await bookmarkLogic.updateBookmark(id, updatedBookmark);
+    loadBookmarks();
   };
 
   const handleEditableContentChange = (id, field, value) => {
@@ -81,14 +70,8 @@ function Bookmark() {
   };
 
   const handleDeleteBookmark = async (id) => {
-    try {
-      await bookmarkLogic.deleteBookmark(id);
-      loadBookmarks();
-    } catch (error) {
-      if (error.response.status === 403) {
-        alert('Unauthorized');
-      }
-    }
+    await bookmarkLogic.deleteBookmark(id);
+    loadBookmarks();
   };
 
   const toggleEditState = (id) => {
