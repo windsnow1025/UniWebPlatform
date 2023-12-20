@@ -17,6 +17,10 @@ function App() {
     window.addEventListener('themeChanged', handleThemeChange);
   }, []);
 
+  useEffect(() => {
+    document.title = "Windsnow1025";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
