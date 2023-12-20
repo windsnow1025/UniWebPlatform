@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 router.get('/', async (req, res, next) => {
     try {
-        const bookmarks = await BookmarkDAO.SelectAll();
+        const bookmarks = await BookmarkDAO.selectAll();
         res.status(200).json(bookmarks);
     } catch (err) {
         console.error("Error in GET /:", err);
@@ -40,35 +40,35 @@ router.use(async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const bookmark = req.body.data;
-        await BookmarkDAO.Insert(bookmark);
+        const bookmark = req.body;
+        await BookmarkDAO.insert(bookmark);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
-        res.status(500).send("Error occurred while storing data.");
+        res.status(500).send("Error occurred while storing bookmark.");
     }
 });
 
 router.put('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        const bookmark = req.body.data;
-        await BookmarkDAO.Update(id, bookmark);
+        const bookmark = req.body;
+        await BookmarkDAO.update(id, bookmark);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in PUT /:id:", err);
-        res.status(500).send("Error occurred while updating data.");
+        res.status(500).send("Error occurred while updating bookmark.");
     }
 });
 
 router.delete('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        await BookmarkDAO.Delete(id);
+        await BookmarkDAO.deleteByID(id);
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in DELETE /:id:", err);
-        res.status(500).send("Error occurred while deleting data.");
+        res.status(500).send("Error occurred while deleting bookmark.");
     }
 });
 

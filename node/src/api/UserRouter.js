@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 router.post('/sign-in', async (req, res) => {
     try {
-        let data = req.body.data;
+        let data = req.body;
         let result = await UserDAO.SelectByUsernamePassword(data);
 
         // Judge if data.username and data.password match
@@ -26,7 +26,7 @@ router.post('/sign-in', async (req, res) => {
 
 router.post('/sign-up', async (req, res) => {
     try {
-        let data = req.body.data;
+        let data = req.body;
         let sqlData = {username: data.username};
 
         // Judge if data.username exists
@@ -81,7 +81,7 @@ router.get('/credit', async (req, res) => {
 
 router.put('/', async (req, res) => {
     try {
-        let data = req.body.data;
+        let data = req.body;
 
         // Get current user data
         let current_user = await UserDAO.SelectByUsername({username: req.username});
