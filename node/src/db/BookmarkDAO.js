@@ -4,7 +4,7 @@ const { poolQuery } = require("./DatabaseConnection");
  * @returns {Promise<Bookmark[]>}
  * @constructor
  */
-async function SelectAll() {
+async function selectAll() {
     const sql = "SELECT * FROM bookmark";
     return await poolQuery(sql);
 }
@@ -12,7 +12,7 @@ async function SelectAll() {
 /**
  * @param {Bookmark} bookmark
  */
-async function Insert(bookmark) {
+async function insert(bookmark) {
     const sql = "INSERT INTO bookmark (first_title, second_title, url, comment) VALUES (?,?,?,?)";
     const sqlParams = [bookmark.firstTitle, bookmark.secondTitle, bookmark.url, bookmark.comment];
     await poolQuery(sql, sqlParams);
@@ -23,7 +23,7 @@ async function Insert(bookmark) {
  * @param {number} id
  * @param {Bookmark} bookmark
  */
-async function Update(id, bookmark) {
+async function update(id, bookmark) {
     const sql = "UPDATE bookmark SET first_title = ?, second_title = ?, url = ?, comment = ? WHERE id = ?";
     const sqlParams = [bookmark.firstTitle, bookmark.secondTitle, bookmark.url, bookmark.comment, id];
     await poolQuery(sql, sqlParams);
@@ -33,7 +33,7 @@ async function Update(id, bookmark) {
 /**
  * @param {number} id
  */
-async function Delete(id) {
+async function deleteByID(id) {
     const sql = "DELETE FROM bookmark WHERE id = ?";
     const sqlParams = [id];
     await poolQuery(sql, sqlParams);
@@ -41,8 +41,8 @@ async function Delete(id) {
 }
 
 module.exports = {
-    SelectAll: SelectAll,
-    Insert: Insert,
-    Update: Update,
-    Delete: Delete
+    selectAll: selectAll,
+    insert: insert,
+    update: update,
+    deleteByID: deleteByID
 };

@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         res.status(200).json(markdowns);
     } catch (err) {
         console.error("Error in GET /:", err);
-        res.status(500).send("Error occurred while fetching data.");
+        res.status(500).send("Error occurred while fetching markdowns.");
     }
 });
 
@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
         res.status(200).json(markdown);
     } catch (err) {
         console.error("Error in GET /:", err);
-        res.status(500).send("Error occurred while fetching data.");
+        res.status(500).send("Error occurred while fetching markdown.");
     }
 });
 
@@ -50,18 +50,18 @@ router.use(async (req, res, next) => {
 
 router.post('/', async (req, res) => {
     try {
-        let data = req.body.data;
+        let data = req.body;
         await MarkdownDAO.Insert(data);
         res.status(201).send(true);
     } catch (err) {
         console.error("Error in POST /:", err);
-        res.status(500).send("Error occurred while storing data.");
+        res.status(500).send("Error occurred while storing markdown.");
     }
 });
 
 router.put('/', async (req, res) => {
     try {
-        let data = req.body.data;
+        let data = req.body;
         let sqlData = {
             id: data.id,
             title: data.title,
@@ -72,7 +72,7 @@ router.put('/', async (req, res) => {
         res.status(200).send(true);
     } catch (err) {
         console.error("Error in PUT /:id:", err);
-        res.status(500).send("Error occurred while updating data.");
+        res.status(500).send("Error occurred while updating markdown.");
     }
 });
 
