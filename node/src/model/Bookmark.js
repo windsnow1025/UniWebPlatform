@@ -13,5 +13,3 @@ class Bookmark {
         this.comment = comment;
     }
 }
-
-module.exports = Bookmark;
