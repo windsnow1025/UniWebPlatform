@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ConversationDAO = require("../dao/ConversationDAO");
 const UserDAO = require("../dao/UserDAO");
+const Conversation = require("../model/Conversation");
 const jwt = require('jsonwebtoken');
 
 
@@ -32,9 +33,7 @@ router.use(async (req, res, next) => {
 
 router.get('/', async (req, res) => {
   try {
-    let conversations = await ConversationDAO.Select({
-      user_id: req.user_id
-    });
+    const conversations = await ConversationDAO.select(req.user_id);
     res.status(200).json(conversations);
   } catch (err) {
     console.error("Error in GET /:", err);
@@ -44,17 +43,15 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    let data = req.body;
-    let name = data.name;
-    let conversation = data.conversation;
+    const data = req.body;
 
-    let sqlData = {
+    const conversation = new Conversation({
       user_id: req.user_id,
-      name: name,
-      conversation: conversation
-    }
+      name: data.name,
+      conversation: data.conversation
+    });
 
-    await ConversationDAO.Insert(sqlData);
+    await ConversationDAO.insert(conversation);
     res.status(201).send(true);
   } catch (err) {
     console.error("Error in POST /:", err);
@@ -64,19 +61,16 @@ router.post('/', async (req, res) => {
 
 router.put('/', async (req, res) => {
   try {
-    let data = req.body;
-    let name = data.name;
-    let conversation = data.conversation;
-    let id = data.id;
+    const body = req.body;
 
-    let sqlData = {
+    const conversation = new Conversation({
+      id: body.id,
       user_id: req.user_id,
-      name: name,
-      conversation: conversation,
-      id: id
-    }
+      name: body.name,
+      conversation: body.conversation
+    });
 
-    await ConversationDAO.Update(sqlData);
+    await ConversationDAO.update(conversation);
     res.status(200).send(true);
   } catch (err) {
     console.error("Error in PUT /:", err);
@@ -96,7 +90,7 @@ router.put('/name', async (req, res) => {
       id: id
     }
 
-    await ConversationDAO.UpdateName(sqlData);
+    await ConversationDAO.updateName(sqlData);
     res.status(200).send(true);
   } catch (err) {
     console.error("Error in PUT /name:", err);
@@ -106,14 +100,9 @@ router.put('/name', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    let id = req.params.id;
+    const params = req.params;
 
-    let sqlData = {
-      user_id: req.user_id,
-      id: id
-    }
-
-    await ConversationDAO.Delete(sqlData);
+    await ConversationDAO.deleteById(req.user_id, params.id);
     res.status(200).send(true);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);
