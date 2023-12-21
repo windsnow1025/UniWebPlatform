@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const BookmarkDAO = require("../dao/BookmarkDAO");
+const Bookmark = require("../model/Bookmark");
 const jwt = require('jsonwebtoken');
 
 
 router.get('/', async (req, res, next) => {
   try {
-    const bookmarks = await BookmarkDAO.selectAll();
+    const bookmarks = await BookmarkDAO.select();
     res.status(200).json(bookmarks);
   } catch (err) {
     console.error("Error in GET /:", err);
-    res.status(500).send("Error occurred while fetching data.");
+    res.sendStatus(500);
     next(err);
   }
 });
@@ -43,19 +44,28 @@ router.post('/', async (req, res, next) => {
     res.status(201).send(true);
   } catch (err) {
     console.error("Error in POST /:", err);
-    res.status(500).send("Error occurred while storing bookmark.");
+    res.sendStatus(500);
   }
 });
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const bookmark = req.body;
-    await BookmarkDAO.update(id, bookmark);
+    const params = req.params;
+    const body = req.body;
+
+    const bookmark = new Bookmark({
+      id: params.id,
+      firstTitle: body.firstTitle,
+      secondTitle: body.secondTitle,
+      url: body.url,
+      comment: body.comment
+    })
+
+    await BookmarkDAO.update(bookmark);
     res.status(200).send(true);
   } catch (err) {
     console.error("Error in PUT /:id:", err);
-    res.status(500).send("Error occurred while updating bookmark.");
+    res.sendStatus(500);
   }
 });
 

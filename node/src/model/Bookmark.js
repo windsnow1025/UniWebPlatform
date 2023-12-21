@@ -1,15 +1,23 @@
+/**
+ * @typedef {Object} BookmarkParams
+ * @property {string} id
+ * @property {string} firstTitle
+ * @property {string} secondTitle
+ * @property {string} url
+ * @property {string} comment
+ */
+
 class Bookmark {
-    /**
-     *
-     * @param {string} firstTitle
-     * @param {string} secondTitle
-     * @param {string} url
-     * @param {string} comment
-     */
-    constructor(firstTitle, secondTitle, url, comment) {
-        this.firstTitle = firstTitle;
-        this.secondTitle = secondTitle;
-        this.url = url;
-        this.comment = comment;
-    }
+  /**
+   * @param {BookmarkParams} params
+   */
+  constructor({ id = null, firstTitle, secondTitle, url, comment}) {
+    this.id = id;
+    this.firstTitle = firstTitle;
+    this.secondTitle = secondTitle;
+    this.url = url;
+    this.comment = comment;
+  }
 }
+
+module.exports = Bookmark;
