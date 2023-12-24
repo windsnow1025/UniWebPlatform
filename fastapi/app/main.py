@@ -10,6 +10,7 @@ import os
 from typing import Callable, Generator
 
 from fastapi import FastAPI, Depends, Header, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from jose import jwt
 from pydantic import BaseModel
@@ -19,6 +20,14 @@ from app.database_utils import select_credit, update_credit
 from app.pricing import calculate_cost
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class ChatRequest(BaseModel):
