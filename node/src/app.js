@@ -1,5 +1,8 @@
+require('./config');
+
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 
@@ -10,6 +13,9 @@ app.listen(port, () => {
     console.log(`Server listening at port ${port}...`);
 });
 
+
+// CORS
+app.use(cors());
 
 // support parsing of application/json type post data
 app.use(bodyParser.json());
@@ -31,6 +37,12 @@ app.use('/conversation', conversationAPI);
 app.use('/markdown', markdownAPI);
 app.use('/message', messageAPI);
 app.use('/user', userAPI);
+
+
+// Root Router
+app.get('/', (req, res) => {
+    res.send('Node.js');
+});
 
 
 // SQL
