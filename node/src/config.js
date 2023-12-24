@@ -8,6 +8,7 @@ function loadConfigFromFile() {
 }
 
 if (process.env.JWT_SECRET && process.env.MYSQL_ROOT_PASSWORD && process.env.MYSQL_USER && process.env.MYSQL_PASSWORD && process.env.MYSQL_DATABASE) {
+  global.PORT = 3000;
   global.JWT_SECRET = process.env.JWT_SECRET;
   global.MYSQL_HOST = "mysql";
   global.MYSQL_ROOT_PASSWORD = process.env.MYSQL_ROOT_PASSWORD;
@@ -18,6 +19,8 @@ if (process.env.JWT_SECRET && process.env.MYSQL_ROOT_PASSWORD && process.env.MYS
   console.log("Using environment variables for production.")
 } else {
   const config = loadConfigFromFile();
+
+  global.PORT = 3001;
   global.JWT_SECRET = config.JWT_SECRET;
   global.MYSQL_HOST = "localhost";
   global.MYSQL_ROOT_PASSWORD = config.MYSQL_ROOT_PASSWORD;
