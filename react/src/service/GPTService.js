@@ -28,7 +28,7 @@ export default class GPTService {
       return res.data;
     } else {
       const controller = new AbortController();
-      const response = await fetch(`${this.baseUrl}/gpt/`, {
+      const response = await fetch(`${global.baseUrl}/gpt/`, {
         method: "POST",
         body: JSON.stringify(requestData),
         signal: controller.signal,
