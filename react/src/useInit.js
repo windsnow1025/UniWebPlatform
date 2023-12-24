@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 async function checkAPI() {
-  const response = await fetch('/api');
+  const response = await fetch('/api/');
   const text = await response.text();
   return text === "Node.js";
 }
