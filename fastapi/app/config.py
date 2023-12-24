@@ -29,9 +29,9 @@ def init_environment():
     if detect_environment_variables(environment_variables):
         os.environ["MYSQL_HOST"] = "mysql"
 
-        logging.info("Using environment variables for production.")
+        logging.info("Using production setting.")
     else:
         os.environ["MYSQL_HOST"] = "localhost"
         set_environment_from_config(os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json"))
 
-        logging.info("Using config.json for development.")
+        logging.info("Using development setting.")
