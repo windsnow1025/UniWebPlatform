@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const MessageDAO = require("../db/MessageDAO");
+const MessageDAO = require("../dao/MessageDAO");
 
 
 router.get('/', async (req, res) => {
