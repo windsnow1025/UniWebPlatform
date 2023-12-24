@@ -1,13 +1,27 @@
 const mysql = require("mysql2");
 const util = require("util");
+const fs = require("fs");
+const path = require("path");
+
+// MySQL Configuration
+function getConfig() {
+    if (process.env.MYSQL_USER && process.env.MYSQL_PASSWORD && process.env.MYSQL_DATABASE) {
+        return {
+            host: "mysql",
+            user: process.env.MYSQL_USER,
+            password: process.env.MYSQL_PASSWORD,
+            database: process.env.MYSQL_DATABASE
+        };
+    } else {
+        const configPath = path.join(__dirname, "config.json");
+        const configFile = fs.readFileSync(configPath, "utf8");
+        return JSON.parse(configFile);
+    }
+}
 
 // MySQL Connection Pool
-const pool = mysql.createPool({
-    host: "mysql",
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
-});
+const config = getConfig();
+const pool = mysql.createPool(config);
 
 // MySQL Promisify
 const poolQuery = util.promisify(pool.query).bind(pool);
