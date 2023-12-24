@@ -3,7 +3,7 @@ import axios from "axios";
 export default class MessageService {
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: global.apiBaseUrl });
+    this.axiosInstance = axios.create({ baseURL: global.nodeAPIBaseURL });
   }
 
   async sendMessage(username, content) {

@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class MarkdownService {
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: global.apiBaseUrl });
+    this.axiosInstance = axios.create({ baseURL: global.nodeAPIBaseURL });
   }
 
   async fetchMarkdowns() {
