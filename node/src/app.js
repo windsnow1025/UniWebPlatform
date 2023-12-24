@@ -8,7 +8,7 @@ const app = express();
 
 
 // HTTP
-const port = 3000;
+const port = global.PORT;
 app.listen(port, () => {
     console.log(`Server listening at port ${port}...`);
 });

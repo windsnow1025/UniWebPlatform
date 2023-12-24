@@ -14,7 +14,7 @@ export function useInit() {
       if (await checkAPI()) {
         global.apiBaseUrl = '/api';
       } else {
-        global.apiBaseUrl = 'http://localhost:3000';
+        global.apiBaseUrl = 'http://localhost:3001';
       }
       console.log('API Base URL: ' + global.apiBaseUrl);
       setIsInitialized(true);
