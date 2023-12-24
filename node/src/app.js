@@ -26,24 +26,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // Routers
+const rootAPI = require('./api/RootRouter');
 const authAPI = require('./api/AuthRouter');
 const bookmarkAPI = require('./api/BookmarkRouter');
 const conversationAPI = require('./api/ConversationRouter');
 const markdownAPI = require('./api/MarkdownRouter');
 const messageAPI = require('./api/MessageRouter');
 const userAPI = require('./api/UserRouter');
+app.use('/', rootAPI);
 app.use('/auth', authAPI);
 app.use('/bookmark', bookmarkAPI);
 app.use('/conversation', conversationAPI);
 app.use('/markdown', markdownAPI);
 app.use('/message', messageAPI);
 app.use('/user', userAPI);
-
-
-// Root Router
-app.get('/', (req, res) => {
-    res.send('Node.js');
-});
 
 
 // SQL
