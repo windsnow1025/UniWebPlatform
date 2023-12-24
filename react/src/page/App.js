@@ -1,11 +1,11 @@
-import './asset/css/App.css';
+import '../asset/css/App.css';
 
-import MarkdownList from './component/MarkdownList';
-import ThemeSelect from "./component/ThemeSelect";
-import AuthDiv from "./component/AuthDiv";
+import MarkdownList from '../component/MarkdownList';
+import ThemeSelect from "../component/ThemeSelect";
+import AuthDiv from "../component/AuthDiv";
 import {ThemeProvider} from "@mui/material/styles";
 import {useEffect, useState} from "react";
-import {getInitMUITheme} from "./logic/ThemeLogic";
+import {getInitMUITheme} from "../logic/ThemeLogic";
 
 function App() {
   const [theme, setTheme] = useState(getInitMUITheme());
