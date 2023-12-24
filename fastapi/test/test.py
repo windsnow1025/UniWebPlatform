@@ -1,19 +1,16 @@
-import asyncio
-import json
-import os
+import logging
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+from app.config import init_environment
+
+init_environment()
+
+import asyncio
 from fastapi.responses import StreamingResponse
 
 from app.completion import ChatCompletionFactory
 from app.pricing import calculate_cost
-
-# Load configuration from config.json
-with open("config.json") as config_file:
-    config = json.load(config_file)
-
-os.environ["OPENAI_API_KEY"] = config["OPENAI_API_KEY"]
-os.environ["AZURE_API_KEY"] = config["AZURE_API_KEY"]
-os.environ["AZURE_API_BASE"] = config["AZURE_API_BASE"]
 
 
 def fastapi_response_handler(generator):
