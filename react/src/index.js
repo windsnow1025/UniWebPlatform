@@ -1,9 +1,9 @@
-import './config';
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './asset/css/index.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import './asset/css/index.css';
+import {useInit} from "./useInit";
+
 import App from './page/App';
 import SignIn from "./page/SignIn";
 import SignUp from "./page/SignUp";
@@ -15,9 +15,14 @@ import MarkdownViewer from "./page/MarkdownViewer";
 import MessageTransmitter from "./page/MessageTransmitter";
 import GPT from "./page/GPT";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
+function RootApp() {
+  const isInitialized = useInit();
+
+  if (!isInitialized) {
+    return <div>loading...</div>;
+  }
+
+  return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
@@ -32,6 +37,13 @@ root.render(
         <Route path="/gpt" element={<GPT />} />
       </Routes>
     </BrowserRouter>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <RootApp />
   </React.StrictMode>
 );
 
