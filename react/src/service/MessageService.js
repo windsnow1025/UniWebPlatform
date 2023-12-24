@@ -1,19 +1,24 @@
 import axios from "axios";
 
 export default class MessageService {
+
+  constructor() {
+    this.axiosInstance = axios.create({ baseURL: global.apiBaseUrl });
+  }
+
   async sendMessage(username, content) {
-    await axios.post("/api/message", {
+    await this.axiosInstance.post("/message", {
       username: username,
       content: content
     });
   }
 
   async fetchMessages() {
-    const res = await axios.get("/api/message");
+    const res = await this.axiosInstance.get("/message");
     return res.data;
   }
 
   async deleteMessages() {
-    await axios.delete("/api/message");
+    await this.axiosInstance.delete("/message");
   }
 }

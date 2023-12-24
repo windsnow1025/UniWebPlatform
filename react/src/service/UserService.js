@@ -1,8 +1,12 @@
 import axios from 'axios';
-
 export default class UserService {
+
+  constructor() {
+    this.axiosInstance = axios.create({ baseURL: global.apiBaseUrl });
+  }
+
   async signIn(username, password) {
-    const res = await axios.post("/api/user/sign-in", {
+    const res = await this.axiosInstance.post("/user/sign-in", {
       username: username,
       password: password
     });
@@ -10,7 +14,7 @@ export default class UserService {
   }
 
   async signUp(username, password) {
-    await axios.post("/api/user/sign-up", {
+    await this.axiosInstance.post("/user/sign-up", {
       username: username,
       password: password
     });
@@ -18,7 +22,7 @@ export default class UserService {
 
   async fetchUsername() {
     const token = localStorage.getItem('token');
-    const res = await axios.get('/api/auth/', {
+    const res = await this.axiosInstance.get('/auth/', {
       headers: {Authorization: token}
     });
     return res.data;
@@ -26,7 +30,7 @@ export default class UserService {
 
   async updateUser(username, password) {
     const token = localStorage.getItem('token');
-    await axios.put(`/api/user/`, {
+    await this.axiosInstance.put(`/user/`, {
       username: username,
       password: password
     }, {
@@ -36,7 +40,7 @@ export default class UserService {
 
   async fetchCredit() {
     const token = localStorage.getItem('token');
-    const res = await axios.get("/api/user/credit", {
+    const res = await this.axiosInstance.get("/user/credit", {
       headers: {Authorization: token}
     });
     return res.data.credit;

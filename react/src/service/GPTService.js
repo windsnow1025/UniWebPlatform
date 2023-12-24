@@ -2,6 +2,10 @@ import axios from 'axios';
 
 export default class GPTService {
 
+  constructor() {
+    this.axiosInstance = axios.create({ baseURL: global.apiBaseUrl });
+  }
+
   async generate(messages, api_type, model, temperature, stream) {
     const token = localStorage.getItem('token');
 
@@ -14,7 +18,7 @@ export default class GPTService {
     }
 
     if (!stream) {
-      const res = await axios.post("/api/gpt/", requestData, {
+      const res = await this.axiosInstance.post("/gpt/", requestData, {
           headers: {
             Authorization: token
           }
@@ -24,7 +28,7 @@ export default class GPTService {
       return res.data;
     } else {
       const controller = new AbortController();
-      const response = await fetch("/api/gpt/", {
+      const response = await fetch(`${this.baseUrl}/gpt/`, {
         method: "POST",
         body: JSON.stringify(requestData),
         signal: controller.signal,
