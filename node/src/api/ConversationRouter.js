@@ -15,7 +15,7 @@ router.use(async (req, res, next) => {
 
   try {
     // Get username from token
-    const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
+    const username = await jwt.verify(token, global.JWT_SECRET).sub;
 
     // Get user_id from username
     const userResult = await UserDAO.SelectByUsername({username: username});
