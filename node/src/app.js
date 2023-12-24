@@ -7,15 +7,16 @@ const cors = require('cors');
 const app = express();
 
 
+// CORS
+app.use(cors());
+
+
 // HTTP
 const port = global.PORT;
 app.listen(port, () => {
     console.log(`Server listening at port ${port}...`);
 });
 
-
-// CORS
-app.use(cors());
 
 // support parsing of application/json type post data
 app.use(bodyParser.json());
