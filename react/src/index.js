@@ -1,8 +1,10 @@
+import './config';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './asset/css/index.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import App from './App';
+import App from './page/App';
 import SignIn from "./page/SignIn";
 import SignUp from "./page/SignUp";
 import UserCenter from "./page/UserCenter";
