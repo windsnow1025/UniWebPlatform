@@ -1,4 +1,4 @@
-const { poolQuery } = require("./DatabaseConnection");
+const { poolQuery } = require("../db/DatabaseConnection");
 
 /**
  * @returns {Promise<Bookmark[]>}
