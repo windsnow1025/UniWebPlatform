@@ -1,4 +1,11 @@
 import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+from app.config import init_environment
+
+init_environment()
+
 import os
 from typing import Callable, Generator
 
@@ -94,5 +101,3 @@ azure_models = [
 async def get_models() -> ModelList:
     return ModelList(open_ai_models=open_ai_models, azure_models=azure_models)
 
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

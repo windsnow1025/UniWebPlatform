@@ -15,7 +15,7 @@ if (process.env.JWT_SECRET && process.env.MYSQL_ROOT_PASSWORD && process.env.MYS
   global.MYSQL_PASSWORD = process.env.MYSQL_PASSWORD;
   global.MYSQL_DATABASE = process.env.MYSQL_DATABASE;
 
-  console.log("Config loaded from environment variables.")
+  console.log("Using environment variables for production.")
 } else {
   const config = loadConfigFromFile();
   global.JWT_SECRET = config.JWT_SECRET;
@@ -25,6 +25,6 @@ if (process.env.JWT_SECRET && process.env.MYSQL_ROOT_PASSWORD && process.env.MYS
   global.MYSQL_PASSWORD = config.MYSQL_PASSWORD;
   global.MYSQL_DATABASE = config.MYSQL_DATABASE;
 
-  console.log("Config loaded from config.json file.")
+  console.log("Using config.json for development.")
 }
 
