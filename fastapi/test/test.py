@@ -10,7 +10,7 @@ import asyncio
 from fastapi.responses import StreamingResponse
 
 from app.completion import ChatCompletionFactory
-from app.pricing import calculate_cost
+from app.util.pricing import calculate_cost
 
 
 def fastapi_response_handler(generator):

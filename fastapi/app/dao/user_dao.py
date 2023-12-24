@@ -1,23 +1,9 @@
-import os
-import mysql.connector
-from mysql.connector.pooling import PooledMySQLConnection
-
-dbconfig = {
-    "host": os.getenv('MYSQL_HOST'),
-    "user": os.getenv('MYSQL_USER'),
-    "password": os.getenv('MYSQL_PASSWORD'),
-    "database": os.getenv('MYSQL_DATABASE')
-}
-
-connection_pool = mysql.connector.pooling.MySQLConnectionPool(**dbconfig)
-
-
-def get_connection() -> PooledMySQLConnection:
-    return connection_pool.get_connection()
+from app.util.db_util import DatabaseConnection
 
 
 def select_credit(username: str) -> float:
-    connection = get_connection()
+    database_connection = DatabaseConnection.get_instance()
+    connection = database_connection.get_connection()
     cursor = connection.cursor()
     query = "SELECT credit FROM user WHERE username = %s"
     cursor.execute(query, (username,))
@@ -28,7 +14,8 @@ def select_credit(username: str) -> float:
 
 
 def update_credit(username: str, credit: float) -> bool:
-    connection = get_connection()
+    database_connection = DatabaseConnection.get_instance()
+    connection = database_connection.get_connection()
     cursor = connection.cursor()
     query = "UPDATE user SET credit = %s WHERE username = %s"
     cursor.execute(query, (credit, username))

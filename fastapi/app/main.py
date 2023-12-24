@@ -1,11 +1,4 @@
 import logging
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-from app.config import init_environment
-
-init_environment()
-
 import os
 from typing import Callable, Generator
 
@@ -16,8 +9,13 @@ from jose import jwt
 from pydantic import BaseModel
 
 from app.completion import ChatCompletionFactory
-from app.database_utils import select_credit, update_credit
-from app.pricing import calculate_cost
+from app.config import init_environment
+from app.dao.user_dao import select_credit, update_credit
+from app.util.pricing import calculate_cost
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+init_environment()
 
 app = FastAPI()
 
