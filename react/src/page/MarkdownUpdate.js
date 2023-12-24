@@ -58,8 +58,9 @@ function MarkdownUpdate() {
   };
 
   const handleUpdate = async () => {
-    setMarkdown(prev => ({ ...prev, title: markdownLogic.getTitleFromContent(markdown.content) }));
-    await markdownLogic.updateMarkdown(id, markdown.title, markdown.content);
+    const newTitle = markdownLogic.getTitleFromContent(markdown.content);
+    setMarkdown(prev => ({ ...prev, title: newTitle }));
+    await markdownLogic.updateMarkdown(id, newTitle, markdown.content);
   };
 
   const handleDelete = async () => {
