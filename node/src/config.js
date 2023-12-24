@@ -16,7 +16,7 @@ if (process.env.JWT_SECRET && process.env.MYSQL_ROOT_PASSWORD && process.env.MYS
   global.MYSQL_PASSWORD = process.env.MYSQL_PASSWORD;
   global.MYSQL_DATABASE = process.env.MYSQL_DATABASE;
 
-  console.log("Using environment variables for production.")
+  console.log("Using production setting.")
 } else {
   const config = loadConfigFromFile();
 
@@ -28,6 +28,6 @@ if (process.env.JWT_SECRET && process.env.MYSQL_ROOT_PASSWORD && process.env.MYS
   global.MYSQL_PASSWORD = config.MYSQL_PASSWORD;
   global.MYSQL_DATABASE = config.MYSQL_DATABASE;
 
-  console.log("Using config.json for development.")
+  console.log("Using development setting.")
 }
 
