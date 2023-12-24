@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default class BookmarkService {
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: global.apiBaseUrl });
+    this.axiosInstance = axios.create({ baseURL: global.nodeAPIBaseURL });
   }
 
   async fetchBookmarks() {
