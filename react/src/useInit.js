@@ -12,11 +12,14 @@ export function useInit() {
   useEffect(() => {
     async function init() {
       if (await checkAPI()) {
-        global.apiBaseUrl = '/api';
+        global.nodeAPIBaseURL = '/api';
+        global.fastAPIBaseURL = '/api/gpt';
+        console.log("Using production setting.")
       } else {
-        global.apiBaseUrl = 'http://localhost:3001';
+        global.nodeAPIBaseURL = 'http://localhost:3001';
+        global.fastAPIBaseURL = 'http://localhost:82';
+        console.log("Using development setting.")
       }
-      console.log('API Base URL: ' + global.apiBaseUrl);
       setIsInitialized(true);
     }
 

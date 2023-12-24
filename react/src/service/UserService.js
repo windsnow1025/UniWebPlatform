@@ -2,7 +2,7 @@ import axios from 'axios';
 export default class UserService {
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: global.apiBaseUrl });
+    this.axiosInstance = axios.create({ baseURL: global.nodeAPIBaseURL });
   }
 
   async signIn(username, password) {

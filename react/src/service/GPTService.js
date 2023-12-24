@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class GPTService {
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: global.apiBaseUrl });
+    this.axiosInstance = axios.create({ baseURL: global.nodeAPIBaseURL });
   }
 
   async generate(messages, api_type, model, temperature, stream) {
@@ -28,7 +28,7 @@ export default class GPTService {
       return res.data;
     } else {
       const controller = new AbortController();
-      const response = await fetch(`${global.apiBaseUrl}/gpt/`, {
+      const response = await fetch(`${global.fastAPIBaseURL}/gpt/`, {
         method: "POST",
         body: JSON.stringify(requestData),
         signal: controller.signal,
