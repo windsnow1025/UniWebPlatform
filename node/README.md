@@ -1,0 +1,13 @@
+# Node.js
+
+## Configuration
+
+```json
+{
+  "JWT_SECRET": "JWT_SECRET",
+  "MYSQL_ROOT_PASSWORD": "MYSQL_ROOT_PASSWORD",
+  "MYSQL_USER": "MYSQL_USER",
+  "MYSQL_PASSWORD": "MYSQL_PASSWORD",
+  "MYSQL_DATABASE": "MYSQL_DATABASE"
+}
+```
