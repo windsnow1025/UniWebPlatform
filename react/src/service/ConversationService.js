@@ -3,7 +3,7 @@ import {Conversation} from '../model/Conversation.ts';
 
 export default class ConversationService {
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: global.nodeAPIBaseURL });
+    this.axiosInstance = axios.create({ baseURL: process.env.REACT_APP_NODE_API_BASE_URL });
   }
 
   async fetchConversations(): Promise<Conversation[]> {
