@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import './asset/css/index.css';
-import {useInit} from "./useInit";
 
 import App from './page/App';
 import SignIn from "./page/SignIn";
@@ -16,11 +15,6 @@ import MessageTransmitter from "./page/MessageTransmitter";
 import GPT from "./page/GPT";
 
 function RootApp() {
-  const isInitialized = useInit();
-
-  if (!isInitialized) {
-    return <div>loading...</div>;
-  }
 
   return (
     <BrowserRouter>
