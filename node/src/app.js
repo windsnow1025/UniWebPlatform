@@ -12,7 +12,7 @@ app.use(cors());
 
 
 // HTTP
-const port = global.PORT;
+const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`Server listening at port ${port}...`);
 });

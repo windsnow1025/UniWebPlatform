@@ -26,7 +26,7 @@ router.use(async (req, res, next) => {
   }
 
   try {
-    const username = await jwt.verify(token, global.JWT_SECRET).sub;
+    const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
     if (username !== rootUser) {
       return res.sendStatus(403);
     }

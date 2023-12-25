@@ -3,10 +3,10 @@ const util = require("util");
 
 // MySQL Connection Pool
 const pool = mysql.createPool({
-    host: global.MYSQL_HOST,
-    user: global.MYSQL_USER,
-    password: global.MYSQL_PASSWORD,
-    database: global.MYSQL_DATABASE,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
 });
 
 // MySQL Promisify
