@@ -1,16 +1,15 @@
+import asyncio
 import logging
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-from app.config import init_environment
-
-init_environment()
-
-import asyncio
 from fastapi.responses import StreamingResponse
 
 from app.completion import ChatCompletionFactory
+from app.config import init_environment
 from app.util.pricing import calculate_cost
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+init_environment()
 
 
 def fastapi_response_handler(generator):
