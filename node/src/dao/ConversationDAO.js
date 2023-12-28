@@ -40,6 +40,10 @@ async function updateName(conversation) {
     console.log("1 conversation name updated");
 }
 
+/**
+ * @param {number} user_id
+ * @param {number} id
+ */
 async function deleteById(user_id, id) {
     const sql = "DELETE FROM conversation WHERE user_id = ? AND id = ?";
     const sqlParams = [user_id, id];
