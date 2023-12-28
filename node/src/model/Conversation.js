@@ -3,7 +3,7 @@
  * @property {number} id
  * @property {number} user_id
  * @property {string} name
- * @property {string} conversation
+ * @property {Array} conversation
  */
 
 class Conversation {
