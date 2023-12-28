@@ -51,6 +51,7 @@ async def openai_test():
     # Test
     assert output == "This is a test."
     assert abs(cost - 0.0015) < 0.0001
+    print("Test passed.")
 
 
 def main():
