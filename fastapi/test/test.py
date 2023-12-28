@@ -1,58 +1,45 @@
-import asyncio
-import logging
+import unittest
 
 from app.completion import ChatCompletionFactory
 from app.config import init_environment
 from app.main import fastapi_response_handler
 from app.util.pricing import calculate_cost
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+class TestOpenAI(unittest.IsolatedAsyncioTestCase):
+    def setUp(self):
+        init_environment()
 
-async def openai_test():
-    messages = [
-        {
-            "role": "user",
-            "content": "Say this is a test."
-        }
-    ]
-    model = "gpt-4"
-    api_type = "open_ai"
-    temperature = 0
-    stream = True
+    async def test_openai(self):
+        messages = [
+            {
+                "role": "user",
+                "content": "Say this is a test."
+            }
+        ]
+        model = "gpt-4"
+        api_type = "open_ai"
+        temperature = 0
+        stream = True
 
-    factory = ChatCompletionFactory(messages, model, api_type, temperature, stream, fastapi_response_handler)
-    completion = factory.create_chat_completion()
-    response = completion.process_request()
+        factory = ChatCompletionFactory(messages, model, api_type, temperature, stream, fastapi_response_handler)
+        completion = factory.create_chat_completion()
+        response = completion.process_request()
 
-    prompt_tokens = sum(len(message["content"]) for message in messages)
-    completion_tokens = 0
+        prompt_tokens = sum(len(message["content"]) for message in messages)
+        completion_tokens = 0
 
-    output = ""
-    if stream:
-        async for content in response.body_iterator:
-            output += content
-            print(content, end='')
-            completion_tokens += len(content)
-        print()
-    else:
-        output = response
-        print(response)
-        completion_tokens += len(response)
+        output = ""
+        if stream:
+            async for content in response.body_iterator:
+                output += content
+                completion_tokens += len(content)
+        else:
+            output = response
+            completion_tokens += len(response)
 
-    cost = calculate_cost(api_type, model, prompt_tokens, completion_tokens)
-    print(f"Cost: ${cost:.4f}")
+        cost = calculate_cost(api_type, model, prompt_tokens, completion_tokens)
 
-    # Test
-    assert output == "This is a test."
-    assert abs(cost - 0.0015) < 0.0001
-    print("Test passed.")
-
-
-def main():
-    init_environment()
-    asyncio.run(openai_test())
-
-
-if __name__ == "__main__":
-    main()
+        # Test
+        self.assertEqual(output, "This is a test.")
+        self.assertAlmostEqual(cost, 0.0015, delta=0.0001)
