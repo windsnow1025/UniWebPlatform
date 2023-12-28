@@ -6,11 +6,11 @@ from app.main import fastapi_response_handler
 from app.util.pricing import calculate_cost
 
 
-class TestOpenAI(unittest.IsolatedAsyncioTestCase):
+class TestCompletion(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         init_environment()
 
-    async def test_openai(self):
+    async def test_completion(self):
         messages = [
             {
                 "role": "user",
