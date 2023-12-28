@@ -9,8 +9,6 @@ from app.util.pricing import calculate_cost
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-init_environment()
-
 
 def fastapi_response_handler(generator):
     return StreamingResponse(generator(), media_type='text/plain')
@@ -48,4 +46,6 @@ async def openai_test():
     print(f"Cost: ${cost:.4f}")
 
 
-asyncio.run(openai_test())
+if __name__ == "__main__":
+    init_environment()
+    asyncio.run(openai_test())
