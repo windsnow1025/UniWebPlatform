@@ -43,14 +43,14 @@ app.use('/user', userAPI);
 
 
 // SQL
+const DatabaseConnection = require('./db/DatabaseConnection');
 const DatabaseHelper = require('./db/DatabaseHelper');
-const { connectionTest } = require('./db/DatabaseConnection');
 
 async function sql_init() {
-    const isConnected = await connectionTest();
+    const isConnected = await DatabaseConnection.connectionTest();
 
     if (isConnected) {
-        const databaseHelper = new DatabaseHelper();
+        const databaseHelper = new DatabaseHelper(DatabaseConnection);
         databaseHelper.manageMigrations();
     } else {
         console.error("Unable to establish a connection to the SQL database.");
