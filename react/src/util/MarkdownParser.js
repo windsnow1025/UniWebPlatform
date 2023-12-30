@@ -11,20 +11,65 @@ const marked = new Marked(
     langPrefix: 'hljs language-',
     highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-      return hljs.highlight(code, { language }).value;
+      return hljs.highlight(code, {language}).value;
     }
   })
 );
 
+
 export function parseMarkdown(content) {
-  let decodeEntitiesInParsedCode = function(html) {
-    return html.replace(/<code([^>]*)>((?:[^<]+|<(?!\/code>))+)<\/code>/g, function(match, p1, p2) {
-      return '<code' + p1 + '>' + p2.replace(/&amp;/g, "&") + '</code>';
+  const decodeEntitiesInParsedCode = function (html: string) {
+    return html.replace(/<code([^>]*)>((?:[^<]+|<(?!\/code>))+)<\/code>/g, function (match, p1, p2) {
+      return `<code${p1}>${p2.replace(/&amp;/g, "&")}</code>`;
     });
-  }
+  };
+
+  // content:
+  // &lt;div&gt;&amp;&lt;/div&gt;
+  //
+  // `&lt;div&gt;&amp;&lt;/div&gt;`
+  //
+  // ```
+  // &lt;div&gt;&amp;&lt;/div&gt;
+  // ```
+  //
+  // ```html
+  // &lt;div&gt;&amp;&lt;/div&gt;
+  // ```
 
   const parsedContent = marked.parse(content);
-  return decodeEntitiesInParsedCode(parsedContent);
+
+  // parsedContent:
+  // <p>&lt;div&gt;&amp;&lt;/div&gt;</p>
+  // <p><code>&amp;lt;div&amp;gt;&amp;amp;&amp;lt;/div&amp;gt;</code></p>
+  // <pre><code>&amp;lt;div&amp;gt;&amp;amp;&amp;lt;/div&amp;gt;</code></pre>
+  // <pre><code class="hljs language-html">
+  //   <span class="hljs-symbol">&amp;lt;</span>
+  //   div
+  //   <span class="hljs-symbol">&amp;gt;</span>
+  //   <span class="hljs-symbol">&amp;amp;</span>
+  //   <span class="hljs-symbol">&amp;lt;</span>
+  //   /div
+  //   <span class="hljs-symbol">&amp;gt;</span>
+  // </code></pre>
+
+  const decodedContent = decodeEntitiesInParsedCode(parsedContent);
+
+  // decodedContent:
+  // <p>&lt;div&gt;&amp;&lt;/div&gt;</p>
+  // <p><code>&lt;div&gt;&amp;&lt;/div&gt;</code></p>
+  // <pre><code>&lt;div&gt;&amp;&lt;/div&gt;</code></pre>
+  // <pre><code class="hljs language-html">
+  //   <span class="hljs-symbol">&lt;</span>
+  //   div
+  //   <span class="hljs-symbol">&gt;</span>
+  //   <span class="hljs-symbol">&amp;</span>
+  //   <span class="hljs-symbol">&lt;</span>
+  //   /div
+  //   <span class="hljs-symbol">&gt;</span>
+  // </code></pre>
+
+  return decodedContent;
 }
 
 
@@ -32,8 +77,8 @@ const katex_config = {
   delimiters: [
     {left: '$$', right: '$$', display: true},
     {left: '$', right: '$', display: false},
-    {left: '\\(', right: '\\)', display: false},
-    {left: '\\[', right: '\\]', display: true}
+    {left: '\(', right: '\)', display: false},
+    {left: '\[', right: '\]', display: true}
   ],
 };
 
