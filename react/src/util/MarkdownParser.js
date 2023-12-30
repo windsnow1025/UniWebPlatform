@@ -19,11 +19,11 @@ const marked = new Marked(
 
 export function parseMarkdown(content) {
   const decodeEntitiesInParsedCode = function (html: string) {
-    return html.replace(/<code([^>]*)>((?:[^<]+|<(?!\/code>))+)<\/code>/g, function (match, p1, p2) {
+    // Use "\S\s" instead of "." to match newlines
+    return html.replace(/<code([^>]*?)>([\S\s]*?)<\/code>/g, function (match, p1, p2) {
       return `<code${p1}>${p2.replace(/&amp;/g, "&")}</code>`;
     });
   };
-
   // content:
   // &lt;div&gt;&amp;&lt;/div&gt;
   //
@@ -38,7 +38,6 @@ export function parseMarkdown(content) {
   // ```
 
   const parsedContent = marked.parse(content);
-
   // parsedContent:
   // <p>&lt;div&gt;&amp;&lt;/div&gt;</p>
   // <p><code>&amp;lt;div&amp;gt;&amp;amp;&amp;lt;/div&amp;gt;</code></p>
@@ -54,7 +53,6 @@ export function parseMarkdown(content) {
   // </code></pre>
 
   const decodedContent = decodeEntitiesInParsedCode(parsedContent);
-
   // decodedContent:
   // <p>&lt;div&gt;&amp;&lt;/div&gt;</p>
   // <p><code>&lt;div&gt;&amp;&lt;/div&gt;</code></p>
