@@ -10,6 +10,11 @@ const katex_config = {
   ],
 };
 
-export function parseLaTeX(content_div) {
+
+//<div class="markdown-body" contenteditable="plaintext-only" style="margin: 8px; padding: 8px; min-height: 24px;"><p>\[
+// e^{ix} = \cos(x) + i\sin(x)
+// \]</p>
+// </div>
+export function parseLaTeX(content_div: HTMLElement) {
   renderMathInElement(content_div, katex_config)
 }
