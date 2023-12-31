@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { parseLaTeX, parseMarkdown } from '../util/MarkdownParser';
+import {parseMarkdown} from "../util/MarkdownParser";
+import {parseLaTeX} from "../util/LaTeXParser";
 import { MarkdownLogic } from '../logic/MarkdownLogic';
 import '../asset/css/markdown.css';
 import AuthDiv from "../component/AuthDiv";

@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import { parseMarkdown, parseLaTeX } from '../util/MarkdownParser';
+import {parseMarkdown} from "../util/MarkdownParser";
+import {parseLaTeX} from "../util/LaTeXParser";
 import { MarkdownLogic } from '../logic/MarkdownLogic';
 import '../asset/css/markdown.css';
 import AuthDiv from "../component/AuthDiv";
