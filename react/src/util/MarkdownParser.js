@@ -21,13 +21,9 @@ export function parseMarkdown(content) {
       return `<code${p1}>${p2.replace(/&amp;/g, "&")}</code>`;
     });
   };
-  console.log(content)
 
   const parsedContent = marked.parse(content);
-
-  console.log(parsedContent)
   const decodedContent = decodeEntitiesInParsedCode(parsedContent);
-
-  console.log(decodedContent)
+  
   return decodedContent;
 }
