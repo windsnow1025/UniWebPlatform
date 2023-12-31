@@ -2,7 +2,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import {applyTheme, getInitMUITheme} from "../logic/ThemeLogic";
-import { parseMarkdown, parseLaTeX } from "../util/MarkdownParser";
+import {parseMarkdown} from "../util/MarkdownParser";
+import {parseLaTeX} from "../util/LaTeXParser";
 import {ThemeProvider} from "@mui/material/styles";
 
 function MarkdownViewer() {
