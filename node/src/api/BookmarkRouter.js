@@ -23,7 +23,7 @@ router.use(async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    res.sendStatus(401);
+    return res.sendStatus(401);
   }
 
   try {
