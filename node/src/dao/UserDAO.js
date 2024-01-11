@@ -1,48 +1,50 @@
 const DatabaseConnection = require('../db/DatabaseConnection');
 
-async function SelectByUsernamePassword(data) {
+async function selectByUsernamePassword(username, password) {
     const sql = "SELECT * FROM user WHERE username = ? AND password = ?";
-    const sqlParams = [data.username, data.password];
-    const result = await DatabaseConnection.poolQuery(sql, sqlParams);
-    return result;
+    const sqlParams = [username, password];
+    return await DatabaseConnection.poolQuery(sql, sqlParams);
 }
 
-async function SelectByUsername(data) {
-    const sql = "SELECT * FROM user WHERE username = ?";
-    const sqlParams = [data.username];
+async function selectIdByUsername(username) {
+    const sql = "SELECT id FROM user WHERE username = ?";
+    const sqlParams = [username];
     const result = await DatabaseConnection.poolQuery(sql, sqlParams);
-    return result;
+    if (result.length === 0) {
+        return null;
+    }
+    return result[0].id;
 }
 
-async function SelectCreditByUsername(data) {
+async function selectCreditByUsername(username) {
     const sql = "SELECT credit FROM user WHERE username = ?";
-    const sqlParams = [data.username];
+    const sqlParams = [username];
     const result = await DatabaseConnection.poolQuery(sql, sqlParams);
-    return result;
+    return result[0].credit;
 }
 
-async function UpdateCreditByUsername(data) {
+async function updateCreditByUsername(username, credit) {
     const sql = "UPDATE user SET credit = ? WHERE username = ?";
-    const sqlParams = [data.credit, data.username];
+    const sqlParams = [credit, username];
     await DatabaseConnection.poolQuery(sql, sqlParams);
     console.log("1 user credit updated");
 }
 
-async function Insert(data) {
+async function insert(username, password) {
     const sql = "INSERT INTO user (username, password) VALUES (?,?)";
-    const sqlParams = [data.username, data.password];
+    const sqlParams = [username, password];
     await DatabaseConnection.poolQuery(sql, sqlParams);
     console.log("1 user inserted");
 }
 
-async function Update(data) {
+async function update(id, username, password) {
     const sql = "UPDATE user SET username = ?, password = ? WHERE id = ?";
-    const sqlParams = [data.username, data.password, data.id];
+    const sqlParams = [username, password, id];
     await DatabaseConnection.poolQuery(sql, sqlParams);
     console.log("1 user updated");
 }
 
-async function Delete(id) {
+async function deleteById(id) {
     const sql = "DELETE FROM user WHERE id = ?";
     const sqlParams = [id];
     await DatabaseConnection.poolQuery(sql, sqlParams);
@@ -50,11 +52,11 @@ async function Delete(id) {
 }
 
 module.exports = {
-    SelectByUsernamePassword: SelectByUsernamePassword,
-    SelectByUsername: SelectByUsername,
-    SelectCreditByUsername: SelectCreditByUsername,
-    UpdateCreditByUsername: UpdateCreditByUsername,
-    Insert: Insert,
-    Update: Update,
-    Delete: Delete
+    selectByUsernamePassword: selectByUsernamePassword,
+    selectIdByUsername: selectIdByUsername,
+    selectCreditByUsername: selectCreditByUsername,
+    updateCreditByUsername: updateCreditByUsername,
+    insert: insert,
+    update: update,
+    deleteById: deleteById
 };

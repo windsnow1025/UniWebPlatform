@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
   try {
     const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
-    res.status(200).send(username);
+    res.status(200).json({username: username});
   } catch {
     res.sendStatus(403);
   }
