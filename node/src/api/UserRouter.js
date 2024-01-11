@@ -20,7 +20,7 @@ router.post('/sign-in', async (req, res) => {
     }
   } catch (err) {
     console.error("Error in POST /sign-in:", err);
-    res.status(500).send("Error occurred while fetching data.");
+    res.sendStatus(500);
   }
 });
 
@@ -36,11 +36,11 @@ router.post('/sign-up', async (req, res) => {
     } else {
       // Store Data
       await UserDAO.Insert(data);
-      res.status(200).send(true);
+      res.sendStatus(200);
     }
   } catch (err) {
     console.error("Error in POST /sign-up:", err);
-    res.status(500).send("Error occurred while storing data.");
+    res.sendStatus(500);
   }
 });
 
@@ -68,7 +68,7 @@ router.get('/credit', async (req, res) => {
     res.status(200).json(result[0]);
   } catch (err) {
     console.error("Error in GET /credit:", err);
-    res.status(500).send("Error occurred while fetching data.");
+    res.sendStatus(500);
   }
 });
 
@@ -90,10 +90,10 @@ router.put('/', async (req, res) => {
     // Update Data
     let updateSqlData = {id: current_user[0].id, username: data.username, password: data.password};
     await UserDAO.Update(updateSqlData);
-    res.status(200).send(true);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Error in PUT /:", err);
-    res.status(500).send("Error occurred while updating data.");
+    res.sendStatus(500);
   }
 
 });
@@ -102,10 +102,10 @@ router.delete('/:id', async (req, res) => {
   try {
     let id = req.params.id;
     await UserDAO.Delete(id);
-    res.status(200).send(true);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);
-    res.status(500).send("Error occurred while deleting data.");
+    res.sendStatus(500);
   }
 });
 
