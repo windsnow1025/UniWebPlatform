@@ -18,12 +18,8 @@ router.use(async (req, res, next) => {
     // Get username from token
     const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
 
-    // Get user_id from username
-    const userResult = await UserDAO.SelectByUsername({username: username});
-    const user = userResult[0];
-
     // Set req.user_id
-    req.user_id = user.id;
+    req.user_id = await UserDAO.selectIdByUsername(username);
     next();
   } catch (err) {
     res.sendStatus(403);

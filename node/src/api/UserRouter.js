@@ -7,17 +7,16 @@ const jwt = require('jsonwebtoken');
 
 router.post('/sign-in', async (req, res) => {
   try {
-    let data = req.body;
-    let result = await UserDAO.SelectByUsernamePassword(data);
+    const data = req.body;
 
-    // Judge if data.username and data.password match
-    if (result.length > 0) {
-      // Generate token
-      const token = jwt.sign({sub: data.username}, process.env.JWT_SECRET, {expiresIn: '144h'});
-      res.status(200).json({token});
-    } else {
-      res.status(401).send("Invalid Username or Password");
+    const result = await UserDAO.selectByUsernamePassword(data.username, data.password);
+
+    if (result.length === 0) {
+      return res.sendStatus(401);
     }
+
+    const token = jwt.sign({sub: data.username}, process.env.JWT_SECRET, {expiresIn: '144h'});
+    res.status(200).json({token: token});
   } catch (err) {
     console.error("Error in POST /sign-in:", err);
     res.sendStatus(500);
@@ -26,18 +25,14 @@ router.post('/sign-in', async (req, res) => {
 
 router.post('/sign-up', async (req, res) => {
   try {
-    let data = req.body;
-    let sqlData = {username: data.username};
+    const data = req.body;
 
-    // Judge if data.username exists
-    let result = await UserDAO.SelectByUsername(sqlData);
-    if (result.length > 0) {
-      res.status(409).send("Username already exists");
-    } else {
-      // Store Data
-      await UserDAO.Insert(data);
-      res.sendStatus(200);
+    if (await UserDAO.selectIdByUsername(data.username)) {
+      return res.sendStatus(409);
     }
+
+    await UserDAO.insert(data.username, data.password);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Error in POST /sign-up:", err);
     res.sendStatus(500);
@@ -62,10 +57,8 @@ router.use(async (req, res, next) => {
 
 router.get('/credit', async (req, res) => {
   try {
-    let result = await UserDAO.SelectCreditByUsername({
-      username: req.username
-    });
-    res.status(200).json(result[0]);
+    const credit = await UserDAO.selectCreditByUsername(req.username);
+    res.status(200).json({credit: credit});
   } catch (err) {
     console.error("Error in GET /credit:", err);
     res.sendStatus(500);
@@ -76,20 +69,15 @@ router.get('/credit', async (req, res) => {
 
 router.put('/', async (req, res) => {
   try {
-    let data = req.body;
-
-    // Get current user data
-    let current_user = await UserDAO.SelectByUsername({username: req.username});
-    let potential_new_user = await UserDAO.SelectByUsername({username: data.username});
+    const data = req.body;
 
     // Judge if the username is changed but already exists
-    if (data.username != req.username && potential_new_user.length > 0) {
-      res.status(409).send("Username already exists");
+    if (data.username !== req.username && await UserDAO.selectIdByUsername(data.username)) {
+      return res.sendStatus(409);
     }
 
-    // Update Data
-    let updateSqlData = {id: current_user[0].id, username: data.username, password: data.password};
-    await UserDAO.Update(updateSqlData);
+    const id = await UserDAO.selectIdByUsername(req.username);
+    await UserDAO.update(id, data.username, data.password);
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in PUT /:", err);
@@ -100,8 +88,9 @@ router.put('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    let id = req.params.id;
-    await UserDAO.Delete(id);
+    const param = req.params;
+
+    await UserDAO.deleteById(param.id);
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);

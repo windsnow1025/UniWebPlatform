@@ -25,7 +25,7 @@ export default class UserService {
     const res = await this.axiosInstance.get('/auth/', {
       headers: {Authorization: token}
     });
-    return res.data;
+    return res.data.username;
   }
 
   async updateUser(username, password) {
