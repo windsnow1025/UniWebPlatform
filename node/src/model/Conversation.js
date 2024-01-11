@@ -1,9 +1,15 @@
 /**
+ * @typedef {Object} ConversationMessage
+ * @property {string} role
+ * @property {string} content
+ */
+
+/**
  * @typedef {Object} ConversationParams
  * @property {number || null} id
  * @property {number} user_id
  * @property {string} name
- * @property {Array} conversation
+ * @property {ConversationMessage[]} conversation
  */
 
 class Conversation {
