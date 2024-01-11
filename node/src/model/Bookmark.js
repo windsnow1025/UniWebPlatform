@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} BookmarkParams
- * @property {string} id
+ * @property {number || null} id
  * @property {string} firstTitle
  * @property {string} secondTitle
  * @property {string} url
