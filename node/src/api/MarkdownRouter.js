@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 router.get('/', async (req, res) => {
   try {
-    let markdowns = await MarkdownDAO.SelectAll();
+    const markdowns = await MarkdownDAO.selectAll();
     res.status(200).json(markdowns);
   } catch (err) {
     console.error("Error in GET /:", err);
@@ -16,8 +16,9 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    let id = req.params.id;
-    let markdown = await MarkdownDAO.Select(id);
+    const param = req.params;
+
+    const markdown = await MarkdownDAO.selectById(param.id);
     res.status(200).json(markdown);
   } catch (err) {
     console.error("Error in GET /:", err);
@@ -48,8 +49,8 @@ router.use(async (req, res, next) => {
 
 router.post('/', async (req, res) => {
   try {
-    let data = req.body;
-    await MarkdownDAO.Insert(data);
+    const markdown = req.body;
+    await MarkdownDAO.insert(markdown);
     res.sendStatus(201);
   } catch (err) {
     console.error("Error in POST /:", err);
@@ -59,14 +60,8 @@ router.post('/', async (req, res) => {
 
 router.put('/', async (req, res) => {
   try {
-    let data = req.body;
-    let sqlData = {
-      id: data.id,
-      title: data.title,
-      content: data.content
-    }
-
-    await MarkdownDAO.Update(sqlData);
+    const markdown = req.body;
+    await MarkdownDAO.update(markdown);
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in PUT /:id:", err);
@@ -76,8 +71,8 @@ router.put('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    let id = req.params.id;
-    await MarkdownDAO.Delete(id);
+    const param = req.params;
+    await MarkdownDAO.deleteById(param.id);
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);
