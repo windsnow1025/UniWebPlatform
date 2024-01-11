@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} ConversationParams
- * @property {number} id
+ * @property {number || null} id
  * @property {number} user_id
  * @property {string} name
  * @property {Array} conversation
@@ -10,7 +10,7 @@ class Conversation {
   /**
    * @param {ConversationParams} params
    */
-  constructor({ id = null, user_id, name, conversation }) {
+  constructor({ id = null, user_id, name, conversation = null }) {
     this.id = id;
     this.user_id = user_id;
     this.name = name;

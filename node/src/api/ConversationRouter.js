@@ -80,17 +80,11 @@ router.put('/', async (req, res) => {
 
 router.put('/name', async (req, res) => {
   try {
-    let data = req.body;
-    let name = data.name;
-    let id = data.id;
+    const data = req.body;
 
-    let sqlData = {
-      user_id: req.user_id,
-      name: name,
-      id: id
-    }
+    const conversation = new Conversation({id: data.id, user_id: req.user_id, name: data.name})
 
-    await ConversationDAO.updateName(sqlData);
+    await ConversationDAO.updateName(conversation);
     res.status(200).send(true);
   } catch (err) {
     console.error("Error in PUT /name:", err);
