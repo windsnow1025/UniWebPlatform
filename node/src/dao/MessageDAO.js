@@ -1,34 +1,42 @@
 const DatabaseConnection = require('../db/DatabaseConnection');
 
-async function SelectAll() {
+/**
+ * @returns {Promise<Message>}
+ */
+async function selectAll() {
     const sql = "SELECT * FROM message";
-    const result = await DatabaseConnection.poolQuery(sql);
-    return result;
+    return await DatabaseConnection.poolQuery(sql);
 }
 
-async function Insert(message) {
+/**
+ * @param {Message} message
+ */
+async function insert(message) {
     const sql = "INSERT INTO message (username, content) VALUES (?,?)";
     const sqlParams = [message.username, message.content];
     await DatabaseConnection.poolQuery(sql, sqlParams);
     console.log("1 message inserted");
 }
 
-async function Delete(id) {
+/**
+ * @param {number} id
+ */
+async function deleteById(id) {
     const sql = "DELETE FROM message WHERE id = ?";
     const sqlParams = [id];
     await DatabaseConnection.poolQuery(sql, sqlParams);
     console.log("1 message deleted");
 }
 
-async function DeleteAll() {
+async function deleteAll() {
     const sql = "DELETE FROM message";
     const result = await DatabaseConnection.poolQuery(sql);
     console.log("Number of messages deleted: " + result.affectedRows);
 }
 
 module.exports = {
-    SelectAll: SelectAll,
-    Insert: Insert,
-    Delete: Delete,
-    DeleteAll: DeleteAll
+    selectAll: selectAll,
+    insert: insert,
+    deleteById: deleteById,
+    deleteAll: deleteAll
 };

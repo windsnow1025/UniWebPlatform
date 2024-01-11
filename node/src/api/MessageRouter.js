@@ -5,8 +5,8 @@ const MessageDAO = require("../dao/MessageDAO");
 
 router.get('/', async (req, res) => {
   try {
-    let data = await MessageDAO.SelectAll();
-    res.status(200).json(data);
+    const messages = await MessageDAO.selectAll();
+    res.status(200).json(messages);
   } catch (err) {
     console.error("Error in GET /:", err);
     res.sendStatus(500);
@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    let data = req.body;
-    await MessageDAO.Insert(data);
+    const message = req.body;
+    await MessageDAO.insert(message);
     res.sendStatus(201);
   } catch (err) {
     console.error("Error in POST /:", err);
@@ -26,8 +26,8 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    let id = req.params.id;
-    await MessageDAO.Delete(id);
+    const param = req.params;
+    await MessageDAO.deleteById(param.id);
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);
@@ -37,7 +37,7 @@ router.delete('/:id', async (req, res) => {
 
 router.delete('/', async (req, res) => {
   try {
-    await MessageDAO.DeleteAll();
+    await MessageDAO.deleteAll();
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:", err);
