@@ -41,7 +41,7 @@ router.post('/', async (req, res, next) => {
   try {
     const bookmark = req.body;
     await BookmarkDAO.insert(bookmark);
-    res.status(201).send(true);
+    res.sendStatus(201);
   } catch (err) {
     console.error("Error in POST /:", err);
     res.sendStatus(500);
@@ -62,7 +62,7 @@ router.put('/:id', async (req, res, next) => {
     })
 
     await BookmarkDAO.update(bookmark);
-    res.status(200).send(true);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Error in PUT /:id:", err);
     res.sendStatus(500);
@@ -73,10 +73,10 @@ router.delete('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     await BookmarkDAO.deleteByID(id);
-    res.status(200).send(true);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);
-    res.status(500).send("Error occurred while deleting bookmark.");
+    res.sendStatus(500);
   }
 });
 
