@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} ConversationParams
+ * @typedef {Object} MarkdownParams
  * @property {number || null} id
  * @property {string} title
  * @property {string} content
@@ -7,7 +7,7 @@
 
 class Markdown {
     /**
-     * @param {ConversationParams} params
+     * @param {MarkdownParams} params
      */
     constructor({ id = null, title, content }) {
         this.id = id;
