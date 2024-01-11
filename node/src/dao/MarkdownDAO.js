@@ -1,34 +1,48 @@
 const DatabaseConnection = require('../db/DatabaseConnection');
 
-async function SelectAll() {
+/**
+ * @returns {Promise<Markdown[]>}
+ */
+async function selectAll() {
     const sql = "SELECT * FROM markdown";
-    const result = await DatabaseConnection.poolQuery(sql);
-    return result;
+    return await DatabaseConnection.poolQuery(sql);
 }
 
-async function Select(id) {
+/**
+ * @param {number} id
+ * @returns {Promise<Markdown>}
+ */
+async function selectById(id) {
     const sql = "SELECT * FROM markdown WHERE id = ?";
     const sqlParams = [id];
     const result = await DatabaseConnection.poolQuery(sql, sqlParams);
     return result[0];
 }
 
-async function Insert(data) {
+/**
+ * @param {Markdown} markdown
+ */
+async function insert(markdown) {
     const sql = "INSERT INTO markdown (title, content) VALUES (?,?)";
-    const sqlParams = [data.title, data.content];
+    const sqlParams = [markdown.title, markdown.content];
     await DatabaseConnection.poolQuery(sql, sqlParams);
     console.log("1 markdown inserted");
 }
 
-async function Update(data) {
+/**
+ * @param {Markdown} markdown
+ */
+async function update(markdown) {
     const sql = "UPDATE markdown SET title = ?, content = ? WHERE id = ?";
-    const sqlParams = [data.title, data.content, data.id];
+    const sqlParams = [markdown.title, markdown.content, markdown.id];
     await DatabaseConnection.poolQuery(sql, sqlParams);
     console.log("1 markdown updated");
 }
 
-
-async function Delete(id) {
+/**
+ * @param {number} id
+ */
+async function deleteById(id) {
     const sql = "DELETE FROM markdown WHERE id = ?";
     const sqlParams = [id];
     await DatabaseConnection.poolQuery(sql, sqlParams);
@@ -36,9 +50,9 @@ async function Delete(id) {
 }
 
 module.exports = {
-    SelectAll: SelectAll,
-    Select: Select,
-    Insert: Insert,
-    Update: Update,
-    Delete: Delete
+    selectAll: selectAll,
+    selectById: selectById,
+    insert: insert,
+    update: update,
+    deleteById: deleteById
 };
