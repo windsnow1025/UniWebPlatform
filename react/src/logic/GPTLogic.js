@@ -132,6 +132,6 @@ export class GPTLogic {
   }
 
   sanitize(content) {
-    return content.replace("<", "&lt;").replace(">", "&gt;");
+    return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 }
