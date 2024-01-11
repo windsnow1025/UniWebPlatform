@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
     res.status(200).json(conversations);
   } catch (err) {
     console.error("Error in GET /:", err);
-    res.status(500).send("Error occurred while fetching conversations.");
+    res.sendStatus(500);
   }
 });
 
@@ -52,10 +52,10 @@ router.post('/', async (req, res) => {
     });
 
     await ConversationDAO.insert(conversation);
-    res.status(201).send(true);
+    res.sendStatus(201);
   } catch (err) {
     console.error("Error in POST /:", err);
-    res.status(500).send("Error occurred while storing conversation.");
+    res.sendStatus(500);
   }
 });
 
@@ -71,10 +71,10 @@ router.put('/', async (req, res) => {
     });
 
     await ConversationDAO.update(conversation);
-    res.status(200).send(true);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Error in PUT /:", err);
-    res.status(500).send("Error occurred while updating conversation.");
+    res.sendStatus(500);
   }
 });
 
@@ -85,10 +85,10 @@ router.put('/name', async (req, res) => {
     const conversation = new Conversation({id: data.id, user_id: req.user_id, name: data.name})
 
     await ConversationDAO.updateName(conversation);
-    res.status(200).send(true);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Error in PUT /name:", err);
-    res.status(500).send("Error occurred while updating conversation.");
+    res.sendStatus(500);
   }
 });
 
@@ -97,10 +97,10 @@ router.delete('/:id', async (req, res) => {
     const params = req.params;
 
     await ConversationDAO.deleteById(req.user_id, params.id);
-    res.status(200).send(true);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);
-    res.status(500).send("Error occurred while deleting conversation.");
+    res.sendStatus(500);
   }
 });
 
