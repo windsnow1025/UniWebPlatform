@@ -44,9 +44,9 @@ async function update(id, username, password) {
     console.log("1 user updated");
 }
 
-async function deleteById(id) {
-    const sql = "DELETE FROM user WHERE id = ?";
-    const sqlParams = [id];
+async function deleteByUsername(username) {
+    const sql = "DELETE FROM user WHERE username = ?";
+    const sqlParams = [username];
     await DatabaseConnection.poolQuery(sql, sqlParams);
     console.log("1 user deleted");
 }
@@ -58,5 +58,5 @@ module.exports = {
     updateCreditByUsername: updateCreditByUsername,
     insert: insert,
     update: update,
-    deleteById: deleteById
+    deleteByUsername: deleteByUsername
 };

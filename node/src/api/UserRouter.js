@@ -1,9 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const UserDAO = require("../dao/UserDAO");
+const JWT = require("../logic/JWT");
 
-const jwt = require('jsonwebtoken');
 
+router.get('/', async (req, res) => {
+
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.sendStatus(401);
+  }
+
+  const username = await JWT.getUsernameFromToken(token);
+  if (!username) {
+    return res.sendStatus(403);
+  }
+  res.status(200).json({username: username});
+});
 
 router.post('/sign-in', async (req, res) => {
   try {
@@ -15,7 +28,7 @@ router.post('/sign-in', async (req, res) => {
       return res.sendStatus(401);
     }
 
-    const token = jwt.sign({sub: data.username}, process.env.JWT_SECRET, {expiresIn: '144h'});
+    const token = await JWT.getTokenFromUsername(data.username);
     res.status(200).json({token: token});
   } catch (err) {
     console.error("Error in POST /sign-in:", err);
@@ -40,19 +53,17 @@ router.post('/sign-up', async (req, res) => {
 });
 
 router.use(async (req, res, next) => {
-
   const token = req.headers.authorization;
-
   if (!token) {
     return res.sendStatus(401);
   }
 
-  try {
-    req.username = jwt.verify(token, process.env.JWT_SECRET).sub;
-    next();
-  } catch (err) {
-    res.sendStatus(403);
+  const username = await JWT.getUsernameFromToken(token, "admin");
+  if (!username) {
+    return res.sendStatus(403);
   }
+  req.username = username;
+  next();
 });
 
 router.get('/credit', async (req, res) => {
@@ -64,8 +75,6 @@ router.get('/credit', async (req, res) => {
     res.sendStatus(500);
   }
 });
-
-// Do not expose credit update API to the frontend!
 
 router.put('/', async (req, res) => {
   try {
@@ -86,11 +95,9 @@ router.put('/', async (req, res) => {
 
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/', async (req, res) => {
   try {
-    const param = req.params;
-
-    await UserDAO.deleteById(param.id);
+    await UserDAO.deleteByUsername(req.username);
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);

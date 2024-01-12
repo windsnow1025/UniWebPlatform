@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const MarkdownDAO = require("../dao/MarkdownDAO");
-const jwt = require('jsonwebtoken');
+const JWT = require("../logic/JWT");
 
 
 router.get('/', async (req, res) => {
@@ -26,25 +26,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-const rootUser = "windsnow1025@gmail.com";
-
 router.use(async (req, res, next) => {
-
   const token = req.headers.authorization;
-
   if (!token) {
     return res.sendStatus(401);
   }
 
-  try {
-    const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
-    if (username !== rootUser) {
-      return res.sendStatus(403);
-    }
-    next();
-  } catch (err) {
-    res.sendStatus(403);
+  const username = await JWT.getUsernameFromToken(token, "admin");
+  if (!username) {
+    return res.sendStatus(403);
   }
+  next();
 });
 
 router.post('/', async (req, res) => {
