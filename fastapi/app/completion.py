@@ -29,7 +29,7 @@ class ChatCompletionFactory:
             )
         elif api_type == "azure":
             self.openai = AzureOpenAI(
-                api_version="2023-07-01-preview",
+                api_version="2023-12-01-preview",
                 azure_endpoint=os.environ["AZURE_API_BASE"],
                 api_key=os.environ["AZURE_API_KEY"],
             )
