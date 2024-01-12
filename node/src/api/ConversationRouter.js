@@ -1,30 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const ConversationDAO = require("../dao/ConversationDAO");
-const UserDAO = require("../dao/UserDAO");
 const Conversation = require("../model/Conversation");
-const jwt = require('jsonwebtoken');
+const JWT = require("../logic/JWT");
 
 
 router.use(async (req, res, next) => {
 
   const token = req.headers.authorization;
-
   if (!token) {
     return res.sendStatus(401);
   }
 
-  try {
-    // Get username from token
-    const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
-
-    // Set req.user_id
-    req.user_id = await UserDAO.selectIdByUsername(username);
-    next();
-  } catch (err) {
-    res.sendStatus(403);
+  const userId = await JWT.getUserIdFromToken(token);
+  if (!userId) {
+    return res.sendStatus(403);
   }
-
+  req.user_id = userId;
+  next();
 });
 
 router.get('/', async (req, res) => {

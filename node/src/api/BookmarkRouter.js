@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const BookmarkDAO = require("../dao/BookmarkDAO");
 const Bookmark = require("../model/Bookmark");
-const jwt = require('jsonwebtoken');
+const JWT = require("../logic/JWT");
 
 
 router.get('/', async (req, res, next) => {
@@ -16,25 +16,17 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-const rootUser = "windsnow1025@gmail.com";
-
 router.use(async (req, res, next) => {
-
   const token = req.headers.authorization;
-
   if (!token) {
     return res.sendStatus(401);
   }
 
-  try {
-    const username = await jwt.verify(token, process.env.JWT_SECRET).sub;
-    if (username !== rootUser) {
-      return res.sendStatus(403);
-    }
-    next();
-  } catch (err) {
-    res.sendStatus(403);
+  const username = await JWT.getUsernameFromToken(token, "admin");
+  if (!username) {
+    return res.sendStatus(403);
   }
+  next();
 });
 
 router.post('/', async (req, res, next) => {
