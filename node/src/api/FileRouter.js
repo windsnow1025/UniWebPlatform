@@ -31,7 +31,7 @@ router.post('/', upload.single('file'), (req, res) => {
 
   // Generate file access URL
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-  const host = req.headers['x-forwarded-host'] || req.get('host');
+  const host = req.headers['host'] || req.get('host');
   const url = `${protocol}://${host}/uploads/${req.file.filename}`;
 
   return res.status(200).json({url: url});
