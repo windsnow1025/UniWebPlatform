@@ -9,7 +9,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import {useEffect, useState} from "react";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 
-function Page() {
+function Index() {
   const [theme, setTheme] = useState(getLightMUITheme());
 
   useEffect(() => {
@@ -43,4 +43,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default Index;
