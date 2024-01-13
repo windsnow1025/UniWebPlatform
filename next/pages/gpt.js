@@ -206,9 +206,11 @@ function GPT() {
   const handleFileUpload = (index, fileUrl) => {
     const newMessages = [...messages];
     const currentMessage = newMessages[index];
-    currentMessage.content = currentMessage ? currentMessage.content + '\n' + fileUrl : fileUrl;
+
+    currentMessage.content = gptLogic.addImage(currentMessage.content, fileUrl);
     setMessages(newMessages);
   };
+
 
   const handleMessageAdd = (index) => {
     const newMessages = [...messages];

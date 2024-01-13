@@ -134,4 +134,32 @@ export class GPTLogic {
   sanitize(content) {
     return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
+
+  addImage(content, url) {
+    let contentArray = [];
+
+    // Check if the existing content is a JSON array
+    try {
+      // Attempt to parse the existing content as JSON
+      contentArray = JSON.parse(content);
+      if (!Array.isArray(contentArray)) {
+        // If the parsed content is not an array, start a new array with the existing content
+        contentArray = [{"type": "text", "text": content}];
+      }
+    } catch (e) {
+      // If parsing fails, assume it's plain text
+      if (content) {
+        contentArray = [{"type": "text", "text": content}];
+      }
+    }
+
+    // Append the image URL object
+    contentArray.push({
+      "type": "image_url",
+      "image_url": url
+    });
+
+    // Update the message content with the new array
+    return JSON.stringify(contentArray);
+  }
 }
