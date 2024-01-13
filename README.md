@@ -6,9 +6,9 @@ A full stack web application for my personal website containing markdown blogs, 
 
 ## Tech Stack
 
-Front End: Node.js Create-React-App + MUI
+Front End: Node.js - React.js - Next.js + MUI
 
-Back End: Node.js Express + Python FastAPI
+Back End: Node.js - Express.js + Python FastAPI
 
 Storage: MySQL
 
@@ -64,11 +64,11 @@ cd FullStack-Web/nginx
 docker build -t nginx .
 ```
 
-##### React.js
+##### Next.js
 
 ```bash
-cd FullStack-Web/react
-docker build -t react .
+cd FullStack-Web/next
+docker build -t next .
 ```
 
 ##### Node.js
@@ -106,7 +106,7 @@ docker compose up [-d]
 
 Windows
 
-Manually setup and run React, Node, FastAPI separately according to their documentations.
+Manually setup and run Next, Node, FastAPI separately according to their documentations.
 
 ## Usage
 
