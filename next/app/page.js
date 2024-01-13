@@ -17,7 +17,7 @@ function Page() {
       setTheme(event.detail);
     };
     window.addEventListener('themeChanged', handleThemeChange);
-    // setTheme(getInitMUITheme());
+    setTheme(getInitMUITheme());
   }, []);
 
   useEffect(() => {
