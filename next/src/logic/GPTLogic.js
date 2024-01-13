@@ -94,16 +94,19 @@ export class GPTLogic {
 
   processMessages(messages) {
     return messages.map(message => {
-      if (typeof message.content === 'string') {
+      const newMessage = { ...message };
+
+      if (typeof newMessage.content === 'string') {
         try {
-          message.content = JSON.parse(message.content);
+          newMessage.content = JSON.parse(newMessage.content);
         } catch {
-          return message;
+          return newMessage;
         }
       }
-      return message;
+      return newMessage;
     });
   }
+
 
   async nonStreamGenerate(messages, api_type, model, temperature, stream) {
     try {
