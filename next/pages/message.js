@@ -84,6 +84,11 @@ function MessageTransmitter() {
     setNewMessage(prev => ({...prev, content}));
   };
 
+  const onFileUpload = (fileUrl) => {
+    const updatedContent = `${newMessage.content}\nfile: ${fileUrl}`;
+    setNewMessage(prev => ({...prev, content: updatedContent}));
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <h1 className="center">Message Transmitter</h1>
@@ -116,7 +121,7 @@ function MessageTransmitter() {
           contentInitial={newMessage.content}
           onRoleChange={onNewMessageRoleChange}
           onContentChange={onNewMessageContentChange}
-          useFileUpload={true}
+          onFileUpload={onFileUpload}
         />
         <div className="center">
           <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>

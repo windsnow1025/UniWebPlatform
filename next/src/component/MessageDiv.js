@@ -15,7 +15,7 @@ function MessageDiv({
                       onContentChange,
                       useRoleSelect,
                       onContentDelete,
-                      useFileUpload
+                      onFileUpload
                     }) {
   const fileInputRef = useRef(null);
   const fileService = new FileService();
@@ -26,11 +26,8 @@ function MessageDiv({
     if (file) {
       try {
         const response = await fileService.upload(file);
-
-        // Append file URL to the content
         const fileUrl = response.url;
-        const updatedContent = `${contentInitial}\n${fileUrl}`;
-        onContentChange(updatedContent);
+        onFileUpload(fileUrl);
       } catch (error) {
         console.error('Error uploading file:', error);
       }
@@ -66,7 +63,7 @@ function MessageDiv({
           />
         </div>
         <div className="Flex-Column inFlex-flex-end">
-          {useFileUpload &&
+          {onFileUpload &&
             <>
               <input
                 type="file"
