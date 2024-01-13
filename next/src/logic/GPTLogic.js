@@ -92,9 +92,22 @@ export class GPTLogic {
     });
   }
 
+  processMessages(messages) {
+    return messages.map(message => {
+      if (typeof message.content === 'string') {
+        try {
+          message.content = JSON.parse(message.content);
+        } catch {
+          return message;
+        }
+      }
+      return message;
+    });
+  }
+
   async nonStreamGenerate(messages, api_type, model, temperature, stream) {
     try {
-      const content = await this.gptService.generate(messages, api_type, model, temperature, stream);
+      const content = await this.gptService.generate(this.processMessages(messages), api_type, model, temperature, stream);
       return this.sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
@@ -107,7 +120,7 @@ export class GPTLogic {
 
     try {
 
-      const response = await this.gptService.generate(messages, api_type, model, temperature, stream);
+      const response = await this.gptService.generate(this.processMessages(messages), api_type, model, temperature, stream);
       controller = response.controller;
       const reader = response.reader;
 
@@ -135,7 +148,7 @@ export class GPTLogic {
     return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  addImage(content, url) {
+  addImageUrlToContent(content, url) {
     let contentArray = [];
 
     // Check if the existing content is a JSON array

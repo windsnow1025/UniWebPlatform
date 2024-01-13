@@ -207,7 +207,7 @@ function GPT() {
     const newMessages = [...messages];
     const currentMessage = newMessages[index];
 
-    currentMessage.content = gptLogic.addImage(currentMessage.content, fileUrl);
+    currentMessage.content = gptLogic.addImageUrlToContent(currentMessage.content, fileUrl);
     setMessages(newMessages);
   };
 
