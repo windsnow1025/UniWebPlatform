@@ -116,6 +116,7 @@ function MessageTransmitter() {
           contentInitial={newMessage.content}
           onRoleChange={onNewMessageRoleChange}
           onContentChange={onNewMessageContentChange}
+          useFileUpload={true}
         />
         <div className="center">
           <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>
