@@ -29,7 +29,7 @@ app.add_middleware(
 
 
 class ChatRequest(BaseModel):
-    messages: list[dict[str, str]]
+    messages: list[dict[str, str | list[dict[str, str]]]]
     model: str
     api_type: str
     temperature: float
