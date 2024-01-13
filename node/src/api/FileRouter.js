@@ -13,18 +13,18 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({storage: storage});
 
 // File Upload Endpoint
-router.post('/upload', upload.single('file'), (req, res) => {
+router.post('/', upload.single('file'), (req, res) => {
   if (!req.file) {
-    return res.status(400).send('No file uploaded.');
+    return res.sendStatus(400);
   }
 
   // Generate file access URL
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  const url = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
 
-  return res.status(200).json({ message: 'File uploaded successfully', fileUrl: fileUrl });
+  return res.status(200).json({url: url});
 });
 
 module.exports = router;
