@@ -69,19 +69,19 @@ function MessageDiv({
                 type="file"
                 ref={fileInputRef}
                 onChange={handleFileUpload}
-                style={{ display: 'none' }}
+                style={{display: 'none'}}
               />
               <IconButton aria-label="upload" onClick={triggerFileInput}>
-                <UploadIcon />
+                <UploadIcon/>
               </IconButton>
             </>
           }
           <IconButton aria-label="copy" onClick={handleContentCopy}>
-            <ContentCopyIcon fontSize="small" />
+            <ContentCopyIcon fontSize="small"/>
           </IconButton>
           {onContentDelete &&
             <IconButton aria-label="delete" onClick={onContentDelete}>
-              <RemoveCircleOutlineIcon fontSize="small" />
+              <RemoveCircleOutlineIcon fontSize="small"/>
             </IconButton>
           }
         </div>
