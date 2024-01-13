@@ -27,12 +27,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routers
 const rootAPI = require('./api/RootRouter');
+const fileAPI = require('./api/FileRouter');
 const bookmarkAPI = require('./api/BookmarkRouter');
 const conversationAPI = require('./api/ConversationRouter');
 const markdownAPI = require('./api/MarkdownRouter');
 const messageAPI = require('./api/MessageRouter');
 const userAPI = require('./api/UserRouter');
+app.use('/uploads', express.static('uploads'));
 app.use('/', rootAPI);
+app.use('/file', fileAPI);
 app.use('/bookmark', bookmarkAPI);
 app.use('/conversation', conversationAPI);
 app.use('/markdown', markdownAPI);
