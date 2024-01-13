@@ -311,7 +311,7 @@ function GPT() {
                 onContentChange={(content) => handleContentChange(index, content)}
                 useRoleSelect={true}
                 onContentDelete={() => handleContentDelete(index)}
-                useFileUpload={true}
+                onFileUpload={() => {}}
               />
               <div className="Flex-space-between">
                 <div className="inFlex-FillSpace"/>
