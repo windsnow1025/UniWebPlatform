@@ -28,8 +28,23 @@ app.add_middleware(
 )
 
 
+class TextContent(BaseModel):
+    type: str
+    text: str
+
+
+class ImageContent(BaseModel):
+    type: str
+    image_url: str
+
+
+class Message(BaseModel):
+    role: str
+    content: str | list[TextContent | ImageContent]
+
+
 class ChatRequest(BaseModel):
-    messages: list[dict[str, str | list[dict[str, str]]]]
+    messages: list[Message]
     model: str
     api_type: str
     temperature: float
@@ -60,7 +75,7 @@ async def generate(chat_request: ChatRequest, username: str = Depends(get_userna
 
     logging.info(f"username: {username}, model: {chat_request.model}")
 
-    prompt_tokens = sum(len(message.get('content')) for message in chat_request.messages)
+    prompt_tokens = sum(len(message.content) for message in chat_request.messages)
     credit -= calculate_cost(chat_request.api_type, chat_request.model, prompt_tokens, 0)
     update_credit(username, credit)
 
