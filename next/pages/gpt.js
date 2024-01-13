@@ -203,6 +203,13 @@ function GPT() {
     setMessages(newMessages);
   };
 
+  const handleFileUpload = (index, fileUrl) => {
+    const newMessages = [...messages];
+    const currentMessage = newMessages[index];
+    currentMessage.content = currentMessage ? currentMessage.content + '\n' + fileUrl : fileUrl;
+    setMessages(newMessages);
+  };
+
   const handleMessageAdd = (index) => {
     const newMessages = [...messages];
     newMessages.splice(index + 1, 0, {
@@ -311,7 +318,7 @@ function GPT() {
                 onContentChange={(content) => handleContentChange(index, content)}
                 useRoleSelect={true}
                 onContentDelete={() => handleContentDelete(index)}
-                onFileUpload={() => {}}
+                onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
               />
               <div className="Flex-space-between">
                 <div className="inFlex-FillSpace"/>
