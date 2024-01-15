@@ -197,7 +197,7 @@ function GPT() {
     setMessages(newMessages);
   };
 
-  const handleContentDelete = (index) => {
+  const handleMessageDelete = (index) => {
     const newMessages = [...messages];
     newMessages.splice(index, 1);
     setMessages(newMessages);
@@ -207,10 +207,9 @@ function GPT() {
     const newMessages = [...messages];
     const currentMessage = newMessages[index];
 
-    currentMessage.content = gptLogic.addImageUrlToContent(currentMessage.content, fileUrl);
+    currentMessage.files = (currentMessage.files || []).concat(fileUrl);
     setMessages(newMessages);
   };
-
 
   const handleMessageAdd = (index) => {
     const newMessages = [...messages];
@@ -316,11 +315,12 @@ function GPT() {
               <MessageDiv
                 roleInitial={message.role}
                 contentInitial={message.content}
+                filesInitial={message.files}
                 onRoleChange={(role) => handleRoleChange(index, role)}
                 onContentChange={(content) => handleContentChange(index, content)}
-                useRoleSelect={true}
-                onContentDelete={() => handleContentDelete(index)}
                 onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
+                useRoleSelect={true}
+                onMessageDelete={() => handleMessageDelete(index)}
               />
               <div className="Flex-space-between">
                 <div className="inFlex-FillSpace"/>

@@ -92,22 +92,6 @@ export class GPTLogic {
     });
   }
 
-  processMessages(messages) {
-    return messages.map(message => {
-      const newMessage = { ...message };
-
-      if (typeof newMessage.content === 'string') {
-        try {
-          newMessage.content = JSON.parse(newMessage.content);
-        } catch {
-          return newMessage;
-        }
-      }
-      return newMessage;
-    });
-  }
-
-
   async nonStreamGenerate(messages, api_type, model, temperature, stream) {
     try {
       const content = await this.gptService.generate(this.processMessages(messages), api_type, model, temperature, stream);
@@ -151,31 +135,28 @@ export class GPTLogic {
     return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  addImageUrlToContent(content, url) {
-    let contentArray = [];
+  processMessages(messages) {
+    return messages.map(message => {
+      const newMessage = { ...message };
 
-    // Check if the existing content is a JSON array
-    try {
-      // Attempt to parse the existing content as JSON
-      contentArray = JSON.parse(content);
-      if (!Array.isArray(contentArray)) {
-        // If the parsed content is not an array, start a new array with the existing content
-        contentArray = [{"type": "text", "text": content}];
+      if (newMessage.files) {
+        newMessage.content = this.addUrlsToContent(newMessage.content, newMessage.files);
+        delete newMessage.files;
       }
-    } catch (e) {
-      // If parsing fails, assume it's plain text
-      if (content) {
-        contentArray = [{"type": "text", "text": content}];
-      }
-    }
+      return newMessage;
+    });
+  }
 
-    // Append the image URL object
-    contentArray.push({
-      "type": "image_url",
-      "image_url": url
+  addUrlsToContent(content, urls) {
+    let contentArray = [{"type": "text", "text": content}];
+
+    urls.forEach(url => {
+      contentArray.push({
+        "type": "image_url",
+        "image_url": url
+      });
     });
 
-    // Update the message content with the new array
-    return JSON.stringify(contentArray);
+    return contentArray;
   }
 }
