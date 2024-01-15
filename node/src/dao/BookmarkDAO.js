@@ -1,11 +1,21 @@
 const DatabaseConnection = require('../db/DatabaseConnection');
+const Bookmark = require("../model/Bookmark");
 
 /**
  * @returns {Promise<Bookmark[]>}
  */
 async function select() {
     const sql = "SELECT * FROM bookmark";
-    return await DatabaseConnection.poolQuery(sql);
+    const result = await DatabaseConnection.poolQuery(sql);
+    return result.map(row => {
+        return new Bookmark({
+            id: row.id,
+            firstTitle: row.first_title,
+            secondTitle: row.second_title,
+            url: row.url,
+            comment: row.comment
+        });
+    });
 }
 
 /**
