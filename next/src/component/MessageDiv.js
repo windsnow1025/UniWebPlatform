@@ -11,11 +11,12 @@ import FileService from "../service/FileService";
 function MessageDiv({
                       roleInitial,
                       contentInitial,
+                      filesInitial,
                       onRoleChange,
                       onContentChange,
+                      onFileUpload,
                       useRoleSelect,
-                      onContentDelete,
-                      onFileUpload
+                      onMessageDelete
                     }) {
   const fileInputRef = useRef(null);
   const fileService = new FileService();
@@ -79,12 +80,24 @@ function MessageDiv({
           <IconButton aria-label="copy" onClick={handleContentCopy}>
             <ContentCopyIcon fontSize="small"/>
           </IconButton>
-          {onContentDelete &&
-            <IconButton aria-label="delete" onClick={onContentDelete}>
+          {onMessageDelete &&
+            <IconButton aria-label="delete" onClick={onMessageDelete}>
               <RemoveCircleOutlineIcon fontSize="small"/>
             </IconButton>
           }
         </div>
+      </div>
+      <div>
+        {filesInitial && filesInitial.map((file, index) => (
+          <div key={index}>
+            <img
+              key={index}
+              src={file}
+              alt="file"
+              style={{maxWidth: '100%'}}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
