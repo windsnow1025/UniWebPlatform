@@ -16,7 +16,6 @@ export class BookmarkLogic {
   }
 
   async addBookmark(newBookmark) {
-    // await this.bookmarkService.addBookmark(newBookmark);
     try {
       await this.bookmarkService.addBookmark(newBookmark);
     } catch (error) {
