@@ -113,11 +113,13 @@ function Bookmark() {
         if (isInEditMode) {
           return [
             <GridActionsCellItem
+              key="save"
               icon={<SaveIcon/>}
               label="Save"
               onClick={() => setRowModesModel({...rowModesModel, [id]: {mode: GridRowModes.View}})}
             />,
             <GridActionsCellItem
+              key="cancel"
               icon={<CancelIcon/>}
               label="Cancel"
               onClick={handleCancelClick(id)}
@@ -127,11 +129,13 @@ function Bookmark() {
 
         return [
           <GridActionsCellItem
+            key="edit"
             icon={<EditIcon/>}
             label="Edit"
             onClick={() => setRowModesModel({...rowModesModel, [id]: {mode: GridRowModes.Edit}})}
           />,
           <GridActionsCellItem
+            key="delete"
             icon={<DeleteIcon/>}
             label="Delete"
             onClick={() => handleDeleteClick(id)}
