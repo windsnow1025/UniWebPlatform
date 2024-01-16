@@ -1,4 +1,4 @@
-import '../src/asset/css/App.css';
+import '../src/asset/css/index.css';
 
 import React, {useState, useEffect, useRef} from 'react';
 import { useRouter } from 'next/router';

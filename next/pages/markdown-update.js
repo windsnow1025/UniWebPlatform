@@ -1,12 +1,12 @@
-import '../src/asset/css/App.css';
+import '../src/asset/css/index.css';
 
 import React, { useState, useEffect, useRef } from 'react';
 import {parseMarkdown} from "../src/util/MarkdownParser";
 import {parseLaTeX} from "../src/util/LaTeXParser";
 import { MarkdownLogic } from '../src/logic/MarkdownLogic';
 import '../src/asset/css/markdown.css';
-import AuthDiv from "../components/AuthDiv";
-import ThemeSelect from "../components/ThemeSelect";
+import AuthDiv from "../app/components/AuthDiv";
+import ThemeSelect from "../app/components/ThemeSelect";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {AppBar, Button} from "@mui/material";

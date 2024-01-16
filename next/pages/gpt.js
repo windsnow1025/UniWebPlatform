@@ -1,4 +1,4 @@
-import '../src/asset/css/App.css';
+import '../src/asset/css/index.css';
 
 import React, {useState, useEffect, useRef} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
@@ -21,10 +21,10 @@ import UploadIcon from '@mui/icons-material/Upload';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import {GPTLogic} from "../src/logic/GPTLogic";
 import UserService from "../src/service/UserService";
-import AuthDiv from '../components/AuthDiv';
-import ThemeSelect from '../components/ThemeSelect';
-import MessageDiv from "../components/MessageDiv";
-import ConversationAutocomplete from "../components/ConversationAutocomplete";
+import AuthDiv from '../app/components/AuthDiv';
+import ThemeSelect from '../app/components/ThemeSelect';
+import MessageDiv from "../app/components/MessageDiv";
+import ConversationAutocomplete from "../app/components/ConversationAutocomplete";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 
 function GPT() {
