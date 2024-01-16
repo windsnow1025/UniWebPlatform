@@ -2,42 +2,38 @@
 
 ## Introduction
 
-WindsnowGPT is powered by OpenAI completion models. Any cost will incur to windsnow1024, the owner of the API key.
+WindsnowGPT, utilizing OpenAI completion models, bills costs to the API key owner, windsnow1024. New users start with 0 credits and should contact the author for account verification and credit increase. Verified users receive 5 free credits. Monthly, users gain 1 credit (up to 5). Credit usage depends on conversation length and is calculated based on OpenAI's pricing. Without credits, users must contact the author for more.
 
-See [OpenAI Pricing](https://openai.com/pricing), [OpenAI Models](https://platform.openai.com/docs/models), [OpenAI API Reference](https://platform.openai.com/docs/api-reference/), [GPT Guide](https://platform.openai.com/docs/guides/gpt) for more information.
+For further details:
 
-All messages are parsed by Marked.js and Katex.
+- [OpenAI Pricing](https://openai.com/pricing)
+- [OpenAI Models](https://platform.openai.com/docs/models)
+- [OpenAI API Reference](https://platform.openai.com/docs/api-reference/)
+- [GPT Guide](https://platform.openai.com/docs/guides/gpt)
 
-More features and GUI improvements are coming soon.
+Messages are processed using Marked.js and Katex. Expect more features and GUI enhancements soon.
 
 ## Instructions
 
-The default role for user is `user`. You can define global rules using the `system` role, or modify the reply of `assistant`.
+Default user role: `user`. Use `system` for global rules or modify `assistant` replies. Disable Microsoft Editor to avoid unintended changes. For issues, try disabling extensions and refreshing (`Ctrl + F5`) or contact the author.
 
-It is crucial to disable Microsoft Editor to prevent the contents from being unexpectedly changed. If the website is not working properly, please first consider disabling all extensions (especially AdBlock and Microsoft Editor) and press `Ctrl + F5` to refresh. If the problem still exists, please contact author.
+- **Temperature (0-2)**: Lower values yield predictable outputs; higher values produce varied results. Optimal range: 0-1.
+- **Stream Mode**: Receive reply segments in real-time.
 
-**Temperature** is a value between 0 and 2. The lower the temperature, the more likely the model will output the most likely next token. The higher the temperature, the more likely the model will output a less likely token. The recommended value is between 0 and 1.
+## Feature Comparison: WindsnowGPT vs ChatGPT
 
-**Stream** mode enables you to receive the chunks of the reply as soon as they are generated.
+| Feature            | WindsnowGPT                                 | ChatGPT                                            | Advantage   |
+|--------------------|---------------------------------------------|----------------------------------------------------|-------------|
+| Message Editing    | Add / Edit / Delete at anywhere to any role | Add / Edit at conversation end to user             | WindsnowGPT |
+| Model Selection    | All OpenAI and Azure Models available       | Default OpenAI GPT-3.5 & GPT-4 (Plus) available    | WindsnowGPT |
+| Content Parsing    | Markdown and LaTeX in all messages rendered | Markdown and LaTeX in assistant rendered           | WindsnowGPT |
+| Content Censorship | Basic API restrictions                      | Basic API restrictions and additional restrictions | WindsnowGPT |
+| Customization      | Adjustable Temperature and Stream mode      | Fixed settings                                     | WindsnowGPT |
+| Image Adding       | Supported                                   | Supported                                          | Equal       |
+| Image Generation   | Not available                               | Only ChatGPT Plus                                  | ChatGPT     |
+| Plugins            | Not available                               | Only ChatGPT Plus                                  | ChatGPT     |
+| GPTs               | Not available                               | Only ChatGPT Plus                                  | ChatGPT     |
 
-## Why not ChatGPT?
+## Known Issues
 
-You could add a message at any place as any role in WindsnowGPT, while ChatGPT only allows you to add a message as a user at the end of the conversation.
-
-Any message at any place can be added, edited or deleted in WindsnowGPT, which is not possible in ChatGPT.
-
-You could set the system role to define global rules in WindsnowGPT, while the content of the system role in ChatGPT is fixed.
-
-You could select the model freely in WindsnowGPT, while ChatGPT only uses the default model.
-
-Every message content is parsed to display the markdown and latex in WindsnowGPT, while ChatGPT only render the content output by the assistant.
-
-No additional content censorship imposed in WindsnowGPT, while ChatGPT will restrict illegal input and output contents.
-
-The temperature and the output mode is adjustable in WindsnowGPT, which is not in ChatGPT.
-
-The maximum single content length is based on the maximum tokens of the model, while there is a tighter limit in ChatGPT.
-
-## Known Bugs
-
-Cursor will automatically move to the beginning of the editable content which is being streamed.
+- Cursor may move to the start of the streaming editable content.
