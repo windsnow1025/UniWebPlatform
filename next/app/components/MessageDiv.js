@@ -44,7 +44,7 @@ function MessageDiv({
   };
 
   return (
-    <Paper elevation={4} className="message_div my-1 p-2 rounded-lg">
+    <Paper elevation={4} className="my-1 p-2 rounded-lg">
       {useRoleSelect ?
         <RoleSelect
           roleInitial={roleInitial}
