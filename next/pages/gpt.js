@@ -333,7 +333,7 @@ function GPT() {
             </div>
           ))}
         </div>
-        <div className="center">
+        <div className="text-center">
           <Button id="generate" variant="contained" onClick={handleGenerate}>{generate}</Button>
           <div><small>Status: {status}</small></div>
         </div>
@@ -357,8 +357,8 @@ function GPT() {
           </IconButton>
         </div>
       </div>
-      <div className="center m-1">
-        <span className="center m-1">windsnow1024@gmail.com</span>
+      <div className="text-center m-1">
+        <span className="text-center m-1">windsnow1024@gmail.com</span>
         <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank" rel="noopener noreferrer"><GitHubIcon/></a>
       </div>
     </ThemeProvider>

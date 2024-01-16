@@ -14,14 +14,6 @@ a {
   text-decoration: none;
 }
 
-.center {
-  text-align: center;
-}
-
-.word-break {
-  word-break: break-all;
-}
-
 div.Flex-Center {
   display: flex;
   flex-flow: row;
