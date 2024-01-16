@@ -100,7 +100,7 @@ function MessageTransmitter() {
       </AppBar>
       <div>
         <h2 className="center">Receive Messages</h2>
-        <Paper elevation={1} className="m-2 p-4">
+        <Paper elevation={1} className="m-2 p-4 rounded-lg">
           {messages.map(message => (
             <MessageDiv
               key={message.id}
