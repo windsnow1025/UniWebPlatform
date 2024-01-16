@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {IconButton} from "@mui/material";
+import {IconButton, Paper} from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
@@ -44,7 +44,7 @@ function MessageDiv({
   };
 
   return (
-    <div className="message_div my-1 p-2 rounded-lg">
+    <Paper elevation="16" className="message_div my-1 p-2 rounded-lg">
       {useRoleSelect ?
         <RoleSelect
           roleInitial={roleInitial}
@@ -99,7 +99,7 @@ function MessageDiv({
           </div>
         ))}
       </div>
-    </div>
+    </Paper>
   );
 }
 

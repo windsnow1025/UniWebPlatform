@@ -46,12 +46,12 @@ function AuthDiv() {
               <ManageAccountsIcon />
             </IconButton>
           </Link>
-          <Button variant="outlined" onClick={handleSignOut}>Sign Out</Button>
+          <Button variant="contained" onClick={handleSignOut}>Sign Out</Button>
         </div>
       ) : (
         <div className="Flex-space-around">
-          <Button variant="outlined" onClick={handleSignInRouter} className="m-1">Sign In</Button>
-          <Button variant="outlined" onClick={handleSignUpRouter} className="m-1">Sign Up</Button>
+          <Button variant="contained" onClick={handleSignInRouter} className="m-1">Sign In</Button>
+          <Button variant="contained" onClick={handleSignUpRouter} className="m-1">Sign Up</Button>
         </div>
       )}
     </div>

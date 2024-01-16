@@ -10,7 +10,7 @@ import {
   FormControlLabel,
   IconButton,
   InputLabel,
-  MenuItem,
+  MenuItem, Paper,
   Select,
   Slider,
   Switch, Toolbar
@@ -235,12 +235,12 @@ function GPT() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="secondary">
+        <div className="Flex-space-around p-2">
           <h1 className="grow">WindsnowGPT</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
-        </Toolbar>
+        </div>
       </AppBar>
       <br/>
       <div className="Flex-space-around m-1">
@@ -299,7 +299,7 @@ function GPT() {
           } label="Stream"/>
         </div>
       </div>
-      <div className="rounded-border-container">
+      <Paper elevation="2" className="m-2 p-4">
         <h3>Conversations:</h3>
         <div>
           <div className="Flex-space-between">
@@ -337,7 +337,7 @@ function GPT() {
           <Button id="generate" variant="contained" onClick={handleGenerate}>{generate}</Button>
           <div><small>Status: {status}</small></div>
         </div>
-      </div>
+      </Paper>
       <div className="Flex-space-around m-1">
         <div>
           <FormControlLabel control={

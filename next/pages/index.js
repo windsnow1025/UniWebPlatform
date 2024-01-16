@@ -27,12 +27,12 @@ function Index() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="secondary">
+        <div className="Flex-space-around p-2">
           <h1 className="grow">Windsnow1025</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
-        </Toolbar>
+        </div>
       </AppBar>
       <div className="Flex-space-around m-4">
         <a href="/bookmark" target="_blank" rel="noopener noreferrer">Bookmarks</a>

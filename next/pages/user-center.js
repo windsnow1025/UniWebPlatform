@@ -47,11 +47,11 @@ function UserCenter() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="secondary">
+        <div className="Flex-space-around p-2">
           <h1 className="grow">User Center</h1>
           <div className="m-1"><ThemeSelect/></div>
-        </Toolbar>
+        </div>
       </AppBar>
       <div className="Flex-Center">
         <div className="center">
@@ -76,7 +76,7 @@ function UserCenter() {
             />
           </div>
           <div className="m-2">
-            <Button variant="outlined" onClick={handleUpdate}>Update</Button>
+            <Button variant="contained" onClick={handleUpdate}>Update</Button>
           </div>
         </div>
       </div>
