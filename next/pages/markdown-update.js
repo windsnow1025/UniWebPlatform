@@ -73,12 +73,12 @@ function MarkdownUpdate() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="secondary">
+        <div className="Flex-space-around p-2">
           <h1 className="grow">Markdown Update</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
-        </Toolbar>
+        </div>
       </AppBar>
       <div className="m-2">
         <div
@@ -88,9 +88,9 @@ function MarkdownUpdate() {
         />
       </div>
       <div className="center">
-        {!isEditing && <Button variant="outlined" onClick={handleEdit} className="m-1">Edit</Button>}
-        {isEditing && <Button variant="outlined" onClick={handleConfirm} className="m-1">Confirm</Button>}
-        <Button variant="outlined" onClick={handleUpdate} className="m-1">Update</Button>
+        {!isEditing && <Button variant="contained" color="primary" onClick={handleEdit} className="m-1">Edit</Button>}
+        {isEditing && <Button variant="contained" color="primary" onClick={handleConfirm} className="m-1">Confirm</Button>}
+        <Button variant="contained" color="secondary" onClick={handleUpdate} className="m-1">Update</Button>
         <Button variant="outlined" onClick={handleDelete} className="m-1">Delete</Button>
       </div>
     </ThemeProvider>

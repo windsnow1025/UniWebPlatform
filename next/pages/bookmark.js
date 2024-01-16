@@ -148,12 +148,12 @@ function Bookmark() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="secondary">
+        <div className="Flex-space-around p-2">
           <h1 className="grow">Bookmarks</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
-        </Toolbar>
+        </div>
       </AppBar>
       <div>
         <DataGrid

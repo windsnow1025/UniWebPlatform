@@ -8,7 +8,7 @@ import ThemeSelect from '../app/components/ThemeSelect';
 import MessageDiv from '../app/components/MessageDiv';
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {AppBar, Button, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Paper, Toolbar, Typography} from "@mui/material";
 
 function MessageTransmitter() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -91,16 +91,16 @@ function MessageTransmitter() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="secondary">
+        <div className="Flex-space-around p-2">
           <h1 className="grow">Message Transmitter</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
-        </Toolbar>
+        </div>
       </AppBar>
       <div>
         <h2 className="center">Receive Messages</h2>
-        <div className="rounded-border-container">
+        <Paper elevation="4" className="m-2 p-4">
           {messages.map(message => (
             <MessageDiv
               key={message.id}
@@ -110,10 +110,10 @@ function MessageTransmitter() {
               onContentChange={() => {}}
             />
           ))}
-        </div>
+        </Paper>
         <div className="center">
-          <Button variant="outlined" onClick={fetchMessages} className="m-1">Receive</Button>
-          <Button variant="outlined" onClick={handleClearMessages} className="m-1">Clear</Button>
+          <Button variant="contained" color="primary" onClick={fetchMessages} className="m-1">Receive</Button>
+          <Button variant="contained" color="secondary" onClick={handleClearMessages} className="m-1">Clear</Button>
         </div>
       </div>
       <div>

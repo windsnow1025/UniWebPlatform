@@ -32,7 +32,7 @@ function ContentDiv({contentInitial, onContentChange}) {
   return (
     <div className="m-2">
       <div
-        className="markdown-body p-2 min-h-16"
+        className="markdown-body p-2 min-h-16 rounded"
         contentEditable="plaintext-only"
         ref={contentRef}
         onFocus={() => setEditing(true)}
