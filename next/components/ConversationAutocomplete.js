@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import CustomAutocomplete from './CustomAutocomplete';
-import ConversationService from "../service/ConversationService";
+import ConversationService from "../src/service/ConversationService";
 
 function ConversationAutocomplete({conversation, onConversationClick}) {
   const [conversations, setConversations] = useState([]);

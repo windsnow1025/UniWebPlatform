@@ -2,9 +2,9 @@
 
 import '../src/asset/css/App.css';
 
-import MarkdownList from '../src/component/MarkdownList';
-import ThemeSelect from "../src/component/ThemeSelect";
-import AuthDiv from "../src/component/AuthDiv";
+import MarkdownList from '../components/MarkdownList';
+import ThemeSelect from "../components/ThemeSelect";
+import AuthDiv from "../components/AuthDiv";
 import {ThemeProvider} from "@mui/material/styles";
 import React, {useEffect, useState} from "react";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";

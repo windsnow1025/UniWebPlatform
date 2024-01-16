@@ -21,10 +21,10 @@ import UploadIcon from '@mui/icons-material/Upload';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import {GPTLogic} from "../src/logic/GPTLogic";
 import UserService from "../src/service/UserService";
-import AuthDiv from '../src/component/AuthDiv';
-import ThemeSelect from '../src/component/ThemeSelect';
-import MessageDiv from "../src/component/MessageDiv";
-import ConversationAutocomplete from "../src/component/ConversationAutocomplete";
+import AuthDiv from '../components/AuthDiv';
+import ThemeSelect from '../components/ThemeSelect';
+import MessageDiv from "../components/MessageDiv";
+import ConversationAutocomplete from "../components/ConversationAutocomplete";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 
 function GPT() {

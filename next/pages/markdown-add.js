@@ -6,8 +6,8 @@ import {ThemeProvider} from "@mui/material/styles";
 import {parseMarkdown} from "../src/util/MarkdownParser";
 import {parseLaTeX} from "../src/util/LaTeXParser";
 import { MarkdownLogic } from '../src/logic/MarkdownLogic';
-import AuthDiv from "../src/component/AuthDiv";
-import ThemeSelect from "../src/component/ThemeSelect";
+import AuthDiv from "../components/AuthDiv";
+import ThemeSelect from "../components/ThemeSelect";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {AppBar, Button} from "@mui/material";
 

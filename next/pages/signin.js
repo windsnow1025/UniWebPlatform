@@ -4,12 +4,12 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {UserLogic} from "../src/logic/UserLogic";
 
-import ThemeSelect from '../src/component/ThemeSelect';
+import ThemeSelect from '../components/ThemeSelect';
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {AppBar, Button} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import AuthDiv from "../src/component/AuthDiv";
+import AuthDiv from "../components/AuthDiv";
 
 function SignIn() {
   const [theme, setTheme] = useState(getLightMUITheme());
