@@ -1,11 +1,11 @@
-import '../src/asset/css/App.css';
+import '../src/asset/css/index.css';
 
 import React, {useState, useEffect} from 'react';
 import MessageService from "../src/service/MessageService";
 import {UserLogic} from "../src/logic/UserLogic";
-import AuthDiv from '../components/AuthDiv';
-import ThemeSelect from '../components/ThemeSelect';
-import MessageDiv from '../components/MessageDiv';
+import AuthDiv from '../app/components/AuthDiv';
+import ThemeSelect from '../app/components/ThemeSelect';
+import MessageDiv from '../app/components/MessageDiv';
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {AppBar, Button} from "@mui/material";

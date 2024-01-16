@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {MarkdownLogic} from "../src/logic/MarkdownLogic";
+import {MarkdownLogic} from "../../src/logic/MarkdownLogic";
 import {Button, List, ListItem, ListItemText} from "@mui/material";
 
 function MarkdownList() {
@@ -22,7 +22,7 @@ function MarkdownList() {
       <p>
         Markdowns
         <a href="/markdown-add" target="_blank" rel="noopener noreferrer">
-          <Button variant="outlined" style={{margin: 4}}>Add Markdown</Button>
+          <Button variant="outlined" className="m-1">Add Markdown</Button>
         </a>
       </p>
       <List>

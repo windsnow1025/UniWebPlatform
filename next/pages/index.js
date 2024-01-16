@@ -1,10 +1,10 @@
 'use client';
 
-import '../src/asset/css/App.css';
+import '../src/asset/css/index.css';
 
-import MarkdownList from '../components/MarkdownList';
-import ThemeSelect from "../components/ThemeSelect";
-import AuthDiv from "../components/AuthDiv";
+import MarkdownList from '../app/components/MarkdownList';
+import ThemeSelect from "../app/components/ThemeSelect";
+import AuthDiv from "../app/components/AuthDiv";
 import {ThemeProvider} from "@mui/material/styles";
 import React, {useEffect, useState} from "react";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";

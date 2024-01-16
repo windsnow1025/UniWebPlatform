@@ -4,7 +4,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {Button, IconButton} from "@mui/material";
 import Link from "next/link";
 
-import {UserLogic} from "../src/logic/UserLogic";
+import {UserLogic} from "../../src/logic/UserLogic";
 
 function AuthDiv() {
   const [username, setUsername] = useState(null);
