@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import {Tooltip} from "@mui/material";
-import '../asset/css/react-style.css';
+import '../src/asset/css/react-style.css';
 
 const filter = createFilterOptions();
 

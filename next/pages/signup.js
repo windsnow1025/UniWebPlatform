@@ -2,13 +2,13 @@ import '../src/asset/css/App.css';
 
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
-import ThemeSelect from '../src/component/ThemeSelect';
+import ThemeSelect from '../components/ThemeSelect';
 import {UserLogic} from "../src/logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {AppBar, Button} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import AuthDiv from "../src/component/AuthDiv";
+import AuthDiv from "../components/AuthDiv";
 
 function SignUp() {
   const [theme, setTheme] = useState(getLightMUITheme());

@@ -1,7 +1,7 @@
 import '../src/asset/css/App.css';
 
 import React, {useState, useEffect} from 'react';
-import ThemeSelect from '../src/component/ThemeSelect';
+import ThemeSelect from '../components/ThemeSelect';
 import {UserLogic} from "../src/logic/UserLogic";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
