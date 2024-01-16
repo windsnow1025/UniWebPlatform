@@ -9,7 +9,7 @@ import AuthDiv from "../src/component/AuthDiv";
 import ThemeSelect from "../src/component/ThemeSelect";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Button} from "@mui/material";
+import {AppBar, Button} from "@mui/material";
 import {useRouter} from "next/router";
 
 function MarkdownUpdate() {
@@ -73,6 +73,9 @@ function MarkdownUpdate() {
 
   return (
     <ThemeProvider theme={theme}>
+      <AppBar position="static">
+        <h1 className="center">Markdown Update</h1>
+      </AppBar>
       <div className="Flex-space-around">
         <AuthDiv/>
         <ThemeSelect/>
