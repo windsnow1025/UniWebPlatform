@@ -248,7 +248,7 @@ function GPT() {
         <a href="/markdown-view?filename=gpt-presets.md" target="_blank" rel="noopener noreferrer">System Presets</a>
         <div>Credit: {credit}</div>
       </div>
-      <div className="Flex-space-around m-1">
+      <div className="Flex-space-around m-2">
         <div className="m-1">
           <FormControl fullWidth className="mt-2">
             <InputLabel id="api-type-select-label">API Type</InputLabel>
