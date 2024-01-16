@@ -51,7 +51,7 @@ function AuthDiv() {
       ) : (
         <div className="Flex-space-around">
           <div className="m-1"><Button variant="contained" onClick={handleSignInRouter}>Sign In</Button></div>
-          <div className="m-1"><Button variant="contained" onClick={handleSignUpRouter} className="m-1">Sign Up</Button></div>
+          <div className="m-1"><Button variant="contained" onClick={handleSignUpRouter}>Sign Up</Button></div>
         </div>
       )}
     </div>
