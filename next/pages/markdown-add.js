@@ -5,7 +5,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {parseMarkdown} from "../src/util/MarkdownParser";
 import {parseLaTeX} from "../src/util/LaTeXParser";
-import { MarkdownLogic } from '../src/logic/MarkdownLogic';
+import {MarkdownLogic} from '../src/logic/MarkdownLogic';
 import AuthDiv from "../app/components/AuthDiv";
 import ThemeSelect from "../app/components/ThemeSelect";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
@@ -65,10 +65,10 @@ function MarkdownAdd() {
         ref={markdownRef}
         contentEditable={isEditing ? "plaintext-only" : "false"}
       />
-      <div className="center">
-        {!isEditing && <Button variant="contained" color="primary" onClick={handleEdit} className="m-1">Edit</Button>}
-        {isEditing && <Button variant="contained" color="primary" onClick={handleConfirm} className="m-1">Confirm</Button>}
-        <Button variant="contained" color="secondary" onClick={handleAdd} className="m-1">Add</Button>
+      <div className="Flex-Center">
+        {!isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
+        {isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button></div>}
+        <div className="m-1"><Button variant="contained" color="secondary" onClick={handleAdd}>Add</Button></div>
       </div>
     </ThemeProvider>
   );
