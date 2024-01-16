@@ -4,7 +4,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {Button, IconButton} from "@mui/material";
 import Link from "next/link";
 
-import {UserLogic} from "../logic/UserLogic";
+import {UserLogic} from "../src/logic/UserLogic";
 
 function AuthDiv() {
   const [username, setUsername] = useState(null);
@@ -46,12 +46,12 @@ function AuthDiv() {
               <ManageAccountsIcon />
             </IconButton>
           </Link>
-          <Button variant="outlined" onClick={handleSignOut} style={{margin: 4}}>Sign Out</Button>
+          <Button variant="outlined" onClick={handleSignOut}>Sign Out</Button>
         </div>
       ) : (
         <div className="Flex-space-around">
-          <Button variant="outlined" onClick={handleSignInRouter} style={{margin: 4}}>Sign In</Button>
-          <Button variant="outlined" onClick={handleSignUpRouter} style={{margin: 4}}>Sign Up</Button>
+          <Button variant="outlined" onClick={handleSignInRouter} className="m-1">Sign In</Button>
+          <Button variant="outlined" onClick={handleSignUpRouter} className="m-1">Sign Up</Button>
         </div>
       )}
     </div>

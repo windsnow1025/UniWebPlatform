@@ -2,8 +2,8 @@ import '../src/asset/css/App.css';
 
 import React, {useState, useEffect} from 'react';
 import {ThemeProvider} from '@mui/material/styles';
-import AuthDiv from '../src/component/AuthDiv';
-import ThemeSelect from '../src/component/ThemeSelect';
+import AuthDiv from '../components/AuthDiv';
+import ThemeSelect from '../components/ThemeSelect';
 import {BookmarkLogic} from '../src/logic/BookmarkLogic';
 import {getInitMUITheme, getLightMUITheme} from '../src/logic/ThemeLogic';
 import {
