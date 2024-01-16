@@ -6,7 +6,7 @@ A full stack web application for my personal website containing markdown blogs, 
 
 ## Tech Stack
 
-Front End: Node.js - React.js - Next.js + MUI
+Front End: Node.js - React.js - Next.js + MUI + Tailwind CSS
 
 Back End: Node.js - Express.js + Python FastAPI
 
