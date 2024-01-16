@@ -9,7 +9,7 @@ import { MarkdownLogic } from '../src/logic/MarkdownLogic';
 import AuthDiv from "../src/component/AuthDiv";
 import ThemeSelect from "../src/component/ThemeSelect";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
-import {Button} from "@mui/material";
+import {AppBar, Button} from "@mui/material";
 
 function MarkdownAdd() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -53,7 +53,9 @@ function MarkdownAdd() {
 
   return (
     <ThemeProvider theme={theme}>
-      <h1 className="center">Markdown Add</h1>
+      <AppBar position="static">
+        <h1 className="center">Markdown Add</h1>
+      </AppBar>
       <div className="Flex-space-around">
         <AuthDiv/>
         <ThemeSelect/>
