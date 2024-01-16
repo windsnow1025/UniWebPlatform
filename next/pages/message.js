@@ -99,7 +99,7 @@ function MessageTransmitter() {
         </div>
       </AppBar>
       <div>
-        <h2 className="center">Receive Messages</h2>
+        <h2 className="text-center">Receive Messages</h2>
         <Paper elevation={1} className="m-2 p-4 rounded-lg">
           {messages.map(message => (
             <MessageDiv
@@ -117,7 +117,7 @@ function MessageTransmitter() {
         </div>
       </div>
       <div>
-        <h2 className="center">Send Messages</h2>
+        <h2 className="text-center">Send Messages</h2>
         <MessageDiv
           roleInitial={newMessage.username}
           contentInitial={newMessage.content}
@@ -125,7 +125,7 @@ function MessageTransmitter() {
           onContentChange={onNewMessageContentChange}
           onFileUpload={onFileUpload}
         />
-        <div className="center">
+        <div className="text-center">
           <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>
         </div>
       </div>
