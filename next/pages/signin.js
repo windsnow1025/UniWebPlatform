@@ -7,7 +7,7 @@ import {UserLogic} from "../src/logic/UserLogic";
 import ThemeSelect from '../app/components/ThemeSelect';
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {AppBar, Button} from "@mui/material";
+import {AppBar, Button, Toolbar} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import AuthDiv from "../app/components/AuthDiv";
 
@@ -41,34 +41,34 @@ function SignIn() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">
-        <h1 className="center">Sign In</h1>
+        <Toolbar>
+          <h1 className="grow">Sign In</h1>
+          <div className="m-1"><ThemeSelect/></div>
+        </Toolbar>
       </AppBar>
-      <div className="Flex-space-around">
-        <ThemeSelect/>
-      </div>
       <div className="Flex-Center">
         <div className="center">
-          <div>
+          <div className="m-2">
             <TextField
               label="Username"
               variant="outlined"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="m-2"
+              className="mt-2"
             />
           </div>
-          <div>
+          <div className="m-2">
             <TextField
               label="Password"
               variant="outlined"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="m-2"
+              className="mt-2"
             />
           </div>
-          <div>
+          <div className="m-2">
             <Button variant="outlined" onClick={handleSignIn}>Sign In</Button>
           </div>
         </div>

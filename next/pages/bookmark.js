@@ -18,7 +18,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
-import {AppBar} from "@mui/material";
+import {AppBar, Toolbar} from "@mui/material";
 
 function EditToolbar(props) {
   const {setRows, setRowModesModel, rows} = props;
@@ -149,12 +149,12 @@ function Bookmark() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">
-        <h1 className="center">Bookmarks</h1>
+        <Toolbar>
+          <h1 className="grow">Bookmarks</h1>
+          <div className="m-1"><AuthDiv/></div>
+          <div className="m-1"><ThemeSelect/></div>
+        </Toolbar>
       </AppBar>
-      <div className="Flex-space-around">
-        <AuthDiv/>
-        <ThemeSelect/>
-      </div>
       <div>
         <DataGrid
           rows={rows}
