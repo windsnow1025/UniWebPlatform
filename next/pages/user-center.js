@@ -54,7 +54,7 @@ function UserCenter() {
         </div>
       </AppBar>
       <div className="Flex-Center">
-        <div className="center">
+        <div className="text-center">
           <div className="m-2">
             <TextField
               label="Username"
