@@ -6,8 +6,9 @@ import MarkdownList from '../src/component/MarkdownList';
 import ThemeSelect from "../src/component/ThemeSelect";
 import AuthDiv from "../src/component/AuthDiv";
 import {ThemeProvider} from "@mui/material/styles";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
+import {AppBar} from "@mui/material";
 
 function Index() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -26,7 +27,9 @@ function Index() {
 
   return (
     <ThemeProvider theme={theme}>
-      <h1 className="center">Windsnow1025</h1>
+      <AppBar position="static">
+        <h1 className="center">Windsnow1025</h1>
+      </AppBar>
       <div className="Flex-space-around" style={{margin: 16}}>
         <AuthDiv/>
         <ThemeSelect/>

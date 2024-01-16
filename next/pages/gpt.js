@@ -235,7 +235,7 @@ function GPT() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" className="Flex-Center">
+      <AppBar position="static">
         <h1 className="center">WindsnowGPT</h1>
       </AppBar>
       <div className="Flex-space-around" style={{margin: 4}}>

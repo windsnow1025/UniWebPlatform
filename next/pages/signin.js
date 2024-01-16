@@ -7,8 +7,9 @@ import {UserLogic} from "../src/logic/UserLogic";
 import ThemeSelect from '../src/component/ThemeSelect';
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Button} from "@mui/material";
+import {AppBar, Button} from "@mui/material";
 import TextField from "@mui/material/TextField";
+import AuthDiv from "../src/component/AuthDiv";
 
 function SignIn() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -31,44 +32,44 @@ function SignIn() {
   }, []);
 
   const handleSignIn = async () => {
-      if (await userLogic.signIn(username, password)) {
-        let prevUrl = localStorage.getItem('prevUrl') || "/";
-        router.push(prevUrl);
-      }
+    if (await userLogic.signIn(username, password)) {
+      let prevUrl = localStorage.getItem('prevUrl') || "/";
+      router.push(prevUrl);
+    }
   };
 
   return (
     <ThemeProvider theme={theme}>
+      <AppBar position="static">
+        <h1 className="center">Sign In</h1>
+      </AppBar>
+      <div className="Flex-space-around">
+        <ThemeSelect/>
+      </div>
       <div className="Flex-Center">
-        <div>
-          <h1 className="center">Sign In</h1>
-          <div className="center">
-            <ThemeSelect />
+        <div className="center">
+          <div>
+            <TextField
+              label="Username"
+              variant="outlined"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={{margin: 8}}
+            />
           </div>
-          <div className="center">
-            <div>
-              <TextField
-                label="Username"
-                variant="outlined"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                style={{margin: 8}}
-              />
-            </div>
-            <div>
-              <TextField
-                label="Password"
-                variant="outlined"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{margin: 8}}
-              />
-            </div>
-            <div>
-              <Button variant="outlined" onClick={handleSignIn}>Sign In</Button>
-            </div>
+          <div>
+            <TextField
+              label="Password"
+              variant="outlined"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{margin: 8}}
+            />
+          </div>
+          <div>
+            <Button variant="outlined" onClick={handleSignIn}>Sign In</Button>
           </div>
         </div>
       </div>
