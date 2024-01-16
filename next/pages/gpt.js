@@ -13,7 +13,7 @@ import {
   MenuItem,
   Select,
   Slider,
-  Switch
+  Switch, Toolbar
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -236,12 +236,12 @@ function GPT() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">
-        <h1 className="center">WindsnowGPT</h1>
+        <Toolbar>
+          <h1 className="grow">WindsnowGPT</h1>
+          <div className="m-1"><AuthDiv/></div>
+          <div className="m-1"><ThemeSelect/></div>
+        </Toolbar>
       </AppBar>
-      <div className="Flex-space-around m-1">
-        <AuthDiv/>
-        <ThemeSelect/>
-      </div>
       <br/>
       <div className="Flex-space-around m-1">
         <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">Documentation</a>
