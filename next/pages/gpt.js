@@ -299,7 +299,7 @@ function GPT() {
           } label="Stream"/>
         </div>
       </div>
-      <Paper elevation="2" className="m-2 p-4">
+      <Paper elevation={1} className="m-2 p-4 rounded-lg">
         <h3>Conversations:</h3>
         <div>
           <div className="Flex-space-between">
