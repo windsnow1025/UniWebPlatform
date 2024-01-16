@@ -58,7 +58,7 @@ function SignUp() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              style={{margin: 8}}
+              className="m-2"
             />
           </div>
           <div>
@@ -68,7 +68,7 @@ function SignUp() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{margin: 8}}
+              className="m-2"
             />
           </div>
           <div>

@@ -44,7 +44,7 @@ function MessageDiv({
   };
 
   return (
-    <div className="message_div">
+    <div className="message_div my-1 p-2 rounded-lg">
       {useRoleSelect ?
         <RoleSelect
           roleInitial={roleInitial}

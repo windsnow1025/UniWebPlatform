@@ -43,12 +43,13 @@ function MarkdownViewer() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div
-        className="markdown-body"
-        ref={markdownRef}
-        style={{padding: 16}}
-        dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}
-      />
+      <div className="m-2">
+        <div
+          className="markdown-body p-2 min-h-16"
+          ref={markdownRef}
+          dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}
+        />
+      </div>
     </ThemeProvider>
   );
 }
