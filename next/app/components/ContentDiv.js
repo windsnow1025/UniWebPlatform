@@ -1,8 +1,8 @@
 import {useEffect, useRef, useState} from "react";
-import {parseMarkdown} from "../src/util/MarkdownParser";
-import {parseLaTeX} from "../src/util/LaTeXParser";
+import {parseMarkdown} from "../../src/util/MarkdownParser";
+import {parseLaTeX} from "../../src/util/LaTeXParser";
 
-function ContentDiv({ contentInitial, onContentChange }) {
+function ContentDiv({contentInitial, onContentChange}) {
   const [content, setContent] = useState(contentInitial);
   const [editing, setEditing] = useState(false);
   const contentRef = useRef(null);
@@ -30,14 +30,15 @@ function ContentDiv({ contentInitial, onContentChange }) {
   };
 
   return (
-    <div
-      className="markdown-body"
-      style={{ margin: 8, padding: 8, minHeight: 24 }}
-      contentEditable="plaintext-only"
-      ref={contentRef}
-      onFocus={() => setEditing(true)}
-      onBlur={handleContentBlur}
-    ></div>
+    <div className="m-2">
+      <div
+        className="markdown-body p-2 min-h-16"
+        contentEditable="plaintext-only"
+        ref={contentRef}
+        onFocus={() => setEditing(true)}
+        onBlur={handleContentBlur}
+      />
+    </div>
   );
 }
 

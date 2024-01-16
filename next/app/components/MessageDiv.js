@@ -6,7 +6,7 @@ import UploadIcon from "@mui/icons-material/Upload";
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
-import FileService from "../src/service/FileService";
+import FileService from "../../src/service/FileService";
 
 function MessageDiv({
                       roleInitial,
@@ -94,7 +94,7 @@ function MessageDiv({
               key={index}
               src={file}
               alt="file"
-              style={{maxWidth: '100%'}}
+              className="max-w-full"
             />
           </div>
         ))}

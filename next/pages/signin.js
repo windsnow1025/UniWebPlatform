@@ -1,15 +1,15 @@
-import '../src/asset/css/App.css';
+import '../src/asset/css/index.css';
 
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {UserLogic} from "../src/logic/UserLogic";
 
-import ThemeSelect from '../components/ThemeSelect';
+import ThemeSelect from '../app/components/ThemeSelect';
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {AppBar, Button} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import AuthDiv from "../components/AuthDiv";
+import AuthDiv from "../app/components/AuthDiv";
 
 function SignIn() {
   const [theme, setTheme] = useState(getLightMUITheme());
