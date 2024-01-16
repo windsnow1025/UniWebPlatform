@@ -43,11 +43,11 @@ function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="secondary">
+        <div className="Flex-space-around p-2">
           <h1 className="grow">Sign Up</h1>
           <div className="m-1"><ThemeSelect/></div>
-        </Toolbar>
+        </div>
       </AppBar>
       <div className="Flex-Center">
         <div className="center">
@@ -72,7 +72,7 @@ function SignUp() {
             />
           </div>
           <div className="m-2">
-            <Button variant="outlined" onClick={handleSignUp}>Sign Up</Button>
+            <Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
           </div>
         </div>
       </div>
