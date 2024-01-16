@@ -112,8 +112,8 @@ function MessageTransmitter() {
           ))}
         </div>
         <div className="center">
-          <Button variant="outlined" onClick={fetchMessages} style={{margin: 4}}>Receive</Button>
-          <Button variant="outlined" onClick={handleClearMessages} style={{margin: 4}}>Clear</Button>
+          <Button variant="outlined" onClick={fetchMessages} className="m-1">Receive</Button>
+          <Button variant="outlined" onClick={handleClearMessages} className="m-1">Clear</Button>
         </div>
       </div>
       <div>
