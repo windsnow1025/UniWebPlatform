@@ -111,9 +111,9 @@ function MessageTransmitter() {
             />
           ))}
         </Paper>
-        <div className="center">
-          <Button variant="contained" color="primary" onClick={fetchMessages} className="m-1">Receive</Button>
-          <Button variant="contained" color="secondary" onClick={handleClearMessages} className="m-1">Clear</Button>
+        <div className="Flex-Center">
+          <div className="m-1"><Button variant="contained" color="primary" onClick={fetchMessages}>Receive</Button></div>
+          <div className="m-1"><Button variant="contained" color="secondary" onClick={handleClearMessages}>Clear</Button></div>
         </div>
       </div>
       <div>

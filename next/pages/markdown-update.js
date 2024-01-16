@@ -87,11 +87,11 @@ function MarkdownUpdate() {
           contentEditable={isEditing ? "plaintext-only" : "false"}
         />
       </div>
-      <div className="center">
-        {!isEditing && <Button variant="contained" color="primary" onClick={handleEdit} className="m-1">Edit</Button>}
-        {isEditing && <Button variant="contained" color="primary" onClick={handleConfirm} className="m-1">Confirm</Button>}
-        <Button variant="contained" color="secondary" onClick={handleUpdate} className="m-1">Update</Button>
-        <Button variant="outlined" onClick={handleDelete} className="m-1">Delete</Button>
+      <div className="Flex-Center">
+        {!isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
+        {isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button></div>}
+        <div className="m-1"><Button variant="contained" color="secondary" onClick={handleUpdate}>Update</Button></div>
+        <div className="m-1"><Button variant="outlined" onClick={handleDelete}>Delete</Button></div>
       </div>
     </ThemeProvider>
   );
