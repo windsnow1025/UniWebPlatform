@@ -238,19 +238,19 @@ function GPT() {
       <AppBar position="static">
         <h1 className="center">WindsnowGPT</h1>
       </AppBar>
-      <div className="Flex-space-around" style={{margin: 4}}>
+      <div className="Flex-space-around m-1">
         <AuthDiv/>
         <ThemeSelect/>
       </div>
       <br/>
-      <div className="Flex-space-around" style={{margin: 4}}>
+      <div className="Flex-space-around m-1">
         <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">Documentation</a>
         <a href="/markdown-view?filename=gpt-presets.md" target="_blank" rel="noopener noreferrer">System Presets</a>
         <div>Credit: {credit}</div>
       </div>
-      <div className="Flex-space-around" style={{margin: 4}}>
-        <div style={{margin: 4}}>
-          <FormControl fullWidth>
+      <div className="Flex-space-around m-1">
+        <div className="m-1">
+          <FormControl fullWidth className="mt-2">
             <InputLabel id="api-type-select-label">API Type</InputLabel>
             <Select
               labelId="api-type-select-label"
@@ -264,8 +264,8 @@ function GPT() {
             </Select>
           </FormControl>
         </div>
-        <div style={{margin: 4}}>
-          <FormControl fullWidth>
+        <div className="m-1">
+          <FormControl fullWidth className="mt-2">
             <InputLabel id="model-select-label">Model</InputLabel>
             <Select
               labelId="model-select-label"
@@ -280,7 +280,7 @@ function GPT() {
             </Select>
           </FormControl>
         </div>
-        <div style={{margin: 16}}>
+        <div className="m-1">
           <InputLabel htmlFor="temperature">Temperature: {temperature.toFixed(1)}</InputLabel>
           <Slider
             aria-label="Temperature"
@@ -338,7 +338,7 @@ function GPT() {
           <div><small>Status: {status}</small></div>
         </div>
       </div>
-      <div className="Flex-space-around" style={{margin: 8}}>
+      <div className="Flex-space-around m-1">
         <div>
           <FormControlLabel control={
             <Checkbox id="editable-check-box" checked={isEditable} onChange={e => setIsEditable(e.target.checked)}/>
@@ -346,7 +346,8 @@ function GPT() {
         </div>
         <ConversationAutocomplete
           conversation={messages}
-          onConversationClick={onConversationOptionClick}/>
+          onConversationClick={onConversationOptionClick}
+        />
         <div>
           <IconButton aria-label="download" onClick={handleConversationDownload}>
             <DownloadIcon/>
@@ -356,8 +357,8 @@ function GPT() {
           </IconButton>
         </div>
       </div>
-      <div className="center" style={{margin: 8}}>
-        <span style={{margin: 8}}>windsnow1024@gmail.com</span>
+      <div className="center m-1">
+        <span className="center m-1">windsnow1024@gmail.com</span>
         <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank" rel="noopener noreferrer"><GitHubIcon/></a>
       </div>
     </ThemeProvider>

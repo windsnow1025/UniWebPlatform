@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import {Tooltip} from "@mui/material";
-import '../../src/asset/css/react-style.css';
+import '../../src/asset/css/react.css';
 
 const filter = createFilterOptions();
 
@@ -105,6 +105,7 @@ function AutocompleteComponent({ options, label, handleOptionClick, handleDelete
       renderInput={(params) => (
         <TextField {...params} label={label}/>
       )}
+      className="m-2"
     />
   );
 }

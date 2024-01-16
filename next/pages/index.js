@@ -30,16 +30,16 @@ function Index() {
       <AppBar position="static">
         <h1 className="center">Windsnow1025</h1>
       </AppBar>
-      <div className="Flex-space-around" style={{margin: 16}}>
+      <div className="Flex-space-around m-4">
         <AuthDiv/>
         <ThemeSelect/>
       </div>
-      <div className="Flex-space-around" style={{margin: 16}}>
+      <div className="Flex-space-around m-4">
         <a href="/bookmark" target="_blank" rel="noopener noreferrer">Bookmarks</a>
         <a href="/message" target="_blank" rel="noopener noreferrer">Message Transmitter</a>
         <a href="/gpt" target="_blank" rel="noopener noreferrer">GPT</a>
       </div>
-      <div className="Flex-space-around" style={{margin: 16}}>
+      <div className="Flex-space-around m-4">
         <MarkdownList/>
       </div>
     </ThemeProvider>

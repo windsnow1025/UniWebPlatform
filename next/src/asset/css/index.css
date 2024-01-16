@@ -69,13 +69,6 @@ div.inFlex-flex-end {
   align-self: flex-end;
 }
 
-.message_div {
-  margin-top: 4px;
-  margin-bottom: 4px;
-  padding: 8px;
-  border-radius: 8px;
-}
-
 .rounded-border-container {
   border-radius: 8px;
   padding: 16px;

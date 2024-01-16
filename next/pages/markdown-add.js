@@ -61,15 +61,14 @@ function MarkdownAdd() {
         <ThemeSelect/>
       </div>
       <div
-        className="markdown-body"
+        className="markdown-body p-2 min-h-16"
         ref={markdownRef}
-        style={{ margin: 8, padding: 8, minHeight: 24 }}
         contentEditable={isEditing ? "plaintext-only" : "false"}
       />
       <div className="center">
-        {!isEditing && <Button variant="outlined" onClick={handleEdit} style={{margin: 4}}>Edit</Button>}
-        {isEditing && <Button variant="outlined" onClick={handleConfirm} style={{margin: 4}}>Confirm</Button>}
-        <Button variant="outlined" onClick={handleAdd} style={{margin: 4}}>Add</Button>
+        {!isEditing && <Button variant="outlined" onClick={handleEdit} className="m-1">Edit</Button>}
+        {isEditing && <Button variant="outlined" onClick={handleConfirm} className="m-1">Confirm</Button>}
+        <Button variant="outlined" onClick={handleAdd} className="m-1">Add</Button>
       </div>
     </ThemeProvider>
   );

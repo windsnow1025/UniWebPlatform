@@ -15,7 +15,7 @@ function RoleSelect({roleInitial, onRoleChange}) {
   };
 
   return (
-    <FormControl size="small">
+    <FormControl size="small" className="mt-2">
       <InputLabel id="role-select-label">Role</InputLabel>
       <Select
         labelId="role-select-label"

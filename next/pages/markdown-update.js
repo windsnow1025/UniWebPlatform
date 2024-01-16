@@ -80,17 +80,18 @@ function MarkdownUpdate() {
         <AuthDiv/>
         <ThemeSelect/>
       </div>
-      <div
-        className="markdown-body"
-        ref={markdownRef}
-        style={{ margin: 8, padding: 8, minHeight: 24 }}
-        contentEditable={isEditing ? "plaintext-only" : "false"}
-      />
+      <div className="m-2">
+        <div
+          className="markdown-body p-2 min-h-16"
+          ref={markdownRef}
+          contentEditable={isEditing ? "plaintext-only" : "false"}
+        />
+      </div>
       <div className="center">
-        {!isEditing && <Button variant="outlined" onClick={handleEdit} style={{margin: 4}}>Edit</Button>}
-        {isEditing && <Button variant="outlined" onClick={handleConfirm} style={{margin: 4}}>Confirm</Button>}
-        <Button variant="outlined" onClick={handleUpdate} style={{margin: 4}}>Update</Button>
-        <Button variant="outlined" onClick={handleDelete} style={{margin: 4}}>Delete</Button>
+        {!isEditing && <Button variant="outlined" onClick={handleEdit} className="m-1">Edit</Button>}
+        {isEditing && <Button variant="outlined" onClick={handleConfirm} className="m-1">Confirm</Button>}
+        <Button variant="outlined" onClick={handleUpdate} className="m-1">Update</Button>
+        <Button variant="outlined" onClick={handleDelete} className="m-1">Delete</Button>
       </div>
     </ThemeProvider>
   );
