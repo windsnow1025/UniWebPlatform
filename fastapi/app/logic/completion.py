@@ -9,13 +9,14 @@ from app.model.message import Message
 
 class ChatCompletionFactory:
     def __init__(
-        self,
-        messages: list[Message],
-        model: str,
-        api_type: str,
-        temperature: float,
-        stream: bool,
-        response_handler=None
+            self,
+            messages: list[Message],
+            model: str,
+            api_type: str,
+            temperature: float,
+            stream: bool,
+            stream_handler=None,
+            non_stream_handler=None
     ):
         self.messages = messages
         self.model = model
@@ -23,7 +24,8 @@ class ChatCompletionFactory:
         self.temperature = temperature
         self.stream = stream
         self.openai = None
-        self.response_handler = response_handler
+        self.stream_handler = stream_handler
+        self.non_stream_handler = non_stream_handler
 
         if api_type == "open_ai":
             self.openai = OpenAI(
@@ -39,27 +41,29 @@ class ChatCompletionFactory:
     def create_chat_completion(self) -> 'ChatCompletion':
 
         if self.stream:
-            return StreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai, self.response_handler)
+            return StreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai, self.stream_handler, self.non_stream_handler)
         else:
-            return NonStreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai)
+            return NonStreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai, self.non_stream_handler, self.non_stream_handler)
 
 
 class ChatCompletion:
     def __init__(
-        self,
-        model: str,
-        messages: list[Message],
-        temperature: float,
-        api_type: str,
-        openai,
-        response_handler=None
+            self,
+            model: str,
+            messages: list[Message],
+            temperature: float,
+            api_type: str,
+            openai=None,
+            stream_handler=None,
+            non_stream_handler=None
     ):
         self.model = model
         self.messages = messages
         self.temperature = temperature
         self.api_type = api_type
         self.openai = openai
-        self.response_handler = response_handler
+        self.stream_handler = stream_handler
+        self.non_stream_handler = non_stream_handler
 
     def process_request(self):
         raise NotImplementedError
@@ -85,8 +89,9 @@ class NonStreamChatCompletion(ChatCompletion):
                     stream=False,
                 )
 
-            logging.info(f"Output: {completion.choices[0].message.content}")
-            return completion.choices[0].message.content
+            content = completion.choices[0].message.content
+            self.non_stream_handler(content)
+            return content
         except Exception as e:
             logging.error(f"Exception: {e}")
             return str(e)
@@ -130,9 +135,7 @@ class StreamChatCompletion(ChatCompletion):
                     content += content_delta
                     yield content_delta
 
-                logging.info(f"content: {content}")
-
-            return self.response_handler(lambda: generate_chunk(completion))
+            return self.stream_handler(lambda: generate_chunk(completion))
 
         except Exception as e:
             logging.error(f"Exception: {e}")

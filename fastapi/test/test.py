@@ -2,7 +2,7 @@ import unittest
 
 from app.logic.completion import ChatCompletionFactory
 from app.config import init_environment
-from app.api.completion_router import fastapi_response_handler
+from app.api.completion_router import stream_handler
 from app.util.pricing import calculate_cost
 
 
@@ -22,7 +22,7 @@ class TestCompletion(unittest.IsolatedAsyncioTestCase):
         temperature = 0
         stream = True
 
-        factory = ChatCompletionFactory(messages, model, api_type, temperature, stream, fastapi_response_handler)
+        factory = ChatCompletionFactory(messages, model, api_type, temperature, stream, stream_handler)
         completion = factory.create_chat_completion()
         response = completion.process_request()
 
