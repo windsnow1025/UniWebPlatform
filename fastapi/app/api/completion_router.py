@@ -65,7 +65,7 @@ async def generate(chat_request: ChatRequest, username: str = Depends(get_userna
 
     logging.info(f"username: {username}, model: {chat_request.model}")
 
-    prompt_tokens = sum(len(message.content) for message in chat_request.messages)
+    prompt_tokens = sum(len(message["content"]) for message in chat_request.messages)
     user_dao.reduce_credit(username, pricing.calculate_cost(chat_request.api_type, chat_request.model, prompt_tokens, 0))
 
     factory = ChatCompletionFactory(

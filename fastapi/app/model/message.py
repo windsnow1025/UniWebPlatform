@@ -1,16 +1,16 @@
-from pydantic import BaseModel
+from typing import TypedDict
 
 
-class TextContent(BaseModel):
+class TextContent(TypedDict):
     type: str
     text: str
 
 
-class ImageContent(BaseModel):
+class ImageContent(TypedDict):
     type: str
     image_url: str
 
 
-class Message(BaseModel):
+class Message(TypedDict):
     role: str
     content: str | list[TextContent | ImageContent]
