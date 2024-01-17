@@ -14,16 +14,32 @@ const marked = new Marked(
 );
 
 
-export function parseMarkdown(content) {
-  const decodeEntitiesInParsedCode = function (html) {
-    // Use "\S\s" instead of "." to match newlines
-    return html.replace(/<code([^>]*?)>([\S\s]*?)<\/code>/g, function (match, p1, p2) {
-      return `<code${p1}>${p2.replace(/&amp;/g, "&")}</code>`;
-    });
-  };
+export function parseMarkdown(content, sanitize=true) {
+  if (sanitize) {
+    const decodeEntitiesInParsedCode = function (html) {
+      // Use "\S\s" instead of "." to match newlines
+      return html.replace(/<code([^>]*?)>([\S\s]*?)<\/code>/g, function (match, p1, p2) {
+        return `<code${p1}>${p2.replace(/&amp;/g, "&")}</code>`;
+      });
+    };
 
-  const parsedContent = marked.parse(content);
-  const decodedContent = decodeEntitiesInParsedCode(parsedContent);
-  
-  return decodedContent;
+    const parsedContent = marked.parse(content);
+    const decodedContent = decodeEntitiesInParsedCode(parsedContent);
+    return decodedContent;
+  } else {
+    const deSanitize = function (html) {
+      const map = {
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#039;': "'"
+      };
+      return html.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) { return map[m]; });
+    }
+
+    const deSanitizedContent = deSanitize(content);
+    const parsedContent = marked.parse(deSanitizedContent);
+    return parsedContent;
+  }
 }

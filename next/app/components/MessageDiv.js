@@ -16,7 +16,8 @@ function MessageDiv({
                       onContentChange,
                       onFileUpload,
                       useRoleSelect,
-                      onMessageDelete
+                      onMessageDelete,
+                      shouldSanitize,
                     }) {
   const fileInputRef = useRef(null);
   const fileService = new FileService();
@@ -61,6 +62,7 @@ function MessageDiv({
           <ContentDiv
             contentInitial={contentInitial}
             onContentChange={onContentChange}
+            shouldSanitize={shouldSanitize}
           />
         </div>
         <div className="Flex-Column inFlex-flex-end">
