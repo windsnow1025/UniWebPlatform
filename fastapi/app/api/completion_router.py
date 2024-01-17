@@ -9,24 +9,10 @@ from pydantic import BaseModel
 
 from app.logic.completion import ChatCompletionFactory
 import app.dao.user_dao as user_dao
+from app.model.message import Message
 import app.util.pricing as pricing
 
 router = APIRouter()
-
-
-class TextContent(BaseModel):
-    type: str
-    text: str
-
-
-class ImageContent(BaseModel):
-    type: str
-    image_url: str
-
-
-class Message(BaseModel):
-    role: str
-    content: str | list[TextContent | ImageContent]
 
 
 class ChatRequest(BaseModel):
@@ -55,15 +41,13 @@ def fastapi_response_handler(generator_function: Callable[[], Generator[str, Non
 
 @router.post("/")
 async def generate(chat_request: ChatRequest, username: str = Depends(get_username)):
-    credit = user_dao.select_credit(username)
-    if credit <= 0:
+    if user_dao.select_credit(username) <= 0:
         raise HTTPException(status_code=402)
 
     logging.info(f"username: {username}, model: {chat_request.model}")
 
     prompt_tokens = sum(len(message.content) for message in chat_request.messages)
-    credit -= pricing.calculate_cost(chat_request.api_type, chat_request.model, prompt_tokens, 0)
-    user_dao.update_credit(username, credit)
+    user_dao.reduce_credit(username, pricing.calculate_cost(chat_request.api_type, chat_request.model, prompt_tokens, 0))
 
     factory = ChatCompletionFactory(
         messages=chat_request.messages,
@@ -108,4 +92,3 @@ azure_models = [
 @router.get("/", response_model=ModelList)
 async def get_models() -> ModelList:
     return ModelList(open_ai_models=open_ai_models, azure_models=azure_models)
-

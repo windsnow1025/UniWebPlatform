@@ -13,12 +13,12 @@ def select_credit(username: str) -> float:
     return result[0]
 
 
-def update_credit(username: str, credit: float) -> bool:
+def reduce_credit(username: str, cost: float) -> bool:
     database_connection = DatabaseConnection.get_instance()
     connection = database_connection.get_connection()
     cursor = connection.cursor()
-    query = "UPDATE user SET credit = %s WHERE username = %s"
-    cursor.execute(query, (credit, username))
+    query = "UPDATE user SET credit = credit - %s WHERE username = %s"
+    cursor.execute(query, (cost, username))
     connection.commit()
     cursor.close()
     connection.close()
