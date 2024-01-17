@@ -1,4 +1,5 @@
 import '../src/asset/css/index.css';
+import '../src/asset/css/markdown.css';
 
 import React, {useState, useEffect, useRef} from 'react';
 import { useRouter } from 'next/router';
