@@ -2,5 +2,6 @@ openai
 fastapi
 pydantic
 uvicorn
+python-dotenv
 python-jose[cryptography]
 mysql-connector-python
