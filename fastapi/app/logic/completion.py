@@ -4,11 +4,13 @@ from typing import Generator
 
 from openai import OpenAI, AzureOpenAI
 
+from app.model.message import Message
+
 
 class ChatCompletionFactory:
     def __init__(
         self,
-        messages: list[dict[str, str]],
+        messages: list[Message],
         model: str,
         api_type: str,
         temperature: float,
@@ -46,7 +48,7 @@ class ChatCompletion:
     def __init__(
         self,
         model: str,
-        messages: list[dict[str, str]],
+        messages: list[Message],
         temperature: float,
         api_type: str,
         openai,
