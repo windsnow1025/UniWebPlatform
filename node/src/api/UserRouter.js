@@ -58,7 +58,7 @@ router.use(async (req, res, next) => {
     return res.sendStatus(401);
   }
 
-  const username = await JWT.getUsernameFromToken(token, "admin");
+  const username = await JWT.getUsernameFromToken(token);
   if (!username) {
     return res.sendStatus(403);
   }
