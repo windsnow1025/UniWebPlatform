@@ -35,8 +35,21 @@ def get_username(authorization: str = Header(...)) -> str:
         raise HTTPException(status_code=403)
 
 
-def fastapi_response_handler(generator_function: Callable[[], Generator[str, None, None]]) -> StreamingResponse:
-    return StreamingResponse(generator_function(), media_type='text/plain')
+def fastapi_response_handler(
+        generator_function: Callable[[], Generator[str, None, None]],
+        username: str,
+        chat_request: ChatRequest
+) -> StreamingResponse:
+    def wrapper_generator() -> Generator[str, None, str]:
+        content = ""
+        for chunk in generator_function():
+            content += chunk
+            yield chunk
+        user_dao.reduce_credit(username, pricing.calculate_cost(chat_request.api_type, chat_request.model, 0, len(content)))
+        logging.info(f"response: {content}")
+        return content
+
+    return StreamingResponse(wrapper_generator(), media_type='text/plain')
 
 
 @router.post("/")
@@ -55,7 +68,7 @@ async def generate(chat_request: ChatRequest, username: str = Depends(get_userna
         api_type=chat_request.api_type,
         temperature=chat_request.temperature,
         stream=chat_request.stream,
-        response_handler=fastapi_response_handler
+        response_handler=lambda generator_function: fastapi_response_handler(generator_function, username, chat_request)
     )
     completion = factory.create_chat_completion()
     response = completion.process_request()
