@@ -1,6 +1,6 @@
 import unittest
 
-from app.completion import ChatCompletionFactory
+from app.logic.completion import ChatCompletionFactory
 from app.config import init_environment
 from app.main import fastapi_response_handler
 from app.util.pricing import calculate_cost
