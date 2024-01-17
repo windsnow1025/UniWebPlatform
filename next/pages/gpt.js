@@ -52,7 +52,8 @@ function GPT() {
   const [credit, setCredit] = useState(0);
   const [generate, setGenerate] = useState("Generate");
   const [status, setStatus] = useState('Ready');
-  const [isEditable, setIsEditable] = useState(true);
+  const [editable, setEditable] = useState(true);
+  const [sanitize, setSanitize] = useState(true);
 
   // Abort controller
   const currentRequestIndex = useRef(0);
@@ -94,13 +95,13 @@ function GPT() {
   }, [apiType]);
 
   useEffect(() => {
-    const contentEditableValue = isEditable ? 'plaintext-only' : 'false';
+    const contentEditableValue = editable ? 'plaintext-only' : 'false';
     const contentEditableElements = document.querySelectorAll('[contenteditable]');
 
     contentEditableElements.forEach(element => {
       element.setAttribute('contenteditable', contentEditableValue);
     });
-  }, [isEditable]);
+  }, [editable]);
 
   const startGenerate = async () => {
     if (!localStorage.getItem('token')) {
@@ -322,6 +323,7 @@ function GPT() {
                 onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
                 useRoleSelect={true}
                 onMessageDelete={() => handleMessageDelete(index)}
+                shouldSanitize={sanitize}
               />
               <div className="Flex-space-between">
                 <div className="inFlex-FillSpace"/>
@@ -342,8 +344,11 @@ function GPT() {
       <div className="Flex-space-around m-1">
         <div>
           <FormControlLabel control={
-            <Checkbox id="editable-check-box" checked={isEditable} onChange={e => setIsEditable(e.target.checked)}/>
+            <Checkbox id="editable-check-box" checked={editable} onChange={e => setEditable(e.target.checked)}/>
           } label="Editable"/>
+          <FormControlLabel control={
+            <Checkbox id="sanitize-check-box" checked={sanitize} onChange={e => setSanitize(e.target.checked)}/>
+          } label="Sanitize"/>
         </div>
         <ConversationAutocomplete
           conversation={messages}
