@@ -1,6 +1,7 @@
 import logging
 import os
-from typing import Generator
+from typing import Callable, Generator
+from fastapi.responses import StreamingResponse
 
 from openai import OpenAI, AzureOpenAI
 
@@ -15,8 +16,8 @@ class ChatCompletionFactory:
             api_type: str,
             temperature: float,
             stream: bool,
-            stream_handler=None,
-            non_stream_handler=None
+            stream_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
+            non_stream_handler: Callable[[str], str] = None
     ):
         self.messages = messages
         self.model = model
@@ -41,9 +42,19 @@ class ChatCompletionFactory:
     def create_chat_completion(self) -> 'ChatCompletion':
 
         if self.stream:
-            return StreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai, self.stream_handler, self.non_stream_handler)
+            return StreamChatCompletion(self.model,
+                                        self.messages,
+                                        self.temperature,
+                                        self.api_type,
+                                        self.openai,
+                                        stream_handler=self.stream_handler)
         else:
-            return NonStreamChatCompletion(self.model, self.messages, self.temperature, self.api_type, self.openai, self.non_stream_handler, self.non_stream_handler)
+            return NonStreamChatCompletion(self.model,
+                                           self.messages,
+                                           self.temperature,
+                                           self.api_type,
+                                           self.openai,
+                                           non_stream_handler=self.non_stream_handler)
 
 
 class ChatCompletion:
@@ -53,9 +64,9 @@ class ChatCompletion:
             messages: list[Message],
             temperature: float,
             api_type: str,
-            openai=None,
-            stream_handler=None,
-            non_stream_handler=None
+            openai,
+            stream_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
+            non_stream_handler: Callable[[str], None] = None
     ):
         self.model = model
         self.messages = messages
@@ -75,16 +86,16 @@ class NonStreamChatCompletion(ChatCompletion):
             logging.info(f"messages: {self.messages}")
             if self.model == "gpt-4-vision-preview":
                 completion = self.openai.chat.completions.create(
-                    model=self.model,
                     messages=self.messages,
+                    model=self.model,
                     temperature=self.temperature,
                     stream=False,
                     max_tokens=4096,
                 )
             else:
                 completion = self.openai.chat.completions.create(
-                    model=self.model,
                     messages=self.messages,
+                    model=self.model,
                     temperature=self.temperature,
                     stream=False,
                 )
@@ -103,16 +114,16 @@ class StreamChatCompletion(ChatCompletion):
             logging.info(f"messages: {self.messages}")
             if self.model == "gpt-4-vision-preview":
                 completion = self.openai.chat.completions.create(
-                    model=self.model,
                     messages=self.messages,
+                    model=self.model,
                     temperature=self.temperature,
                     stream=True,
                     max_tokens=4096,
                 )
             else:
                 completion = self.openai.chat.completions.create(
-                    model=self.model,
                     messages=self.messages,
+                    model=self.model,
                     temperature=self.temperature,
                     stream=True,
                 )
