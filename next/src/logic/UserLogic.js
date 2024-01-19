@@ -21,31 +21,26 @@ export class UserLogic {
     try {
       const token = await this.userService.signIn(username, password);
       localStorage.setItem('token', token);
-      return true;
     } catch (err) {
       if (err.response && err.response.status === 401) {
-        alert("Invalid Username or Password");
+        throw new Error("Incorrect Username or Password.");
       } else {
-        alert("Sign In Fail");
         console.error(err);
+        throw new Error("Sign In Fail.");
       }
-      return false;
     }
   }
 
   async signUp(username, password) {
     try {
       await this.userService.signUp(username, password);
-      alert("Sign Up Success");
-      return true;
     } catch (err) {
       if (err.response && err.response.status === 409) {
-        alert("Username already exists.");
+        throw new Error("Username already exists.");
       } else {
-        alert("Sign Up Fail");
         console.error(err);
+        throw new Error("Sign Up Fail.");
       }
-      return false;
     }
   }
 
