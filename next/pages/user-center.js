@@ -26,15 +26,6 @@ function UserCenter() {
 
   useEffect(() => {
     document.title = "User Center";
-
-    const fetchUsername = async () => {
-      const username = await userLogic.fetchUsername();
-      if (username) {
-        setUsername(username);
-      }
-    };
-
-    fetchUsername();
   }, []);
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -47,7 +38,14 @@ function UserCenter() {
       return;
     }
 
-    await userLogic.updateUser(username, password);
+    try {
+      await userLogic.updateUser(username, password);
+      setAlertMessage("Update success.");
+      setAlertOpen(true);
+    } catch (e) {
+      setAlertMessage(e.message);
+      setAlertOpen(true);
+    }
   };
 
   return (
