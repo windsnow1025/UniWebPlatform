@@ -171,7 +171,7 @@ function Bookmark() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" color="secondary">
-        <div className="Flex-space-around p-2">
+        <div className="flex-around p-2">
           <h1 className="grow">Bookmarks</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>

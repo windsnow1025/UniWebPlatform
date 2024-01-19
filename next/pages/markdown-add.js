@@ -65,7 +65,7 @@ function MarkdownAdd() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" color="secondary">
-        <div className="Flex-space-around p-2">
+        <div className="flex-around p-2">
           <h1 className="grow">Markdown Add</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
@@ -76,7 +76,7 @@ function MarkdownAdd() {
         ref={markdownRef}
         contentEditable={isEditing ? "plaintext-only" : "false"}
       />
-      <div className="Flex-Center">
+      <div className="flex-center">
         {!isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
         {isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button></div>}
         <div className="m-1"><Button variant="contained" color="secondary" onClick={handleAdd}>Add</Button></div>
