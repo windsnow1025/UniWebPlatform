@@ -28,18 +28,18 @@ function Index() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" color="secondary">
-        <div className="Flex-space-around p-2">
+        <div className="flex-around p-2">
           <h1 className="grow">Windsnow1025</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
         </div>
       </AppBar>
-      <div className="Flex-space-around m-4">
+      <div className="flex-around m-4">
         <a href="/bookmark" target="_blank" rel="noopener noreferrer">Bookmarks</a>
         <a href="/message" target="_blank" rel="noopener noreferrer">Message Transmitter</a>
         <a href="/gpt" target="_blank" rel="noopener noreferrer">GPT</a>
       </div>
-      <div className="Flex-space-around m-4">
+      <div className="flex-around m-4">
         <MarkdownList/>
       </div>
     </ThemeProvider>

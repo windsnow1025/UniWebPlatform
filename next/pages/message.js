@@ -92,7 +92,7 @@ function MessageTransmitter() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" color="secondary">
-        <div className="Flex-space-around p-2">
+        <div className="flex-around p-2">
           <h1 className="grow">Message Transmitter</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
@@ -111,7 +111,7 @@ function MessageTransmitter() {
             />
           ))}
         </Paper>
-        <div className="Flex-Center">
+        <div className="flex-center">
           <div className="m-1"><Button variant="contained" color="primary" onClick={fetchMessages}>Receive</Button></div>
           <div className="m-1"><Button variant="contained" color="secondary" onClick={handleClearMessages}>Clear</Button></div>
         </div>

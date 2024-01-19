@@ -92,7 +92,7 @@ function MarkdownUpdate() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" color="secondary">
-        <div className="Flex-space-around p-2">
+        <div className="flex-around p-2">
           <h1 className="grow">Markdown Update</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
@@ -105,7 +105,7 @@ function MarkdownUpdate() {
           contentEditable={isEditing ? "plaintext-only" : "false"}
         />
       </div>
-      <div className="Flex-Center">
+      <div className="flex-center">
         {!isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
         {isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button></div>}
         <div className="m-1"><Button variant="contained" color="secondary" onClick={handleUpdate}>Update</Button></div>
