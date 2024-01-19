@@ -40,7 +40,7 @@ function UserCenter() {
 
     try {
       await userLogic.updateUser(username, password);
-      setAlertMessage("Update success.");
+      setAlertMessage("Update success");
       setAlertOpen(true);
     } catch (e) {
       setAlertMessage(e.message);
