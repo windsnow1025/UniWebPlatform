@@ -14,7 +14,7 @@ import {
   MenuItem, Paper,
   Select,
   Slider,
-  Switch, Toolbar
+  Switch,
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -27,6 +27,7 @@ import ThemeSelect from '../app/components/ThemeSelect';
 import MessageDiv from "../app/components/MessageDiv";
 import ConversationAutocomplete from "../app/components/ConversationAutocomplete";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
+import Snackbar from "@mui/material/Snackbar";
 
 function GPT() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -103,9 +104,13 @@ function GPT() {
     });
   }, [editable]);
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const startGenerate = async () => {
     if (!localStorage.getItem('token')) {
-      alert('Please Sign In.');
+      setAlertMessage('Please sign in first.');
+      setAlertOpen(true);
       return;
     }
 
@@ -367,6 +372,12 @@ function GPT() {
         <span className="text-center m-1">windsnow1024@gmail.com</span>
         <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank" rel="noopener noreferrer"><GitHubIcon/></a>
       </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
     </ThemeProvider>
   )
 }
