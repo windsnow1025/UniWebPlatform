@@ -24,7 +24,7 @@ export class BookmarkLogic {
         throw new Error('Forbidden');
       } else {
         console.error(error);
-        throw new Error('Error');
+        throw new Error('Unknown Error');
       }
     }
   }
@@ -39,7 +39,7 @@ export class BookmarkLogic {
         throw new Error('Forbidden');
       } else {
         console.error(error);
-        throw new Error('Error');
+        throw new Error('Unknown Error');
       }
     }
   }
@@ -54,7 +54,7 @@ export class BookmarkLogic {
         throw new Error('Forbidden');
       } else {
         console.error(error);
-        throw new Error('Error');
+        throw new Error('Unknown Error');
       }
     }
   }

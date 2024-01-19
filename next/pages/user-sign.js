@@ -65,7 +65,7 @@ function UserSign() {
     }
     try {
       await userLogic.signUp(username, password);
-      setAlertMessage("Sign up successful.");
+      setAlertMessage("Sign up success");
       setAlertOpen(true);
       setAction('signin');
     } catch (e) {

@@ -24,14 +24,14 @@ export class MarkdownLogic {
   async addMarkdown(title, content) {
     try {
       await this.markdownService.addMarkdown({ title, content });
-      alert('Add Success!');
     } catch (error) {
       if (error.response.status === 401) {
-        alert('Unauthorized');
+        throw new Error('Unauthorized');
       } else if (error.response.status === 403) {
-        alert('Forbidden');
+        throw new Error('Forbidden');
       } else {
         console.error(error);
+        throw new Error('Unknown Error');
       }
     }
   }
@@ -39,14 +39,14 @@ export class MarkdownLogic {
   async updateMarkdown(id, title, content) {
     try {
       await this.markdownService.updateMarkdown(id, { title, content });
-      alert('Update Success!');
     } catch (error) {
       if (error.response.status === 401) {
-        alert('Unauthorized');
+        throw new Error('Unauthorized');
       } else if (error.response.status === 403) {
-        alert('Forbidden');
+        throw new Error('Forbidden');
       } else {
         console.error(error);
+        throw new Error('Unknown Error');
       }
     }
   }
@@ -54,14 +54,14 @@ export class MarkdownLogic {
   async deleteMarkdown(id) {
     try {
       await this.markdownService.deleteMarkdown(id);
-      alert('Delete Success!');
     } catch (error) {
       if (error.response.status === 401) {
-        alert('Unauthorized');
+        throw new Error('Unauthorized');
       } else if (error.response.status === 403) {
-        alert('Forbidden');
+        throw new Error('Forbidden');
       } else {
         console.error(error);
+        throw new Error('Unknown Error');
       }
     }
   }
