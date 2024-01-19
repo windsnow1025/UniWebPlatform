@@ -7,6 +7,7 @@ import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import {AppBar, Button, Toolbar} from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
 
 function UserCenter() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -36,9 +37,13 @@ function UserCenter() {
     fetchUsername();
   }, []);
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const handleUpdate = async () => {
     if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {
-      alert("Username or Password contains invalid characters or has an invalid length.");
+      setAlertMessage("Username or Password contains invalid characters or has an invalid length.");
+      setAlertOpen(true);
       return;
     }
 
@@ -80,6 +85,12 @@ function UserCenter() {
           </div>
         </div>
       </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
     </ThemeProvider>
   );
 }
