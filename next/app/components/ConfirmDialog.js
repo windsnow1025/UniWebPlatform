@@ -24,7 +24,7 @@ export default function ConfirmDialog({ open, handleClose, title, content }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleClose(false)}>Cancel</Button>
-        <Button onClick={() => handleClose(true)} color="primary" autoFocus>
+        <Button onClick={() => handleClose(true)} autoFocus>
           Confirm
         </Button>
       </DialogActions>
