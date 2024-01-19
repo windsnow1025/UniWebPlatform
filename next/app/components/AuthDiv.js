@@ -39,7 +39,7 @@ function AuthDiv() {
   return (
     <div>
       {username ? (
-        <div className="Flex-space-around">
+        <div className="flex-around">
           <span>{username}</span>
           <Link href="/user-center">
             <IconButton aria-label="manage account">
@@ -49,7 +49,7 @@ function AuthDiv() {
           <Button variant="contained" onClick={handleSignOut}>Sign Out</Button>
         </div>
       ) : (
-        <div className="Flex-space-around">
+        <div className="flex-around">
           <div className="m-1"><Button variant="contained" onClick={handleSignInRouter}>Sign In</Button></div>
           <div className="m-1"><Button variant="contained" onClick={handleSignUpRouter}>Sign Up</Button></div>
         </div>

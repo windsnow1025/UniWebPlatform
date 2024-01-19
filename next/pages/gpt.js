@@ -239,19 +239,19 @@ function GPT() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" color="secondary">
-        <div className="Flex-space-around p-2">
+        <div className="flex-around p-2">
           <h1 className="grow">WindsnowGPT</h1>
           <div className="m-1"><AuthDiv/></div>
           <div className="m-1"><ThemeSelect/></div>
         </div>
       </AppBar>
       <br/>
-      <div className="Flex-space-around m-1">
+      <div className="flex-around m-1">
         <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">Documentation</a>
         <a href="/markdown-view?filename=gpt-presets.md" target="_blank" rel="noopener noreferrer">System Presets</a>
         <div>Credit: {credit}</div>
       </div>
-      <div className="Flex-space-around m-2">
+      <div className="flex-around m-2">
         <div className="m-1">
           <FormControl fullWidth className="mt-2">
             <InputLabel id="api-type-select-label">API Type</InputLabel>
@@ -305,9 +305,9 @@ function GPT() {
       <Paper elevation={1} className="m-2 p-4 rounded-lg">
         <h3>Conversations:</h3>
         <div>
-          <div className="Flex-space-between">
-            <div className="inFlex-FillSpace"/>
-            <div className="Flex-Column inFlex-flex-end">
+          <div className="flex-between">
+            <div className="inflex-fill"/>
+            <div className="inflex-end">
               <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
                 <AddCircleIcon fontSize="small"/>
               </IconButton>
@@ -326,9 +326,9 @@ function GPT() {
                 onMessageDelete={() => handleMessageDelete(index)}
                 shouldSanitize={sanitize}
               />
-              <div className="Flex-space-between">
-                <div className="inFlex-FillSpace"/>
-                <div className="Flex-Column inFlex-flex-end">
+              <div className="flex-between">
+                <div className="inflex-fill"/>
+                <div className="inflex-end">
                   <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
                     <AddCircleIcon fontSize="small"/>
                   </IconButton>
@@ -341,7 +341,7 @@ function GPT() {
           <Button id="generate" variant="contained" onClick={handleGenerate}>{generate}</Button>
         </div>
       </Paper>
-      <div className="Flex-space-around m-1">
+      <div className="flex-around m-1">
         <div>
           <FormControlLabel control={
             <Checkbox id="editable-check-box" checked={editable} onChange={e => setEditable(e.target.checked)}/>

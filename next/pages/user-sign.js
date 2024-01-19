@@ -77,12 +77,12 @@ function UserSign() {
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" color="secondary">
-        <div className="Flex-space-around p-2">
+        <div className="flex-around p-2">
           <h1 className="grow">{title}</h1>
           <div className="m-1"><ThemeSelect/></div>
         </div>
       </AppBar>
-      <div className="Flex-Center">
+      <div className="flex-center">
         <div className="text-center">
           <div className="m-2">
             <TextField

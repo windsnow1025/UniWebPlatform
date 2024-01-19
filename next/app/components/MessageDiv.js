@@ -57,15 +57,15 @@ function MessageDiv({
           onRoleChange={onRoleChange}
         />
       }
-      <div className="Flex-space-between">
-        <div className="inFlex-FillSpace">
+      <div className="flex-between">
+        <div className="inflex-fill">
           <ContentDiv
             contentInitial={contentInitial}
             onContentChange={onContentChange}
             shouldSanitize={shouldSanitize}
           />
         </div>
-        <div className="Flex-Column inFlex-flex-end">
+        <div className="flex-column inflex-end">
           {onFileUpload &&
             <>
               <input
