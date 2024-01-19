@@ -11,6 +11,7 @@ import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {AppBar, Button, Toolbar} from "@mui/material";
 import {useRouter} from "next/router";
+import Snackbar from "@mui/material/Snackbar";
 
 function MarkdownUpdate() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -61,14 +62,31 @@ function MarkdownUpdate() {
     setIsEditing(false);
   };
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const handleUpdate = async () => {
     const newTitle = markdownLogic.getTitleFromContent(markdown.content);
     setMarkdown(prev => ({ ...prev, title: newTitle }));
-    await markdownLogic.updateMarkdown(id, newTitle, markdown.content);
+    try {
+      await markdownLogic.updateMarkdown(id, newTitle, markdown.content);
+      setAlertMessage('Update success');
+      setAlertOpen(true);
+    } catch (e) {
+      setAlertMessage(e.message);
+      setAlertOpen(true);
+    }
   };
 
   const handleDelete = async () => {
-    await markdownLogic.deleteMarkdown(id);
+    try {
+      await markdownLogic.deleteMarkdown(id);
+      setAlertMessage('Delete success');
+      setAlertOpen(true);
+    } catch (e) {
+      setAlertMessage(e.message);
+      setAlertOpen(true);
+    }
   };
 
   return (
@@ -93,6 +111,12 @@ function MarkdownUpdate() {
         <div className="m-1"><Button variant="contained" color="secondary" onClick={handleUpdate}>Update</Button></div>
         <div className="m-1"><Button variant="outlined" onClick={handleDelete}>Delete</Button></div>
       </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
     </ThemeProvider>
   );
 }

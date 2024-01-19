@@ -10,6 +10,7 @@ import AuthDiv from "../app/components/AuthDiv";
 import ThemeSelect from "../app/components/ThemeSelect";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {AppBar, Button, Toolbar} from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
 
 function MarkdownAdd() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -46,9 +47,19 @@ function MarkdownAdd() {
     setIsEditing(false);
   };
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const handleAdd = async () => {
     const title = markdownLogic.getTitleFromContent(content);
-    await markdownLogic.addMarkdown(title, content);
+    try {
+      await markdownLogic.addMarkdown(title, content);
+      setAlertMessage('Add success');
+      setAlertOpen(true);
+    } catch (e) {
+      setAlertMessage(e.message);
+      setAlertOpen(true);
+    }
   };
 
   return (
@@ -70,6 +81,12 @@ function MarkdownAdd() {
         {isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button></div>}
         <div className="m-1"><Button variant="contained" color="secondary" onClick={handleAdd}>Add</Button></div>
       </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
     </ThemeProvider>
   );
 }
