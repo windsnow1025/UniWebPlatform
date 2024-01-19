@@ -19,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import {AppBar, Toolbar} from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
 
 function EditToolbar(props) {
   const {setRows, setRowModesModel, rows} = props;
@@ -69,20 +70,41 @@ function Bookmark() {
     }
   };
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     if (newRow.isNew) {
-      await bookmarkLogic.addBookmark(updatedRow);
+      try {
+        await bookmarkLogic.addBookmark(updatedRow);
+      } catch (e) {
+        setAlertOpen(true);
+        setAlertMessage(e.message);
+        return;
+      }
     } else {
-      await bookmarkLogic.updateBookmark(updatedRow.id, updatedRow);
+      try {
+        await bookmarkLogic.updateBookmark(updatedRow.id, updatedRow);
+      } catch (e) {
+        setAlertOpen(true);
+        setAlertMessage(e.message);
+        return;
+      }
     }
     loadBookmarks();
     return updatedRow;
   };
 
   const handleDeleteClick = async (id) => {
-    await bookmarkLogic.deleteBookmark(id);
+    try {
+      await bookmarkLogic.deleteBookmark(id);
+    } catch (e) {
+      setAlertOpen(true);
+      setAlertMessage(e.message);
+      return;
+    }
     loadBookmarks();
   };
 
@@ -171,6 +193,12 @@ function Bookmark() {
           }}
         />
       </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
     </ThemeProvider>
   );
 }
