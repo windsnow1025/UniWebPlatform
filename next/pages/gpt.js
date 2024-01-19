@@ -52,7 +52,6 @@ function GPT() {
   // Others
   const [credit, setCredit] = useState(0);
   const [generate, setGenerate] = useState("Generate");
-  const [status, setStatus] = useState('Ready');
   const [editable, setEditable] = useState(true);
   const [sanitize, setSanitize] = useState(true);
 
@@ -115,7 +114,6 @@ function GPT() {
     }
 
     setGenerate("Stop");
-    setStatus('Generating...');
 
     isRequesting.current = true;
     currentRequestIndex.current += 1;
@@ -175,13 +173,11 @@ function GPT() {
 
     window.scrollTo(0, document.body.scrollHeight);
     setGenerate("Generate");
-    setStatus('Ready');
   }
 
   const stopGenerate = () => {
     isRequesting.current = false;
     setGenerate("Generate");
-    setStatus('Ready');
   }
 
   const handleGenerate = async () => {
@@ -343,7 +339,6 @@ function GPT() {
         </div>
         <div className="text-center">
           <Button id="generate" variant="contained" onClick={handleGenerate}>{generate}</Button>
-          <div><small>Status: {status}</small></div>
         </div>
       </Paper>
       <div className="Flex-space-around m-1">
