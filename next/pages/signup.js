@@ -6,9 +6,10 @@ import ThemeSelect from '../app/components/ThemeSelect';
 import {UserLogic} from "../src/logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
-import {AppBar, Button, Toolbar} from "@mui/material";
+import {AppBar, Button} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import AuthDiv from "../app/components/AuthDiv";
+import Snackbar from '@mui/material/Snackbar';
+
 
 function SignUp() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -30,13 +31,17 @@ function SignUp() {
     document.title = "Sign Up";
   }, []);
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const handleSignUp = async () => {
     if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {
-      alert("Username or Password contains invalid characters or has an invalid length.");
+      setAlertMessage("Username or Password contains invalid characters or has an invalid length.");
+      setAlertOpen(true);
       return;
     }
     if (await userLogic.signUp(username, password)) {
-      let prevUrl = localStorage.getItem('prevUrl') || "/";
+      const prevUrl = localStorage.getItem('prevUrl') || "/";
       router.push(prevUrl);
     }
   };
@@ -76,6 +81,12 @@ function SignUp() {
           </div>
         </div>
       </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
     </ThemeProvider>
   );
 }
