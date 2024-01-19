@@ -47,16 +47,13 @@ export class UserLogic {
   async updateUser(username, password) {
     try {
       await this.userService.updateUser(username, password);
-      alert("Update Success");
-      return true;
     } catch (err) {
       if (err.response && err.response.status === 409) {
-        alert("Username already exists.");
+        throw new Error("Username already exists.");
       } else {
-        alert("Update Fail");
         console.error(err);
+        throw new Error("Update Fail.");
       }
-      return false;
     }
   }
 
