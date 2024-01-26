@@ -228,12 +228,12 @@ function GPT() {
   };
 
   const handleConversationUpload = async () => {
-    const messages = await gptLogic.upload();
+    const messages = await gptLogic.import();
     setMessages(messages);
   };
 
   const handleConversationDownload = async () => {
-    gptLogic.download(messages);
+    gptLogic.export(messages);
   };
 
   return (
