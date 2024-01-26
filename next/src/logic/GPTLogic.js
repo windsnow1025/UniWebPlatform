@@ -17,6 +17,15 @@ export class GPTLogic {
       }
     ];
 
+    this.emptyUserMessage = {
+      "role": "user",
+      "content": ""
+    };
+    this.emptyAssistantMessage = {
+      "role": "assistant",
+      "content": ""
+    };
+
     this.defaultApiType = "open_ai";
     this.defaultModel = [
       {"api_type": "open_ai", "model": "gpt-4-turbo-preview"},
