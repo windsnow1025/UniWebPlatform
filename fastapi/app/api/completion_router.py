@@ -84,5 +84,5 @@ async def generate(chat_request: ChatRequest, username: str = Depends(get_userna
 
 
 @router.get("/")
-async def get_models() -> dict:
-    return pricing.model_pricing
+async def get_models() -> list[dict]:
+    return pricing.model_pricing_data
