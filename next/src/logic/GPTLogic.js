@@ -49,7 +49,7 @@ export class GPTLogic {
 
 
   // Save the messages array as a JSON file
-  download(messages) {
+  export(messages) {
     const fileName = 'messages.json';
     const data = JSON.stringify(messages);
     const blob = new Blob([data], {type: 'application/json'});
@@ -67,7 +67,7 @@ export class GPTLogic {
   }
 
   // Load the messages array from a JSON file
-  upload() {
+  import() {
     return new Promise((resolve, reject) => {
       // Request a JSON file from the user
       const input = document.createElement('input');
