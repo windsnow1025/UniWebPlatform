@@ -42,6 +42,9 @@ function GPT() {
 
   const gptLogic = new GPTLogic();
 
+  const [apiModels, setApiModels] = useState([]);
+  const [fullModels, setFullModels] = useState([]);
+
   // GPT Parameters
   const [messages, setMessages] = useState(gptLogic.initMessages);
   const [apiType, setApiType] = useState(gptLogic.defaultApiType);
@@ -63,6 +66,15 @@ function GPT() {
 
   useEffect(() => {
     document.title = "GPT";
+  }, []);
+
+  useEffect(() => {
+    const fetchModels = async () => {
+      const fullModels = await gptLogic.fetchModels();
+      setFullModels(fullModels);
+    };
+
+    fetchModels();
   }, []);
 
   useEffect(() => {
@@ -91,8 +103,9 @@ function GPT() {
   }, [messages]);
 
   useEffect(() => {
-    setModel(gptLogic.defaultModel);
-  }, [gptLogic.defaultModel]);
+    setApiModels(gptLogic.getModels(fullModels, apiType));
+    setModel(gptLogic.getModels(gptLogic.defaultModel, apiType)[0]);
+  }, [fullModels, apiType]);
 
   useEffect(() => {
     const contentEditableValue = editable ? 'plaintext-only' : 'false';
@@ -273,11 +286,11 @@ function GPT() {
             <Select
               labelId="model-select-label"
               id="model-select"
-              value={model}
+              value={apiModels.length !== 0 ? model : ''}
               label="Model"
               onChange={e => setModel(e.target.value)}
             >
-              {(apiType === 'open_ai' ? gptLogic.models.open_ai : gptLogic.models.azure).map(model => (
+              {apiModels.length !== 0 && apiModels.map(model => (
                 <MenuItem key={model} value={model}>{model}</MenuItem>
               ))}
             </Select>
