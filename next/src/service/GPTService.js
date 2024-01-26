@@ -46,4 +46,9 @@ export default class GPTService {
     }
   }
 
+  async fetchModels() {
+    const res = await this.axiosInstance.get(`/`);
+    return res.data;
+  }
+
 }
