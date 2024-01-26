@@ -143,10 +143,7 @@ function GPT() {
       setMessages(prevMessages => [...prevMessages, {
         "role": "assistant",
         "content": content
-      }, {
-        "role": "user",
-        "content": ""
-      }]);
+      }, gptLogic.emptyUserMessage]);
 
     } else {
 
@@ -161,10 +158,7 @@ function GPT() {
         const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
 
         if (isFirstChunk) {
-          setMessages(prevMessages => [...prevMessages, {
-            "role": "assistant",
-            "content": ""
-          }]);
+          setMessages(prevMessages => [...prevMessages, gptLogic.emptyAssistantMessage]);
           isFirstChunk = false;
         }
 
@@ -177,10 +171,7 @@ function GPT() {
         if (isAtBottom) window.scrollTo(0, document.body.scrollHeight);
       }
 
-      setMessages(prevMessages => [...prevMessages, {
-        "role": "user",
-        "content": ""
-      }]);
+      setMessages(prevMessages => [...prevMessages, gptLogic.emptyUserMessage]);
 
     }
 
@@ -229,10 +220,7 @@ function GPT() {
 
   const handleMessageAdd = (index) => {
     const newMessages = [...messages];
-    newMessages.splice(index + 1, 0, {
-      "role": "user",
-      "content": ""
-    });
+    newMessages.splice(index + 1, 0, gptLogic.emptyUserMessage);
     setMessages(newMessages);
   };
 
