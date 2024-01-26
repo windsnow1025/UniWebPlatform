@@ -44,8 +44,8 @@ function GPT() {
 
   // GPT Parameters
   const [messages, setMessages] = useState(gptLogic.initMessages);
-  const [apiType, setApiType] = useState('open_ai');
-  const [model, setModel] = useState(gptLogic.models.open_ai[0]);
+  const [apiType, setApiType] = useState(gptLogic.defaultApiType);
+  const [model, setModel] = useState(gptLogic.defaultModel);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
 
@@ -91,8 +91,8 @@ function GPT() {
   }, [messages]);
 
   useEffect(() => {
-    setModel(gptLogic.models[apiType][0]);
-  }, [apiType]);
+    setModel(gptLogic.defaultModel);
+  }, [gptLogic.defaultModel]);
 
   useEffect(() => {
     const contentEditableValue = editable ? 'plaintext-only' : 'false';
