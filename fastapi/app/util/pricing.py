@@ -14,6 +14,7 @@ model_pricing: ModelPricing = {
         "gpt-4": {"input": 0.03, "output": 0.06},
         "gpt-4-0314": {"input": 0.03, "output": 0.06},
         "gpt-4-0613": {"input": 0.03, "output": 0.06},
+        "gpt-4-32k-0314": {"input": 0.06, "output": 0.12},
         "gpt-4-turbo-preview": {"input": 0.01, "output": 0.03},
         "gpt-4-1106-preview": {"input": 0.01, "output": 0.03},
         "gpt-4-0125-preview": {"input": 0.01, "output": 0.03},
