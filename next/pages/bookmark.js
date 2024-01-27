@@ -26,7 +26,6 @@ function EditToolbar(props) {
 
   const handleClick = () => {
     const id = Math.max(...rows.map((row) => row.id)) + 1;
-    console.log(id);
     setRows((oldRows) => [{id, firstTitle: '', secondTitle: '', url: '', comment: '', isNew: true}, ...oldRows]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
