@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {IconButton, Paper} from "@mui/material";
+import {IconButton, Paper, Tooltip} from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
@@ -74,18 +74,24 @@ function MessageDiv({
                 onChange={handleFileUpload}
                 style={{display: 'none'}}
               />
-              <IconButton aria-label="upload" onClick={triggerFileInput}>
-                <UploadIcon/>
-              </IconButton>
+              <Tooltip title="Upload">
+                <IconButton aria-label="upload" onClick={triggerFileInput}>
+                  <UploadIcon/>
+                </IconButton>
+              </Tooltip>
             </>
           }
-          <IconButton aria-label="copy" onClick={handleContentCopy}>
-            <ContentCopyIcon fontSize="small"/>
-          </IconButton>
-          {onMessageDelete &&
-            <IconButton aria-label="delete" onClick={onMessageDelete}>
-              <RemoveCircleOutlineIcon fontSize="small"/>
+          <Tooltip title="Copy">
+            <IconButton aria-label="copy" onClick={handleContentCopy}>
+              <ContentCopyIcon fontSize="small"/>
             </IconButton>
+          </Tooltip>
+          {onMessageDelete &&
+            <Tooltip title="Delete">
+              <IconButton aria-label="delete" onClick={onMessageDelete}>
+                <RemoveCircleOutlineIcon fontSize="small"/>
+              </IconButton>
+            </Tooltip>
           }
         </div>
       </div>
