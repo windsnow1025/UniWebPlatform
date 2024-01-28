@@ -192,6 +192,10 @@ function GPT() {
     }
   };
 
+  const handleClear = () => {
+    setMessages(gptLogic.initMessages);
+  };
+
   const handleRoleChange = (index, role) => {
     const newMessages = [...messages];
     newMessages[index].role = role;
@@ -338,8 +342,13 @@ function GPT() {
             </div>
           ))}
         </div>
-        <div className="text-center">
-          <Button id="generate" variant="contained" onClick={handleGenerate}>{generate}</Button>
+        <div className="flex-center">
+          <div className="m-2">
+            <Button id="generate" variant="contained" color="primary" onClick={handleGenerate}>{generate}</Button>
+          </div>
+          <div className="m-2">
+            <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
+          </div>
         </div>
       </Paper>
       <div className="flex-around m-1">
