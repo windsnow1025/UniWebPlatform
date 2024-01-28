@@ -14,7 +14,7 @@ import {
   MenuItem, Paper,
   Select,
   Slider,
-  Switch,
+  Switch, Tooltip,
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -308,14 +308,15 @@ function GPT() {
         </div>
       </div>
       <Paper elevation={1} className="m-2 p-4 rounded-lg">
-        <h3>Conversations:</h3>
         <div>
           <div className="flex-between">
             <div className="inflex-fill"/>
             <div className="inflex-end">
-              <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
-                <AddCircleIcon fontSize="small"/>
-              </IconButton>
+              <Tooltip title="Add">
+                <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
+                  <AddCircleIcon fontSize="small"/>
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
           {messages.map((message, index) => (
@@ -334,9 +335,11 @@ function GPT() {
               <div className="flex-between">
                 <div className="inflex-fill"/>
                 <div className="inflex-end">
-                  <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
-                    <AddCircleIcon fontSize="small"/>
-                  </IconButton>
+                  <Tooltip title="Add">
+                    <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
+                      <AddCircleIcon fontSize="small"/>
+                    </IconButton>
+                  </Tooltip>
                 </div>
               </div>
             </div>
@@ -365,12 +368,16 @@ function GPT() {
           onConversationClick={onConversationOptionClick}
         />
         <div>
-          <IconButton aria-label="download" onClick={handleConversationDownload}>
-            <DownloadIcon/>
-          </IconButton>
-          <IconButton aria-label="upload" onClick={handleConversationUpload}>
-            <UploadIcon/>
-          </IconButton>
+          <Tooltip title="Export">
+            <IconButton aria-label="download" onClick={handleConversationDownload}>
+              <DownloadIcon/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Import">
+            <IconButton aria-label="upload" onClick={handleConversationUpload}>
+              <UploadIcon/>
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
       <div className="text-center m-1">
