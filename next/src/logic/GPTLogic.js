@@ -43,6 +43,11 @@ export class GPTLogic {
   }
 
   getModels(models, apiType) {
+    if(!Array.isArray(models)) {
+      return this.defaultModel
+        .filter(model => model.api_type === apiType)
+        .map(model => model.model);
+    }
     return models
       .filter(model => model.api_type === apiType)
       .map(model => model.model);
