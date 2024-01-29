@@ -254,12 +254,16 @@ function GPT() {
       <br/>
       <div className="flex-around m-1">
         <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">
-          Documentation
-          <LinkIcon/>
+          <div className="flex-center">
+            <div>Docs</div>
+            <LinkIcon/>
+          </div>
         </a>
         <a href="/markdown-view?filename=gpt-presets.md" target="_blank" rel="noopener noreferrer">
-          System Presets
-          <LinkIcon/>
+          <div className="flex-center">
+            <div>Presets</div>
+            <LinkIcon/>
+          </div>
         </a>
         <div>Credit: {credit}</div>
       </div>
