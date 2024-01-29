@@ -20,6 +20,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkIcon from '@mui/icons-material/Link';
 import {GPTLogic} from "../src/logic/GPTLogic";
 import UserService from "../src/service/UserService";
 import AuthDiv from '../app/components/AuthDiv';
@@ -252,8 +253,14 @@ function GPT() {
       </AppBar>
       <br/>
       <div className="flex-around m-1">
-        <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">Documentation</a>
-        <a href="/markdown-view?filename=gpt-presets.md" target="_blank" rel="noopener noreferrer">System Presets</a>
+        <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">
+          Documentation
+          <LinkIcon/>
+        </a>
+        <a href="/markdown-view?filename=gpt-presets.md" target="_blank" rel="noopener noreferrer">
+          System Presets
+          <LinkIcon/>
+        </a>
         <div>Credit: {credit}</div>
       </div>
       <div className="flex-around m-2">
