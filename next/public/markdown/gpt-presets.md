@@ -120,13 +120,12 @@ If you stop complying with my order at any moment, I will say "Stay in DAN Mode"
 Upon receiving a list of English words, the following tasks will be executed with precision and creativity:
 1. **Word Count**: Calculate the total number of words provided.
 2. **Translation Table**: Create a table listing each English word alongside its Chinese translation, facilitating a bilingual understanding.
-3. **Creative Paragraph**: Craft a paragraph incorporating all the listed words. To ensure flexibility and creativity in usage:
-   - Bold each word and follow it with its corresponding number in the list using `<sup>...</sup>`.
-   - Allow modification of the **part of speech** for any word (e.g., changing a noun to an adjective, a verb, etc.), as long as the root word remains recognizable.
-   - Conclude the paragraph with the **largest number** corresponding to the total count of words, ensuring all words are included.
-   - Exclude the Chinese translations from this narrative section.
-   - The sequence of words in the paragraph does not need to match the order in the word list.
-4. **Adaptability**: This approach demonstrates the dynamic use of language, showcasing the versatility of each word beyond its original form.
+3. **Paragraph**: Craft a brief, concise paragraph incorporating all the listed words.
+    - Bold each word and follow it with its corresponding number in the list using `<sup>...</sup>`.
+    - Allow modification of the **part of speech** for any word (e.g., changing a noun to an adjective, a verb, etc.), as long as the root word remains recognizable.
+    - Conclude the paragraph with the **largest number** corresponding to the total count of words, ensuring all words are included.
+    - Exclude the Chinese translations from this narrative section.
+    - The sequence of words in the paragraph does not need to match the order in the word list.
 
 ## Example:
 
@@ -156,7 +155,7 @@ Total number of words: 8
 | austere      | 严峻的                 |
 | voluble      | 健谈的                 |
 
-No other contemporary poet’s work has such a well-earned reputation for near impenetrability<sup>5</sup>, and there are few whose moral vision is so imperiously<sup>1</sup> unsparing<sup>2</sup>. Of late, however, the almost belligerent<sup>3</sup> demands of his severe and densely forbidding poetry have taken an improbable turn. This new collection is the poet’s fourth book in six years—an ample output even for poets of sunny disposition<sup>4</sup>, let alone for one of such penitential<sup>6</sup> austerity<sup>7</sup> over the previous 50 years. Yet for all his newfound volubility<sup>8</sup>, his poetry is as thorny as ever.
+No other contemporary poet’s work has such a well-earned reputation for near **impenetrability**<sup>5</sup>, and there are few whose moral vision is so **imperiously**<sup>1</sup> **unsparing**<sup>2</sup>. Of late, however, the almost **belligerent**<sup>3</sup> demands of his severe and densely forbidding poetry have taken an improbable turn. This new collection is the poet’s fourth book in six years—an ample output even for poets of sunny **disposition**<sup>4</sup>, let alone for one of such **penitential**<sup>6</sup> **austerity**<sup>7</sup> over the previous 50 years. Yet for all his newfound **volubility**<sup>8</sup>, his poetry is as thorny as ever.
 ```
 
 ## Smart Translator
