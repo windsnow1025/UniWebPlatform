@@ -9,6 +9,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import React, {useEffect, useState} from "react";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {AppBar, Toolbar} from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
 
 function Index() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -35,9 +36,24 @@ function Index() {
         </div>
       </AppBar>
       <div className="flex-around m-4">
-        <a href="/bookmark" target="_blank" rel="noopener noreferrer">Bookmarks</a>
-        <a href="/message" target="_blank" rel="noopener noreferrer">Message Transmitter</a>
-        <a href="/gpt" target="_blank" rel="noopener noreferrer">GPT</a>
+        <a href="/bookmark" target="_blank" rel="noopener noreferrer">
+          <div className="flex-center">
+            Bookmarks
+            <LinkIcon/>
+          </div>
+        </a>
+        <a href="/message" target="_blank" rel="noopener noreferrer">
+          <div className="flex-center">
+            Message Transmitter
+            <LinkIcon/>
+          </div>
+        </a>
+        <a href="/gpt" target="_blank" rel="noopener noreferrer">
+          <div className="flex-center">
+            GPT
+            <LinkIcon/>
+          </div>
+        </a>
       </div>
       <div className="flex-around m-4">
         <MarkdownList/>
