@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {MarkdownLogic} from "../../src/logic/MarkdownLogic";
-import {Button, List, ListItem, ListItemText} from "@mui/material";
+import {Button, IconButton, List, ListItem, ListItemText, Paper} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 
 function MarkdownList() {
   const [markdowns, setMarkdowns] = useState([]);
@@ -18,13 +19,17 @@ function MarkdownList() {
   }, []);
 
   return (
-    <div>
-      <p>
-        Markdowns
-        <a href="/markdown-add" target="_blank" rel="noopener noreferrer">
-          <Button variant="outlined" className="m-1">Add Markdown</Button>
-        </a>
-      </p>
+    <Paper elevation={4} className="m-2 p-4 rounded-lg">
+      <div>
+        <span>Markdowns</span>
+        <span>
+          <a href="/markdown-add" target="_blank" rel="noopener noreferrer">
+            <IconButton aria-label="add">
+              <AddIcon/>
+            </IconButton>
+          </a>
+        </span>
+      </div>
       <List>
         {markdowns.map(markdown => (
           <ListItem key={markdown.id} disablePadding>
@@ -38,7 +43,7 @@ function MarkdownList() {
           </ListItem>
         ))}
       </List>
-    </div>
+    </Paper>
   );
 }
 
