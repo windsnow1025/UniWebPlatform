@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import CustomAutocomplete from './CustomAutocomplete';
 import ConversationService from "../../src/service/ConversationService";
+import Snackbar from "@mui/material/Snackbar";
 
 function ConversationAutocomplete({conversation, onConversationClick}) {
   const [conversations, setConversations] = useState([]);
@@ -10,8 +11,10 @@ function ConversationAutocomplete({conversation, onConversationClick}) {
 
   useEffect(() => {
     fetchConversations();
-
   }, []);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const fetchConversations = async () => {
     try {
@@ -19,6 +22,8 @@ function ConversationAutocomplete({conversation, onConversationClick}) {
       setConversations(conversations);
       setOptions(conversations.map(conversation => ({title: conversation.name, value: conversation.id})));
     } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage('Error fetching conversations');
       console.error(err);
     }
   }
@@ -32,6 +37,8 @@ function ConversationAutocomplete({conversation, onConversationClick}) {
       await conversationService.deleteConversation(conversations[index].id);
       fetchConversations();
     } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage('Error deleting conversation');
       console.error(err);
     }
   };
@@ -41,6 +48,8 @@ function ConversationAutocomplete({conversation, onConversationClick}) {
       await conversationService.addConversation(name, JSON.stringify(conversation));
       fetchConversations();
     } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage('Error adding conversation');
       console.error(err);
     }
   }
@@ -50,19 +59,29 @@ function ConversationAutocomplete({conversation, onConversationClick}) {
       await conversationService.updateConversation(name, JSON.stringify(conversation), conversations[index].id);
       fetchConversations();
     } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage('Error updating conversation');
       console.error(err);
     }
   }
 
   return (
-    <CustomAutocomplete
-      options={options}
-      label={"Select a conversation"}
-      handleOptionClick={handleOptionClick}
-      handleDelete={handleDelete}
-      handleAdd={handleAdd}
-      handleUpdate={handleUpdate}
-    />
+    <>
+      <CustomAutocomplete
+        options={options}
+        label={"Select a conversation"}
+        handleOptionClick={handleOptionClick}
+        handleDelete={handleDelete}
+        handleAdd={handleAdd}
+        handleUpdate={handleUpdate}
+      />
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
+    </>
   );
 }
 
