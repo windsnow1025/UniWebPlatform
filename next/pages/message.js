@@ -85,7 +85,7 @@ function MessageTransmitter() {
   };
 
   const onFileUpload = (fileUrl) => {
-    const updatedContent = `${newMessage.content}\nfile: ${fileUrl}`;
+    const updatedContent = `${newMessage.content}${fileUrl}`;
     setNewMessage(prev => ({...prev, content: updatedContent}));
   }
 
