@@ -8,17 +8,18 @@ import {BookmarkLogic} from '../src/logic/BookmarkLogic';
 import {getInitMUITheme, getLightMUITheme} from '../src/logic/ThemeLogic';
 import {
   GridRowModes,
-  DataGrid,
+  DataGridPremium,
+  GridToolbar,
   GridToolbarContainer,
   GridActionsCellItem,
-} from '@mui/x-data-grid';
+} from '@mui/x-data-grid-premium';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
-import {AppBar, Toolbar} from "@mui/material";
+import {AppBar} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 
 function EditToolbar(props) {
@@ -35,6 +36,7 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
+      <GridToolbar/>
       <Button color="primary" startIcon={<AddIcon/>} onClick={handleClick}>
         Add bookmark
       </Button>
@@ -73,7 +75,7 @@ function Bookmark() {
   const [alertMessage, setAlertMessage] = useState('');
 
   const processRowUpdate = async (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
+    const updatedRow = {...newRow, isNew: false};
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     if (newRow.isNew) {
       try {
@@ -110,7 +112,7 @@ function Bookmark() {
   const handleCancelClick = (id) => () => {
     setRowModesModel({
       ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      [id]: {mode: GridRowModes.View, ignoreModifications: true},
     });
 
     const editedRow = rows.find((row) => row.id === id);
@@ -177,7 +179,7 @@ function Bookmark() {
         </div>
       </AppBar>
       <div>
-        <DataGrid
+        <DataGridPremium
           rows={rows}
           columns={columns}
           editMode="row"
