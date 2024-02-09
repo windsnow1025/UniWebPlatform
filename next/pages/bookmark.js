@@ -129,7 +129,7 @@ function Bookmark() {
       }
 
       return (params) => {
-        if (rowSelectionModelLookupRef.current[params.id]) {
+        if (rowSelectionModelLookupRef.current[params.id] || rowModesModel[params.id]?.mode === GridRowModes.Edit) {
           return true;
         }
 
