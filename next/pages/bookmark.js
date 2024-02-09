@@ -11,7 +11,7 @@ import {
   DataGridPremium,
   GridToolbar,
   GridToolbarContainer,
-  GridActionsCellItem,
+  GridActionsCellItem, DEFAULT_GRID_COL_TYPE_KEY, getGridDefaultColumnTypes
 } from '@mui/x-data-grid-premium';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -121,7 +121,44 @@ function Bookmark() {
     }
   };
 
-  const columns = [
+  const wrapOperator = (operator) => {
+    const getApplyFilterFn = (filterItem, column) => {
+      const innerFilterFn = operator.getApplyFilterFn(filterItem, column);
+      if (!innerFilterFn) {
+        return innerFilterFn;
+      }
+
+      return (params) => {
+        if (rowSelectionModelLookupRef.current[params.id]) {
+          return true;
+        }
+
+        return innerFilterFn(params);
+      };
+    };
+
+    return {
+      ...operator,
+      getApplyFilterFn,
+    };
+  };
+
+  const defaultColumnTypes = getGridDefaultColumnTypes();
+
+  const wrapFilterOperators = (columns) => {
+    return columns.map((col) => {
+      const filterOperators =
+        col.filterOperators ??
+        defaultColumnTypes[col.type ?? DEFAULT_GRID_COL_TYPE_KEY].filterOperators;
+
+      return {
+        ...col,
+        filterOperators: filterOperators.map((operator) => wrapOperator(operator)),
+      };
+    });
+  };
+
+  const columns = wrapFilterOperators([
     {field: 'firstTitle', headerName: 'First Title', flex: 0.15, editable: true},
     {field: 'secondTitle', headerName: 'Second Title', flex: 0.15, editable: true},
     {field: 'url', headerName: 'URL', flex: 0.35, editable: true},
@@ -167,7 +204,41 @@ function Bookmark() {
         ];
       },
     },
-  ];
+  ]);
+
+  const [models, setModels] = useState({
+    rowSelectionModel: [],
+    filterModel: {},
+  });
+
+  const rowSelectionModelLookup = React.useMemo(
+    () =>
+      models.rowSelectionModel.reduce((lookup, rowId) => {
+        lookup[rowId] = rowId;
+        return lookup;
+      }, {}),
+    [models.rowSelectionModel],
+  );
+
+  const rowSelectionModelLookupRef = React.useRef(rowSelectionModelLookup);
+  rowSelectionModelLookupRef.current = rowSelectionModelLookup;
+
+  const handleRowSelectionModelChange = React.useCallback(
+    (newRowSelectionModel) =>
+      setModels((prev) => ({
+        ...prev,
+        rowSelectionModel: newRowSelectionModel,
+        // Forces the re-application of the filtering process
+        filterModel: { ...prev.filterModel },
+      })),
+    [],
+  );
+
+  const handleFilterModelChange = React.useCallback(
+    (newFilterModel) =>
+      setModels((prev) => ({ ...prev, filterModel: newFilterModel })),
+    [],
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -184,6 +255,8 @@ function Bookmark() {
           columns={columns}
           editMode="row"
           rowModesModel={rowModesModel}
+          onRowSelectionModelChange={handleRowSelectionModelChange}
+          onFilterModelChange={handleFilterModelChange}
           handleRowModelChange={(newModel) => setRowModesModel(newModel)}
           processRowUpdate={processRowUpdate}
           slots={{
