@@ -2,6 +2,8 @@
 
 ## Configuration
 
+Create `./.env`:
+
 ```env
 JWT_SECRET=JWT_SECRET
 MYSQL_ROOT_PASSWORD=MYSQL_ROOT_PASSWORD
