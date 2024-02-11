@@ -2,6 +2,8 @@
 
 ## Config
 
+Create `./.env`:
+
 ```env
 OPENAI_API_KEY=OPENAI_API_KEY
 AZURE_API_KEY=AZURE_API_KEY
