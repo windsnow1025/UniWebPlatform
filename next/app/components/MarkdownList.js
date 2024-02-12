@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {MarkdownLogic} from "../../src/logic/MarkdownLogic";
-import {Button, IconButton, List, ListItem, ListItemText, Paper} from "@mui/material";
+import {IconButton, List, ListItem, ListItemText, Paper} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 
 function MarkdownList() {
