@@ -3,12 +3,9 @@
 import '../src/asset/css/index.css';
 
 import MarkdownList from '../app/components/MarkdownList';
-import ThemeSelect from "../app/components/common/ThemeSelect";
-import AuthDiv from "../app/components/common/AuthDiv";
 import {ThemeProvider} from "@mui/material/styles";
 import React, {useEffect, useState} from "react";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
-import {AppBar, Toolbar} from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
