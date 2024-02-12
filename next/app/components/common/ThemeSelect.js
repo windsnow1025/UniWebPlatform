@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {applyTheme} from '../../src/logic/ThemeLogic.js';
+import {applyTheme} from '../../../src/logic/ThemeLogic.js';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 const ThemeSelect = () => {

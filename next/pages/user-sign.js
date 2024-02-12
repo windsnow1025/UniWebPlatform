@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {UserLogic} from "../src/logic/UserLogic";
 
-import ThemeSelect from '../app/components/ThemeSelect';
+import ThemeSelect from '../app/components/common/ThemeSelect';
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {AppBar, Button} from "@mui/material";

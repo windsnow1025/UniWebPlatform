@@ -4,12 +4,12 @@ import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import {Tooltip} from "@mui/material";
-import '../../src/asset/css/react.css';
+import '../../../src/asset/css/react.css';
 import ConfirmDialog from "./ConfirmDialog";
 
 const filter = createFilterOptions();
 
-function CustomAutocomplete({ options, label, handleOptionClick, handleDelete, handleAdd, handleUpdate }) {
+function CRUDAutocomplete({ options, label, handleOptionClick, handleDelete, handleAdd, handleUpdate }) {
 
   const [value, setValue] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -127,4 +127,4 @@ function CustomAutocomplete({ options, label, handleOptionClick, handleDelete, h
   );
 }
 
-export default CustomAutocomplete;
+export default CRUDAutocomplete;

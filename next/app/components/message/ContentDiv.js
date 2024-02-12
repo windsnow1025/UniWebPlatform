@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react";
-import {parseMarkdown} from "../../src/util/MarkdownParser";
-import {parseLaTeX} from "../../src/util/LaTeXParser";
+import {parseMarkdown} from "../../../src/util/MarkdownParser";
+import {parseLaTeX} from "../../../src/util/LaTeXParser";
 
 function ContentDiv({contentInitial, onContentChange, shouldSanitize}) {
   const [content, setContent] = useState(contentInitial);
