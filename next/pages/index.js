@@ -10,6 +10,7 @@ import React, {useEffect, useState} from "react";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {AppBar, Toolbar} from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
 function Index() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -28,13 +29,7 @@ function Index() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" color="secondary">
-        <div className="flex-around p-2">
-          <h1 className="grow">Windsnow1025</h1>
-          <div className="m-1"><AuthDiv/></div>
-          <div className="m-1"><ThemeSelect/></div>
-        </div>
-      </AppBar>
+      <HeaderAppBar title="Windsnow1025"/>
       <div className="flex-around m-4">
         <a href="/bookmark" target="_blank" rel="noopener noreferrer">
           <div className="flex-center">
