@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import CustomAutocomplete from './CustomAutocomplete';
+import CRUDAutocomplete from './common/CRUDAutocomplete';
 import ConversationService from "../../src/service/ConversationService";
 import Snackbar from "@mui/material/Snackbar";
 
@@ -67,7 +67,7 @@ function ConversationAutocomplete({conversation, onConversationClick}) {
 
   return (
     <>
-      <CustomAutocomplete
+      <CRUDAutocomplete
         options={options}
         label={"Select a conversation"}
         handleOptionClick={handleOptionClick}
