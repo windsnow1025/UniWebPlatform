@@ -11,6 +11,7 @@ import ThemeSelect from "../app/components/common/ThemeSelect";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {AppBar, Button, Toolbar} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
 function MarkdownAdd() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -64,13 +65,7 @@ function MarkdownAdd() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" color="secondary">
-        <div className="flex-around p-2">
-          <h1 className="grow">Markdown Add</h1>
-          <div className="m-1"><AuthDiv/></div>
-          <div className="m-1"><ThemeSelect/></div>
-        </div>
-      </AppBar>
+      <HeaderAppBar title="Markdown Add"/>
       <div
         className="markdown-body p-2 min-h-16"
         ref={markdownRef}

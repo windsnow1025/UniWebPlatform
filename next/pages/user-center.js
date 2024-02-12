@@ -8,6 +8,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import {AppBar, Button, Toolbar} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
 function UserCenter() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -50,12 +51,7 @@ function UserCenter() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" color="secondary">
-        <div className="flex-around p-2">
-          <h1 className="grow">User Center</h1>
-          <div className="m-1"><ThemeSelect/></div>
-        </div>
-      </AppBar>
+      <HeaderAppBar title="User Center" useAuthDiv={false}/>
       <div className="flex-center">
         <div className="text-center">
           <div className="m-2">
