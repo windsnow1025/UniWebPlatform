@@ -9,6 +9,7 @@ import MessageDiv from '../app/components/message/MessageDiv';
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {AppBar, Button, Paper, Toolbar, Typography} from "@mui/material";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
 function MessageTransmitter() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -91,13 +92,7 @@ function MessageTransmitter() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" color="secondary">
-        <div className="flex-around p-2">
-          <h1 className="grow">Message Transmitter</h1>
-          <div className="m-1"><AuthDiv/></div>
-          <div className="m-1"><ThemeSelect/></div>
-        </div>
-      </AppBar>
+      <HeaderAppBar title="Message Transmitter"/>
       <div>
         <h2 className="text-center">Receive Messages</h2>
         <Paper elevation={1} className="m-2 p-4 rounded-lg">

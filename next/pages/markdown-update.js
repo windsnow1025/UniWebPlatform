@@ -12,6 +12,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import {AppBar, Button, Toolbar} from "@mui/material";
 import {useRouter} from "next/router";
 import Snackbar from "@mui/material/Snackbar";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
 function MarkdownUpdate() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -91,13 +92,7 @@ function MarkdownUpdate() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" color="secondary">
-        <div className="flex-around p-2">
-          <h1 className="grow">Markdown Update</h1>
-          <div className="m-1"><AuthDiv/></div>
-          <div className="m-1"><ThemeSelect/></div>
-        </div>
-      </AppBar>
+      <HeaderAppBar title="Markdown Update"/>
       <div className="m-2">
         <div
           className="markdown-body p-2 min-h-16"

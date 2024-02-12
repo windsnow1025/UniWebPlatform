@@ -1,17 +1,17 @@
 import '../src/asset/css/index.css';
 
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from '@mui/material/styles';
-import AuthDiv from '../app/components/common/AuthDiv';
-import ThemeSelect from '../app/components/common/ThemeSelect';
 import {BookmarkLogic} from '../src/logic/BookmarkLogic';
 import {getInitMUITheme, getLightMUITheme} from '../src/logic/ThemeLogic';
 import {
-  GridRowModes,
   DataGridPremium,
+  DEFAULT_GRID_COL_TYPE_KEY,
+  getGridDefaultColumnTypes,
+  GridActionsCellItem,
+  GridRowModes,
   GridToolbar,
-  GridToolbarContainer,
-  GridActionsCellItem, DEFAULT_GRID_COL_TYPE_KEY, getGridDefaultColumnTypes
+  GridToolbarContainer
 } from '@mui/x-data-grid-premium';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -19,8 +19,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
-import {AppBar} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
 function EditToolbar(props) {
   const {setRows, setRowModesModel, rows} = props;
@@ -242,13 +242,7 @@ function Bookmark() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" color="secondary">
-        <div className="flex-around p-2">
-          <h1 className="grow">Bookmarks</h1>
-          <div className="m-1"><AuthDiv/></div>
-          <div className="m-1"><ThemeSelect/></div>
-        </div>
-      </AppBar>
+      <HeaderAppBar title="Bookmarks"/>
       <div>
         <DataGridPremium
           rows={rows}

@@ -1,20 +1,21 @@
 import '../src/asset/css/index.css';
 import '../src/asset/css/markdown.css';
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {
-  AppBar,
   Button,
   Checkbox,
   FormControl,
   FormControlLabel,
   IconButton,
   InputLabel,
-  MenuItem, Paper,
+  MenuItem,
+  Paper,
   Select,
   Slider,
-  Switch, Tooltip,
+  Switch,
+  Tooltip,
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -23,12 +24,11 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkIcon from '@mui/icons-material/Link';
 import {GPTLogic} from "../src/logic/GPTLogic";
 import UserService from "../src/service/UserService";
-import AuthDiv from '../app/components/common/AuthDiv';
-import ThemeSelect from '../app/components/common/ThemeSelect';
 import MessageDiv from "../app/components/message/MessageDiv";
 import ConversationAutocomplete from "../app/components/ConversationAutocomplete";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import Snackbar from "@mui/material/Snackbar";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
 function GPT() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -244,15 +244,8 @@ function GPT() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" color="secondary">
-        <div className="flex-around p-2">
-          <h1 className="grow">WindsnowGPT</h1>
-          <div className="m-1"><AuthDiv/></div>
-          <div className="m-1"><ThemeSelect/></div>
-        </div>
-      </AppBar>
-      <br/>
-      <div className="flex-around m-1">
+      <HeaderAppBar title="WindsnowGPT"/>
+      <div className="flex-around m-2">
         <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">
           <div className="flex-center">
             <div>Docs</div>
