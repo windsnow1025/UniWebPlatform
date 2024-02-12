@@ -1,8 +1,8 @@
 import '../src/asset/css/index.css';
 import '../src/asset/css/markdown.css';
 
-import React, {useState, useEffect, useRef} from 'react';
-import { useRouter } from 'next/router';
+import React, {useEffect, useRef, useState} from 'react';
+import {useRouter} from 'next/router';
 import axios from 'axios';
 import {applyTheme, getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {parseMarkdown} from "../src/util/MarkdownParser";
