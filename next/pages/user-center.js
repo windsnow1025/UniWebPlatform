@@ -1,12 +1,11 @@
 import '../src/asset/css/index.css';
 
-import React, {useState, useEffect} from 'react';
-import ThemeSelect from '../app/components/common/ThemeSelect';
+import React, {useEffect, useState} from 'react';
 import {UserLogic} from "../src/logic/UserLogic";
 import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-import {AppBar, Button, Toolbar} from "@mui/material";
+import {Button} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
