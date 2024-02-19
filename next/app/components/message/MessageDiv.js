@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {IconButton, Paper, Tooltip} from "@mui/material";
-import UploadIcon from "@mui/icons-material/Upload";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
@@ -76,7 +76,7 @@ function MessageDiv({
               />
               <Tooltip title="Upload">
                 <IconButton aria-label="upload" onClick={triggerFileInput}>
-                  <UploadIcon/>
+                  <AttachFileIcon/>
                 </IconButton>
               </Tooltip>
             </>
