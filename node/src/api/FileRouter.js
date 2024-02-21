@@ -34,7 +34,7 @@ router.post('/', upload.single('file'), (req, res) => {
   const host = req.headers['host'] || req.get('host');
   const url = `${protocol}://${host}${process.env.BASE_URL}/uploads/${req.file.filename}`;
 
-  return res.status(200).json({url: url});
+  return res.status(200).json(url);
 });
 
 module.exports = router;

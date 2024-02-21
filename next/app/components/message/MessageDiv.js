@@ -7,6 +7,7 @@ import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileService from "../../../src/service/FileService";
+import Snackbar from "@mui/material/Snackbar";
 
 function MessageDiv({
                       roleInitial,
@@ -23,17 +24,20 @@ function MessageDiv({
   const [isUploading, setIsUploading] = useState(false);
   const fileService = new FileService();
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const handleFileUpload = async (event) => {
     event.preventDefault();
     const file = fileInputRef.current.files[0];
     if (file) {
       setIsUploading(true);
       try {
-        const response = await fileService.upload(file);
-        const fileUrl = response.url;
+        const fileUrl = await fileService.upload(file);
         onFileUpload(fileUrl);
       } catch (error) {
-        console.error('Error uploading file:', error);
+        setAlertOpen(true);
+        setAlertMessage(error.message);
       } finally {
         setIsUploading(false);
       }
@@ -49,71 +53,80 @@ function MessageDiv({
   };
 
   return (
-    <Paper elevation={4} className="my-1 p-2 rounded-lg">
-      {useRoleSelect ?
-        <RoleSelect
-          roleInitial={roleInitial}
-          onRoleChange={onRoleChange}
-        />
-        :
-        <RoleDiv
-          roleInitial={roleInitial}
-          onRoleChange={onRoleChange}
-        />
-      }
-      <div className="flex-between">
-        <div className="inflex-fill">
-          <ContentDiv
-            contentInitial={contentInitial}
-            onContentChange={onContentChange}
-            shouldSanitize={shouldSanitize}
+    <>
+      <Paper elevation={4} className="my-1 p-2 rounded-lg">
+        {useRoleSelect ?
+          <RoleSelect
+            roleInitial={roleInitial}
+            onRoleChange={onRoleChange}
           />
-        </div>
-        <div className="flex-column inflex-end">
-          {onFileUpload &&
-            <>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileUpload}
-                style={{display: 'none'}}
-              />
-              <Tooltip title="Upload">
-                <IconButton aria-label="upload" onClick={triggerFileInput}>
-                  {isUploading ? <CircularProgress size={24} /> : <AttachFileIcon />}
-                </IconButton>
-              </Tooltip>
-            </>
-          }
-          <Tooltip title="Copy">
-            <IconButton aria-label="copy" onClick={handleContentCopy}>
-              <ContentCopyIcon fontSize="small"/>
-            </IconButton>
-          </Tooltip>
-          {onMessageDelete &&
-            <Tooltip title="Delete">
-              <IconButton aria-label="delete" onClick={onMessageDelete}>
-                <RemoveCircleOutlineIcon fontSize="small"/>
+          :
+          <RoleDiv
+            roleInitial={roleInitial}
+            onRoleChange={onRoleChange}
+          />
+        }
+        <div className="flex-between">
+          <div className="inflex-fill">
+            <ContentDiv
+              contentInitial={contentInitial}
+              onContentChange={onContentChange}
+              shouldSanitize={shouldSanitize}
+            />
+          </div>
+          <div className="flex-column inflex-end">
+            {onFileUpload &&
+              <>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileUpload}
+                  style={{display: 'none'}}
+                />
+                <Tooltip title="Upload">
+                  <IconButton aria-label="upload" onClick={triggerFileInput}>
+                    {isUploading ? <CircularProgress size={24} /> : <AttachFileIcon />}
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
+            <Tooltip title="Copy">
+              <IconButton aria-label="copy" onClick={handleContentCopy}>
+                <ContentCopyIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
-          }
-        </div>
-      </div>
-      <div>
-        {filesInitial && filesInitial.map((file, index) => (
-          <div key={index}>
-            <picture>
-              <img
-                key={index}
-                src={file}
-                alt="file"
-                className="max-w-full"
-              />
-            </picture>
+            {onMessageDelete &&
+              <Tooltip title="Delete">
+                <IconButton aria-label="delete" onClick={onMessageDelete}>
+                  <RemoveCircleOutlineIcon fontSize="small"/>
+                </IconButton>
+              </Tooltip>
+            }
           </div>
-        ))}
-      </div>
-    </Paper>
+        </div>
+        <div>
+          {filesInitial && filesInitial.map((file, index) => (
+            <div key={index}>
+              <picture>
+                <img
+                  key={index}
+                  src={file}
+                  alt="file"
+                  className="max-w-full"
+                />
+              </picture>
+            </div>
+          ))}
+        </div>
+      </Paper>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
+    </>
+
   );
 }
 

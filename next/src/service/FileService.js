@@ -12,6 +12,13 @@ export default class FileService {
       body: formData,
     });
 
+    if (response.status === 413) {
+      throw new Error('File is too large');
+    } else if (!response.ok) {
+      console.error(response);
+      throw new Error('Failed to upload file');
+    }
+
     return await response.json();
   }
 }
