@@ -1,7 +1,7 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {IconButton, Paper, Tooltip} from "@mui/material";
+import {CircularProgress, IconButton, Paper, Tooltip} from "@mui/material";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
@@ -20,18 +20,22 @@ function MessageDiv({
                       shouldSanitize,
                     }) {
   const fileInputRef = useRef(null);
+  const [isUploading, setIsUploading] = useState(false);
   const fileService = new FileService();
 
   const handleFileUpload = async (event) => {
     event.preventDefault();
     const file = fileInputRef.current.files[0];
     if (file) {
+      setIsUploading(true);
       try {
         const response = await fileService.upload(file);
         const fileUrl = response.url;
         onFileUpload(fileUrl);
       } catch (error) {
         console.error('Error uploading file:', error);
+      } finally {
+        setIsUploading(false);
       }
     }
   };
@@ -76,7 +80,7 @@ function MessageDiv({
               />
               <Tooltip title="Upload">
                 <IconButton aria-label="upload" onClick={triggerFileInput}>
-                  <AttachFileIcon/>
+                  {isUploading ? <CircularProgress size={24} /> : <AttachFileIcon />}
                 </IconButton>
               </Tooltip>
             </>
