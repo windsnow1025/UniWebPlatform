@@ -98,12 +98,14 @@ function MessageDiv({
       <div>
         {filesInitial && filesInitial.map((file, index) => (
           <div key={index}>
-            <img
-              key={index}
-              src={file}
-              alt="file"
-              className="max-w-full"
-            />
+            <picture>
+              <img
+                key={index}
+                src={file}
+                alt="file"
+                className="max-w-full"
+              />
+            </picture>
           </div>
         ))}
       </div>
