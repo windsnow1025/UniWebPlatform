@@ -1,11 +1,15 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
+
 
 function RoleDiv({ roleInitial, onRoleChange }) {
   const [role, setRole] = useState(roleInitial);
+  const roleRef = useRef(null);
 
   useEffect(() => {
-    setRole(roleInitial);
-  }, [roleInitial]);
+    if (roleRef.current) {
+      roleRef.current.innerHTML = role;
+    }
+  }, [role]);
 
   const handleRoleChange = (event) => {
     const newRole = event.target.textContent;
@@ -17,8 +21,8 @@ function RoleDiv({ roleInitial, onRoleChange }) {
     <div
       contentEditable="plaintext-only"
       onBlur={handleRoleChange}
-      dangerouslySetInnerHTML={{ __html: role }}
-    ></div>
+      ref={roleRef}
+    />
   );
 }
 
