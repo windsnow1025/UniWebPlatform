@@ -4,11 +4,12 @@ import '../src/asset/css/markdown.css';
 import React, {useEffect, useRef, useState} from 'react';
 import {useRouter} from 'next/router';
 import axios from 'axios';
-import {applyTheme, getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
+import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {parseMarkdown} from "../src/util/MarkdownParser";
 import {parseLaTeX} from "../src/util/LaTeXParser";
 import {ThemeProvider} from "@mui/material/styles";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import PublicService from "../src/service/PublicService";
 
 function MarkdownViewer() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -25,12 +26,12 @@ function MarkdownViewer() {
   const [markdown, setMarkdown] = useState('');
   const markdownRef = useRef(null);
   const { filename } = router.query;
+  const publicService = new PublicService();
 
   useEffect(() => {
 
     const fetchMarkdown = async () => {
-      const res = await axios.get(`/markdown/${filename}`);
-      const markdown = res.data;
+      const markdown = await publicService.fetchMarkdown(filename);
 
       setMarkdown(parseMarkdown(markdown));
       parseLaTeX(markdownRef.current);
