@@ -8,6 +8,7 @@ import {applyTheme, getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeL
 import {parseMarkdown} from "../src/util/MarkdownParser";
 import {parseLaTeX} from "../src/util/LaTeXParser";
 import {ThemeProvider} from "@mui/material/styles";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
 
 function MarkdownViewer() {
   const [theme, setTheme] = useState(getLightMUITheme());
@@ -26,8 +27,6 @@ function MarkdownViewer() {
   const { filename } = router.query;
 
   useEffect(() => {
-    document.title = "Markdown Viewer";
-    applyTheme(localStorage.getItem("theme"));
 
     const fetchMarkdown = async () => {
       const res = await axios.get(`/markdown/${filename}`);
@@ -39,11 +38,13 @@ function MarkdownViewer() {
 
     if (filename) {
       fetchMarkdown();
+      document.title = filename;
     }
   }, [filename]);
 
   return (
     <ThemeProvider theme={theme}>
+      <HeaderAppBar title="Markdown View"/>
       <div className="m-2">
         <div
           className="markdown-body p-2 min-h-16"
