@@ -1,21 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {usePathname, useRouter} from "next/navigation";
+import React, { useEffect, useState } from 'react';
+import { usePathname, useRouter } from "next/navigation";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import {Button, IconButton} from "@mui/material";
+import { Button, IconButton, CircularProgress } from "@mui/material"; // Import CircularProgress here
 import Link from "next/link";
 
-import {UserLogic} from "../../../src/logic/UserLogic";
+import { UserLogic } from "../../../src/logic/UserLogic";
 
 function AuthDiv() {
   const [username, setUsername] = useState(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const userLogic = new UserLogic();
 
   useEffect(() => {
     const fetchUsername = async () => {
+      setLoading(true);
       const username = await userLogic.fetchUsername();
       setUsername(username);
+      setLoading(false);
     };
 
     fetchUsername();
@@ -50,8 +53,14 @@ function AuthDiv() {
         </div>
       ) : (
         <div className="flex-around">
-          <div className="m-1"><Button variant="contained" onClick={handleSignInRouter}>Sign In</Button></div>
-          <div className="m-1"><Button variant="contained" onClick={handleSignUpRouter}>Sign Up</Button></div>
+          {loading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <>
+              <div className="m-1"><Button variant="contained" onClick={handleSignInRouter}>Sign In</Button></div>
+              <div className="m-1"><Button variant="contained" onClick={handleSignUpRouter}>Sign Up</Button></div>
+            </>
+          )}
         </div>
       )}
     </div>
