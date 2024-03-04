@@ -9,7 +9,7 @@ For further details:
 - [OpenAI Pricing](https://openai.com/pricing)
 - [OpenAI Models](https://platform.openai.com/docs/models)
 - [OpenAI API Reference](https://platform.openai.com/docs/api-reference/)
-- [GPT Guide](https://platform.openai.com/docs/guides/gpt)
+- [GPT Guide](https://platform.openai.com/docs/guides/)
 
 Messages are processed using Marked.js and Katex. Expect more features and GUI enhancements soon.
 
