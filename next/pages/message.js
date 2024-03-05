@@ -5,7 +5,7 @@ import MessageService from "../src/service/MessageService";
 import {UserLogic} from "../src/logic/UserLogic";
 import MessageDiv from '../app/components/message/MessageDiv';
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, Paper} from "@mui/material";
+import {Button, CssBaseline, Paper} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {useTheme} from "../app/hooks/useTheme";
 
@@ -82,6 +82,7 @@ function MessageTransmitter() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
       <HeaderAppBar title="Message Transmitter"/>
       <div>
         <h2 className="text-center">Receive Messages</h2>

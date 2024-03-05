@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {UserLogic} from "../src/logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Button} from "@mui/material";
+import {Button, CssBaseline} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
@@ -67,6 +67,7 @@ function UserSign() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
       <HeaderAppBar title={title} useAuthDiv={false}/>
       <div className="flex-center">
         <div className="text-center">

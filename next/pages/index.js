@@ -8,6 +8,7 @@ import React, {useEffect} from "react";
 import LinkIcon from "@mui/icons-material/Link";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {useTheme} from "../app/hooks/useTheme";
+import {CssBaseline} from "@mui/material";
 
 function Index() {
   const theme = useTheme();
@@ -18,6 +19,7 @@ function Index() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
       <HeaderAppBar title="Windsnow1025"/>
       <div className="flex-around m-4">
         <a href="/bookmark" target="_blank" rel="noopener noreferrer">

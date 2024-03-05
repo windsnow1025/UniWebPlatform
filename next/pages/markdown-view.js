@@ -9,6 +9,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import PublicService from "../src/service/PublicService";
 import {useTheme} from "../app/hooks/useTheme";
+import {CssBaseline} from "@mui/material";
 
 function MarkdownViewer() {
   const theme = useTheme();
@@ -36,6 +37,7 @@ function MarkdownViewer() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
       <HeaderAppBar title="Markdown View"/>
       <div className="m-2">
         <div
