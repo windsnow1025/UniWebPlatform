@@ -6,21 +6,13 @@ import {ThemeProvider} from "@mui/material/styles";
 import {parseMarkdown} from "../src/util/MarkdownParser";
 import {parseLaTeX} from "../src/util/LaTeXParser";
 import {MarkdownLogic} from '../src/logic/MarkdownLogic';
-import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {Button} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import {useTheme} from "../app/hooks/useTheme";
 
 function MarkdownAdd() {
-  const [theme, setTheme] = useState(getLightMUITheme());
-
-  useEffect(() => {
-    const handleThemeChange = (event) => {
-      setTheme(event.detail);
-    };
-    window.addEventListener('themeChanged', handleThemeChange);
-    setTheme(getInitMUITheme());
-  }, []);
+  const theme = useTheme();
 
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);

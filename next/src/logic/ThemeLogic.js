@@ -6,7 +6,7 @@ export function applyTheme(systemTheme) {
   applyMainTheme(theme);
   applyMarkdownTheme(theme);
   applyHighlightTheme(theme);
-  applyMuiTheme(theme);
+  applyMUITheme(theme);
 }
 
 function convertTheme(systemTheme) {
@@ -93,7 +93,7 @@ function applyHighlightTheme(theme) {
   }
 }
 
-function applyMuiTheme(theme) {
+function applyMUITheme(theme) {
   const muiTheme = createTheme({
     palette: {
       mode: theme,
@@ -115,10 +115,8 @@ export function getInitMUITheme() {
   });
 }
 
-export function getLightMUITheme() {
-  return createTheme({
-    palette: {
-      mode: 'light',
-    }
-  });
-}
+export const lightMUITheme = createTheme({
+  palette: {
+    mode: 'light',
+  }
+});

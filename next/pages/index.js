@@ -4,21 +4,13 @@ import '../src/asset/css/index.css';
 
 import MarkdownList from '../app/components/MarkdownList';
 import {ThemeProvider} from "@mui/material/styles";
-import React, {useEffect, useState} from "react";
-import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
+import React, {useEffect} from "react";
 import LinkIcon from "@mui/icons-material/Link";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import {useTheme} from "../app/hooks/useTheme";
 
 function Index() {
-  const [theme, setTheme] = useState(getLightMUITheme());
-
-  useEffect(() => {
-    const handleThemeChange = (event) => {
-      setTheme(event.detail);
-    };
-    window.addEventListener('themeChanged', handleThemeChange);
-    setTheme(getInitMUITheme());
-  }, []);
+  const theme = useTheme();
 
   useEffect(() => {
     document.title = "Windsnow1025";
