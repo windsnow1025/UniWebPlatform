@@ -26,20 +26,12 @@ import {GPTLogic} from "../src/logic/GPTLogic";
 import UserService from "../src/service/UserService";
 import MessageDiv from "../app/components/message/MessageDiv";
 import ConversationAutocomplete from "../app/components/ConversationAutocomplete";
-import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import {useTheme} from "../app/hooks/useTheme";
 
 function GPT() {
-  const [theme, setTheme] = useState(getLightMUITheme());
-
-  useEffect(() => {
-    const handleThemeChange = (event) => {
-      setTheme(event.detail);
-    };
-    window.addEventListener('themeChanged', handleThemeChange);
-    setTheme(getInitMUITheme());
-  }, []);
+  const theme = useTheme();
 
   const gptLogic = new GPTLogic();
 
