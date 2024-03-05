@@ -6,7 +6,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import {parseMarkdown} from "../src/util/MarkdownParser";
 import {parseLaTeX} from "../src/util/LaTeXParser";
 import {MarkdownLogic} from '../src/logic/MarkdownLogic';
-import {Button} from "@mui/material";
+import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {useTheme} from "../app/hooks/useTheme";
@@ -55,6 +55,7 @@ function MarkdownAdd() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
       <HeaderAppBar title="Markdown Add"/>
       <div
         className="markdown-body p-2 min-h-16"

@@ -5,7 +5,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {
   Button,
-  Checkbox,
+  Checkbox, CssBaseline,
   FormControlLabel,
   IconButton,
   Paper,
@@ -231,6 +231,7 @@ function GPT() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
       <HeaderAppBar title="WindsnowGPT"/>
       <div className="flex-around m-2">
         <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">

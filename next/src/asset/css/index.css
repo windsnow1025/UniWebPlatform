@@ -48,27 +48,3 @@ div.inflex-fill {
 div.inflex-end {
   align-self: flex-end;
 }
-
-/* Color */
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-a {
-  color: var(--link-color);
-}
-
-/* Light theme */
-.light-theme {
-  --background-color: #e0e0e0;
-  --text-color: #191919;
-  --link-color: #0077cc;
-}
-
-/* Dark theme */
-.dark-theme {
-  --background-color: #191919;
-  --text-color: #d4d4d4;
-  --link-color: #9b9b9b;
-}
