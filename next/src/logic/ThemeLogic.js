@@ -1,4 +1,5 @@
 import {createTheme} from "@mui/material/styles";
+import darkScrollbar from '@mui/material/darkScrollbar';
 
 export function applyTheme(systemTheme) {
   localStorage.setItem("theme", systemTheme);
@@ -94,20 +95,14 @@ function applyHighlightTheme(theme) {
 }
 
 function applyMUITheme(theme) {
-  const muiTheme = createTheme({
-    palette: {
-      mode: theme,
-    },
-  });
+  const muiTheme = createMUITheme(theme);
 
   // Dispatch custom event with the new theme
   const themeChangeEvent = new CustomEvent('themeChanged', {detail: muiTheme});
   window.dispatchEvent(themeChangeEvent);
 }
 
-export function getInitMUITheme() {
-  const systemTheme = localStorage.getItem('theme') || 'system';
-  const theme = convertTheme(systemTheme);
+function createMUITheme(theme) {
   return createTheme({
     palette: {
       mode: theme,
@@ -115,8 +110,4 @@ export function getInitMUITheme() {
   });
 }
 
-export const lightMUITheme = createTheme({
-  palette: {
-    mode: 'light',
-  }
-});
+export const lightMUITheme = createMUITheme("light");
