@@ -6,15 +6,9 @@ import {ThemeProvider} from "@mui/material/styles";
 import {
   Button,
   Checkbox,
-  FormControl,
   FormControlLabel,
   IconButton,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
-  Slider,
-  Switch,
   Tooltip,
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
