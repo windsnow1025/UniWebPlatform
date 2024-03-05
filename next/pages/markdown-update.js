@@ -6,7 +6,7 @@ import {parseLaTeX} from "../src/util/LaTeXParser";
 import {MarkdownLogic} from '../src/logic/MarkdownLogic';
 import '../src/asset/css/markdown.css';
 import {ThemeProvider} from "@mui/material/styles";
-import {Button} from "@mui/material";
+import {Button, CssBaseline} from "@mui/material";
 import {useRouter} from "next/router";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
@@ -82,6 +82,7 @@ function MarkdownUpdate() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
       <HeaderAppBar title="Markdown Update"/>
       <div className="m-2">
         <div
