@@ -4,21 +4,13 @@ import React, {useEffect, useState} from 'react';
 import MessageService from "../src/service/MessageService";
 import {UserLogic} from "../src/logic/UserLogic";
 import MessageDiv from '../app/components/message/MessageDiv';
-import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, Paper} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import {useTheme} from "../app/hooks/useTheme";
 
 function MessageTransmitter() {
-  const [theme, setTheme] = useState(getLightMUITheme());
-
-  useEffect(() => {
-    const handleThemeChange = (event) => {
-      setTheme(event.detail);
-    };
-    window.addEventListener('themeChanged', handleThemeChange);
-    setTheme(getInitMUITheme());
-  }, []);
+  const theme = useTheme();
 
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');

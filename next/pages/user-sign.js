@@ -3,23 +3,15 @@ import '../src/asset/css/index.css';
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {UserLogic} from "../src/logic/UserLogic";
-import {getInitMUITheme, getLightMUITheme} from "../src/logic/ThemeLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {Button} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import {useTheme} from "../app/hooks/useTheme";
 
 function UserSign() {
-  const [theme, setTheme] = useState(getLightMUITheme());
-
-  useEffect(() => {
-    const handleThemeChange = (event) => {
-      setTheme(event.detail);
-    };
-    window.addEventListener('themeChanged', handleThemeChange);
-    setTheme(getInitMUITheme());
-  }, []);
+  const theme = useTheme();
 
   const [action, setAction] = useState('');
   const [title, setTitle] = useState('');
