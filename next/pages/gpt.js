@@ -29,6 +29,7 @@ import ConversationAutocomplete from "../app/components/ConversationAutocomplete
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {useTheme} from "../app/hooks/useTheme";
+import GPTSettings from "../app/components/GPTSettings";
 
 function GPT() {
   const theme = useTheme();
@@ -252,57 +253,17 @@ function GPT() {
         </a>
         <div>Credit: {credit}</div>
       </div>
-      <div className="flex-around m-2">
-        <div className="m-1">
-          <FormControl fullWidth className="mt-2">
-            <InputLabel id="api-type-select-label">API Type</InputLabel>
-            <Select
-              labelId="api-type-select-label"
-              id="api-type-select"
-              value={apiType}
-              label="API Type"
-              onChange={e => setApiType(e.target.value)}
-            >
-              <MenuItem value="open_ai">Open AI</MenuItem>
-              <MenuItem value="azure">Azure</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className="m-1">
-          <FormControl fullWidth className="mt-2">
-            <InputLabel id="model-select-label">Model</InputLabel>
-            <Select
-              labelId="model-select-label"
-              id="model-select"
-              value={apiModels.length !== 0 ? model : ''}
-              label="Model"
-              onChange={e => setModel(e.target.value)}
-            >
-              {apiModels.length !== 0 && apiModels.map(model => (
-                <MenuItem key={model} value={model}>{model}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-        <div className="m-1">
-          <InputLabel htmlFor="temperature">Temperature: {temperature.toFixed(1)}</InputLabel>
-          <Slider
-            aria-label="Temperature"
-            value={temperature}
-            onChange={(e, newValue) => setTemperature(newValue)}
-            valueLabelDisplay="auto"
-            step={0.1}
-            marks
-            min={0}
-            max={2}
-          />
-        </div>
-        <div>
-          <FormControlLabel control={
-            <Switch checked={stream} onChange={e => setStream(e.target.checked)}/>
-          } label="Stream"/>
-        </div>
-      </div>
+      <GPTSettings
+        apiType={apiType}
+        setApiType={setApiType}
+        model={model}
+        setModel={setModel}
+        apiModels={apiModels}
+        temperature={temperature}
+        setTemperature={setTemperature}
+        stream={stream}
+        setStream={setStream}
+      />
       <Paper elevation={1} className="m-2 p-4 rounded-lg">
         <div>
           <div className="flex-between">
