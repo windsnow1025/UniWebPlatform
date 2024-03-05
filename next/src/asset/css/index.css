@@ -2,18 +2,6 @@
 /*@tailwind components;*/
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
 div.flex-center {
   display: flex;
   justify-content: center;
