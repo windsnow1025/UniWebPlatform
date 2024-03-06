@@ -28,6 +28,12 @@ div.flex-column {
   flex-direction: column;
 }
 
+div.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
 div.inflex-fill {
   flex: 1;
   overflow: auto;
