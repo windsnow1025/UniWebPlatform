@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import {Tooltip} from "@mui/material";
-import '../../../src/asset/css/react.css';
 import ConfirmDialog from "./ConfirmDialog";
 
 const filter = createFilterOptions();
@@ -99,12 +98,12 @@ function CRUDAutocomplete({ options, label, handleOptionClick, handleDelete, han
           }}>
             {option.title}
             {!option.isNew &&
-              <div className="icon-container">
+              <div className="flex-end">
                 <Tooltip title="Update">
-                  <UpdateIcon className="icon-hover" onClick={(event) => handleUpdateClick(event, state.index, option.title)} />
+                  <UpdateIcon className="hover:text-red-500" onClick={(event) => handleUpdateClick(event, state.index, option.title)} />
                 </Tooltip>
                 <Tooltip title="Delete">
-                  <DeleteIcon className="icon-hover" onClick={(event) => handleDeleteClick(event, state.index)} />
+                  <DeleteIcon className="hover:text-red-500" onClick={(event) => handleDeleteClick(event, state.index)} />
                 </Tooltip>
               </div>
             }
