@@ -30,7 +30,7 @@ function ContentDiv({contentInitial, onContentChange, shouldSanitize}) {
   };
 
   return (
-    <div className="my-2">
+    <div>
       <div
         className="markdown-body p-4 min-h-24 rounded"
         contentEditable="plaintext-only"
