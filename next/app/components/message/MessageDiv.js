@@ -67,13 +67,13 @@ function MessageDiv({
           />
         }
         <div className="flex-between">
-          <div className="inflex-fill">
+          <Paper elevation={4} className="inflex-fill my-2">
             <ContentDiv
               contentInitial={contentInitial}
               onContentChange={onContentChange}
               shouldSanitize={shouldSanitize}
             />
-          </div>
+          </Paper>
           <div className="flex-column inflex-end">
             {onFileUpload &&
               <>
