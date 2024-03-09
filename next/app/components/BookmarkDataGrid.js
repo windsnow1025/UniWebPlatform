@@ -146,7 +146,17 @@ function BookmarkDataGrid() {
   const columns = wrapFilterOperators([
     {field: 'firstTitle', headerName: 'First Title', flex: 0.15, editable: true},
     {field: 'secondTitle', headerName: 'Second Title', flex: 0.15, editable: true},
-    {field: 'url', headerName: 'URL', flex: 0.35, editable: true},
+    {
+      field: 'url',
+      headerName: 'URL',
+      flex: 0.35,
+      editable: true,
+      renderCell: (params) => (
+        <a href={params.value} target="_blank" rel="noopener noreferrer">
+          {params.value}
+        </a>
+      ),
+    },
     {field: 'comment', headerName: 'Comment', flex: 0.3, editable: true},
     {
       field: 'actions',
