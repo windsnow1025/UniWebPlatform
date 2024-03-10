@@ -1,4 +1,4 @@
-from app.util.db_util import DatabaseConnection
+from app.util.db_connection import DatabaseConnection
 
 
 def select_credit(username: str) -> float:
