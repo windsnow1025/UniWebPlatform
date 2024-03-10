@@ -2,7 +2,7 @@ import os
 import logging
 from typing import Callable, Generator
 
-from fastapi import APIRouter, Depends, Header, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from jose import jwt
 from pydantic import BaseModel
@@ -23,12 +23,12 @@ class ChatRequest(BaseModel):
     stream: bool
 
 
-def get_username(authorization: str = Header(...)) -> str:
-    if not authorization:
+def get_username_from_token(authorization_header: str) -> str:
+    if not authorization_header:
         raise HTTPException(status_code=401)
 
     try:
-        payload = jwt.decode(authorization, os.environ["JWT_SECRET"], algorithms=["HS256"])
+        payload = jwt.decode(authorization_header, os.environ["JWT_SECRET"], algorithms=["HS256"])
         username = payload.get("sub")
         return username
     except jwt.JWTError:
@@ -59,7 +59,10 @@ def stream_handler(
 
 
 @router.post("/")
-async def generate(chat_request: ChatRequest, username: str = Depends(get_username)):
+async def generate(chat_request: ChatRequest, request: Request):
+    authorization_header = request.headers.get("Authorization")
+    username = get_username_from_token(authorization_header)
+
     if user_dao.select_credit(username) <= 0:
         raise HTTPException(status_code=402)
 
