@@ -10,7 +10,8 @@ class DatabaseConnection:
             "host": os.getenv('MYSQL_HOST'),
             "user": os.getenv('MYSQL_USER'),
             "password": os.getenv('MYSQL_PASSWORD'),
-            "database": os.getenv('MYSQL_DATABASE')
+            "database": os.getenv('MYSQL_DATABASE'),
+            "auth_plugin": "caching_sha2_password",
         }
         self.connection_pool = MySQLConnectionPool(**dbconfig)
 

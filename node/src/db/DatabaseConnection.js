@@ -8,6 +8,10 @@ class DatabaseConnection {
             user: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASSWORD,
             database: process.env.MYSQL_DATABASE,
+            authPlugins: {
+                mysql_native_password: undefined,
+                caching_sha2_password: mysql.authPlugins.caching_sha2_password()
+            }
         });
     }
 
