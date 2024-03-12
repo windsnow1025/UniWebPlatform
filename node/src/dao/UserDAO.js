@@ -1,4 +1,4 @@
-const DatabaseConnection = require('../db/DatabaseConnection');
+import DatabaseConnection from '../db/DatabaseConnection.js';
 
 async function selectByUsernamePassword(username, password) {
     const sql = "SELECT * FROM user WHERE username = ? AND password = ?";
@@ -51,12 +51,12 @@ async function deleteByUsername(username) {
     console.log("1 user deleted");
 }
 
-module.exports = {
-    selectByUsernamePassword: selectByUsernamePassword,
-    selectIdByUsername: selectIdByUsername,
-    selectCreditByUsername: selectCreditByUsername,
-    updateCreditByUsername: updateCreditByUsername,
-    insert: insert,
-    update: update,
-    deleteByUsername: deleteByUsername
+export default {
+    selectByUsernamePassword,
+    selectIdByUsername,
+    selectCreditByUsername,
+    updateCreditByUsername,
+    insert,
+    update,
+    deleteByUsername
 };

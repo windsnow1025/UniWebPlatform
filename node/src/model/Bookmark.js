@@ -20,4 +20,4 @@ class Bookmark {
   }
 }
 
-module.exports = Bookmark;
+export default Bookmark;

@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const UserDAO = require("../dao/UserDAO");
+import jwt from "jsonwebtoken";
+import UserDAO from "../dao/UserDAO.js";
 
 /**
  * @param {string} username
@@ -40,8 +40,8 @@ async function getUsernameFromToken(token, role = "normal") {
   }
 }
 
-module.exports = {
-  getTokenFromUsername: getTokenFromUsername,
-  getUserIdFromToken: getUserIdFromToken,
-  getUsernameFromToken: getUsernameFromToken
+export default {
+  getTokenFromUsername,
+  getUserIdFromToken,
+  getUsernameFromToken
 };

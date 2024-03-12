@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const MarkdownDAO = require("../dao/MarkdownDAO");
-const JWT = require("../logic/JWT");
+import express from 'express';
+import MarkdownDAO from "../dao/MarkdownDAO.js";
+import JWT from "../logic/JWT.js";
 
+const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
@@ -72,4 +72,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

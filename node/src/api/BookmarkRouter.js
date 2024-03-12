@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const BookmarkDAO = require("../dao/BookmarkDAO");
-const Bookmark = require("../model/Bookmark");
-const JWT = require("../logic/JWT");
+import express from 'express';
+import BookmarkDAO from "../dao/BookmarkDAO.js";
+import Bookmark from "../model/Bookmark.js";
+import JWT from "../logic/JWT.js";
 
+const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
@@ -72,4 +72,4 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;
