@@ -1,4 +1,4 @@
-const DatabaseConnection = require('../db/DatabaseConnection');
+import DatabaseConnection from '../db/DatabaseConnection.js';
 
 /**
  * @returns {Promise<Message>}
@@ -34,9 +34,9 @@ async function deleteAll() {
     console.log("Number of messages deleted: " + result.affectedRows);
 }
 
-module.exports = {
-    selectAll: selectAll,
-    insert: insert,
-    deleteById: deleteById,
-    deleteAll: deleteAll
+export default {
+    selectAll,
+    insert,
+    deleteById,
+    deleteAll
 };
