@@ -44,10 +44,11 @@ app.use('/message', messageAPI);
 app.use('/user', userAPI);
 
 async function sql_init() {
-    const isConnected = await DatabaseConnection.connectionTest();
+    const databaseConnection = new DatabaseConnection();
+    const isConnected = await databaseConnection.connectionTest();
 
     if (isConnected) {
-        const databaseHelper = new DatabaseHelper(DatabaseConnection);
+        const databaseHelper = new DatabaseHelper(databaseConnection);
         databaseHelper.manageMigrations();
     } else {
         console.error("Unable to establish a connection to the SQL database.");
