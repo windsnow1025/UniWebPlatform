@@ -1,16 +1,25 @@
-if (process.env.JWT_SECRET && process.env.MYSQL_ROOT_PASSWORD && process.env.MYSQL_USER && process.env.MYSQL_PASSWORD && process.env.MYSQL_DATABASE) {
-  process.env.PORT = 3000;
-  process.env.BASE_URL = "/api";
-  process.env.MYSQL_HOST = "mysql";
+import dotenv from 'dotenv';
 
-  console.log("Using production setting.")
-} else {
-  require('dotenv').config();
+export default function setEnvironment() {
+  if (
+    process.env.JWT_SECRET &&
+    process.env.MYSQL_ROOT_PASSWORD &&
+    process.env.MYSQL_USER &&
+    process.env.MYSQL_PASSWORD &&
+    process.env.MYSQL_DATABASE
+  ) {
+    process.env.PORT = 3000;
+    process.env.BASE_URL = '/api';
+    process.env.MYSQL_HOST = 'mysql';
 
-  process.env.PORT = 3001;
-  process.env.BASE_URL = "";
-  process.env.MYSQL_HOST = "localhost";
+    console.log('Using production setting.');
+  } else {
+    dotenv.config();
 
-  console.log("Using development setting.")
+    process.env.PORT = 3001;
+    process.env.BASE_URL = '';
+    process.env.MYSQL_HOST = 'localhost';
+
+    console.log('Using development setting.');
+  }
 }
-
