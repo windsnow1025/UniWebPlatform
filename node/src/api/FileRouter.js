@@ -1,7 +1,8 @@
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
 const router = express.Router();
 
 const uploadFolder = 'uploads/';
@@ -37,4 +38,4 @@ router.post('/', upload.single('file'), (req, res) => {
   return res.status(200).json(url);
 });
 
-module.exports = router;
+export default router;

@@ -16,4 +16,4 @@ class Markdown {
     }
 }
 
-module.exports = Markdown;
+export default Markdown;

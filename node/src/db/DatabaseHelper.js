@@ -1,6 +1,6 @@
 class DatabaseHelper {
-    constructor(DatabaseConnection) {
-        this.DatabaseConnection = DatabaseConnection;
+    constructor(databaseConnection) {
+        this.databaseConnection = databaseConnection;
         this.version = '1.2';
     }
 
@@ -71,13 +71,13 @@ class DatabaseHelper {
     }
 
     async onCreate() {
-        await this.DatabaseConnection.poolQuery(this.CREATE_TABLE_USER);
-        await this.DatabaseConnection.poolQuery(this.CREATE_TABLE_MESSAGE);
-        await this.DatabaseConnection.poolQuery(this.CREATE_TABLE_CONVERSATION);
-        await this.DatabaseConnection.poolQuery(this.CREATE_TABLE_BOOKMARK);
-        await this.DatabaseConnection.poolQuery(this.CREATE_TABLE_MARKDOWN);
-        await this.DatabaseConnection.poolQuery(this.CREATE_TABLE_METADATA);
-        await this.DatabaseConnection.poolQuery(this.INSERT_METADATA);
+        await this.databaseConnection.poolQuery(this.CREATE_TABLE_USER);
+        await this.databaseConnection.poolQuery(this.CREATE_TABLE_MESSAGE);
+        await this.databaseConnection.poolQuery(this.CREATE_TABLE_CONVERSATION);
+        await this.databaseConnection.poolQuery(this.CREATE_TABLE_BOOKMARK);
+        await this.databaseConnection.poolQuery(this.CREATE_TABLE_MARKDOWN);
+        await this.databaseConnection.poolQuery(this.CREATE_TABLE_METADATA);
+        await this.databaseConnection.poolQuery(this.INSERT_METADATA);
         console.log('Database created');
     }
 
@@ -86,13 +86,13 @@ class DatabaseHelper {
         const ALTER_TABLE_USER_ADD_CREDITS = `
             ALTER TABLE user ADD COLUMN credit FLOAT NOT NULL DEFAULT 0;
         `
-        await this.DatabaseConnection.poolQuery(ALTER_TABLE_USER_ADD_CREDITS);
+        await this.databaseConnection.poolQuery(ALTER_TABLE_USER_ADD_CREDITS);
         console.log('Database upgraded');
     }
 
     async getDatabaseVersionFromMetadata() {
         try {
-            const results = await this.DatabaseConnection.poolQuery('SELECT version FROM metadata');
+            const results = await this.databaseConnection.poolQuery('SELECT version FROM metadata');
             if (results.length === 0) {
                 return null;
             }
@@ -105,7 +105,7 @@ class DatabaseHelper {
 
     async setDatabaseVersionInMetadata(version) {
         try {
-            await this.DatabaseConnection.poolQuery('UPDATE metadata SET version = ?', [version]);
+            await this.databaseConnection.poolQuery('UPDATE metadata SET version = ?', [version]);
         } catch (error) {
             console.error(error);
         }
@@ -113,4 +113,4 @@ class DatabaseHelper {
 
 }
 
-module.exports = DatabaseHelper;
+export default DatabaseHelper;
