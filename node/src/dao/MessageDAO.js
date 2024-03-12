@@ -5,7 +5,7 @@ import DatabaseConnection from '../db/DatabaseConnection.js';
  */
 async function selectAll() {
     const sql = "SELECT * FROM message";
-    return await DatabaseConnection.poolQuery(sql);
+    return await DatabaseConnection.getInstance().poolQuery(sql);
 }
 
 /**
@@ -14,7 +14,7 @@ async function selectAll() {
 async function insert(message) {
     const sql = "INSERT INTO message (username, content) VALUES (?,?)";
     const sqlParams = [message.username, message.content];
-    await DatabaseConnection.poolQuery(sql, sqlParams);
+    await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
     console.log("1 message inserted");
 }
 
@@ -24,13 +24,13 @@ async function insert(message) {
 async function deleteById(id) {
     const sql = "DELETE FROM message WHERE id = ?";
     const sqlParams = [id];
-    await DatabaseConnection.poolQuery(sql, sqlParams);
+    await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
     console.log("1 message deleted");
 }
 
 async function deleteAll() {
     const sql = "DELETE FROM message";
-    const result = await DatabaseConnection.poolQuery(sql);
+    const result = await DatabaseConnection.getInstance().poolQuery(sql);
     console.log("Number of messages deleted: " + result.affectedRows);
 }
 

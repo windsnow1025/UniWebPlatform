@@ -6,7 +6,7 @@ import Bookmark from '../model/Bookmark.js';
  */
 async function select() {
     const sql = "SELECT * FROM bookmark";
-    const result = await DatabaseConnection.poolQuery(sql);
+    const result = await DatabaseConnection.getInstance().getInstance().poolQuery(sql);
     return result.map(row => {
         return new Bookmark({
             id: row.id,
@@ -24,7 +24,7 @@ async function select() {
 async function insert(bookmark) {
     const sql = "INSERT INTO bookmark (first_title, second_title, url, comment) VALUES (?,?,?,?)";
     const sqlParams = [bookmark.firstTitle, bookmark.secondTitle, bookmark.url, bookmark.comment];
-    await DatabaseConnection.poolQuery(sql, sqlParams);
+    await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
     console.log("1 bookmark inserted");
 }
 
@@ -34,7 +34,7 @@ async function insert(bookmark) {
 async function update(bookmark) {
     const sql = "UPDATE bookmark SET first_title = ?, second_title = ?, url = ?, comment = ? WHERE id = ?";
     const sqlParams = [bookmark.firstTitle, bookmark.secondTitle, bookmark.url, bookmark.comment, bookmark.id];
-    await DatabaseConnection.poolQuery(sql, sqlParams);
+    await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
     console.log("1 bookmark updated");
 }
 
@@ -44,7 +44,7 @@ async function update(bookmark) {
 async function deleteByID(id) {
     const sql = "DELETE FROM bookmark WHERE id = ?";
     const sqlParams = [id];
-    await DatabaseConnection.poolQuery(sql, sqlParams);
+    await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
     console.log("1 bookmark deleted");
 }
 

@@ -3,6 +3,10 @@ import util from 'util';
 
 class DatabaseConnection {
     constructor() {
+        if (DatabaseConnection.instance) {
+            return DatabaseConnection.instance;
+        }
+
         this.pool = mysql.createPool({
             host: process.env.MYSQL_HOST,
             user: process.env.MYSQL_USER,
@@ -13,6 +17,15 @@ class DatabaseConnection {
                 caching_sha2_password: mysql.authPlugins.caching_sha2_password()
             }
         });
+
+        DatabaseConnection.instance = this;
+    }
+
+    static getInstance() {
+        if (!DatabaseConnection.instance) {
+            DatabaseConnection.instance = new DatabaseConnection();
+        }
+        return DatabaseConnection.instance;
     }
 
     async poolQuery(sql, params) {
@@ -36,4 +49,4 @@ class DatabaseConnection {
     }
 }
 
-export default new DatabaseConnection();
+export default DatabaseConnection;
