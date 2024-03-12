@@ -24,4 +24,4 @@ class Conversation {
   }
 }
 
-module.exports = Conversation;
+export default Conversation;

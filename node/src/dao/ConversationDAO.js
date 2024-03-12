@@ -1,4 +1,4 @@
-const DatabaseConnection = require('../db/DatabaseConnection');
+import DatabaseConnection from '../db/DatabaseConnection.js';
 
 /**
  * @param {number} user_id
@@ -51,10 +51,10 @@ async function deleteById(user_id, id) {
     console.log("1 conversation deleted");
 }
 
-module.exports = {
-    select: select,
-    insert: insert,
-    update: update,
-    updateName: updateName,
-    deleteById: deleteById
-};
+export default {
+    select,
+    insert,
+    update,
+    updateName,
+    deleteById
+}

@@ -113,4 +113,4 @@ class DatabaseHelper {
 
 }
 
-module.exports = DatabaseHelper;
+export default DatabaseHelper;

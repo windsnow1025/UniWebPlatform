@@ -1,5 +1,5 @@
-const mysql = require("mysql2");
-const util = require("util");
+import mysql from 'mysql2';
+import util from 'util';
 
 class DatabaseConnection {
     constructor() {
@@ -36,4 +36,4 @@ class DatabaseConnection {
     }
 }
 
-module.exports = new DatabaseConnection();
+export default new DatabaseConnection();

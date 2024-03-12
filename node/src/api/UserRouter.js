@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const UserDAO = require("../dao/UserDAO");
-const JWT = require("../logic/JWT");
+import express from 'express';
+import UserDAO from "../dao/UserDAO.js";
+import JWT from "../logic/JWT.js";
 
+const router = express.Router();
 
 router.get('/', async (req, res) => {
 
@@ -105,4 +105,4 @@ router.delete('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

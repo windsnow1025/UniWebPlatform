@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const ConversationDAO = require("../dao/ConversationDAO");
-const Conversation = require("../model/Conversation");
-const JWT = require("../logic/JWT");
+import express from 'express';
+import ConversationDAO from "../dao/ConversationDAO.js";
+import Conversation from "../model/Conversation.js";
+import JWT from "../logic/JWT.js";
 
+const router = express.Router();
 
 router.use(async (req, res, next) => {
 
@@ -93,4 +93,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

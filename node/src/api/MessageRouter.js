@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const MessageDAO = require("../dao/MessageDAO");
+import express from 'express';
+import MessageDAO from "../dao/MessageDAO.js";
 
+const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
@@ -45,4 +45,4 @@ router.delete('/', async (req, res) => {
   }
 })
 
-module.exports = router;
+export default router;

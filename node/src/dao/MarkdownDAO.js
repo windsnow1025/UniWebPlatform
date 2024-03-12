@@ -1,4 +1,4 @@
-const DatabaseConnection = require('../db/DatabaseConnection');
+import DatabaseConnection from '../db/DatabaseConnection.js';
 
 /**
  * @returns {Promise<Markdown[]>}
@@ -49,10 +49,10 @@ async function deleteById(id) {
     console.log("1 markdown deleted");
 }
 
-module.exports = {
-    selectAll: selectAll,
-    selectById: selectById,
-    insert: insert,
-    update: update,
-    deleteById: deleteById
+export default {
+    selectAll,
+    selectById,
+    insert,
+    update,
+    deleteById
 };
