@@ -1,5 +1,5 @@
-const DatabaseConnection = require('../db/DatabaseConnection');
-const Bookmark = require("../model/Bookmark");
+import DatabaseConnection from '../db/DatabaseConnection.js';
+import Bookmark from '../model/Bookmark.js';
 
 /**
  * @returns {Promise<Bookmark[]>}
@@ -48,9 +48,9 @@ async function deleteByID(id) {
     console.log("1 bookmark deleted");
 }
 
-module.exports = {
-    select: select,
-    insert: insert,
-    update: update,
-    deleteByID: deleteByID
+export default {
+    select,
+    insert,
+    update,
+    deleteByID
 };
