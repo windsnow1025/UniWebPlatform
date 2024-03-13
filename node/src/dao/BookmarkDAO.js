@@ -6,7 +6,7 @@ import Bookmark from '../model/Bookmark.js';
  */
 async function select() {
     const sql = "SELECT * FROM bookmark";
-    const result = await DatabaseConnection.getInstance().getInstance().poolQuery(sql);
+    const result = await DatabaseConnection.getInstance().poolQuery(sql);
     return result.map(row => {
         return new Bookmark({
             id: row.id,
