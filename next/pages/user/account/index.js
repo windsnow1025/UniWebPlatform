@@ -1,15 +1,15 @@
-import '../../src/asset/css/index.css';
+import '../../../src/asset/css/index.css';
 
 import React, {useEffect, useState} from 'react';
-import {UserLogic} from "../../src/logic/UserLogic";
+import {UserLogic} from "../../../src/logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
-import HeaderAppBar from "../../app/components/common/HeaderAppBar";
-import {useTheme} from "../../app/hooks/useTheme";
+import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import {useTheme} from "../../../app/hooks/useTheme";
 
-function Account() {
+function Index() {
   const theme = useTheme();
 
   const [username, setUsername] = useState('');
@@ -81,4 +81,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default Index;

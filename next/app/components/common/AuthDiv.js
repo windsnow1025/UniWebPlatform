@@ -31,12 +31,12 @@ function AuthDiv() {
 
   const handleSignInRouter = () => {
     localStorage.setItem('prevUrl', pathname);
-    router.push('/user/sign?action=signin');
+    router.push('/user/state/signin');
   };
 
   const handleSignUpRouter = () => {
     localStorage.setItem('prevUrl', pathname);
-    router.push('/user/sign?action=signup');
+    router.push('/user/state/signup');
   };
 
   return (

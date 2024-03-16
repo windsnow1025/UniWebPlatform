@@ -1,16 +1,16 @@
-import '../../src/asset/css/index.css';
+import '../../../src/asset/css/index.css';
 
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
-import {UserLogic} from "../../src/logic/UserLogic";
+import {UserLogic} from "../../../src/logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
-import HeaderAppBar from "../../app/components/common/HeaderAppBar";
-import {useTheme} from "../../app/hooks/useTheme";
+import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import {useTheme} from "../../../app/hooks/useTheme";
 
-function Sign() {
+function Action() {
   const theme = useTheme();
 
   const [action, setAction] = useState('');
@@ -106,4 +106,4 @@ function Sign() {
   );
 }
 
-export default Sign;
+export default Action;
