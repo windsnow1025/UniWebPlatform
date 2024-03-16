@@ -1,64 +1,39 @@
-import '../src/asset/css/index.css';
+import '../../src/asset/css/index.css';
 
 import React, {useEffect, useState} from 'react';
-import {useRouter} from "next/router";
-import {UserLogic} from "../src/logic/UserLogic";
+import {UserLogic} from "../../src/logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, CssBaseline} from "@mui/material";
 import TextField from "@mui/material/TextField";
+import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import {useTheme} from "../app/hooks/useTheme";
+import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import {useTheme} from "../../app/hooks/useTheme";
 
-function UserSign() {
+function Account() {
   const theme = useTheme();
-
-  const [action, setAction] = useState('');
-  const [title, setTitle] = useState('');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
   const userLogic = new UserLogic();
 
   useEffect(() => {
-    setAction(router.query.action);
-  }, [router.query.action]);
-
-  useEffect(() => {
-    if (action === 'signin') {
-      setTitle("Sign In");
-    }
-    if (action === 'signup') {
-      setTitle("Sign Up");
-    }
-  }, [action]);
+    document.title = "Account Center";
+  }, []);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
-  const handleSignIn = async () => {
-    try {
-      await userLogic.signIn(username, password)
-      const prevUrl = localStorage.getItem('prevUrl') || "/";
-      router.push(prevUrl);
-    } catch (e) {
-      setAlertMessage(e.message);
-      setAlertOpen(true);
-    }
-  };
-
-  const handleSignUp = async () => {
+  const handleUpdate = async () => {
     if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {
       setAlertMessage("Username or Password contains invalid characters or has an invalid length.");
       setAlertOpen(true);
       return;
     }
+
     try {
-      await userLogic.signUp(username, password);
-      setAlertMessage("Sign up success");
+      await userLogic.updateUser(username, password);
+      setAlertMessage("Update success");
       setAlertOpen(true);
-      setAction('signin');
     } catch (e) {
       setAlertMessage(e.message);
       setAlertOpen(true);
@@ -68,7 +43,7 @@ function UserSign() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline enableColorScheme />
-      <HeaderAppBar title={title} useAuthDiv={false}/>
+      <HeaderAppBar title="User Center" useAuthDiv={false}/>
       <div className="flex-center">
         <div className="text-center">
           <div className="m-2">
@@ -92,7 +67,7 @@ function UserSign() {
             />
           </div>
           <div className="m-2">
-            <Button variant="contained" onClick={action === 'signin' ? handleSignIn : handleSignUp}>{title}</Button>
+            <Button variant="contained" onClick={handleUpdate}>Update</Button>
           </div>
         </div>
       </div>
@@ -106,4 +81,4 @@ function UserSign() {
   );
 }
 
-export default UserSign;
+export default Account;

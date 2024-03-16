@@ -1,23 +1,23 @@
-import '../src/asset/css/index.css';
-import '../src/asset/css/markdown.css';
+import '../../../src/asset/css/index.css';
+import '../../../src/asset/css/markdown.css';
 
 import React, {useEffect, useRef, useState} from 'react';
 import {useRouter} from 'next/router';
-import {parseMarkdown} from "../src/util/MarkdownParser";
-import {parseLaTeX} from "../src/util/LaTeXParser";
 import {ThemeProvider} from "@mui/material/styles";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import PublicService from "../src/service/PublicService";
-import {useTheme} from "../app/hooks/useTheme";
 import {CssBaseline} from "@mui/material";
+import {parseMarkdown} from "../../../src/util/MarkdownParser";
+import {parseLaTeX} from "../../../src/util/LaTeXParser";
+import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import PublicService from "../../../src/service/PublicService";
+import {useTheme} from "../../../app/hooks/useTheme";
 
 function MarkdownViewer() {
   const theme = useTheme();
 
   const router = useRouter();
+  const { filename } = router.query;
   const [markdown, setMarkdown] = useState('');
   const markdownRef = useRef(null);
-  const { filename } = router.query;
   const publicService = new PublicService();
 
   useEffect(() => {
