@@ -31,12 +31,12 @@ function AuthDiv() {
 
   const handleSignInRouter = () => {
     localStorage.setItem('prevUrl', pathname);
-    router.push('/user-sign?action=signin');
+    router.push('/user/sign?action=signin');
   };
 
   const handleSignUpRouter = () => {
     localStorage.setItem('prevUrl', pathname);
-    router.push('/user-sign?action=signup');
+    router.push('/user/sign?action=signup');
   };
 
   return (
@@ -44,7 +44,7 @@ function AuthDiv() {
       {username ? (
         <div className="flex-around">
           <span>{username}</span>
-          <Link href="/user-center">
+          <Link href="/user/account">
             <IconButton aria-label="manage account">
               <ManageAccountsIcon />
             </IconButton>

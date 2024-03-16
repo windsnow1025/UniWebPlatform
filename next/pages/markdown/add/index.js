@@ -1,17 +1,17 @@
-import '../src/asset/css/index.css';
-import '../src/asset/css/markdown.css';
+import '../../../src/asset/css/index.css';
+import '../../../src/asset/css/markdown.css';
 
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {parseMarkdown} from "../src/util/MarkdownParser";
-import {parseLaTeX} from "../src/util/LaTeXParser";
-import {MarkdownLogic} from '../src/logic/MarkdownLogic';
+import {parseMarkdown} from "../../../src/util/MarkdownParser";
+import {parseLaTeX} from "../../../src/util/LaTeXParser";
+import {MarkdownLogic} from '../../../src/logic/MarkdownLogic';
 import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import {useTheme} from "../app/hooks/useTheme";
+import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import {useTheme} from "../../../app/hooks/useTheme";
 
-function MarkdownAdd() {
+function Index() {
   const theme = useTheme();
 
   const [content, setContent] = useState('');
@@ -77,4 +77,4 @@ function MarkdownAdd() {
   );
 }
 
-export default MarkdownAdd;
+export default Index;

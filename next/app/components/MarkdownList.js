@@ -23,7 +23,7 @@ function MarkdownList() {
       <div>
         <span>Markdowns</span>
         <span>
-          <a href="/markdown-add" target="_blank" rel="noopener noreferrer">
+          <a href="/markdown/add" target="_blank" rel="noopener noreferrer">
             <IconButton aria-label="add">
               <AddIcon/>
             </IconButton>
@@ -35,7 +35,7 @@ function MarkdownList() {
           <ListItem key={markdown.id} disablePadding>
             <ListItemText
               primary={
-                <a href={`/markdown-update?id=${markdown.id}`} target="_blank" rel="noopener noreferrer">
+                <a href={`/markdown/update/${markdown.id}`} target="_blank" rel="noopener noreferrer">
                   {markdown.title}
                 </a>
               }
