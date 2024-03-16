@@ -74,7 +74,7 @@ function GPT() {
     };
 
     fetchCredit();
-  }, [messages]);
+  }, [generate]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
