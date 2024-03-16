@@ -234,13 +234,13 @@ function GPT() {
       <CssBaseline enableColorScheme />
       <HeaderAppBar title="WindsnowGPT"/>
       <div className="flex-around m-2">
-        <a href="/markdown-view?filename=gpt-documentation.md" target="_blank" rel="noopener noreferrer">
+        <a href="/markdown/view/gpt-documentation.md" target="_blank" rel="noopener noreferrer">
           <div className="flex-center">
             <div>Docs</div>
             <LinkIcon/>
           </div>
         </a>
-        <a href="/markdown-view?filename=gpt-presets.md" target="_blank" rel="noopener noreferrer">
+        <a href="/markdown/view/gpt-presets.md" target="_blank" rel="noopener noreferrer">
           <div className="flex-center">
             <div>Presets</div>
             <LinkIcon/>
