@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  nginx:
+    image: windsnow1025/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "81:80"
+    restart: always
+
+  next:
+    image: windsnow1025/next
+    build:
+      context: ./next
+      dockerfile: Dockerfile
+    restart: always
+
+  node:
+    image: windsnow1025/node
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - env/node.env
+    depends_on:
+      - mysql
+
+  fastapi:
+    image: windsnow1025/fastapi
+    build:
+      context: ./fastapi
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - env/fastapi.env
+    depends_on:
+      - mysql
+
+  mysql:
+    image: windsnow1025/mysql
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    restart: always
+    env_file:
+      - env/mysql.env
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:
