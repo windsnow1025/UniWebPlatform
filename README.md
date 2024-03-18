@@ -57,46 +57,13 @@ Docker Desktop
 
 #### Build
 
-##### Nginx
-
 ```bash
-cd FullStack-Web/nginx
-docker build -t nginx .
-```
-
-##### Next.js
-
-```bash
-cd FullStack-Web/next
-docker build -t next .
-```
-
-##### Node.js
-
-```bash
-cd FullStack-Web/node
-docker build -t node .
-```
-
-##### Python FastAPI
-
-```bash
-cd FullStack-Web/fastapi
-docker build -t fastapi .
-```
-
-##### MySQL
-
-```bash
-cd FullStack-Web/mysql
-docker build -t mysql .
+docker compose build
 ```
 
 ##### Run
 
-Edit `FullStack-Web/config/docker-compose.yaml`, change environment variables.
-
-Copy `FullStack-Web/config/docker-compose.yaml` to `/root/docker-compose.yaml`.
+In `./env`, create `node.env`, `fastapi.env`, `mysql.env`
 
 ```bash
 docker compose up [-d]
