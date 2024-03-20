@@ -1,5 +1,4 @@
 import {createTheme} from "@mui/material/styles";
-import darkScrollbar from '@mui/material/darkScrollbar';
 
 export function applyTheme(systemTheme) {
   localStorage.setItem("theme", systemTheme);
