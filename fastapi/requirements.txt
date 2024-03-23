@@ -5,3 +5,4 @@ uvicorn
 python-dotenv
 python-jose[cryptography]
 mysql-connector-python
+google-generativeai
