@@ -1,0 +1,18 @@
+### Get Root
+
+GET http://localhost:3001/
+
+### Get Username
+
+GET http://localhost:3001/user/
+Authorization: {{token}}
+
+### Post Sign In
+
+POST http://localhost:3001/user/sign-in
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
