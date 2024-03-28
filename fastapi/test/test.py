@@ -1,6 +1,6 @@
 import unittest
 
-from app.logic.completion.chat_completion import ChatCompletionFactory
+from app.logic.completion.chat_processor import ChatProcessorFactory
 from app.config import init_environment
 from app.api.completion_router import stream_handler, non_stream_handler, ChatRequest
 from app.util.pricing import calculate_cost
@@ -25,7 +25,7 @@ class TestCompletion(unittest.IsolatedAsyncioTestCase):
             stream=True
         )
 
-        factory = ChatCompletionFactory(
+        factory = ChatProcessorFactory(
             messages=chat_request.messages,
             model=chat_request.model,
             api_type=chat_request.api_type,
