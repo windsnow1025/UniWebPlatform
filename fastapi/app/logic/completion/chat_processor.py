@@ -6,6 +6,7 @@ from fastapi.responses import StreamingResponse
 from openai import OpenAI, AzureOpenAI, Stream
 from openai.types.chat import ChatCompletionChunk
 
+from app.logic.completion.completion_factory import create_completion
 from app.model.message import Message
 
 
@@ -85,21 +86,13 @@ class NonStreamChatProcessor(ChatProcessor):
     def process_request(self) -> str:
         try:
             logging.info(f"messages: {self.messages}")
-            if self.model == "gpt-4-vision-preview":
-                completion = self.openai.chat.completions.create(
-                    messages=self.messages,
-                    model=self.model,
-                    temperature=self.temperature,
-                    stream=False,
-                    max_tokens=4096,
-                )
-            else:
-                completion = self.openai.chat.completions.create(
-                    messages=self.messages,
-                    model=self.model,
-                    temperature=self.temperature,
-                    stream=False,
-                )
+            completion = create_completion(
+                completion_creator=self.openai.chat.completions.create,
+                messages=self.messages,
+                model=self.model,
+                temperature=self.temperature,
+                stream=False
+            )
 
             content = completion.choices[0].message.content
             self.non_stream_handler(content)
@@ -113,21 +106,13 @@ class StreamChatProcessor(ChatProcessor):
     def process_request(self):
         try:
             logging.info(f"messages: {self.messages}")
-            if self.model == "gpt-4-vision-preview":
-                completion = self.openai.chat.completions.create(
-                    messages=self.messages,
-                    model=self.model,
-                    temperature=self.temperature,
-                    stream=True,
-                    max_tokens=4096,
-                )
-            else:
-                completion = self.openai.chat.completions.create(
-                    messages=self.messages,
-                    model=self.model,
-                    temperature=self.temperature,
-                    stream=True,
-                )
+            completion = create_completion(
+                completion_creator=self.openai.chat.completions.create,
+                messages=self.messages,
+                model=self.model,
+                temperature=self.temperature,
+                stream=True
+            )
 
             def process_delta(completion_delta: ChatCompletionChunk) -> str:
                 # Necessary for Azure
