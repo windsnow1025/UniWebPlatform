@@ -6,7 +6,7 @@ from pydantic import BaseModel
 import app.dao.user_dao as user_dao
 import app.logic.auth as auth
 import app.util.pricing as pricing
-from app.logic.completion.chat_processor import ChatProcessorFactory
+from app.logic.completion.chat_processor_factory import create_chat_processor
 from app.logic.completion.request_handler import handle_request
 from app.logic.completion.response_handler import non_stream_handler, stream_handler
 from app.model.message import Message
@@ -47,7 +47,7 @@ async def generate(chat_request: ChatRequest, request: Request):
         lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
     )
 
-    factory = ChatProcessorFactory(
+    processor = create_chat_processor(
         messages=chat_request.messages,
         model=chat_request.model,
         api_type=chat_request.api_type,
@@ -62,8 +62,7 @@ async def generate(chat_request: ChatRequest, request: Request):
             lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
         )
     )
-    completion = factory.create_chat_completion()
-    response = completion.process_request()
+    response = processor.process_request()
 
     return response
 
