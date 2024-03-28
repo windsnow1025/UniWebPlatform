@@ -1,62 +1,12 @@
 import logging
-import os
 from typing import Callable, Generator
 from fastapi.responses import StreamingResponse
 
-from openai import OpenAI, AzureOpenAI, Stream
+from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
 from app.logic.completion.completion_factory import create_completion
 from app.model.message import Message
-
-
-class ChatProcessorFactory:
-    def __init__(
-            self,
-            messages: list[Message],
-            model: str,
-            api_type: str,
-            temperature: float,
-            stream: bool,
-            stream_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
-            non_stream_handler: Callable[[str], str] = None
-    ):
-        self.messages = messages
-        self.model = model
-        self.api_type = api_type
-        self.temperature = temperature
-        self.stream = stream
-        self.openai = None
-        self.stream_handler = stream_handler
-        self.non_stream_handler = non_stream_handler
-
-        if api_type == "open_ai":
-            self.openai = OpenAI(
-                api_key=os.environ["OPENAI_API_KEY"],
-            )
-        elif api_type == "azure":
-            self.openai = AzureOpenAI(
-                api_version="2023-12-01-preview",
-                azure_endpoint=os.environ["AZURE_API_BASE"],
-                api_key=os.environ["AZURE_API_KEY"],
-            )
-
-    def create_chat_completion(self) -> 'ChatProcessor':
-
-        if self.stream:
-            return StreamChatProcessor(self.model,
-                                       self.messages,
-                                       self.temperature,
-                                       self.api_type,
-                                       self.openai,
-                                       stream_handler=self.stream_handler)
-        else:
-            return NonStreamChatProcessor(self.model,
-                                          self.messages,
-                                          self.temperature,
-                                          self.api_type,
-                                          self.openai,
-                                          non_stream_handler=self.non_stream_handler)
 
 
 class ChatProcessor:
