@@ -6,9 +6,9 @@ from pydantic import BaseModel
 import app.dao.user_dao as user_dao
 import app.logic.auth as auth
 import app.util.pricing as pricing
-from app.logic.completion.chat_processor_factory import create_chat_processor
-from app.logic.completion.request_handler import handle_request
-from app.logic.completion.response_handler import non_stream_handler, stream_handler
+from app.logic.chat.chat_processor_factory import create_chat_processor
+from app.logic.chat.request_handler import handle_request
+from app.logic.chat.response_handler import non_stream_handler, stream_handler
 from app.model.message import Message
 
 router = APIRouter()

@@ -5,7 +5,7 @@ from fastapi.responses import StreamingResponse
 from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
-from app.logic.completion.completion_factory import create_completion
+from app.logic.chat.completion_factory import create_completion
 from app.model.message import Message
 
 
