@@ -1,6 +1,6 @@
 import unittest
 
-from app.logic.completion.chat_processor import ChatProcessorFactory
+from app.logic.chat.chat_processor import ChatProcessorFactory
 from app.config import init_environment
 from app.api.completion_router import stream_handler, non_stream_handler, ChatRequest
 from app.util.pricing import calculate_cost
