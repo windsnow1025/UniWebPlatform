@@ -5,7 +5,7 @@ from fastapi.responses import StreamingResponse
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
-from app.logic.completion.chat_processor import StreamChatProcessor, NonStreamChatProcessor
+from app.logic.chat.chat_processor import StreamChatProcessor, NonStreamChatProcessor
 from app.model.message import Message
 
 
