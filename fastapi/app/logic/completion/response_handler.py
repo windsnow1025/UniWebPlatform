@@ -6,9 +6,10 @@ from fastapi.responses import StreamingResponse
 
 def non_stream_handler(
         content: str,
-        reduce_credit: Callable[[str], None]
+        reduce_credit: Callable[[int], None]
 ) -> str:
-    reduce_credit(content)
+    completion_tokens = len(content)
+    reduce_credit(completion_tokens)
     logging.info(f"content: {content}")
     return content
 
