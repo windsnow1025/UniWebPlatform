@@ -3,12 +3,13 @@ import os
 from typing import Callable, Generator
 from fastapi.responses import StreamingResponse
 
-from openai import OpenAI, AzureOpenAI
+from openai import OpenAI, AzureOpenAI, Stream
+from openai.types.chat import ChatCompletionChunk
 
 from app.model.message import Message
 
 
-class ChatCompletionFactory:
+class ChatProcessorFactory:
     def __init__(
             self,
             messages: list[Message],
@@ -39,25 +40,25 @@ class ChatCompletionFactory:
                 api_key=os.environ["AZURE_API_KEY"],
             )
 
-    def create_chat_completion(self) -> 'ChatCompletion':
+    def create_chat_completion(self) -> 'ChatProcessor':
 
         if self.stream:
-            return StreamChatCompletion(self.model,
-                                        self.messages,
-                                        self.temperature,
-                                        self.api_type,
-                                        self.openai,
-                                        stream_handler=self.stream_handler)
+            return StreamChatProcessor(self.model,
+                                       self.messages,
+                                       self.temperature,
+                                       self.api_type,
+                                       self.openai,
+                                       stream_handler=self.stream_handler)
         else:
-            return NonStreamChatCompletion(self.model,
-                                           self.messages,
-                                           self.temperature,
-                                           self.api_type,
-                                           self.openai,
-                                           non_stream_handler=self.non_stream_handler)
+            return NonStreamChatProcessor(self.model,
+                                          self.messages,
+                                          self.temperature,
+                                          self.api_type,
+                                          self.openai,
+                                          non_stream_handler=self.non_stream_handler)
 
 
-class ChatCompletion:
+class ChatProcessor:
     def __init__(
             self,
             model: str,
@@ -80,7 +81,7 @@ class ChatCompletion:
         raise NotImplementedError
 
 
-class NonStreamChatCompletion(ChatCompletion):
+class NonStreamChatProcessor(ChatProcessor):
     def process_request(self) -> str:
         try:
             logging.info(f"messages: {self.messages}")
@@ -108,7 +109,7 @@ class NonStreamChatCompletion(ChatCompletion):
             return str(e)
 
 
-class StreamChatCompletion(ChatCompletion):
+class StreamChatProcessor(ChatProcessor):
     def process_request(self):
         try:
             logging.info(f"messages: {self.messages}")
@@ -128,7 +129,7 @@ class StreamChatCompletion(ChatCompletion):
                     stream=True,
                 )
 
-            def process_delta(completion_delta) -> str:
+            def process_delta(completion_delta: ChatCompletionChunk) -> str:
                 # Necessary for Azure
                 if not completion_delta.choices:
                     return ""
@@ -139,7 +140,7 @@ class StreamChatCompletion(ChatCompletion):
                 logging.debug(f"chunk: {content_delta}")
                 return content_delta
 
-            def generate_chunk(completion) -> Generator[str, None, None]:
+            def generate_chunk(completion: Stream[ChatCompletionChunk]) -> Generator[str, None, None]:
                 content = ""
                 for completion_delta in completion:
                     content_delta = process_delta(completion_delta)
