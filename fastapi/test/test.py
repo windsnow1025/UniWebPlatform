@@ -7,11 +7,11 @@ from app.logic.chat.chat_processor_factory import create_chat_processor
 from app.util import pricing
 
 
-class TestCompletion(unittest.IsolatedAsyncioTestCase):
+class TestChat(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         init_environment()
 
-    async def test_completion(self):
+    async def test_chat(self):
         username = "test"
         chat_request = ChatRequest(
             messages=[
