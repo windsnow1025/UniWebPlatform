@@ -39,7 +39,8 @@ async def generate(chat_request: ChatRequest, request: Request):
                 api_type=chat_request.api_type,
                 model=chat_request.model,
                 prompt_tokens=prompt_tokens,
-                completion_tokens=completion_tokens)
+                completion_tokens=completion_tokens
+            )
         )
 
     handle_request(
