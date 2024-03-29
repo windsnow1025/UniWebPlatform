@@ -33,7 +33,8 @@ class TestCompletion(unittest.IsolatedAsyncioTestCase):
                     api_type=chat_request.api_type,
                     model=chat_request.model,
                     prompt_tokens=prompt_tokens,
-                    completion_tokens=completion_tokens)
+                    completion_tokens=completion_tokens
+                )
             )
 
         processor = create_chat_processor(
