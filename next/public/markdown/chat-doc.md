@@ -1,8 +1,11 @@
-# WindsnowGPT Documentation
+# AI Chat Documentation
 
 ## Introduction
 
-WindsnowGPT, utilizing OpenAI completion models, bills costs to the API key owner, windsnow1024. New users start with 0 credits and should contact the author for account verification and credit increase. Verified users receive 5 free credits. Monthly, users gain 1 credit (up to 5). Credit usage depends on conversation length and is calculated based on OpenAI's pricing. Without credits, users must contact the author for more.
+AI Chat, utilizing OpenAI completion models, bills costs to the API key owner, windsnow1024. New users start with 0
+credits and should contact the author for account verification and credit increase. Verified users receive 5 free
+credits. Monthly, users gain 1 credit (up to 5). Credit usage depends on conversation length and is calculated based on
+OpenAI's pricing. Without credits, users must contact the author for more.
 
 For further details:
 
@@ -15,14 +18,16 @@ Messages are processed using Marked.js and Katex. Expect more features and GUI e
 
 ## Instructions
 
-Default user role: `user`. Use `system` for global rules or modify `assistant` replies. Disable Microsoft Editor to avoid unintended changes. For issues, try disabling extensions and refreshing (`Ctrl + F5`) or contact the author.
+Default user role: `user`. Use `system` for global rules or modify `assistant` replies. Disable Microsoft Editor to
+avoid unintended changes. For issues, try disabling extensions and refreshing (`Ctrl + F5`) or contact the author.
 
-- **Temperature (0-2)**: Lower values yield predictable outputs; higher values produce varied results. Optimal range: 0-1.
+- **Temperature (0-2)**: Lower values yield predictable outputs; higher values produce varied results. Optimal range:
+  0-1.
 - **Stream Mode**: Receive reply segments in real-time.
 
-## Feature Comparison: WindsnowGPT vs ChatGPT
+## Feature Comparison: AI Chat vs ChatGPT
 
-| Feature            | WindsnowGPT                                 | ChatGPT                                            | Advantage   |
+| Feature            | AI Chat                                     | ChatGPT                                            | Advantage   |
 |--------------------|---------------------------------------------|----------------------------------------------------|-------------|
 | Message Editing    | Add / Edit / Delete at anywhere to any role | Add / Edit at conversation end to user             | WindsnowGPT |
 | Model Selection    | All OpenAI and Azure Models available       | Default OpenAI GPT-3.5 & GPT-4 (Plus) available    | WindsnowGPT |
