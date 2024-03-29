@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.completion_router import router as completion_router
+from app.api.chat_router import chat_router
 from app.config import init_environment
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -20,4 +20,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(completion_router)
+app.include_router(chat_router)
