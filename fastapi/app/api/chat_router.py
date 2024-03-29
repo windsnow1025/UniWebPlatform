@@ -11,7 +11,7 @@ from app.logic.chat.request_handler import handle_request
 from app.logic.chat.response_handler import non_stream_handler, stream_handler
 from app.model.message import Message
 
-router = APIRouter()
+chat_router = APIRouter()
 
 
 class ChatRequest(BaseModel):
@@ -22,7 +22,7 @@ class ChatRequest(BaseModel):
     stream: bool
 
 
-@router.post("/")
+@chat_router.post("/")
 async def generate(chat_request: ChatRequest, request: Request):
     authorization_header = request.headers.get("Authorization")
     username = auth.get_username_from_token(authorization_header)
@@ -68,6 +68,6 @@ async def generate(chat_request: ChatRequest, request: Request):
     return response
 
 
-@router.get("/")
+@chat_router.get("/")
 async def get_models() -> list[dict]:
     return pricing.model_pricing_data

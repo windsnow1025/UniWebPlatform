@@ -1,6 +1,6 @@
 import unittest
 
-from app.api.completion_router import stream_handler, non_stream_handler, ChatRequest
+from app.api.chat_router import stream_handler, non_stream_handler, ChatRequest
 from app.config import init_environment
 from app.dao import user_dao
 from app.logic.chat.chat_processor_factory import create_chat_processor
