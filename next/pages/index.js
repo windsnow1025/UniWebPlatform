@@ -34,9 +34,9 @@ function Index() {
             <LinkIcon/>
           </div>
         </a>
-        <a href="/gpt" target="_blank" rel="noopener noreferrer">
+        <a href="/chat" target="_blank" rel="noopener noreferrer">
           <div className="flex-center">
-            GPT
+            AI Chat
             <LinkIcon/>
           </div>
         </a>

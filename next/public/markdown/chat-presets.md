@@ -1,4 +1,4 @@
-# GPT Presets
+# AI Chat Presets
 
 ## Developer Mode Jailbreak
 

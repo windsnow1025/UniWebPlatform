@@ -1,8 +1,8 @@
-import {GPTLogic} from "./GPTLogic";
+import {ChatLogic} from "./ChatLogic";
 
 describe('processMessages', () => {
   it('should return a string', () => {
-    const gptLogic = new GPTLogic();
+    const chatLogic = new ChatLogic();
     const message = [
       {
         "role":"system",
@@ -13,12 +13,12 @@ describe('processMessages', () => {
         "content":"Say this is a test."
       }
     ];
-    const result = gptLogic.processMessages(message);
+    const result = chatLogic.processMessages(message);
     expect(result).toStrictEqual(message);
   });
 
   it('should return a string', () => {
-    const gptLogic = new GPTLogic();
+    const chatLogic = new ChatLogic();
     const message = [
       {
         "role":"system",
@@ -30,7 +30,7 @@ describe('processMessages', () => {
         "files": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"]
       }
     ];
-    const result = gptLogic.processMessages(message);
+    const result = chatLogic.processMessages(message);
     const expected = [
       {
         "role":"system",

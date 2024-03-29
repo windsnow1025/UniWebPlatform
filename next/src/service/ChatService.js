@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default class GPTService {
+export default class ChatService {
 
   constructor() {
     this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_FAST_API_BASE_URL });
