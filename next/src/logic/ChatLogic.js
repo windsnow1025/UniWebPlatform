@@ -1,10 +1,10 @@
-import GPTService from "../service/GPTService";
+import ChatService from "../service/ChatService";
 
-export class GPTLogic {
+export class ChatLogic {
 
   constructor() {
 
-    this.gptService = new GPTService();
+    this.chatService = new ChatService();
 
     this.initMessages = [
       {
@@ -35,7 +35,7 @@ export class GPTLogic {
 
   async fetchModels() {
     try {
-      return await this.gptService.fetchModels();
+      return await this.chatService.fetchModels();
     } catch (err) {
       console.error("Error in GET /models:", err);
       return "Error occurred while fetching models.";
@@ -55,7 +55,7 @@ export class GPTLogic {
 
   async nonStreamGenerate(messages, api_type, model, temperature, stream) {
     try {
-      const content = await this.gptService.generate(this.processMessages(messages), api_type, model, temperature, stream);
+      const content = await this.chatService.generate(this.processMessages(messages), api_type, model, temperature, stream);
       return this.sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
@@ -68,7 +68,7 @@ export class GPTLogic {
 
     try {
 
-      const response = await this.gptService.generate(this.processMessages(messages), api_type, model, temperature, stream);
+      const response = await this.chatService.generate(this.processMessages(messages), api_type, model, temperature, stream);
       controller = response.controller;
       const reader = response.reader;
 

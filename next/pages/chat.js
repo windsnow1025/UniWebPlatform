@@ -3,44 +3,41 @@ import '../src/asset/css/markdown.css';
 
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {
-  Button,
-  Checkbox, CssBaseline,
-  FormControlLabel,
-  IconButton,
-  Paper,
-  Tooltip,
-} from "@mui/material";
+import {Button, Checkbox, CssBaseline, FormControlLabel, IconButton, Paper, Tooltip,} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkIcon from '@mui/icons-material/Link';
-import {GPTLogic} from "../src/logic/GPTLogic";
+import {ChatLogic} from "../src/logic/ChatLogic";
 import UserService from "../src/service/UserService";
 import MessageDiv from "../app/components/message/MessageDiv";
 import ConversationAutocomplete from "../app/components/ConversationAutocomplete";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {useTheme} from "../app/hooks/useTheme";
-import GPTSettings from "../app/components/GPTSettings";
+import ChatSettings from "../app/components/ChatSettings";
 
-function GPT() {
+function Chat() {
   const theme = useTheme();
 
-  const gptLogic = new GPTLogic();
+  const chatLogic = new ChatLogic();
+  const userService = new UserService();
 
+  const title = "AI Chat";
+
+  // Fetch Data
   const [apiModels, setApiModels] = useState([]);
   const [fullModels, setFullModels] = useState([]);
 
-  // GPT Parameters
-  const [messages, setMessages] = useState(gptLogic.initMessages);
-  const [apiType, setApiType] = useState(gptLogic.defaultApiType);
-  const [model, setModel] = useState(gptLogic.defaultModel);
+  // Chat Parameters
+  const [messages, setMessages] = useState(chatLogic.initMessages);
+  const [apiType, setApiType] = useState(chatLogic.defaultApiType);
+  const [model, setModel] = useState(chatLogic.defaultModel);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
 
-  // Others
+  // States
   const [credit, setCredit] = useState(0);
   const [generate, setGenerate] = useState("Generate");
   const [editable, setEditable] = useState(true);
@@ -50,15 +47,13 @@ function GPT() {
   const currentRequestIndex = useRef(0);
   const isRequesting = useRef(false);
 
-  const userService = new UserService();
-
   useEffect(() => {
-    document.title = "GPT";
+    document.title = title;
   }, []);
 
   useEffect(() => {
     const fetchModels = async () => {
-      const fullModels = await gptLogic.fetchModels();
+      const fullModels = await chatLogic.fetchModels();
       setFullModels(fullModels);
     };
 
@@ -91,8 +86,8 @@ function GPT() {
   }, [messages]);
 
   useEffect(() => {
-    setApiModels(gptLogic.getModels(fullModels, apiType));
-    setModel(gptLogic.getModels(gptLogic.defaultModel, apiType)[0]);
+    setApiModels(chatLogic.getModels(fullModels, apiType));
+    setModel(chatLogic.getModels(chatLogic.defaultModel, apiType)[0]);
   }, [fullModels, apiType]);
 
   useEffect(() => {
@@ -122,7 +117,7 @@ function GPT() {
 
     if (!stream) {
 
-      const content = await gptLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
+      const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
 
       if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
         return;
@@ -131,13 +126,13 @@ function GPT() {
       setMessages(prevMessages => [...prevMessages, {
         "role": "assistant",
         "content": content
-      }, gptLogic.emptyUserMessage]);
+      }, chatLogic.emptyUserMessage]);
 
     } else {
 
       let isFirstChunk = true;
 
-      for await (const chunk of gptLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
+      for await (const chunk of chatLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
 
         if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
           return;
@@ -146,7 +141,7 @@ function GPT() {
         const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
 
         if (isFirstChunk) {
-          setMessages(prevMessages => [...prevMessages, gptLogic.emptyAssistantMessage]);
+          setMessages(prevMessages => [...prevMessages, chatLogic.emptyAssistantMessage]);
           isFirstChunk = false;
         }
 
@@ -159,7 +154,7 @@ function GPT() {
         if (isAtBottom) window.scrollTo(0, document.body.scrollHeight);
       }
 
-      setMessages(prevMessages => [...prevMessages, gptLogic.emptyUserMessage]);
+      setMessages(prevMessages => [...prevMessages, chatLogic.emptyUserMessage]);
 
     }
 
@@ -181,7 +176,7 @@ function GPT() {
   };
 
   const handleClear = () => {
-    setMessages(gptLogic.initMessages);
+    setMessages(chatLogic.initMessages);
   };
 
   const handleRoleChange = (index, role) => {
@@ -212,7 +207,7 @@ function GPT() {
 
   const handleMessageAdd = (index) => {
     const newMessages = [...messages];
-    newMessages.splice(index + 1, 0, gptLogic.emptyUserMessage);
+    newMessages.splice(index + 1, 0, chatLogic.emptyUserMessage);
     setMessages(newMessages);
   };
 
@@ -221,26 +216,26 @@ function GPT() {
   };
 
   const handleConversationUpload = async () => {
-    const messages = await gptLogic.import();
+    const messages = await chatLogic.import();
     setMessages(messages);
   };
 
   const handleConversationDownload = async () => {
-    gptLogic.export(messages);
+    chatLogic.export(messages);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline enableColorScheme />
-      <HeaderAppBar title="WindsnowGPT"/>
+      <HeaderAppBar title={title}/>
       <div className="flex-around m-2">
-        <a href="/markdown/view/gpt-documentation.md" target="_blank" rel="noopener noreferrer">
+        <a href="/markdown/view/chat-doc.md" target="_blank" rel="noopener noreferrer">
           <div className="flex-center">
-            <div>Docs</div>
+            <div>Document</div>
             <LinkIcon/>
           </div>
         </a>
-        <a href="/markdown/view/gpt-presets.md" target="_blank" rel="noopener noreferrer">
+        <a href="/markdown/view/chat-presets.md" target="_blank" rel="noopener noreferrer">
           <div className="flex-center">
             <div>Presets</div>
             <LinkIcon/>
@@ -248,7 +243,7 @@ function GPT() {
         </a>
         <div>Credit: {credit}</div>
       </div>
-      <GPTSettings
+      <ChatSettings
         apiType={apiType}
         setApiType={setApiType}
         model={model}
@@ -346,4 +341,4 @@ function GPT() {
   )
 }
 
-export default GPT;
+export default Chat;
