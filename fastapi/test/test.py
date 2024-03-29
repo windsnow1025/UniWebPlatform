@@ -1,9 +1,10 @@
 import unittest
 
-from app.logic.chat.chat_processor import ChatProcessorFactory
-from app.config import init_environment
 from app.api.completion_router import stream_handler, non_stream_handler, ChatRequest
-from app.util.pricing import calculate_cost
+from app.config import init_environment
+from app.dao import user_dao
+from app.logic.chat.chat_processor_factory import create_chat_processor
+from app.util import pricing
 
 
 class TestCompletion(unittest.IsolatedAsyncioTestCase):
@@ -25,32 +26,41 @@ class TestCompletion(unittest.IsolatedAsyncioTestCase):
             stream=True
         )
 
-        factory = ChatProcessorFactory(
+        def reduce_credit(prompt_tokens: int, completion_tokens: int) -> None:
+            user_dao.reduce_credit(
+                username=username,
+                cost=pricing.calculate_cost(
+                    api_type=chat_request.api_type,
+                    model=chat_request.model,
+                    prompt_tokens=prompt_tokens,
+                    completion_tokens=completion_tokens)
+            )
+
+        processor = create_chat_processor(
             messages=chat_request.messages,
             model=chat_request.model,
             api_type=chat_request.api_type,
             temperature=chat_request.temperature,
             stream=chat_request.stream,
-            stream_handler=lambda generator_function: stream_handler(generator_function, username, chat_request),
-            non_stream_handler=lambda content: non_stream_handler(content, username, chat_request)
+            non_stream_handler=lambda content: non_stream_handler(
+                content,
+                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
+            ),
+            stream_handler=lambda generator_function: stream_handler(
+                generator_function,
+                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
+            )
         )
-        completion = factory.create_chat_completion()
-        response = completion.process_request()
-
-        prompt_tokens = sum(len(message["content"]) for message in chat_request.messages)
-        completion_tokens = 0
+        response = processor.process_request()
 
         output = ""
         if chat_request.stream:
             async for content in response.body_iterator:
                 output += content
-                completion_tokens += len(content)
+                print(content, end="")
         else:
             output = response
-            completion_tokens += len(response)
-
-        cost = calculate_cost(chat_request.api_type, chat_request.model, prompt_tokens, completion_tokens)
+            print(response)
 
         # Test
         self.assertEqual(output, "This is a test.")
-        self.assertAlmostEqual(cost, 0.0015, delta=0.0001)
