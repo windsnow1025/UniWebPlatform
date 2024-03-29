@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, FormControlLabel, InputLabel, MenuItem, Select, Slider, Switch } from "@mui/material";
 
-function GPTSettings({ apiType, setApiType, model, setModel, apiModels, temperature, setTemperature, stream, setStream }) {
+function ChatSettings({ apiType, setApiType, model, setModel, apiModels, temperature, setTemperature, stream, setStream }) {
   return (
     <div className="flex-around m-2">
       <div className="m-1">
@@ -57,4 +57,4 @@ function GPTSettings({ apiType, setApiType, model, setModel, apiModels, temperat
   );
 }
 
-export default GPTSettings;
+export default ChatSettings;
