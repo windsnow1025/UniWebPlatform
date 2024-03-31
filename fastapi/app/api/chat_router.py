@@ -54,12 +54,12 @@ async def generate(chat_request: ChatRequest, request: Request):
         api_type=chat_request.api_type,
         temperature=chat_request.temperature,
         stream=chat_request.stream,
-        non_stream_handler=lambda content: non_stream_handler(
-            content,
+        stream_response_handler=lambda generator_function: stream_handler(
+            generator_function,
             lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
         ),
-        stream_handler=lambda generator_function: stream_handler(
-            generator_function,
+        non_stream_response_handler=lambda content: non_stream_handler(
+            content,
             lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
         )
     )
