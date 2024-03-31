@@ -15,8 +15,8 @@ def create_chat_processor(
         api_type: str,
         temperature: float,
         stream: bool,
-        stream_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
-        non_stream_handler: Callable[[str], str] = None
+        stream_response_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
+        non_stream_response_handler: Callable[[str], str] = None
 ):
 
     openai = None
@@ -38,7 +38,7 @@ def create_chat_processor(
             temperature=temperature,
             api_type=api_type,
             openai=openai,
-            stream_handler=stream_handler
+            response_handler=stream_response_handler
         )
     else:
         return NonStreamChatProcessor(
@@ -47,5 +47,5 @@ def create_chat_processor(
             temperature=temperature,
             api_type=api_type,
             openai=openai,
-            non_stream_handler=non_stream_handler
+            response_handler=non_stream_response_handler
         )

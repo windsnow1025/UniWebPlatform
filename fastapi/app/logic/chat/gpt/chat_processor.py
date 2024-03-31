@@ -17,16 +17,14 @@ class ChatProcessor:
             temperature: float,
             api_type: str,
             openai,
-            stream_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
-            non_stream_handler: Callable[[str], None] = None
+            response_handler
     ):
         self.model = model
         self.messages = messages
         self.temperature = temperature
         self.api_type = api_type
         self.openai = openai
-        self.stream_handler = stream_handler
-        self.non_stream_handler = non_stream_handler
+        self.response_handler = response_handler
 
     def process_request(self):
         raise NotImplementedError
@@ -45,7 +43,7 @@ class NonStreamChatProcessor(ChatProcessor):
             )
 
             content = completion.choices[0].message.content
-            self.non_stream_handler(content)
+            self.response_handler(content)
             return content
         except Exception as e:
             logging.error(f"Exception: {e}")
@@ -82,7 +80,7 @@ class StreamChatProcessor(ChatProcessor):
                     content += content_delta
                     yield content_delta
 
-            return self.stream_handler(lambda: generate_chunk(completion))
+            return self.response_handler(lambda: generate_chunk(completion))
 
         except Exception as e:
             logging.error(f"Exception: {e}")
