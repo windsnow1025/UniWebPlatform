@@ -1,5 +1,5 @@
 import logging
-from typing import Generator, Callable, Tuple
+from typing import Generator, Callable
 
 from fastapi.responses import StreamingResponse
 from openai import Stream
@@ -11,12 +11,12 @@ from app.model.message import Message
 
 NonStreamResponseHandler = Callable[
     [str],
-    Tuple[str, float]
+    tuple[str, float]
 ]
 
 StreamResponseHandler = Callable[
     [Callable[[], ChunkGenerator]],
-    Tuple[StreamingResponse, float]
+    tuple[StreamingResponse, float]
 ]
 
 
