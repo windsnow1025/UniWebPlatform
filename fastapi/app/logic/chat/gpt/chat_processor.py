@@ -1,12 +1,23 @@
 import logging
-from typing import Callable, Generator
-from fastapi.responses import StreamingResponse
+from typing import Generator, Callable, Tuple
 
+from fastapi.responses import StreamingResponse
 from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
 from app.logic.chat.gpt.completion_factory import create_completion
+from app.model.ChunkGenerator import ChunkGenerator
 from app.model.message import Message
+
+NonStreamResponseHandler = Callable[
+    [str],
+    Tuple[str, float]
+]
+
+StreamResponseHandler = Callable[
+    [Callable[[], ChunkGenerator]],
+    Tuple[StreamingResponse, float]
+]
 
 
 class ChatProcessor:
@@ -31,7 +42,7 @@ class ChatProcessor:
 
 
 class NonStreamChatProcessor(ChatProcessor):
-    def process_request(self) -> str:
+    def process_request(self):
         try:
             logging.info(f"messages: {self.messages}")
             completion = create_completion(
@@ -43,8 +54,7 @@ class NonStreamChatProcessor(ChatProcessor):
             )
 
             content = completion.choices[0].message.content
-            self.response_handler(content)
-            return content
+            return self.response_handler(content)
         except Exception as e:
             logging.error(f"Exception: {e}")
             return str(e)

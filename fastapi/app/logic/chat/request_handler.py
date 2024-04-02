@@ -5,8 +5,8 @@ from app.model.message import Message
 
 def handle_request(
         messages: list[Message],
-        reduce_credit: Callable[[int], None]
-) -> None:
+        reduce_credit: Callable[[int], float]
+) -> float:
     prompt_tokens = sum(len(message["content"]) for message in messages)
-    reduce_credit(prompt_tokens)
-    return
+    cost = reduce_credit(prompt_tokens)
+    return cost
