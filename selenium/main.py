@@ -1,7 +1,7 @@
 from user import User
 
 try:
-    user = User("http://localhost:3000")
+    user = User()
     signed_in_status = user.is_signed_in()
     if signed_in_status:
         user.sign_out()
