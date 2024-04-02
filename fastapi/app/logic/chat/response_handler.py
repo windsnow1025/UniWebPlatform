@@ -1,5 +1,5 @@
 import logging
-from typing import Callable, Generator, Tuple
+from typing import Callable, Generator
 
 from fastapi.responses import StreamingResponse
 
@@ -22,7 +22,7 @@ def stream_handler(
         generator_function: Callable[[], ChunkGenerator],
         reduce_credit: ReduceCredit
 ) -> StreamingResponse:
-    def wrapper_generator() -> Generator[str, None, Tuple[str, float]]:
+    def wrapper_generator() -> Generator[str, None, tuple[str, float]]:
         content = ""
         for chunk in generator_function():
             content += chunk
