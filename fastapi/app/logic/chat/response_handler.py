@@ -1,31 +1,35 @@
 import logging
-from typing import Callable, Generator
+from typing import Callable, Generator, Tuple
 
 from fastapi.responses import StreamingResponse
+
+from app.model.ChunkGenerator import ChunkGenerator
+
+ReduceCredit = Callable[[int], float]
 
 
 def non_stream_handler(
         content: str,
-        reduce_credit: Callable[[int], None]
-) -> str:
+        reduce_credit: ReduceCredit
+) -> (str, float):
     completion_tokens = len(content)
-    reduce_credit(completion_tokens)
+    cost = reduce_credit(completion_tokens)
     logging.info(f"content: {content}")
-    return content
+    return content, cost
 
 
 def stream_handler(
-        generator_function: Callable[[], Generator[str, None, None]],
-        reduce_credit: Callable[[int], None]
+        generator_function: Callable[[], ChunkGenerator],
+        reduce_credit: ReduceCredit
 ) -> StreamingResponse:
-    def wrapper_generator() -> Generator[str, None, str]:
+    def wrapper_generator() -> Generator[str, None, Tuple[str, float]]:
         content = ""
         for chunk in generator_function():
             content += chunk
             yield chunk
         completion_tokens = len(content)
-        reduce_credit(completion_tokens)
+        cost = reduce_credit(completion_tokens)
         logging.info(f"content: {content}")
-        return content
+        return content, cost
 
     return StreamingResponse(wrapper_generator(), media_type='text/plain')

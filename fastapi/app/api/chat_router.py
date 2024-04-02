@@ -32,18 +32,17 @@ async def generate(chat_request: ChatRequest, request: Request):
 
     logging.info(f"username: {username}, model: {chat_request.model}")
 
-    def reduce_credit(prompt_tokens: int, completion_tokens: int) -> None:
-        user_dao.reduce_credit(
-            username=username,
-            cost=pricing.calculate_cost(
-                api_type=chat_request.api_type,
-                model=chat_request.model,
-                prompt_tokens=prompt_tokens,
-                completion_tokens=completion_tokens
-            )
+    def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
+        cost = pricing.calculate_cost(
+            api_type=chat_request.api_type,
+            model=chat_request.model,
+            prompt_tokens=prompt_tokens,
+            completion_tokens=completion_tokens
         )
+        user_dao.reduce_credit(username, cost)
+        return cost
 
-    handle_request(
+    request_cost = handle_request(
         chat_request.messages,
         lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
     )
