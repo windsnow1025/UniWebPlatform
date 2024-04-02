@@ -6,7 +6,7 @@ from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
 from app.logic.chat.gpt.completion_factory import create_completion
-from app.model.ChunkGenerator import ChunkGenerator
+from app.model.generator import ChunkGenerator
 from app.model.message import Message
 
 NonStreamResponseHandler = Callable[
