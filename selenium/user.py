@@ -17,11 +17,11 @@ class User(Scraper):
 
     def is_signed_in(self):
         try:
-            self._wait_find(self.sign_in_button_path)
-            return False
-        except TimeoutException:
             self._wait_find(self.user_account_link_path)
             return True
+        except TimeoutException:
+            self._wait_find(self.sign_in_button_path)
+            return False
 
     def sign_in(self):
         self._wait_find(self.sign_in_button_path).click()
