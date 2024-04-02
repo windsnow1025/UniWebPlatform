@@ -5,8 +5,8 @@ from scraper import Scraper
 
 
 class User(Scraper):
-    def __init__(self, url):
-        super().__init__(url)
+    def __init__(self):
+        super().__init__("http://localhost:3000")
 
         self.wait = WebDriverWait(self.driver, timeout=1)
         self.sign_in_button_path = "//button[normalize-space(text())='Sign In']"
