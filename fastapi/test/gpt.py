@@ -59,6 +59,7 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
             async for content in response.body_iterator:
                 output += content
                 print(content, end="")
+            print(response.cost)
         else:
             output = response
             print(response)
