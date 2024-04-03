@@ -10,18 +10,18 @@ from app.util import pricing
 class TestChat(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         init_environment()
-
-    async def test_openai_stream(self):
-        username = "test"
-        messages = [
+        self.username = "test"
+        self.messages = [
             {
                 "role": "user",
                 "content": "Say this is a test."
             }
         ]
+        self.temperature = 0
+
+    async def test_openai_stream(self):
         model = "gpt-4"
         api_type = "open_ai"
-        temperature = 0
         stream = True
 
         def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
@@ -32,16 +32,16 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
                 completion_tokens=completion_tokens
             )
             user_dao.reduce_credit(
-                username=username,
+                username=self.username,
                 cost=cost
             )
             return cost
 
         processor = create_chat_processor(
-            messages=messages,
+            messages=self.messages,
             model=model,
             api_type=api_type,
-            temperature=temperature,
+            temperature=self.temperature,
             stream=stream,
             non_stream_response_handler=lambda content: non_stream_handler(
                 content,
@@ -61,16 +61,8 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(output, "This is a test.")
 
     def test_openai_nonstream(self):
-        username = "test"
-        messages = [
-            {
-                "role": "user",
-                "content": "Say this is a test."
-            }
-        ]
         model = "gpt-4"
         api_type = "open_ai"
-        temperature = 0
         stream = False
 
         def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
@@ -81,16 +73,16 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
                 completion_tokens=completion_tokens
             )
             user_dao.reduce_credit(
-                username=username,
+                username=self.username,
                 cost=cost
             )
             return cost
 
         processor = create_chat_processor(
-            messages=messages,
+            messages=self.messages,
             model=model,
             api_type=api_type,
-            temperature=temperature,
+            temperature=self.temperature,
             stream=stream,
             non_stream_response_handler=lambda content: non_stream_handler(
                 content,
@@ -108,16 +100,8 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(output, "This is a test.")
 
     async def test_azure_stream(self):
-        username = "test"
-        messages = [
-            {
-                "role": "user",
-                "content": "Say this is a test."
-            }
-        ]
         model = "gpt-4"
         api_type = "azure"
-        temperature = 0
         stream = True
 
         def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
@@ -128,16 +112,16 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
                 completion_tokens=completion_tokens
             )
             user_dao.reduce_credit(
-                username=username,
+                username=self.username,
                 cost=cost
             )
             return cost
 
         processor = create_chat_processor(
-            messages=messages,
+            messages=self.messages,
             model=model,
             api_type=api_type,
-            temperature=temperature,
+            temperature=self.temperature,
             stream=stream,
             non_stream_response_handler=lambda content: non_stream_handler(
                 content,
