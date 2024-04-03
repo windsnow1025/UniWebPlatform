@@ -26,7 +26,7 @@ def create_chat_processor(
         )
     elif api_type == "azure":
         openai = AzureOpenAI(
-            api_version="2023-12-01-preview",
+            api_version="2024-02-01",
             azure_endpoint=os.environ["AZURE_API_BASE"],
             api_key=os.environ["AZURE_API_KEY"],
         )
