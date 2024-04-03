@@ -22,8 +22,6 @@ def stream_handler(
         generator_function: Callable[[], ChunkGenerator],
         reduce_credit: ReduceCredit
 ) -> StreamingResponse:
-    class Cost(TypedDict):
-        cost: float
 
     def wrapper_generator():
         content = ""
@@ -31,10 +29,7 @@ def stream_handler(
             content += chunk
             yield chunk
         completion_tokens = len(content)
-        cost["cost"] = reduce_credit(completion_tokens)
-        logging.info(f"content: {content}")
+        cost = reduce_credit(completion_tokens)
 
-    cost = Cost(cost=0)
     response = StreamingResponse(wrapper_generator(), media_type='text/plain')
-    response.cost = cost["cost"]
     return response
