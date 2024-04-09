@@ -18,7 +18,7 @@ const ThemeSelect = () => {
 
   const handleThemeChange = (event) => {
     const theme = event.target.value;
-      setTheme(theme);
+    setTheme(theme);
   };
 
   return (
