@@ -16,3 +16,6 @@ Content-Type: application/json
   "username": "test",
   "password": "test"
 }
+
+### Get Markdowns
+GET http://localhost:3001/markdown/
