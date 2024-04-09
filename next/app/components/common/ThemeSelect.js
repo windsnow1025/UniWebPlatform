@@ -1,25 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {applyTheme} from '../../../src/logic/ThemeLogic.js';
+import React, {useEffect} from 'react';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {applyTheme} from "../../utils/Theme";
 
-const ThemeSelect = () => {
-  const [theme, setTheme] = useState(null);
-
+const ThemeSelect = ({systemTheme, setSystemTheme}) => {
   useEffect(() => {
-    if (theme && theme !== 'null') {
-      applyTheme(theme);
-    }
-  }, [theme]);
-
-  useEffect(() => {
-    setTheme(localStorage.getItem('theme') || 'system');
+    setSystemTheme(localStorage.getItem('theme') || 'system');
   }, []);
 
-
-  const handleThemeChange = (event) => {
-    const theme = event.target.value;
-    setTheme(theme);
-  };
+  const onSelectChange = (event) => {
+    const systemTheme = event.target.value;
+    localStorage.setItem("theme", systemTheme);
+    applyTheme(systemTheme);
+    setSystemTheme(systemTheme);
+  }
 
   return (
     <div>
@@ -28,9 +21,9 @@ const ThemeSelect = () => {
         <Select
           labelId="theme-select-label"
           id="theme-select"
-          value={theme || 'system'}
+          value={systemTheme || 'system'}
           label="Theme"
-          onChange={handleThemeChange}
+          onChange={onSelectChange}
         >
           <MenuItem value="system">System</MenuItem>
           <MenuItem value="light">Light</MenuItem>
