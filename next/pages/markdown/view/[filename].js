@@ -9,10 +9,15 @@ import {parseMarkdown} from "../../../src/util/MarkdownParser";
 import {parseLaTeX} from "../../../src/util/LaTeXParser";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import PublicService from "../../../src/service/PublicService";
-import {useTheme} from "../../../app/hooks/useTheme";
+import {createMUITheme} from "../../../app/utils/Theme";
 
 function MarkdownViewer() {
-  const theme = useTheme();
+  const [systemTheme, setSystemTheme] = useState();
+  const [muiTheme, setMuiTheme] = useState();
+
+  useEffect(() => {
+    setMuiTheme(createMUITheme(systemTheme));
+  }, [systemTheme]);
 
   const router = useRouter();
   const { filename } = router.query;
@@ -36,17 +41,25 @@ function MarkdownViewer() {
   }, [filename]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline enableColorScheme />
-      <HeaderAppBar title="Markdown View"/>
-      <div className="m-2">
-        <div
-          className="markdown-body p-2 min-h-16"
-          ref={markdownRef}
-          dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}
-        />
-      </div>
-    </ThemeProvider>
+    <>
+      {muiTheme &&
+        <ThemeProvider theme={muiTheme}>
+          <CssBaseline enableColorScheme />
+          <HeaderAppBar
+            title="Markdown View"
+            systemTheme={systemTheme}
+            setSystemTheme={setSystemTheme}
+          />
+          <div className="m-2">
+            <div
+              className="markdown-body p-2 min-h-16"
+              ref={markdownRef}
+              dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}
+            />
+          </div>
+        </ThemeProvider>
+      }
+    </>
   );
 }
 

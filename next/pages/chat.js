@@ -15,11 +15,16 @@ import MessageDiv from "../app/components/message/MessageDiv";
 import ConversationAutocomplete from "../app/components/ConversationAutocomplete";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import {useTheme} from "../app/hooks/useTheme";
 import ChatSettings from "../app/components/ChatSettings";
+import {createMUITheme} from "../app/utils/Theme";
 
 function Chat() {
-  const theme = useTheme();
+  const [systemTheme, setSystemTheme] = useState();
+  const [muiTheme, setMuiTheme] = useState();
+
+  useEffect(() => {
+    setMuiTheme(createMUITheme(systemTheme));
+  }, [systemTheme]);
 
   const chatLogic = new ChatLogic();
   const userService = new UserService();
@@ -225,119 +230,127 @@ function Chat() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline enableColorScheme />
-      <HeaderAppBar title={title}/>
-      <div className="flex-around m-2">
-        <a href="/markdown/view/chat-doc.md" target="_blank" rel="noopener noreferrer">
-          <div className="flex-center">
-            <div>Document</div>
-            <LinkIcon/>
-          </div>
-        </a>
-        <a href="/markdown/view/chat-presets.md" target="_blank" rel="noopener noreferrer">
-          <div className="flex-center">
-            <div>Presets</div>
-            <LinkIcon/>
-          </div>
-        </a>
-        <div>Credit: {credit}</div>
-      </div>
-      <ChatSettings
-        apiType={apiType}
-        setApiType={setApiType}
-        model={model}
-        setModel={setModel}
-        apiModels={apiModels}
-        temperature={temperature}
-        setTemperature={setTemperature}
-        stream={stream}
-        setStream={setStream}
-      />
-      <Paper elevation={1} className="m-2 p-4 rounded-lg">
-        <div>
-          <div className="flex-between">
-            <div className="inflex-fill"/>
-            <div className="inflex-end">
-              <Tooltip title="Add">
-                <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
-                  <AddCircleIcon fontSize="small"/>
-                </IconButton>
-              </Tooltip>
+    <>
+    {muiTheme &&
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline enableColorScheme />
+        <HeaderAppBar
+          title={title}
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
+        />
+        <div className="flex-around m-2">
+          <a href="/markdown/view/chat-doc.md" target="_blank" rel="noopener noreferrer">
+            <div className="flex-center">
+              <div>Document</div>
+              <LinkIcon/>
             </div>
-          </div>
-          {messages.map((message, index) => (
-            <div key={index}>
-              <MessageDiv
-                roleInitial={message.role}
-                contentInitial={message.content}
-                filesInitial={message.files}
-                onRoleChange={(role) => handleRoleChange(index, role)}
-                onContentChange={(content) => handleContentChange(index, content)}
-                onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
-                useRoleSelect={true}
-                onMessageDelete={() => handleMessageDelete(index)}
-                shouldSanitize={sanitize}
-              />
-              <div className="flex-between">
-                <div className="inflex-fill"/>
-                <div className="inflex-end">
-                  <Tooltip title="Add">
-                    <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
-                      <AddCircleIcon fontSize="small"/>
-                    </IconButton>
-                  </Tooltip>
-                </div>
+          </a>
+          <a href="/markdown/view/chat-presets.md" target="_blank" rel="noopener noreferrer">
+            <div className="flex-center">
+              <div>Presets</div>
+              <LinkIcon/>
+            </div>
+          </a>
+          <div>Credit: {credit}</div>
+        </div>
+        <ChatSettings
+          apiType={apiType}
+          setApiType={setApiType}
+          model={model}
+          setModel={setModel}
+          apiModels={apiModels}
+          temperature={temperature}
+          setTemperature={setTemperature}
+          stream={stream}
+          setStream={setStream}
+        />
+        <Paper elevation={1} className="m-2 p-4 rounded-lg">
+          <div>
+            <div className="flex-between">
+              <div className="inflex-fill"/>
+              <div className="inflex-end">
+                <Tooltip title="Add">
+                  <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
+                    <AddCircleIcon fontSize="small"/>
+                  </IconButton>
+                </Tooltip>
               </div>
             </div>
-          ))}
-        </div>
-        <div className="flex-center">
-          <div className="m-2">
-            <Button id="generate" variant="contained" color="primary" onClick={handleGenerate}>{generate}</Button>
+            {messages.map((message, index) => (
+              <div key={index}>
+                <MessageDiv
+                  roleInitial={message.role}
+                  contentInitial={message.content}
+                  filesInitial={message.files}
+                  onRoleChange={(role) => handleRoleChange(index, role)}
+                  onContentChange={(content) => handleContentChange(index, content)}
+                  onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
+                  useRoleSelect={true}
+                  onMessageDelete={() => handleMessageDelete(index)}
+                  shouldSanitize={sanitize}
+                />
+                <div className="flex-between">
+                  <div className="inflex-fill"/>
+                  <div className="inflex-end">
+                    <Tooltip title="Add">
+                      <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
+                        <AddCircleIcon fontSize="small"/>
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="m-2">
-            <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
+          <div className="flex-center">
+            <div className="m-2">
+              <Button id="generate" variant="contained" color="primary" onClick={handleGenerate}>{generate}</Button>
+            </div>
+            <div className="m-2">
+              <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
+            </div>
+          </div>
+        </Paper>
+        <div className="flex-around m-1">
+          <div>
+            <FormControlLabel control={
+              <Checkbox id="editable-check-box" checked={editable} onChange={e => setEditable(e.target.checked)}/>
+            } label="Editable"/>
+            <FormControlLabel control={
+              <Checkbox id="sanitize-check-box" checked={sanitize} onChange={e => setSanitize(e.target.checked)}/>
+            } label="Sanitize"/>
+          </div>
+          <ConversationAutocomplete
+            conversation={messages}
+            onConversationClick={onConversationOptionClick}
+          />
+          <div>
+            <Tooltip title="Export">
+              <IconButton aria-label="download" onClick={handleConversationDownload}>
+                <DownloadIcon/>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Import">
+              <IconButton aria-label="upload" onClick={handleConversationUpload}>
+                <UploadIcon/>
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
-      </Paper>
-      <div className="flex-around m-1">
-        <div>
-          <FormControlLabel control={
-            <Checkbox id="editable-check-box" checked={editable} onChange={e => setEditable(e.target.checked)}/>
-          } label="Editable"/>
-          <FormControlLabel control={
-            <Checkbox id="sanitize-check-box" checked={sanitize} onChange={e => setSanitize(e.target.checked)}/>
-          } label="Sanitize"/>
+        <div className="text-center m-1">
+          <span className="text-center m-1">windsnow1024@gmail.com</span>
+          <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank" rel="noopener noreferrer"><GitHubIcon/></a>
         </div>
-        <ConversationAutocomplete
-          conversation={messages}
-          onConversationClick={onConversationOptionClick}
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={6000}
+          onClose={() => setAlertOpen(false)}
+          message={alertMessage}
         />
-        <div>
-          <Tooltip title="Export">
-            <IconButton aria-label="download" onClick={handleConversationDownload}>
-              <DownloadIcon/>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Import">
-            <IconButton aria-label="upload" onClick={handleConversationUpload}>
-              <UploadIcon/>
-            </IconButton>
-          </Tooltip>
-        </div>
-      </div>
-      <div className="text-center m-1">
-        <span className="text-center m-1">windsnow1024@gmail.com</span>
-        <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank" rel="noopener noreferrer"><GitHubIcon/></a>
-      </div>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={6000}
-        onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
-    </ThemeProvider>
+      </ThemeProvider>
+    }
+    </>
   )
 }
 
