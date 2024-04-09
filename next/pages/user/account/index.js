@@ -7,10 +7,15 @@ import TextField from "@mui/material/TextField";
 import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
-import {useTheme} from "../../../app/hooks/useTheme";
+import {createMUITheme} from "../../../app/utils/Theme";
 
 function Index() {
-  const theme = useTheme();
+  const [systemTheme, setSystemTheme] = useState();
+  const [muiTheme, setMuiTheme] = useState();
+
+  useEffect(() => {
+    setMuiTheme(createMUITheme(systemTheme));
+  }, [systemTheme]);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -41,43 +46,52 @@ function Index() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline enableColorScheme />
-      <HeaderAppBar title="User Center" useAuthDiv={false}/>
-      <div className="flex-center">
-        <div className="text-center">
-          <div className="m-2">
-            <TextField
-              label="Username"
-              variant="outlined"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="mt-2"
-            />
+    <>
+      {muiTheme &&
+        <ThemeProvider theme={muiTheme}>
+          <CssBaseline enableColorScheme />
+          <HeaderAppBar
+            title="User Center"
+            useAuthDiv={false}
+            systemTheme={systemTheme}
+            setSystemTheme={setSystemTheme}
+          />
+          <div className="flex-center">
+            <div className="text-center">
+              <div className="m-2">
+                <TextField
+                  label="Username"
+                  variant="outlined"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="mt-2"
+                />
+              </div>
+              <div className="m-2">
+                <TextField
+                  label="Password"
+                  variant="outlined"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mt-2"
+                />
+              </div>
+              <div className="m-2">
+                <Button variant="contained" onClick={handleUpdate}>Update</Button>
+              </div>
+            </div>
           </div>
-          <div className="m-2">
-            <TextField
-              label="Password"
-              variant="outlined"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-2"
-            />
-          </div>
-          <div className="m-2">
-            <Button variant="contained" onClick={handleUpdate}>Update</Button>
-          </div>
-        </div>
-      </div>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={6000}
-        onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
-    </ThemeProvider>
+          <Snackbar
+            open={alertOpen}
+            autoHideDuration={6000}
+            onClose={() => setAlertOpen(false)}
+            message={alertMessage}
+          />
+        </ThemeProvider>
+      }
+    </>
   );
 }
 
