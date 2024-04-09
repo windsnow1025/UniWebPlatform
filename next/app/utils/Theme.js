@@ -1,24 +1,18 @@
 import {createTheme} from "@mui/material/styles";
 
+const convertTheme = (systemTheme) => {
+  if (systemTheme !== "system") {
+    return systemTheme;
+  }
+  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  return prefersDarkScheme.matches ? "dark" : "light";
+}
+
 export function applyTheme(systemTheme) {
-  localStorage.setItem("theme", systemTheme);
   const theme = convertTheme(systemTheme);
   applyMainTheme(theme);
   applyMarkdownTheme(theme);
   applyHighlightTheme(theme);
-  applyMUITheme(theme);
-}
-
-function convertTheme(systemTheme) {
-  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-  if (systemTheme !== "system") {
-    return systemTheme;
-  }
-  if (prefersDarkScheme.matches) {
-    return "dark";
-  } else if (!prefersDarkScheme.matches) {
-    return "light";
-  }
 }
 
 function applyMainTheme(theme) {
@@ -93,20 +87,11 @@ function applyHighlightTheme(theme) {
   }
 }
 
-function applyMUITheme(theme) {
-  const muiTheme = createMUITheme(theme);
-
-  // Dispatch custom event with the new theme
-  const themeChangeEvent = new CustomEvent('themeChanged', {detail: muiTheme});
-  window.dispatchEvent(themeChangeEvent);
-}
-
-function createMUITheme(theme) {
+export function createMUITheme(systemTheme) {
+  const theme = convertTheme(systemTheme);
   return createTheme({
     palette: {
       mode: theme,
     }
   });
 }
-
-export const lightMUITheme = createMUITheme("light");
