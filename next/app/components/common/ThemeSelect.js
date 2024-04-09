@@ -4,7 +4,9 @@ import {applyTheme} from "../../utils/Theme";
 
 const ThemeSelect = ({systemTheme, setSystemTheme}) => {
   useEffect(() => {
-    setSystemTheme(localStorage.getItem('theme') || 'system');
+    const currentSystemTheme = localStorage.getItem('theme') || 'system';
+    applyTheme(currentSystemTheme);
+    setSystemTheme(currentSystemTheme);
   }, []);
 
   const onSelectChange = (event) => {
