@@ -31,10 +31,8 @@ class StreamGPTProcessor(GPTProcessor):
                 return content_delta
 
             def generate_chunk(completion: Stream[ChatCompletionChunk]) -> Generator[str, None, None]:
-                content = ""
                 for completion_delta in completion:
                     content_delta = process_delta(completion_delta)
-                    content += content_delta
                     yield content_delta
 
             return self.response_handler(lambda: generate_chunk(completion))
