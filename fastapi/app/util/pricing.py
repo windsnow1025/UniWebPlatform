@@ -31,12 +31,6 @@ model_pricing_data = [
     },
     {
         "api_type": "gemini",
-        "model": "gemini-1.0-pro-latest",
-        "input": 0.5,
-        "output": 1.5
-    },
-    {
-        "api_type": "gemini",
         "model": "gemini-1.5-pro-latest",
         "input": 7,
         "output": 21
