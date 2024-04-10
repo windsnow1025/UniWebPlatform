@@ -6,9 +6,10 @@ from pydantic import BaseModel
 import app.dao.user_dao as user_dao
 import app.logic.auth as auth
 import app.util.pricing as pricing
-from app.logic.chat.chat_processor_factory import create_chat_processor
-from app.logic.chat.request_handler import handle_request
-from app.logic.chat.response_handler import non_stream_handler, stream_handler
+from app.logic.chat.chat_service import handle_chat_interaction
+from app.logic.chat.processor.gpt.gpt_processor_factory import create_chat_processor
+from app.logic.chat.handler.request_handler import handle_request
+from app.logic.chat.handler.response_handler import non_stream_handler, stream_handler
 from app.model.message import Message
 
 chat_router = APIRouter()
@@ -30,41 +31,14 @@ async def generate(chat_request: ChatRequest, request: Request):
     if user_dao.select_credit(username) <= 0:
         raise HTTPException(status_code=402)
 
-    logging.info(f"username: {username}, model: {chat_request.model}")
-
-    def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-        cost = pricing.calculate_cost(
-            api_type=chat_request.api_type,
-            model=chat_request.model,
-            prompt_tokens=prompt_tokens,
-            completion_tokens=completion_tokens
-        )
-        user_dao.reduce_credit(username, cost)
-        return cost
-
-    request_cost = handle_request(
-        chat_request.messages,
-        lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
-    )
-
-    processor = create_chat_processor(
+    return handle_chat_interaction(
+        username=username,
         messages=chat_request.messages,
         model=chat_request.model,
         api_type=chat_request.api_type,
         temperature=chat_request.temperature,
         stream=chat_request.stream,
-        stream_response_handler=lambda generator_function: stream_handler(
-            generator_function,
-            lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-        ),
-        non_stream_response_handler=lambda content: non_stream_handler(
-            content,
-            lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-        )
     )
-    response = processor.process_request()
-
-    return response
 
 
 @chat_router.get("/")
