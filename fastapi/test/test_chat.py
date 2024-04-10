@@ -1,12 +1,12 @@
 import unittest
 
-from app.config import init_environment
+from app.config import init_env
 from app.logic.chat.chat_service import handle_chat_interaction
 
 
 class TestChat(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
-        init_environment()
+        init_env()
         self.username = "test"
         self.messages = [
             {
