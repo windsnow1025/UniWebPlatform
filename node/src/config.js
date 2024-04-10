@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 
-export default function setEnvironment() {
+export default function initEnv() {
   if (
     process.env.JWT_SECRET &&
     process.env.MYSQL_ROOT_PASSWORD &&

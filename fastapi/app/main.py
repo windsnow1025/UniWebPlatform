@@ -4,11 +4,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.chat_router import chat_router
-from app.config import init_environment
+from app.config import init_env
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-init_environment()
+init_env()
 
 app = FastAPI()
 
