@@ -3,6 +3,7 @@ import unittest
 from app.api.chat_router import stream_handler, non_stream_handler
 from app.config import init_environment
 from app.dao import user_dao
+from app.logic.chat.chat_service import handle_chat_interaction
 from app.logic.chat.processor.gpt.gpt_processor_factory import create_chat_processor
 from app.util import pricing
 
@@ -24,36 +25,14 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
         api_type = "open_ai"
         stream = True
 
-        def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-            cost = pricing.calculate_cost(
-                api_type=api_type,
-                model=model,
-                prompt_tokens=prompt_tokens,
-                completion_tokens=completion_tokens
-            )
-            user_dao.reduce_credit(
-                username=self.username,
-                cost=cost
-            )
-            return cost
-
-        processor = create_chat_processor(
+        response = handle_chat_interaction(
+            username=self.username,
             messages=self.messages,
             model=model,
             api_type=api_type,
             temperature=self.temperature,
             stream=stream,
-            non_stream_response_handler=lambda content: non_stream_handler(
-                content,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            ),
-            stream_response_handler=lambda generator_function: stream_handler(
-                generator_function,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            )
         )
-        response = processor.process_request()
-
         output = ""
         async for content in response.body_iterator:
             output += content
@@ -82,36 +61,14 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
         api_type = "open_ai"
         stream = True
 
-        def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-            cost = pricing.calculate_cost(
-                api_type=api_type,
-                model=model,
-                prompt_tokens=prompt_tokens,
-                completion_tokens=completion_tokens
-            )
-            user_dao.reduce_credit(
-                username=self.username,
-                cost=cost
-            )
-            return cost
-
-        processor = create_chat_processor(
-            messages=messages,
+        response = handle_chat_interaction(
+            username=self.username,
+            messages=self.messages,
             model=model,
             api_type=api_type,
             temperature=self.temperature,
             stream=stream,
-            non_stream_response_handler=lambda content: non_stream_handler(
-                content,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            ),
-            stream_response_handler=lambda generator_function: stream_handler(
-                generator_function,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            )
         )
-        response = processor.process_request()
-
         output = ""
         async for content in response.body_iterator:
             output += content
@@ -140,36 +97,14 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
         api_type = "open_ai"
         stream = False
 
-        def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-            cost = pricing.calculate_cost(
-                api_type=api_type,
-                model=model,
-                prompt_tokens=prompt_tokens,
-                completion_tokens=completion_tokens
-            )
-            user_dao.reduce_credit(
-                username=self.username,
-                cost=cost
-            )
-            return cost
-
-        processor = create_chat_processor(
-            messages=messages,
+        response = handle_chat_interaction(
+            username=self.username,
+            messages=self.messages,
             model=model,
             api_type=api_type,
             temperature=self.temperature,
             stream=stream,
-            non_stream_response_handler=lambda content: non_stream_handler(
-                content,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            ),
-            stream_response_handler=lambda generator_function: stream_handler(
-                generator_function,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            )
         )
-        response = processor.process_request()
-
         output = response
 
         print("Output: ", output)
@@ -179,36 +114,14 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
         api_type = "open_ai"
         stream = False
 
-        def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-            cost = pricing.calculate_cost(
-                api_type=api_type,
-                model=model,
-                prompt_tokens=prompt_tokens,
-                completion_tokens=completion_tokens
-            )
-            user_dao.reduce_credit(
-                username=self.username,
-                cost=cost
-            )
-            return cost
-
-        processor = create_chat_processor(
+        response = handle_chat_interaction(
+            username=self.username,
             messages=self.messages,
             model=model,
             api_type=api_type,
             temperature=self.temperature,
             stream=stream,
-            non_stream_response_handler=lambda content: non_stream_handler(
-                content,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            ),
-            stream_response_handler=lambda generator_function: stream_handler(
-                generator_function,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            )
         )
-        response = processor.process_request()
-
         output = response
 
         self.assertEqual(output, "This is a test.")
@@ -218,36 +131,14 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
         api_type = "azure"
         stream = True
 
-        def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-            cost = pricing.calculate_cost(
-                api_type=api_type,
-                model=model,
-                prompt_tokens=prompt_tokens,
-                completion_tokens=completion_tokens
-            )
-            user_dao.reduce_credit(
-                username=self.username,
-                cost=cost
-            )
-            return cost
-
-        processor = create_chat_processor(
+        response = handle_chat_interaction(
+            username=self.username,
             messages=self.messages,
             model=model,
             api_type=api_type,
             temperature=self.temperature,
             stream=stream,
-            non_stream_response_handler=lambda content: non_stream_handler(
-                content,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            ),
-            stream_response_handler=lambda generator_function: stream_handler(
-                generator_function,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            )
         )
-        response = processor.process_request()
-
         output = ""
         async for content in response.body_iterator:
             output += content
@@ -259,36 +150,14 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
         api_type = "azure"
         stream = False
 
-        def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-            cost = pricing.calculate_cost(
-                api_type=api_type,
-                model=model,
-                prompt_tokens=prompt_tokens,
-                completion_tokens=completion_tokens
-            )
-            user_dao.reduce_credit(
-                username=self.username,
-                cost=cost
-            )
-            return cost
-
-        processor = create_chat_processor(
+        response = handle_chat_interaction(
+            username=self.username,
             messages=self.messages,
             model=model,
             api_type=api_type,
             temperature=self.temperature,
             stream=stream,
-            non_stream_response_handler=lambda content: non_stream_handler(
-                content,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            ),
-            stream_response_handler=lambda generator_function: stream_handler(
-                generator_function,
-                lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-            )
         )
-        response = processor.process_request()
-
         output = response
 
         self.assertEqual(output, "This is a test.")
