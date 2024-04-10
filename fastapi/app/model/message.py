@@ -1,6 +1,10 @@
 from typing import TypedDict
 
 
+class ImageURL(TypedDict):
+    url: str
+
+
 class TextContent(TypedDict):
     type: str
     text: str
@@ -8,8 +12,8 @@ class TextContent(TypedDict):
 
 class ImageContent(TypedDict):
     type: str
-    image_url: str
-
+    image_url: ImageURL
+    
 
 class Message(TypedDict):
     role: str
