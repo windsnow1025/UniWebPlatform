@@ -50,5 +50,7 @@ messages = [
     }
 ]
 
-response = model.generate_content(messages)
-print(response.text)
+response = model.generate_content(messages, stream=True)
+for chunk in response:
+  print(chunk.text)
+  print("_"*80)
