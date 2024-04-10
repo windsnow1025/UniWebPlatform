@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import setEnvironment from './config.js';
+import initEnv from './config.js';
 import rootAPI from './api/RootRouter.js';
 import fileAPI from './api/FileRouter.js';
 import bookmarkAPI from './api/BookmarkRouter.js';
@@ -16,7 +16,7 @@ import DatabaseHelper from './db/DatabaseHelper.js';
 const app = express();
 
 // Environment
-setEnvironment();
+initEnv();
 
 // CORS
 app.use(cors());

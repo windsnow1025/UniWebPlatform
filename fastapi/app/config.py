@@ -3,7 +3,7 @@ import logging
 from dotenv import load_dotenv
 
 
-def init_environment():
+def init_env():
 
     if os.getenv("OPENAI_API_KEY"):
         os.environ["MYSQL_HOST"] = "mysql"
