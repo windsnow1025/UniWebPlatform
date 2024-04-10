@@ -75,4 +75,17 @@ def convert_message_to_gemini(message: Message) -> GeminiMessage:
         role = "model"
     else:
         role = message['role']
-    return GeminiMessage(role=role, parts=message['content'])
+
+    parts = []
+    content = message['content']
+
+    if isinstance(content, str):
+        parts.append(content)
+    elif isinstance(content, list):
+        for item in content:
+            if item['type'] == 'text':
+                parts.append(item['text'])
+            elif item['type'] == 'image_url':
+                parts.append(item['image_url']['url'])
+
+    return GeminiMessage(role=role, parts=parts)
