@@ -9,10 +9,7 @@ genai.configure(api_key=os.environ["GOOGLE_AI_STUDIO_API_KEY"])
 
 
 generation_config = {
-    "temperature": 0,
-    "top_p": 1,
-    "top_k": 1,
-    "max_output_tokens": 2048,
+    "temperature": 0
 }
 
 safety_settings = [

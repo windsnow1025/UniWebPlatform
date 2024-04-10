@@ -18,3 +18,8 @@ class ImageContent(TypedDict):
 class Message(TypedDict):
     role: str
     content: str | list[TextContent | ImageContent]
+
+
+class GeminiMessage(TypedDict):
+    role: str
+    parts: list[str]

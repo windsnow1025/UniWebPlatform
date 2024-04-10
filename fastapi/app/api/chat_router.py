@@ -7,7 +7,7 @@ import app.dao.user_dao as user_dao
 import app.logic.auth as auth
 import app.util.pricing as pricing
 from app.logic.chat.chat_service import handle_chat_interaction
-from app.logic.chat.processor.gpt.gpt_processor_factory import create_chat_processor
+from app.logic.chat.processor.gpt.gpt_processor_factory import create_gpt_processor
 from app.logic.chat.handler.request_handler import handle_request
 from app.logic.chat.handler.response_handler import non_stream_handler, stream_handler
 from app.model.message import Message

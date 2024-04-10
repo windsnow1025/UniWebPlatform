@@ -1,23 +1,22 @@
 import os
-from typing import Callable, Generator
-from fastapi.responses import StreamingResponse
 
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
+from app.logic.chat.handler.response_handler import StreamResponseHandler, NonStreamResponseHandler
 from app.logic.chat.processor.gpt.non_stream_gpt_processor import NonStreamGPTProcessor
 from app.logic.chat.processor.gpt.stream_gpt_processor import StreamGPTProcessor
 from app.model.message import Message
 
 
-def create_chat_processor(
+def create_gpt_processor(
         messages: list[Message],
         model: str,
         api_type: str,
         temperature: float,
         stream: bool,
-        stream_response_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
-        non_stream_response_handler: Callable[[str], str] = None
+        stream_response_handler: StreamResponseHandler | None = None,
+        non_stream_response_handler: NonStreamResponseHandler | None = None
 ):
 
     openai = None
