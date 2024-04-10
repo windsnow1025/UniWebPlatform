@@ -13,7 +13,7 @@ def non_stream_handler(
         reduce_credit: ReduceCredit
 ) -> (str, float):
     completion_tokens = len(content)
-    cost = reduce_credit(completion_tokens)
+    reduce_credit(completion_tokens)
     logging.info(f"content: {content}")
     return content
 
@@ -29,7 +29,8 @@ def stream_handler(
             content += chunk
             yield chunk
         completion_tokens = len(content)
-        cost = reduce_credit(completion_tokens)
+        reduce_credit(completion_tokens)
+        logging.info(f"content: {content}")
 
     response = StreamingResponse(wrapper_generator(), media_type='text/plain')
     return response
