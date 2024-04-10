@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict, Literal
 
 
 class ImageURL(TypedDict):
@@ -6,12 +6,12 @@ class ImageURL(TypedDict):
 
 
 class TextContent(TypedDict):
-    type: str
+    type: Literal['text']
     text: str
 
 
 class ImageContent(TypedDict):
-    type: str
+    type: Literal['image_url']
     image_url: ImageURL
 
 
