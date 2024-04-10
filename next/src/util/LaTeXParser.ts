@@ -15,6 +15,6 @@ const katex_config = {
 // e^{ix} = \cos(x) + i\sin(x)
 // \]</p>
 // </div>
-export function parseLaTeX(content_div) {
+export function parseLaTeX(content_div: HTMLElement) {
   renderMathInElement(content_div, katex_config)
 }
