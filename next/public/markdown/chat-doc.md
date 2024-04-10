@@ -31,12 +31,11 @@ avoid unintended changes. For issues, try disabling extensions and refreshing (`
 |--------------------|---------------------------------------------|----------------------------------------------------|-------------|
 | Message Editing    | Add / Edit / Delete at anywhere to any role | Add / Edit at conversation end to user             | WindsnowGPT |
 | Model Selection    | All OpenAI and Azure Models available       | Default OpenAI GPT-3.5 & GPT-4 (Plus) available    | WindsnowGPT |
-| Content Parsing    | Markdown and LaTeX in all messages rendered | Markdown and LaTeX in assistant rendered           | WindsnowGPT |
+| Content Parsing    | Markdown and LaTeX in all messages rendered | Only Markdown and LaTeX in response rendered       | WindsnowGPT |
 | Content Censorship | Basic API restrictions                      | Basic API restrictions and additional restrictions | WindsnowGPT |
 | Customization      | Adjustable Temperature and Stream mode      | Fixed settings                                     | WindsnowGPT |
 | Image Adding       | Supported                                   | Supported                                          | Equal       |
 | Image Generation   | Not available                               | Only ChatGPT Plus                                  | ChatGPT     |
-| Plugins            | Not available                               | Only ChatGPT Plus                                  | ChatGPT     |
 | GPTs               | Not available                               | Only ChatGPT Plus                                  | ChatGPT     |
 
 ## Known Issues
