@@ -1,11 +1,19 @@
 import logging
-from typing import Callable, TypedDict
+from typing import Callable, Generator
 
 from fastapi.responses import StreamingResponse
 
-from app.model.generator import ChunkGenerator
-
 ReduceCredit = Callable[[int], float]
+
+ChunkGenerator = Generator[str, None, None]
+NonStreamResponseHandler = Callable[
+    [str],
+    str
+]
+StreamResponseHandler = Callable[
+    [Callable[[], ChunkGenerator]],
+    StreamingResponse
+]
 
 
 def non_stream_handler(

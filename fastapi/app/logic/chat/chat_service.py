@@ -3,7 +3,7 @@ import logging
 from app.dao import user_dao
 from app.logic.chat.handler.request_handler import handle_request
 from app.logic.chat.handler.response_handler import stream_handler, non_stream_handler
-from app.logic.chat.processor.gpt.gpt_processor_factory import create_chat_processor
+from app.logic.chat.processor.gpt.gpt_processor_factory import create_gpt_processor
 from app.model.message import Message
 from app.util import pricing
 
@@ -33,7 +33,7 @@ def handle_chat_interaction(
         lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
     )
 
-    processor = create_chat_processor(
+    processor = create_gpt_processor(
         messages=messages,
         model=model,
         api_type=api_type,
