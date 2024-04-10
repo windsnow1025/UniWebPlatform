@@ -1,6 +1,11 @@
+import os
+
 import google.generativeai as genai
 
-genai.configure(api_key="YOUR_API_KEY")
+from app.config import init_env
+
+init_env()
+genai.configure(api_key=os.environ["GOOGLE_AI_STUDIO_API_KEY"])
 
 # Set up the model
 generation_config = {
@@ -29,7 +34,7 @@ safety_settings = [
   },
 ]
 
-model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+model = genai.GenerativeModel(model_name="models/gemini-1.5-pro-latest",
                               generation_config=generation_config,
                               safety_settings=safety_settings)
 
@@ -44,5 +49,5 @@ convo = model.start_chat(history=[
   },
 ])
 
-convo.send_message("What's your model?")
+convo.send_message("How are you?")
 print(convo.last.text)
