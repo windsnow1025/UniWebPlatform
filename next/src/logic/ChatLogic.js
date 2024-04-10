@@ -114,7 +114,9 @@ export class ChatLogic {
     urls.forEach(url => {
       contentArray.push({
         "type": "image_url",
-        "image_url": url
+        "image_url": {
+          "url": url
+        }
       });
     });
 
