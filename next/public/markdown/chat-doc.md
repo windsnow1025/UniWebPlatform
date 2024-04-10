@@ -2,41 +2,43 @@
 
 ## Introduction
 
-AI Chat, utilizing OpenAI completion models, bills costs to the API key owner, windsnow1024. New users start with 0
-credits and should contact the author for account verification and credit increase. Verified users receive 5 free
-credits. Monthly, users gain 1 credit (up to 5). Credit usage depends on conversation length and is calculated based on
-OpenAI's pricing. Without credits, users must contact the author for more.
+AI Chat, utilizing OpenAI GPT & Google Gemini chat models, bills costs to the API key owner.
+New users start with 0 credits.
+Users verified by contacting the author will receive 5 free initial credits.
+Credit usage depends on input length & output length & model pricing.
+Contact the author to ask for more credits.
 
 For further details:
 
 - [OpenAI Pricing](https://openai.com/pricing)
+- [Gemini Pricing](https://ai.google.dev/pricing)
 - [OpenAI Models](https://platform.openai.com/docs/models)
-- [OpenAI API Reference](https://platform.openai.com/docs/api-reference/)
-- [OpenAI Guide](https://platform.openai.com/docs/guides/)
+- [Gemini Models](https://ai.google.dev/models/gemini)
 
 Messages are processed using Marked.js and Katex. Expect more features and GUI enhancements soon.
 
 ## Instructions
 
-Default user role: `user`. Use `system` for global rules or modify `assistant` replies. Disable Microsoft Editor to
-avoid unintended changes. For issues, try disabling extensions and refreshing (`Ctrl + F5`) or contact the author.
+Default user role: `user`. Use `system` for global rules or modify `assistant` replies.
+Disable Microsoft Editor to avoid unintended changes.
+For issues, try disabling extensions and refreshing (`Ctrl + F5`) or contact the author.
 
 - **Temperature (0-2)**: Lower values yield predictable outputs; higher values produce varied results. Optimal range:
   0-1.
 - **Stream Mode**: Receive reply segments in real-time.
 
-## Feature Comparison: AI Chat vs ChatGPT
+## Feature Comparison: AI Chat vs ChatGPT vs Gemini
 
-| Feature            | AI Chat                                     | ChatGPT                                            | Advantage   |
-|--------------------|---------------------------------------------|----------------------------------------------------|-------------|
-| Message Editing    | Add / Edit / Delete at anywhere to any role | Add / Edit at conversation end to user             | WindsnowGPT |
-| Model Selection    | All OpenAI and Azure Models available       | Default OpenAI GPT-3.5 & GPT-4 (Plus) available    | WindsnowGPT |
-| Content Parsing    | Markdown and LaTeX in all messages rendered | Only Markdown and LaTeX in response rendered       | WindsnowGPT |
-| Content Censorship | Basic API restrictions                      | Basic API restrictions and additional restrictions | WindsnowGPT |
-| Customization      | Adjustable Temperature and Stream mode      | Fixed settings                                     | WindsnowGPT |
-| Image Adding       | Supported                                   | Supported                                          | Equal       |
-| Image Generation   | Not available                               | Only ChatGPT Plus                                  | ChatGPT     |
-| GPTs               | Not available                               | Only ChatGPT Plus                                  | ChatGPT     |
+| Feature                | AI Chat                                     | ChatGPT App / Playground                       | Gemini App / Google AI Studio                                | Advantage |
+|------------------------|---------------------------------------------|------------------------------------------------|--------------------------------------------------------------|-----------|
+| Message Editing        | Add / Edit / Delete at anywhere to any role | Add / Edit at conversation end to user         | Add / Edit at conversation end to user                       | AI Chat   |
+| Model Selection        | All OpenAI & Azure & Gemini models          | GPT-3.5 & GPT-4 (Plus)                         | Gemini 1.0 Pro & Gemini 1.5 Pro (Gemini Advanced)            | AI Chat   |
+| Content Parsing        | Markdown and LaTeX in all messages rendered | Markdown & LaTeX in response rendered          | Markdown in response rendered                                | AI Chat   |
+| Content Censorship     | Basic API restrictions                      | Basic API and additional restrictions          | Basic API and additional restrictions                        | AI Chat   |
+| Settings Customization | Temperature and Stream mode adjustable      | Fixed settings (App) / Adjustable (Playground) | Fixed settings (App) / Adjustable (Studio)                   | AI Chat   |
+| File Processing        | Image                                       | Image & File (App) / None (Playground)         | Image (App) / Image & Video & Audio & File & Folder (Studio) | Gemini    |
+| Image Generation       | Not available                               | Only ChatGPT Plus                              | Not available                                                | ChatGPT   |
+| Pricing                | Pay as you go                               | $20 ($19.99) / month                           | $19.99 / month                                               | AI Chat   |
 
 ## Known Issues
 
