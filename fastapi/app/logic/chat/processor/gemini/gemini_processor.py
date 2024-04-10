@@ -4,7 +4,7 @@ from app.logic.chat.handler.response_handler import NonStreamResponseHandler, St
 from app.model.message import GeminiMessage
 
 
-class GPTProcessor:
+class GeminiProcessor:
     def __init__(
             self,
             model: GenerativeModel,

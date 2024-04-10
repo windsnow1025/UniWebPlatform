@@ -1,4 +1,5 @@
 import logging
+import traceback
 from typing import Generator
 
 from openai import Stream
@@ -40,4 +41,5 @@ class StreamGPTProcessor(GPTProcessor):
 
         except Exception as e:
             logging.error(f"Exception: {e}")
+            traceback.print_exc()
             return str(e)
