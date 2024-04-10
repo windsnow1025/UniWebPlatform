@@ -80,7 +80,7 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
             }
         ]
         api_type = "open_ai"
-        stream = False
+        stream = True
 
         def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
             cost = pricing.calculate_cost(
