@@ -5,7 +5,6 @@ from fastapi.responses import StreamingResponse
 from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
-from app.logic.chat.gpt.completion_factory import create_completion
 from app.model.generator import ChunkGenerator
 from app.model.message import Message
 
@@ -45,8 +44,7 @@ class NonStreamChatProcessor(ChatProcessor):
     def process_request(self):
         try:
             logging.info(f"messages: {self.messages}")
-            completion = create_completion(
-                completion_creator=self.openai.chat.completions.create,
+            completion = self.openai.chat.completions.create(
                 messages=self.messages,
                 model=self.model,
                 temperature=self.temperature,
@@ -64,8 +62,7 @@ class StreamChatProcessor(ChatProcessor):
     def process_request(self):
         try:
             logging.info(f"messages: {self.messages}")
-            completion = create_completion(
-                completion_creator=self.openai.chat.completions.create,
+            completion = self.openai.chat.completions.create(
                 messages=self.messages,
                 model=self.model,
                 temperature=self.temperature,
