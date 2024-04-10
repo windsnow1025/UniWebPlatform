@@ -28,6 +28,18 @@ model_pricing_data = [
         "model": "gpt-4",
         "input": 10,
         "output": 30
+    },
+    {
+        "api_type": "gemini",
+        "model": "gemini-1.0-pro-latest",
+        "input": 0.5,
+        "output": 1.5
+    },
+    {
+        "api_type": "gemini",
+        "model": "gemini-1.5-pro-latest",
+        "input": 7,
+        "output": 21
     }
 ]
 

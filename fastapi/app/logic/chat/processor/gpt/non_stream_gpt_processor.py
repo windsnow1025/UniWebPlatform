@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 from app.logic.chat.processor.gpt.gpt_processor import GPTProcessor
 
@@ -18,4 +19,5 @@ class NonStreamGPTProcessor(GPTProcessor):
             return self.response_handler(content)
         except Exception as e:
             logging.error(f"Exception: {e}")
+            traceback.print_exc()
             return str(e)

@@ -16,6 +16,7 @@ function ChatSettings({ apiType, setApiType, model, setModel, apiModels, tempera
           >
             <MenuItem value="open_ai">Open AI</MenuItem>
             <MenuItem value="azure">Azure</MenuItem>
+            <MenuItem value="gemini">Gemini</MenuItem>
           </Select>
         </FormControl>
       </div>
