@@ -13,7 +13,7 @@ class TextContent(TypedDict):
 class ImageContent(TypedDict):
     type: str
     image_url: ImageURL
-    
+
 
 class Message(TypedDict):
     role: str
