@@ -42,7 +42,7 @@ def create_gemini_processor(
         },
     ]
 
-    model = genai.GenerativeModel(
+    generative_model = genai.GenerativeModel(
         model_name=f"models/{model}",
         generation_config=generation_config,
         safety_settings=safety_settings
@@ -52,14 +52,14 @@ def create_gemini_processor(
 
     if stream:
         return StreamGeminiProcessor(
-            model=model,
+            model=generative_model,
             messages=gemini_messages,
             temperature=temperature,
             response_handler=stream_response_handler
         )
     else:
         return NonStreamGeminiProcessor(
-            model=model,
+            model=generative_model,
             messages=gemini_messages,
             temperature=temperature,
             response_handler=non_stream_response_handler
