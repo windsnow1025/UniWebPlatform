@@ -5,7 +5,8 @@ from fastapi.responses import StreamingResponse
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
-from app.logic.chat.gpt.chat_processor import StreamChatProcessor, NonStreamChatProcessor
+from app.logic.chat.processor.gpt.non_stream_gpt_processor import NonStreamGPTProcessor
+from app.logic.chat.processor.gpt.stream_gpt_processor import StreamGPTProcessor
 from app.model.message import Message
 
 
@@ -32,7 +33,7 @@ def create_chat_processor(
         )
 
     if stream:
-        return StreamChatProcessor(
+        return StreamGPTProcessor(
             model=model,
             messages=messages,
             temperature=temperature,
@@ -41,7 +42,7 @@ def create_chat_processor(
             response_handler=stream_response_handler
         )
     else:
-        return NonStreamChatProcessor(
+        return NonStreamGPTProcessor(
             model=model,
             messages=messages,
             temperature=temperature,
