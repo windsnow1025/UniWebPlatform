@@ -59,7 +59,7 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
 
         response = handle_chat_interaction(
             username=self.username,
-            messages=self.messages,
+            messages=messages,
             model=model,
             api_type=api_type,
             temperature=self.temperature,
@@ -95,7 +95,7 @@ class TestChat(unittest.IsolatedAsyncioTestCase):
 
         response = handle_chat_interaction(
             username=self.username,
-            messages=self.messages,
+            messages=messages,
             model=model,
             api_type=api_type,
             temperature=self.temperature,
