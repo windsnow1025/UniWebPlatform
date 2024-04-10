@@ -1,7 +1,10 @@
 import os
+from io import BytesIO
 from typing import Callable, Generator
 
+import PIL.Image
 import google.generativeai as genai
+import requests
 from fastapi.responses import StreamingResponse
 
 from app.logic.chat.processor.gemini.non_stream_gemini_processor import NonStreamGeminiProcessor
@@ -71,10 +74,10 @@ def convert_messages_to_gemini(messages: list[Message]) -> list[GeminiMessage]:
 
 
 def convert_message_to_gemini(message: Message) -> GeminiMessage:
-    if message['role'] == "assistant" or message['role'] == "system":
+    if message['role'] == "user" or message['role'] == "system":
+        role = "user"
+    elif message['role'] == "assistant":
         role = "model"
-    else:
-        role = message['role']
 
     parts = []
     content = message['content']
@@ -86,6 +89,15 @@ def convert_message_to_gemini(message: Message) -> GeminiMessage:
             if item['type'] == 'text':
                 parts.append(item['text'])
             elif item['type'] == 'image_url':
-                parts.append(item['image_url']['url'])
+                img_url = item['image_url']['url']
+                img = PIL.Image.open(get_img_data(img_url))
+                parts.append(img)
 
     return GeminiMessage(role=role, parts=parts)
+
+
+def get_img_data(img_url: str) -> BytesIO:
+    response = requests.get(img_url)
+    response.raise_for_status()
+    return BytesIO(response.content)
+
