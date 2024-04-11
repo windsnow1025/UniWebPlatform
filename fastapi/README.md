@@ -1,16 +1,9 @@
 # FastAPI
 
-## Config
+## Setup
 
-Create `./.env`:
+Copy `./env.example` and rename it to `.env`, then fill in the environment variables.
 
-```env
-OPENAI_API_KEY=OPENAI_API_KEY
-AZURE_API_KEY=AZURE_API_KEY
-AZURE_API_BASE=AZURE_API_BASE
-JWT_SECRET=JWT_SECRET
-MYSQL_ROOT_PASSWORD=MYSQL_ROOT_PASSWORD
-MYSQL_USER=MYSQL_USER
-MYSQL_PASSWORD=MYSQL_PASSWORD
-MYSQL_DATABASE=MYSQL_DATABASE
-```
+## Run
+
+Pycharm Professional: Add new configuration -> FastAPI
