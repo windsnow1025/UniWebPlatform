@@ -70,10 +70,10 @@ function ConversationAutocomplete({conversation, onConversationClick}) {
       <CRUDAutocomplete
         options={options}
         label={"Select a conversation"}
-        handleOptionClick={handleOptionClick}
-        handleDelete={handleDelete}
-        handleAdd={handleAdd}
-        handleUpdate={handleUpdate}
+        onOptionClick={handleOptionClick}
+        onDelete={handleDelete}
+        onAdd={handleAdd}
+        onUpdate={handleUpdate}
       />
       <Snackbar
         open={alertOpen}

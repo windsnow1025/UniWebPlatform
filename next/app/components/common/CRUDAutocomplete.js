@@ -8,7 +8,7 @@ import ConfirmDialog from "./ConfirmDialog";
 
 const filter = createFilterOptions();
 
-function CRUDAutocomplete({ options, label, handleOptionClick, handleDelete, handleAdd, handleUpdate }) {
+function CRUDAutocomplete({ options, label, onOptionClick, onDelete, onAdd, onUpdate }) {
 
   const [value, setValue] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -30,12 +30,12 @@ function CRUDAutocomplete({ options, label, handleOptionClick, handleDelete, han
 
   const handleDeleteClick = (event, index) => {
     event.stopPropagation();
-    openConfirmDialog(() => handleDelete(index), 'Delete', 'Are you sure you want to delete this item?');
+    openConfirmDialog(() => onDelete(index), 'Delete', 'Are you sure you want to delete this item?');
   };
 
   const handleUpdateClick = (event, index, title) => {
     event.stopPropagation();
-    openConfirmDialog(() => handleUpdate(index, title), 'Update', 'Are you sure you want to update this item?');
+    openConfirmDialog(() => onUpdate(index, title), 'Update', 'Are you sure you want to update this item?');
   };
 
   return (
@@ -91,9 +91,9 @@ function CRUDAutocomplete({ options, label, handleOptionClick, handleDelete, han
         renderOption={(props, option, state) => (
           <li {...props} onClick={() => {
             if (option.isNew) {
-              openConfirmDialog(() => handleAdd(option.inputValue), 'Add', 'Are you sure you want to add this item?');
+              openConfirmDialog(() => onAdd(option.inputValue), 'Add', 'Are you sure you want to add this item?');
             } else {
-              openConfirmDialog(() => handleOptionClick(state.index), 'Select', 'Are you sure you want to select this item?');
+              openConfirmDialog(() => onOptionClick(state.index), 'Select', 'Are you sure you want to select this item?');
             }
           }}>
             {option.title}
@@ -118,7 +118,7 @@ function CRUDAutocomplete({ options, label, handleOptionClick, handleDelete, han
       />
       <ConfirmDialog
         open={dialogOpen}
-        handleClose={handleConfirmClose}
+        onClose={handleConfirmClose}
         title={dialogContent.title}
         content={dialogContent.content}
       />
