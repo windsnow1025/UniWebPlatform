@@ -66,16 +66,6 @@ router.use(async (req, res, next) => {
   next();
 });
 
-router.get('/credit', async (req, res) => {
-  try {
-    const credit = await UserDAO.selectCreditByUsername(req.username);
-    res.status(200).json({credit: credit});
-  } catch (err) {
-    console.error("Error in GET /credit:", err);
-    res.sendStatus(500);
-  }
-});
-
 router.put('/', async (req, res) => {
   try {
     const data = req.body;
@@ -101,6 +91,27 @@ router.delete('/', async (req, res) => {
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in DELETE /:id:", err);
+    res.sendStatus(500);
+  }
+});
+
+router.get('/credit', async (req, res) => {
+  try {
+    const credit = await UserDAO.selectCreditByUsername(req.username);
+    res.status(200).json({credit: credit});
+  } catch (err) {
+    console.error("Error in GET /credit:", err);
+    res.sendStatus(500);
+  }
+});
+
+router.post('/pin', async (req, res) => {
+  try {
+    const data = req.body;
+    await UserDAO.insertPinByUsername(data.pin, req.username);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error("Error in POST /pin:", err);
     res.sendStatus(500);
   }
 });
