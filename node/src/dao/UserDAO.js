@@ -44,7 +44,7 @@ async function selectCreditByUsername(username) {
     return result[0].credit;
 }
 
-async function insertPinByUsername(pin, username) {
+async function updatePinByUsername(pin, username) {
     const sql = "UPDATE user SET pin = ? WHERE username = ?";
     const sqlParams = [pin, username];
     await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
@@ -58,5 +58,5 @@ export default {
     update,
     deleteByUsername,
     selectCreditByUsername,
-    insertPinByUsername
+    updatePinByUsername: updatePinByUsername
 };
