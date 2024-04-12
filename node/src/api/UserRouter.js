@@ -108,7 +108,7 @@ router.get('/credit', async (req, res) => {
 router.post('/pin', async (req, res) => {
   try {
     const data = req.body;
-    await UserDAO.insertPinByUsername(data.pin, req.username);
+    await UserDAO.updatePinByUsername(data.pin, req.username);
     res.sendStatus(200);
   } catch (err) {
     console.error("Error in POST /pin:", err);
