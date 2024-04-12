@@ -23,6 +23,11 @@ Content-Type: application/json
   "password": "test"
 }
 
+### GET Pin
+
+GET {{baseUrl}}/user/pin
+Authorization: {{token}}
+
 ### Post Pin
 
 POST {{baseUrl}}/user/pin
