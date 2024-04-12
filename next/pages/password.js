@@ -7,6 +7,7 @@ import {Button, CssBaseline} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {createMUITheme} from "../app/utils/Theme";
 import UserService from "../src/service/UserService";
+import {generatePassword} from "../src/logic/PasswordLogic";
 import Snackbar from "@mui/material/Snackbar";
 
 function Password() {
@@ -21,24 +22,41 @@ function Password() {
     document.title = "Password Generator";
   }, []);
 
-  const [pin, setPin] = useState('');
+  const [pin, setPin] = useState(0);
+  const [newPin, setNewPin] = useState('');
   const [name, setName] = useState('');
+  const [no, setNo] = useState(0);
   const [password, setPassword] = useState('');
 
   const userService = new UserService();
+
+  const fetchPin = async () => {
+    const pin = await userService.fetchPin();
+    setPin(pin);
+  }
+
+  useEffect(() => {
+    fetchPin();
+  }, []);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
   const handleUpdatePin = async () => {
     try {
-      await userService.updatePin(pin);
+      await userService.updatePin(newPin);
+      fetchPin();
       setAlertMessage("Update success");
       setAlertOpen(true);
     } catch (e) {
       setAlertMessage(e.message);
       setAlertOpen(true);
     }
+  }
+
+  const handleGeneratePassword = async () => {
+    const password = generatePassword(pin, name, no);
+    setPassword(password);
   }
 
   return (
@@ -51,6 +69,11 @@ function Password() {
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
+          {pin ? (
+            <div className="flex-center">Pin Loaded</div>
+          ) : (
+            <div className="flex-center">Pin Loading</div>
+          )}
           <div className="flex-center">
             <div className="text-center">
               <div className="m-2">
@@ -58,16 +81,13 @@ function Password() {
                   label="Pin"
                   variant="outlined"
                   type="number"
-                  value={pin}
-                  onChange={(e) => setPin(e.target.value)}
+                  value={newPin}
+                  onChange={(e) => setNewPin(e.target.value)}
                   className="mt-2"
                 />
               </div>
               <div className="m-2">
                 <Button variant="contained" onClick={handleUpdatePin}>Update Pin</Button>
-              </div>
-              <div className="m-2">
-                {password}
               </div>
             </div>
           </div>
@@ -84,8 +104,20 @@ function Password() {
                 />
               </div>
               <div className="m-2">
-                <Button variant="contained" onClick={() => {
-                }}>Generate</Button>
+                <TextField
+                  label="No"
+                  variant="outlined"
+                  type="text"
+                  value={no}
+                  onChange={(e) => setNo(e.target.value)}
+                  className="mt-2"
+                />
+              </div>
+              <div className="m-2">
+                <Button variant="contained" onClick={handleGeneratePassword}>Generate</Button>
+              </div>
+              <div className="m-2">
+                {password}
               </div>
             </div>
           </div>
