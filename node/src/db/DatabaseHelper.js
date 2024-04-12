@@ -85,7 +85,7 @@ class DatabaseHelper {
     // Change this function for each new version
     async onUpgrade() {
         const ALTER_TABLE_USER_ADD_CREDITS = `
-            ALTER TABLE user ADD COLUMN pin FLOAT NOT NULL DEFAULT 0;
+            ALTER TABLE user ADD COLUMN pin INT;
         `
         await this.databaseConnection.poolQuery(ALTER_TABLE_USER_ADD_CREDITS);
         console.log('Database upgraded');
