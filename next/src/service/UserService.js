@@ -45,4 +45,13 @@ export default class UserService {
     });
     return res.data.credit;
   }
+
+  async updatePin(pin) {
+    const token = localStorage.getItem('token');
+    await this.axiosInstance.put(`/user/pin`, {
+      pin: pin
+    }, {
+      headers: {Authorization: token}
+    })
+  }
 }
