@@ -105,7 +105,7 @@ router.get('/credit', async (req, res) => {
   }
 });
 
-router.post('/pin', async (req, res) => {
+router.put('/pin', async (req, res) => {
   try {
     const data = req.body;
     await UserDAO.updatePinByUsername(data.pin, req.username);
