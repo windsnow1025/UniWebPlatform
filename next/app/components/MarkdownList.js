@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {MarkdownLogic} from "../../src/logic/MarkdownLogic";
-import {IconButton, List, ListItem, ListItemText, Paper} from "@mui/material";
+import {Divider, IconButton, Link, List, ListItem, ListItemText, Paper, Typography} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 
 function MarkdownList() {
@@ -19,28 +19,38 @@ function MarkdownList() {
   }, []);
 
   return (
-    <Paper elevation={4} className="m-2 p-4 rounded-lg">
-      <div>
-        <span>Markdowns</span>
-        <span>
-          <a href="/markdown/add" target="_blank" rel="noopener noreferrer">
-            <IconButton aria-label="add">
-              <AddIcon/>
-            </IconButton>
-          </a>
-        </span>
+    <Paper elevation={4} className="p-8">
+      <div className="flex-between">
+        <Typography variant="h6">Markdowns</Typography>
+        <Link
+          href="/markdown/add"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <IconButton aria-label="add">
+            <AddIcon/>
+          </IconButton>
+        </Link>
       </div>
       <List>
-        {markdowns.map(markdown => (
-          <ListItem key={markdown.id} disablePadding>
-            <ListItemText
-              primary={
-                <a href={`/markdown/update/${markdown.id}`} target="_blank" rel="noopener noreferrer">
-                  {markdown.title}
-                </a>
-              }
-            />
-          </ListItem>
+        {markdowns.map((markdown, index) => (
+          <div key={markdown.id}>
+            <ListItem disablePadding>
+              <ListItemText
+                primary={
+                  <Link
+                    href={`/markdown/update/${markdown.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    color="secondary"
+                  >
+                    {markdown.title}
+                  </Link>
+                }
+              />
+            </ListItem>
+            {index < markdowns.length - 1 && <Divider/>}
+          </div>
         ))}
       </List>
     </Paper>

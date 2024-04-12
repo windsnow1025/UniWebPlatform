@@ -52,7 +52,7 @@ function Index() {
               </div>
             </a>
           </div>
-          <div className="flex-around m-4">
+          <div className="flex-around m-8">
             <MarkdownList/>
           </div>
         </ThemeProvider>
