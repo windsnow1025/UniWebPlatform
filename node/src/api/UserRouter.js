@@ -105,6 +105,16 @@ router.get('/credit', async (req, res) => {
   }
 });
 
+router.get('/pin', async (req, res) => {
+  try {
+    const pin = await UserDAO.selectPinByUsername(req.username);
+    res.status(200).json({pin: pin});
+  } catch (err) {
+    console.error("Error in GET /pin:", err);
+    res.sendStatus(500);
+  }
+})
+
 router.put('/pin', async (req, res) => {
   try {
     const data = req.body;
