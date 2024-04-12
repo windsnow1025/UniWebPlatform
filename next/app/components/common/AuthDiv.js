@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from "next/navigation";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { Button, IconButton, CircularProgress } from "@mui/material";
-import Link from "next/link";
+import {Button, IconButton, CircularProgress, Link} from "@mui/material";
 
 import { UserLogic } from "../../../src/logic/UserLogic";
 
