@@ -1,0 +1,34 @@
+### Get Username
+
+GET {{baseUrl}}/user/
+Authorization: {{token}}
+
+### Post Sign In
+
+POST {{baseUrl}}/user/sign-in
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+
+### Post Sign Up
+
+POST {{baseUrl}}/user/sign-up
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+
+### Post Pin
+
+POST {{baseUrl}}/user/pin
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "pin": 12345678
+}
