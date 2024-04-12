@@ -1,7 +1,7 @@
 class DatabaseHelper {
     constructor(databaseConnection) {
         this.databaseConnection = databaseConnection;
-        this.version = '1.2';
+        this.version = '1.2.1';
     }
 
     CREATE_TABLE_USER = `
@@ -9,7 +9,8 @@ class DatabaseHelper {
             id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
             username VARCHAR(64) NOT NULL UNIQUE,
             password VARCHAR(64) NOT NULL,
-            credit FLOAT NOT NULL DEFAULT 0
+            credit FLOAT NOT NULL DEFAULT 0,
+            pin INT
         );
     `
 
