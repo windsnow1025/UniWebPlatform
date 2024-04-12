@@ -16,20 +16,6 @@ async function selectIdByUsername(username) {
     return result[0].id;
 }
 
-async function selectCreditByUsername(username) {
-    const sql = "SELECT credit FROM user WHERE username = ?";
-    const sqlParams = [username];
-    const result = await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
-    return result[0].credit;
-}
-
-async function updateCreditByUsername(username, credit) {
-    const sql = "UPDATE user SET credit = ? WHERE username = ?";
-    const sqlParams = [credit, username];
-    await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
-    console.log("1 user credit updated");
-}
-
 async function insert(username, password) {
     const sql = "INSERT INTO user (username, password) VALUES (?,?)";
     const sqlParams = [username, password];
@@ -51,12 +37,26 @@ async function deleteByUsername(username) {
     console.log("1 user deleted");
 }
 
+async function selectCreditByUsername(username) {
+    const sql = "SELECT credit FROM user WHERE username = ?";
+    const sqlParams = [username];
+    const result = await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
+    return result[0].credit;
+}
+
+async function insertPinByUsername(pin, username) {
+    const sql = "UPDATE user SET pin = ? WHERE username = ?";
+    const sqlParams = [pin, username];
+    await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
+    console.log("Pin inserted");
+}
+
 export default {
     selectByUsernamePassword,
     selectIdByUsername,
-    selectCreditByUsername,
-    updateCreditByUsername,
     insert,
     update,
-    deleteByUsername
+    deleteByUsername,
+    selectCreditByUsername,
+    insertPinByUsername
 };
