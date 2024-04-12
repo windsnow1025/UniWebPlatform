@@ -3,12 +3,13 @@ import '../src/asset/css/index.css';
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-import {Button, CssBaseline} from "@mui/material";
+import {Button, CssBaseline, IconButton, Tooltip} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {createMUITheme} from "../app/utils/Theme";
 import UserService from "../src/service/UserService";
 import {generatePassword} from "../src/logic/PasswordLogic";
 import Snackbar from "@mui/material/Snackbar";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 function Password() {
   const [systemTheme, setSystemTheme] = useState();
@@ -40,7 +41,7 @@ function Password() {
   const [newPin, setNewPin] = useState('');
   const [name, setName] = useState('');
   const [no, setNo] = useState(0);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState();
 
   const userService = new UserService();
 
@@ -68,10 +69,15 @@ function Password() {
     }
   }
 
-  const handleGeneratePassword = async () => {
+  const handleGeneratePassword = () => {
     const password = generatePassword(pin, name, no);
     setPassword(password);
+    navigator.clipboard.writeText(password);
   }
+
+  const handleContentCopy = () => {
+    navigator.clipboard.writeText(password);
+  };
 
   return (
     <>
@@ -83,13 +89,15 @@ function Password() {
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
-          {pin ? (
-            <div className="flex-center">Pin Loaded</div>
-          ) : (
-            <div className="flex-center">Pin Loading</div>
-          )}
           <div className="flex-center">
             <div className="text-center">
+              <div className="m-2">
+                {pin ? (
+                  <div>Pin Loaded</div>
+                ) : (
+                  <div>Pin Loading</div>
+                )}
+              </div>
               <div className="m-2">
                 <TextField
                   label="Pin"
@@ -103,10 +111,7 @@ function Password() {
               <div className="m-2">
                 <Button variant="contained" onClick={handleUpdatePin}>Update Pin</Button>
               </div>
-            </div>
-          </div>
-          <div className="flex-center">
-            <div className="text-center">
+              <div className="m-2 mt-16">Password</div>
               <div className="m-2">
                 <TextField
                   label="Name"
@@ -131,7 +136,16 @@ function Password() {
                 <Button id="generate" variant="contained" onClick={handleGeneratePassword}>Generate</Button>
               </div>
               <div className="m-2">
-                {password}
+                {password &&
+                  <div className="flex-center">
+                    <div>{password}</div>
+                    <Tooltip title="Copy">
+                      <IconButton aria-label="copy" onClick={handleContentCopy}>
+                        <ContentCopyIcon fontSize="small"/>
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                }
               </div>
             </div>
           </div>
