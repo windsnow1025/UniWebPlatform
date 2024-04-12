@@ -45,6 +45,12 @@ function Index() {
                 <LinkIcon/>
               </div>
             </Link>
+            <Link href="/password" target="_blank" rel="noopener noreferrer">
+              <div className="flex-center">
+                Password Generator
+                <LinkIcon/>
+              </div>
+            </Link>
             <Link href="/chat" target="_blank" rel="noopener noreferrer">
               <div className="flex-center">
                 AI Chat
