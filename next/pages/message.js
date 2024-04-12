@@ -72,15 +72,15 @@ function MessageTransmitter() {
     fetchMessages();
   };
 
-  const onNewMessageRoleChange = (username) => {
+  const handleNewMessageRoleChange = (username) => {
     setNewMessage(prev => ({...prev, username}));
   }
 
-  const onNewMessageContentChange = (content) => {
+  const handleNewMessageContentChange = (content) => {
     setNewMessage(prev => ({...prev, content}));
   };
 
-  const onFileUpload = (fileUrl) => {
+  const handleFileUpload = (fileUrl) => {
     const updatedContent = `${newMessage.content}${fileUrl}`;
     setNewMessage(prev => ({...prev, content: updatedContent}));
   }
@@ -118,9 +118,9 @@ function MessageTransmitter() {
             <MessageDiv
               roleInitial={newMessage.username}
               contentInitial={newMessage.content}
-              onRoleChange={onNewMessageRoleChange}
-              onContentChange={onNewMessageContentChange}
-              onFileUpload={onFileUpload}
+              onRoleChange={handleNewMessageRoleChange}
+              onContentChange={handleNewMessageContentChange}
+              onFileUpload={handleFileUpload}
             />
             <div className="text-center">
               <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>

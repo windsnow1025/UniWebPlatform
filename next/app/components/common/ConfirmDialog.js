@@ -6,11 +6,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function ConfirmDialog({ open, handleClose, title, content }) {
+export default function ConfirmDialog({ open, onClose, title, content }) {
   return (
     <Dialog
       open={open}
-      onClose={() => handleClose(false)}
+      onClose={() => onClose(false)}
       aria-labelledby="confirm-dialog-title"
       aria-describedby="confirm-dialog-description"
     >
@@ -23,8 +23,8 @@ export default function ConfirmDialog({ open, handleClose, title, content }) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(false)}>Cancel</Button>
-        <Button onClick={() => handleClose(true)} autoFocus>
+        <Button onClick={() => onClose(false)}>Cancel</Button>
+        <Button onClick={() => onClose(true)} autoFocus>
           Confirm
         </Button>
       </DialogActions>
