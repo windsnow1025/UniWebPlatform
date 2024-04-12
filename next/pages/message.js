@@ -5,7 +5,7 @@ import MessageService from "../src/service/MessageService";
 import {UserLogic} from "../src/logic/UserLogic";
 import MessageDiv from '../app/components/message/MessageDiv';
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, CssBaseline, Paper} from "@mui/material";
+import {Button, CssBaseline, Paper, Typography} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {createMUITheme} from "../app/utils/Theme";
 
@@ -42,7 +42,7 @@ function MessageTransmitter() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [newMessage]);
+  }, []);
 
   const fetchMessages = async () => {
     try {
@@ -95,8 +95,8 @@ function MessageTransmitter() {
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
-          <div>
-            <h2 className="text-center">Receive Messages</h2>
+          <div className="m-4">
+            <Typography variant="h4" className="text-center">Receive Messages</Typography>
             <Paper elevation={1} className="m-2 p-4 rounded-lg">
               {messages.map(message => (
                 <MessageDiv
@@ -113,8 +113,8 @@ function MessageTransmitter() {
               <div className="m-1"><Button variant="contained" color="secondary" onClick={handleClearMessages}>Clear</Button></div>
             </div>
           </div>
-          <div>
-            <h2 className="text-center">Send Messages</h2>
+          <div className="m-4">
+            <Typography variant="h4" className="text-center">Send Messages</Typography>
             <MessageDiv
               roleInitial={newMessage.username}
               contentInitial={newMessage.content}

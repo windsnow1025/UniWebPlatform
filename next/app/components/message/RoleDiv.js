@@ -1,19 +1,17 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 
 
-function RoleDiv({ roleInitial, onRoleChange }) {
-  const [role, setRole] = useState(roleInitial);
+function RoleDiv({roleInitial, onRoleChange}) {
   const roleRef = useRef(null);
 
   useEffect(() => {
     if (roleRef.current) {
-      roleRef.current.innerHTML = role;
+      roleRef.current.innerHTML = roleInitial;
     }
-  }, [role]);
+  }, [roleInitial]);
 
   const handleRoleChange = (event) => {
     const newRole = event.target.textContent;
-    setRole(newRole);
     onRoleChange(newRole);
   };
 
