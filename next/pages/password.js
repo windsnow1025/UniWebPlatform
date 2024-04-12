@@ -22,6 +22,20 @@ function Password() {
     document.title = "Password Generator";
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = async (e) => {
+      if (e.ctrlKey && e.key === 'Enter') {
+        document.activeElement.blur();
+        const sendButton = document.getElementById('generate');
+        setTimeout(() => sendButton.click(), 0);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   const [pin, setPin] = useState(0);
   const [newPin, setNewPin] = useState('');
   const [name, setName] = useState('');
@@ -114,7 +128,7 @@ function Password() {
                 />
               </div>
               <div className="m-2">
-                <Button variant="contained" onClick={handleGeneratePassword}>Generate</Button>
+                <Button id="generate" variant="contained" onClick={handleGeneratePassword}>Generate</Button>
               </div>
               <div className="m-2">
                 {password}
