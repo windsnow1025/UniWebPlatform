@@ -1,8 +1,9 @@
 from app.logic.chat.handler.response_handler import NonStreamResponseHandler, StreamResponseHandler
+from app.logic.chat.processor.chat_processor import ChatProcessor
 from app.model.message import Message
 
 
-class GPTProcessor:
+class GPTProcessor(ChatProcessor):
     def __init__(
             self,
             model: str,
