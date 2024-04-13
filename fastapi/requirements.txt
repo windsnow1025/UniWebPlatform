@@ -7,3 +7,4 @@ python-jose[cryptography]
 mysql-connector-python
 google-generativeai
 pillow
+httpx
