@@ -14,6 +14,19 @@ services:
       - node
       - fastapi
 
+  mysql:
+    image: windsnow1025/mysql
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    restart: always
+    env_file:
+      - env/mysql.env
+    volumes:
+      - mysql:/var/lib/mysql
+
   next:
     image: windsnow1025/next
     build:
@@ -42,19 +55,6 @@ services:
       - env/fastapi.env
     depends_on:
       - mysql
-
-  mysql:
-    image: windsnow1025/mysql
-    build:
-      context: ./mysql
-      dockerfile: Dockerfile
-    ports:
-      - "3306:3306"
-    restart: always
-    env_file:
-      - env/mysql.env
-    volumes:
-      - mysql:/var/lib/mysql
 
 volumes:
   mysql:
