@@ -10,6 +10,7 @@ from app.util import pricing
 
 def handle_chat_interaction(
         username: str,
+        host: str,
         messages: list[Message],
         model: str,
         api_type: str,
@@ -28,12 +29,13 @@ def handle_chat_interaction(
         user_dao.reduce_credit(username, cost)
         return cost
 
-    request_cost = handle_request(
+    handle_request(
         messages,
         lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
     )
 
     processor = create_chat_processor(
+        host=host,
         messages=messages,
         model=model,
         api_type=api_type,

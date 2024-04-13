@@ -13,6 +13,7 @@ from app.model.message import Message, GeminiMessage
 
 
 def create_gemini_processor(
+        host: str,
         messages: list[Message],
         model: str,
         temperature: float,
@@ -51,7 +52,7 @@ def create_gemini_processor(
         safety_settings=safety_settings
     )
 
-    gemini_messages = convert_messages_to_gemini(messages)
+    gemini_messages = convert_messages_to_gemini(messages, host)
 
     if stream:
         return StreamGeminiProcessor(
@@ -69,11 +70,11 @@ def create_gemini_processor(
         )
 
 
-def convert_messages_to_gemini(messages: list[Message]) -> list[GeminiMessage]:
-    return [convert_message_to_gemini(message) for message in messages]
+def convert_messages_to_gemini(messages: list[Message], host: str) -> list[GeminiMessage]:
+    return [convert_message_to_gemini(message, host) for message in messages]
 
 
-def convert_message_to_gemini(message: Message) -> GeminiMessage:
+def convert_message_to_gemini(message: Message, host: str) -> GeminiMessage:
     if message['role'] == "user" or message['role'] == "system":
         role = "user"
     elif message['role'] == "assistant":
@@ -90,13 +91,15 @@ def convert_message_to_gemini(message: Message) -> GeminiMessage:
                 parts.append(item['text'])
             elif item['type'] == 'image_url':
                 img_url = item['image_url']['url']
-                img = PIL.Image.open(get_img_data(img_url))
+                img = PIL.Image.open(get_img_data(img_url, host))
                 parts.append(img)
 
     return GeminiMessage(role=role, parts=parts)
 
 
-def get_img_data(img_url: str) -> BytesIO:
+def get_img_data(img_url: str, host) -> BytesIO:
+    if host.split(':')[0] not in img_url:
+        raise Exception("SSRF")
     response = requests.get(img_url)
     response.raise_for_status()
     return BytesIO(response.content)
