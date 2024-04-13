@@ -1,13 +1,9 @@
 # Node.js
 
-## Configuration
+## Setup
 
-Create `./.env`:
+Copy `./env.example` and rename it to `.env`, then fill in the environment variables.
 
-```env
-JWT_SECRET=JWT_SECRET
-MYSQL_ROOT_PASSWORD=MYSQL_ROOT_PASSWORD
-MYSQL_USER=MYSQL_USER
-MYSQL_PASSWORD=MYSQL_PASSWORD
-MYSQL_DATABASE=MYSQL_DATABASE
-```
+## Run
+
+Webstorm: Add new configuration -> npm -> run dev
