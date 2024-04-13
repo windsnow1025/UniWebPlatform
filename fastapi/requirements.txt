@@ -1,10 +1,10 @@
-openai
+python-dotenv
 fastapi
 pydantic
 uvicorn
-python-dotenv
+httpx
 python-jose[cryptography]
 mysql-connector-python
+openai
 google-generativeai
 pillow
-httpx
