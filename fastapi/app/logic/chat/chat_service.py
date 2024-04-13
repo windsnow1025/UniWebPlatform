@@ -8,7 +8,7 @@ from app.model.message import Message
 from app.util import pricing
 
 
-def handle_chat_interaction(
+async def handle_chat_interaction(
         username: str,
         host: str,
         messages: list[Message],
@@ -34,7 +34,7 @@ def handle_chat_interaction(
         lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
     )
 
-    processor = create_chat_processor(
+    processor = await create_chat_processor(
         host=host,
         messages=messages,
         model=model,
