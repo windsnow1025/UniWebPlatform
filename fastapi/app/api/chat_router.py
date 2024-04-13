@@ -29,7 +29,7 @@ async def generate(chat_request: ChatRequest, request: Request):
     if user_dao.select_credit(username) <= 0:
         raise HTTPException(status_code=402)
 
-    return handle_chat_interaction(
+    return await handle_chat_interaction(
         username=username,
         host=host,
         messages=chat_request.messages,
