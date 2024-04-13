@@ -7,7 +7,7 @@ from app.logic.chat.processor.gpt.gpt_processor_factory import create_gpt_proces
 from app.model.message import Message
 
 
-def create_chat_processor(
+async def create_chat_processor(
         host: str,
         messages: list[Message],
         model: str,
@@ -28,7 +28,7 @@ def create_chat_processor(
             non_stream_response_handler=non_stream_response_handler
         )
     elif api_type == 'gemini':
-        return create_gemini_processor(
+        return await create_gemini_processor(
             host=host,
             messages=messages,
             model=model,

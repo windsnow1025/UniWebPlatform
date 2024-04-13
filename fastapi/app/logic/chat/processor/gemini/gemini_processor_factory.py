@@ -4,7 +4,7 @@ from typing import Callable, Generator
 
 import PIL.Image
 import google.generativeai as genai
-import requests
+import httpx
 from fastapi.responses import StreamingResponse
 
 from app.logic.chat.processor.gemini.non_stream_gemini_processor import NonStreamGeminiProcessor
@@ -12,7 +12,7 @@ from app.logic.chat.processor.gemini.stream_gemini_processor import StreamGemini
 from app.model.message import Message, GeminiMessage
 
 
-def create_gemini_processor(
+async def create_gemini_processor(
         host: str,
         messages: list[Message],
         model: str,
@@ -52,7 +52,7 @@ def create_gemini_processor(
         safety_settings=safety_settings
     )
 
-    gemini_messages = convert_messages_to_gemini(messages, host)
+    gemini_messages = await convert_messages_to_gemini(messages, host)
 
     if stream:
         return StreamGeminiProcessor(
@@ -70,11 +70,12 @@ def create_gemini_processor(
         )
 
 
-def convert_messages_to_gemini(messages: list[Message], host: str) -> list[GeminiMessage]:
-    return [convert_message_to_gemini(message, host) for message in messages]
+async def convert_messages_to_gemini(messages: list[Message], host: str) -> list[GeminiMessage]:
+    return [await convert_message_to_gemini(message, host) for message in messages]
 
 
-def convert_message_to_gemini(message: Message, host: str) -> GeminiMessage:
+async def convert_message_to_gemini(message: Message, host: str) -> GeminiMessage:
+    role = ""
     if message['role'] == "user" or message['role'] == "system":
         role = "user"
     elif message['role'] == "assistant":
@@ -91,16 +92,17 @@ def convert_message_to_gemini(message: Message, host: str) -> GeminiMessage:
                 parts.append(item['text'])
             elif item['type'] == 'image_url':
                 img_url = item['image_url']['url']
-                img = PIL.Image.open(get_img_data(img_url, host))
+                img_data = await get_img_data(img_url, host)
+                img = PIL.Image.open(img_data)
                 parts.append(img)
 
     return GeminiMessage(role=role, parts=parts)
 
 
-def get_img_data(img_url: str, host) -> BytesIO:
+async def get_img_data(img_url: str, host) -> BytesIO:
     if host.split(':')[0] not in img_url:
         raise Exception("SSRF")
-    response = requests.get(img_url)
-    response.raise_for_status()
-    return BytesIO(response.content)
-
+    async with httpx.AsyncClient() as client:
+        response = await client.get(img_url)
+        response.raise_for_status()
+        return BytesIO(response.content)
