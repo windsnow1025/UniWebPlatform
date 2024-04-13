@@ -4,11 +4,16 @@ on:
   push:
     branches:
       - "main"
+    paths:
+      - 'nginx/**'
+      - 'mysql/**'
+      - 'next/**'
+      - 'node/**'
+      - 'fastapi/**'
 
 jobs:
   build-nginx:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.modified, 'nginx/')
     steps:
       -
         name: Checkout
@@ -33,7 +38,6 @@ jobs:
 
   build-mysql:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.modified, 'mysql/')
     steps:
       -
         name: Checkout
@@ -58,7 +62,6 @@ jobs:
 
   build-next:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.modified, 'next/')
     steps:
       -
         name: Checkout
@@ -83,7 +86,6 @@ jobs:
 
   build-node:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.modified, 'node/')
     steps:
       -
         name: Checkout
@@ -108,7 +110,6 @@ jobs:
 
   build-fastapi:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.modified, 'fastapi/')
     steps:
       -
         name: Checkout
