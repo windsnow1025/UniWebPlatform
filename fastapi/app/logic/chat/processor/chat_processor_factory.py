@@ -8,6 +8,7 @@ from app.model.message import Message
 
 
 def create_chat_processor(
+        host: str,
         messages: list[Message],
         model: str,
         api_type: str,
@@ -28,6 +29,7 @@ def create_chat_processor(
         )
     elif api_type == 'gemini':
         return create_gemini_processor(
+            host=host,
             messages=messages,
             model=model,
             temperature=temperature,
