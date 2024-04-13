@@ -9,6 +9,10 @@ services:
     ports:
       - "81:80"
     restart: always
+    depends_on:
+      - next
+      - node
+      - fastapi
 
   next:
     image: windsnow1025/next
