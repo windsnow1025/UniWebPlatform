@@ -24,12 +24,14 @@ class ChatRequest(BaseModel):
 async def generate(chat_request: ChatRequest, request: Request):
     authorization_header = request.headers.get("Authorization")
     username = auth.get_username_from_token(authorization_header)
+    host = request.headers.get("host")
 
     if user_dao.select_credit(username) <= 0:
         raise HTTPException(status_code=402)
 
     return handle_chat_interaction(
         username=username,
+        host=host,
         messages=chat_request.messages,
         model=chat_request.model,
         api_type=chat_request.api_type,
