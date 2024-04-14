@@ -29,7 +29,7 @@ For issues, try disabling extensions and refreshing (`Ctrl + F5`) or contact the
 
 ## Feature Comparison: AI Chat vs ChatGPT vs Gemini
 
-| Feature                | AI Chat                                     | ChatGPT App / Playground                       | Gemini App / Google AI Studio                                | Advantage |
+| Feature                | AI Chat                                     | ChatGPT App / OpenAI Playground                | Gemini App / Google AI Studio                                | Advantage |
 |------------------------|---------------------------------------------|------------------------------------------------|--------------------------------------------------------------|-----------|
 | Message Editing        | Add / Edit / Delete at anywhere to any role | Add / Edit at conversation end to user         | Add / Edit at conversation end to user                       | AI Chat   |
 | Model Selection        | All OpenAI & Azure & Gemini models          | GPT-3.5 & GPT-4 (Plus)                         | Gemini 1.0 Pro & Gemini 1.5 Pro (Gemini Advanced)            | AI Chat   |
