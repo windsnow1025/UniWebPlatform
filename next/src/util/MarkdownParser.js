@@ -16,6 +16,14 @@ const marked = new Marked(
 
 export function parseMarkdown(content, sanitize=true) {
   if (sanitize) {
+    const addLaTeXEscape = (text) => {
+      return text
+        .replace(/\\\[/g, '\\\\\[')
+        .replace(/\\\]/g, '\\\\\]')
+        .replace(/\\\(/g, '\\\\\(')
+        .replace(/\\\)/g, '\\\\\)');
+    };
+    const escapedContent = addLaTeXEscape(content);
     const decodeEntitiesInParsedCode = function (html) {
       // Use "\S\s" instead of "." to match newlines
       return html.replace(/<code([^>]*?)>([\S\s]*?)<\/code>/g, function (match, p1, p2) {
@@ -23,7 +31,7 @@ export function parseMarkdown(content, sanitize=true) {
       });
     };
 
-    const parsedContent = marked.parse(content);
+    const parsedContent = marked.parse(escapedContent);
     const decodedContent = decodeEntitiesInParsedCode(parsedContent);
     return decodedContent;
   } else {
