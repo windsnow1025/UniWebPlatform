@@ -1,6 +1,6 @@
 import {createTheme} from "@mui/material/styles";
 
-const convertTheme = (systemTheme) => {
+const convertTheme = (systemTheme: string) => {
   if (systemTheme !== "system") {
     return systemTheme;
   }
@@ -8,14 +8,14 @@ const convertTheme = (systemTheme) => {
   return prefersDarkScheme.matches ? "dark" : "light";
 }
 
-export function applyTheme(systemTheme) {
+export function applyTheme(systemTheme: string) {
   const theme = convertTheme(systemTheme);
   applyMainTheme(theme);
   applyMarkdownTheme(theme);
   applyHighlightTheme(theme);
 }
 
-function applyMainTheme(theme) {
+function applyMainTheme(theme: string) {
   const body = document.body;
 
   // Remove all theme classes
@@ -29,7 +29,7 @@ function applyMainTheme(theme) {
   }
 }
 
-function applyMarkdownTheme(theme) {
+function applyMarkdownTheme(theme: string) {
   // Get all link elements
   const links = document.getElementsByTagName('link');
 
@@ -40,7 +40,7 @@ function applyMarkdownTheme(theme) {
 
     // If link is for github-markdown-css, remove it
     if (href && href.includes('/markdown/')) {
-      link.parentNode.removeChild(link);
+      link.parentNode?.removeChild(link);
     }
   }
 
@@ -58,7 +58,7 @@ function applyMarkdownTheme(theme) {
   }
 }
 
-function applyHighlightTheme(theme) {
+function applyHighlightTheme(theme: string) {
   // Get all link elements
   const links = document.getElementsByTagName('link');
 
@@ -69,7 +69,7 @@ function applyHighlightTheme(theme) {
 
     // If link is for highlight.js, remove it
     if (href && href.includes('highlight')) {
-      link.parentNode.removeChild(link);
+      link.parentNode?.removeChild(link);
     }
   }
 
@@ -87,8 +87,11 @@ function applyHighlightTheme(theme) {
   }
 }
 
-export function createMUITheme(systemTheme) {
+export function createMUITheme(systemTheme: string) {
   const theme = convertTheme(systemTheme);
+  if (theme !== "light" && theme !== "dark") {
+    return;
+  }
   return createTheme({
     palette: {
       mode: theme,
