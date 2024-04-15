@@ -5,19 +5,14 @@ import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import {Button, CssBaseline, IconButton, Tooltip} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import {createMUITheme} from "../app/utils/Theme";
 import UserService from "../src/service/UserService";
 import {generatePassword} from "../src/logic/PasswordLogic";
 import Snackbar from "@mui/material/Snackbar";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import useThemeHandler from "../app/hooks/useThemeHandler";
 
 function Password() {
-  const [systemTheme, setSystemTheme] = useState();
-  const [muiTheme, setMuiTheme] = useState();
-
-  useEffect(() => {
-    setMuiTheme(createMUITheme(systemTheme));
-  }, [systemTheme]);
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   useEffect(() => {
     document.title = "Password Generator";

@@ -9,15 +9,10 @@ import {MarkdownLogic} from '../../../src/logic/MarkdownLogic';
 import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
-import {createMUITheme} from "../../../app/utils/Theme";
+import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
 function Index() {
-  const [systemTheme, setSystemTheme] = useState();
-  const [muiTheme, setMuiTheme] = useState();
-
-  useEffect(() => {
-    setMuiTheme(createMUITheme(systemTheme));
-  }, [systemTheme]);
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
