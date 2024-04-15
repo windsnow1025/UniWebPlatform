@@ -1,4 +1,5 @@
 import {parseMarkdown} from "./MarkdownParser";
+import {describe, it, expect} from "@jest/globals";
 
 describe('parseMarkdown', () => {
   it('should parse plain text correctly', async () => {
