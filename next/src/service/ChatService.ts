@@ -1,13 +1,20 @@
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
+import {Message} from '../model/Message'
+
+interface StreamResponse {
+  reader: ReadableStreamDefaultReader | undefined;
+  controller: AbortController;
+}
 
 export default class ChatService {
+  private axiosInstance: AxiosInstance;
 
   constructor() {
     this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_FAST_API_BASE_URL });
   }
 
-  async generate(messages, api_type, model, temperature, stream) {
-    const token = localStorage.getItem('token');
+  async generate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean): Promise<string | StreamResponse> {
+    const token = localStorage.getItem('token')!;
 
     const requestData = {
       messages: messages,
@@ -38,7 +45,7 @@ export default class ChatService {
         }
       });
 
-      const reader = response.body.getReader();
+      const reader = response.body?.getReader();
       return {
         reader,
         controller
@@ -46,9 +53,8 @@ export default class ChatService {
     }
   }
 
-  async fetchModels() {
+  async fetchModels(): Promise<string[]> {
     const res = await this.axiosInstance.get(`/`);
     return res.data;
   }
-
 }

@@ -1,15 +1,14 @@
-import axios from 'axios';
-import {Conversation} from '../model/Conversation.ts';
+import axios, {AxiosInstance} from 'axios';
+import {Conversation} from '../model/Conversation';
 
 export default class ConversationService {
+  private axiosInstance: AxiosInstance;
+
   constructor() {
     this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NODE_API_BASE_URL });
   }
 
-  /**
-   * @returns {Promise<Conversation[]>}
-   */
-  async fetchConversations() {
+  async fetchConversations(): Promise<Conversation[]> {
     const token = localStorage.getItem('token');
     const res = await this.axiosInstance.get('/conversation/', {
       headers: {
@@ -19,11 +18,7 @@ export default class ConversationService {
     return res.data;
   }
 
-  /**
-   * @param {string} name
-   * @param {Conversation} conversation
-   */
-  async addConversation(name, conversation) {
+  async addConversation(name: string, conversation: string) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.post("/conversation/", {
       name: name,
@@ -35,12 +30,7 @@ export default class ConversationService {
     });
   }
 
-  /**
-   * @param {string} name
-   * @param {Conversation} conversation
-   * @param {string} id
-   */
-  async updateConversation(name, conversation, id) {
+  async updateConversation(name: string, conversation: string, id: number) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.put(`/conversation/`, {
       name: name,
@@ -53,11 +43,7 @@ export default class ConversationService {
     });
   }
 
-  /**
-   * @param {string} name
-   * @param {string} id
-   */
-  async updateConversationName(name, id) {
+  async updateConversationName(name: string, id: number) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.put(`/conversation/name`, {
       name: name,
@@ -69,10 +55,7 @@ export default class ConversationService {
     });
   }
 
-  /**
-   * @param {string} id
-   */
-  async deleteConversation(id) {
+  async deleteConversation(id: number) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.delete(`/conversation/${id}`, {
       headers: {
