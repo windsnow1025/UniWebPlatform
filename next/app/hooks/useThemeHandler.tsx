@@ -8,14 +8,17 @@ const useThemeHandler = () => {
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "system";
-    if (!["system", "light", "dark"].includes(systemTheme!!)) {
+    if (systemTheme === undefined || !["system", "light", "dark"].includes(systemTheme)) {
       setSystemTheme(storedTheme);
     }
   }, []);
 
   useEffect(() => {
-    applyTheme(systemTheme!!);
-    setMuiTheme(createMUITheme(systemTheme!!));
+    if (systemTheme === undefined) {
+      return;
+    }
+    applyTheme(systemTheme);
+    setMuiTheme(createMUITheme(systemTheme));
   }, [systemTheme]);
 
   return { systemTheme, setSystemTheme, muiTheme };

@@ -3,7 +3,7 @@ import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui
 import {applyTheme} from "@/app/utils/Theme";
 
 interface ThemeSelectProps {
-  systemTheme: string;
+  systemTheme: string | undefined;
   setSystemTheme: (theme: string) => void;
 }
 

@@ -1,33 +1,36 @@
-import '../../../src/asset/css/index.css';
-import '../../../src/asset/css/markdown.css';
+import '@/src/asset/css/index.css';
+import '@/src/asset/css/markdown.css';
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useRouter} from 'next/router';
 import {ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
-import {parseMarkdown} from "../../../src/util/MarkdownParser";
-import {parseLaTeX} from "../../../src/util/LaTeXParser";
-import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
-import PublicService from "../../../src/service/PublicService";
-import useThemeHandler from "../../../app/hooks/useThemeHandler";
+
+import {parseMarkdown} from "@/src/util/MarkdownParser";
+import {parseLaTeX} from "@/src/util/LaTeXParser";
+import PublicService from "@/src/service/PublicService";
+import HeaderAppBar from "@/app/components/common/HeaderAppBar";
+import useThemeHandler from "@/app/hooks/useThemeHandler";
 
 function MarkdownViewer() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const router = useRouter();
   const { filename } = router.query;
-  const markdownRef = useRef(null);
+  const markdownRef = useRef<HTMLDivElement>(null);
   const publicService = new PublicService();
 
   const fetchMarkdown = async () => {
-    const markdown = await publicService.fetchMarkdown(filename);
-    markdownRef.current.innerHTML = await parseMarkdown(markdown);
+    const markdown = await publicService.fetchMarkdown(filename as string);
+    if (markdownRef.current) {
+      markdownRef.current.innerHTML = await parseMarkdown(markdown);
+    }
   };
 
   useEffect(() => {
     if (filename) {
       fetchMarkdown();
-      document.title = filename;
+      document.title = filename as string;
     }
   }, [filename]);
 

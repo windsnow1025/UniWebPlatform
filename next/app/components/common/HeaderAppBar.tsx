@@ -6,7 +6,7 @@ import React from "react";
 interface HeaderAppBarProps {
     title: string;
     useAuthDiv?: boolean;
-    systemTheme: string;
+    systemTheme: string | undefined;
     setSystemTheme: (theme: string) => void;
 }
 
