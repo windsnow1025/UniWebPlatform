@@ -8,7 +8,7 @@ import React, {useEffect} from "react";
 import LinkIcon from "@mui/icons-material/Link";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {CssBaseline, Link} from "@mui/material";
-import useThemeHandler from "@/app/hooks/useThemeHandler";
+import useThemeHandler from "../app/hooks/useThemeHandler";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();

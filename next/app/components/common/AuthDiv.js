@@ -9,13 +9,13 @@ function AuthDiv() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const pathname = usePathname() || "";
+  const pathname = usePathname();
   const userLogic = new UserLogic();
 
   useEffect(() => {
     const fetchUsername = async () => {
       setLoading(true);
-      const username = await userLogic.fetchUsername() || "";
+      const username = await userLogic.fetchUsername();
       setUsername(username);
       setLoading(false);
     };
