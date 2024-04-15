@@ -3,8 +3,8 @@ import {applyTheme, createMUITheme} from "@/app/utils/Theme";
 import { Theme } from "@mui/material/styles";
 
 const useThemeHandler = () => {
-  const [systemTheme, setSystemTheme] = useState<string>();
-  const [muiTheme, setMuiTheme] = useState<Theme>();
+  const [systemTheme, setSystemTheme] = useState();
+  const [muiTheme, setMuiTheme] = useState();
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "system";

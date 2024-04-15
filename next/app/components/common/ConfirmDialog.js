@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function ConfirmDialog({ open, onClose, title, content }) {
+export default function ConfirmDialog({open, onClose, title, content}) {
   return (
     <Dialog
       open={open}
@@ -24,9 +24,7 @@ export default function ConfirmDialog({ open, onClose, title, content }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onClose(false)}>Cancel</Button>
-        <Button onClick={() => onClose(true)} autoFocus>
-          Confirm
-        </Button>
+        <Button onClick={() => onClose(true)} autoFocus>Confirm</Button>
       </DialogActions>
     </Dialog>
   );
