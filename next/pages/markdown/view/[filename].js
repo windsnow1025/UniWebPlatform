@@ -16,24 +16,26 @@ function MarkdownViewer() {
 
   const router = useRouter();
   const { filename } = router.query;
-  const [markdown, setMarkdown] = useState('');
   const markdownRef = useRef(null);
   const publicService = new PublicService();
 
+  const fetchMarkdown = async () => {
+    const markdown = await publicService.fetchMarkdown(filename);
+    markdownRef.current.innerHTML = await parseMarkdown(markdown);
+  };
+
   useEffect(() => {
-
-    const fetchMarkdown = async () => {
-      const markdown = await publicService.fetchMarkdown(filename);
-
-      setMarkdown(parseMarkdown(markdown));
-      parseLaTeX(markdownRef.current);
-    };
-
     if (filename) {
       fetchMarkdown();
       document.title = filename;
     }
   }, [filename]);
+
+  useEffect(() => {
+    if (markdownRef.current) {
+      parseLaTeX(markdownRef.current);
+    }
+  }, [markdownRef]);
 
   return (
     <>
@@ -49,7 +51,6 @@ function MarkdownViewer() {
             <div
               className="markdown-body p-2 min-h-16"
               ref={markdownRef}
-              dangerouslySetInnerHTML={{__html: parseMarkdown(markdown)}}
             />
           </div>
         </ThemeProvider>
