@@ -3,25 +3,15 @@
 import '../src/asset/css/index.css';
 
 import MarkdownList from '../app/components/MarkdownList';
-import {Theme, ThemeProvider} from "@mui/material/styles";
-import React, {useEffect, useState} from "react";
+import {ThemeProvider} from "@mui/material/styles";
+import React, {useEffect} from "react";
 import LinkIcon from "@mui/icons-material/Link";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import {CssBaseline, Link} from "@mui/material";
-import {createMUITheme} from "@/app/utils/Theme";
 import useThemeHandler from "@/app/hooks/useThemeHandler";
 
 function Index() {
-  const {systemTheme, setSystemTheme} = useThemeHandler();
-  const [muiTheme, setMuiTheme] = useState<Theme>();
-
-  useEffect(() => {
-    if (systemTheme === undefined) {
-      return;
-    }
-    const muiTheme = createMUITheme(systemTheme);
-    setMuiTheme(muiTheme);
-  }, [systemTheme]);
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   useEffect(() => {
     document.title = "Windsnow1025";
