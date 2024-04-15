@@ -16,15 +16,10 @@ import ConversationAutocomplete from "../app/components/ConversationAutocomplete
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import ChatSettings from "../app/components/ChatSettings";
-import {createMUITheme} from "../app/utils/Theme";
+import useThemeHandler from "../app/hooks/useThemeHandler";
 
 function Chat() {
-  const [systemTheme, setSystemTheme] = useState();
-  const [muiTheme, setMuiTheme] = useState();
-
-  useEffect(() => {
-    setMuiTheme(createMUITheme(systemTheme));
-  }, [systemTheme]);
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const chatLogic = new ChatLogic();
   const userService = new UserService();
