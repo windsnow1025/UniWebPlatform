@@ -1,4 +1,4 @@
-import MarkdownService from "../service/MarkdownService";
+import MarkdownService from "../service/MarkdownService.ts";
 
 export class MarkdownLogic {
   constructor() {
