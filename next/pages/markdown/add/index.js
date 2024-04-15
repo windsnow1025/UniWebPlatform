@@ -28,11 +28,11 @@ function Index() {
     setIsEditing(true);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setContent(content);
-      markdownRef.current.innerHTML = parseMarkdown(content);
+      markdownRef.current.innerHTML = await parseMarkdown(content);
       parseLaTeX(markdownRef.current);
     }
     setIsEditing(false);
