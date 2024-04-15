@@ -1,16 +1,17 @@
 import {ChatLogic} from "./ChatLogic";
+import {describe, it, expect} from "@jest/globals";
 
 describe('processMessages', () => {
   it('should return a string', () => {
     const chatLogic = new ChatLogic();
     const message = [
       {
-        "role":"system",
-        "content":"You are a helpful assistant."
+        "role": "system",
+        "content": "You are a helpful assistant."
       },
       {
-        "role":"user",
-        "content":"Say this is a test."
+        "role": "user",
+        "content": "Say this is a test."
       }
     ];
     const result = chatLogic.processMessages(message);
@@ -21,31 +22,33 @@ describe('processMessages', () => {
     const chatLogic = new ChatLogic();
     const message = [
       {
-        "role":"system",
-        "content":"You are a helpful assistant."
+        "role": "system",
+        "content": "You are a helpful assistant."
       },
       {
-        "role":"user",
-        "content":"What’s in this image?",
+        "role": "user",
+        "content": "What’s in this image?",
         "files": ["https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"]
       }
     ];
     const result = chatLogic.processMessages(message);
     const expected = [
       {
-        "role":"system",
-        "content":"You are a helpful assistant."
+        "role": "system",
+        "content": "You are a helpful assistant."
       },
       {
-        "role":"user",
-        "content":[
+        "role": "user",
+        "content": [
           {
-            "type":"text",
-            "text":"What’s in this image?"
+            "type": "text",
+            "text": "What’s in this image?"
           },
           {
-            "type":"image_url",
-            "image_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
+            "type": "image_url",
+            "image_url": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
+            }
           }
         ]
       }

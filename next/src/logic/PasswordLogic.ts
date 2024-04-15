@@ -1,15 +1,15 @@
 import sha256 from 'crypto-js/sha256'
 import hex from 'crypto-js/enc-hex'
 
-export function generatePassword(key, name, no) {
+export function generatePassword(key: number, name: string, no: number) {
   const prefix = getPrefix(name);
   const suffix = getSuffix(key, name, no);
   return prefix + "!" + suffix;
 }
 
-function getPrefix(siteName) {
+function getPrefix(name: string) {
   // Find all the letters in the string
-  const letters = siteName.match(/[a-zA-Z]/g);
+  const letters = name.match(/[a-zA-Z]/g);
 
   // If there are no letters, return "Xx"
   if (!letters) {
@@ -25,14 +25,14 @@ function getPrefix(siteName) {
   return letters[0].toUpperCase() + letters[1].toLowerCase();
 }
 
-function getSuffix(key, name, no) {
+function getSuffix(key: number, name: string, no: number) {
   const input = name + no + key;
   const hashedPassword = hashSHA256(input);
   const length = 13;
   return hashedPassword.substring(0, length);
 }
 
-function hashSHA256(input) {
+function hashSHA256(input: string) {
   const hashedInput = sha256(input);
   return hashedInput.toString(hex);
 }

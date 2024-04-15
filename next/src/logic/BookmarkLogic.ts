@@ -1,6 +1,8 @@
 import BookmarkService from "../service/BookmarkService";
+import {Bookmark} from "../model/Bookmark";
 
 export class BookmarkLogic {
+  private bookmarkService: BookmarkService;
 
   constructor() {
     this.bookmarkService = new BookmarkService();
@@ -14,46 +16,46 @@ export class BookmarkLogic {
     }
   }
 
-  async addBookmark(newBookmark) {
+  async addBookmark(newBookmark: Bookmark) {
     try {
       await this.bookmarkService.addBookmark(newBookmark);
-    } catch (error) {
-      if (error.response.status === 401) {
+    } catch (err: any) {
+      if (err.response.status === 401) {
         throw new Error('Unauthorized');
-      } else if (error.response.status === 403) {
+      } else if (err.response.status === 403) {
         throw new Error('Forbidden');
       } else {
-        console.error(error);
+        console.error(err);
         throw new Error('Unknown Error');
       }
     }
   }
 
-  async updateBookmark(id, updatedFields) {
+  async updateBookmark(id: number, updatedFields: Bookmark) {
     try {
       await this.bookmarkService.updateBookmark(id, updatedFields);
-    } catch (error) {
-      if (error.response.status === 401) {
+    } catch (err: any) {
+      if (err.response.status === 401) {
         throw new Error('Unauthorized');
-      } else if (error.response.status === 403) {
+      } else if (err.response.status === 403) {
         throw new Error('Forbidden');
       } else {
-        console.error(error);
+        console.error(err);
         throw new Error('Unknown Error');
       }
     }
   }
 
-  async deleteBookmark(id) {
+  async deleteBookmark(id: number) {
     try {
       await this.bookmarkService.deleteBookmark(id);
-    } catch (error) {
-      if (error.response.status === 401) {
+    } catch (err: any) {
+      if (err.response.status === 401) {
         throw new Error('Unauthorized');
-      } else if (error.response.status === 403) {
+      } else if (err.response.status === 403) {
         throw new Error('Forbidden');
       } else {
-        console.error(error);
+        console.error(err);
         throw new Error('Unknown Error');
       }
     }
