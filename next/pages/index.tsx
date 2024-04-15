@@ -12,8 +12,7 @@ import {createMUITheme} from "@/app/utils/Theme";
 import useThemeHandler from "@/app/hooks/useThemeHandler";
 
 function Index() {
-  const [systemTheme, setSystemTheme] = useState<string>();
-  useThemeHandler({systemTheme, setSystemTheme});
+  const {systemTheme, setSystemTheme} = useThemeHandler();
   const [muiTheme, setMuiTheme] = useState<Theme>();
 
   useEffect(() => {
