@@ -1,4 +1,4 @@
-import ChatService from "../service/ChatService";
+import ChatService from "../service/ChatService.ts";
 
 export class ChatLogic {
 
