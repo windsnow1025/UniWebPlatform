@@ -11,15 +11,19 @@ function ContentDiv({contentInitial, onContentChange, shouldSanitize}) {
     setContent(contentInitial);
   }, [contentInitial]);
 
-  useEffect(() => {
+  const processMarkdown = async () => {
     if (contentRef.current) {
       if (!editing) {
-        contentRef.current.innerHTML = parseMarkdown(content, shouldSanitize);
+        contentRef.current.innerHTML = await parseMarkdown(content, shouldSanitize);
         parseLaTeX(contentRef.current);
       } else {
         contentRef.current.innerHTML = content;
       }
     }
+  }
+
+  useEffect(() => {
+    processMarkdown();
   }, [content, editing, shouldSanitize]);
 
   const handleContentBlur = () => {
