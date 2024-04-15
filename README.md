@@ -1,8 +1,8 @@
-# Full Stack Web
+# UniWebPlatform
 
 ## Introduction
 
-A full stack web application for my personal website containing markdown blogs, a user system, an editable bookmark, a message transmitter and a private gpt.
+A full stack web application for my personal website containing a user system, markdown blogs, an editable bookmark, a message transmitter, a password generator, an AI chat.
 
 ## Tech Stack
 
@@ -12,7 +12,7 @@ Back End: Node.js - Express.js + Python FastAPI
 
 Storage: MySQL
 
-Infrastructure: Nginx
+Infrastructure: Nginx, Docker, Linux
 
 ## Live Demo
 
