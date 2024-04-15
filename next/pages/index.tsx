@@ -20,11 +20,11 @@ function Index() {
   return (
     <>
       {muiTheme &&
-        <ThemeProvider theme={muiTheme!!}>
+        <ThemeProvider theme={muiTheme}>
           <CssBaseline enableColorScheme/>
           <HeaderAppBar
             title="Windsnow1025"
-            systemTheme={systemTheme!!}
+            systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
           <div className="flex-around m-4">
