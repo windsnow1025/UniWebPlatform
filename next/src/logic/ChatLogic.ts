@@ -1,6 +1,18 @@
-import ChatService from "../service/ChatService.ts";
+import ChatService, {StreamResponse} from "../service/ChatService";
+import {Content, Message} from "../model/Message"
+
+interface ApiTypeModel {
+  api_type: string;
+  model: string
+}
 
 export class ChatLogic {
+  private chatService: ChatService;
+  private initMessages: Message[];
+  private emptyUserMessage: Message;
+  private emptyAssistantMessage: Message;
+  private defaultApiType: string;
+  private defaultModel: ApiTypeModel[];
 
   constructor() {
 
@@ -43,7 +55,7 @@ export class ChatLogic {
     }
   }
 
-  getModels(models, apiType) {
+  getModels(models: ApiTypeModel, apiType: string) {
     if(!Array.isArray(models)) {
       return this.defaultModel
         .filter(model => model.api_type === apiType)
@@ -54,9 +66,9 @@ export class ChatLogic {
       .map(model => model.model);
   }
 
-  async nonStreamGenerate(messages, api_type, model, temperature, stream) {
+  async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
     try {
-      const content = await this.chatService.generate(this.processMessages(messages), api_type, model, temperature, stream);
+      const content = await this.chatService.generate(this.processMessages(messages), api_type, model, temperature, stream) as string;
       return this.sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
@@ -64,12 +76,12 @@ export class ChatLogic {
     }
   }
 
-  async *streamGenerate(messages, api_type, model, temperature, stream) {
+  async *streamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
     let controller;
 
     try {
 
-      const response = await this.chatService.generate(this.processMessages(messages), api_type, model, temperature, stream);
+      const response = await this.chatService.generate(this.processMessages(messages), api_type, model, temperature, stream) as StreamResponse;
       controller = response.controller;
       const reader = response.reader;
 
@@ -93,24 +105,24 @@ export class ChatLogic {
     }
   }
 
-  sanitize(content) {
+  sanitize(content: string) {
     return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  processMessages(messages) {
+  processMessages(messages: Message[]) {
     return messages.map(message => {
       const newMessage = { ...message };
 
       if (newMessage.files) {
-        newMessage.content = this.addUrlsToContent(newMessage.content, newMessage.files);
+        newMessage.content = this.addUrlsToContent(newMessage.content as string, newMessage.files);
         delete newMessage.files;
       }
       return newMessage;
     });
   }
 
-  addUrlsToContent(content, urls) {
-    let contentArray = [{"type": "text", "text": content}];
+  addUrlsToContent(content: string, urls: string[]) {
+    let contentArray: Content = [{"type": "text", "text": content}];
 
     urls.forEach(url => {
       contentArray.push({
@@ -126,7 +138,7 @@ export class ChatLogic {
 
 
   // Save the messages array as a JSON file
-  export(messages) {
+  export(messages: Message[]) {
     const fileName = 'messages.json';
     const data = JSON.stringify(messages);
     const blob = new Blob([data], {type: 'application/json'});
@@ -152,13 +164,15 @@ export class ChatLogic {
       input.accept = 'application/json';
       input.onchange = e => {
         // Get the file
-        const file = e.target.files[0];
+        const target = e.target as HTMLInputElement;
+        const files = target.files as FileList;
+        const file = files[0];
 
         // Read the file
         const reader = new FileReader();
         reader.readAsText(file, "UTF-8");
         reader.onload = readerEvent => {
-          const content = readerEvent.target.result;
+          const content = readerEvent.target?.result as string;
 
           // Parse the JSON file
           const messages = JSON.parse(content);

@@ -1,4 +1,5 @@
 import {generatePassword} from "./PasswordLogic";
+import {describe, it, expect} from "@jest/globals";
 
 describe('generatePassword', () => {
   it('should generate a password', () => {

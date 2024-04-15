@@ -1,6 +1,8 @@
-import MarkdownService from "../service/MarkdownService.ts";
+import MarkdownService from "../service/MarkdownService";
 
 export class MarkdownLogic {
+  private markdownService: MarkdownService;
+
   constructor() {
     this.markdownService = new MarkdownService();
   }
@@ -13,7 +15,7 @@ export class MarkdownLogic {
     }
   }
 
-  async fetchMarkdown(id) {
+  async fetchMarkdown(id: number) {
     try {
       return await this.markdownService.fetchMarkdown(id);
     } catch (error) {
@@ -21,52 +23,52 @@ export class MarkdownLogic {
     }
   }
 
-  async addMarkdown(title, content) {
+  async addMarkdown(title: string, content: string) {
     try {
       await this.markdownService.addMarkdown({ title, content });
-    } catch (error) {
-      if (error.response.status === 401) {
+    } catch (err: any) {
+      if (err.response.status === 401) {
         throw new Error('Unauthorized');
-      } else if (error.response.status === 403) {
+      } else if (err.response.status === 403) {
         throw new Error('Forbidden');
       } else {
-        console.error(error);
+        console.error(err);
         throw new Error('Unknown Error');
       }
     }
   }
 
-  async updateMarkdown(id, title, content) {
+  async updateMarkdown(id: number, title: string, content: string) {
     try {
       await this.markdownService.updateMarkdown(id, { title, content });
-    } catch (error) {
-      if (error.response.status === 401) {
+    } catch (err: any) {
+      if (err.response.status === 401) {
         throw new Error('Unauthorized');
-      } else if (error.response.status === 403) {
+      } else if (err.response.status === 403) {
         throw new Error('Forbidden');
       } else {
-        console.error(error);
+        console.error(err);
         throw new Error('Unknown Error');
       }
     }
   }
 
-  async deleteMarkdown(id) {
+  async deleteMarkdown(id: number) {
     try {
       await this.markdownService.deleteMarkdown(id);
-    } catch (error) {
-      if (error.response.status === 401) {
+    } catch (err: any) {
+      if (err.response.status === 401) {
         throw new Error('Unauthorized');
-      } else if (error.response.status === 403) {
+      } else if (err.response.status === 403) {
         throw new Error('Forbidden');
       } else {
-        console.error(error);
+        console.error(err);
         throw new Error('Unknown Error');
       }
     }
   }
 
-  getTitleFromContent(content) {
+  getTitleFromContent(content: string) {
     return content.split('\n')[0].replace('# ', '');
   }
 }

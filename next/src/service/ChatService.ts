@@ -1,8 +1,8 @@
 import axios, {AxiosInstance} from 'axios';
 import {Message} from '../model/Message'
 
-interface StreamResponse {
-  reader: ReadableStreamDefaultReader | undefined;
+export interface StreamResponse {
+  reader: ReadableStreamDefaultReader;
   controller: AbortController;
 }
 
@@ -45,7 +45,7 @@ export default class ChatService {
         }
       });
 
-      const reader = response.body?.getReader();
+      const reader = response.body!.getReader();
       return {
         reader,
         controller
