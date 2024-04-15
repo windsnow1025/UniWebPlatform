@@ -1,6 +1,8 @@
 import UserService from "../service/UserService";
 
 export class UserLogic {
+  private userService: UserService;
+
   constructor() {
     this.userService = new UserService();
   }
@@ -17,11 +19,11 @@ export class UserLogic {
     }
   }
 
-  async signIn(username, password) {
+  async signIn(username: string, password: string) {
     try {
       const token = await this.userService.signIn(username, password);
       localStorage.setItem('token', token);
-    } catch (err) {
+    } catch (err: any) {
       if (err.response && err.response.status === 401) {
         throw new Error("Incorrect Username or Password.");
       } else {
@@ -31,10 +33,10 @@ export class UserLogic {
     }
   }
 
-  async signUp(username, password) {
+  async signUp(username: string, password: string) {
     try {
       await this.userService.signUp(username, password);
-    } catch (err) {
+    } catch (err: any) {
       if (err.response && err.response.status === 409) {
         throw new Error("Username already exists.");
       } else {
@@ -44,10 +46,10 @@ export class UserLogic {
     }
   }
 
-  async updateUser(username, password) {
+  async updateUser(username: string, password: string) {
     try {
       await this.userService.updateUser(username, password);
-    } catch (err) {
+    } catch (err: any) {
       if (err.response && err.response.status === 409) {
         throw new Error("Username already exists.");
       } else {
@@ -57,7 +59,7 @@ export class UserLogic {
     }
   }
 
-  validateInput(input) {
+  validateInput(input: string) {
     const asciiRegex = /^[\x20-\x7F]{4,32}$/;
     return asciiRegex.test(input);
   }

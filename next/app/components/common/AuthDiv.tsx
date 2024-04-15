@@ -3,19 +3,19 @@ import { usePathname, useRouter } from "next/navigation";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {Button, IconButton, CircularProgress, Link} from "@mui/material";
 
-import { UserLogic } from "../../../src/logic/UserLogic";
+import { UserLogic } from "@/src/logic/UserLogic";
 
 function AuthDiv() {
-  const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
   const userLogic = new UserLogic();
 
   useEffect(() => {
     const fetchUsername = async () => {
       setLoading(true);
-      const username = await userLogic.fetchUsername();
+      const username = await userLogic.fetchUsername() || "";
       setUsername(username);
       setLoading(false);
     };
@@ -25,7 +25,7 @@ function AuthDiv() {
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
-    setUsername(null);
+    setUsername("");
   };
 
   const handleSignInRouter = () => {
@@ -56,8 +56,12 @@ function AuthDiv() {
             <CircularProgress size={24} />
           ) : (
             <>
-              <div className="m-1"><Button variant="contained" onClick={handleSignInRouter}>Sign In</Button></div>
-              <div className="m-1"><Button variant="contained" onClick={handleSignUpRouter}>Sign Up</Button></div>
+              <div className="m-1">
+                <Button variant="contained" onClick={handleSignInRouter}>Sign In</Button>
+              </div>
+              <div className="m-1">
+                <Button variant="contained" onClick={handleSignUpRouter}>Sign Up</Button>
+              </div>
             </>
           )}
         </div>

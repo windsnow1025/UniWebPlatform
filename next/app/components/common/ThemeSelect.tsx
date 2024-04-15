@@ -1,15 +1,14 @@
 import React, {useEffect} from 'react';
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import {applyTheme} from "../../utils/Theme";
 
-const ThemeSelect = ({systemTheme, setSystemTheme}) => {
-  useEffect(() => {
-    const currentSystemTheme = localStorage.getItem('theme') || 'system';
-    applyTheme(currentSystemTheme);
-    setSystemTheme(currentSystemTheme);
-  }, []);
+interface ThemeSelectProps {
+  systemTheme: string;
+  setSystemTheme: (theme: string) => void;
+}
 
-  const onSelectChange = (event) => {
+const ThemeSelect: React.FC<ThemeSelectProps> = ({systemTheme, setSystemTheme}) => {
+  const onSelectChange = (event: SelectChangeEvent) => {
     const systemTheme = event.target.value;
     localStorage.setItem("theme", systemTheme);
     applyTheme(systemTheme);
