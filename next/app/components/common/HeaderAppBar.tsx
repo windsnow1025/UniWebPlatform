@@ -3,7 +3,14 @@ import AuthDiv from "./AuthDiv";
 import ThemeSelect from "./ThemeSelect";
 import React from "react";
 
-function HeaderAppBar({ title, useAuthDiv = true, systemTheme, setSystemTheme}) {
+interface HeaderAppBarProps {
+    title: string;
+    useAuthDiv?: boolean;
+    systemTheme: string;
+    setSystemTheme: (theme: string) => void;
+}
+
+const HeaderAppBar: React.FC<HeaderAppBarProps> = ({ title, useAuthDiv = true, systemTheme, setSystemTheme}) => {
     return (
         <AppBar position="static" color="secondary">
             <div className="flex-around p-2">
@@ -23,7 +30,7 @@ function HeaderAppBar({ title, useAuthDiv = true, systemTheme, setSystemTheme}) 
                 </div>
             </div>
         </AppBar>
-    )
-}
+    );
+};
 
 export default HeaderAppBar;

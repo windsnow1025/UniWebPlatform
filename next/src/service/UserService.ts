@@ -1,11 +1,13 @@
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
+
 export default class UserService {
+  private axiosInstance: AxiosInstance;
 
   constructor() {
     this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NODE_API_BASE_URL });
   }
 
-  async signIn(username, password) {
+  async signIn(username: string, password: string): Promise<string> {
     const res = await this.axiosInstance.post("/user/sign-in", {
       username: username,
       password: password
@@ -13,14 +15,14 @@ export default class UserService {
     return res.data.token;
   }
 
-  async signUp(username, password) {
+  async signUp(username: string, password: string) {
     await this.axiosInstance.post("/user/sign-up", {
       username: username,
       password: password
     });
   }
 
-  async fetchUsername() {
+  async fetchUsername(): Promise<string> {
     const token = localStorage.getItem('token');
     const res = await this.axiosInstance.get('/user/', {
       headers: {Authorization: token}
@@ -28,7 +30,7 @@ export default class UserService {
     return res.data.username;
   }
 
-  async updateUser(username, password) {
+  async updateUser(username: string, password: string) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.put(`/user/`, {
       username: username,
@@ -38,7 +40,7 @@ export default class UserService {
     });
   }
 
-  async fetchCredit() {
+  async fetchCredit(): Promise<number> {
     const token = localStorage.getItem('token');
     const res = await this.axiosInstance.get("/user/credit", {
       headers: {Authorization: token}
@@ -46,7 +48,7 @@ export default class UserService {
     return res.data.credit;
   }
 
-  async fetchPin() {
+  async fetchPin(): Promise<number> {
     const token = localStorage.getItem('token');
     const res = await this.axiosInstance.get('/user/pin', {
       headers: {Authorization: token}
@@ -54,7 +56,7 @@ export default class UserService {
     return res.data.pin;
   }
 
-  async updatePin(pin) {
+  async updatePin(pin: number) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.put(`/user/pin`, {
       pin: pin

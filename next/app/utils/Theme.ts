@@ -1,11 +1,14 @@
 import {createTheme} from "@mui/material/styles";
 
 const convertTheme = (systemTheme: string) => {
-  if (systemTheme !== "system") {
+  if (systemTheme === "system") {
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    return prefersDarkScheme.matches ? "dark" : "light";
+  } else if (systemTheme === "light" || systemTheme === "dark") {
     return systemTheme;
+  } else {
+    return "light";
   }
-  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-  return prefersDarkScheme.matches ? "dark" : "light";
 }
 
 export function applyTheme(systemTheme: string) {
@@ -89,12 +92,9 @@ function applyHighlightTheme(theme: string) {
 
 export function createMUITheme(systemTheme: string) {
   const theme = convertTheme(systemTheme);
-  if (theme !== "light" && theme !== "dark") {
-    return;
-  }
   return createTheme({
     palette: {
-      mode: theme,
+      mode: theme as "light" || "dark",
     }
   });
 }
