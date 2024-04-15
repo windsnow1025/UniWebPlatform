@@ -53,7 +53,7 @@ function Index() {
               </div>
             </Link>
           </div>
-          <div className="mx-16">
+          <div className="m-8">
             <MarkdownList/>
           </div>
         </ThemeProvider>
