@@ -2,6 +2,8 @@ interface ImageURL {
     url: string;
 }
 
+export type Content = Array<TextContent | ImageContent>
+
 interface TextContent {
     type: 'text';
     text: string;
@@ -14,5 +16,6 @@ interface ImageContent {
 
 export interface Message {
     role: string;
-    content: string | Array<TextContent | ImageContent>;
+    content: string | Content;
+    files?: string[] | undefined
 }

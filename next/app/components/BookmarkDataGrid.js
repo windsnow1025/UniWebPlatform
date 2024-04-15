@@ -253,6 +253,7 @@ function BookmarkDataGrid() {
           slotProps={{
             toolbar: {setRows, setRowModesModel, rows},
           }}
+          pagination={true}
         />
       </div>
       <Snackbar
