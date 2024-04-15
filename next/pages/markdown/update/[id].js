@@ -10,6 +10,7 @@ import {Button, CssBaseline} from "@mui/material";
 import {useRouter} from "next/router";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
 function MarkdownUpdate() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -21,17 +22,16 @@ function MarkdownUpdate() {
   const markdownRef = useRef(null);
   const markdownLogic = new MarkdownLogic();
 
+  const fetchMarkdown = async () => {
+    const markdown = await markdownLogic.fetchMarkdown(id);
+    setMarkdown(markdown);
+
+    document.title = markdown.title;
+    markdownRef.current.innerHTML = await parseMarkdown(markdown.content);
+    parseLaTeX(markdownRef.current);
+  };
+
   useEffect(() => {
-
-    const fetchMarkdown = async () => {
-      const markdown = await markdownLogic.fetchMarkdown(id);
-      setMarkdown(markdown);
-
-      document.title = markdown.title;
-      markdownRef.current.innerHTML = parseMarkdown(markdown.content);
-      parseLaTeX(markdownRef.current);
-    };
-
     if (id) {
       fetchMarkdown();
     }
@@ -42,11 +42,11 @@ function MarkdownUpdate() {
     setIsEditing(true);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setMarkdown(prev => ({ ...prev, content: content }));
-      markdownRef.current.innerHTML = parseMarkdown(content);
+      markdownRef.current.innerHTML = await parseMarkdown(content);
       parseLaTeX(markdownRef.current);
     }
     setIsEditing(false);
