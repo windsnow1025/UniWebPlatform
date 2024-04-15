@@ -8,15 +8,10 @@ import {Button, CssBaseline} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
-import {createMUITheme} from "../../../app/utils/Theme";
+import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
 function Action() {
-  const [systemTheme, setSystemTheme] = useState();
-  const [muiTheme, setMuiTheme] = useState();
-
-  useEffect(() => {
-    setMuiTheme(createMUITheme(systemTheme));
-  }, [systemTheme]);
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const [action, setAction] = useState('');
   const [title, setTitle] = useState('');
