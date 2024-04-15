@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
-import {applyTheme} from "../../utils/Theme";
+import {applyTheme} from "@/app/utils/Theme";
 
 interface ThemeSelectProps {
   systemTheme: string;
