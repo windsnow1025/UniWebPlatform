@@ -10,15 +10,9 @@ import {Button, CssBaseline} from "@mui/material";
 import {useRouter} from "next/router";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
-import {createMUITheme} from "../../../app/utils/Theme";
 
 function MarkdownUpdate() {
-  const [systemTheme, setSystemTheme] = useState();
-  const [muiTheme, setMuiTheme] = useState();
-
-  useEffect(() => {
-    setMuiTheme(createMUITheme(systemTheme));
-  }, [systemTheme]);
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const router = useRouter();
   const { id } = router.query;

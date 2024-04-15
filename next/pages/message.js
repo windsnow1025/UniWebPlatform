@@ -7,15 +7,10 @@ import MessageDiv from '../app/components/message/MessageDiv';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline, Paper, Typography} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import {createMUITheme} from "../app/utils/Theme";
+import useThemeHandler from "../app/hooks/useThemeHandler";
 
 function MessageTransmitter() {
-  const [systemTheme, setSystemTheme] = useState();
-  const [muiTheme, setMuiTheme] = useState();
-
-  useEffect(() => {
-    setMuiTheme(createMUITheme(systemTheme));
-  }, [systemTheme]);
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');

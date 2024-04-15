@@ -9,15 +9,10 @@ import {parseMarkdown} from "../../../src/util/MarkdownParser";
 import {parseLaTeX} from "../../../src/util/LaTeXParser";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import PublicService from "../../../src/service/PublicService";
-import {createMUITheme} from "../../../app/utils/Theme";
+import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
 function MarkdownViewer() {
-  const [systemTheme, setSystemTheme] = useState();
-  const [muiTheme, setMuiTheme] = useState();
-
-  useEffect(() => {
-    setMuiTheme(createMUITheme(systemTheme));
-  }, [systemTheme]);
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const router = useRouter();
   const { filename } = router.query;
