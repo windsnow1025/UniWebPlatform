@@ -1,5 +1,4 @@
 from selenium.common import TimeoutException
-from selenium.webdriver.support.wait import WebDriverWait
 
 from scraper import Scraper
 
@@ -8,7 +7,6 @@ class User(Scraper):
     def __init__(self):
         super().__init__("http://localhost:3000")
 
-        self.wait = WebDriverWait(self.driver, timeout=1)
         self.sign_in_button_path = "//button[normalize-space(text())='Sign In']"
         self.user_account_link_path = "//a[@href='/user/account']"
         self.username_input_path = "//label[text()='Username']/following-sibling::div//input"
