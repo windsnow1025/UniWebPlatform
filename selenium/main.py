@@ -1,7 +1,10 @@
+from selenium import webdriver
+
 from user import User
 
 try:
-    user = User()
+    webdriver = webdriver.Chrome()
+    user = User(webdriver)
     signed_in_status = user.is_signed_in()
     if signed_in_status:
         user.sign_out()
