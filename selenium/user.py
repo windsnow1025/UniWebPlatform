@@ -1,11 +1,13 @@
 from selenium.common import TimeoutException
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from scraper import Scraper
 
 
 class User(Scraper):
-    def __init__(self):
-        super().__init__("http://localhost:3000")
+    def __init__(self, driver: WebDriver):
+        self.base_url = "http://localhost:3000"
+        super().__init__(self.base_url, driver)
 
         self.sign_in_button_path = "//button[normalize-space(text())='Sign In']"
         self.user_account_link_path = "//a[@href='/user/account']"
