@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.4",
     "@mui/x-data-grid-premium": "^6.19.3",
     "axios": "^1.6.5",
+    "cloudflare": "^3.0.0",
     "crypto-js": "^4.2.0",
     "highlight.js": "^11.9.0",
     "katex": "^0.16.10",
