@@ -40,17 +40,22 @@ function Password() {
 
   const userService = new UserService();
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const fetchPin = async () => {
-    const pin = await userService.fetchPin();
-    setPin(pin);
+    try {
+      const pin = await userService.fetchPin();
+      setPin(pin);
+    } catch (err) {
+      setAlertMessage(err.message);
+      setAlertOpen(true);
+    }
   }
 
   useEffect(() => {
     fetchPin();
   }, []);
-
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
 
   const handleUpdatePin = async () => {
     try {

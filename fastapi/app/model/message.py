@@ -1,25 +1,31 @@
-from typing import TypedDict, Literal
+from dataclasses import dataclass
+from typing import Literal
 
 
-class ImageURL(TypedDict):
+@dataclass
+class ImageURL:
     url: str
 
 
-class TextContent(TypedDict):
+@dataclass
+class TextContent:
     type: Literal['text']
     text: str
 
 
-class ImageContent(TypedDict):
+@dataclass
+class ImageContent:
     type: Literal['image_url']
     image_url: ImageURL
 
 
-class Message(TypedDict):
+@dataclass
+class Message:
     role: str
     content: str | list[TextContent | ImageContent]
 
 
-class GeminiMessage(TypedDict):
+@dataclass
+class GeminiMessage:
     role: str
     parts: list[str]

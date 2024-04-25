@@ -9,7 +9,10 @@ class NonStreamGeminiProcessor(GeminiProcessor):
         try:
             logging.info(f"messages: {self.messages}")
 
-            response = self.model.generate_content(self.messages)
+            response = self.model.generate_content(
+                contents=self._to_dict(self.messages),
+                stream=False
+            )
 
             return self.response_handler(response.text)
         except Exception as e:
