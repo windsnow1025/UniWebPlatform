@@ -24,7 +24,7 @@ async def create_gemini_processor(
     genai.configure(api_key=os.environ["GOOGLE_AI_STUDIO_API_KEY"])
 
     generation_config = {
-        "temperature": 0
+        "temperature": temperature
     }
 
     safety_settings = [
@@ -76,22 +76,22 @@ async def convert_messages_to_gemini(messages: list[Message], host: str) -> list
 
 async def convert_message_to_gemini(message: Message, host: str) -> GeminiMessage:
     role = ""
-    if message['role'] == "user" or message['role'] == "system":
+    if message.role == "user" or message.role == "system":
         role = "user"
-    elif message['role'] == "assistant":
+    elif message.role == "assistant":
         role = "model"
 
     parts = []
-    content = message['content']
+    content = message.content
 
     if isinstance(content, str):
         parts.append(content)
     elif isinstance(content, list):
         for item in content:
-            if item['type'] == 'text':
-                parts.append(item['text'])
-            elif item['type'] == 'image_url':
-                img_url = item['image_url']['url']
+            if item.type == 'text':
+                parts.append(item.text)
+            elif item.type == 'image_url':
+                img_url = item.image_url.url
                 img_data = await get_img_data(img_url, host)
                 img = PIL.Image.open(img_data)
                 parts.append(img)
@@ -100,8 +100,6 @@ async def convert_message_to_gemini(message: Message, host: str) -> GeminiMessag
 
 
 async def get_img_data(img_url: str, host) -> BytesIO:
-    if host.split(':')[0] not in img_url:
-        raise Exception("SSRF")
     async with httpx.AsyncClient() as client:
         response = await client.get(img_url)
         response.raise_for_status()
