@@ -7,9 +7,10 @@ import google.generativeai as genai
 import httpx
 from fastapi.responses import StreamingResponse
 
-from app.logic.chat.processor.gemini.non_stream_gemini_processor import NonStreamGeminiProcessor
-from app.logic.chat.processor.gemini.stream_gemini_processor import StreamGeminiProcessor
-from app.model.message import Message, GeminiMessage
+from app.logic.chat.processor.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
+from app.logic.chat.processor.implementations.stream_gemini_processor import StreamGeminiProcessor
+from app.model.message import Message
+from app.model.gemini_message import GeminiMessage
 
 
 async def create_gemini_processor(
@@ -81,20 +82,12 @@ async def convert_message_to_gemini(message: Message, host: str) -> GeminiMessag
     elif message.role == "assistant":
         role = "model"
 
-    parts = []
-    content = message.content
+    parts = [message.text]
 
-    if isinstance(content, str):
-        parts.append(content)
-    elif isinstance(content, list):
-        for item in content:
-            if item.type == 'text':
-                parts.append(item.text)
-            elif item.type == 'image_url':
-                img_url = item.image_url.url
-                img_data = await get_img_data(img_url, host)
-                img = PIL.Image.open(img_data)
-                parts.append(img)
+    for image_url in message.files:
+        image_data = await get_img_data(image_url, host)
+        image = PIL.Image.open(image_data)
+        parts.append(image)
 
     return GeminiMessage(role=role, parts=parts)
 

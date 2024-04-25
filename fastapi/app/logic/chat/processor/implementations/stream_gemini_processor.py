@@ -4,7 +4,7 @@ from typing import Generator
 
 from google.generativeai.types import GenerateContentResponse
 
-from app.logic.chat.processor.gemini.gemini_processor import GeminiProcessor
+from app.logic.chat.processor.interfaces.gemini_processor import GeminiProcessor
 
 
 def process_delta(completion_delta: GenerateContentResponse) -> str:
