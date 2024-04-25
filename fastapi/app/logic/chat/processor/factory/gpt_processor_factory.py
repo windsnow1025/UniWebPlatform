@@ -4,9 +4,10 @@ from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
 from app.logic.chat.handler.response_handler import StreamResponseHandler, NonStreamResponseHandler
-from app.logic.chat.processor.gpt.non_stream_gpt_processor import NonStreamGPTProcessor
-from app.logic.chat.processor.gpt.stream_gpt_processor import StreamGPTProcessor
+from app.logic.chat.processor.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
+from app.logic.chat.processor.implementations.stream_gpt_processor import StreamGPTProcessor
 from app.model.message import Message
+from app.model.gpt_message import *
 
 
 def create_gpt_processor(
@@ -31,10 +32,12 @@ def create_gpt_processor(
             api_key=os.environ["AZURE_API_KEY"],
         )
 
+    gpt_messages = convert_messages_to_gpt(messages)
+
     if stream:
         return StreamGPTProcessor(
             model=model,
-            messages=messages,
+            messages=gpt_messages,
             temperature=temperature,
             api_type=api_type,
             openai=openai,
@@ -43,9 +46,42 @@ def create_gpt_processor(
     else:
         return NonStreamGPTProcessor(
             model=model,
-            messages=messages,
+            messages=gpt_messages,
             temperature=temperature,
             api_type=api_type,
             openai=openai,
             response_handler=non_stream_response_handler
         )
+
+
+def convert_messages_to_gpt(messages: list[Message]) -> list[GptMessage]:
+    return [convert_message_to_gpt(message) for message in messages]
+
+
+def convert_message_to_gpt(message: Message) -> GptMessage:
+    role = message.role
+    text = message.text
+    files = message.files
+
+    if len(files) == 0:
+        content = text
+    else:
+        content = []
+
+        text_content = TextContent(type="text", text=text)
+        content.append(text_content)
+
+        image_urls = []
+        for file in files:
+            image_url = ImageURL(url=file)
+            image_urls.append(image_url)
+
+        image_contents = []
+        for image_url in image_urls:
+            image_content = ImageContent(type="image_url", image_url=image_url)
+            image_contents.append(image_content)
+
+        for image_content in image_contents:
+            content.append(image_content)
+
+    return GptMessage(role=role, content=content)
