@@ -1,5 +1,5 @@
 import ChatService, {StreamResponse} from "../service/ChatService";
-import {Content, Message} from "../model/Message"
+import {Message} from "../model/Message"
 
 interface ApiTypeModel {
   api_type: string;
@@ -8,11 +8,11 @@ interface ApiTypeModel {
 
 export class ChatLogic {
   private chatService: ChatService;
-  private initMessages: Message[];
-  private emptyUserMessage: Message;
-  private emptyAssistantMessage: Message;
-  private defaultApiType: string;
-  private defaultModel: ApiTypeModel[];
+  public initMessages: Message[];
+  public emptyUserMessage: Message;
+  public emptyAssistantMessage: Message;
+  public defaultApiType: string;
+  public defaultModel: ApiTypeModel[];
 
   constructor() {
 
@@ -21,21 +21,25 @@ export class ChatLogic {
     this.initMessages = [
       {
         "role": "system",
-        "content": "You are a helpful assistant."
+        "text": "You are a helpful assistant.",
+        "files": []
       },
       {
         "role": "user",
-        "content": ""
+        "text": "",
+        "files": []
       }
     ];
 
     this.emptyUserMessage = {
       "role": "user",
-      "content": ""
+      "text": "",
+      "files": []
     };
     this.emptyAssistantMessage = {
       "role": "assistant",
-      "content": ""
+      "text": "",
+      "files": []
     };
 
     this.defaultApiType = "open_ai";
@@ -44,6 +48,15 @@ export class ChatLogic {
       {"api_type": "azure", "model": "gpt-4"},
       {"api_type": "gemini", "model": "gemini-1.5-pro-latest"}
     ]
+  }
+
+  createAssistantMessage(text: string) {
+    const message: Message = {
+      "role": "assistant",
+      "text": text,
+      "files": []
+    }
+    return message;
   }
 
   async fetchModels() {
@@ -68,7 +81,7 @@ export class ChatLogic {
 
   async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
     try {
-      const content = await this.chatService.generate(this.processMessages(messages), api_type, model, temperature, stream) as string;
+      const content = await this.chatService.generate(messages, api_type, model, temperature, stream) as string;
       return this.sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
@@ -81,7 +94,7 @@ export class ChatLogic {
 
     try {
 
-      const response = await this.chatService.generate(this.processMessages(messages), api_type, model, temperature, stream) as StreamResponse;
+      const response = await this.chatService.generate(messages, api_type, model, temperature, stream) as StreamResponse;
       controller = response.controller;
       const reader = response.reader;
 
@@ -108,34 +121,6 @@ export class ChatLogic {
   sanitize(content: string) {
     return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
-
-  processMessages(messages: Message[]) {
-    return messages.map(message => {
-      const newMessage = { ...message };
-
-      if (newMessage.files) {
-        newMessage.content = this.addUrlsToContent(newMessage.content as string, newMessage.files);
-        delete newMessage.files;
-      }
-      return newMessage;
-    });
-  }
-
-  addUrlsToContent(content: string, urls: string[]) {
-    let contentArray: Content = [{"type": "text", "text": content}];
-
-    urls.forEach(url => {
-      contentArray.push({
-        "type": "image_url",
-        "image_url": {
-          "url": url
-        }
-      });
-    });
-
-    return contentArray;
-  }
-
 
   // Save the messages array as a JSON file
   export(messages: Message[]) {

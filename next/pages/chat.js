@@ -123,10 +123,7 @@ function Chat() {
         return;
       }
 
-      setMessages(prevMessages => [...prevMessages, {
-        "role": "assistant",
-        "content": content
-      }, chatLogic.emptyUserMessage]);
+      setMessages(prevMessages => [...prevMessages, chatLogic.createAssistantMessage(content), chatLogic.emptyUserMessage]);
 
     } else {
 
@@ -147,7 +144,7 @@ function Chat() {
 
         setMessages(prevMessages => {
           const newMessages = [...prevMessages];
-          newMessages[newMessages.length - 1].content += chunk;
+          newMessages[newMessages.length - 1].text += chunk;
           return newMessages;
         });
 
@@ -187,7 +184,7 @@ function Chat() {
 
   const handleContentChange = (index, content) => {
     const newMessages = [...messages];
-    newMessages[index].content = content;
+    newMessages[index].text = content;
     setMessages(newMessages);
   };
 
@@ -276,7 +273,7 @@ function Chat() {
               <div key={index}>
                 <MessageDiv
                   roleInitial={message.role}
-                  contentInitial={message.content}
+                  contentInitial={message.text}
                   filesInitial={message.files}
                   onRoleChange={(role) => handleRoleChange(index, role)}
                   onContentChange={(content) => handleContentChange(index, content)}
