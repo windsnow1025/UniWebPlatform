@@ -2,8 +2,8 @@ from typing import Callable, Generator
 
 from fastapi.responses import StreamingResponse
 
-from app.logic.chat.processor.gemini.gemini_processor_factory import create_gemini_processor
-from app.logic.chat.processor.gpt.gpt_processor_factory import create_gpt_processor
+from app.logic.chat.processor.factory.gemini_processor_factory import create_gemini_processor
+from app.logic.chat.processor.factory.gpt_processor_factory import create_gpt_processor
 from app.model.message import Message
 
 
