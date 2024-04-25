@@ -1,7 +1,7 @@
 import logging
 import traceback
 
-from app.logic.chat.processor.gemini.gemini_processor import GeminiProcessor
+from app.logic.chat.processor.interfaces.gemini_processor import GeminiProcessor
 
 
 class NonStreamGeminiProcessor(GeminiProcessor):

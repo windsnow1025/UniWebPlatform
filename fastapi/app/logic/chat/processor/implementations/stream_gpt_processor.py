@@ -5,7 +5,7 @@ from typing import Generator
 from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
-from app.logic.chat.processor.gpt.gpt_processor import GPTProcessor
+from app.logic.chat.processor.interfaces.gpt_processor import GPTProcessor
 
 
 def process_delta(completion_delta: ChatCompletionChunk) -> str:

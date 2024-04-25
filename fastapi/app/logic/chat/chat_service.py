@@ -3,7 +3,7 @@ import logging
 from app.dao import user_dao
 from app.logic.chat.handler.request_handler import handle_request
 from app.logic.chat.handler.response_handler import stream_handler, non_stream_handler
-from app.logic.chat.processor.chat_processor_factory import create_chat_processor
+from app.logic.chat.processor.factory.chat_processor_factory import create_chat_processor
 from app.model.message import Message
 from app.util import pricing
 
