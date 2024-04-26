@@ -105,16 +105,12 @@ export class ChatLogic {
       }
 
     } catch (err) {
-
       console.error("Error in POST /:", err);
       return "Error occurred while generating data.";
-
     } finally {
-
       if (controller) {
         controller.abort();
       }
-
     }
   }
 
