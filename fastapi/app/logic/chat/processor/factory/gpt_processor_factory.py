@@ -1,5 +1,8 @@
+import base64
 import os
+from io import BytesIO
 
+import httpx
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
@@ -10,7 +13,7 @@ from app.model.message import Message
 from app.model.gpt_message import *
 
 
-def create_gpt_processor(
+async def create_gpt_processor(
         messages: list[Message],
         model: str,
         api_type: str,
@@ -19,7 +22,6 @@ def create_gpt_processor(
         stream_response_handler: StreamResponseHandler | None = None,
         non_stream_response_handler: NonStreamResponseHandler | None = None
 ):
-
     openai = None
     if api_type == "open_ai":
         openai = OpenAI(
@@ -32,7 +34,7 @@ def create_gpt_processor(
             api_key=os.environ["AZURE_API_KEY"],
         )
 
-    gpt_messages = convert_messages_to_gpt(messages)
+    gpt_messages = await convert_messages_to_gpt(messages)
 
     if stream:
         return StreamGPTProcessor(
@@ -54,11 +56,11 @@ def create_gpt_processor(
         )
 
 
-def convert_messages_to_gpt(messages: list[Message]) -> list[GptMessage]:
-    return [convert_message_to_gpt(message) for message in messages]
+async def convert_messages_to_gpt(messages: list[Message]) -> list[GptMessage]:
+    return [await convert_message_to_gpt(message) for message in messages]
 
 
-def convert_message_to_gpt(message: Message) -> GptMessage:
+async def convert_message_to_gpt(message: Message) -> GptMessage:
     role = message.role
     text = message.text
     files = message.files
@@ -73,7 +75,8 @@ def convert_message_to_gpt(message: Message) -> GptMessage:
 
         image_urls = []
         for file in files:
-            image_url = ImageURL(url=file)
+            base64_image = await encode_image_from_url(file)
+            image_url = ImageURL(url=f"data:image/jpeg;base64,{base64_image}")
             image_urls.append(image_url)
 
         image_contents = []
@@ -85,3 +88,15 @@ def convert_message_to_gpt(message: Message) -> GptMessage:
             content.append(image_content)
 
     return GptMessage(role=role, content=content)
+
+
+async def encode_image_from_url(img_url: str) -> str:
+    img_data = await get_img_data(img_url)
+    return base64.b64encode(img_data.getvalue()).decode('utf-8')
+
+
+async def get_img_data(img_url: str) -> BytesIO:
+    async with httpx.AsyncClient() as client:
+        response = await client.get(img_url)
+        response.raise_for_status()
+        return BytesIO(response.content)
