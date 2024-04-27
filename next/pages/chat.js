@@ -5,16 +5,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, Checkbox, CssBaseline, FormControlLabel, IconButton, Paper, Tooltip} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkIcon from '@mui/icons-material/Link';
 import {ChatLogic} from "../src/logic/ChatLogic";
-import UserService from "../src/service/UserService";
 import MessageDiv from "../app/components/message/MessageDiv";
 import ConversationAutocomplete from "../app/components/ConversationAutocomplete";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import ChatSettings from "../app/components/ChatSettings";
+import ChatSettings from "../app/components/chat/ChatSettings";
 import useThemeHandler from "../app/hooks/useThemeHandler";
+import ChatInformation from "../app/components/chat/ChatInformation";
 
 function Chat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -24,7 +22,6 @@ function Chat() {
   }, []);
 
   const chatLogic = new ChatLogic();
-  const userService = new UserService();
 
   // Chat Parameters
   const [messages, setMessages] = useState(chatLogic.initMessages);
@@ -34,7 +31,6 @@ function Chat() {
   const [stream, setStream] = useState(true);
 
   // States
-  const [credit, setCredit] = useState(0);
   const [generate, setGenerate] = useState("Generate");
   const [editable, setEditable] = useState(true);
   const [sanitize, setSanitize] = useState(true);
@@ -42,17 +38,6 @@ function Chat() {
   // Abort controller
   const currentRequestIndex = useRef(0);
   const isRequesting = useRef(false);
-
-  useEffect(() => {
-    const fetchCredit = async () => {
-      if (localStorage.getItem('token')) {
-        const credit = await userService.fetchCredit();
-        setCredit(credit);
-      }
-    };
-
-    fetchCredit();
-  }, [generate]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -206,21 +191,9 @@ function Chat() {
           systemTheme={systemTheme}
           setSystemTheme={setSystemTheme}
         />
-        <div className="flex-around m-2">
-          <a href="/markdown/view/chat-doc.md" target="_blank" rel="noopener noreferrer">
-            <div className="flex-center">
-              <div>Document</div>
-              <LinkIcon/>
-            </div>
-          </a>
-          <a href="/markdown/view/chat-presets.md" target="_blank" rel="noopener noreferrer">
-            <div className="flex-center">
-              <div>Presets</div>
-              <LinkIcon/>
-            </div>
-          </a>
-          <div>Credit: {credit}</div>
-        </div>
+        <ChatInformation
+          generate={generate}
+        />
         <ChatSettings
           apiType={apiType}
           setApiType={setApiType}
