@@ -1,7 +1,7 @@
 import '../src/asset/css/index.css';
 import '../src/asset/css/markdown.css';
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, Checkbox, CssBaseline, FormControlLabel, IconButton, Paper, Tooltip, Snackbar} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -13,9 +13,12 @@ import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import ChatSettings from "../app/components/chat/ChatSettings";
 import useThemeHandler from "../app/hooks/useThemeHandler";
 import ChatInformation from "../app/components/chat/ChatInformation";
+import ChatGenerate from "../app/components/chat/ChatGenerate";
 
 function Chat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const title = "AI Chat";
   useEffect(() => {
     document.title = title;
@@ -31,27 +34,8 @@ function Chat() {
   const [stream, setStream] = useState(true);
 
   // States
-  const [generate, setGenerate] = useState("Generate");
   const [editable, setEditable] = useState(true);
   const [sanitize, setSanitize] = useState(true);
-
-  // Abort controller
-  const currentRequestIndex = useRef(0);
-  const isRequesting = useRef(false);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey && e.key === 'Enter') {
-        document.activeElement.blur();
-        const generateButton = document.getElementById('generate');
-        setTimeout(() => generateButton.click(), 0);
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    }
-  }, [messages]);
 
   useEffect(() => {
     const contentEditableValue = editable ? 'plaintext-only' : 'false';
@@ -61,85 +45,6 @@ function Chat() {
       element.setAttribute('contenteditable', contentEditableValue);
     });
   }, [editable]);
-
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-
-  const startGenerate = async () => {
-    if (!localStorage.getItem('token')) {
-      setAlertMessage('Please sign in first.');
-      setAlertOpen(true);
-      return;
-    }
-
-    setGenerate("Stop");
-
-    isRequesting.current = true;
-    currentRequestIndex.current += 1;
-    const thisRequestIndex = currentRequestIndex.current;
-
-    if (!stream) {
-
-      const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
-
-      if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
-        return;
-      }
-
-      setMessages(prevMessages => [...prevMessages, chatLogic.createAssistantMessage(content), chatLogic.emptyUserMessage]);
-
-    } else {
-
-      let isFirstChunk = true;
-
-      for await (const chunk of chatLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
-
-        if (!(thisRequestIndex === currentRequestIndex.current && isRequesting.current)) {
-          return;
-        }
-
-        const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
-
-        if (isFirstChunk) {
-          setMessages(prevMessages => [...prevMessages, chatLogic.emptyAssistantMessage]);
-          isFirstChunk = false;
-        }
-
-        setMessages(prevMessages => {
-          const newMessages = [...prevMessages];
-          newMessages[newMessages.length - 1].text += chunk;
-          return newMessages;
-        });
-
-        if (isAtBottom) window.scrollTo(0, document.body.scrollHeight);
-      }
-
-      setMessages(prevMessages => [...prevMessages, chatLogic.emptyUserMessage]);
-
-    }
-
-    window.scrollTo(0, document.body.scrollHeight);
-  }
-
-  const stopGenerate = () => {
-    isRequesting.current = false;
-    setGenerate("Generate");
-  }
-
-  const handleGenerate = async () => {
-    if (generate === "Generate") {
-      try {
-        await startGenerate();
-      } catch (error) {
-        setAlertMessage(error.message);
-        setAlertOpen(true);
-      } finally {
-        setGenerate("Generate");
-      }
-    } else {
-      stopGenerate();
-    }
-  };
 
   const handleClear = () => {
     setMessages(chatLogic.initMessages);
@@ -192,7 +97,7 @@ function Chat() {
           setSystemTheme={setSystemTheme}
         />
         <ChatInformation
-          generate={generate}
+          messages={messages}
         />
         <ChatSettings
           apiType={apiType}
@@ -243,9 +148,16 @@ function Chat() {
             ))}
           </div>
           <div className="flex-center">
-            <div className="m-2">
-              <Button id="generate" variant="contained" color="primary" onClick={handleGenerate}>{generate}</Button>
-            </div>
+            <ChatGenerate
+              messages={messages}
+              setMessages={setMessages}
+              apiType={apiType}
+              model={model}
+              temperature={temperature}
+              stream={stream}
+              setAlertMessage={setAlertMessage}
+              setAlertOpen={setAlertOpen}
+            />
             <div className="m-2">
               <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
             </div>
