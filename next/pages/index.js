@@ -46,6 +46,12 @@ function Index() {
                 <LinkIcon/>
               </div>
             </Link>
+            <Link href="/image" target="_blank" rel="noopener noreferrer">
+              <div className="flex-center">
+                Image Generate
+                <LinkIcon/>
+              </div>
+            </Link>
             <Link href="/chat" target="_blank" rel="noopener noreferrer">
               <div className="flex-center">
                 AI Chat
