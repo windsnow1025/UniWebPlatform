@@ -5,8 +5,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, Checkbox, CssBaseline, FormControlLabel, IconButton, Paper, Tooltip} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DownloadIcon from '@mui/icons-material/Download';
-import UploadIcon from '@mui/icons-material/Upload';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkIcon from '@mui/icons-material/Link';
 import {ChatLogic} from "../src/logic/ChatLogic";
