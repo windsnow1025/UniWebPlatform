@@ -198,15 +198,6 @@ function Chat() {
     setMessages(conversation.conversation);
   };
 
-  const handleConversationUpload = async () => {
-    const messages = await chatLogic.import();
-    setMessages(messages);
-  };
-
-  const handleConversationDownload = async () => {
-    chatLogic.export(messages);
-  };
-
   return (
     <>
     {muiTheme &&
@@ -302,18 +293,6 @@ function Chat() {
             conversation={messages}
             onConversationClick={onConversationOptionClick}
           />
-          <div>
-            <Tooltip title="Export">
-              <IconButton aria-label="download" onClick={handleConversationDownload}>
-                <DownloadIcon/>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Import">
-              <IconButton aria-label="upload" onClick={handleConversationUpload}>
-                <UploadIcon/>
-              </IconButton>
-            </Tooltip>
-          </div>
         </div>
         <div className="text-center m-1">
           <span className="text-center m-1">windsnow1024@gmail.com</span>
