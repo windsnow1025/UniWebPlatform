@@ -3,7 +3,7 @@ import useThemeHandler from "../app/hooks/useThemeHandler";
 import React, {useEffect, useState} from "react";
 import {ThemeProvider} from "@mui/material/styles";
 import {
-  Button,
+  Button, CircularProgress,
   CssBaseline,
   FormControl,
   InputLabel,
@@ -25,25 +25,29 @@ function Image() {
     document.title = title;
   }, []);
 
+  const imageService = new ImageService();
+
+  const [prompt, setPrompt] = useState("");
+  const [imageUrls, setImageUrls] = useState([]);
+
   const [model, setModel] = useState("dall-e-3");
   const [size, setSize] = useState("1024x1024");
   const [quality, setQuality] = useState("standard");
   const [n, setN] = useState(1);
 
-  const [prompt, setPrompt] = useState("");
-
-  const [imageUrls, setImageUrls] = useState([]);
-
-  const imageService = new ImageService();
+  const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     try {
+      setLoading(true);
       const response = await imageService.generate(prompt, model, size, quality, n);
       setImageUrls(response);
     } catch (e) {
       setAlertMessage(e.message);
       setAlertOpen(true);
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -126,6 +130,11 @@ function Image() {
           <div className="flex-center">
             <div className="m-2">
               <Button id="generate" variant="contained" onClick={handleGenerate}>Generate</Button>
+            </div>
+            <div>
+              {loading && (
+                <CircularProgress size={24}/>
+              )}
             </div>
           </div>
           <div className="flex-around">
