@@ -1,5 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 import {Message} from '../model/Message'
+import {ApiTypeModel} from "@/src/model/Chat";
 
 export interface StreamResponse {
   reader: ReadableStreamDefaultReader;
@@ -65,7 +66,7 @@ export default class ChatService {
     }
   }
 
-  async fetchModels(): Promise<string[]> {
+  async fetchApiModels(): Promise<ApiTypeModel[]> {
     const res = await this.axiosInstance.get(`/chat`);
     return res.data;
   }

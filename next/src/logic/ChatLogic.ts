@@ -1,10 +1,6 @@
 import ChatService, {StreamResponse} from "../service/ChatService";
 import {Message} from "../model/Message"
-
-interface ApiTypeModel {
-  api_type: string;
-  model: string
-}
+import {ApiTypeModel} from "@/src/model/Chat";
 
 export class ChatLogic {
   private chatService: ChatService;
@@ -12,7 +8,7 @@ export class ChatLogic {
   public emptyUserMessage: Message;
   public emptyAssistantMessage: Message;
   public defaultApiType: string;
-  public defaultModel: ApiTypeModel[];
+  public defaultApiModels: ApiTypeModel[];
 
   constructor() {
 
@@ -43,7 +39,7 @@ export class ChatLogic {
     };
 
     this.defaultApiType = "open_ai";
-    this.defaultModel = [
+    this.defaultApiModels = [
       {"api_type": "open_ai", "model": "gpt-4-turbo"},
       {"api_type": "azure", "model": "gpt-4"},
       {"api_type": "gemini", "model": "gemini-1.5-pro-latest"}
@@ -59,24 +55,25 @@ export class ChatLogic {
     return message;
   }
 
-  async fetchModels() {
+  async fetchApiModels() {
     try {
-      return await this.chatService.fetchModels();
+      return await this.chatService.fetchApiModels();
     } catch (err) {
       console.error("Error in GET /models:", err);
-      return "Error occurred while fetching models.";
     }
   }
 
-  getModels(models: ApiTypeModel, apiType: string) {
-    if(!Array.isArray(models)) {
-      return this.defaultModel
-        .filter(model => model.api_type === apiType)
-        .map(model => model.model);
+  filterModelsByApiType(apiModels: ApiTypeModel[], apiType: string) {
+    if(!Array.isArray(apiModels)) {
+      apiModels = this.defaultApiModels;
     }
-    return models
+    return apiModels
       .filter(model => model.api_type === apiType)
       .map(model => model.model);
+  }
+
+  filterDefaultModelByApiType(apiType: string) {
+    return this.defaultApiModels.filter(model => model.api_type === apiType)[0].model;
   }
 
   async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
