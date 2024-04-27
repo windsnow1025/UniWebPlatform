@@ -51,6 +51,12 @@ export default class ChatService {
         }
       });
 
+      if (!response.ok) {
+        const error = await response.json();
+        const detail = error.detail
+        throw new Error(detail);
+      }
+
       const reader = response.body!.getReader();
       return {
         reader,
