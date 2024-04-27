@@ -9,6 +9,7 @@ def handle_request(
         reduce_credit: Callable[[int], float]
 ) -> float:
     text = ''.join(message.text for message in messages)
-    prompt_tokens = num_tokens_from_text(text)
+    file_length = sum(len(file) for message in messages for file in message.files)
+    prompt_tokens = num_tokens_from_text(text) + file_length * 1000
     cost = reduce_credit(prompt_tokens)
     return cost
