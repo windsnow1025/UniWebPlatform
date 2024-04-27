@@ -21,7 +21,7 @@ function MarkdownList() {
   return (
     <Paper elevation={4} className="p-8">
       <div className="flex-between">
-        <Typography variant="h6">Markdowns</Typography>
+        <Typography variant="h6">Markdown Blogs</Typography>
         <Link
           href="/markdown/add"
           target="_blank"
