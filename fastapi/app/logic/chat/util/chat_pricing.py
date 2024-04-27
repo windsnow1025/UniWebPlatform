@@ -1,4 +1,4 @@
-model_pricing_data = [
+chat_prices = [
     {
         "api_type": "open_ai",
         "model": "gpt-3.5-turbo",
@@ -38,15 +38,15 @@ model_pricing_data = [
 ]
 
 
-def find_model_pricing(api_type, model):
-    for model_pricing in model_pricing_data:
-        if model_pricing['api_type'] == api_type and model_pricing['model'] == model:
-            return model_pricing
+def find_chat_prices(api_type: str, model: str):
+    for chat_price in chat_prices:
+        if chat_price['api_type'] == api_type and chat_price['model'] == model:
+            return chat_price
     return None
 
 
-def calculate_cost(api_type, model, prompt_tokens, completion_tokens):
-    model_pricing = find_model_pricing(api_type, model)
+def calculate_chat_cost(api_type: str, model: str, prompt_tokens: int, completion_tokens: int) -> float:
+    model_pricing = find_chat_prices(api_type, model)
 
     input_cost = model_pricing["input"] * (prompt_tokens / 1000000)
     output_cost = model_pricing["output"] * (completion_tokens / 1000000)
