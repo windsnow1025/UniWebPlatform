@@ -5,6 +5,7 @@ from typing import Callable, Generator
 import PIL.Image
 import google.generativeai as genai
 import httpx
+from fastapi import HTTPException
 from fastapi.responses import StreamingResponse
 
 from app.logic.chat.processor.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
@@ -95,5 +96,10 @@ async def convert_message_to_gemini(message: Message, host: str) -> GeminiMessag
 async def get_img_data(img_url: str, host) -> BytesIO:
     async with httpx.AsyncClient() as client:
         response = await client.get(img_url)
-        response.raise_for_status()
+
+        if response.status_code != 200:
+            status_code = response.status_code
+            text = response.text
+            raise HTTPException(status_code=status_code, detail=text)
+
         return BytesIO(response.content)

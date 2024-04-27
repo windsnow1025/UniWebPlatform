@@ -1,7 +1,8 @@
 import logging
-import traceback
 from typing import Generator
 
+import httpx
+from fastapi import HTTPException
 from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
@@ -39,7 +40,7 @@ class StreamGPTProcessor(GPTProcessor):
 
             return self.response_handler(lambda: generate_chunk(completion))
 
-        except Exception as e:
-            logging.error(f"Exception: {e}")
-            traceback.print_exc()
-            return str(e)
+        except httpx.HTTPStatusError as e:
+            status_code = e.response.status_code
+            text = e.response.text
+            raise HTTPException(status_code=status_code, detail=text)
