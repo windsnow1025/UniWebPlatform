@@ -1,5 +1,7 @@
 from typing import Literal
 
+import openai
+from fastapi import HTTPException
 from openai import OpenAI
 
 Size = Literal["1024x1024", "1792x1024", "1024x1792"]
@@ -16,14 +18,19 @@ async def handle_image_gen_interaction(
 ):
     client = OpenAI()
 
-    response = client.images.generate(
-        model=model,
-        prompt=prompt,
-        size=size,
-        quality=quality,
-        n=n,
-    )
+    try:
+        response = client.images.generate(
+            model=model,
+            prompt=prompt,
+            size=size,
+            quality=quality,
+            n=n,
+        )
 
-    image_urls = [image.url for image in response.data]
+        image_urls = [image.url for image in response.data]
 
-    return image_urls
+        return image_urls
+    except openai.BadRequestError as e:
+        status_code = e.status_code
+        text = e.message
+        raise HTTPException(status_code=status_code, detail=text)
