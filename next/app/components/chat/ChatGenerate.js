@@ -31,9 +31,8 @@ function ChatGenerate({ messages, setMessages, apiType, model, temperature, stre
       return;
     }
 
-    setIsGenerating(true);
+    switchStatus(true);
 
-    isGeneratingRef.current = true;
     currentRequestIndex.current += 1;
     const thisRequestIndex = currentRequestIndex.current;
 
@@ -42,7 +41,7 @@ function ChatGenerate({ messages, setMessages, apiType, model, temperature, stre
       const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
 
       if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
-        console.log(`previous index ${thisRequestIndex}, current index ${currentRequestIndex.current}, is generating ${isGeneratingRef.current}`);
+        // console.log(`previous index ${thisRequestIndex}, current index ${currentRequestIndex.current}, is generating ${isGeneratingRef.current}`);
         return;
       }
 
@@ -79,12 +78,12 @@ function ChatGenerate({ messages, setMessages, apiType, model, temperature, stre
     }
 
     window.scrollTo(0, document.body.scrollHeight);
-    setIsGenerating(false);
+    switchStatus(false);
   }
 
-  const stopGenerate = () => {
-    isGeneratingRef.current = false;
-    setIsGenerating(false);
+  const switchStatus = (status) => {
+    isGeneratingRef.current = status;
+    setIsGenerating(status);
   }
 
   const handleGenerate = async () => {
@@ -94,22 +93,22 @@ function ChatGenerate({ messages, setMessages, apiType, model, temperature, stre
       } catch (error) {
         setAlertMessage(error.message);
         setAlertOpen(true);
-        setIsGenerating(false);
+        switchStatus(false);
       }
     } else {
-      stopGenerate();
+      switchStatus(false);
     }
   };
 
   /**
-   * Button clicked -> Set button status && Set Ref status
+   * Button clicked -> Switch status
    *
    * Finish reasons:
-   * - Normally finished -> Set button status to false
-   * - Terminated dut to unexpected API Error -> Set button status to false
-   * - Aborted by user -> No actions
-   *   - Ref status is true: Previous Index does not match with Current Index
-   *   - Ref status is false
+   * 1. Normally finished -> Set status to false
+   * 2. Abnormally terminated due to API Exception -> Set status to false
+   * 3. Aborted by user -> No actions
+   *   3.1 Ref status == true: Previous Request Index !== Current Request Index
+   *   3.2 Ref status == false
    * **/
 
   return (
