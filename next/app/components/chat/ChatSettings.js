@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { FormControl, FormControlLabel, InputLabel, MenuItem, Select, Slider, Switch } from "@mui/material";
-import {ChatLogic} from "../../src/logic/ChatLogic";
+import {ChatLogic} from "../../../src/logic/ChatLogic";
 
 function ChatSettings({ apiType, setApiType, model, setModel, temperature, setTemperature, stream, setStream }) {
   const chatLogic = new ChatLogic();
