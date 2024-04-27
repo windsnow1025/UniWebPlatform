@@ -27,13 +27,13 @@ function Chat() {
   const title = "AI Chat";
 
   // Fetch Data
+  const [models, setModels] = useState([]);
   const [apiModels, setApiModels] = useState([]);
-  const [fullModels, setFullModels] = useState([]);
 
   // Chat Parameters
   const [messages, setMessages] = useState(chatLogic.initMessages);
   const [apiType, setApiType] = useState(chatLogic.defaultApiType);
-  const [model, setModel] = useState(chatLogic.defaultModel);
+  const [model, setModel] = useState(chatLogic.defaultApiModels);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
 
@@ -52,12 +52,12 @@ function Chat() {
   }, []);
 
   useEffect(() => {
-    const fetchModels = async () => {
-      const fullModels = await chatLogic.fetchModels();
-      setFullModels(fullModels);
+    const fetchApiModels = async () => {
+      const apiModels = await chatLogic.fetchApiModels();
+      setApiModels(apiModels);
     };
 
-    fetchModels();
+    fetchApiModels();
   }, []);
 
   useEffect(() => {
@@ -86,9 +86,9 @@ function Chat() {
   }, [messages]);
 
   useEffect(() => {
-    setApiModels(chatLogic.getModels(fullModels, apiType));
-    setModel(chatLogic.getModels(chatLogic.defaultModel, apiType)[0]);
-  }, [fullModels, apiType]);
+    setModels(chatLogic.filterModelsByApiType(apiModels, apiType));
+    setModel(chatLogic.filterDefaultModelByApiType(apiType));
+  }, [apiModels, apiType]);
 
   useEffect(() => {
     const contentEditableValue = editable ? 'plaintext-only' : 'false';
@@ -257,7 +257,7 @@ function Chat() {
           setApiType={setApiType}
           model={model}
           setModel={setModel}
-          apiModels={apiModels}
+          models={models}
           temperature={temperature}
           setTemperature={setTemperature}
           stream={stream}
