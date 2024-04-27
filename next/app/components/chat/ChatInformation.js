@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import LinkIcon from "@mui/icons-material/Link";
 import UserService from "../../../src/service/UserService";
 
-function ChatInformation({ generate }) {
+function ChatInformation({ messages }) {
   const userService = new UserService();
 
   const [credit, setCredit] = useState(0);
@@ -16,7 +16,7 @@ function ChatInformation({ generate }) {
     };
 
     fetchCredit();
-  }, [generate]);
+  }, [messages]);
 
   return (
     <div className="flex-around m-2">
@@ -33,7 +33,8 @@ function ChatInformation({ generate }) {
         </div>
       </a>
       <div>Credit: {credit}</div>
-    </div>);
+    </div>
+  );
 }
 
 export default ChatInformation;
