@@ -13,7 +13,13 @@ export default class ChatService {
     this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_FAST_API_BASE_URL });
   }
 
-  async generate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean): Promise<string | StreamResponse> {
+  async generate(
+      messages: Message[],
+      api_type: string,
+      model: string,
+      temperature: number,
+      stream: boolean
+  ): Promise<string | StreamResponse> {
     const token = localStorage.getItem('token')!;
 
     const requestData = {
