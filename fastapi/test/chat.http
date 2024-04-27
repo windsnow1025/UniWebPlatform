@@ -1,6 +1,6 @@
 ### Post OpenAI Stream Text
 
-POST {{baseUrl}}/
+POST {{baseUrl}}/chat
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -20,7 +20,7 @@ Authorization: {{token}}
 
 ### Post OpenAI Stream Image
 
-POST {{baseUrl}}/
+POST {{baseUrl}}/chat
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -42,7 +42,7 @@ Authorization: {{token}}
 
 ### Post Gemini Stream Text
 
-POST {{baseUrl}}/
+POST {{baseUrl}}/chat
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -63,7 +63,7 @@ Authorization: {{token}}
 
 ### Post Gemini Stream Image
 
-POST {{baseUrl}}/
+POST {{baseUrl}}/chat
 Content-Type: application/json
 Authorization: {{token}}
 

@@ -25,7 +25,7 @@ export default class ChatService {
     }
 
     if (!stream) {
-      const res = await this.axiosInstance.post(`/`, requestData, {
+      const res = await this.axiosInstance.post(`/chat`, requestData, {
           headers: {
             Authorization: token
           }
@@ -35,7 +35,7 @@ export default class ChatService {
       return res.data;
     } else {
       const controller = new AbortController();
-      const response = await fetch(`${process.env.NEXT_PUBLIC_FAST_API_BASE_URL}/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_FAST_API_BASE_URL}/chat`, {
         method: "POST",
         body: JSON.stringify(requestData),
         signal: controller.signal,
@@ -54,7 +54,7 @@ export default class ChatService {
   }
 
   async fetchModels(): Promise<string[]> {
-    const res = await this.axiosInstance.get(`/`);
+    const res = await this.axiosInstance.get(`/chat`);
     return res.data;
   }
 }
