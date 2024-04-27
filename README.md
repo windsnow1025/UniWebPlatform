@@ -2,13 +2,25 @@
 
 ## Introduction
 
-A full stack web application for my personal website containing a user system, markdown blogs, an editable bookmark, a message transmitter, a password generator, an AI chat.
+A full stack web application for my personal website containing a user system, markdown blogs, an editable bookmark, a message transmitter, a password generator, an image generator, an AI chat bot.
 
 ## Tech Stack
 
-Front End: Node.js - React.js - Next.js + MUI + Tailwind CSS
+Front End:
+```yaml
+Node.js:
+  React.js:
+    - Next.js：
+      - Tailwind CSS
+    - MUI
+```
 
-Back End: Node.js - Express.js + Python FastAPI
+Back End:
+```yaml
+- Node.js
+  - Express.js
+- Python FastAPI
+```
 
 Storage: MySQL
 
