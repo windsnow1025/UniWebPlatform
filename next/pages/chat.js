@@ -292,10 +292,6 @@ function Chat() {
             onConversationClick={onConversationOptionClick}
           />
         </div>
-        <div className="text-center m-1">
-          <span className="text-center m-1">windsnow1024@gmail.com</span>
-          <a href="https://github.com/windsnow1025/FullStack-Web" target="_blank" rel="noopener noreferrer"><GitHubIcon/></a>
-        </div>
         <Snackbar
           open={alertOpen}
           autoHideDuration={6000}
