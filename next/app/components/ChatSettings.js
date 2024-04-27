@@ -1,7 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { FormControl, FormControlLabel, InputLabel, MenuItem, Select, Slider, Switch } from "@mui/material";
+import {ChatLogic} from "../../src/logic/ChatLogic";
 
-function ChatSettings({ apiType, setApiType, model, setModel, models, temperature, setTemperature, stream, setStream }) {
+function ChatSettings({ apiType, setApiType, model, setModel, temperature, setTemperature, stream, setStream }) {
+  const chatLogic = new ChatLogic();
+
+  const [models, setModels] = useState([]);
+  const [apiModels, setApiModels] = useState([]);
+
+  useEffect(() => {
+    const fetchApiModels = async () => {
+      const apiModels = await chatLogic.fetchApiModels();
+      setApiModels(apiModels);
+    };
+
+    fetchApiModels();
+  }, []);
+
+  useEffect(() => {
+    setModels(chatLogic.filterModelsByApiType(apiModels, apiType));
+    setModel(chatLogic.filterDefaultModelByApiType(apiType));
+  }, [apiModels, apiType]);
+
+
   return (
     <div className="flex-around m-2">
       <div className="m-1">

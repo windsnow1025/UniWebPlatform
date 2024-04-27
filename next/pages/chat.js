@@ -20,15 +20,13 @@ import useThemeHandler from "../app/hooks/useThemeHandler";
 
 function Chat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const title = "AI Chat";
+  useEffect(() => {
+    document.title = title;
+  }, []);
 
   const chatLogic = new ChatLogic();
   const userService = new UserService();
-
-  const title = "AI Chat";
-
-  // Fetch Data
-  const [models, setModels] = useState([]);
-  const [apiModels, setApiModels] = useState([]);
 
   // Chat Parameters
   const [messages, setMessages] = useState(chatLogic.initMessages);
@@ -46,19 +44,6 @@ function Chat() {
   // Abort controller
   const currentRequestIndex = useRef(0);
   const isRequesting = useRef(false);
-
-  useEffect(() => {
-    document.title = title;
-  }, []);
-
-  useEffect(() => {
-    const fetchApiModels = async () => {
-      const apiModels = await chatLogic.fetchApiModels();
-      setApiModels(apiModels);
-    };
-
-    fetchApiModels();
-  }, []);
 
   useEffect(() => {
     const fetchCredit = async () => {
@@ -84,11 +69,6 @@ function Chat() {
       document.removeEventListener('keydown', handleKeyDown);
     }
   }, [messages]);
-
-  useEffect(() => {
-    setModels(chatLogic.filterModelsByApiType(apiModels, apiType));
-    setModel(chatLogic.filterDefaultModelByApiType(apiType));
-  }, [apiModels, apiType]);
 
   useEffect(() => {
     const contentEditableValue = editable ? 'plaintext-only' : 'false';
@@ -257,7 +237,6 @@ function Chat() {
           setApiType={setApiType}
           model={model}
           setModel={setModel}
-          models={models}
           temperature={temperature}
           setTemperature={setTemperature}
           stream={stream}
