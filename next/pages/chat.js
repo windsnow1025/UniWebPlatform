@@ -156,7 +156,6 @@ function Chat() {
     }
 
     window.scrollTo(0, document.body.scrollHeight);
-    setGenerate("Generate");
   }
 
   const stopGenerate = () => {
@@ -166,7 +165,14 @@ function Chat() {
 
   const handleGenerate = async () => {
     if (generate === "Generate") {
-      startGenerate();
+      try {
+        await startGenerate();
+      } catch (error) {
+        setAlertMessage(error.message);
+        setAlertOpen(true);
+      } finally {
+        setGenerate("Generate");
+      }
     } else {
       stopGenerate();
     }
