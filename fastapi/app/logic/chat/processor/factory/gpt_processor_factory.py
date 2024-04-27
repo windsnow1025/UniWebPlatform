@@ -3,6 +3,7 @@ import os
 from io import BytesIO
 
 import httpx
+from fastapi import HTTPException
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
@@ -98,5 +99,10 @@ async def encode_image_from_url(img_url: str) -> str:
 async def get_img_data(img_url: str) -> BytesIO:
     async with httpx.AsyncClient() as client:
         response = await client.get(img_url)
-        response.raise_for_status()
+
+        if response.status_code != 200:
+            status_code = response.status_code
+            text = response.text
+            raise HTTPException(status_code=status_code, detail=text)
+
         return BytesIO(response.content)
