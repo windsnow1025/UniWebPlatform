@@ -31,13 +31,17 @@ function Image() {
 
   const [prompt, setPrompt] = useState("");
 
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrls, setImageUrls] = useState([]);
 
   const imageService = new ImageService();
 
   const handleGenerate = async () => {
-    const response = await imageService.generate(prompt, model, size, quality, n);
-    setImageUrl(response);
+    try {
+      const response = await imageService.generate(prompt, model, size, quality, n);
+      setImageUrls(response);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (
@@ -106,7 +110,7 @@ function Image() {
                 step={1}
                 marks
                 min={1}
-                max={10}
+                max={1}
               />
             </div>
           </div>
@@ -121,13 +125,20 @@ function Image() {
               <Button id="generate" variant="contained" onClick={handleGenerate}>Generate</Button>
             </div>
           </div>
-          <picture>
-            <img
-              src={imageUrl}
-              alt="file"
-              className="max-w-full"
-            />
-          </picture>
+          <div className="flex-around">
+            {imageUrls.map((imageUrl, index) => (
+              <div key={index}>
+                <picture>
+                  <img
+                    key={index}
+                    src={imageUrl}
+                    alt="imageUrl"
+                    className="max-w-full"
+                  />
+                </picture>
+              </div>
+            ))}
+          </div>
         </ThemeProvider>
       }
     </>

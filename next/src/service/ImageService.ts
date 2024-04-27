@@ -12,7 +12,7 @@ export default class ImageService {
         size: string,
         quality: string,
         n: number
-    ) {
+    ): Promise<string[]> {
         const token = localStorage.getItem('token')!;
 
         const requestData = {

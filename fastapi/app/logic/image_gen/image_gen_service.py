@@ -24,6 +24,6 @@ async def handle_image_gen_interaction(
         n=n,
     )
 
-    image_url = response.data[0].url
+    image_urls = [image.url for image in response.data]
 
-    return image_url
+    return image_urls
