@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, FormControlLabel, InputLabel, MenuItem, Select, Slider, Switch } from "@mui/material";
 
-function ChatSettings({ apiType, setApiType, model, setModel, apiModels, temperature, setTemperature, stream, setStream }) {
+function ChatSettings({ apiType, setApiType, model, setModel, models, temperature, setTemperature, stream, setStream }) {
   return (
     <div className="flex-around m-2">
       <div className="m-1">
@@ -26,11 +26,11 @@ function ChatSettings({ apiType, setApiType, model, setModel, apiModels, tempera
           <Select
             labelId="model-select-label"
             id="model-select"
-            value={apiModels.length !== 0 ? model : ''}
+            value={models.length !== 0 ? model : ''}
             label="Model"
             onChange={e => setModel(e.target.value)}
           >
-            {apiModels.length !== 0 && apiModels.map(model => (
+            {models.length !== 0 && models.map(model => (
               <MenuItem key={model} value={model}>{model}</MenuItem>
             ))}
           </Select>
