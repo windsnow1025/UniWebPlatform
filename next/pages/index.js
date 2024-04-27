@@ -7,8 +7,9 @@ import {ThemeProvider} from "@mui/material/styles";
 import React, {useEffect} from "react";
 import LinkIcon from "@mui/icons-material/Link";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import {CssBaseline, Link} from "@mui/material";
+import {CssBaseline, Link, Typography} from "@mui/material";
 import useThemeHandler from "../app/hooks/useThemeHandler";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -61,6 +62,18 @@ function Index() {
           </div>
           <div className="m-8">
             <MarkdownList/>
+          </div>
+          <div className="flex-around m-2">
+            <span>My Email: windsnow1024@gmail.com</span>
+            <Link
+              href="https://github.com/windsnow1025/UniWebPlatform"
+              target="_blank"
+              rel="noopener noreferrer">
+              <div className="flex-around m-2">
+                <span className="m-2">My GitHub</span>
+                <GitHubIcon/>
+              </div>
+            </Link>
           </div>
         </ThemeProvider>
       }
