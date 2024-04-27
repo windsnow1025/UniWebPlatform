@@ -3,7 +3,7 @@ import CRUDAutocomplete from '../common/CRUDAutocomplete';
 import ConversationService from "../../../src/service/ConversationService";
 import Snackbar from "@mui/material/Snackbar";
 
-function ConversationAutocomplete({conversation, onConversationClick}) {
+function ChatConversationAutocomplete({conversation, onConversationClick}) {
   const [conversations, setConversations] = useState([]);
 
   const conversationService = new ConversationService();
@@ -85,4 +85,4 @@ function ConversationAutocomplete({conversation, onConversationClick}) {
   );
 }
 
-export default ConversationAutocomplete;
+export default ChatConversationAutocomplete;
