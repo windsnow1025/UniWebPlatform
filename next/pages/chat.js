@@ -3,16 +3,17 @@ import '../src/asset/css/markdown.css';
 
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, Checkbox, CssBaseline, FormControlLabel, Paper, Snackbar} from "@mui/material";
+import {Button, CssBaseline, Paper, Snackbar} from "@mui/material";
 
 import {ChatLogic} from "../src/logic/ChatLogic";
-import ConversationAutocomplete from "../app/components/chat/ConversationAutocomplete";
+import ChatConversationAutocomplete from "../app/components/chat/ChatConversationAutocomplete";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import ChatSettings from "../app/components/chat/ChatSettings";
 import useThemeHandler from "../app/hooks/useThemeHandler";
 import ChatInformation from "../app/components/chat/ChatInformation";
 import ChatGenerate from "../app/components/chat/ChatGenerate";
 import ChatMessages from "../app/components/chat/ChatMessages";
+import ChatStates from "../app/components/chat/ChatStates";
 
 function Chat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -100,15 +101,13 @@ function Chat() {
           </div>
         </Paper>
         <div className="flex-around m-1">
-          <div>
-            <FormControlLabel control={
-              <Checkbox id="editable-check-box" checked={editable} onChange={e => setEditable(e.target.checked)}/>
-            } label="Editable"/>
-            <FormControlLabel control={
-              <Checkbox id="sanitize-check-box" checked={sanitize} onChange={e => setSanitize(e.target.checked)}/>
-            } label="Sanitize"/>
-          </div>
-          <ConversationAutocomplete
+          <ChatStates
+            editable={editable}
+            setEditable={setEditable}
+            sanitize={sanitize}
+            setSanitize={setSanitize}
+          />
+          <ChatConversationAutocomplete
             conversation={messages}
             onConversationClick={onConversationOptionClick}
           />
