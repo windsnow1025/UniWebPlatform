@@ -85,7 +85,7 @@ export class ChatLogic {
       return this.sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
-      return "Error occurred while generating data.";
+      throw err;
     }
   }
 
@@ -106,7 +106,7 @@ export class ChatLogic {
 
     } catch (err) {
       console.error("Error in POST /:", err);
-      return "Error occurred while generating data.";
+      throw err;
     } finally {
       if (controller) {
         controller.abort();
