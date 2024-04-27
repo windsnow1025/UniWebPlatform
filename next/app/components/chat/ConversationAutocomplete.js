@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import CRUDAutocomplete from './common/CRUDAutocomplete';
-import ConversationService from "../../src/service/ConversationService";
+import CRUDAutocomplete from '../common/CRUDAutocomplete';
+import ConversationService from "../../../src/service/ConversationService";
 import Snackbar from "@mui/material/Snackbar";
 
 function ConversationAutocomplete({conversation, onConversationClick}) {
