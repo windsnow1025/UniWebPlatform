@@ -6,5 +6,6 @@ httpx
 python-jose[cryptography]
 mysql-connector-python
 openai
+tiktoken
 google-generativeai
 pillow
