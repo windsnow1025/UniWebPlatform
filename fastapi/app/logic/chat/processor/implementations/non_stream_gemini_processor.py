@@ -1,6 +1,9 @@
 import logging
 import traceback
 
+import httpx
+from fastapi import HTTPException
+
 from app.logic.chat.processor.interfaces.gemini_processor import GeminiProcessor
 
 
@@ -15,7 +18,7 @@ class NonStreamGeminiProcessor(GeminiProcessor):
             )
 
             return self.response_handler(response.text)
-        except Exception as e:
-            logging.error(f"Exception: {e}")
-            traceback.print_exc()
-            return str(e)
+        except httpx.HTTPStatusError as e:
+            status_code = e.response.status_code
+            text = e.response.text
+            raise HTTPException(status_code=status_code, detail=text)

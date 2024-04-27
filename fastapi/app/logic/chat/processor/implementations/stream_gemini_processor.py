@@ -2,6 +2,8 @@ import logging
 import traceback
 from typing import Generator
 
+import httpx
+from fastapi import HTTPException
 from google.generativeai.types import GenerateContentResponse
 
 from app.logic.chat.processor.interfaces.gemini_processor import GeminiProcessor
@@ -27,7 +29,8 @@ class StreamGeminiProcessor(GeminiProcessor):
             )
 
             return self.response_handler(lambda: generate_chunk(response))
-        except Exception as e:
-            logging.error(f"Exception: {e}")
-            traceback.print_exc()
-            return str(e)
+
+        except httpx.HTTPStatusError as e:
+            status_code = e.response.status_code
+            text = e.response.text
+            raise HTTPException(status_code=status_code, detail=text)
