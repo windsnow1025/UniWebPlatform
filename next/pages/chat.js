@@ -3,17 +3,16 @@ import '../src/asset/css/markdown.css';
 
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, Checkbox, CssBaseline, FormControlLabel, IconButton, Paper, Tooltip, Snackbar} from "@mui/material";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import {Button, Checkbox, CssBaseline, FormControlLabel, Paper, Snackbar} from "@mui/material";
 
 import {ChatLogic} from "../src/logic/ChatLogic";
-import MessageDiv from "../app/components/message/MessageDiv";
 import ConversationAutocomplete from "../app/components/chat/ConversationAutocomplete";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import ChatSettings from "../app/components/chat/ChatSettings";
 import useThemeHandler from "../app/hooks/useThemeHandler";
 import ChatInformation from "../app/components/chat/ChatInformation";
 import ChatGenerate from "../app/components/chat/ChatGenerate";
+import ChatMessages from "../app/components/chat/ChatMessages";
 
 function Chat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -37,6 +36,10 @@ function Chat() {
   const [editable, setEditable] = useState(true);
   const [sanitize, setSanitize] = useState(true);
 
+  const handleClear = () => {
+    setMessages(chatLogic.initMessages);
+  };
+
   useEffect(() => {
     const contentEditableValue = editable ? 'plaintext-only' : 'false';
     const contentEditableElements = document.querySelectorAll('[contenteditable]');
@@ -45,42 +48,6 @@ function Chat() {
       element.setAttribute('contenteditable', contentEditableValue);
     });
   }, [editable]);
-
-  const handleClear = () => {
-    setMessages(chatLogic.initMessages);
-  };
-
-  const handleRoleChange = (index, role) => {
-    const newMessages = [...messages];
-    newMessages[index].role = role;
-    setMessages(newMessages);
-  };
-
-  const handleContentChange = (index, content) => {
-    const newMessages = [...messages];
-    newMessages[index].text = content;
-    setMessages(newMessages);
-  };
-
-  const handleMessageDelete = (index) => {
-    const newMessages = [...messages];
-    newMessages.splice(index, 1);
-    setMessages(newMessages);
-  };
-
-  const handleFileUpload = (index, fileUrl) => {
-    const newMessages = [...messages];
-    const currentMessage = newMessages[index];
-
-    currentMessage.files = (currentMessage.files || []).concat(fileUrl);
-    setMessages(newMessages);
-  };
-
-  const handleMessageAdd = (index) => {
-    const newMessages = [...messages];
-    newMessages.splice(index + 1, 0, chatLogic.emptyUserMessage);
-    setMessages(newMessages);
-  };
 
   const onConversationOptionClick = async (conversation) => {
     setMessages(conversation.conversation);
@@ -109,44 +76,13 @@ function Chat() {
           stream={stream}
           setStream={setStream}
         />
+
         <Paper elevation={1} className="m-2 p-4 rounded-lg">
-          <div>
-            <div className="flex-between">
-              <div className="inflex-fill"/>
-              <div className="inflex-end">
-                <Tooltip title="Add">
-                  <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
-                    <AddCircleIcon fontSize="small"/>
-                  </IconButton>
-                </Tooltip>
-              </div>
-            </div>
-            {messages.map((message, index) => (
-              <div key={index}>
-                <MessageDiv
-                  roleInitial={message.role}
-                  contentInitial={message.text}
-                  filesInitial={message.files}
-                  onRoleChange={(role) => handleRoleChange(index, role)}
-                  onContentChange={(content) => handleContentChange(index, content)}
-                  onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
-                  useRoleSelect={true}
-                  onMessageDelete={() => handleMessageDelete(index)}
-                  shouldSanitize={sanitize}
-                />
-                <div className="flex-between">
-                  <div className="inflex-fill"/>
-                  <div className="inflex-end">
-                    <Tooltip title="Add">
-                      <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
-                        <AddCircleIcon fontSize="small"/>
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ChatMessages
+            messages={messages}
+            setMessages={setMessages}
+            sanitize={sanitize}
+          />
           <div className="flex-center">
             <ChatGenerate
               messages={messages}
