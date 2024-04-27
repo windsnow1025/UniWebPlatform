@@ -2,29 +2,50 @@
 
 ## Introduction
 
-A full stack web application for my personal website containing a user system, markdown blogs, an editable bookmark, a message transmitter, a password generator, an image generator, an AI chat bot.
+A full stack web application for my personal website containing:
+1. User system
+2. markdown blogs
+3. Editable bookmark
+4. Message transmitter
+5. Password generator
+6. Image generator
+7. AI chat bot
 
 ## Tech Stack
 
+
+```yaml
 Front End:
-```yaml
-Node.js:
-  React.js:
-    - Next.js：
-      - Tailwind CSS
-    - MUI
+  - Node.js:
+    - React.js:
+      - Next.js：
+        - Tailwind CSS
+      - MUI
 ```
 
+
+```yaml
 Back End:
-```yaml
-- Node.js
-  - Express.js
-- Python FastAPI
+  - Node.js:
+    - Express.js
+  - Python:
+    - FastAPI
 ```
 
-Storage: MySQL
+```yaml
+Storage:
+  - MySQL
+```
 
-Infrastructure: Nginx, Docker, Linux
+
+```yaml
+Infrastructure:
+  - Nginx
+  - Docker:
+    - Docker Compose
+  - Linux:
+    - Debian 11
+```
 
 ## Live Demo
 
@@ -83,13 +104,13 @@ docker compose up [-d]
 
 ### Development
 
-Windows
+#### Windows
 
 Manually setup and run Next, Node, FastAPI separately according to their documentations.
 
 ## Usage
 
-### Test
+### Test Availability
 
 ```bash
 curl localhost:81
