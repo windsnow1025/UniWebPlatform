@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 import app.dao.user_dao as user_dao
 import app.logic.auth as auth
-import app.util.pricing as pricing
+import app.logic.chat.util.chat_pricing as pricing
 from app.logic.chat.chat_service import handle_chat_interaction
 from app.model.message import Message
 
@@ -40,4 +40,4 @@ async def generate(chat_request: ChatRequest, request: Request):
 
 @chat_router.get("/chat")
 async def get_models() -> list[dict]:
-    return pricing.model_pricing_data
+    return pricing.chat_prices

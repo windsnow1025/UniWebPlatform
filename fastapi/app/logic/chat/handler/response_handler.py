@@ -3,7 +3,7 @@ from typing import Callable, Generator
 
 from fastapi.responses import StreamingResponse
 
-from app.util.token_counter import num_tokens_from_text
+from app.logic.chat.util.token_counter import num_tokens_from_text
 
 ReduceCredit = Callable[[int], float]
 

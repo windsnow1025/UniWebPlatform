@@ -4,6 +4,9 @@ import openai
 from fastapi import HTTPException
 from openai import OpenAI
 
+from app.dao import user_dao
+from app.logic.image_gen.image_gen_pricing import calculate_image_gen_cost
+
 Size = Literal["1024x1024", "1792x1024", "1024x1792"]
 Quality = Literal["standard", "hd"]
 
@@ -15,8 +18,11 @@ async def handle_image_gen_interaction(
         size: Size,
         quality: Quality,
         n: int,
-):
+) -> list[str]:
     client = OpenAI()
+
+    cost = calculate_image_gen_cost(model, quality, size, n)
+    user_dao.reduce_credit(username, cost)
 
     try:
         response = client.images.generate(
@@ -34,3 +40,4 @@ async def handle_image_gen_interaction(
         status_code = e.status_code
         text = e.message
         raise HTTPException(status_code=status_code, detail=text)
+

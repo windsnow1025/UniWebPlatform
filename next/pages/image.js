@@ -15,6 +15,7 @@ import {
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import ContentDiv from "../app/components/message/ContentDiv";
 import ImageService from "../src/service/ImageService";
+import CreditDiv from "../app/components/message/CreditDiv";
 
 function Image() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -61,6 +62,9 @@ function Image() {
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
+          <div className="flex-around m-2">
+            <CreditDiv refreshKey={loading} />
+          </div>
           <div className="flex-around m-2">
             <div className="m-1">
               <FormControl fullWidth className="mt-2">

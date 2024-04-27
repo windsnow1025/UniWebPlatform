@@ -5,7 +5,7 @@ from app.logic.chat.handler.request_handler import handle_request
 from app.logic.chat.handler.response_handler import stream_handler, non_stream_handler
 from app.logic.chat.processor.factory.chat_processor_factory import create_chat_processor
 from app.model.message import Message
-from app.util import pricing
+from app.logic.chat.util import chat_pricing
 
 
 async def handle_chat_interaction(
@@ -20,7 +20,7 @@ async def handle_chat_interaction(
     logging.info(f"username: {username}, model: {model}")
 
     def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-        cost = pricing.calculate_cost(
+        cost = chat_pricing.calculate_chat_cost(
             api_type=api_type,
             model=model,
             prompt_tokens=prompt_tokens,
