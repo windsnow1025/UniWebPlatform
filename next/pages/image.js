@@ -10,7 +10,7 @@ import {
   MenuItem,
   Paper,
   Select,
-  Slider
+  Slider, Snackbar
 } from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import ContentDiv from "../app/components/message/ContentDiv";
@@ -18,8 +18,9 @@ import ImageService from "../src/service/ImageService";
 
 function Image() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const title = "Image Generate";
-
   useEffect(() => {
     document.title = title;
   }, []);
@@ -40,6 +41,8 @@ function Image() {
       const response = await imageService.generate(prompt, model, size, quality, n);
       setImageUrls(response);
     } catch (e) {
+      setAlertMessage(e.message);
+      setAlertOpen(true);
       console.error(e);
     }
   }
@@ -139,6 +142,12 @@ function Image() {
               </div>
             ))}
           </div>
+          <Snackbar
+            open={alertOpen}
+            autoHideDuration={6000}
+            onClose={() => setAlertOpen(false)}
+            message={alertMessage}
+          />
         </ThemeProvider>
       }
     </>
