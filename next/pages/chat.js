@@ -3,12 +3,12 @@ import '../src/asset/css/markdown.css';
 
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, Checkbox, CssBaseline, FormControlLabel, IconButton, Paper, Tooltip} from "@mui/material";
+import {Button, Checkbox, CssBaseline, FormControlLabel, IconButton, Paper, Tooltip, Snackbar} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 import {ChatLogic} from "../src/logic/ChatLogic";
 import MessageDiv from "../app/components/message/MessageDiv";
-import ConversationAutocomplete from "../app/components/ConversationAutocomplete";
-import Snackbar from "@mui/material/Snackbar";
+import ConversationAutocomplete from "../app/components/chat/ConversationAutocomplete";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import ChatSettings from "../app/components/chat/ChatSettings";
 import useThemeHandler from "../app/hooks/useThemeHandler";
