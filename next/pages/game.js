@@ -33,12 +33,12 @@ function Game() {
   }, []);
 
   const [players, setPlayers] = useState([new Player()]);
-  const [selectedArmies, setSelectedArmies] = useState([]);
+  const [selectedArmies, setSelectedArmies] = useState([0]);
   const [distance, setDistance] = useState(0);
 
   const addPlayer = () => {
     setPlayers([...players, new Player()]);
-    setSelectedArmies([...selectedArmies, -1]);
+    setSelectedArmies([...selectedArmies, 0]);
   };
 
   const handleInit = (playerIndex, unitType, number) => {
@@ -87,7 +87,7 @@ function Game() {
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
-          <Container className="p-4">
+          <Container sx={{p: 4}}>
             <Typography variant="h5">Unit Properties</Typography>
             <Grid container spacing={2}>
               <Grid item xs={6} md={3}>
@@ -125,6 +125,7 @@ function Game() {
                   <FormControl>
                     <InputLabel>Army</InputLabel>
                     <Select
+                      label="Army"
                       value={selectedArmies[playerIndex]}
                       onChange={(e) => handleSelectArmy(playerIndex, parseInt(e.target.value))}
                     >
