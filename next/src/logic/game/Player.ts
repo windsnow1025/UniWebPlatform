@@ -19,23 +19,21 @@ class Player {
         this.money = 100;
     }
 
-    addArmy(unitType: keyof typeof unitTypes, location: string) {
-        const UnitClass = unitTypes[unitType];
-        const unitFactory = () => new UnitClass();
+    public addUnitsToLocation(unitType: keyof typeof unitTypes, location: string, numbers: number) {
+        const existingArmyIndex = this.armies.findIndex(army =>
+            army.unitFactory().constructor.name === unitTypes[unitType].name &&
+            army.location === location
+        );
 
-        const army = new Army<Unit>(unitFactory, location);
-        this.armies.push(army);
+        if (existingArmyIndex !== -1) {
+            this.addUnitsToArmy(existingArmyIndex, numbers);
+        } else {
+            this.addArmy(unitType, location);
+            this.addUnitsToArmy(this.armies.length - 1, numbers);
+        }
     }
 
-    addUnitsToArmy(armyIndex: number, numbers: number) {
-        const army = this.armies[armyIndex];
-        army.addUnits(numbers);
-        this.money -= army.units[0].cost * numbers;
-
-        this.mergeArmies();
-    }
-
-    combat(defenderPlayer: Player, attackerArmyIndex: number, defenderArmyIndex: number, graph: Graph) {
+    public combat(defenderPlayer: Player, attackerArmyIndex: number, defenderArmyIndex: number, graph: Graph) {
         const attackerArmy = this.armies[attackerArmyIndex];
         const defenderArmy = defenderPlayer.armies[defenderArmyIndex];
 
@@ -49,36 +47,22 @@ class Player {
         defenderPlayer.removeEmptyArmies();
     }
 
-    removeEmptyArmies() {
-        this.armies = this.armies.filter(army => army.units.length > 0);
+    private addArmy(unitType: keyof typeof unitTypes, location: string) {
+        const UnitClass = unitTypes[unitType];
+        const unitFactory = () => new UnitClass();
+
+        const army = new Army<Unit>(unitFactory, location);
+        this.armies.push(army);
     }
 
-    mergeArmies() {
-        const locationMap = new Map<string, Map<string, Army<Unit>>>();
+    private addUnitsToArmy(armyIndex: number, numbers: number) {
+        const army = this.armies[armyIndex];
+        army.addUnits(numbers);
+        this.money -= army.units[0].cost * numbers;
+    }
 
-        // Organize armies by location and unit type
-        this.armies.forEach(army => {
-            let typeMap = locationMap.get(army.location);
-            if (!typeMap) {
-                typeMap = new Map<string, Army<Unit>>();
-                locationMap.set(army.location, typeMap);
-            }
-            const unitType = army.units[0].constructor.name;
-            if (typeMap.has(unitType)) {
-                const existingArmy = typeMap.get(unitType)!;
-                existingArmy.addUnits(army.units.length);
-            } else {
-                typeMap.set(unitType, army);
-            }
-        });
-
-        // Flatten the map to a single list of merged armies
-        this.armies = [];
-        locationMap.forEach(typeMap => {
-            typeMap.forEach(army => {
-                this.armies.push(army);
-            });
-        });
+    private removeEmptyArmies() {
+        this.armies = this.armies.filter(army => army.units.length > 0);
     }
 }
 
