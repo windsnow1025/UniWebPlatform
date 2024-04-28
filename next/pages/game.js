@@ -79,14 +79,9 @@ function Game() {
 
   const units = [new Infantry(), new Archer()];
 
-  const [players, setPlayers] = useState([new Player()]);
-  const [selectedArmies, setSelectedArmies] = useState([0]);
+  const [players, setPlayers] = useState([new Player(), new Player(), new Player()]);
+  const [selectedArmies, setSelectedArmies] = useState([0, 0, 0]);
   const [distance, setDistance] = useState(0);
-
-  const addPlayer = () => {
-    setPlayers([...players, new Player()]);
-    setSelectedArmies([...selectedArmies, 0]);
-  };
 
   const handleAddArmy = (playerIndex, unitType, number) => {
     const newPlayers = [...players];
@@ -156,7 +151,6 @@ function Game() {
               ))}
             </Grid>
             <GraphComponent graph={graph}/>
-            <Button variant="contained" sx={{m: 1}} onClick={addPlayer}>Add Player</Button>
             <Grid container spacing={2}>
               {players.map((player, playerIndex) => (
                 <Grid item xs={4} md={4} key={playerIndex}>
