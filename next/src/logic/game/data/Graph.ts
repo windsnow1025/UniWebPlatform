@@ -1,0 +1,40 @@
+import Graph from "@/src/logic/game/Graph";
+
+const graph = new Graph();
+
+graph.addNode("Main City 1");
+graph.addNode("City 1 D");
+graph.addNode("City 1 L");
+graph.addNode("City 1 R");
+graph.addNode("Main City 2");
+graph.addNode("City 2 D");
+graph.addNode("City 2 L");
+graph.addNode("City 2 R");
+graph.addNode("Main City 3");
+graph.addNode("City 3 D");
+graph.addNode("City 3 L");
+graph.addNode("City 3 R");
+graph.addNode("Gate 12");
+graph.addNode("Gate 12");
+graph.addNode("Gate 23");
+graph.addNode("Center");
+graph.addEdge("Main City 1", "City 1 D");
+graph.addEdge("Main City 2", "City 2 D");
+graph.addEdge("Main City 3", "City 3 D");
+graph.addEdge("City 1 D", "Center");
+graph.addEdge("City 2 D", "Center");
+graph.addEdge("City 3 D", "Center");
+graph.addEdge("Main City 1", "City 1 R");
+graph.addEdge("City 1 R", "Gate 12");
+graph.addEdge("Main City 1", "City 1 L");
+graph.addEdge("City 1 L", "Gate 13");
+graph.addEdge("Main City 2", "City 2 R");
+graph.addEdge("City 2 R", "Gate 23");
+graph.addEdge("Main City 2", "City 2 L");
+graph.addEdge("City 2 L", "Gate 12");
+graph.addEdge("Main City 3", "City 3 R");
+graph.addEdge("City 3 R", "Gate 13");
+graph.addEdge("Main City 3", "City 3 L");
+graph.addEdge("City 3 L", "Gate 23");
+
+export default graph;
