@@ -6,6 +6,7 @@ class Archer extends Unit {
     public health: number = 10;
     public currentHealth: number = this.health;
     public range: number = 1;
+    public speed: number = 1;
     public cost: number = 1;
 }
 
