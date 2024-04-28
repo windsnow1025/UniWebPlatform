@@ -1,27 +1,44 @@
 import Unit from "@/src/logic/game/Unit";
 import Army from "@/src/logic/game/Army";
 
-export function armyCombat(army1: Army, army2: Army, distance: number) {
-    if (army1.units.length <= 0 || army2.units.length <= 0) {
-        return;
+export function armyCombat<T extends Unit, U extends Unit>(
+    attackerArmy: Army<T>, defenderArmy: Army<U>, distance: number
+) {
+    if (isCombatEnd(attackerArmy, defenderArmy)) return;
+    if (attackerArmy.units[0].range >= distance) {
+        const isCombatEnd = armyAttack(attackerArmy, defenderArmy);
+        if (isCombatEnd) {
+            return;
+        }
     }
-    if (army1.units[0].range >= distance) {
-        armyAttack(army1, army2);
-    }
-    if (army2.units[0].range >= distance) {
-        armyAttack(army2, army1);
+    if (defenderArmy.units[0].range >= distance) {
+        armyAttack(defenderArmy, attackerArmy);
     }
 }
 
-function armyAttack(attackerArmy: Army, defenderArmy: Army) {
+function isCombatEnd<T extends Unit, U extends Unit>(
+    army1: Army<T>, army2: Army<U>
+): boolean {
+    return (army1.units.length <= 0 || army2.units.length <= 0)
+}
+
+function armyAttack<T extends Unit, U extends Unit>(
+    attackerArmy: Army<T>, defenderArmy: Army<U>
+) {
     for (const attackerUnit of attackerArmy.units) {
         const defenderUnit = findWeakestUnit(defenderArmy);
         combat(attackerUnit, defenderUnit);
         defenderArmy.removeDeadUnits();
+        if (isCombatEnd(attackerArmy, defenderArmy)) {
+            return true;
+        }
     }
+    return false;
 }
 
-function findWeakestUnit(army: Army): Unit {
+function findWeakestUnit<T extends Unit>(
+    army: Army<T>
+): Unit {
     return army.units.reduce((weakest, unit) => {
         const currentHealthRatio = unit.currentHealth / unit.health;
         const weakestHealthRatio = weakest.currentHealth / weakest.health;
