@@ -85,7 +85,7 @@ function Game() {
           acc[army.location] = [];
         }
         acc[army.location].push({
-          type: army.units[0].constructor.name,
+          type: army.unitType,
           count: army.units.length
         });
       });
@@ -162,12 +162,15 @@ function Game() {
                 <Grid item xs={4} md={4} key={playerIndex}>
                   <Typography variant="h6">Player {playerIndex + 1}</Typography>
                   <Typography variant="subtitle1">Money: ${player.money}</Typography>
-                  <Button variant="outlined" sx={{m: 1}} onClick={() => handleAddArmy(playerIndex, 'Infantry', 10)}>
-                    Infantry Group +
-                  </Button>
-                  <Button variant="outlined" sx={{m: 1}} onClick={() => handleAddArmy(playerIndex, 'Archer', 10)}>
-                    Archer Group +
-                  </Button>
+                  {units.map((unit, index) => (
+                    <Button
+                      key={index}
+                      variant="outlined"
+                      sx={{m: 1}}
+                      onClick={() => handleAddArmy(playerIndex, units[index].constructor.name, 10)}>
+                      {units[index].constructor.name} Group +
+                    </Button>
+                  ))}
                   <RadioGroup
                     value={selectedArmies[playerIndex]}
                     onChange={(e) => handleSelectArmy(playerIndex, parseInt(e.target.value))}
@@ -179,7 +182,7 @@ function Game() {
                         label={
                           <Grid container alignItems="center">
                             <Grid item xs>
-                              Army {index + 1}: {army.units.length} x {army.unitFactory().constructor.name} - {army.location}
+                              Army {index + 1}: {army.units.length} x {army.unitType} - {army.location}
                             </Grid>
                           </Grid>
                         }
@@ -196,7 +199,7 @@ function Game() {
                           sx={{m: 1}}
                           onClick={() => handleCombat(playerIndex, defenderPlayerIndex)}
                         >
-                          Attacks Player {defenderPlayerIndex + 1}
+                          Attack Player {defenderPlayerIndex + 1}
                         </Button>
                       );
                     }
