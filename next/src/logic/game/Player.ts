@@ -31,6 +31,8 @@ class Player {
         const army = this.armies[armyIndex];
         army.addUnits(numbers);
         this.money -= army.units[0].cost * numbers;
+
+        this.mergeArmies();
     }
 
     combat(defenderPlayer: Player, attackerArmyIndex: number, defenderArmyIndex: number, graph: Graph) {
@@ -49,6 +51,34 @@ class Player {
 
     removeEmptyArmies() {
         this.armies = this.armies.filter(army => army.units.length > 0);
+    }
+
+    mergeArmies() {
+        const locationMap = new Map<string, Map<string, Army<Unit>>>();
+
+        // Organize armies by location and unit type
+        this.armies.forEach(army => {
+            let typeMap = locationMap.get(army.location);
+            if (!typeMap) {
+                typeMap = new Map<string, Army<Unit>>();
+                locationMap.set(army.location, typeMap);
+            }
+            const unitType = army.units[0].constructor.name;
+            if (typeMap.has(unitType)) {
+                const existingArmy = typeMap.get(unitType)!;
+                existingArmy.addUnits(army.units.length);
+            } else {
+                typeMap.set(unitType, army);
+            }
+        });
+
+        // Flatten the map to a single list of merged armies
+        this.armies = [];
+        locationMap.forEach(typeMap => {
+            typeMap.forEach(army => {
+                this.armies.push(army);
+            });
+        });
     }
 }
 
