@@ -1,9 +1,9 @@
 import Unit from "@/src/logic/game/Unit";
 
-class Army {
-    public units: Unit[];
+class Army<T extends Unit> {
+    public units: T[];
 
-    constructor(units: Unit[]) {
+    constructor(units: T[]) {
         this.units = units;
     }
 

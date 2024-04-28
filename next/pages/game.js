@@ -2,7 +2,7 @@
 
 import '../src/asset/css/index.css';
 
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
@@ -20,42 +20,30 @@ function Index() {
     document.title = title;
   }, []);
 
-  let army1;
-  let army2;
+  const [infantryArmy, setInfantryArmy] = useState(null);
+  const [archerArmy, setArcherArmy] = useState(null);
 
   const init = () => {
-    army1 = new Army([
-      new Infantry(),
-      new Infantry(),
-      new Infantry(),
-      new Infantry(),
-      new Infantry(),
-      new Infantry(),
-      new Infantry(),
-      new Infantry(),
-      new Infantry(),
-      new Infantry(),
+    const newInfantryArmy = new Army([
+      new Infantry(), new Infantry(), new Infantry(), new Infantry(),
+      new Infantry(), new Infantry(), new Infantry(), new Infantry(),
+      new Infantry(), new Infantry(),
     ]);
-    army2 = new Army([
-      new Archer(),
-      new Archer(),
-      new Archer(),
-      new Archer(),
-      new Archer(),
-      new Archer(),
-      new Archer(),
-      new Archer(),
-      new Archer(),
-      new Archer(),
+    const newArcherArmy = new Army([
+      new Archer(), new Archer(), new Archer(), new Archer(),
+      new Archer(), new Archer(), new Archer(), new Archer(),
+      new Archer(), new Archer(),
     ]);
-  }
+    console.log(newArcherArmy);
+    console.log(newInfantryArmy);
+    setInfantryArmy(newInfantryArmy);
+    setArcherArmy(newArcherArmy);
+  };
 
   const combat = () => {
-    console.log(army1);
-    console.log(army2);
-    armyCombat(army1, army2, 1);
-    console.log(army1);
-    console.log(army2);
+    armyCombat(archerArmy, infantryArmy, 0);
+    console.log(infantryArmy);
+    console.log(archerArmy);
   }
 
   return (
