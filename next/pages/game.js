@@ -2,18 +2,20 @@
 
 import '../src/asset/css/index.css';
 
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
-  ThemeProvider,
   Button,
   Container,
   CssBaseline,
+  FormControl,
   Grid,
+  InputLabel,
   MenuItem,
+  Paper,
   Select,
   TextField,
-  Typography,
-  Paper
+  ThemeProvider,
+  Typography
 } from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import useThemeHandler from "../app/hooks/useThemeHandler";
@@ -21,7 +23,7 @@ import Infantry from "../src/logic/game/Units/Infantry";
 import Archer from "../src/logic/game/Units/Archer";
 import Army from "../src/logic/game/Army";
 import Player from "../src/logic/game/Player";
-import { armyCombat } from "../src/logic/game/Combat";
+import {armyCombat} from "../src/logic/game/Combat";
 
 function Game() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
@@ -31,65 +33,65 @@ function Game() {
   }, []);
 
   const [players, setPlayers] = useState([new Player()]);
-  const [selectedArmies, setSelectedArmies] = useState({});
+  const [selectedArmies, setSelectedArmies] = useState([]);
   const [distance, setDistance] = useState(0);
 
   const addPlayer = () => {
     setPlayers([...players, new Player()]);
+    setSelectedArmies([...selectedArmies, -1]);
   };
 
   const handleInit = (playerIndex, unitType, number) => {
-    const newArmy = new Army(() => unitType === 'Infantry' ? new Infantry() : new Archer(), number);
+    let unitFactory;
+    if (unitType === "Infantry") {
+      unitFactory = () => new Infantry();
+    } else if (unitType === "Archer") {
+      unitFactory = () => new Archer();
+    }
+    const newArmy = new Army(unitFactory, number);
     const newPlayers = [...players];
     newPlayers[playerIndex].armies.push(newArmy);
     setPlayers(newPlayers);
   };
 
-  const handleCombat = (attackerIndex, defenderIndex) => {
-    const attackerArmyIndex = selectedArmies[`player${attackerIndex}`];
-    const defenderArmyIndex = selectedArmies[`player${defenderIndex}`];
+  const handleCombat = (attackerPlayerIndex, defenderPlayerIndex) => {
+    const attackerArmyIndex = selectedArmies[attackerPlayerIndex];
+    const defenderArmyIndex = selectedArmies[defenderPlayerIndex];
 
     armyCombat(
-      players[attackerIndex].armies[attackerArmyIndex],
-      players[defenderIndex].armies[defenderArmyIndex],
+      players[attackerPlayerIndex].armies[attackerArmyIndex],
+      players[defenderPlayerIndex].armies[defenderArmyIndex],
       distance
     );
 
     const updatedPlayers = [...players];
-    updatedPlayers[attackerIndex].removeEmptyArmies();
-    updatedPlayers[defenderIndex].removeEmptyArmies();
+    updatedPlayers[attackerPlayerIndex].removeEmptyArmies();
+    updatedPlayers[defenderPlayerIndex].removeEmptyArmies();
 
     setPlayers(updatedPlayers);
   };
 
   const handleSelectArmy = (playerIndex, armyIndex) => {
-    setSelectedArmies(prev => ({
-      ...prev,
-      [`player${playerIndex}`]: armyIndex >= 0 ? armyIndex : null
-    }));
-  };
-
-  const handleDistanceChange = (event) => {
-    setDistance(event.target.value);
+    const updatedSelectedArmies = [...selectedArmies];
+    updatedSelectedArmies[playerIndex] = armyIndex;
+    setSelectedArmies(updatedSelectedArmies);
   };
 
   return (
     <>
       {muiTheme &&
         <ThemeProvider theme={muiTheme}>
-          <CssBaseline enableColorScheme />
+          <CssBaseline enableColorScheme/>
           <HeaderAppBar
             title={title}
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
           <Container className="p-4">
-            <Typography variant="h5" gutterBottom>
-              Unit Properties
-            </Typography>
+            <Typography variant="h5">Unit Properties</Typography>
             <Grid container spacing={2}>
               <Grid item xs={6} md={3}>
-                <Paper elevation={3} sx={{ p: 2 }}>
+                <Paper elevation={3} sx={{p: 2}}>
                   <Typography variant="h6">Infantry</Typography>
                   <Typography>Attack: 7</Typography>
                   <Typography>Defense: 2</Typography>
@@ -99,7 +101,7 @@ function Game() {
                 </Paper>
               </Grid>
               <Grid item xs={6} md={3}>
-                <Paper elevation={3} sx={{ p: 2 }}>
+                <Paper elevation={3} sx={{p: 2}}>
                   <Typography variant="h6">Archer</Typography>
                   <Typography>Attack: 5</Typography>
                   <Typography>Defense: 1</Typography>
@@ -109,53 +111,49 @@ function Game() {
                 </Paper>
               </Grid>
             </Grid>
-            <Button variant="contained" sx={{ m: 1 }} onClick={addPlayer}>Add Player</Button>
+            <Button variant="contained" sx={{m: 1}} onClick={addPlayer}>Add Player</Button>
             <Grid container spacing={2}>
-              {players.map((player, i) => (
-                <Grid item xs={12} md={6} key={i}>
-                  <Typography variant="h6">Player {i + 1}</Typography>
-                  <Button variant="outlined" sx={{ m: 1 }} onClick={() => handleInit(i, 'Infantry', 10)}>
+              {players.map((player, playerIndex) => (
+                <Grid item xs={12} md={6} key={playerIndex}>
+                  <Typography variant="h6">Player {playerIndex + 1}</Typography>
+                  <Button variant="outlined" sx={{m: 1}} onClick={() => handleInit(playerIndex, 'Infantry', 10)}>
                     Add Infantry Army
                   </Button>
-                  <Button variant="outlined" sx={{ m: 1 }} onClick={() => handleInit(i, 'Archer', 10)}>
+                  <Button variant="outlined" sx={{m: 1}} onClick={() => handleInit(playerIndex, 'Archer', 10)}>
                     Add Archer Army
                   </Button>
-                  <Select
-                    value={selectedArmies[`player${i}`] ?? ''}
-                    onChange={(e) => handleSelectArmy(i, parseInt(e.target.value, 10))}
-                    displayEmpty
-                    renderValue={selected => {
-                      if (selected === '') {
-                        return <em>None</em>;
-                      }
-                      return `Army ${selected + 1}`;
-                    }}
-                  >
-                    {player.armies.map((army, index) => (
-                      <MenuItem value={index} key={index}>
-                        Army {index + 1} ({army.units[0].constructor.name})
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <FormControl>
+                    <InputLabel>Army</InputLabel>
+                    <Select
+                      value={selectedArmies[playerIndex]}
+                      onChange={(e) => handleSelectArmy(playerIndex, parseInt(e.target.value))}
+                    >
+                      {player.armies.map((army, index) => (
+                        <MenuItem value={index} key={index}>
+                          Army {index + 1}: {army.units[0].constructor.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                   <div>
                     {player.armies.map((army, index) => (
                       <div key={index}>
-                        <Typography sx={{ fontWeight: selectedArmies[`player${i}`] === index ? 'bold' : 'normal' }}>
+                        <Typography sx={{fontWeight: selectedArmies[playerIndex] === index ? 'bold' : 'normal'}}>
                           Army {index + 1}: {army.units[0].constructor.name} - {army.units.length} Units
                         </Typography>
                       </div>
                     ))}
                   </div>
-                  {players.map((_, j) => {
-                    if (i !== j) {
+                  {players.map((_, defenderPlayerIndex) => {
+                    if (playerIndex !== defenderPlayerIndex) {
                       return (
                         <Button
-                          key={`combat-${i}-${j}`}
-                          onClick={() => handleCombat(i, j)}
+                          key={`${playerIndex}-${defenderPlayerIndex}`}
                           variant="contained"
-                          sx={{ m: 1 }}
+                          sx={{m: 1}}
+                          onClick={() => handleCombat(playerIndex, defenderPlayerIndex)}
                         >
-                          Attacks Player {j + 1}
+                          Attacks Player {defenderPlayerIndex + 1}
                         </Button>
                       );
                     }
@@ -164,12 +162,12 @@ function Game() {
                 </Grid>
               ))}
             </Grid>
-            <Typography variant="h6">
+            <div>
               <TextField
+                label="Distance"
                 type="number"
                 value={distance}
-                onChange={handleDistanceChange}
-                label="Distance"
+                onChange={(event) => setDistance(event.target.value)}
                 size="small"
                 margin="normal"
                 InputProps={{
@@ -178,7 +176,7 @@ function Game() {
                   }
                 }}
               />
-            </Typography>
+            </div>
           </Container>
         </ThemeProvider>
       }
