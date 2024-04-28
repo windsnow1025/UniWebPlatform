@@ -48,23 +48,16 @@ function Game() {
     } else if (unitType === "Archer") {
       unitFactory = () => new Archer();
     }
-    const newArmy = new Army(unitFactory, number);
+    const newArmy = new Army(unitFactory);
+    newArmy.addUnits(number);
     const newPlayers = [...players];
     newPlayers[playerIndex].armies.push(newArmy);
     setPlayers(newPlayers);
   };
 
-  const handleAddSingleUnitToArmy = (playerIndex, armyIndex) => {
-    const unitType = players[playerIndex].armies[armyIndex].units[0].constructor.name;
-    let unitFactory;
-    if (unitType === "Infantry") {
-      unitFactory = () => new Infantry();
-    } else if (unitType === "Archer") {
-      unitFactory = () => new Archer();
-    }
-    const newUnit = unitFactory();
+  const handleAddUnitsToArmy = (playerIndex, armyIndex, number) => {
     const newPlayers = [...players];
-    newPlayers[playerIndex].armies[armyIndex].units.push(newUnit);
+    newPlayers[playerIndex].armies[armyIndex].addUnits(number);
     setPlayers(newPlayers);
   };
 
@@ -72,11 +65,14 @@ function Game() {
     const attackerArmyIndex = selectedArmies[attackerPlayerIndex];
     const defenderArmyIndex = selectedArmies[defenderPlayerIndex];
 
-    armyCombat(
-      players[attackerPlayerIndex].armies[attackerArmyIndex],
-      players[defenderPlayerIndex].armies[defenderArmyIndex],
-      distance
-    );
+    const attackerArmy = players[attackerPlayerIndex].armies[attackerArmyIndex];
+    const defenderArmy = players[defenderPlayerIndex].armies[defenderArmyIndex];
+
+    if (!attackerArmy || !defenderArmy) {
+      return;
+    }
+
+    armyCombat(attackerArmy, defenderArmy, distance);
 
     const updatedPlayers = [...players];
     updatedPlayers[attackerPlayerIndex].removeEmptyArmies();
@@ -162,7 +158,7 @@ function Game() {
                           <Button
                             variant="outlined"
                             sx={{ m: 1 }}
-                            onClick={() => handleAddSingleUnitToArmy(playerIndex, index)}
+                            onClick={() => handleAddUnitsToArmy(playerIndex, index, 1)}
                           >
                             Add 1 Unit
                           </Button>
