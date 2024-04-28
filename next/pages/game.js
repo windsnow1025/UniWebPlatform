@@ -20,7 +20,6 @@ import useThemeHandler from "../app/hooks/useThemeHandler";
 import Infantry from "../src/logic/game/Units/Infantry";
 import Archer from "../src/logic/game/Units/Archer";
 import Player from "../src/logic/game/Player";
-import {armyCombat} from "../src/logic/game/Combat";
 import Graph from "../src/logic/game/Graph";
 
 import dynamic from 'next/dynamic';
@@ -123,19 +122,12 @@ function Game() {
     const attackerArmyIndex = selectedArmies[attackerPlayerIndex];
     const defenderArmyIndex = selectedArmies[defenderPlayerIndex];
 
-    const attackerArmy = players[attackerPlayerIndex].armies[attackerArmyIndex];
-    const defenderArmy = players[defenderPlayerIndex].armies[defenderArmyIndex];
+    const attackerPlayer = players[attackerPlayerIndex];
+    const defenderPlayer = players[defenderPlayerIndex];
 
-    if (!attackerArmy || !defenderArmy) {
-      return;
-    }
-
-    armyCombat(attackerArmy, defenderArmy, graph.getDistance(attackerArmy.location, defenderArmy.location));
+    attackerPlayer.combat(defenderPlayer, attackerArmyIndex, defenderArmyIndex, graph);
 
     const updatedPlayers = [...players];
-    updatedPlayers[attackerPlayerIndex].removeEmptyArmies();
-    updatedPlayers[defenderPlayerIndex].removeEmptyArmies();
-
     setPlayers(updatedPlayers);
   };
 
