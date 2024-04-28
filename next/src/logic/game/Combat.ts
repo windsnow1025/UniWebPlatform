@@ -27,7 +27,7 @@ function armyAttack<T extends Unit, U extends Unit>(
 ) {
     for (const attackerUnit of attackerArmy.units) {
         const defenderUnit = findWeakestUnit(defenderArmy);
-        combat(attackerUnit, defenderUnit);
+        unitAttack(attackerUnit, defenderUnit);
         defenderArmy.removeDeadUnits();
         if (isCombatEnd(attackerArmy, defenderArmy)) {
             return true;
@@ -46,6 +46,6 @@ function findWeakestUnit<T extends Unit>(
     }, army.units[0]);
 }
 
-function combat(attackerUnit: Unit, defenderUnit: Unit) {
+function unitAttack(attackerUnit: Unit, defenderUnit: Unit) {
     defenderUnit.currentHealth -= attackerUnit.attack - defenderUnit.defend;
 }
