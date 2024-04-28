@@ -171,10 +171,10 @@ function Game() {
                   <Typography variant="h6">Player {playerIndex + 1}</Typography>
                   <Typography variant="subtitle1">Money: ${player.money}</Typography>
                   <Button variant="outlined" sx={{m: 1}} onClick={() => handleAddArmy(playerIndex, 'Infantry', 10)}>
-                    Add Infantry Army
+                    Infantry Group +
                   </Button>
                   <Button variant="outlined" sx={{m: 1}} onClick={() => handleAddArmy(playerIndex, 'Archer', 10)}>
-                    Add Archer Army
+                    Archer Group +
                   </Button>
                   <RadioGroup
                     value={selectedArmies[playerIndex]}
