@@ -73,7 +73,7 @@ function Index() {
             setSystemTheme={setSystemTheme}
           />
           <Container className="p-4">
-            <Button onClick={addPlayer} variant="contained" color="primary">Add Player</Button>
+            <Button variant="contained" sx={{ m: 1 }} onClick={addPlayer}>Add Player</Button>
             <Grid container spacing={2}>
               {players.map((player, i) => (
                 <Grid item xs={12} md={6} key={i}>
@@ -87,14 +87,32 @@ function Index() {
                   <Select
                     value={selectedArmies[`player${i}`] ?? ''}
                     onChange={(e) => handleSelectArmy(i, parseInt(e.target.value, 10))}
+                    displayEmpty
+                    renderValue={selected => {
+                      if (selected === '') {
+                        return <em>None</em>;
+                      }
+                      return `Army ${selected + 1}`;
+                    }}
                   >
                     {player.armies.map((army, index) => (
-                      <MenuItem value={index} key={index}>Army {index + 1} ({army.units[0].constructor.name})</MenuItem>
+                      <MenuItem value={index} key={index}>
+                        Army {index + 1} ({army.units[0].constructor.name})
+                      </MenuItem>
                     ))}
                   </Select>
                   <div>
-                    {player.armies[selectedArmies[`player${i}`]]?.units.map((unit, index) => (
-                      <Typography key={index}>Unit {index + 1}: {unit.currentHealth}/{unit.health} HP</Typography>
+                    {player.armies.map((army, index) => (
+                      <div key={index}>
+                        <Typography sx={{ fontWeight: selectedArmies[`player${i}`] === index ? 'bold' : 'normal' }}>
+                          Army {index + 1}: {army.units[0].constructor.name} - {army.units.length} Units
+                        </Typography>
+                        {army.units.map((unit, uIndex) => (
+                          <Typography key={uIndex} sx={{ ml: 4 }}>
+                            Unit {uIndex + 1}: {unit.constructor.name} - {unit.currentHealth}/{unit.health} HP, Attack: {unit.attack}, Defense: {unit.defend}
+                          </Typography>
+                        ))}
+                      </div>
                     ))}
                   </div>
                   {players.map((_, j) => {
@@ -104,10 +122,9 @@ function Index() {
                           key={`combat-${i}-${j}`}
                           onClick={() => handleCombat(i, j)}
                           variant="contained"
-                          color="primary"
-                          sx={{ mt: 2 }}
+                          sx={{ m: 1 }}
                         >
-                          Combat (Player {i + 1} attacks Player {j + 1})
+                          Attacks Player {j + 1}
                         </Button>
                       );
                     }
