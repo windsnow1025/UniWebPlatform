@@ -41,7 +41,7 @@ function Game() {
     setSelectedArmies([...selectedArmies, 0]);
   };
 
-  const handleInit = (playerIndex, unitType, number) => {
+  const handleAddArmy = (playerIndex, unitType, number) => {
     let unitFactory;
     if (unitType === "Infantry") {
       unitFactory = () => new Infantry();
@@ -51,6 +51,20 @@ function Game() {
     const newArmy = new Army(unitFactory, number);
     const newPlayers = [...players];
     newPlayers[playerIndex].armies.push(newArmy);
+    setPlayers(newPlayers);
+  };
+
+  const handleAddSingleUnitToArmy = (playerIndex, armyIndex) => {
+    const unitType = players[playerIndex].armies[armyIndex].units[0].constructor.name;
+    let unitFactory;
+    if (unitType === "Infantry") {
+      unitFactory = () => new Infantry();
+    } else if (unitType === "Archer") {
+      unitFactory = () => new Archer();
+    }
+    const newUnit = unitFactory();
+    const newPlayers = [...players];
+    newPlayers[playerIndex].armies[armyIndex].units.push(newUnit);
     setPlayers(newPlayers);
   };
 
@@ -116,10 +130,10 @@ function Game() {
               {players.map((player, playerIndex) => (
                 <Grid item xs={12} md={6} key={playerIndex}>
                   <Typography variant="h6">Player {playerIndex + 1}</Typography>
-                  <Button variant="outlined" sx={{m: 1}} onClick={() => handleInit(playerIndex, 'Infantry', 10)}>
+                  <Button variant="outlined" sx={{m: 1}} onClick={() => handleAddArmy(playerIndex, 'Infantry', 10)}>
                     Add Infantry Army
                   </Button>
-                  <Button variant="outlined" sx={{m: 1}} onClick={() => handleInit(playerIndex, 'Archer', 10)}>
+                  <Button variant="outlined" sx={{m: 1}} onClick={() => handleAddArmy(playerIndex, 'Archer', 10)}>
                     Add Archer Army
                   </Button>
                   <FormControl>
@@ -138,11 +152,22 @@ function Game() {
                   </FormControl>
                   <div>
                     {player.armies.map((army, index) => (
-                      <div key={index}>
-                        <Typography sx={{fontWeight: selectedArmies[playerIndex] === index ? 'bold' : 'normal'}}>
-                          Army {index + 1}: {army.units[0].constructor.name} - {army.units.length} Units
-                        </Typography>
-                      </div>
+                      <Grid key={index} container alignItems="center">
+                        <Grid item>
+                          <Typography sx={{ fontWeight: selectedArmies[playerIndex] === index ? 'bold' : 'normal' }}>
+                            Army {index + 1}: {army.units[0].constructor.name} - {army.units.length} Units
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Button
+                            variant="outlined"
+                            sx={{ m: 1 }}
+                            onClick={() => handleAddSingleUnitToArmy(playerIndex, index)}
+                          >
+                            Add 1 Unit
+                          </Button>
+                        </Grid>
+                      </Grid>
                     ))}
                   </div>
                   {players.map((_, defenderPlayerIndex) => {
