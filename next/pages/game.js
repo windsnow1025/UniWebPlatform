@@ -21,7 +21,6 @@ import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import useThemeHandler from "../app/hooks/useThemeHandler";
 import Infantry from "../src/logic/game/Units/Infantry";
 import Archer from "../src/logic/game/Units/Archer";
-import Army from "../src/logic/game/Army";
 import Player from "../src/logic/game/Player";
 import {armyCombat} from "../src/logic/game/Combat";
 
@@ -48,16 +47,16 @@ function Game() {
     } else if (unitType === "Archer") {
       unitFactory = () => new Archer();
     }
-    const newArmy = new Army(unitFactory);
-    newArmy.addUnits(number);
     const newPlayers = [...players];
-    newPlayers[playerIndex].armies.push(newArmy);
+    const player = newPlayers[playerIndex];
+    player.addArmy(unitFactory);
+    player.addUnitsToArmy(player.armies.length - 1, 10);
     setPlayers(newPlayers);
   };
 
   const handleAddUnitsToArmy = (playerIndex, armyIndex, number) => {
     const newPlayers = [...players];
-    newPlayers[playerIndex].armies[armyIndex].addUnits(number);
+    newPlayers[playerIndex].addUnitsToArmy(armyIndex, number);
     setPlayers(newPlayers);
   };
 
@@ -156,7 +155,6 @@ function Game() {
                         </Grid>
                         <Grid item>
                           <Button
-                            variant="outlined"
                             sx={{ m: 1 }}
                             onClick={() => handleAddUnitsToArmy(playerIndex, index, 1)}
                           >
