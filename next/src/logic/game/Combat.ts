@@ -5,13 +5,13 @@ export function armyCombat<T extends Unit, U extends Unit>(
     attackerArmy: Army<T>, defenderArmy: Army<U>, distance: number
 ) {
     if (isCombatEnd(attackerArmy, defenderArmy)) return;
-    if (attackerArmy.units[0].range >= distance) {
+    if (attackerArmy.unitClass.range >= distance) {
         const isCombatEnd = armyAttack(attackerArmy, defenderArmy);
         if (isCombatEnd) {
             return;
         }
     }
-    if (defenderArmy.units[0].range >= distance) {
+    if (defenderArmy.unitClass.range >= distance) {
         armyAttack(defenderArmy, attackerArmy);
     }
 }
@@ -27,7 +27,7 @@ function armyAttack<T extends Unit, U extends Unit>(
 ) {
     for (const attackerUnit of attackerArmy.units) {
         const defenderUnit = findWeakestUnit(defenderArmy);
-        unitAttack(attackerUnit, defenderUnit);
+        unitAttack(defenderUnit, attackerArmy.unitClass, defenderArmy.unitClass);
         defenderArmy.removeDeadUnits();
         if (isCombatEnd(attackerArmy, defenderArmy)) {
             return true;
@@ -39,13 +39,14 @@ function armyAttack<T extends Unit, U extends Unit>(
 function findWeakestUnit<T extends Unit>(
     army: Army<T>
 ): Unit {
+    const unitHealth = army.unitClass.health
     return army.units.reduce((weakest, unit) => {
-        const currentHealthRatio = unit.currentHealth / unit.health;
-        const weakestHealthRatio = weakest.currentHealth / weakest.health;
+        const currentHealthRatio = unit.currentHealth / unitHealth;
+        const weakestHealthRatio = weakest.currentHealth / unitHealth;
         return currentHealthRatio < weakestHealthRatio ? unit : weakest;
     }, army.units[0]);
 }
 
-function unitAttack(attackerUnit: Unit, defenderUnit: Unit) {
-    defenderUnit.currentHealth -= attackerUnit.attack - defenderUnit.defend;
+function unitAttack(defenderUnit: Unit, attackerClass: typeof Unit, defenderClass: typeof Unit) {
+    defenderUnit.currentHealth -= attackerClass.attack - defenderClass.defend;
 }
