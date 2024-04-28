@@ -1,14 +1,24 @@
 import Army from "@/src/logic/game/Army";
 import Unit from "@/src/logic/game/Unit";
-import Infantry from "@/src/logic/game/Units/Infantry";
 
 class Player {
     public armies: Army<Unit>[];
     public money: number;
 
     constructor() {
-        this.armies = [new Army<Unit>(() => new Infantry(), 10)];
+        this.armies = [];
         this.money = 100;
+    }
+
+    addArmy(unitFactory: () => Unit) {
+        const army = new Army<Unit>(unitFactory);
+        this.armies.push(army);
+    }
+
+    addUnitsToArmy(armyIndex: number, numbers: number) {
+        const army = this.armies[armyIndex];
+        army.addUnits(numbers);
+        this.money -= army.units[0].cost * numbers;
     }
 
     removeEmptyArmies() {
