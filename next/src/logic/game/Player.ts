@@ -1,14 +1,8 @@
 import Army from "@/src/logic/game/Army";
 import Unit from "@/src/logic/game/Unit";
-import Infantry from "@/src/logic/game/Units/Infantry";
-import Archer from "@/src/logic/game/Units/Archer";
 import Graph from "@/src/logic/game/Graph";
 import {armyCombat} from "@/src/logic/game/Combat";
-
-const unitTypes = {
-    Infantry: Infantry,
-    Archer: Archer
-};
+import {unitTypes} from "@/src/logic/game/UnitFactory";
 
 class Player {
     public armies: Army<Unit>[];
@@ -21,8 +15,7 @@ class Player {
 
     public addUnitsToLocation(unitType: keyof typeof unitTypes, location: string, numbers: number) {
         const existingArmyIndex = this.armies.findIndex(army =>
-            army.unitFactory().constructor.name === unitTypes[unitType].name &&
-            army.location === location
+            army.unitType === unitType && army.location === location
         );
 
         if (existingArmyIndex !== -1) {
@@ -48,10 +41,7 @@ class Player {
     }
 
     private addArmy(unitType: keyof typeof unitTypes, location: string) {
-        const UnitClass = unitTypes[unitType];
-        const unitFactory = () => new UnitClass();
-
-        const army = new Army<Unit>(unitFactory, location);
+        const army = new Army<Unit>(unitType, location);
         this.armies.push(army);
     }
 
