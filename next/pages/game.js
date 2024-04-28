@@ -12,6 +12,7 @@ import Infantry from "../src/logic/game/Units/Infantry";
 import Archer from "../src/logic/game/Units/Archer";
 import Army from "../src/logic/game/Army";
 import {armyCombat} from "../src/logic/game/Combat";
+import Player from "../src/logic/game/Player";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -20,30 +21,20 @@ function Index() {
     document.title = title;
   }, []);
 
-  const [infantryArmy, setInfantryArmy] = useState(null);
-  const [archerArmy, setArcherArmy] = useState(null);
+  const [player1, setPlayer1] = useState(new Player());
+  const [player2, setPlayer2] = useState(new Player());
 
   const init = () => {
-    const newInfantryArmy = new Army([
-      new Infantry(), new Infantry(), new Infantry(), new Infantry(),
-      new Infantry(), new Infantry(), new Infantry(), new Infantry(),
-      new Infantry(), new Infantry(),
-    ]);
-    const newArcherArmy = new Army([
-      new Archer(), new Archer(), new Archer(), new Archer(),
-      new Archer(), new Archer(), new Archer(), new Archer(),
-      new Archer(), new Archer(),
-    ]);
-    console.log(newArcherArmy);
-    console.log(newInfantryArmy);
-    setInfantryArmy(newInfantryArmy);
-    setArcherArmy(newArcherArmy);
+    const infantryArmy = new Army(() => new Infantry(), 10);
+    const archerArmy = new Army(() => new Archer(), 10);
+    player1.armies.push(infantryArmy);
+    player2.armies.push(archerArmy);
   };
 
   const combat = () => {
-    armyCombat(archerArmy, infantryArmy, 0);
-    console.log(infantryArmy);
-    console.log(archerArmy);
+    armyCombat(player1.armies[0], player2.armies[0], 0);
+    console.log(player1.armies[0]);
+    console.log(player2.armies[0]);
   }
 
   return (

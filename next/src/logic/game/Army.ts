@@ -3,8 +3,11 @@ import Unit from "@/src/logic/game/Unit";
 class Army<T extends Unit> {
     public units: T[];
 
-    constructor(units: T[]) {
-        this.units = units;
+    constructor(unitFactory: () => T, unitNumbers: number) {
+        this.units = [];
+        for (let i = 0; i < unitNumbers; i++) {
+            this.units.push(unitFactory());
+        }
     }
 
     removeDeadUnits() {
