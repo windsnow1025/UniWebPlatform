@@ -2,17 +2,16 @@
 
 import '../src/asset/css/index.css';
 
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
   CssBaseline,
-  FormControl,
+  FormControlLabel,
   Grid,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
+  Radio,
+  RadioGroup,
   TextField,
   ThemeProvider,
   Typography
@@ -22,7 +21,7 @@ import useThemeHandler from "../app/hooks/useThemeHandler";
 import Infantry from "../src/logic/game/Units/Infantry";
 import Archer from "../src/logic/game/Units/Archer";
 import Player from "../src/logic/game/Player";
-import {armyCombat} from "../src/logic/game/Combat";
+import { armyCombat } from "../src/logic/game/Combat";
 
 function Game() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
@@ -113,45 +112,40 @@ function Game() {
               {players.map((player, playerIndex) => (
                 <Grid item xs={12} md={6} key={playerIndex}>
                   <Typography variant="h6">Player {playerIndex + 1}</Typography>
+                  <Typography variant="subtitle1">Money: ${player.money}</Typography>
                   <Button variant="outlined" sx={{m: 1}} onClick={() => handleAddArmy(playerIndex, 'Infantry', 10)}>
                     Add Infantry Army
                   </Button>
                   <Button variant="outlined" sx={{m: 1}} onClick={() => handleAddArmy(playerIndex, 'Archer', 10)}>
                     Add Archer Army
                   </Button>
-                  <FormControl>
-                    <InputLabel>Army</InputLabel>
-                    <Select
-                      label="Army"
-                      value={selectedArmies[playerIndex]}
-                      onChange={(e) => handleSelectArmy(playerIndex, parseInt(e.target.value))}
-                    >
-                      {player.armies.map((army, index) => (
-                        <MenuItem value={index} key={index}>
-                          Army {index + 1}: {army.units[0].constructor.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <div>
+                  <RadioGroup
+                    value={selectedArmies[playerIndex]}
+                    onChange={(e) => handleSelectArmy(playerIndex, parseInt(e.target.value))}
+                  >
                     {player.armies.map((army, index) => (
-                      <Grid key={index} container alignItems="center">
-                        <Grid item>
-                          <Typography sx={{ fontWeight: selectedArmies[playerIndex] === index ? 'bold' : 'normal' }}>
-                            Army {index + 1}: {army.units[0].constructor.name} - {army.units.length} Units
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Button
-                            sx={{ m: 1 }}
-                            onClick={() => handleAddUnitsToArmy(playerIndex, index, 1)}
-                          >
-                            Add 1 Unit
-                          </Button>
-                        </Grid>
-                      </Grid>
+                      <FormControlLabel
+                        value={index}
+                        control={<Radio />}
+                        label={
+                          <Grid container alignItems="center">
+                            <Grid item xs>
+                              Army {index + 1}: {army.units[0].constructor.name} - {army.units.length} Units
+                            </Grid>
+                            <Grid item>
+                              <Button
+                                size="small"
+                                onClick={() => handleAddUnitsToArmy(playerIndex, index, 1)}
+                              >
+                                Add 1 Unit
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        }
+                        key={index}
+                      />
                     ))}
-                  </div>
+                  </RadioGroup>
                   {players.map((_, defenderPlayerIndex) => {
                     if (playerIndex !== defenderPlayerIndex) {
                       return (
