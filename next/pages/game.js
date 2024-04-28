@@ -3,7 +3,18 @@
 import '../src/asset/css/index.css';
 
 import React, { useEffect, useState } from "react";
-import { ThemeProvider, Button, Container, CssBaseline, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+  ThemeProvider,
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  Paper
+} from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import useThemeHandler from "../app/hooks/useThemeHandler";
 import Infantry from "../src/logic/game/Units/Infantry";
@@ -12,7 +23,7 @@ import Army from "../src/logic/game/Army";
 import Player from "../src/logic/game/Player";
 import { armyCombat } from "../src/logic/game/Combat";
 
-function Index() {
+function Game() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
   const title = "Game";
   useEffect(() => {
@@ -73,6 +84,31 @@ function Index() {
             setSystemTheme={setSystemTheme}
           />
           <Container className="p-4">
+            <Typography variant="h5" gutterBottom>
+              Unit Properties
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={6} md={3}>
+                <Paper elevation={3} sx={{ p: 2 }}>
+                  <Typography variant="h6">Infantry</Typography>
+                  <Typography>Attack: 7</Typography>
+                  <Typography>Defense: 2</Typography>
+                  <Typography>Health: 10</Typography>
+                  <Typography>Range: 0</Typography>
+                  <Typography>Cost: 1</Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Paper elevation={3} sx={{ p: 2 }}>
+                  <Typography variant="h6">Archer</Typography>
+                  <Typography>Attack: 5</Typography>
+                  <Typography>Defense: 1</Typography>
+                  <Typography>Health: 10</Typography>
+                  <Typography>Range: 1</Typography>
+                  <Typography>Cost: 1</Typography>
+                </Paper>
+              </Grid>
+            </Grid>
             <Button variant="contained" sx={{ m: 1 }} onClick={addPlayer}>Add Player</Button>
             <Grid container spacing={2}>
               {players.map((player, i) => (
@@ -107,11 +143,6 @@ function Index() {
                         <Typography sx={{ fontWeight: selectedArmies[`player${i}`] === index ? 'bold' : 'normal' }}>
                           Army {index + 1}: {army.units[0].constructor.name} - {army.units.length} Units
                         </Typography>
-                        {army.units.map((unit, uIndex) => (
-                          <Typography key={uIndex} sx={{ ml: 4 }}>
-                            Unit {uIndex + 1}: {unit.constructor.name} - {unit.currentHealth}/{unit.health} HP, Attack: {unit.attack}, Defense: {unit.defend}
-                          </Typography>
-                        ))}
                       </div>
                     ))}
                   </div>
@@ -155,4 +186,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Game;
