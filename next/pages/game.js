@@ -91,7 +91,6 @@ function Game() {
       });
       return acc;
     }, {});
-    console.log(armies)
     setArmies(armies);
   }, [players]);
 
@@ -107,14 +106,7 @@ function Game() {
 
     const newPlayers = [...players];
     const player = newPlayers[playerIndex];
-    player.addArmy(unitType, location);
-    player.addUnitsToArmy(player.armies.length - 1, number);
-    setPlayers(newPlayers);
-  };
-
-  const handleAddUnitsToArmy = (playerIndex, armyIndex, number) => {
-    const newPlayers = [...players];
-    newPlayers[playerIndex].addUnitsToArmy(armyIndex, number);
+    player.addUnitsToLocation(unitType, location, number);
     setPlayers(newPlayers);
   };
 
@@ -187,15 +179,7 @@ function Game() {
                         label={
                           <Grid container alignItems="center">
                             <Grid item xs>
-                              Army {index + 1}: {army.units.length} x {army.units[0].constructor.name} - {army.location}
-                            </Grid>
-                            <Grid item>
-                              <Button
-                                size="small"
-                                onClick={() => handleAddUnitsToArmy(playerIndex, index, 1)}
-                              >
-                                Add 1 Unit
-                              </Button>
+                              Army {index + 1}: {army.units.length} x {army.unitFactory().constructor.name} - {army.location}
                             </Grid>
                           </Grid>
                         }
