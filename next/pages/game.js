@@ -17,53 +17,15 @@ import {
 } from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import useThemeHandler from "../app/hooks/useThemeHandler";
-import Infantry from "../src/logic/game/Units/Infantry";
-import Archer from "../src/logic/game/Units/Archer";
 import Player from "../src/logic/game/Player";
-import Graph from "../src/logic/game/Graph";
+import graph from "../src/logic/game/data/Graph";
 
 import dynamic from 'next/dynamic';
+import {unitClasses, unitInstances} from "../src/logic/game/UnitFactory";
 
 const GraphComponent = dynamic(() => import('../app/components/GraphComponent'), {
   ssr: false,
 });
-
-const graph = new Graph();
-
-graph.addNode("Main City 1");
-graph.addNode("City 1 D");
-graph.addNode("City 1 L");
-graph.addNode("City 1 R");
-graph.addNode("Main City 2");
-graph.addNode("City 2 D");
-graph.addNode("City 2 L");
-graph.addNode("City 2 R");
-graph.addNode("Main City 3");
-graph.addNode("City 3 D");
-graph.addNode("City 3 L");
-graph.addNode("City 3 R");
-graph.addNode("Gate 12");
-graph.addNode("Gate 12");
-graph.addNode("Gate 23");
-graph.addNode("Center");
-graph.addEdge("Main City 1", "City 1 D");
-graph.addEdge("Main City 2", "City 2 D");
-graph.addEdge("Main City 3", "City 3 D");
-graph.addEdge("City 1 D", "Center");
-graph.addEdge("City 2 D", "Center");
-graph.addEdge("City 3 D", "Center");
-graph.addEdge("Main City 1", "City 1 R");
-graph.addEdge("City 1 R", "Gate 12");
-graph.addEdge("Main City 1", "City 1 L");
-graph.addEdge("City 1 L", "Gate 13");
-graph.addEdge("Main City 2", "City 2 R");
-graph.addEdge("City 2 R", "Gate 23");
-graph.addEdge("Main City 2", "City 2 L");
-graph.addEdge("City 2 L", "Gate 12");
-graph.addEdge("Main City 3", "City 3 R");
-graph.addEdge("City 3 R", "Gate 13");
-graph.addEdge("Main City 3", "City 3 L");
-graph.addEdge("City 3 L", "Gate 23");
 
 function Game() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -71,8 +33,6 @@ function Game() {
   useEffect(() => {
     document.title = title;
   }, []);
-
-  const units = [new Infantry(), new Archer()];
 
   const [players, setPlayers] = useState([new Player(), new Player(), new Player()]);
   const [selectedArmies, setSelectedArmies] = useState([0, 0, 0]);
@@ -142,16 +102,16 @@ function Game() {
           <Container sx={{p: 4}}>
             <Typography variant="h5">Unit Properties</Typography>
             <Grid container spacing={2}>
-              {units.map((unit, index) => (
+              {unitClasses.map((unitClass, index) => (
                 <Grid item xs={6} md={3} key={index}>
                   <Paper elevation={3} sx={{p: 2}}>
-                    <Typography variant="h6">{unit.constructor.name}</Typography>
-                    <Typography>Attack: {unit.attack}</Typography>
-                    <Typography>Defense: {unit.defend}</Typography>
-                    <Typography>Health: {unit.health}</Typography>
-                    <Typography>Range: {unit.range}</Typography>
-                    <Typography>Speed: {unit.speed}</Typography>
-                    <Typography>Cost: {unit.cost}</Typography>
+                    <Typography variant="h6">{unitClass.name}</Typography>
+                    <Typography>Attack: {unitClass.attack}</Typography>
+                    <Typography>Defense: {unitClass.defend}</Typography>
+                    <Typography>Health: {unitClass.health}</Typography>
+                    <Typography>Range: {unitClass.range}</Typography>
+                    <Typography>Speed: {unitClass.speed}</Typography>
+                    <Typography>Cost: {unitClass.cost}</Typography>
                   </Paper>
                 </Grid>
               ))}
@@ -162,13 +122,13 @@ function Game() {
                 <Grid item xs={4} md={4} key={playerIndex}>
                   <Typography variant="h6">Player {playerIndex + 1}</Typography>
                   <Typography variant="subtitle1">Money: ${player.money}</Typography>
-                  {units.map((unit, index) => (
+                  {unitClasses.map((unitClass, index) => (
                     <Button
                       key={index}
                       variant="outlined"
                       sx={{m: 1}}
-                      onClick={() => handleAddArmy(playerIndex, units[index].constructor.name, 10)}>
-                      {units[index].constructor.name} Group +
+                      onClick={() => handleAddArmy(playerIndex, unitClass.name, 10)}>
+                      {unitClass.name} Group +
                     </Button>
                   ))}
                   <RadioGroup
