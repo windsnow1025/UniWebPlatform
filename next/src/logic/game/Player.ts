@@ -1,5 +1,12 @@
 import Army from "@/src/logic/game/Army";
 import Unit from "@/src/logic/game/Unit";
+import Infantry from "@/src/logic/game/Units/Infantry";
+import Archer from "@/src/logic/game/Units/Archer";
+
+const unitTypes = {
+    Infantry: Infantry,
+    Archer: Archer
+};
 
 class Player {
     public armies: Army<Unit>[];
@@ -10,7 +17,10 @@ class Player {
         this.money = 100;
     }
 
-    addArmy(unitFactory: () => Unit) {
+    addArmy(unitType: keyof typeof unitTypes) {
+        const UnitClass = unitTypes[unitType];
+        const unitFactory = () => new UnitClass();
+
         const army = new Army<Unit>(unitFactory);
         this.armies.push(army);
     }

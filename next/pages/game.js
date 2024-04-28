@@ -31,6 +31,8 @@ function Game() {
     document.title = title;
   }, []);
 
+  const units = [new Infantry(), new Archer()];
+
   const [players, setPlayers] = useState([new Player()]);
   const [selectedArmies, setSelectedArmies] = useState([0]);
   const [distance, setDistance] = useState(0);
@@ -41,16 +43,10 @@ function Game() {
   };
 
   const handleAddArmy = (playerIndex, unitType, number) => {
-    let unitFactory;
-    if (unitType === "Infantry") {
-      unitFactory = () => new Infantry();
-    } else if (unitType === "Archer") {
-      unitFactory = () => new Archer();
-    }
     const newPlayers = [...players];
     const player = newPlayers[playerIndex];
-    player.addArmy(unitFactory);
-    player.addUnitsToArmy(player.armies.length - 1, 10);
+    player.addArmy(unitType);
+    player.addUnitsToArmy(player.armies.length - 1, number);
     setPlayers(newPlayers);
   };
 
@@ -99,26 +95,18 @@ function Game() {
           <Container sx={{p: 4}}>
             <Typography variant="h5">Unit Properties</Typography>
             <Grid container spacing={2}>
-              <Grid item xs={6} md={3}>
-                <Paper elevation={3} sx={{p: 2}}>
-                  <Typography variant="h6">Infantry</Typography>
-                  <Typography>Attack: 7</Typography>
-                  <Typography>Defense: 2</Typography>
-                  <Typography>Health: 10</Typography>
-                  <Typography>Range: 0</Typography>
-                  <Typography>Cost: 1</Typography>
-                </Paper>
-              </Grid>
-              <Grid item xs={6} md={3}>
-                <Paper elevation={3} sx={{p: 2}}>
-                  <Typography variant="h6">Archer</Typography>
-                  <Typography>Attack: 5</Typography>
-                  <Typography>Defense: 1</Typography>
-                  <Typography>Health: 10</Typography>
-                  <Typography>Range: 1</Typography>
-                  <Typography>Cost: 1</Typography>
-                </Paper>
-              </Grid>
+              {units.map((unit, index) => (
+                <Grid item xs={6} md={3} key={index}>
+                  <Paper elevation={3} sx={{ p: 2 }}>
+                    <Typography variant="h6">{unit.constructor.name}</Typography>
+                    <Typography>Attack: {unit.attack}</Typography>
+                    <Typography>Defense: {unit.defend}</Typography>
+                    <Typography>Health: {unit.health}</Typography>
+                    <Typography>Range: {unit.range}</Typography>
+                    <Typography>Cost: {unit.cost}</Typography>
+                  </Paper>
+                </Grid>
+              ))}
             </Grid>
             <Button variant="contained" sx={{m: 1}} onClick={addPlayer}>Add Player</Button>
             <Grid container spacing={2}>
