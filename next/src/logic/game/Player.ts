@@ -48,9 +48,7 @@ class Player {
     private addUnitsToArmy(armyIndex: number, numbers: number) {
         const army = this.armies[armyIndex];
         army.addUnits(numbers);
-
-        const unitClass = unitTypes[army.unitType];
-        this.money -= unitClass.cost * numbers;
+        this.money -= army.unitClass.cost * numbers;
     }
 
     private removeEmptyArmies() {
