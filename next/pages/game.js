@@ -21,7 +21,7 @@ import Player from "../src/logic/game/Player";
 import graph from "../src/logic/game/data/Graph";
 
 import dynamic from 'next/dynamic';
-import {unitClasses, unitInstances} from "../src/logic/game/UnitFactory";
+import {unitClasses} from "../src/logic/game/UnitFactory";
 
 const GraphComponent = dynamic(() => import('../app/components/GraphComponent'), {
   ssr: false,

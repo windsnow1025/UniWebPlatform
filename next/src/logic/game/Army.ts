@@ -4,11 +4,13 @@ import {createUnit, unitTypes} from "@/src/logic/game/UnitFactory";
 class Army<T extends Unit> {
     public units: T[];
     public unitType: keyof typeof unitTypes;
+    public unitClass: typeof Unit;
     public location: string;
 
     constructor(unitType: keyof typeof unitTypes, location: string) {
         this.units = [];
         this.unitType = unitType;
+        this.unitClass = unitTypes[unitType];
         this.location = location;
     }
 
