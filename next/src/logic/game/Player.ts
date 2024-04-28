@@ -17,11 +17,11 @@ class Player {
         this.money = 100;
     }
 
-    addArmy(unitType: keyof typeof unitTypes) {
+    addArmy(unitType: keyof typeof unitTypes, location: string) {
         const UnitClass = unitTypes[unitType];
         const unitFactory = () => new UnitClass();
 
-        const army = new Army<Unit>(unitFactory);
+        const army = new Army<Unit>(unitFactory, location);
         this.armies.push(army);
     }
 
