@@ -5,7 +5,7 @@ class Army<T extends Unit> {
     public unitFactory: () => T;
     public location: string;
 
-    constructor(unitFactory: () => T, location: string = "A") {
+    constructor(unitFactory: () => T, location: string) {
         this.units = [];
         this.unitFactory = unitFactory;
         this.location = location;
