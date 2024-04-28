@@ -3,10 +3,12 @@ import Unit from "@/src/logic/game/Unit";
 class Army<T extends Unit> {
     public units: T[];
     public unitFactory: () => T;
+    public location: string;
 
-    constructor(unitFactory: () => T) {
+    constructor(unitFactory: () => T, location: string = "A") {
         this.units = [];
         this.unitFactory = unitFactory;
+        this.location = location;
     }
 
     addUnits(numbers: number) {
