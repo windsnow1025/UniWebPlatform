@@ -5,23 +5,26 @@ import '../src/asset/css/index.css';
 import React, {useEffect, useState} from "react";
 import {
   Button,
-  Container,
-  CssBaseline, FormControl,
+  CssBaseline,
+  FormControl,
   FormControlLabel,
-  Grid, InputLabel, MenuItem,
+  InputLabel,
+  MenuItem,
   Paper,
   Radio,
-  RadioGroup, Select,
+  RadioGroup,
+  Select,
   ThemeProvider,
   Typography
 } from "@mui/material";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import useThemeHandler from "../app/hooks/useThemeHandler";
-import Player from "../src/logic/game/Player";
 import graph from "../src/logic/game/data/Graph";
 
 import dynamic from 'next/dynamic';
 import {unitClasses} from "../src/logic/game/data/Unit";
+import initPlayers from "../src/logic/game/data/Player";
+import playerLocations from "../src/logic/game/data/PlayerLocation";
 
 const GraphComponent = dynamic(() => import('../app/components/GraphComponent'), {
   ssr: false,
@@ -34,9 +37,9 @@ function Game() {
     document.title = title;
   }, []);
 
-  const [players, setPlayers] = useState([new Player(), new Player(), new Player()]);
-  const [selectedArmies, setSelectedArmies] = useState([0, 0, 0]);
-  const [moveLocations, setMoveLocations] = useState(players.map(() => ""));
+  const [players, setPlayers] = useState(initPlayers);
+  const [armySelectedByPlayers, setArmySelectedByPlayers] = useState(players.map(() => 0));
+  const [armyMoveLocationOfPlayers, setArmyMoveLocationOfPlayers] = useState(players.map(() => ""));
 
   const [armies, setArmies] = useState();
   useEffect(() => {
@@ -56,24 +59,16 @@ function Game() {
   }, [players]);
 
   const handleAddArmy = (playerIndex, unitType, number) => {
-    let location;
-    if (playerIndex === 0) {
-      location = "Main City 1";
-    } else if (playerIndex === 1) {
-      location = "Main City 2";
-    } else if (playerIndex === 2) {
-      location = "Main City 3";
-    }
-
     const newPlayers = [...players];
     const player = newPlayers[playerIndex];
+    const location = playerLocations[playerIndex];
     player.addUnitsToLocation(unitType, location, number);
     setPlayers(newPlayers);
   };
 
   const handleCombat = (attackerPlayerIndex, defenderPlayerIndex) => {
-    const attackerArmyIndex = selectedArmies[attackerPlayerIndex];
-    const defenderArmyIndex = selectedArmies[defenderPlayerIndex];
+    const attackerArmyIndex = armySelectedByPlayers[attackerPlayerIndex];
+    const defenderArmyIndex = armySelectedByPlayers[defenderPlayerIndex];
 
     const attackerPlayer = players[attackerPlayerIndex];
     const defenderPlayer = players[defenderPlayerIndex];
@@ -85,13 +80,13 @@ function Game() {
   };
 
   const handleSelectArmy = (playerIndex, armyIndex) => {
-    const updatedSelectedArmies = [...selectedArmies];
+    const updatedSelectedArmies = [...armySelectedByPlayers];
     updatedSelectedArmies[playerIndex] = armyIndex;
-    setSelectedArmies(updatedSelectedArmies);
+    setArmySelectedByPlayers(updatedSelectedArmies);
   };
 
   const handleMoveArmy = (playerIndex, armyIndex) => {
-    const newLocation = moveLocations[playerIndex];
+    const newLocation = armyMoveLocationOfPlayers[playerIndex];
     if (!newLocation) {
       return;
     }
@@ -146,7 +141,7 @@ function Game() {
                     </Button>
                   ))}
                   <RadioGroup
-                    value={selectedArmies[playerIndex]}
+                    value={armySelectedByPlayers[playerIndex]}
                     onChange={(e) => handleSelectArmy(playerIndex, parseInt(e.target.value))}
                   >
                     {player.armies.map((army, armyIndex) => (
@@ -164,12 +159,12 @@ function Game() {
                                   <InputLabel id={`move-select-label-${playerIndex}-${armyIndex}`}>Move To</InputLabel>
                                   <Select
                                     labelId={`move-select-label-${playerIndex}-${armyIndex}`}
-                                    value={moveLocations[playerIndex]}
+                                    value={armyMoveLocationOfPlayers[playerIndex]}
                                     label="Move To"
                                     onChange={(e) => {
-                                      const newMoveLocations = [...moveLocations];
+                                      const newMoveLocations = [...armyMoveLocationOfPlayers];
                                       newMoveLocations[playerIndex] = e.target.value;
-                                      setMoveLocations(newMoveLocations);
+                                      setArmyMoveLocationOfPlayers(newMoveLocations);
                                     }}
                                     sx={{ width: 120 }}
                                   >
