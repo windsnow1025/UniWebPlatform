@@ -3,7 +3,6 @@ import Unit from "@/src/logic/game/Unit";
 import Graph from "@/src/logic/game/Graph";
 import {armyCombat} from "@/src/logic/game/Combat";
 import {unitTypes} from "@/src/logic/game/UnitFactory";
-import army from "@/src/logic/game/Army";
 
 class Player {
     public armies: Army<Unit>[];
