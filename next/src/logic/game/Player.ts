@@ -3,6 +3,7 @@ import Unit from "@/src/logic/game/Unit";
 import Graph from "@/src/logic/game/Graph";
 import {armyCombat} from "@/src/logic/game/Combat";
 import {unitTypes} from "@/src/logic/game/UnitFactory";
+import army from "@/src/logic/game/Army";
 
 class Player {
     public armies: Army<Unit>[];
@@ -38,6 +39,17 @@ class Player {
 
         this.removeEmptyArmies();
         defenderPlayer.removeEmptyArmies();
+    }
+
+    public canMoveArmy(armyIndex: number, newLocation: string, graph: Graph) {
+        return this.armies[armyIndex].canMove(newLocation, graph);
+    }
+
+    public moveArmy(armyIndex: number, newLocation: string, graph: Graph) {
+        if (!this.canMoveArmy(armyIndex, newLocation, graph)) {
+            return;
+        }
+        this.armies[armyIndex].move(newLocation, graph);
     }
 
     private addArmy(unitType: keyof typeof unitTypes, location: string) {
