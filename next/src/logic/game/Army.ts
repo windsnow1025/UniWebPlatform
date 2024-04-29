@@ -1,5 +1,6 @@
 import Unit from "@/src/logic/game/Unit";
 import {createUnit, unitTypes} from "@/src/logic/game/UnitFactory";
+import Graph from "@/src/logic/game/Graph";
 
 class Army<T extends Unit> {
     public units: T[];
@@ -22,6 +23,15 @@ class Army<T extends Unit> {
 
     removeDeadUnits() {
         this.units = this.units.filter(unit => unit.currentHealth > 0);
+    }
+
+    move(newLocation: string, graph: Graph) {
+        const distance = graph.getDistance(this.location, newLocation);
+        if (distance > this.unitClass.speed) {
+            return false;
+        }
+        this.location = newLocation;
+        return true;
     }
 }
 
