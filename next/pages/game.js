@@ -6,12 +6,12 @@ import React, {useEffect, useState} from "react";
 import {
   Button,
   Container,
-  CssBaseline,
+  CssBaseline, FormControl,
   FormControlLabel,
-  Grid,
+  Grid, InputLabel, MenuItem,
   Paper,
   Radio,
-  RadioGroup,
+  RadioGroup, Select,
   ThemeProvider,
   Typography
 } from "@mui/material";
@@ -21,7 +21,7 @@ import Player from "../src/logic/game/Player";
 import graph from "../src/logic/game/data/Graph";
 
 import dynamic from 'next/dynamic';
-import {unitClasses} from "../src/logic/game/UnitFactory";
+import {unitClasses} from "../src/logic/game/data/Unit";
 
 const GraphComponent = dynamic(() => import('../app/components/GraphComponent'), {
   ssr: false,
@@ -36,6 +36,7 @@ function Game() {
 
   const [players, setPlayers] = useState([new Player(), new Player(), new Player()]);
   const [selectedArmies, setSelectedArmies] = useState([0, 0, 0]);
+  const [moveLocations, setMoveLocations] = useState(players.map(() => ""));
 
   const [armies, setArmies] = useState();
   useEffect(() => {
@@ -89,6 +90,18 @@ function Game() {
     setSelectedArmies(updatedSelectedArmies);
   };
 
+  const handleMoveArmy = (playerIndex, armyIndex) => {
+    const newPlayers = [...players];
+    const player = newPlayers[playerIndex];
+    const army = player.armies[armyIndex];
+    const newLocation = moveLocations[playerIndex];
+
+    if (newLocation && newLocation !== army.location) {
+      army.move(newLocation, graph);
+      setPlayers(newPlayers);
+    }
+  };
+
   return (
     <>
       {muiTheme &&
@@ -99,27 +112,25 @@ function Game() {
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
-          <Container sx={{p: 4}}>
-            <Typography variant="h5">Unit Properties</Typography>
-            <Grid container spacing={2}>
+          <div className="m-4">
+            <Typography variant="h5" className="text-center">Unit Properties</Typography>
+            <div className="flex-around">
               {unitClasses.map((unitClass, index) => (
-                <Grid item xs={6} md={3} key={index}>
-                  <Paper elevation={3} sx={{p: 2}}>
-                    <Typography variant="h6">{unitClass.name}</Typography>
-                    <Typography>Attack: {unitClass.attack}</Typography>
-                    <Typography>Defense: {unitClass.defend}</Typography>
-                    <Typography>Health: {unitClass.health}</Typography>
-                    <Typography>Range: {unitClass.range}</Typography>
-                    <Typography>Speed: {unitClass.speed}</Typography>
-                    <Typography>Cost: {unitClass.cost}</Typography>
-                  </Paper>
-                </Grid>
+                <Paper key={index} elevation={3} className="m-4 p-4 pr-32">
+                  <Typography variant="h6">{unitClass.name}</Typography>
+                  <Typography>Attack: {unitClass.attack}</Typography>
+                  <Typography>Defense: {unitClass.defend}</Typography>
+                  <Typography>Health: {unitClass.health}</Typography>
+                  <Typography>Range: {unitClass.range}</Typography>
+                  <Typography>Speed: {unitClass.speed}</Typography>
+                  <Typography>Cost: {unitClass.cost}</Typography>
+                </Paper>
               ))}
-            </Grid>
+            </div>
             <GraphComponent graph={graph} armies={armies}/>
-            <Grid container spacing={2}>
+            <div className="flex-around">
               {players.map((player, playerIndex) => (
-                <Grid item xs={4} md={4} key={playerIndex}>
+                <div key={playerIndex}>
                   <Typography variant="h6">Player {playerIndex + 1}</Typography>
                   <Typography variant="subtitle1">Money: ${player.money}</Typography>
                   {unitClasses.map((unitClass, index) => (
@@ -138,13 +149,34 @@ function Game() {
                     {player.armies.map((army, index) => (
                       <FormControlLabel
                         value={index}
-                        control={<Radio/>}
+                        control={<Radio />}
                         label={
-                          <Grid container alignItems="center">
-                            <Grid item xs>
+                          <div className="flex-around">
+                            <div>
                               Army {index + 1}: {army.units.length} x {army.unitType} - {army.location}
-                            </Grid>
-                          </Grid>
+                            </div>
+                            <div className="flex-around m-2">
+                              <FormControl size="small">
+                                <InputLabel id={`move-select-label-${playerIndex}-${index}`}>Move To</InputLabel>
+                                <Select
+                                  labelId={`move-select-label-${playerIndex}-${index}`}
+                                  value={moveLocations[playerIndex]}
+                                  label="Move To"
+                                  onChange={(e) => {
+                                    const newMoveLocations = [...moveLocations];
+                                    newMoveLocations[playerIndex] = e.target.value;
+                                    setMoveLocations(newMoveLocations);
+                                  }}
+                                  sx={{ width: 120, marginRight: 1 }}
+                                >
+                                  {Array.from(graph.nodes.keys()).map(node => (
+                                    <MenuItem key={node} value={node}>{node}</MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                              <Button variant="contained" onClick={() => handleMoveArmy(playerIndex, index)} size="small">Move</Button>
+                            </div>
+                          </div>
                         }
                         key={index}
                       />
@@ -165,10 +197,10 @@ function Game() {
                     }
                     return null;
                   })}
-                </Grid>
+                </div>
               ))}
-            </Grid>
-          </Container>
+            </div>
+          </div>
         </ThemeProvider>
       }
     </>
