@@ -96,7 +96,7 @@ function Game() {
     const army = player.armies[armyIndex];
     const newLocation = moveLocations[playerIndex];
 
-    if (newLocation && newLocation !== army.location) {
+    if (newLocation) {
       army.move(newLocation, graph);
       setPlayers(newPlayers);
     }
@@ -156,24 +156,26 @@ function Game() {
                               Army {index + 1}: {army.units.length} x {army.unitType} - {army.location}
                             </div>
                             <div className="flex-around m-2">
-                              <FormControl size="small">
-                                <InputLabel id={`move-select-label-${playerIndex}-${index}`}>Move To</InputLabel>
-                                <Select
-                                  labelId={`move-select-label-${playerIndex}-${index}`}
-                                  value={moveLocations[playerIndex]}
-                                  label="Move To"
-                                  onChange={(e) => {
-                                    const newMoveLocations = [...moveLocations];
-                                    newMoveLocations[playerIndex] = e.target.value;
-                                    setMoveLocations(newMoveLocations);
-                                  }}
-                                  sx={{ width: 120, marginRight: 1 }}
-                                >
-                                  {Array.from(graph.nodes.keys()).map(node => (
-                                    <MenuItem key={node} value={node}>{node}</MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
+                              <div className="m-2">
+                                <FormControl size="small">
+                                  <InputLabel id={`move-select-label-${playerIndex}-${index}`}>Move To</InputLabel>
+                                  <Select
+                                    labelId={`move-select-label-${playerIndex}-${index}`}
+                                    value={moveLocations[playerIndex]}
+                                    label="Move To"
+                                    onChange={(e) => {
+                                      const newMoveLocations = [...moveLocations];
+                                      newMoveLocations[playerIndex] = e.target.value;
+                                      setMoveLocations(newMoveLocations);
+                                    }}
+                                    sx={{ width: 120 }}
+                                  >
+                                    {Array.from(graph.nodes.keys()).filter(node => army.canMove(node, graph)).map(node => (
+                                      <MenuItem key={node} value={node}>{node}</MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              </div>
                               <Button variant="contained" onClick={() => handleMoveArmy(playerIndex, index)} size="small">Move</Button>
                             </div>
                           </div>
