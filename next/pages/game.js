@@ -91,15 +91,17 @@ function Game() {
   };
 
   const handleMoveArmy = (playerIndex, armyIndex) => {
+    const newLocation = moveLocations[playerIndex];
+    if (!newLocation) {
+      return;
+    }
+
     const newPlayers = [...players];
     const player = newPlayers[playerIndex];
-    const army = player.armies[armyIndex];
-    const newLocation = moveLocations[playerIndex];
 
-    if (newLocation) {
-      army.move(newLocation, graph);
-      setPlayers(newPlayers);
-    }
+    player.moveArmy(armyIndex, newLocation, graph);
+
+    setPlayers(newPlayers);
   };
 
   return (
@@ -138,7 +140,8 @@ function Game() {
                       key={index}
                       variant="outlined"
                       sx={{m: 1}}
-                      onClick={() => handleAddArmy(playerIndex, unitClass.name, 10)}>
+                      onClick={() => handleAddArmy(playerIndex, unitClass.name, 10)}
+                    >
                       {unitClass.name} Group +
                     </Button>
                   ))}
@@ -146,21 +149,21 @@ function Game() {
                     value={selectedArmies[playerIndex]}
                     onChange={(e) => handleSelectArmy(playerIndex, parseInt(e.target.value))}
                   >
-                    {player.armies.map((army, index) => (
+                    {player.armies.map((army, armyIndex) => (
                       <FormControlLabel
-                        value={index}
+                        value={armyIndex}
                         control={<Radio />}
                         label={
                           <div className="flex-around">
                             <div>
-                              Army {index + 1}: {army.units.length} x {army.unitType} - {army.location}
+                              Army {armyIndex + 1}: {army.units.length} x {army.unitType} - {army.location}
                             </div>
                             <div className="flex-around m-2">
                               <div className="m-2">
                                 <FormControl size="small">
-                                  <InputLabel id={`move-select-label-${playerIndex}-${index}`}>Move To</InputLabel>
+                                  <InputLabel id={`move-select-label-${playerIndex}-${armyIndex}`}>Move To</InputLabel>
                                   <Select
-                                    labelId={`move-select-label-${playerIndex}-${index}`}
+                                    labelId={`move-select-label-${playerIndex}-${armyIndex}`}
                                     value={moveLocations[playerIndex]}
                                     label="Move To"
                                     onChange={(e) => {
@@ -170,17 +173,19 @@ function Game() {
                                     }}
                                     sx={{ width: 120 }}
                                   >
-                                    {Array.from(graph.nodes.keys()).filter(node => army.canMove(node, graph)).map(node => (
-                                      <MenuItem key={node} value={node}>{node}</MenuItem>
+                                    {Array.from(graph.nodes.keys())
+                                      .filter(location => player.canMoveArmy(armyIndex, location, graph))
+                                      .map(location => (
+                                      <MenuItem key={location} value={location}>{location}</MenuItem>
                                     ))}
                                   </Select>
                                 </FormControl>
                               </div>
-                              <Button variant="contained" onClick={() => handleMoveArmy(playerIndex, index)} size="small">Move</Button>
+                              <Button variant="contained" onClick={() => handleMoveArmy(playerIndex, armyIndex)} size="small">Move</Button>
                             </div>
                           </div>
                         }
-                        key={index}
+                        key={armyIndex}
                       />
                     ))}
                   </RadioGroup>
