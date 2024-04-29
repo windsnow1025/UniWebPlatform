@@ -1,8 +1,5 @@
-import Infantry from "@/src/logic/game/unit/Infantry";
-import Archer from "@/src/logic/game/unit/Archer";
 import Unit from "@/src/logic/game/Unit";
-
-export const unitClasses = [Infantry, Archer];
+import {unitClasses} from "@/src/logic/game/data/Unit";
 
 export const unitTypes = unitClasses.reduce((acc, UnitClass) => {
     acc[UnitClass.name] = UnitClass;
