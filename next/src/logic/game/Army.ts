@@ -25,9 +25,17 @@ class Army<T extends Unit> {
         this.units = this.units.filter(unit => unit.currentHealth > 0);
     }
 
-    move(newLocation: string, graph: Graph) {
+    canMove(newLocation: string, graph: Graph): boolean {
         const distance = graph.getDistance(this.location, newLocation);
-        if (distance > this.unitClass.speed) {
+        if (distance > this.unitClass.speed || newLocation === this.location) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    move(newLocation: string, graph: Graph) {
+        if (!this.canMove(newLocation, graph)) {
             return false;
         }
         this.location = newLocation;
