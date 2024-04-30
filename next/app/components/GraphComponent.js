@@ -59,8 +59,8 @@ function GraphComponent({ graph, attributes }) {
     );
 
     const edges = new DataSet();
-    graph.nodes.forEach((connections, id) => {
-      connections.forEach((targetId) => {
+    graph.nodes.forEach((nodeData, id) => {
+      nodeData.connections.forEach((targetId) => {
         if (id < targetId) {
           edges.add({ from: id, to: targetId });
         }
@@ -81,7 +81,7 @@ function GraphComponent({ graph, attributes }) {
     const network = new Network(networkRef.current, { nodes, edges }, options);
   }, [graph, attributes]);
 
-  return <div ref={networkRef} style={{ height: '500px' }} />;
+  return <div ref={networkRef} style={{ height: '600px' }} />;
 }
 
 export default GraphComponent;
