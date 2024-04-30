@@ -41,10 +41,17 @@ function Game() {
 
   const [gameSystem, setGameSystem] = useState(new GameSystem(initPlayers, graph));
   const [armySelectedByPlayers, setArmySelectedByPlayers] = useState(gameSystem.players.map(() => 0));
-  const [armyMoveLocationOfPlayers, setArmyMoveLocationOfPlayers] = useState(gameSystem.players.map(() => ""));
+  const [armyMoveLocationOfPlayers, setArmyMoveLocationOfPlayers] = useState(
+    gameSystem.players.map(player => player.armies.map(() => ""))
+  );
 
   const handleAddArmy = (playerIndex, unitType, number) => {
     gameSystem.addArmyToPlayer(playerIndex, unitType, number);
+
+    const newMoveLocations = [...armyMoveLocationOfPlayers];
+    newMoveLocations[playerIndex] = [...newMoveLocations[playerIndex], ""];
+    setArmyMoveLocationOfPlayers(newMoveLocations);
+
     forceUpdate({});
   };
 
@@ -62,8 +69,20 @@ function Game() {
     setArmySelectedByPlayers(updatedSelectedArmies);
   };
 
+  const handleMoveLocationChange = (playerIndex, armyIndex, newLocation) => {
+    const newMoveLocations = armyMoveLocationOfPlayers.map((locations, pIndex) =>
+      pIndex === playerIndex
+        ? locations.map((location, aIndex) =>
+          aIndex === armyIndex ? newLocation : location
+        )
+        : locations
+    );
+    setArmyMoveLocationOfPlayers(newMoveLocations);
+  };
+
   const handleMoveArmy = (playerIndex, armyIndex) => {
-    const newLocation = armyMoveLocationOfPlayers[playerIndex];
+    console.log(armyMoveLocationOfPlayers);
+    const newLocation = armyMoveLocationOfPlayers[playerIndex][armyIndex];
     if (!newLocation) {
       return;
     }
@@ -115,22 +134,16 @@ function Game() {
                             <div className="flex-around m-2">
                               <div className="m-2">
                                 <FormControl size="small">
-                                  <InputLabel id={`move-select-label-${playerIndex}-${armyIndex}`}>Move To</InputLabel>
+                                  <InputLabel>Move To</InputLabel>
                                   <Select
-                                    labelId={`move-select-label-${playerIndex}-${armyIndex}`}
-                                    value={armyMoveLocationOfPlayers[playerIndex]}
+                                    value={armyMoveLocationOfPlayers[playerIndex][armyIndex]}
                                     label="Move To"
-                                    onChange={(e) => {
-                                      const newMoveLocations = [...armyMoveLocationOfPlayers];
-                                      newMoveLocations[playerIndex] = e.target.value;
-                                      setArmyMoveLocationOfPlayers(newMoveLocations);
-                                    }}
+                                    onChange={(e) => handleMoveLocationChange(playerIndex, armyIndex, e.target.value)}
                                     sx={{width: 120}}
                                   >
-                                    {army.getMovableLocations(graph)
-                                      .map(location => (
-                                        <MenuItem key={location} value={location}>{location}</MenuItem>
-                                      ))}
+                                    {army.getMovableLocations(graph).map(location => (
+                                      <MenuItem key={location} value={location}>{location}</MenuItem>
+                                    ))}
                                   </Select>
                                 </FormControl>
                               </div>
