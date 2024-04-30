@@ -106,7 +106,7 @@ function Game() {
             <div className="flex-around">
               {gameSystem.players.map((player, playerIndex) => (
                 <div key={playerIndex}>
-                  <Typography variant="h6">Player {playerIndex + 1}</Typography>
+                  <Typography variant="h6">Player {player.name}</Typography>
                   <Typography variant="subtitle1">Money: ${player.money}</Typography>
                   {unitClasses.map((unitClass, index) => (
                     <Button

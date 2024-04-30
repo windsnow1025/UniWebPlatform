@@ -1,3 +1,3 @@
-const playerLocations = ["Main City 1", "Main City 2", "Main City 3"];
+const playerLocations = ["Blue Home", "Red Home", "Green Home"];
 
 export default playerLocations;

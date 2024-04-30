@@ -11,30 +11,30 @@ function midpoint(point1, point2) {
 }
 
 const basePositions = {
-  "Main City 1": { x: 0, y: -300 },
-  "Main City 2": { x: -300, y: 300 },
-  "Main City 3": { x: 300, y: 300 },
+  "Blue Home": { x: 0, y: -300 },
+  "Red Home": { x: -300, y: 300 },
+  "Green Home": { x: 300, y: 300 },
   "Center": { x: 0, y: 0 }
 };
 
 const gatePositions = {
-  "Gate 12": midpoint(basePositions["Main City 1"], basePositions["Main City 2"]),
-  "Gate 23": midpoint(basePositions["Main City 2"], basePositions["Main City 3"]),
-  "Gate 13": midpoint(basePositions["Main City 1"], basePositions["Main City 3"]),
+  "Gate RB": midpoint(basePositions["Blue Home"], basePositions["Red Home"]),
+  "Gate RG": midpoint(basePositions["Red Home"], basePositions["Green Home"]),
+  "Gate GB": midpoint(basePositions["Blue Home"], basePositions["Green Home"]),
 };
 
 const positions = {
   ...basePositions,
   ...gatePositions,
-  "City 1 D": midpoint(basePositions["Main City 1"], basePositions["Center"]),
-  "City 2 D": midpoint(basePositions["Main City 2"], basePositions["Center"]),
-  "City 3 D": midpoint(basePositions["Main City 3"], basePositions["Center"]),
-  "City 1 to 2": midpoint(basePositions["Main City 1"], gatePositions["Gate 12"]),
-  "City 1 to 3": midpoint(basePositions["Main City 1"], gatePositions["Gate 13"]),
-  "City 2 to 3": midpoint(basePositions["Main City 2"], gatePositions["Gate 23"]),
-  "City 2 to 1": midpoint(basePositions["Main City 2"], gatePositions["Gate 12"]),
-  "City 3 to 1": midpoint(basePositions["Main City 3"], gatePositions["Gate 13"]),
-  "City 3 to 2": midpoint(basePositions["Main City 3"], gatePositions["Gate 23"]),
+  "Blue to Center": midpoint(basePositions["Blue Home"], basePositions["Center"]),
+  "Red to Center": midpoint(basePositions["Red Home"], basePositions["Center"]),
+  "Green to Center": midpoint(basePositions["Green Home"], basePositions["Center"]),
+  "Blue to Red": midpoint(basePositions["Blue Home"], gatePositions["Gate RB"]),
+  "B to G": midpoint(basePositions["Blue Home"], gatePositions["Gate GB"]),
+  "R to G": midpoint(basePositions["Red Home"], gatePositions["Gate RG"]),
+  "Red to Blue": midpoint(basePositions["Red Home"], gatePositions["Gate RB"]),
+  "G to B": midpoint(basePositions["Green Home"], gatePositions["Gate GB"]),
+  "G to R": midpoint(basePositions["Green Home"], gatePositions["Gate RG"]),
 };
 
 function GraphComponent({ graph, attributes }) {
