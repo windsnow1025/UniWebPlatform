@@ -48,6 +48,10 @@ class GameSystem {
     attackerPlayer.attack(defenderPlayer, attackerArmyIndex, defenderArmyIndex, this.graph);
   }
 
+  canMovePlayerArmy(playerIndex: number, armyIndex: number, newLocation: string) {
+    return this.players[playerIndex].canMoveArmy(armyIndex, newLocation, this.graph);
+  }
+
   movePlayerArmy(playerIndex: number, armyIndex: number, newLocation: string) {
     this.players[playerIndex].moveArmy(armyIndex, newLocation, graph);
   }

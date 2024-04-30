@@ -1,11 +1,10 @@
 import Army from "@/src/logic/game/Army";
-import Unit from "@/src/logic/game/Unit";
 import Graph from "@/src/logic/game/Graph";
 import {armyCombat} from "@/src/logic/game/Combat";
 import {UnitTypeNames} from "@/src/logic/game/UnitFactory";
 
 class Player {
-    public armies: Army<Unit>[];
+    public armies: Army[];
     public money: number;
 
     constructor() {
@@ -41,18 +40,26 @@ class Player {
     }
 
     public canMoveArmy(armyIndex: number, newLocation: string, graph: Graph) {
-        return this.armies[armyIndex].canMove(newLocation, graph);
+        const army = this.armies[armyIndex];
+        const distance = graph.getDistance(army.location, newLocation);
+        if (distance > army.unitClass.speed || newLocation === army.location) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public moveArmy(armyIndex: number, newLocation: string, graph: Graph) {
         if (!this.canMoveArmy(armyIndex, newLocation, graph)) {
             return;
         }
-        this.armies[armyIndex].move(newLocation, graph);
+        const army = this.armies[armyIndex];
+        this.addUnitsToLocation(army.unitType, newLocation, army.units.length);
+        this.armies.splice(armyIndex, 1);
     }
 
     private addArmy(unitType: UnitTypeNames, location: string) {
-        const army = new Army<Unit>(unitType, location);
+        const army = new Army(unitType, location);
         this.armies.push(army);
     }
 

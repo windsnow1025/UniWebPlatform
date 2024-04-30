@@ -1,8 +1,8 @@
 import Unit from "@/src/logic/game/Unit";
 import Army from "@/src/logic/game/Army";
 
-export function armyCombat<T extends Unit, U extends Unit>(
-    attackerArmy: Army<T>, defenderArmy: Army<U>, distance: number
+export function armyCombat(
+    attackerArmy: Army, defenderArmy: Army, distance: number
 ) {
     if (isCombatEnd(attackerArmy, defenderArmy)) return;
     if (attackerArmy.unitClass.range >= distance) {
@@ -16,14 +16,14 @@ export function armyCombat<T extends Unit, U extends Unit>(
     }
 }
 
-function isCombatEnd<T extends Unit, U extends Unit>(
-    army1: Army<T>, army2: Army<U>
+function isCombatEnd(
+    army1: Army, army2: Army
 ): boolean {
     return (army1.units.length <= 0 || army2.units.length <= 0)
 }
 
-function armyAttack<T extends Unit, U extends Unit>(
-    attackerArmy: Army<T>, defenderArmy: Army<U>
+function armyAttack(
+    attackerArmy: Army, defenderArmy: Army
 ) {
     for (const attackerUnit of attackerArmy.units) {
         const defenderUnit = findWeakestUnit(defenderArmy);
@@ -37,7 +37,7 @@ function armyAttack<T extends Unit, U extends Unit>(
 }
 
 function findWeakestUnit<T extends Unit>(
-    army: Army<T>
+    army: Army
 ): Unit {
     const unitHealth = army.unitClass.health
     return army.units.reduce((weakest, unit) => {

@@ -2,8 +2,8 @@ import Unit from "@/src/logic/game/Unit";
 import {unitTypeMap, UnitTypeNames} from "@/src/logic/game/UnitFactory";
 import Graph from "@/src/logic/game/Graph";
 
-class Army<T extends Unit> {
-    public units: T[];
+class Army {
+    public units: Unit[];
     public unitType: UnitTypeNames;
     public unitClass: typeof Unit;
     public location: string;
@@ -18,7 +18,7 @@ class Army<T extends Unit> {
     addUnits(numbers: number) {
         for (let i = 0; i < numbers; i++) {
             const UnitClass = unitTypeMap[this.unitType];
-            this.units.push(new UnitClass() as T);
+            this.units.push(new UnitClass());
         }
     }
 
@@ -33,14 +33,6 @@ class Army<T extends Unit> {
         } else {
             return true;
         }
-    }
-
-    move(newLocation: string, graph: Graph) {
-        if (!this.canMove(newLocation, graph)) {
-            return false;
-        }
-        this.location = newLocation;
-        return true;
     }
 }
 
