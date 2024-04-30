@@ -7,6 +7,7 @@ import graph from "@/src/logic/game/data/Graph";
 interface LocationInfo {
   type: string;
   count: number;
+  playerIndex: number;
 }
 
 interface LocationInfos {
@@ -23,14 +24,15 @@ class GameSystem {
   }
 
   get locationInfos(): LocationInfos {
-    return this.players.reduce<LocationInfos>((acc, player) => {
+    return this.players.reduce<LocationInfos>((acc, player, playerIndex) => {
       player.armies.forEach(army => {
         if (!acc[army.location]) {
           acc[army.location] = [];
         }
         acc[army.location].push({
           type: army.unitType as string,
-          count: army.units.length
+          count: army.units.length,
+          playerIndex: playerIndex
         });
       });
       return acc;
@@ -46,10 +48,6 @@ class GameSystem {
     const attackerPlayer = this.players[attackerPlayerIndex];
     const defenderPlayer = this.players[defenderPlayerIndex];
     attackerPlayer.attack(defenderPlayer, attackerArmyIndex, defenderArmyIndex, this.graph);
-  }
-
-  canMovePlayerArmy(playerIndex: number, armyIndex: number, newLocation: string) {
-    return this.players[playerIndex].canMoveArmy(armyIndex, newLocation, this.graph);
   }
 
   movePlayerArmy(playerIndex: number, armyIndex: number, newLocation: string) {
