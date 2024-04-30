@@ -1,7 +1,7 @@
 import Player from "@/src/logic/game/Player";
 import Graph from "@/src/logic/game/Graph";
-import playerLocations from "@/src/logic/game/data/PlayerLocation";
 import {UnitTypeNames} from "@/src/logic/game/UnitFactory";
+import playerLocations from "@/src/logic/game/data/PlayerLocation";
 import graph from "@/src/logic/game/data/Graph";
 
 interface LocationInfo {

@@ -15,18 +15,23 @@ class Army {
         this.location = location;
     }
 
-    addUnits(numbers: number) {
+    public addUnits(numbers: number) {
         for (let i = 0; i < numbers; i++) {
             const UnitClass = unitTypeMap[this.unitType];
             this.units.push(new UnitClass());
         }
     }
 
-    removeDeadUnits() {
+    public removeDeadUnits() {
         this.units = this.units.filter(unit => unit.currentHealth > 0);
     }
 
-    canMove(newLocation: string, graph: Graph): boolean {
+    public getMovableLocations(graph: Graph) {
+        return Array.from(graph.nodes.keys())
+            .filter(location => this.canMove(location, graph));
+    }
+
+    public canMove(newLocation: string, graph: Graph): boolean {
         const distance = graph.getDistance(this.location, newLocation);
         if (distance > this.unitClass.speed || newLocation === this.location) {
             return false;
@@ -34,6 +39,7 @@ class Army {
             return true;
         }
     }
+
 }
 
 export default Army;

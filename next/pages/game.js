@@ -140,8 +140,7 @@ function Game() {
                                     }}
                                     sx={{width: 120}}
                                   >
-                                    {Array.from(graph.nodes.keys())
-                                      .filter(location => gameSystem.canMovePlayerArmy(playerIndex, armyIndex, location, graph))
+                                    {army.getMovableLocations(graph)
                                       .map(location => (
                                         <MenuItem key={location} value={location}>{location}</MenuItem>
                                       ))}
