@@ -16,12 +16,25 @@ interface LocationInfos {
 class GameSystem {
   public players: Player[];
   public graph: Graph;
-  public locationInfos: LocationInfos;
 
   constructor(players: Player[], graph: Graph) {
     this.players = players;
     this.graph = graph;
-    this.locationInfos = this.getLocationInfos();
+  }
+
+  get locationInfos(): LocationInfos {
+    return this.players.reduce<LocationInfos>((acc, player) => {
+      player.armies.forEach(army => {
+        if (!acc[army.location]) {
+          acc[army.location] = [];
+        }
+        acc[army.location].push({
+          type: army.unitType as string,
+          count: army.units.length
+        });
+      });
+      return acc;
+    }, {});
   }
 
   addArmyToPlayer(playerIndex: number, unitType: UnitTypeNames, number: number) {
@@ -39,20 +52,6 @@ class GameSystem {
     this.players[playerIndex].moveArmy(armyIndex, newLocation, graph);
   }
 
-  getLocationInfos() {
-    return this.players.reduce<LocationInfos>((acc, player) => {
-      player.armies.forEach(army => {
-        if (!acc[army.location]) {
-          acc[army.location] = [];
-        }
-        acc[army.location].push({
-          type: army.unitType as string,
-          count: army.units.length
-        });
-      });
-      return acc;
-    }, {});
-  }
 }
 
 export default GameSystem;
