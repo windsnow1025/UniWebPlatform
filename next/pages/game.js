@@ -137,7 +137,7 @@ function Game() {
                       sx={{m: 1}}
                       onClick={() => handleAddArmy(playerIndex, unitClass.name, 10)}
                     >
-                      {unitClass.name} Group +
+                      + 10*{unitClass.name}
                     </Button>
                   ))}
                   <RadioGroup
