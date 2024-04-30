@@ -2,7 +2,7 @@ import Army from "@/src/logic/game/Army";
 import Unit from "@/src/logic/game/Unit";
 import Graph from "@/src/logic/game/Graph";
 import {armyCombat} from "@/src/logic/game/Combat";
-import {unitTypes} from "@/src/logic/game/UnitFactory";
+import {UnitTypeNames} from "@/src/logic/game/UnitFactory";
 
 class Player {
     public armies: Army<Unit>[];
@@ -13,7 +13,7 @@ class Player {
         this.money = 100;
     }
 
-    public addUnitsToLocation(unitType: keyof typeof unitTypes, location: string, numbers: number) {
+    public addUnitsToLocation(unitType: UnitTypeNames, location: string, numbers: number) {
         const existingArmyIndex = this.armies.findIndex(army =>
             army.unitType === unitType && army.location === location
         );
@@ -51,7 +51,7 @@ class Player {
         this.armies[armyIndex].move(newLocation, graph);
     }
 
-    private addArmy(unitType: keyof typeof unitTypes, location: string) {
+    private addArmy(unitType: UnitTypeNames, location: string) {
         const army = new Army<Unit>(unitType, location);
         this.armies.push(army);
     }
