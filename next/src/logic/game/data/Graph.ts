@@ -15,7 +15,7 @@ graph.addNode("City 3 D");
 graph.addNode("City 3 to 2");
 graph.addNode("City 3 to 1");
 graph.addNode("Gate 12");
-graph.addNode("Gate 12");
+graph.addNode("Gate 13");
 graph.addNode("Gate 23");
 graph.addNode("Center");
 graph.addEdge("Main City 1", "City 1 D");
