@@ -41,12 +41,7 @@ class Player {
 
     public canMoveArmy(armyIndex: number, newLocation: string, graph: Graph) {
         const army = this.armies[armyIndex];
-        const distance = graph.getDistance(army.location, newLocation);
-        if (distance > army.unitClass.speed || newLocation === army.location) {
-            return false;
-        } else {
-            return true;
-        }
+        return army.canMove(newLocation, graph);
     }
 
     public moveArmy(armyIndex: number, newLocation: string, graph: Graph) {
