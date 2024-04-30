@@ -10,7 +10,6 @@ import {
   FormControlLabel,
   InputLabel,
   MenuItem,
-  Paper,
   Radio,
   RadioGroup,
   Select,
