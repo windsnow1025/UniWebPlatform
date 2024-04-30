@@ -20,11 +20,11 @@ import {
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
 import useThemeHandler from "../app/hooks/useThemeHandler";
 import graph from "../src/logic/game/data/Graph";
+import unitClasses from "../src/logic/game/data/Unit";
+import initPlayers from "../src/logic/game/data/Player";
 
 import dynamic from 'next/dynamic';
-import {unitClasses} from "../src/logic/game/data/Unit";
-import initPlayers from "../src/logic/game/data/Player";
-import playerLocations from "../src/logic/game/data/PlayerLocation";
+import GameSystem from "../src/logic/game/GameSystem";
 
 const GraphComponent = dynamic(() => import('../app/components/GraphComponent'), {
   ssr: false,
@@ -37,46 +37,28 @@ function Game() {
     document.title = title;
   }, []);
 
-  const [players, setPlayers] = useState(initPlayers);
-  const [armySelectedByPlayers, setArmySelectedByPlayers] = useState(players.map(() => 0));
-  const [armyMoveLocationOfPlayers, setArmyMoveLocationOfPlayers] = useState(players.map(() => ""));
+  const [, forceUpdate] = useState();
+
+  const [game, setGame] = useState(new GameSystem(initPlayers, graph));
+  const [armySelectedByPlayers, setArmySelectedByPlayers] = useState(game.players.map(() => 0));
+  const [armyMoveLocationOfPlayers, setArmyMoveLocationOfPlayers] = useState(game.players.map(() => ""));
 
   const [locationInfos, setLocationInfos] = useState();
   useEffect(() => {
-    const locationInfos = players.reduce((acc, player) => {
-      player.armies.forEach(army => {
-        if (!acc[army.location]) {
-          acc[army.location] = [];
-        }
-        acc[army.location].push({
-          type: army.unitType,
-          count: army.units.length
-        });
-      });
-      return acc;
-    }, {});
-    setLocationInfos(locationInfos);
-  }, [players]);
+    setLocationInfos(game.getLocationInfos());
+  }, [game]);
 
   const handleAddArmy = (playerIndex, unitType, number) => {
-    const newPlayers = [...players];
-    const player = newPlayers[playerIndex];
-    const location = playerLocations[playerIndex];
-    player.addUnitsToLocation(unitType, location, number);
-    setPlayers(newPlayers);
+    game.addArmyToPlayer(playerIndex, unitType, number);
+    forceUpdate({});
   };
 
   const handleCombat = (attackerPlayerIndex, defenderPlayerIndex) => {
     const attackerArmyIndex = armySelectedByPlayers[attackerPlayerIndex];
     const defenderArmyIndex = armySelectedByPlayers[defenderPlayerIndex];
 
-    const attackerPlayer = players[attackerPlayerIndex];
-    const defenderPlayer = players[defenderPlayerIndex];
-
-    attackerPlayer.combat(defenderPlayer, attackerArmyIndex, defenderArmyIndex, graph);
-
-    const updatedPlayers = [...players];
-    setPlayers(updatedPlayers);
+    game.playerArmyCombat(attackerPlayerIndex, defenderPlayerIndex, attackerArmyIndex, defenderArmyIndex);
+    forceUpdate({});
   };
 
   const handleSelectArmy = (playerIndex, armyIndex) => {
@@ -90,13 +72,8 @@ function Game() {
     if (!newLocation) {
       return;
     }
-
-    const newPlayers = [...players];
-    const player = newPlayers[playerIndex];
-
-    player.moveArmy(armyIndex, newLocation, graph);
-
-    setPlayers(newPlayers);
+    game.movePlayerArmy(playerIndex, armyIndex, newLocation);
+    forceUpdate({});
   };
 
   return (
@@ -126,7 +103,7 @@ function Game() {
             </div>
             <GraphComponent graph={graph} attributes={locationInfos}/>
             <div className="flex-around">
-              {players.map((player, playerIndex) => (
+              {game.players.map((player, playerIndex) => (
                 <div key={playerIndex}>
                   <Typography variant="h6">Player {playerIndex + 1}</Typography>
                   <Typography variant="subtitle1">Money: ${player.money}</Typography>
@@ -137,7 +114,7 @@ function Game() {
                       sx={{m: 1}}
                       onClick={() => handleAddArmy(playerIndex, unitClass.name, 10)}
                     >
-                      + 10*{unitClass.name}
+                      {unitClass.name} Group +
                     </Button>
                   ))}
                   <RadioGroup
@@ -147,7 +124,7 @@ function Game() {
                     {player.armies.map((army, armyIndex) => (
                       <FormControlLabel
                         value={armyIndex}
-                        control={<Radio />}
+                        control={<Radio/>}
                         label={
                           <div className="flex-around">
                             <div>
@@ -166,17 +143,23 @@ function Game() {
                                       newMoveLocations[playerIndex] = e.target.value;
                                       setArmyMoveLocationOfPlayers(newMoveLocations);
                                     }}
-                                    sx={{ width: 120 }}
+                                    sx={{width: 120}}
                                   >
                                     {Array.from(graph.nodes.keys())
                                       .filter(location => player.canMoveArmy(armyIndex, location, graph))
                                       .map(location => (
-                                      <MenuItem key={location} value={location}>{location}</MenuItem>
-                                    ))}
+                                        <MenuItem key={location} value={location}>{location}</MenuItem>
+                                      ))}
                                   </Select>
                                 </FormControl>
                               </div>
-                              <Button variant="contained" onClick={() => handleMoveArmy(playerIndex, armyIndex)} size="small">Move</Button>
+                              <Button
+                                variant="contained"
+                                onClick={() => handleMoveArmy(playerIndex, armyIndex)}
+                                size="small"
+                              >
+                                Move
+                              </Button>
                             </div>
                           </div>
                         }
@@ -184,7 +167,7 @@ function Game() {
                       />
                     ))}
                   </RadioGroup>
-                  {players.map((_, defenderPlayerIndex) => {
+                  {game.players.map((_, defenderPlayerIndex) => {
                     if (playerIndex !== defenderPlayerIndex) {
                       return (
                         <Button

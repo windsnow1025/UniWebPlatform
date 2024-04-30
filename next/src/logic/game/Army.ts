@@ -1,5 +1,5 @@
 import Unit from "@/src/logic/game/Unit";
-import {createUnit, unitTypeMap, UnitTypeNames} from "@/src/logic/game/UnitFactory";
+import {unitTypeMap, UnitTypeNames} from "@/src/logic/game/UnitFactory";
 import Graph from "@/src/logic/game/Graph";
 
 class Army<T extends Unit> {
@@ -17,7 +17,8 @@ class Army<T extends Unit> {
 
     addUnits(numbers: number) {
         for (let i = 0; i < numbers; i++) {
-            this.units.push(createUnit(this.unitType) as T);
+            const UnitClass = unitTypeMap[this.unitType];
+            this.units.push(new UnitClass() as T);
         }
     }
 
