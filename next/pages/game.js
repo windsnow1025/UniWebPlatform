@@ -43,11 +43,6 @@ function Game() {
   const [armySelectedByPlayers, setArmySelectedByPlayers] = useState(game.players.map(() => 0));
   const [armyMoveLocationOfPlayers, setArmyMoveLocationOfPlayers] = useState(game.players.map(() => ""));
 
-  const [locationInfos, setLocationInfos] = useState();
-  useEffect(() => {
-    setLocationInfos(game.getLocationInfos());
-  }, [game]);
-
   const handleAddArmy = (playerIndex, unitType, number) => {
     game.addArmyToPlayer(playerIndex, unitType, number);
     forceUpdate({});
@@ -101,7 +96,7 @@ function Game() {
                 </Paper>
               ))}
             </div>
-            <GraphComponent graph={graph} attributes={locationInfos}/>
+            <GraphComponent graph={graph} attributes={game.locationInfos}/>
             <div className="flex-around">
               {game.players.map((player, playerIndex) => (
                 <div key={playerIndex}>
@@ -114,7 +109,7 @@ function Game() {
                       sx={{m: 1}}
                       onClick={() => handleAddArmy(playerIndex, unitClass.name, 10)}
                     >
-                      {unitClass.name} Group +
+                      10*{unitClass.name}
                     </Button>
                   ))}
                   <RadioGroup
@@ -128,7 +123,7 @@ function Game() {
                         label={
                           <div className="flex-around">
                             <div>
-                              Army {armyIndex + 1}: {army.units.length} x {army.unitType} - {army.location}
+                              {army.units.length} * {army.unitType} - {army.location}
                             </div>
                             <div className="flex-around m-2">
                               <div className="m-2">
