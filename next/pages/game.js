@@ -25,8 +25,9 @@ import initPlayers from "../src/logic/game/data/Player";
 
 import dynamic from 'next/dynamic';
 import GameSystem from "../src/logic/game/GameSystem";
+import UnitProperties from "../app/components/game/UnitProperties";
 
-const GraphComponent = dynamic(() => import('../app/components/GraphComponent'), {
+const GraphComponent = dynamic(() => import('../app/components/game/GraphComponent'), {
   ssr: false,
 });
 
@@ -82,20 +83,7 @@ function Game() {
             setSystemTheme={setSystemTheme}
           />
           <div className="m-4">
-            <Typography variant="h5" className="text-center">Unit Properties</Typography>
-            <div className="flex-around">
-              {unitClasses.map((unitClass, index) => (
-                <Paper key={index} elevation={3} className="m-4 p-4 pr-32">
-                  <Typography variant="h6">{unitClass.name}</Typography>
-                  <Typography>Attack: {unitClass.attack}</Typography>
-                  <Typography>Defense: {unitClass.defend}</Typography>
-                  <Typography>Health: {unitClass.health}</Typography>
-                  <Typography>Range: {unitClass.range}</Typography>
-                  <Typography>Speed: {unitClass.speed}</Typography>
-                  <Typography>Cost: {unitClass.cost}</Typography>
-                </Paper>
-              ))}
-            </div>
+            <UnitProperties/>
             <GraphComponent graph={graph} attributes={gameSystem.locationInfos}/>
             <div className="flex-around">
               {gameSystem.players.map((player, playerIndex) => (
