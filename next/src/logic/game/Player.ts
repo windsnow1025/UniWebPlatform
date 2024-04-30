@@ -26,7 +26,7 @@ class Player {
         }
     }
 
-    public combat(defenderPlayer: Player, attackerArmyIndex: number, defenderArmyIndex: number, graph: Graph) {
+    public attack(defenderPlayer: Player, attackerArmyIndex: number, defenderArmyIndex: number, graph: Graph) {
         const attackerArmy = this.armies[attackerArmyIndex];
         const defenderArmy = defenderPlayer.armies[defenderArmyIndex];
 
