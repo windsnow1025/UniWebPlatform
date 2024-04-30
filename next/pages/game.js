@@ -41,9 +41,9 @@ function Game() {
   const [armySelectedByPlayers, setArmySelectedByPlayers] = useState(players.map(() => 0));
   const [armyMoveLocationOfPlayers, setArmyMoveLocationOfPlayers] = useState(players.map(() => ""));
 
-  const [armies, setArmies] = useState();
+  const [locationInfos, setLocationInfos] = useState();
   useEffect(() => {
-    const armies = players.reduce((acc, player) => {
+    const locationInfos = players.reduce((acc, player) => {
       player.armies.forEach(army => {
         if (!acc[army.location]) {
           acc[army.location] = [];
@@ -55,7 +55,7 @@ function Game() {
       });
       return acc;
     }, {});
-    setArmies(armies);
+    setLocationInfos(locationInfos);
   }, [players]);
 
   const handleAddArmy = (playerIndex, unitType, number) => {
@@ -124,7 +124,7 @@ function Game() {
                 </Paper>
               ))}
             </div>
-            <GraphComponent graph={graph} armies={armies}/>
+            <GraphComponent graph={graph} attributes={locationInfos}/>
             <div className="flex-around">
               {players.map((player, playerIndex) => (
                 <div key={playerIndex}>
