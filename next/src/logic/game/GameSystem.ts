@@ -41,7 +41,7 @@ class GameSystem {
 
   addArmyToPlayer(playerIndex: number, unitType: UnitTypeNames, number: number) {
     const location = playerLocations[playerIndex];
-    this.players[playerIndex].addUnitsToLocation(unitType, location, number);
+    this.players[playerIndex].buyUnitsToLocation(unitType, location, number);
   }
 
   playerArmyCombat(attackerPlayerIndex: number, defenderPlayerIndex: number, attackerArmyIndex: number, defenderArmyIndex: number) {

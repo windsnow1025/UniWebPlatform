@@ -12,17 +12,9 @@ class Player {
         this.money = 100;
     }
 
-    public addUnitsToLocation(unitType: UnitTypeNames, location: string, numbers: number) {
-        const existingArmyIndex = this.armies.findIndex(army =>
-            army.unitType === unitType && army.location === location
-        );
-
-        if (existingArmyIndex !== -1) {
-            this.addUnitsToArmy(existingArmyIndex, numbers);
-        } else {
-            this.addArmy(unitType, location);
-            this.addUnitsToArmy(this.armies.length - 1, numbers);
-        }
+    public buyUnitsToLocation(unitType: UnitTypeNames, location: string, numbers: number) {
+        const army = this.addUnitsToLocation(unitType, location, numbers);
+        this.money -= army.unitClass.cost * numbers;
     }
 
     public attack(defenderPlayer: Player, attackerArmyIndex: number, defenderArmyIndex: number, graph: Graph) {
@@ -53,15 +45,29 @@ class Player {
         this.armies.splice(armyIndex, 1);
     }
 
+    private addUnitsToLocation(unitType: UnitTypeNames, location: string, numbers: number) {
+        const existingArmyIndex = this.armies.findIndex(army =>
+            army.unitType === unitType && army.location === location
+        );
+
+        if (existingArmyIndex !== -1) {
+            return this.addUnitsToArmy(existingArmyIndex, numbers);
+        } else {
+            this.addArmy(unitType, location);
+            return this.addUnitsToArmy(this.armies.length - 1, numbers);
+        }
+    }
+
     private addArmy(unitType: UnitTypeNames, location: string) {
         const army = new Army(unitType, location);
         this.armies.push(army);
+        return army;
     }
 
     private addUnitsToArmy(armyIndex: number, numbers: number) {
         const army = this.armies[armyIndex];
         army.addUnits(numbers);
-        this.money -= army.unitClass.cost * numbers;
+        return army;
     }
 
     private removeEmptyArmies() {
