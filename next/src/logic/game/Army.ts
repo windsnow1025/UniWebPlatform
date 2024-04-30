@@ -1,17 +1,17 @@
 import Unit from "@/src/logic/game/Unit";
-import {createUnit, unitTypes} from "@/src/logic/game/UnitFactory";
+import {createUnit, unitTypeMap, UnitTypeNames} from "@/src/logic/game/UnitFactory";
 import Graph from "@/src/logic/game/Graph";
 
 class Army<T extends Unit> {
     public units: T[];
-    public unitType: keyof typeof unitTypes;
+    public unitType: UnitTypeNames;
     public unitClass: typeof Unit;
     public location: string;
 
-    constructor(unitType: keyof typeof unitTypes, location: string) {
+    constructor(unitType: UnitTypeNames, location: string) {
         this.units = [];
         this.unitType = unitType;
-        this.unitClass = unitTypes[unitType];
+        this.unitClass = unitTypeMap[unitType];
         this.location = location;
     }
 

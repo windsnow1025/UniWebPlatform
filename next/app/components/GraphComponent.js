@@ -1,22 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { DataSet, Network } from 'vis-network/standalone/esm/vis-network';
 
-function GraphComponent({ graph, armies }) {
+function GraphComponent({ graph, attributes }) {
   const networkRef = useRef(null);
 
   useEffect(() => {
-    if (!graph || !armies) return;
-
     const nodes = new DataSet(
       Array.from(graph.nodes.keys()).map(id => {
-        const armyInfo = armies[id];
+        const armyInfo = attributes[id];
         let label = id;
-
         if (armyInfo) {
-          const armyDetails = armyInfo.map(army => `${army.count}*${army.type}`).join(', ');
-          label += `\n${armyDetails}`;
-        } else {
-          label += '\nNo army';
+          label += `\n${armyInfo.map(army => `${army.count}*${army.type}`).join(', ')}`;
         }
 
         return { id, label };
@@ -44,7 +38,7 @@ function GraphComponent({ graph, armies }) {
     };
 
     const network = new Network(networkRef.current, { nodes, edges }, options);
-  }, [graph, armies]);
+  }, [graph, attributes]);
 
   return <div ref={networkRef} style={{ height: '500px' }} />;
 }
