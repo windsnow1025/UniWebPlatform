@@ -24,7 +24,9 @@
     "marked-highlight": "^2.1.0",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "vis-data": "^7.1.9",
+    "vis-network": "^9.1.9"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.2.0",
