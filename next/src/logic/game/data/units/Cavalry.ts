@@ -1,7 +1,7 @@
 import Unit from "@/src/logic/game/Unit";
 
 class Cavalry extends Unit {
-  public static attack: number = 7;
+  public static attack: number = 9;
   public static defend: number = 3;
   public static health: number = 20;
   public static range: number = 1;

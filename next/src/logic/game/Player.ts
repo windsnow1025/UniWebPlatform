@@ -6,10 +6,12 @@ import {UnitTypeNames} from "@/src/logic/game/UnitFactory";
 class Player {
     public armies: Army[];
     public money: number;
+    public name: string;
 
-    constructor() {
+    constructor(money: number, name: string) {
         this.armies = [];
-        this.money = 100;
+        this.money = money;
+        this.name = name;
     }
 
     public buyUnitsToLocation(unitType: UnitTypeNames, location: string, numbers: number) {
