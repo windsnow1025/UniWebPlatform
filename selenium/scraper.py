@@ -4,9 +4,10 @@ from selenium.webdriver.support.expected_conditions import *
 
 
 class Scraper:
-    def __init__(self, url: str, driver: WebDriver):
+    def __init__(self, driver: WebDriver, url: str = None):
         self.driver = driver
-        self.driver.get(url)
+        if url:
+            self.driver.get(url)
 
     def _wait(
             self,
