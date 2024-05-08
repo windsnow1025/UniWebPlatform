@@ -1,9 +1,9 @@
 import sha256 from 'crypto-js/sha256'
 import hex from 'crypto-js/enc-hex'
 
-export function generatePassword(key: number, name: string, no: number) {
+export function generatePassword(key: number, name: string, no: number, length: number) {
   const prefix = getPrefix(name);
-  const suffix = getSuffix(key, name, no);
+  const suffix = getSuffix(key, name, no, length - 3);
   return prefix + "!" + suffix;
 }
 
@@ -25,10 +25,9 @@ function getPrefix(name: string) {
   return letters[0].toUpperCase() + letters[1].toLowerCase();
 }
 
-function getSuffix(key: number, name: string, no: number) {
+function getSuffix(key: number, name: string, no: number, length: number) {
   const input = name + no + key;
   const hashedPassword = hashSHA256(input);
-  const length = 13;
   return hashedPassword.substring(0, length);
 }
 
