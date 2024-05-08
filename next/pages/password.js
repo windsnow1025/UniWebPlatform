@@ -36,6 +36,7 @@ function Password() {
   const [newPin, setNewPin] = useState('');
   const [name, setName] = useState('');
   const [no, setNo] = useState(0);
+  const [length, setLength] = useState(16);
   const [password, setPassword] = useState();
 
   const userService = new UserService();
@@ -70,7 +71,7 @@ function Password() {
   }
 
   const handleGeneratePassword = () => {
-    const password = generatePassword(pin, name, no);
+    const password = generatePassword(pin, name, no, length);
     setPassword(password);
     navigator.clipboard.writeText(password);
   }
@@ -129,6 +130,16 @@ function Password() {
                   type="text"
                   value={no}
                   onChange={(e) => setNo(e.target.value)}
+                  className="mt-2"
+                />
+              </div>
+              <div className="m-2">
+                <TextField
+                  label="Length"
+                  variant="outlined"
+                  type="text"
+                  value={length}
+                  onChange={(e) => setLength(e.target.value)}
                   className="mt-2"
                 />
               </div>
