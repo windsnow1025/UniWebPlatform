@@ -1,6 +1,6 @@
 import React from 'react';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {applyTheme} from "@/app/utils/Theme";
+import {applyTheme} from "../../utils/Theme";
 
 const ThemeSelect = ({systemTheme, setSystemTheme}) => {
   const onSelectChange = (event) => {
