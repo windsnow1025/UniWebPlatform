@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {Button, IconButton, CircularProgress, Link} from "@mui/material";
 
-import { UserLogic } from "@/src/logic/UserLogic";
+import { UserLogic } from "../../../src/logic/UserLogic";
 
 function AuthDiv() {
   const [username, setUsername] = useState("");
