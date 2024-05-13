@@ -81,49 +81,49 @@ function MessageTransmitter() {
   }
 
   return (
-    <>
-      {muiTheme &&
-        <ThemeProvider theme={muiTheme}>
-          <CssBaseline enableColorScheme />
-          <HeaderAppBar
-            title="Message Transmitter"
-            systemTheme={systemTheme}
-            setSystemTheme={setSystemTheme}
-          />
-          <div className="m-4">
-            <Typography variant="h4" className="text-center">Receive Messages</Typography>
-            <Paper elevation={1} className="m-2 p-4 rounded-lg">
-              {messages.map(message => (
-                <MessageDiv
-                  key={message.id}
-                  roleInitial={message.username}
-                  contentInitial={message.content}
-                  onRoleChange={() => {}}
-                  onContentChange={() => {}}
-                />
-              ))}
-            </Paper>
-            <div className="flex-center">
-              <div className="m-1"><Button variant="contained" color="primary" onClick={fetchMessages}>Receive</Button></div>
-              <div className="m-1"><Button variant="contained" color="secondary" onClick={handleClearMessages}>Clear</Button></div>
-            </div>
-          </div>
-          <div className="m-4">
-            <Typography variant="h4" className="text-center">Send Messages</Typography>
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline enableColorScheme/>
+      <HeaderAppBar
+        title="Message Transmitter"
+        systemTheme={systemTheme}
+        setSystemTheme={setSystemTheme}
+      />
+      <div className="m-4">
+        <Typography variant="h4" className="text-center">Receive Messages</Typography>
+        <Paper elevation={1} className="m-2 p-4 rounded-lg">
+          {messages.map(message => (
             <MessageDiv
-              roleInitial={newMessage.username}
-              contentInitial={newMessage.content}
-              onRoleChange={handleNewMessageRoleChange}
-              onContentChange={handleNewMessageContentChange}
-              onFileUpload={handleFileUpload}
+              key={message.id}
+              roleInitial={message.username}
+              contentInitial={message.content}
+              onRoleChange={() => {
+              }}
+              onContentChange={() => {
+              }}
             />
-            <div className="text-center">
-              <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>
-            </div>
+          ))}
+        </Paper>
+        <div className="flex-center">
+          <div className="m-1"><Button variant="contained" color="primary" onClick={fetchMessages}>Receive</Button>
           </div>
-        </ThemeProvider>
-      }
-    </>
+          <div className="m-1"><Button variant="contained" color="secondary"
+                                       onClick={handleClearMessages}>Clear</Button></div>
+        </div>
+      </div>
+      <div className="m-4">
+        <Typography variant="h4" className="text-center">Send Messages</Typography>
+        <MessageDiv
+          roleInitial={newMessage.username}
+          contentInitial={newMessage.content}
+          onRoleChange={handleNewMessageRoleChange}
+          onContentChange={handleNewMessageContentChange}
+          onFileUpload={handleFileUpload}
+        />
+        <div className="text-center">
+          <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }
 

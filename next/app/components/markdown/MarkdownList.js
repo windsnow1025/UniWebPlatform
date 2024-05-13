@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {MarkdownLogic} from "../../src/logic/MarkdownLogic";
+import {MarkdownLogic} from "../../../src/logic/MarkdownLogic";
 import {Divider, IconButton, Link, List, ListItem, ListItemText, Paper, Typography} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 
