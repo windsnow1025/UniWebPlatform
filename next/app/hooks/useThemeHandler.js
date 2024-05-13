@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {applyTheme, createMUITheme} from "@/app/utils/Theme";
-import { Theme } from "@mui/material/styles";
 
 const useThemeHandler = () => {
   const [systemTheme, setSystemTheme] = useState();
