@@ -55,72 +55,68 @@ function Chat() {
   };
 
   return (
-    <>
-    {muiTheme &&
-      <ThemeProvider theme={muiTheme}>
-        <CssBaseline enableColorScheme />
-        <HeaderAppBar
-          title={title}
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-        />
-        <ChatInformation
-          messages={messages}
-        />
-        <ChatSettings
-          apiType={apiType}
-          setApiType={setApiType}
-          model={model}
-          setModel={setModel}
-          temperature={temperature}
-          setTemperature={setTemperature}
-          stream={stream}
-          setStream={setStream}
-        />
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline enableColorScheme/>
+      <HeaderAppBar
+        title={title}
+        systemTheme={systemTheme}
+        setSystemTheme={setSystemTheme}
+      />
+      <ChatInformation
+        messages={messages}
+      />
+      <ChatSettings
+        apiType={apiType}
+        setApiType={setApiType}
+        model={model}
+        setModel={setModel}
+        temperature={temperature}
+        setTemperature={setTemperature}
+        stream={stream}
+        setStream={setStream}
+      />
 
-        <Paper elevation={1} className="m-2 p-4 rounded-lg">
-          <ChatMessages
+      <Paper elevation={1} className="m-2 p-4 rounded-lg">
+        <ChatMessages
+          messages={messages}
+          setMessages={setMessages}
+          sanitize={sanitize}
+        />
+        <div className="flex-center">
+          <ChatGenerate
             messages={messages}
             setMessages={setMessages}
-            sanitize={sanitize}
+            apiType={apiType}
+            model={model}
+            temperature={temperature}
+            stream={stream}
+            setAlertMessage={setAlertMessage}
+            setAlertOpen={setAlertOpen}
           />
-          <div className="flex-center">
-            <ChatGenerate
-              messages={messages}
-              setMessages={setMessages}
-              apiType={apiType}
-              model={model}
-              temperature={temperature}
-              stream={stream}
-              setAlertMessage={setAlertMessage}
-              setAlertOpen={setAlertOpen}
-            />
-            <div className="m-2">
-              <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
-            </div>
+          <div className="m-2">
+            <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
           </div>
-        </Paper>
-        <div className="flex-around m-1">
-          <ChatStates
-            editable={editable}
-            setEditable={setEditable}
-            sanitize={sanitize}
-            setSanitize={setSanitize}
-          />
-          <ChatConversationAutocomplete
-            conversation={messages}
-            onConversationClick={onConversationOptionClick}
-          />
         </div>
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={6000}
-          onClose={() => setAlertOpen(false)}
-          message={alertMessage}
+      </Paper>
+      <div className="flex-around m-1">
+        <ChatStates
+          editable={editable}
+          setEditable={setEditable}
+          sanitize={sanitize}
+          setSanitize={setSanitize}
         />
-      </ThemeProvider>
-    }
-    </>
+        <ChatConversationAutocomplete
+          conversation={messages}
+          onConversationClick={onConversationOptionClick}
+        />
+      </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
+    </ThemeProvider>
   )
 }
 
