@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {applyTheme, createMUITheme} from "@/app/utils/Theme";
+import {applyTheme, createMUITheme} from "../utils/Theme";
 
 const useThemeHandler = () => {
   const [systemTheme, setSystemTheme] = useState("light");
