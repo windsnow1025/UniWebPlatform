@@ -41,52 +41,48 @@ function Index() {
   };
 
   return (
-    <>
-      {muiTheme &&
-        <ThemeProvider theme={muiTheme}>
-          <CssBaseline enableColorScheme />
-          <HeaderAppBar
-            title="User Center"
-            useAuthDiv={false}
-            systemTheme={systemTheme}
-            setSystemTheme={setSystemTheme}
-          />
-          <div className="flex-center">
-            <div className="text-center">
-              <div className="m-2">
-                <TextField
-                  label="Username"
-                  variant="outlined"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <TextField
-                  label="Password"
-                  variant="outlined"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <Button variant="contained" onClick={handleUpdate}>Update</Button>
-              </div>
-            </div>
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline enableColorScheme/>
+      <HeaderAppBar
+        title="User Center"
+        useAuthDiv={false}
+        systemTheme={systemTheme}
+        setSystemTheme={setSystemTheme}
+      />
+      <div className="flex-center">
+        <div className="text-center">
+          <div className="m-2">
+            <TextField
+              label="Username"
+              variant="outlined"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="mt-2"
+            />
           </div>
-          <Snackbar
-            open={alertOpen}
-            autoHideDuration={6000}
-            onClose={() => setAlertOpen(false)}
-            message={alertMessage}
-          />
-        </ThemeProvider>
-      }
-    </>
+          <div className="m-2">
+            <TextField
+              label="Password"
+              variant="outlined"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-2"
+            />
+          </div>
+          <div className="m-2">
+            <Button variant="contained" onClick={handleUpdate}>Update</Button>
+          </div>
+        </div>
+      </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
+    </ThemeProvider>
   );
 }
 

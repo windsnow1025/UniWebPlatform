@@ -54,34 +54,33 @@ function Index() {
   };
 
   return (
-    <>
-      {muiTheme &&
-        <ThemeProvider theme={muiTheme}>
-          <CssBaseline enableColorScheme />
-          <HeaderAppBar
-            title="Markdown Add"
-            systemTheme={systemTheme}
-            setSystemTheme={setSystemTheme}
-          />
-          <div
-            className="markdown-body p-2 min-h-16"
-            ref={markdownRef}
-            contentEditable={isEditing ? "plaintext-only" : "false"}
-          />
-          <div className="flex-center">
-            {!isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
-            {isEditing && <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button></div>}
-            <div className="m-1"><Button variant="contained" color="secondary" onClick={handleAdd}>Add</Button></div>
-          </div>
-          <Snackbar
-            open={alertOpen}
-            autoHideDuration={6000}
-            onClose={() => setAlertOpen(false)}
-            message={alertMessage}
-          />
-        </ThemeProvider>
-      }
-    </>
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline enableColorScheme/>
+      <HeaderAppBar
+        title="Markdown Add"
+        systemTheme={systemTheme}
+        setSystemTheme={setSystemTheme}
+      />
+      <div
+        className="markdown-body p-2 min-h-16"
+        ref={markdownRef}
+        contentEditable={isEditing ? "plaintext-only" : "false"}
+      />
+      <div className="flex-center">
+        {!isEditing &&
+          <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
+        {isEditing &&
+          <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button>
+          </div>}
+        <div className="m-1"><Button variant="contained" color="secondary" onClick={handleAdd}>Add</Button></div>
+      </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
+    </ThemeProvider>
   );
 }
 

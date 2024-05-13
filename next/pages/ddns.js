@@ -25,55 +25,51 @@ function DDNS() {
   }
 
   return (
-    <>
-      {muiTheme &&
-        <ThemeProvider theme={muiTheme}>
-          <CssBaseline enableColorScheme/>
-          <HeaderAppBar
-            title="Password Generator"
-            systemTheme={systemTheme}
-            setSystemTheme={setSystemTheme}
-          />
-          <div className="flex-center">
-            <div className="text-center">
-              <div className="m-2">
-                <TextField
-                  label="Cloudflare Email"
-                  variant="outlined"
-                  type="text"
-                  value={cloudflareEmail}
-                  onChange={(e) => setCloudflareEmail(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <TextField
-                  label="Global API Key"
-                  variant="outlined"
-                  type="text"
-                  value={cloudflareApiKey}
-                  onChange={(e) => setCloudflareApiKey(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <TextField
-                  label="DNS Record Name"
-                  variant="outlined"
-                  type="text"
-                  value={dnsRecordName}
-                  onChange={(e) => setDnsRecordName(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <Button id="generate" variant="contained" onClick={handleDdnsUpdate}>Confirm</Button>
-              </div>
-            </div>
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline enableColorScheme/>
+      <HeaderAppBar
+        title="Password Generator"
+        systemTheme={systemTheme}
+        setSystemTheme={setSystemTheme}
+      />
+      <div className="flex-center">
+        <div className="text-center">
+          <div className="m-2">
+            <TextField
+              label="Cloudflare Email"
+              variant="outlined"
+              type="text"
+              value={cloudflareEmail}
+              onChange={(e) => setCloudflareEmail(e.target.value)}
+              className="mt-2"
+            />
           </div>
-        </ThemeProvider>
-      }
-    </>
+          <div className="m-2">
+            <TextField
+              label="Global API Key"
+              variant="outlined"
+              type="text"
+              value={cloudflareApiKey}
+              onChange={(e) => setCloudflareApiKey(e.target.value)}
+              className="mt-2"
+            />
+          </div>
+          <div className="m-2">
+            <TextField
+              label="DNS Record Name"
+              variant="outlined"
+              type="text"
+              value={dnsRecordName}
+              onChange={(e) => setDnsRecordName(e.target.value)}
+              className="mt-2"
+            />
+          </div>
+          <div className="m-2">
+            <Button id="generate" variant="contained" onClick={handleDdnsUpdate}>Confirm</Button>
+          </div>
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }
 

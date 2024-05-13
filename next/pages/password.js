@@ -81,94 +81,90 @@ function Password() {
   };
 
   return (
-    <>
-      {muiTheme &&
-        <ThemeProvider theme={muiTheme}>
-          <CssBaseline enableColorScheme/>
-          <HeaderAppBar
-            title="Password Generator"
-            systemTheme={systemTheme}
-            setSystemTheme={setSystemTheme}
-          />
-          <div className="flex-center">
-            <div className="text-center">
-              <div className="m-2">
-                {pin ? (
-                  <div>Pin Loaded</div>
-                ) : (
-                  <div>Pin Loading</div>
-                )}
-              </div>
-              <div className="m-2">
-                <TextField
-                  label="Pin"
-                  variant="outlined"
-                  type="number"
-                  value={newPin}
-                  onChange={(e) => setNewPin(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <Button variant="contained" onClick={handleUpdatePin}>Update Pin</Button>
-              </div>
-              <div className="m-2 mt-16">Password</div>
-              <div className="m-2">
-                <TextField
-                  label="Name"
-                  variant="outlined"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <TextField
-                  label="No"
-                  variant="outlined"
-                  type="text"
-                  value={no}
-                  onChange={(e) => setNo(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <TextField
-                  label="Length"
-                  variant="outlined"
-                  type="text"
-                  value={length}
-                  onChange={(e) => setLength(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
-              <div className="m-2">
-                <Button id="generate" variant="contained" onClick={handleGeneratePassword}>Generate</Button>
-              </div>
-              <div className="m-2">
-                {password &&
-                  <div className="flex-center">
-                    <div>{password}</div>
-                    <Tooltip title="Copy">
-                      <IconButton aria-label="copy" onClick={handleContentCopy}>
-                        <ContentCopyIcon fontSize="small"/>
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                }
-              </div>
-            </div>
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline enableColorScheme/>
+      <HeaderAppBar
+        title="Password Generator"
+        systemTheme={systemTheme}
+        setSystemTheme={setSystemTheme}
+      />
+      <div className="flex-center">
+        <div className="text-center">
+          <div className="m-2">
+            {pin ? (
+              <div>Pin Loaded</div>
+            ) : (
+              <div>Pin Loading</div>
+            )}
           </div>
-          <Snackbar
-            open={alertOpen}
-            autoHideDuration={6000}
-            onClose={() => setAlertOpen(false)}
-            message={alertMessage}
-          />
-        </ThemeProvider>
-      }
-    </>
+          <div className="m-2">
+            <TextField
+              label="Pin"
+              variant="outlined"
+              type="number"
+              value={newPin}
+              onChange={(e) => setNewPin(e.target.value)}
+              className="mt-2"
+            />
+          </div>
+          <div className="m-2">
+            <Button variant="contained" onClick={handleUpdatePin}>Update Pin</Button>
+          </div>
+          <div className="m-2 mt-16">Password</div>
+          <div className="m-2">
+            <TextField
+              label="Name"
+              variant="outlined"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-2"
+            />
+          </div>
+          <div className="m-2">
+            <TextField
+              label="No"
+              variant="outlined"
+              type="text"
+              value={no}
+              onChange={(e) => setNo(e.target.value)}
+              className="mt-2"
+            />
+          </div>
+          <div className="m-2">
+            <TextField
+              label="Length"
+              variant="outlined"
+              type="text"
+              value={length}
+              onChange={(e) => setLength(e.target.value)}
+              className="mt-2"
+            />
+          </div>
+          <div className="m-2">
+            <Button id="generate" variant="contained" onClick={handleGeneratePassword}>Generate</Button>
+          </div>
+          <div className="m-2">
+            {password &&
+              <div className="flex-center">
+                <div>{password}</div>
+                <Tooltip title="Copy">
+                  <IconButton aria-label="copy" onClick={handleContentCopy}>
+                    <ContentCopyIcon fontSize="small"/>
+                  </IconButton>
+                </Tooltip>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      />
+    </ThemeProvider>
   );
 }
 
