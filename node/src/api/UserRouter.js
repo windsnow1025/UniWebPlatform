@@ -28,7 +28,7 @@ router.post('/sign-in', async (req, res) => {
       return res.sendStatus(401);
     }
 
-    const token = await JWT.getTokenFromUsername(data.username);
+    const token = JWT.getTokenFromUsername(data.username);
     res.status(200).json({token: token});
   } catch (err) {
     console.error("Error in POST /sign-in:", err);
