@@ -47,6 +47,7 @@ To:
 ```json
 {
   "compilerOptions": {
+    "target": "es6",
     "paths": {
       "@/*": ["./*"]
     }
