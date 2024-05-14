@@ -2,7 +2,6 @@ import {AppBar, IconButton, Typography} from "@mui/material";
 import AuthDiv from "./AuthDiv";
 import ThemeSelect from "./ThemeSelect";
 import React from "react";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import HomeIcon from '@mui/icons-material/Home';
 import {useRouter} from "next/navigation";
 

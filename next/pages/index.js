@@ -2,12 +2,12 @@
 
 import '../src/asset/css/index.css';
 
-import MarkdownList from '../app/components/MarkdownList';
+import MarkdownList from '../app/components/markdown/MarkdownList';
 import {ThemeProvider} from "@mui/material/styles";
 import React, {useEffect} from "react";
 import LinkIcon from "@mui/icons-material/Link";
 import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import {CssBaseline, Link, Typography} from "@mui/material";
+import {CssBaseline, Link} from "@mui/material";
 import useThemeHandler from "../app/hooks/useThemeHandler";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
@@ -19,65 +19,61 @@ function Index() {
   }, []);
 
   return (
-    <>
-      {muiTheme &&
-        <ThemeProvider theme={muiTheme}>
-          <CssBaseline enableColorScheme/>
-          <HeaderAppBar
-            title="Windsnow1025"
-            systemTheme={systemTheme}
-            setSystemTheme={setSystemTheme}
-          />
-          <div className="flex-around m-4">
-            <Link href="/bookmark" target="_blank" rel="noopener noreferrer">
-              <div className="flex-center">
-                Bookmarks
-                <LinkIcon/>
-              </div>
-            </Link>
-            <Link href="/message" target="_blank" rel="noopener noreferrer">
-              <div className="flex-center">
-                Message Transmitter
-                <LinkIcon/>
-              </div>
-            </Link>
-            <Link href="/password" target="_blank" rel="noopener noreferrer">
-              <div className="flex-center">
-                Password Generator
-                <LinkIcon/>
-              </div>
-            </Link>
-            <Link href="/image" target="_blank" rel="noopener noreferrer">
-              <div className="flex-center">
-                Image Generate
-                <LinkIcon/>
-              </div>
-            </Link>
-            <Link href="/chat" target="_blank" rel="noopener noreferrer">
-              <div className="flex-center">
-                AI Chat
-                <LinkIcon/>
-              </div>
-            </Link>
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline enableColorScheme/>
+      <HeaderAppBar
+        title="Windsnow1025"
+        systemTheme={systemTheme}
+        setSystemTheme={setSystemTheme}
+      />
+      <div className="flex-around m-4">
+        <Link href="/bookmark" target="_blank" rel="noopener noreferrer">
+          <div className="flex-center">
+            Bookmarks
+            <LinkIcon/>
           </div>
-          <div className="m-8">
-            <MarkdownList/>
+        </Link>
+        <Link href="/message" target="_blank" rel="noopener noreferrer">
+          <div className="flex-center">
+            Message Transmitter
+            <LinkIcon/>
           </div>
+        </Link>
+        <Link href="/password" target="_blank" rel="noopener noreferrer">
+          <div className="flex-center">
+            Password Generator
+            <LinkIcon/>
+          </div>
+        </Link>
+        <Link href="/image" target="_blank" rel="noopener noreferrer">
+          <div className="flex-center">
+            Image Generate
+            <LinkIcon/>
+          </div>
+        </Link>
+        <Link href="/chat" target="_blank" rel="noopener noreferrer">
+          <div className="flex-center">
+            AI Chat
+            <LinkIcon/>
+          </div>
+        </Link>
+      </div>
+      <div className="m-8">
+        <MarkdownList/>
+      </div>
+      <div className="flex-around m-2">
+        <span>My Email: windsnow1024@gmail.com</span>
+        <Link
+          href="https://github.com/windsnow1025/UniWebPlatform"
+          target="_blank"
+          rel="noopener noreferrer">
           <div className="flex-around m-2">
-            <span>My Email: windsnow1024@gmail.com</span>
-            <Link
-              href="https://github.com/windsnow1025/UniWebPlatform"
-              target="_blank"
-              rel="noopener noreferrer">
-              <div className="flex-around m-2">
-                <span className="m-2">My GitHub</span>
-                <GitHubIcon/>
-              </div>
-            </Link>
+            <span className="m-2">My GitHub</span>
+            <GitHubIcon/>
           </div>
-        </ThemeProvider>
-      }
-    </>
+        </Link>
+      </div>
+    </ThemeProvider>
   );
 }
 
