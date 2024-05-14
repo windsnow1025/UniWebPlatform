@@ -1,7 +1,5 @@
 'use client';
 
-import '../src/asset/css/index.css';
-
 import React, {useEffect, useState} from "react";
 import {
   Button,
