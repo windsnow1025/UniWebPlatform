@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {ThemeProvider} from '@mui/material/styles';
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import BookmarkDataGrid from "../app/components/bookmark/BookmarkDataGrid";
+import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import BookmarkDataGrid from "../../app/components/bookmark/BookmarkDataGrid";
 import {CssBaseline} from "@mui/material";
-import useThemeHandler from "../app/hooks/useThemeHandler";
+import useThemeHandler from "../../app/hooks/useThemeHandler";
 
-function Bookmark() {
+function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   useEffect(() => {
@@ -25,4 +25,4 @@ function Bookmark() {
   );
 }
 
-export default Bookmark;
+export default Index;

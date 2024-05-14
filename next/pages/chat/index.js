@@ -2,17 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline, Paper, Snackbar} from "@mui/material";
 
-import {ChatLogic} from "../src/logic/ChatLogic";
-import ChatConversationAutocomplete from "../app/components/chat/ChatConversationAutocomplete";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import ChatSettings from "../app/components/chat/ChatSettings";
-import useThemeHandler from "../app/hooks/useThemeHandler";
-import ChatInformation from "../app/components/chat/ChatInformation";
-import ChatGenerate from "../app/components/chat/ChatGenerate";
-import ChatMessages from "../app/components/chat/ChatMessages";
-import ChatStates from "../app/components/chat/ChatStates";
+import {ChatLogic} from "../../src/logic/ChatLogic";
+import ChatConversationAutocomplete from "../../app/components/chat/ChatConversationAutocomplete";
+import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import ChatSettings from "../../app/components/chat/ChatSettings";
+import useThemeHandler from "../../app/hooks/useThemeHandler";
+import ChatInformation from "../../app/components/chat/ChatInformation";
+import ChatGenerate from "../../app/components/chat/ChatGenerate";
+import ChatMessages from "../../app/components/chat/ChatMessages";
+import ChatStates from "../../app/components/chat/ChatStates";
 
-function Chat() {
+function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -117,4 +117,4 @@ function Chat() {
   )
 }
 
-export default Chat;
+export default Index;
