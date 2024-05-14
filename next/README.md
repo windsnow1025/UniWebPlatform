@@ -54,3 +54,19 @@ To:
   }
 }
 ```
+
+### next.config.mjs
+
+From:
+
+```js
+const nextConfig = {};
+```
+
+To:
+
+```js
+const nextConfig = {
+  output: 'standalone',
+};
+```
