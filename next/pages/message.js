@@ -1,5 +1,3 @@
-import '../src/asset/css/index.css';
-
 import React, {useEffect, useState} from 'react';
 import MessageService from "../src/service/MessageService";
 import {UserLogic} from "../src/logic/UserLogic";

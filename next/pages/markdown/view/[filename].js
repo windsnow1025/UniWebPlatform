@@ -1,6 +1,3 @@
-import '@/src/asset/css/index.css';
-import '@/src/asset/css/markdown.css';
-
 import React, {useEffect, useRef} from 'react';
 import {useRouter} from 'next/router';
 import {ThemeProvider} from "@mui/material/styles";
