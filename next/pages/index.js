@@ -1,7 +1,5 @@
 'use client';
 
-import '../src/asset/css/index.css';
-
 import MarkdownList from '../app/components/markdown/MarkdownList';
 import {ThemeProvider} from "@mui/material/styles";
 import React, {useEffect} from "react";

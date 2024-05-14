@@ -1,6 +1,3 @@
-import '../../../src/asset/css/index.css';
-import '../../../src/asset/css/markdown.css';
-
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {parseMarkdown} from "../../../src/util/MarkdownParser";
