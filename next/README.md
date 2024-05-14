@@ -1,5 +1,11 @@
 # UniWebPlatform
 
+## Run
+
+```bash
+npm run dev
+```
+
 ## Configuration changes made after create-next-app
 
 ### tailwind.config.ts
