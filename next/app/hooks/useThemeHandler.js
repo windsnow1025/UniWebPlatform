@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react';
-import {applyTheme, createMUITheme} from "@/app/utils/Theme";
-import { Theme } from "@mui/material/styles";
+import {applyTheme, createMUITheme} from "../utils/Theme";
 
 const useThemeHandler = () => {
-  const [systemTheme, setSystemTheme] = useState();
-  const [muiTheme, setMuiTheme] = useState();
+  const [systemTheme, setSystemTheme] = useState("light");
+  const [muiTheme, setMuiTheme] = useState(createMUITheme(systemTheme));
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "system";
-    if (systemTheme === undefined || !["system", "light", "dark"].includes(systemTheme)) {
-      setSystemTheme(storedTheme);
-    }
+    setSystemTheme(storedTheme);
   }, []);
 
   useEffect(() => {
-    if (systemTheme === undefined) {
-      return;
-    }
     applyTheme(systemTheme);
     setMuiTheme(createMUITheme(systemTheme));
   }, [systemTheme]);
