@@ -1,5 +1,3 @@
-import '../src/asset/css/index.css';
-
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
