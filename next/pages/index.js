@@ -1,13 +1,13 @@
 'use client';
 
-import MarkdownList from '../app/components/markdown/MarkdownList';
-import {ThemeProvider} from "@mui/material/styles";
 import React, {useEffect} from "react";
-import LinkIcon from "@mui/icons-material/Link";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import {ThemeProvider} from "@mui/material/styles";
 import {CssBaseline, Link} from "@mui/material";
-import useThemeHandler from "../app/hooks/useThemeHandler";
+import LinkIcon from "@mui/icons-material/Link";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import useThemeHandler from "../app/hooks/useThemeHandler";
+import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import MarkdownList from '../app/components/markdown/MarkdownList';
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
