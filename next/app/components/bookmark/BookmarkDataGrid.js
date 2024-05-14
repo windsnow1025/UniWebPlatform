@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import Snackbar from "@mui/material/Snackbar";
-import {BookmarkLogic} from "../../src/logic/BookmarkLogic";
+import {BookmarkLogic} from "../../../src/logic/BookmarkLogic";
 
 function EditToolbar(props) {
   const {setRows, setRowModesModel, rows} = props;
