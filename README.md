@@ -15,35 +15,35 @@ A full stack web application for my personal website containing:
 
 
 ```yaml
-Front End:
-  - Node.js:
-    - React.js:
-      - Next.js：
+Front End
+  - Node.js
+    - React.js
+      - Next.js
         - Tailwind CSS
       - MUI
 ```
 
 
 ```yaml
-Back End:
-  - Node.js:
+Back End
+  - Node.js
     - Express.js
-  - Python:
+  - Python
     - FastAPI
 ```
 
 ```yaml
-Storage:
+Storage
   - MySQL
 ```
 
 
 ```yaml
-Infrastructure:
+Infrastructure
   - Nginx
-  - Docker:
+  - Docker
     - Docker Compose
-  - Linux:
+  - Linux
     - Debian 11
 ```
 
