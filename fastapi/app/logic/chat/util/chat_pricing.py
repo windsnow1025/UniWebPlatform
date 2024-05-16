@@ -7,12 +7,6 @@ chat_prices = [
     },
     {
         "api_type": "open_ai",
-        "model": "gpt-3.5-turbo",
-        "input": 5,
-        "output": 15
-    },
-    {
-        "api_type": "open_ai",
         "model": "gpt-4-turbo",
         "input": 10,
         "output": 30
@@ -34,6 +28,12 @@ chat_prices = [
         "model": "gpt-4",
         "input": 10,
         "output": 30
+    },
+    {
+        "api_type": "gemini",
+        "model": "gemini-1.5-flash-latest",
+        "input": 0.7,
+        "output": 1.05
     },
     {
         "api_type": "gemini",
