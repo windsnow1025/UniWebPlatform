@@ -1,17 +1,18 @@
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.expected_conditions import *
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class Scraper:
-    def __init__(self, url: str, driver: WebDriver):
+    def __init__(self, driver: WebDriver, url: str = None):
         self.driver = driver
-        self.driver.get(url)
+        if url:
+            self.driver.get(url)
 
     def _wait(
             self,
             element: WebDriver | WebElement = None,
-            timeout: float = 4
+            timeout: float = 2
     ) -> WebDriverWait:
         if element is None:
             element = self.driver
@@ -21,14 +22,15 @@ class Scraper:
             self,
             path: str,
             element: WebDriver | WebElement = None,
-            find_all: bool = False
+            find_all: bool = False,
+            timeout: float = 2
     ) -> WebElement | list[WebElement]:
         if element is None:
             element = self.driver
         if find_all is False:
-            return self._wait(element).until(presence_of_element_located((By.XPATH, path)))
+            return self._wait(element, timeout=timeout).until(presence_of_element_located((By.XPATH, path)))
         if find_all is True:
-            return self._wait(element).until(presence_of_all_elements_located((By.XPATH, path)))
+            return self._wait(element, timeout=timeout).until(presence_of_all_elements_located((By.XPATH, path)))
 
     def _wait_for_staleness(
             self,
