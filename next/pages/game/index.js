@@ -1,7 +1,5 @@
 'use client';
 
-import '../src/asset/css/index.css';
-
 import React, {useEffect, useState} from "react";
 import {
   Button,
@@ -16,21 +14,21 @@ import {
   ThemeProvider,
   Typography
 } from "@mui/material";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import useThemeHandler from "../app/hooks/useThemeHandler";
-import graph from "../src/logic/game/data/Graph";
-import unitClasses from "../src/logic/game/data/Unit";
-import initPlayers from "../src/logic/game/data/Player";
+import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import useThemeHandler from "../../app/hooks/useThemeHandler";
+import graph from "../../src/logic/game/data/Graph";
+import unitClasses from "../../src/logic/game/data/Unit";
+import initPlayers from "../../src/logic/game/data/Player";
 
 import dynamic from 'next/dynamic';
-import GameSystem from "../src/logic/game/GameSystem";
-import UnitProperties from "../app/components/game/UnitProperties";
+import GameSystem from "../../src/logic/game/GameSystem";
+import UnitProperties from "../../app/components/game/UnitProperties";
 
-const GraphComponent = dynamic(() => import('../app/components/game/GraphComponent'), {
+const GraphComponent = dynamic(() => import('../../app/components/game/GraphComponent'), {
   ssr: false,
 });
 
-function Game() {
+function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const title = "Game";
   useEffect(() => {
@@ -182,4 +180,4 @@ function Game() {
   );
 }
 
-export default Game;
+export default Index;

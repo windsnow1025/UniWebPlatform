@@ -1,5 +1,3 @@
-import '../../../src/asset/css/index.css';
-
 import React, {useEffect, useRef, useState} from 'react';
 import {parseMarkdown} from "../../../src/util/MarkdownParser";
 import {parseLaTeX} from "../../../src/util/LaTeXParser";
