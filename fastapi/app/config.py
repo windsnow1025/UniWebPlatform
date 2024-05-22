@@ -4,13 +4,9 @@ from dotenv import load_dotenv
 
 
 def init_env():
+    load_dotenv()
+    is_production = os.environ.get('ENV') != 'development'
 
-    if os.getenv("OPENAI_API_KEY"):
-        os.environ["MYSQL_HOST"] = "mysql"
+    os.environ["MYSQL_HOST"] = "mysql" if is_production else "localhost"
 
-        logging.info("Using production setting.")
-    else:
-        load_dotenv()
-        os.environ["MYSQL_HOST"] = "localhost"
-
-        logging.info("Using development setting.")
+    logging.info(f"Using {'production' if is_production else 'development'} setting.")

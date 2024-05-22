@@ -11,7 +11,7 @@ export default class ChatService {
   private axiosInstance: AxiosInstance;
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_FAST_API_BASE_URL });
+    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL });
   }
 
   async generate(
@@ -42,7 +42,7 @@ export default class ChatService {
       return res.data;
     } else {
       const controller = new AbortController();
-      const response = await fetch(`${process.env.NEXT_PUBLIC_FAST_API_BASE_URL}/chat`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL}/chat`, {
         method: "POST",
         body: JSON.stringify(requestData),
         signal: controller.signal,
