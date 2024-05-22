@@ -1,5 +1,4 @@
-import '../src/asset/css/index.css';
-import useThemeHandler from "../app/hooks/useThemeHandler";
+import useThemeHandler from "../../app/hooks/useThemeHandler";
 import React, {useEffect, useState} from "react";
 import {ThemeProvider} from "@mui/material/styles";
 import {
@@ -12,12 +11,12 @@ import {
   Select,
   Slider, Snackbar
 } from "@mui/material";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import ContentDiv from "../app/components/message/ContentDiv";
-import ImageService from "../src/service/ImageService";
-import CreditDiv from "../app/components/common/CreditDiv";
+import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import ContentDiv from "../../app/components/message/ContentDiv";
+import ImageService from "../../src/service/ImageService";
+import CreditDiv from "../../app/components/common/CreditDiv";
 
-function Image() {
+function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -163,4 +162,4 @@ function Image() {
   );
 }
 
-export default Image;
+export default Index;

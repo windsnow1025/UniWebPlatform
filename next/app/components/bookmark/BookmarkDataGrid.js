@@ -32,7 +32,7 @@ function EditToolbar(props) {
   return (
     <GridToolbarContainer>
       <GridToolbar/>
-      <Button color="primary" startIcon={<AddIcon/>} onClick={handleClick}>
+      <Button startIcon={<AddIcon/>} onClick={handleClick} className="pt-1 px-0 pb-0">
         Add record
       </Button>
     </GridToolbarContainer>
