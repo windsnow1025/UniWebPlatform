@@ -1,5 +1,3 @@
-import '../../../src/asset/css/index.css';
-
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {UserLogic} from "../../../src/logic/UserLogic";

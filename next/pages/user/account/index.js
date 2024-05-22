@@ -1,5 +1,3 @@
-import '../../../src/asset/css/index.css';
-
 import React, {useEffect, useState} from 'react';
 import {UserLogic} from "../../../src/logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
