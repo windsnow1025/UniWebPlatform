@@ -1,25 +1,12 @@
 import dotenv from 'dotenv';
 
 export default function initEnv() {
-  if (
-    process.env.JWT_SECRET &&
-    process.env.MYSQL_ROOT_PASSWORD &&
-    process.env.MYSQL_USER &&
-    process.env.MYSQL_PASSWORD &&
-    process.env.MYSQL_DATABASE
-  ) {
-    process.env.PORT = 3000;
-    process.env.BASE_URL = '/api';
-    process.env.MYSQL_HOST = 'mysql';
+  dotenv.config();
+  const isProduction = process.env.ENV !== 'development';
 
-    console.log('Using production setting.');
-  } else {
-    dotenv.config();
+  process.env.PORT = isProduction ? 3000 : 3001;
+  process.env.MYSQL_HOST = isProduction ? 'mysql' : "localhost";
+  process.env.BASE_URL = isProduction ? '/api/node' : '';
 
-    process.env.PORT = 3001;
-    process.env.BASE_URL = '';
-    process.env.MYSQL_HOST = 'localhost';
-
-    console.log('Using development setting.');
-  }
+  console.log(`Using ${isProduction ? 'production' : 'development'} setting.`);
 }
