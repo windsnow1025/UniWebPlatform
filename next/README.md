@@ -1,5 +1,11 @@
 # UniWebPlatform
 
+## Run
+
+```bash
+npm run dev
+```
+
 ## Configuration changes made after create-next-app
 
 ### tailwind.config.ts
@@ -47,9 +53,26 @@ To:
 ```json
 {
   "compilerOptions": {
+    "target": "es6",
     "paths": {
       "@/*": ["./*"]
     }
   }
 }
+```
+
+### next.config.mjs
+
+From:
+
+```js
+const nextConfig = {};
+```
+
+To:
+
+```js
+const nextConfig = {
+  output: 'standalone',
+};
 ```

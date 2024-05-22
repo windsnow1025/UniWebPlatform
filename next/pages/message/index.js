@@ -1,13 +1,11 @@
-import '../src/asset/css/index.css';
-
 import React, {useEffect, useState} from 'react';
-import MessageService from "../src/service/MessageService";
-import {UserLogic} from "../src/logic/UserLogic";
-import MessageDiv from '../app/components/message/MessageDiv';
+import MessageService from "../../src/service/MessageService";
+import {UserLogic} from "../../src/logic/UserLogic";
+import MessageDiv from '../../app/components/message/MessageDiv';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline, Paper, Typography} from "@mui/material";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
-import useThemeHandler from "../app/hooks/useThemeHandler";
+import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import useThemeHandler from "../../app/hooks/useThemeHandler";
 
 function MessageTransmitter() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
