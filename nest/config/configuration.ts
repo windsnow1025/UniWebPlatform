@@ -1,5 +1,5 @@
 export default () => {
-  const isProduction = process.env.NODE_ENV !== "development"
+  const isProduction = process.env.ENV !== "development";
 
   return {
     port: isProduction ? 3000 : 3001,
