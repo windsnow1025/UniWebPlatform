@@ -1,5 +1,6 @@
 export default () => {
   const isProduction = process.env.ENV !== 'development';
+  console.log(`Using ${isProduction ? 'production' : 'development'} setting.`);
 
   return {
     port: isProduction ? 3000 : 3001,
