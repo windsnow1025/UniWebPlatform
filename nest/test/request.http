@@ -1,7 +1,0 @@
-### Get Root
-
-GET localhost:3001
-
-### Get Users
-
-GET localhost:3001/users
