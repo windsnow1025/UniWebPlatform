@@ -1,0 +1,8 @@
+### Sign In
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
