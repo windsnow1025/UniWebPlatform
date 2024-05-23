@@ -1,7 +1,9 @@
 ### Get Users
 
 GET {{baseUrl}}/users
+Authorization: Bearer {{token}}
 
 ### Get User By Id
 
 GET {{baseUrl}}/users/1
+Authorization: Bearer {{token}}
