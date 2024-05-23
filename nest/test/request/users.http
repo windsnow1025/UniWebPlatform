@@ -1,0 +1,7 @@
+### Get Users
+
+GET {{baseUrl}}/users
+
+### Get User By Id
+
+GET {{baseUrl}}/users/1
