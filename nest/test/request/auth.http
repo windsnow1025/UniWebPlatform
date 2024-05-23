@@ -6,3 +6,7 @@ Content-Type: application/json
   "username": "test",
   "password": "test"
 }
+
+### Profile
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{token}}
