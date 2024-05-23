@@ -20,7 +20,8 @@ export class User {
   password: string;
 
   @Column({
-    type: 'simple-array',
+    type: 'json',
+    nullable: true,
   })
   roles: Role[];
 
