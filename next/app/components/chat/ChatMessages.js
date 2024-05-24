@@ -55,11 +55,11 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
       {messages.map((message, index) => (
         <div key={index}>
           <MessageDiv
-            roleInitial={message.role}
-            contentInitial={message.text}
-            onRoleChange={(role) => handleRoleChange(index, role)}
-            onContentChange={(content) => handleContentChange(index, content)}
-            filesInitial={message.files}
+            role={message.role}
+            setRole={(role) => handleRoleChange(index, role)}
+            content={message.text}
+            setContent={(content) => handleContentChange(index, content)}
+            files={message.files}
             onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
