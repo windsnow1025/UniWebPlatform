@@ -31,21 +31,12 @@ function Index() {
   const [stream, setStream] = useState(true);
 
   // States
-  const [editable, setEditable] = useState(true);
-  const [sanitize, setSanitize] = useState(true);
+  const [editableState, setEditableState] = useState('conditional');
+  const [shouldSanitize, setShouldSanitize] = useState(true);
 
   const handleClear = () => {
     setMessages(chatLogic.initMessages);
   };
-
-  useEffect(() => {
-    const contentEditableValue = editable ? 'plaintext-only' : 'false';
-    const contentEditableElements = document.querySelectorAll('[contenteditable]');
-
-    contentEditableElements.forEach(element => {
-      element.setAttribute('contenteditable', contentEditableValue);
-    });
-  }, [editable]);
 
   const onConversationOptionClick = async (conversation) => {
     setMessages(conversation.conversation);
@@ -77,7 +68,8 @@ function Index() {
         <ChatMessages
           messages={messages}
           setMessages={setMessages}
-          sanitize={sanitize}
+          shouldSanitize={shouldSanitize}
+          editableState={editableState}
         />
         <div className="flex-center">
           <ChatGenerate
@@ -97,10 +89,10 @@ function Index() {
       </Paper>
       <div className="flex-around m-1">
         <ChatStates
-          editable={editable}
-          setEditable={setEditable}
-          sanitize={sanitize}
-          setSanitize={setSanitize}
+          editableState={editableState}
+          setEditableState={setEditableState}
+          shouldSanitize={shouldSanitize}
+          setShouldSanitize={setShouldSanitize}
         />
         <ChatConversationAutocomplete
           conversation={messages}
