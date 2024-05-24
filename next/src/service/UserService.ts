@@ -1,4 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
+import {User} from "@/src/model/User";
 
 export default class UserService {
   private axiosInstance: AxiosInstance;
@@ -7,61 +8,32 @@ export default class UserService {
     this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL });
   }
 
-  async signIn(username: string, password: string): Promise<string> {
-    const res = await this.axiosInstance.post("/auth/signin", {
-      username: username,
-      password: password
-    });
-    return res.data.access_token;
-  }
-
-  async signUp(username: string, password: string) {
-    await this.axiosInstance.post("/user/sign-up", {
-      username: username,
-      password: password
-    });
-  }
-
-  async fetchUsername(): Promise<string> {
+  async fetchUser(): Promise<User> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get('/auth/profile', {
+    const res = await this.axiosInstance.get("/users/user", {
       headers: {Authorization: `Bearer ${token}`}
     });
-    return res.data.username;
+    return res.data;
   }
 
-  async updateUser(username: string, password: string) {
-    const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/user`, {
+  async createUser(username: string, password: string) {
+    await this.axiosInstance.post("/users/user", {
       username: username,
       password: password
-    }, {
-      headers: {Authorization: token}
     });
   }
 
-  async fetchCredit(): Promise<number> {
+  async updateUser(user: User) {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get("/user/credit", {
-      headers: {Authorization: token}
+    await this.axiosInstance.put(`/users/user`, user, {
+      headers: {Authorization: `Bearer ${token}`}
     });
-    return res.data.credit;
   }
 
-  async fetchPin(): Promise<number> {
+  async deleteUser() {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get('/user/pin', {
-      headers: {Authorization: token}
-    })
-    return res.data.pin;
-  }
-
-  async updatePin(pin: number) {
-    const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/user/pin`, {
-      pin: pin
-    }, {
-      headers: {Authorization: token}
-    })
+    const res = await this.axiosInstance.delete("/users/user", {
+      headers: {Authorization: `Bearer ${token}`}
+    });
   }
 }

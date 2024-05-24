@@ -1,16 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Request,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDto } from './dto/sign-in.dto';
+import { AuthDto } from './dto/auth.dto';
 import { Public } from '../common/decorators/public.decorator';
-import { RequestWithUser } from './interfaces/request-with-user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -18,13 +9,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Public()
-  @Post('signin')
-  signIn(@Body() signInDto: SignInDto) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
-  }
-
-  @Get('profile')
-  getProfile(@Request() req: RequestWithUser) {
-    return req.user;
+  @Post('token')
+  getToken(@Body() signInDto: AuthDto) {
+    return this.authService.getToken(signInDto.username, signInDto.password);
   }
 }
