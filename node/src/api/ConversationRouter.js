@@ -20,7 +20,7 @@ router.use(async (req, res, next) => {
   next();
 });
 
-router.get('/', async (req, res) => {
+router.get('', async (req, res) => {
   try {
     const conversations = await ConversationDAO.select(req.user_id);
     res.status(200).json(conversations);
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('', async (req, res) => {
   try {
     const data = req.body;
 
@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/', async (req, res) => {
+router.put('', async (req, res) => {
   try {
     const body = req.body;
 
