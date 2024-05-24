@@ -12,13 +12,13 @@ import Snackbar from "@mui/material/Snackbar";
 function MessageDiv({
                       roleInitial,
                       contentInitial,
-                      filesInitial,
                       onRoleChange,
                       onContentChange,
-                      onFileUpload,
-                      useRoleSelect,
-                      onMessageDelete,
-                      shouldSanitize,
+                      filesInitial = null,
+                      onFileUpload = null,
+                      useRoleSelect = null,
+                      onMessageDelete = null,
+                      shouldSanitize = true,
                       editableState = "conditional",
                     }) {
   const fileInputRef = useRef(null);

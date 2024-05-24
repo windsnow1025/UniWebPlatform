@@ -57,12 +57,10 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
           <MessageDiv
             roleInitial={message.role}
             contentInitial={message.text}
-            filesInitial={message.files}
             onRoleChange={(role) => handleRoleChange(index, role)}
             onContentChange={(content) => handleContentChange(index, content)}
-            onFileUpload={(fileUrl) => {
-              handleFileUpload(index, fileUrl)
-            }}
+            filesInitial={message.files}
+            onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
             shouldSanitize={shouldSanitize}

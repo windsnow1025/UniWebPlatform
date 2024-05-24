@@ -13,6 +13,10 @@ function ContentDiv({
   const [editing, setEditing] = useState(false);
   const contentRef = useRef(null);
 
+  useEffect(() => {
+    setContent(contentInitial);
+  }, [contentInitial]);
+
   const processMarkdown = async (content, editing, shouldSanitize, editableState) => {
     if (!contentRef.current) {
       return;
