@@ -10,7 +10,7 @@ export default class ConversationService {
 
   async fetchConversations(): Promise<Conversation[]> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get('/conversation/', {
+    const res = await this.axiosInstance.get('/conversation', {
       headers: {
         Authorization: token
       }
@@ -20,7 +20,7 @@ export default class ConversationService {
 
   async addConversation(name: string, conversation: string) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.post("/conversation/", {
+    await this.axiosInstance.post("/conversation", {
       name: name,
       conversation: conversation
     }, {
@@ -32,7 +32,7 @@ export default class ConversationService {
 
   async updateConversation(name: string, conversation: string, id: number) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/conversation/`, {
+    await this.axiosInstance.put(`/conversation`, {
       name: name,
       conversation: conversation,
       id: id
