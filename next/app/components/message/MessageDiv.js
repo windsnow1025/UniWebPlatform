@@ -19,6 +19,7 @@ function MessageDiv({
                       useRoleSelect,
                       onMessageDelete,
                       shouldSanitize,
+                      editableState = "conditional",
                     }) {
   const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -72,6 +73,7 @@ function MessageDiv({
               contentInitial={contentInitial}
               onContentChange={onContentChange}
               shouldSanitize={shouldSanitize}
+              editableState={editableState}
             />
           </Paper>
           <div className="flex-column inflex-end">
@@ -85,7 +87,7 @@ function MessageDiv({
                 />
                 <Tooltip title="Upload">
                   <IconButton aria-label="upload" onClick={triggerFileInput}>
-                    {isUploading ? <CircularProgress size={24} /> : <AttachFileIcon />}
+                    {isUploading ? <CircularProgress size={24}/> : <AttachFileIcon/>}
                   </IconButton>
                 </Tooltip>
               </>
