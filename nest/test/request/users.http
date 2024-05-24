@@ -3,12 +3,17 @@
 GET {{baseUrl}}/users/user
 Authorization: Bearer {{token}}
 
-### Get Users
+### Sign Up
 
-GET {{baseUrl}}/users
-Authorization: Bearer {{token}}
+POST {{baseUrl}}/users/user
+Content-Type: application/json
 
-### Get User By Id
+{
+  "username": "test",
+  "password": "test"
+}
 
-GET {{baseUrl}}/users/1
+### Delete
+
+DELETE {{baseUrl}}/users/user
 Authorization: Bearer {{token}}
