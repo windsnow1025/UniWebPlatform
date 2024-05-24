@@ -24,7 +24,7 @@ export default class UserService {
 
   async fetchUsername(): Promise<string> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get('/user/', {
+    const res = await this.axiosInstance.get('/user', {
       headers: {Authorization: token}
     });
     return res.data.username;
@@ -32,7 +32,7 @@ export default class UserService {
 
   async updateUser(username: string, password: string) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/user/`, {
+    await this.axiosInstance.put(`/user`, {
       username: username,
       password: password
     }, {
