@@ -8,11 +8,11 @@ export default class UserService {
   }
 
   async signIn(username: string, password: string): Promise<string> {
-    const res = await this.axiosInstance.post("/user/sign-in", {
+    const res = await this.axiosInstance.post("/auth/signin", {
       username: username,
       password: password
     });
-    return res.data.token;
+    return res.data.access_token;
   }
 
   async signUp(username: string, password: string) {
@@ -24,8 +24,8 @@ export default class UserService {
 
   async fetchUsername(): Promise<string> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get('/user', {
-      headers: {Authorization: token}
+    const res = await this.axiosInstance.get('/auth/profile', {
+      headers: {Authorization: `Bearer ${token}`}
     });
     return res.data.username;
   }
