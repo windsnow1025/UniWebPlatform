@@ -92,10 +92,10 @@ function MessageTransmitter() {
           {messages.map(message => (
             <MessageDiv
               key={message.id}
-              roleInitial={message.username}
-              contentInitial={message.content}
-              onRoleChange={() => {}}
-              onContentChange={() => {}}
+              role={message.username}
+              setRole={() => {}}
+              content={message.content}
+              setContent={() => {}}
             />
           ))}
         </Paper>
@@ -108,10 +108,10 @@ function MessageTransmitter() {
       <div className="m-4">
         <Typography variant="h4" className="text-center">Send Messages</Typography>
         <MessageDiv
-          roleInitial={newMessage.username}
-          contentInitial={newMessage.content}
-          onRoleChange={handleNewMessageRoleChange}
-          onContentChange={handleNewMessageContentChange}
+          role={newMessage.username}
+          setRole={handleNewMessageRoleChange}
+          content={newMessage.content}
+          setContent={handleNewMessageContentChange}
           onFileUpload={handleFileUpload}
         />
         <div className="text-center">
