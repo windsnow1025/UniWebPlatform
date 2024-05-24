@@ -4,7 +4,7 @@ import MessageDiv from "../message/MessageDiv";
 import React from "react";
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatMessages({ messages, setMessages, sanitize }) {
+function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) {
   const chatLogic = new ChatLogic();
 
   const handleRoleChange = (index, role) => {
@@ -65,7 +65,8 @@ function ChatMessages({ messages, setMessages, sanitize }) {
             }}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
-            shouldSanitize={sanitize}
+            shouldSanitize={shouldSanitize}
+            editableState={editableState}
           />
           <div className="flex-between">
             <div className="inflex-fill"/>
