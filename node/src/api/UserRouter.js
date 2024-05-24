@@ -4,7 +4,7 @@ import JWT from "../logic/JWT.js";
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('', async (req, res) => {
 
   const token = req.headers.authorization;
   if (!token) {
@@ -66,7 +66,7 @@ router.use(async (req, res, next) => {
   next();
 });
 
-router.put('/', async (req, res) => {
+router.put('', async (req, res) => {
   try {
     const data = req.body;
 
@@ -85,7 +85,7 @@ router.put('/', async (req, res) => {
 
 });
 
-router.delete('/', async (req, res) => {
+router.delete('', async (req, res) => {
   try {
     await UserDAO.deleteByUsername(req.username);
     res.sendStatus(200);
