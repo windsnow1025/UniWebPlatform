@@ -10,6 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { Public } from '../common/decorators/public.decorator';
+import { RequestWithUser } from './interfaces/request-with-user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -23,7 +24,7 @@ export class AuthController {
   }
 
   @Get('profile')
-  getProfile(@Request() req: any) {
+  getProfile(@Request() req: RequestWithUser) {
     return req.user;
   }
 }
