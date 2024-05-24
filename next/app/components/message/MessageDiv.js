@@ -10,15 +10,16 @@ import FileService from "../../../src/service/FileService";
 import Snackbar from "@mui/material/Snackbar";
 
 function MessageDiv({
-                      roleInitial,
-                      contentInitial,
-                      filesInitial,
-                      onRoleChange,
-                      onContentChange,
-                      onFileUpload,
-                      useRoleSelect,
-                      onMessageDelete,
-                      shouldSanitize,
+                      role,
+                      setRole,
+                      content,
+                      setContent,
+                      files = null,
+                      onFileUpload = null,
+                      useRoleSelect = false,
+                      onMessageDelete = null,
+                      shouldSanitize = true,
+                      editableState = "conditional",
                     }) {
   const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -49,7 +50,7 @@ function MessageDiv({
   };
 
   const handleContentCopy = () => {
-    navigator.clipboard.writeText(contentInitial);
+    navigator.clipboard.writeText(content);
   };
 
   return (
@@ -57,21 +58,22 @@ function MessageDiv({
       <Paper elevation={4} className="my-1 p-2 rounded-lg">
         {useRoleSelect ?
           <RoleSelect
-            roleInitial={roleInitial}
-            onRoleChange={onRoleChange}
+            role={role}
+            setRole={setRole}
           />
           :
           <RoleDiv
-            roleInitial={roleInitial}
-            onRoleChange={onRoleChange}
+            role={role}
+            setRole={setRole}
           />
         }
         <div className="flex-between">
           <Paper elevation={4} className="inflex-fill my-2">
             <ContentDiv
-              contentInitial={contentInitial}
-              onContentChange={onContentChange}
+              content={content}
+              setContent={setContent}
               shouldSanitize={shouldSanitize}
+              editableState={editableState}
             />
           </Paper>
           <div className="flex-column inflex-end">
@@ -85,7 +87,7 @@ function MessageDiv({
                 />
                 <Tooltip title="Upload">
                   <IconButton aria-label="upload" onClick={triggerFileInput}>
-                    {isUploading ? <CircularProgress size={24} /> : <AttachFileIcon />}
+                    {isUploading ? <CircularProgress size={24}/> : <AttachFileIcon/>}
                   </IconButton>
                 </Tooltip>
               </>
@@ -105,7 +107,7 @@ function MessageDiv({
           </div>
         </div>
         <div>
-          {filesInitial && filesInitial.map((file, index) => (
+          {files && files.map((file, index) => (
             <div key={index}>
               <picture>
                 <img
