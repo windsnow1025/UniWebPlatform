@@ -94,18 +94,15 @@ function MessageTransmitter() {
               key={message.id}
               roleInitial={message.username}
               contentInitial={message.content}
-              onRoleChange={() => {
-              }}
-              onContentChange={() => {
-              }}
+              onRoleChange={() => {}}
+              onContentChange={() => {}}
             />
           ))}
         </Paper>
         <div className="flex-center">
           <div className="m-1"><Button variant="contained" color="primary" onClick={fetchMessages}>Receive</Button>
           </div>
-          <div className="m-1"><Button variant="contained" color="secondary"
-                                       onClick={handleClearMessages}>Clear</Button></div>
+          <div className="m-1"><Button variant="contained" color="secondary" onClick={handleClearMessages}>Clear</Button></div>
         </div>
       </div>
       <div className="m-4">
