@@ -3,19 +3,14 @@ import {parseMarkdown} from "../../../src/util/MarkdownParser";
 import {parseLaTeX} from "../../../src/util/LaTeXParser";
 
 function ContentDiv({
-                      contentInitial,
-                      onContentChange,
+                      content,
+                      setContent,
                       shouldSanitize = true,
                       editableState = "conditional"
                     }) {
-  const [content, setContent] = useState(contentInitial);
   const [contentEditable, setContentEditable] = useState("plaintext-only");
   const [editing, setEditing] = useState(false);
   const contentRef = useRef(null);
-
-  useEffect(() => {
-    setContent(contentInitial);
-  }, [contentInitial]);
 
   const processMarkdown = async (content, editing, shouldSanitize, editableState) => {
     if (!contentRef.current) {
@@ -44,7 +39,6 @@ function ContentDiv({
     const newContent = contentRef.current.innerHTML;
     setContent(newContent);
     setEditing(false);
-    onContentChange(newContent);
   };
 
   return (
