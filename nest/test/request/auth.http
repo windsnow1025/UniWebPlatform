@@ -1,12 +1,9 @@
 ### Sign In
-POST {{baseUrl}}/auth/signin
+
+POST {{baseUrl}}/auth/token
 Content-Type: application/json
 
 {
   "username": "test",
   "password": "test"
 }
-
-### Profile
-GET {{baseUrl}}/auth/profile
-Authorization: Bearer {{token}}
