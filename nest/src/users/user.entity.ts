@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Role } from '../common/enums/role.enum';
+import { Conversation } from "../conversations/conversation.entity";
 
 @Entity()
 export class User {
@@ -30,4 +31,7 @@ export class User {
 
   @Column({ type: 'int', default: 0 })
   pin: number;
+
+  @OneToMany(() => Conversation, (conversation) => conversation.user)
+  conversations: Conversation[];
 }
