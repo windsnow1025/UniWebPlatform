@@ -36,6 +36,8 @@ function ChatConversationAutocomplete({conversation, onConversationClick}) {
     try {
       await conversationService.deleteConversation(conversations[index].id);
       fetchConversations();
+      setAlertOpen(true);
+      setAlertMessage('Conversation deleted');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error deleting conversation');
@@ -47,6 +49,8 @@ function ChatConversationAutocomplete({conversation, onConversationClick}) {
     try {
       await conversationService.addConversation(name, JSON.stringify(conversation));
       fetchConversations();
+      setAlertOpen(true);
+      setAlertMessage('Conversation added');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error adding conversation');
@@ -58,6 +62,8 @@ function ChatConversationAutocomplete({conversation, onConversationClick}) {
     try {
       await conversationService.updateConversation(name, JSON.stringify(conversation), conversations[index].id);
       fetchConversations();
+      setAlertOpen(true);
+      setAlertMessage('Conversation updated');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error updating conversation');
