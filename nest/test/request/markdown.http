@@ -13,8 +13,8 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "title": "test title",
-  "content": "test content"
+  "title": "Test Title",
+  "content": "# test content"
 }
 
 ### Update Bookmark
@@ -25,8 +25,8 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "title": "test title 1",
-  "content": "test content 1"
+  "title": "Test title 1",
+  "content": "# Test content 1"
 }
 
 ### Delete Bookmark
