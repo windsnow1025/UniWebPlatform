@@ -36,7 +36,7 @@ export class BookmarksService {
     return this.bookmarksRepository.save(bookmark);
   }
 
-  async remove(id: number) {
-    return await this.bookmarksRepository.delete(id);
+  remove(id: number) {
+    return this.bookmarksRepository.delete(id);
   }
 }

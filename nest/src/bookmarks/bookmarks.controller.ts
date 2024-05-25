@@ -19,25 +19,25 @@ export class BookmarksController {
 
   @Public()
   @Get()
-  async findAll() {
-    return await this.bookmarksService.findAll();
+  findAll() {
+    return this.bookmarksService.findAll();
   }
 
   @Post('/bookmark')
   @Roles(Role.Admin)
-  async create(@Body() bookmark: Bookmark) {
-    return await this.bookmarksService.create(bookmark);
+  create(@Body() bookmark: Bookmark) {
+    return this.bookmarksService.create(bookmark);
   }
 
   @Put('/bookmark')
   @Roles(Role.Admin)
-  async update(@Body() bookmark: Bookmark) {
-    return await this.bookmarksService.update(bookmark);
+  update(@Body() bookmark: Bookmark) {
+    return this.bookmarksService.update(bookmark);
   }
 
   @Delete('/bookmark/:id')
   @Roles(Role.Admin)
-  async delete(@Param('id') id: number) {
-    return await this.bookmarksService.remove(id);
+  delete(@Param('id') id: number) {
+    return this.bookmarksService.remove(id);
   }
 }

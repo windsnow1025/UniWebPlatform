@@ -16,8 +16,8 @@ export class ConversationsService {
     return this.conversationsRepository.findBy({ user: { id: userId } });
   }
 
-  async findOne(userId: number, id: number) {
-    return await this.conversationsRepository.findOne({
+  findOne(userId: number, id: number) {
+    return this.conversationsRepository.findOne({
       where: {
         id,
         user: { id: userId },
