@@ -1,21 +1,23 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { join } from 'path';
+import configuration from '../config/configuration';
+import { RolesGuard } from './common/guards/roles.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import configuration from '../config/configuration';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthGuard } from './auth/auth.guard';
+import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './common/guards/roles.guard';
-import { AuthGuard } from './auth/auth.guard';
-import { JwtModule } from '@nestjs/jwt';
+import { FilesModule } from './files/files.module';
 import { Bookmark } from './bookmarks/bookmark.entity';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { Conversation } from './conversations/conversation.entity';
-import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -37,12 +39,16 @@ import { FilesModule } from './files/files.module';
         synchronize: true,
       }),
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../../uploads'),
+      serveRoot: '/uploads',
+    }),
     JwtModule,
     AuthModule,
     UsersModule,
+    FilesModule,
     BookmarksModule,
     ConversationsModule,
-    FilesModule,
   ],
   controllers: [AppController],
   providers: [
