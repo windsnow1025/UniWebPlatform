@@ -37,7 +37,7 @@ router.post('', async (req, res) => {
     const conversation = new Conversation({
       user_id: req.user_id,
       name: data.name,
-      conversation: data.conversation
+      messages: data.messages
     });
 
     await ConversationDAO.insert(conversation);
@@ -56,7 +56,7 @@ router.put('', async (req, res) => {
       id: body.id,
       user_id: req.user_id,
       name: body.name,
-      conversation: body.conversation
+      messages: body.messages
     });
 
     await ConversationDAO.update(conversation);
