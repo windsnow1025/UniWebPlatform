@@ -16,7 +16,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     const payload: JwtPayload = {
-      sub: user.id,
+      sub: user.id.toString(),
       username: user.username,
       roles: user.roles,
     };
