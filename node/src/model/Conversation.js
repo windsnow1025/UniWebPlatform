@@ -9,18 +9,18 @@
  * @property {number || null} id
  * @property {number} user_id
  * @property {string} name
- * @property {ConversationMessage[]} conversation
+ * @property {ConversationMessage[]} messages
  */
 
 class Conversation {
   /**
    * @param {ConversationParams} params
    */
-  constructor({ id = null, user_id, name, conversation = null }) {
+  constructor({ id = null, user_id, name, messages = null }) {
     this.id = id;
     this.user_id = user_id;
     this.name = name;
-    this.conversation = conversation;
+    this.messages = messages;
   }
 }
 
