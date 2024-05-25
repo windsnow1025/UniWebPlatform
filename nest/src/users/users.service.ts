@@ -24,7 +24,6 @@ export class UsersService {
   }
 
   async create(username: string, password: string) {
-    console.log(username, password);
     if (await this.findOneByUsername(username)) {
       throw new ConflictException();
     }
@@ -55,7 +54,7 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async remove(id: number) {
-    return await this.usersRepository.delete(id);
+  remove(id: number) {
+    return this.usersRepository.delete(id);
   }
 }
