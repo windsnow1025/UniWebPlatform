@@ -39,7 +39,7 @@ function Index() {
   };
 
   const onConversationOptionClick = async (conversation) => {
-    setMessages(conversation.conversation);
+    setMessages(conversation.messages);
   };
 
   return (
