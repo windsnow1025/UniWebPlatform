@@ -14,8 +14,8 @@ async function select(user_id) {
  * @param {Conversation} conversation
  */
 async function insert(conversation) {
-    const sql = "INSERT INTO conversation (user_id, name, conversation) VALUES (?,?,?)";
-    const sqlParams = [conversation.user_id, conversation.name, conversation.conversation];
+    const sql = "INSERT INTO conversation (user_id, name, messages) VALUES (?,?,?)";
+    const sqlParams = [conversation.user_id, conversation.name, conversation.messages];
     await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
     console.log("1 conversation inserted");
 }
@@ -24,8 +24,8 @@ async function insert(conversation) {
  * @param {Conversation} conversation
  */
 async function update(conversation) {
-    const sql = "UPDATE conversation SET name = ?, conversation = ? WHERE user_id = ? AND id = ?";
-    const sqlParams = [conversation.name, conversation.conversation, conversation.user_id, conversation.id];
+    const sql = "UPDATE conversation SET name = ?, messages = ? WHERE user_id = ? AND id = ?";
+    const sqlParams = [conversation.name, conversation.messages, conversation.user_id, conversation.id];
     await DatabaseConnection.getInstance().poolQuery(sql, sqlParams);
     console.log("1 conversation updated");
 }
