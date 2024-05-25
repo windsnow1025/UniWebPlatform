@@ -18,11 +18,11 @@ export default class ConversationService {
     return res.data;
   }
 
-  async addConversation(name: string, conversation: string) {
+  async addConversation(name: string, messages: string) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.post("/conversation", {
       name: name,
-      conversation: conversation
+      messages: messages
     }, {
       headers: {
         Authorization: token
@@ -30,11 +30,11 @@ export default class ConversationService {
     });
   }
 
-  async updateConversation(name: string, conversation: string, id: number) {
+  async updateConversation(name: string, messages: string, id: number) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.put(`/conversation`, {
       name: name,
-      conversation: conversation,
+      messages: messages,
       id: id
     }, {
       headers: {
