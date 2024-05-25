@@ -17,32 +17,26 @@ export class ConversationsController {
   constructor(private readonly conversationsService: ConversationsService) {}
 
   @Get()
-  async find(@Request() req: RequestWithUser) {
+  find(@Request() req: RequestWithUser) {
     const userId = req.user.sub;
-    return await this.conversationsService.find(userId);
+    return this.conversationsService.find(userId);
   }
 
   @Post('/conversation')
-  async create(
-    @Request() req: RequestWithUser,
-    @Body() conversation: Conversation,
-  ) {
+  create(@Request() req: RequestWithUser, @Body() conversation: Conversation) {
     const userId = req.user.sub;
-    return await this.conversationsService.create(userId, conversation);
+    return this.conversationsService.create(userId, conversation);
   }
 
   @Put('/conversation')
-  async update(
-    @Request() req: RequestWithUser,
-    @Body() conversation: Conversation,
-  ) {
+  update(@Request() req: RequestWithUser, @Body() conversation: Conversation) {
     const userId = req.user.sub;
-    return await this.conversationsService.update(userId, conversation);
+    return this.conversationsService.update(userId, conversation);
   }
 
   @Delete('/conversation/:id')
-  async delete(@Request() req: RequestWithUser, @Param('id') id: number) {
+  delete(@Request() req: RequestWithUser, @Param('id') id: number) {
     const userId = req.user.sub;
-    return await this.conversationsService.remove(userId, id);
+    return this.conversationsService.remove(userId, id);
   }
 }
