@@ -24,6 +24,7 @@ export class UsersService {
   }
 
   async create(username: string, password: string) {
+    console.log(username, password);
     if (await this.findOneByUsername(username)) {
       throw new ConflictException();
     }
@@ -50,6 +51,7 @@ export class UsersService {
     }
 
     user.password = password;
+
     return await this.usersRepository.save(user);
   }
 

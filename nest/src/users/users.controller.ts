@@ -8,10 +8,10 @@ import {
   Put,
   Request,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { Public } from '../common/decorators/public.decorator';
+import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { AuthDto } from '../auth/dto/auth.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
