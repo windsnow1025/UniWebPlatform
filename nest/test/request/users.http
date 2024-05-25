@@ -13,7 +13,18 @@ Content-Type: application/json
   "password": "test"
 }
 
-### Delete
+### Update User
+
+PUT {{baseUrl}}/users/user
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+
+### Delete User
 
 DELETE {{baseUrl}}/users/user
 Authorization: Bearer {{token}}
