@@ -1,27 +1,32 @@
 import {
   Controller,
+  Headers,
   Post,
-  Request,
+  Req,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
+import { Public } from '../common/decorators/public.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
 import { multerOptions } from './multer.config';
 
-@Controller()
+@Controller('files')
 export class FilesController {
   constructor(private readonly configService: ConfigService) {}
 
-  @Post('upload')
+  @Public()
+  @Post('file')
   @UseInterceptors(FileInterceptor('file', multerOptions))
   uploadFile(
-    @Request() req: RequestWithUser,
+    @Headers('x-forwarded-proto') forwardedProto: string,
+    @Headers('host') forwardedHost: string,
+    @Req() req: Request,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-    const host = req.headers['host'] || req.get('host');
+    const protocol = forwardedProto || req.protocol;
+    const host = forwardedHost || req.get('host');
     const baseUrl = this.configService.get<string>('baseUrl')!;
     const fileUrl = `${protocol}://${host}${baseUrl}/uploads/${file.filename}`;
 
