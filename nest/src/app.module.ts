@@ -11,6 +11,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './common/guards/roles.guard';
 import { AuthGuard } from './auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { Bookmark } from './bookmarks/bookmark.entity';
+import { BookmarksModule } from './bookmarks/bookmarks.module';
 
 @Module({
   imports: [
@@ -28,13 +30,14 @@ import { JwtModule } from '@nestjs/jwt';
         username: configService.get<string>('mysql.user'),
         password: configService.get<string>('mysql.password'),
         database: configService.get<string>('mysql.database'),
-        entities: [User],
+        entities: [User, Bookmark],
         synchronize: true,
       }),
     }),
-    UsersModule,
-    AuthModule,
     JwtModule,
+    AuthModule,
+    UsersModule,
+    BookmarksModule,
   ],
   controllers: [AppController],
   providers: [
