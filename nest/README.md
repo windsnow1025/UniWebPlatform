@@ -26,7 +26,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Configuration changes made after create-next-app
+## Configuration changes made after `nest new nest`
 
 ### package.json
 
