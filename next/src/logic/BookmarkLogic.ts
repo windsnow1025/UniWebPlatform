@@ -31,9 +31,9 @@ export class BookmarkLogic {
     }
   }
 
-  async updateBookmark(id: number, updatedFields: Bookmark) {
+  async updateBookmark(bookmark: Bookmark) {
     try {
-      await this.bookmarkService.updateBookmark(id, updatedFields);
+      await this.bookmarkService.updateBookmark(bookmark);
     } catch (err: any) {
       if (err.response.status === 401) {
         throw new Error('Unauthorized');

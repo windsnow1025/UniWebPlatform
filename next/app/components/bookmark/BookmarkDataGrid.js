@@ -65,6 +65,8 @@ function BookmarkDataGrid() {
     if (newRow.isNew) {
       try {
         await bookmarkLogic.addBookmark(updatedRow);
+        setAlertOpen(true);
+        setAlertMessage("Bookmark added");
       } catch (e) {
         setAlertOpen(true);
         setAlertMessage(e.message);
@@ -72,7 +74,9 @@ function BookmarkDataGrid() {
       }
     } else {
       try {
-        await bookmarkLogic.updateBookmark(updatedRow.id, updatedRow);
+        await bookmarkLogic.updateBookmark(updatedRow);
+        setAlertOpen(true);
+        setAlertMessage("Bookmark updated");
       } catch (e) {
         setAlertOpen(true);
         setAlertMessage(e.message);
@@ -86,6 +90,8 @@ function BookmarkDataGrid() {
   const handleDeleteClick = async (id) => {
     try {
       await bookmarkLogic.deleteBookmark(id);
+      setAlertOpen(true);
+      setAlertMessage("Bookmark deleted");
     } catch (e) {
       setAlertOpen(true);
       setAlertMessage(e.message);
