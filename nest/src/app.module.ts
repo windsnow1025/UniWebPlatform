@@ -13,6 +13,8 @@ import { AuthGuard } from './auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { Bookmark } from './bookmarks/bookmark.entity';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
+import { ConversationsModule } from './conversations/conversations.module';
+import { Conversation } from './conversations/conversation.entity';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { BookmarksModule } from './bookmarks/bookmarks.module';
         username: configService.get<string>('mysql.user'),
         password: configService.get<string>('mysql.password'),
         database: configService.get<string>('mysql.database'),
-        entities: [User, Bookmark],
+        entities: [User, Bookmark, Conversation],
         synchronize: true,
       }),
     }),
@@ -38,6 +40,7 @@ import { BookmarksModule } from './bookmarks/bookmarks.module';
     AuthModule,
     UsersModule,
     BookmarksModule,
+    ConversationsModule,
   ],
   controllers: [AppController],
   providers: [
