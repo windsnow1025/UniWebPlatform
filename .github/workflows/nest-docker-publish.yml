@@ -5,10 +5,10 @@ on:
     branches:
       - "main"
     paths:
-      - 'node/**'
+      - 'nest/**'
 
 jobs:
-  build-node:
+  build-nest:
     runs-on: ubuntu-latest
     steps:
       -
@@ -27,7 +27,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./node
-          file: ./node/Dockerfile
+          context: ./nest
+          file: ./nest/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/node:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest:latest
