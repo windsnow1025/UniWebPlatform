@@ -1,4 +1,4 @@
-# UniWebPlatform
+# UniWebPlatform - Next.js
 
 ## Run
 
