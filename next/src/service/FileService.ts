@@ -9,7 +9,7 @@ export default class FileService {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch(`${this.baseUrl}/file`, {
+    const response = await fetch(`${this.baseUrl}/files/file`, {
       method: 'POST',
       body: formData,
     });
@@ -21,7 +21,8 @@ export default class FileService {
       throw new Error('Failed to upload file');
     }
 
-    return await response.json();
+    const res = await response.json()
+    return res.url;
   }
 }
 
