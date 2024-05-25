@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.17",
     "@mui/material": "^5.15.17",
-    "@mui/x-data-grid-premium": "^6.19.3",
+    "@mui/x-data-grid-premium": "^7.4.0",
     "axios": "^1.6.8",
     "crypto-js": "^4.2.0",
     "highlight.js": "^11.9.0",
