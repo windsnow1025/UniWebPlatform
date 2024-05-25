@@ -1,4 +1,4 @@
-FROM nginx:1
+FROM nginx:1.26
 
 RUN rm /etc/nginx/conf.d/default.conf
 
