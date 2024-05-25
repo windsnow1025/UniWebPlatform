@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, NotFoundException, Post, Request } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Post,
+  Put,
+  Request,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { Public } from '../common/decorators/public.decorator';
@@ -20,8 +29,18 @@ export class UsersController {
 
   @Public()
   @Post('user')
-  create(@Body() signUpDto: AuthDto) {
-    return this.usersService.create(signUpDto.username, signUpDto.password);
+  create(@Body() authDto: AuthDto) {
+    return this.usersService.create(authDto.username, authDto.password);
+  }
+
+  @Put('user')
+  update(@Request() req: RequestWithUser, @Body() authDto: AuthDto) {
+    const currentUsername = req.user.username;
+    return this.usersService.update(
+      currentUsername,
+      authDto.username,
+      authDto.password,
+    );
   }
 
   @Delete('user')

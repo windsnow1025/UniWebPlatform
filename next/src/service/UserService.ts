@@ -23,9 +23,12 @@ export default class UserService {
     });
   }
 
-  async updateUser(user: User) {
+  async updateUser(username: string, password: string) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/users/user`, user, {
+    await this.axiosInstance.put(`/users/user`, {
+      username: username,
+      password: password
+    }, {
       headers: {Authorization: `Bearer ${token}`}
     });
   }

@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -29,6 +33,23 @@ export class UsersService {
     user.password = password;
     user.roles = [Role.User];
 
+    return await this.usersRepository.save(user);
+  }
+
+  async update(currentUsername: string, newUsername: string, password: string) {
+    const user = await this.findOneByUsername(currentUsername);
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    if (currentUsername !== newUsername) {
+      if (await this.findOneByUsername(newUsername)) {
+        throw new ConflictException();
+      }
+      user.username = newUsername;
+    }
+
+    user.password = password;
     return await this.usersRepository.save(user);
   }
 
