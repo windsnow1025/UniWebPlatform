@@ -5,62 +5,42 @@ export default class ConversationService {
   private axiosInstance: AxiosInstance;
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NODE_API_BASE_URL });
+    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL });
   }
 
   async fetchConversations(): Promise<Conversation[]> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get('/conversation', {
-      headers: {
-        Authorization: token
-      }
+    const res = await this.axiosInstance.get('/conversations', {
+      headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
   }
 
   async addConversation(name: string, messages: string) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.post("/conversation", {
+    await this.axiosInstance.post("/conversations/conversation", {
       name: name,
       messages: messages
     }, {
-      headers: {
-        Authorization: token
-      }
+      headers: {Authorization: `Bearer ${token}`}
     });
   }
 
   async updateConversation(name: string, messages: string, id: number) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/conversation`, {
+    await this.axiosInstance.put('/conversations/conversation', {
+      id: id,
       name: name,
       messages: messages,
-      id: id
     }, {
-      headers: {
-        Authorization: token
-      }
-    });
-  }
-
-  async updateConversationName(name: string, id: number) {
-    const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/conversation/name`, {
-      name: name,
-      id: id
-    }, {
-      headers: {
-        Authorization: token
-      }
+      headers: {Authorization: `Bearer ${token}`}
     });
   }
 
   async deleteConversation(id: number) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.delete(`/conversation/${id}`, {
-      headers: {
-        Authorization: token
-      }
+    await this.axiosInstance.delete(`/conversations/conversation/${id}`, {
+      headers: {Authorization: `Bearer ${token}`}
     });
   }
 }
