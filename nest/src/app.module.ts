@@ -20,6 +20,8 @@ import { ConversationsModule } from './conversations/conversations.module';
 import { Conversation } from './conversations/conversation.entity';
 import { Markdown } from './markdowns/markdown.entity';
 import { MarkdownsModule } from './markdowns/markdowns.module';
+import { Message } from "./messages/message.entity";
+import { MessagesModule } from "./messages/messages.module";
 
 @Module({
   imports: [
@@ -37,7 +39,7 @@ import { MarkdownsModule } from './markdowns/markdowns.module';
         username: configService.get<string>('mysql.user'),
         password: configService.get<string>('mysql.password'),
         database: configService.get<string>('mysql.database'),
-        entities: [User, Bookmark, Conversation, Markdown],
+        entities: [User, Bookmark, Conversation, Markdown, Message],
         synchronize: true,
       }),
     }),
@@ -52,6 +54,7 @@ import { MarkdownsModule } from './markdowns/markdowns.module';
     BookmarksModule,
     ConversationsModule,
     MarkdownsModule,
+    MessagesModule,
   ],
   controllers: [AppController],
   providers: [
