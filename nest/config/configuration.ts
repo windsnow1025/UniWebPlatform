@@ -4,7 +4,7 @@ export default () => {
 
   return {
     port: isProduction ? 3000 : 3001,
-    baseUrl: isProduction ? '/api' : '',
+    baseUrl: isProduction ? '/api/nest' : '',
     mysql: {
       host: isProduction ? 'mysql' : 'localhost',
       rootPassword: process.env.MYSQL_ROOT_PASSWORD,
