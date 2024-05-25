@@ -15,6 +15,7 @@ import { Bookmark } from './bookmarks/bookmark.entity';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { Conversation } from './conversations/conversation.entity';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { Conversation } from './conversations/conversation.entity';
     UsersModule,
     BookmarksModule,
     ConversationsModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [
