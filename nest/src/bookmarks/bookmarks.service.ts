@@ -22,7 +22,17 @@ export class BookmarksService {
     return this.bookmarksRepository.save(bookmark);
   }
 
-  async update(bookmark: Bookmark) {
+  async update(newBookmark: Bookmark) {
+    const bookmark = await this.findOne(newBookmark.id);
+    if (!bookmark) {
+      throw new NotFoundException();
+    }
+
+    bookmark.firstTitle = newBookmark.firstTitle;
+    bookmark.secondTitle = newBookmark.secondTitle;
+    bookmark.url = newBookmark.url;
+    bookmark.comment = newBookmark.comment;
+
     return this.bookmarksRepository.save(bookmark);
   }
 
