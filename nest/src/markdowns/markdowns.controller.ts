@@ -25,7 +25,7 @@ export class MarkdownsController {
 
   @Public()
   @Get('/markdown/:id')
-  findOne(id: number) {
+  findOne(@Param('id') id: number) {
     return this.markdownsService.findOne(id);
   }
 
