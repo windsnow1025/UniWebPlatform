@@ -1,17 +1,14 @@
-import base64
 import os
-from io import BytesIO
 
-import httpx
-from fastapi import HTTPException
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
 from app.logic.chat.handler.response_handler import StreamResponseHandler, NonStreamResponseHandler
+from app.logic.chat.processor.factory.gpt_processor_factory.image_processor import get_image_contents_from_files
 from app.logic.chat.processor.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
 from app.logic.chat.processor.implementations.stream_gpt_processor import StreamGPTProcessor
-from app.model.message import Message
 from app.model.gpt_message import *
+from app.model.message import Message
 
 
 async def create_gpt_processor(
@@ -74,35 +71,8 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
         text_content = TextContent(type="text", text=text)
         content.append(text_content)
 
-        image_urls = []
-        for file in files:
-            base64_image = await encode_image_from_url(file)
-            image_url = ImageURL(url=f"data:image/jpeg;base64,{base64_image}")
-            image_urls.append(image_url)
-
-        image_contents = []
-        for image_url in image_urls:
-            image_content = ImageContent(type="image_url", image_url=image_url)
-            image_contents.append(image_content)
-
+        image_contents = await get_image_contents_from_files(files)
         for image_content in image_contents:
             content.append(image_content)
 
     return GptMessage(role=role, content=content)
-
-
-async def encode_image_from_url(img_url: str) -> str:
-    img_data = await get_img_data(img_url)
-    return base64.b64encode(img_data.getvalue()).decode('utf-8')
-
-
-async def get_img_data(img_url: str) -> BytesIO:
-    async with httpx.AsyncClient() as client:
-        response = await client.get(img_url)
-
-        if response.status_code != 200:
-            status_code = response.status_code
-            text = response.text
-            raise HTTPException(status_code=status_code, detail=text)
-
-        return BytesIO(response.content)
