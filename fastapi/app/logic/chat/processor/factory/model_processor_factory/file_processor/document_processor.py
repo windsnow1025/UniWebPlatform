@@ -1,8 +1,11 @@
 import httpx
-import fitz  # PyMuPDF
+import fitz
 import docx
 from fastapi import HTTPException
 from io import BytesIO
+
+from app.logic.chat.processor.factory.model_processor_factory.file_processor.code_file_extensions import \
+    code_file_extensions
 
 
 async def extract_text_from_file(file_url: str) -> str:
@@ -21,6 +24,8 @@ async def extract_text_from_file(file_url: str) -> str:
             return extract_text_from_pdf(file_content)
         elif file_extension in ['doc', 'docx']:
             return extract_text_from_word(file_content)
+        elif file_extension in code_file_extensions:
+            return extract_text_from_code(file_content)
         else:
             return file_content.decode('utf-8')
 
@@ -39,3 +44,7 @@ def extract_text_from_word(file_content: bytes) -> str:
     for para in doc.paragraphs:
         text += para.text + "\n"
     return text
+
+
+def extract_text_from_code(file_content: bytes) -> str:
+    return file_content.decode('utf-8')

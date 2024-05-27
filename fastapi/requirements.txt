@@ -9,3 +9,5 @@ openai
 tiktoken
 google-generativeai
 pillow
+PyMuPDF
+python-docx
