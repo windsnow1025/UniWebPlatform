@@ -4,7 +4,7 @@ from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
 from app.logic.chat.handler.response_handler import StreamResponseHandler, NonStreamResponseHandler
-from app.logic.chat.processor.factory.gpt_processor_factory.image_processor import get_image_contents_from_files
+from app.logic.chat.processor.factory.model_processor_factory.gpt_image_processor import get_image_contents_from_files
 from app.logic.chat.processor.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
 from app.logic.chat.processor.implementations.stream_gpt_processor import StreamGPTProcessor
 from app.model.gpt_message import *
@@ -72,7 +72,6 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
         content.append(text_content)
 
         image_contents = await get_image_contents_from_files(files)
-        for image_content in image_contents:
-            content.append(image_content)
+        content.extend(image_contents)
 
     return GptMessage(role=role, content=content)
