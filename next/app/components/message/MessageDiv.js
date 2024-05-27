@@ -8,6 +8,7 @@ import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileService from "../../../src/service/FileService";
 import Snackbar from "@mui/material/Snackbar";
+import mime from 'mime';
 
 function MessageDiv({
                       role,
@@ -51,6 +52,16 @@ function MessageDiv({
 
   const handleContentCopy = () => {
     navigator.clipboard.writeText(content);
+  };
+
+  const renderFile = (fileUrl) => {
+    const mimeType = mime.getType(fileUrl);
+    if (mimeType && mimeType.startsWith('image/')) {
+      return <img src={fileUrl} alt="file" className="max-w-full" />;
+    } else {
+      const fileName = fileUrl.split('/').pop();
+      return <span>{fileName}</span>;
+    }
   };
 
   return (
@@ -109,14 +120,7 @@ function MessageDiv({
         <div>
           {files && files.map((file, index) => (
             <div key={index}>
-              <picture>
-                <img
-                  key={index}
-                  src={file}
-                  alt="file"
-                  className="max-w-full"
-                />
-              </picture>
+              {renderFile(file)}
             </div>
           ))}
         </div>
@@ -128,7 +132,6 @@ function MessageDiv({
         message={alertMessage}
       />
     </>
-
   );
 }
 
