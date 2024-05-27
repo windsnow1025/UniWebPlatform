@@ -4,7 +4,9 @@ from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
 from app.logic.chat.handler.response_handler import StreamResponseHandler, NonStreamResponseHandler
-from app.logic.chat.processor.factory.model_processor_factory.gpt_image_processor import get_image_contents_from_files
+from app.logic.chat.processor.factory.model_processor_factory.file_processor.document_processor import extract_text_from_file
+from app.logic.chat.processor.factory.model_processor_factory.file_processor.file_type_checker import is_image_file
+from app.logic.chat.processor.factory.model_processor_factory.gpt_image_processor import get_image_content_from_file
 from app.logic.chat.processor.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
 from app.logic.chat.processor.implementations.stream_gpt_processor import StreamGPTProcessor
 from app.model.gpt_message import *
@@ -63,15 +65,22 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
     text = message.text
     files = message.files
 
-    if len(files) == 0:
-        content = text
-    else:
-        content = []
+    content = []
 
+    if text:
         text_content = TextContent(type="text", text=text)
         content.append(text_content)
 
-        image_contents = await get_image_contents_from_files(files)
-        content.extend(image_contents)
+    for file in files:
+        if is_image_file(file):
+            image_contents = await get_image_content_from_file(file)
+            content.append(image_contents)
+        else:
+            file_text = await extract_text_from_file(file)
+            if content and isinstance(content[0], TextContent):
+                content[0].text = file_text + "\n" + content[0].text
+            else:
+                text_content = TextContent(type="text", text=file_text)
+                content.insert(0, text_content)
 
     return GptMessage(role=role, content=content)
