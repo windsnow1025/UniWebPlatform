@@ -1,9 +1,6 @@
 import base64
-from io import BytesIO
 
-import httpx
-from fastapi import HTTPException
-
+from app.logic.chat.processor.factory.model_processor_factory.image_processor import fetch_img_data
 from app.model.gpt_message import ImageURL, ImageContent
 
 
@@ -22,13 +19,4 @@ async def encode_image_from_url(img_url: str) -> str:
     return base64.b64encode(img_data.getvalue()).decode('utf-8')
 
 
-async def fetch_img_data(img_url: str) -> BytesIO:
-    async with httpx.AsyncClient() as client:
-        response = await client.get(img_url)
 
-        if response.status_code != 200:
-            status_code = response.status_code
-            text = response.text
-            raise HTTPException(status_code=status_code, detail=text)
-
-        return BytesIO(response.content)

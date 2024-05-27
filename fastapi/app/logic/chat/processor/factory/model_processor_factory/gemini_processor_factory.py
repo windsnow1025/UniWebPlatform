@@ -1,13 +1,10 @@
 import os
-from io import BytesIO
 from typing import Callable, Generator
 
-import PIL.Image
 import google.generativeai as genai
-import httpx
-from fastapi import HTTPException
 from fastapi.responses import StreamingResponse
 
+from app.logic.chat.processor.factory.model_processor_factory.gemini_image_processor import get_image_parts_from_files
 from app.logic.chat.processor.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
 from app.logic.chat.processor.implementations.stream_gemini_processor import StreamGeminiProcessor
 from app.model.message import Message
@@ -15,7 +12,6 @@ from app.model.gemini_message import GeminiMessage
 
 
 async def create_gemini_processor(
-        host: str,
         messages: list[Message],
         model: str,
         temperature: float,
@@ -54,7 +50,7 @@ async def create_gemini_processor(
         safety_settings=safety_settings
     )
 
-    gemini_messages = await convert_messages_to_gemini(messages, host)
+    gemini_messages = await convert_messages_to_gemini(messages)
 
     if stream:
         return StreamGeminiProcessor(
@@ -72,34 +68,26 @@ async def create_gemini_processor(
         )
 
 
-async def convert_messages_to_gemini(messages: list[Message], host: str) -> list[GeminiMessage]:
-    return [await convert_message_to_gemini(message, host) for message in messages]
+async def convert_messages_to_gemini(messages: list[Message]) -> list[GeminiMessage]:
+    return [await convert_message_to_gemini(message) for message in messages]
 
 
-async def convert_message_to_gemini(message: Message, host: str) -> GeminiMessage:
-    role = ""
-    if message.role == "user" or message.role == "system":
-        role = "user"
-    elif message.role == "assistant":
-        role = "model"
+async def convert_message_to_gemini(message: Message) -> GeminiMessage:
+    role = message.role
+    text = message.text
+    files = message.files
 
-    parts = [message.text]
+    gemini_role = ""
+    if role == "user" or role == "system":
+        gemini_role = "user"
+    elif role == "assistant":
+        gemini_role = "model"
 
-    for image_url in message.files:
-        image_data = await get_img_data(image_url, host)
-        image = PIL.Image.open(image_data)
-        parts.append(image)
+    parts = []
 
-    return GeminiMessage(role=role, parts=parts)
+    parts.append(text)
 
+    image_parts = await get_image_parts_from_files(files)
+    parts.extend(image_parts)
 
-async def get_img_data(img_url: str, host) -> BytesIO:
-    async with httpx.AsyncClient() as client:
-        response = await client.get(img_url)
-
-        if response.status_code != 200:
-            status_code = response.status_code
-            text = response.text
-            raise HTTPException(status_code=status_code, detail=text)
-
-        return BytesIO(response.content)
+    return GeminiMessage(role=gemini_role, parts=parts)
