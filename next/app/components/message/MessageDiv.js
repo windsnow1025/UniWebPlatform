@@ -16,7 +16,7 @@ function MessageDiv({
                       content,
                       setContent,
                       files = null,
-                      onFileUpload = null,
+                      onFileUpload = () => {},
                       useRoleSelect = false,
                       onMessageDelete = null,
                       shouldSanitize = true,
@@ -31,12 +31,13 @@ function MessageDiv({
 
   const handleFileUpload = async (event) => {
     event.preventDefault();
-    const file = fileInputRef.current.files[0];
-    if (file) {
+    const files = fileInputRef.current.files;
+    if (files.length > 0) {
       setIsUploading(true);
       try {
-        const fileUrl = await fileService.upload(file);
-        onFileUpload(fileUrl);
+        const uploadPromises = Array.from(files).map(file => fileService.upload(file));
+        const fileUrls = await Promise.all(uploadPromises);
+        onFileUpload(fileUrls);
       } catch (error) {
         setAlertOpen(true);
         setAlertMessage(error.message);
@@ -95,6 +96,7 @@ function MessageDiv({
                   ref={fileInputRef}
                   onChange={handleFileUpload}
                   style={{display: 'none'}}
+                  multiple
                 />
                 <Tooltip title="Upload">
                   <IconButton aria-label="upload" onClick={triggerFileInput}>
