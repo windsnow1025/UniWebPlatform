@@ -25,11 +25,11 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
     setMessages(newMessages);
   };
 
-  const handleFileUpload = (index, fileUrl) => {
+  const handleFileUpload = (index, fileUrls) => {
     const newMessages = [...messages];
     const currentMessage = newMessages[index];
 
-    currentMessage.files = (currentMessage.files || []).concat(fileUrl);
+    currentMessage.files = (currentMessage.files || []).concat(fileUrls);
     setMessages(newMessages);
   };
 
