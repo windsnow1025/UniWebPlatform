@@ -29,7 +29,7 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
     const newMessages = [...messages];
     const currentMessage = newMessages[index];
 
-    currentMessage.files = (currentMessage.files || []).concat(fileUrls);
+    currentMessage.files = fileUrls;
     setMessages(newMessages);
   };
 

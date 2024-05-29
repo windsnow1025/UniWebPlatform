@@ -15,7 +15,7 @@ function MessageDiv({
                       setRole,
                       content,
                       setContent,
-                      files = null,
+                      files = [],
                       setFiles = null,
                       useRoleSelect = false,
                       onMessageDelete = null,
@@ -31,13 +31,14 @@ function MessageDiv({
 
   const handleFileUpload = async (event) => {
     event.preventDefault();
-    const files = fileInputRef.current.files;
-    if (files.length > 0) {
+    const fileList = fileInputRef.current.files;
+    if (fileList.length > 0) {
       setIsUploading(true);
       try {
-        const uploadPromises = Array.from(files).map(file => fileService.upload(file));
-        const fileUrls = await Promise.all(uploadPromises);
-        setFiles(fileUrls);
+        const uploadPromises = Array.from(fileList).map(file => fileService.upload(file));
+        const uploadedFileUrls = await Promise.all(uploadPromises);
+        const newFiles = files.concat(uploadedFileUrls);
+        setFiles(newFiles);
       } catch (error) {
         setAlertOpen(true);
         setAlertMessage(error.message);
@@ -55,14 +56,32 @@ function MessageDiv({
     navigator.clipboard.writeText(content);
   };
 
+  const handleFileDelete = (fileUrl) => {
+    const newFiles = files.filter(file => file !== fileUrl);
+    setFiles(newFiles);
+  };
+
   const renderFile = (fileUrl) => {
-    const mimeType = mime.getType(fileUrl);
-    if (mimeType && mimeType.startsWith('image/')) {
-      return <img src={fileUrl} alt="file" className="max-w-full" />;
-    } else {
-      const fileName = fileUrl.split('/').pop();
-      return <span>{fileName}</span>;
+    console.log('fileUrl:', fileUrl); // Debugging log
+    if (typeof fileUrl !== 'string') {
+      console.error('fileUrl is not a string:', fileUrl);
+      return null;
     }
+
+    const mimeType = mime.getType(fileUrl);
+    const fileName = fileUrl.split('/').pop();
+    return (
+      <div className="flex items-center" key={fileUrl}>
+        {mimeType && mimeType.startsWith('image/') ? (
+          <img src={fileUrl} alt="file" className="max-w-full" />
+        ) : (
+          <span>{fileName}</span>
+        )}
+        <IconButton aria-label="delete-file" onClick={() => handleFileDelete(fileUrl)}>
+          <RemoveCircleOutlineIcon fontSize="small" />
+        </IconButton>
+      </div>
+    );
   };
 
   return (
