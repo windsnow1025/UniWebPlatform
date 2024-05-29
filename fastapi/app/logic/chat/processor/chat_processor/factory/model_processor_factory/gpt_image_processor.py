@@ -1,6 +1,6 @@
 import base64
 
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.image_processor import fetch_img_data
+from app.logic.chat.processor.file_processor.image_processor import fetch_img_data
 from app.model.gpt_message import ImageURL, ImageContent
 
 

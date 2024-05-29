@@ -6,7 +6,7 @@ import fitz
 import httpx
 from fastapi import HTTPException
 
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.file_type_checker import get_file_type
+from app.logic.chat.processor.file_processor.file_type_checker import get_file_type
 
 
 async def extract_text_from_file(file_url: str) -> str:

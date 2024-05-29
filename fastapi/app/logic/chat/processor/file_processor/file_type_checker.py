@@ -1,6 +1,6 @@
 import mimetypes
 
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.code_file_extensions import \
+from app.logic.chat.processor.file_processor.code_file_extensions import \
     code_file_extensions
 
 
