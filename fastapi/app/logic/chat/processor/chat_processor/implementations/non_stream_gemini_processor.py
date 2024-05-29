@@ -1,10 +1,9 @@
 import logging
-import traceback
 
 import httpx
 from fastapi import HTTPException
 
-from app.logic.chat.processor.interfaces.gemini_processor import GeminiProcessor
+from app.logic.chat.processor.chat_processor.interfaces.gemini_processor import GeminiProcessor
 
 
 class NonStreamGeminiProcessor(GeminiProcessor):

@@ -4,12 +4,12 @@ from typing import Callable, Generator
 import google.generativeai as genai
 from fastapi.responses import StreamingResponse
 
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.document_processor import \
+from app.logic.chat.processor.file_processor.document_processor import \
     extract_text_from_file
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.file_type_checker import get_file_type
-from app.logic.chat.processor.factory.model_processor_factory.gemini_image_processor import get_image_part_from_file
-from app.logic.chat.processor.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
-from app.logic.chat.processor.implementations.stream_gemini_processor import StreamGeminiProcessor
+from app.logic.chat.processor.file_processor.file_type_checker import get_file_type
+from app.logic.chat.processor.chat_processor.factory.model_processor_factory.gemini_image_processor import get_image_part_from_file
+from app.logic.chat.processor.chat_processor.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
+from app.logic.chat.processor.chat_processor.implementations.stream_gemini_processor import StreamGeminiProcessor
 from app.model.gemini_message import GeminiMessage
 from app.model.message import Message
 
@@ -97,11 +97,5 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
         if get_file_type(file) == "image":
             image_contents = await get_image_part_from_file(file)
             parts.append(image_contents)
-        else:
-            file_text = await extract_text_from_file(file)
-            if parts and isinstance(parts[0], str):
-                parts[0] = file_text + "\n" + parts[0]
-            else:
-                parts.insert(0, file_text)
 
     return GeminiMessage(role=gemini_role, parts=parts)
