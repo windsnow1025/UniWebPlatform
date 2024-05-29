@@ -1,3 +1,5 @@
+import logging
+
 import httpx
 import fitz
 import docx
@@ -40,10 +42,14 @@ def extract_text_from_pdf(file_content: bytes) -> str:
 
 def extract_text_from_word(file_content: bytes) -> str:
     text = ""
-    doc = docx.Document(BytesIO(file_content))
-    for para in doc.paragraphs:
-        text += para.text + "\n"
-    return text
+    try:
+        doc = docx.Document(BytesIO(file_content))
+        for para in doc.paragraphs:
+            text += para.text + "\n"
+        return text
+    except Exception as e:
+        logging.error(e)
+        return "Error: unsupported word type"
 
 
 def extract_text_from_code(file_content: bytes) -> str:
