@@ -60,7 +60,7 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
             content={message.text}
             setContent={(content) => handleContentChange(index, content)}
             files={message.files}
-            onFileUpload={(fileUrl) => {handleFileUpload(index, fileUrl)}}
+            setFiles={(fileUrl) => {handleFileUpload(index, fileUrl)}}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
             shouldSanitize={shouldSanitize}

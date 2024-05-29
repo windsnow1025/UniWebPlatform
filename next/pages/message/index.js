@@ -112,7 +112,7 @@ function MessageTransmitter() {
           setRole={handleNewMessageRoleChange}
           content={newMessage.content}
           setContent={handleNewMessageContentChange}
-          onFileUpload={handleFileUpload}
+          setFiles={handleFileUpload}
         />
         <div className="text-center">
           <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>

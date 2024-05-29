@@ -16,7 +16,7 @@ function MessageDiv({
                       content,
                       setContent,
                       files = null,
-                      onFileUpload = () => {},
+                      setFiles = null,
                       useRoleSelect = false,
                       onMessageDelete = null,
                       shouldSanitize = true,
@@ -37,7 +37,7 @@ function MessageDiv({
       try {
         const uploadPromises = Array.from(files).map(file => fileService.upload(file));
         const fileUrls = await Promise.all(uploadPromises);
-        onFileUpload(fileUrls);
+        setFiles(fileUrls);
       } catch (error) {
         setAlertOpen(true);
         setAlertMessage(error.message);
@@ -89,7 +89,7 @@ function MessageDiv({
             />
           </Paper>
           <div className="flex-column inflex-end">
-            {onFileUpload &&
+            {setFiles &&
               <>
                 <input
                   type="file"
