@@ -1,13 +1,12 @@
 import logging
-
-import httpx
-import fitz
-import docx
-from fastapi import HTTPException
 from io import BytesIO
 
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.code_file_extensions import \
-    code_file_extensions
+import docx
+import fitz
+import httpx
+from fastapi import HTTPException
+
+from app.logic.chat.processor.factory.model_processor_factory.file_processor.file_type_checker import get_file_type
 
 
 async def extract_text_from_file(file_url: str) -> str:
@@ -20,16 +19,19 @@ async def extract_text_from_file(file_url: str) -> str:
             raise HTTPException(status_code=status_code, detail=text)
 
         file_content = response.content
-        file_extension = file_url.split('.')[-1].lower()
 
-        if file_extension in ['pdf']:
+        if get_file_type(file_url) == "pdf":
             return extract_text_from_pdf(file_content)
-        elif file_extension in ['doc', 'docx']:
+        elif get_file_type(file_url) == "word":
             return extract_text_from_word(file_content)
-        elif file_extension in code_file_extensions:
+        elif get_file_type(file_url) == "code":
             return extract_text_from_code(file_content)
         else:
-            return file_content.decode('utf-8')
+            try:
+                return file_content.decode('utf-8')
+            except UnicodeDecodeError as e:
+                logging.error(e)
+                raise HTTPException(status_code=415)
 
 
 def extract_text_from_pdf(file_content: bytes) -> str:
@@ -49,7 +51,7 @@ def extract_text_from_word(file_content: bytes) -> str:
         return text
     except Exception as e:
         logging.error(e)
-        return "Error: unsupported word type"
+        raise HTTPException(status_code=415)
 
 
 def extract_text_from_code(file_content: bytes) -> str:

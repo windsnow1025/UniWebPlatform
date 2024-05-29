@@ -8,7 +8,6 @@ from app.model.message import Message
 
 
 async def create_chat_processor(
-        host: str,
         messages: list[Message],
         model: str,
         api_type: str,
