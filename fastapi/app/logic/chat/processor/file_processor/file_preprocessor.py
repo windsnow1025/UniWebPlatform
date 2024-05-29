@@ -5,9 +5,13 @@ from app.model.message import Message
 
 
 async def preprocess_message(message: Message) -> None:
+    indices_to_delete = []
     for i, file in enumerate(message.files[::-1]):
         if get_file_type(file) == "image":
             continue
         file_text = await extract_text_from_file(file)
         message.text = f"{file}: \n{file_text}\n{message.text}"
-        del message.files[len(message.files) - 1 - i]
+        indices_to_delete.append(len(message.files) - 1 - i)
+
+    for index in sorted(indices_to_delete, reverse=True):
+        del message.files[index]
