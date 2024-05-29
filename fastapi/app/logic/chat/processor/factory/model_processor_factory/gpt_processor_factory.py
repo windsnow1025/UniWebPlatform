@@ -4,8 +4,9 @@ from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
 from app.logic.chat.handler.response_handler import StreamResponseHandler, NonStreamResponseHandler
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.document_processor import extract_text_from_file
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.file_type_checker import is_image_file
+from app.logic.chat.processor.factory.model_processor_factory.file_processor.document_processor import \
+    extract_text_from_file
+from app.logic.chat.processor.factory.model_processor_factory.file_processor.file_type_checker import get_file_type
 from app.logic.chat.processor.factory.model_processor_factory.gpt_image_processor import get_image_content_from_file
 from app.logic.chat.processor.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
 from app.logic.chat.processor.implementations.stream_gpt_processor import StreamGPTProcessor
@@ -72,7 +73,7 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
         content.append(text_content)
 
     for file in files:
-        if is_image_file(file):
+        if get_file_type(file) == "image":
             image_contents = await get_image_content_from_file(file)
             content.append(image_contents)
         else:
