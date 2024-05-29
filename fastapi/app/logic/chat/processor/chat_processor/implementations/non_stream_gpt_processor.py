@@ -1,11 +1,10 @@
 import logging
-import traceback
 
 import httpx
 import openai
 from fastapi import HTTPException
 
-from app.logic.chat.processor.interfaces.gpt_processor import GPTProcessor
+from app.logic.chat.processor.chat_processor.interfaces.gpt_processor import GPTProcessor
 
 
 class NonStreamGPTProcessor(GPTProcessor):

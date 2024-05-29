@@ -1,6 +1,6 @@
 import PIL.Image
 
-from app.logic.chat.processor.factory.model_processor_factory.file_processor.image_processor import fetch_img_data
+from app.logic.chat.processor.file_processor.image_processor import fetch_img_data
 
 
 async def get_image_part_from_file(file: str):
