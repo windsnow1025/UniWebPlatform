@@ -92,7 +92,7 @@ function MessageDiv({
             setRole={setRole}
           />
         }
-        <div className="flex-between">
+        <div className="flex">
           <Paper elevation={4} className="inflex-fill my-2">
             <ContentDiv
               content={content}
