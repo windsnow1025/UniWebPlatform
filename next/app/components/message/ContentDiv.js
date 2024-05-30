@@ -44,7 +44,7 @@ function ContentDiv({
   return (
     <div>
       <div
-        className="markdown-body p-4 min-h-24 rounded"
+        className="markdown-body p-4 min-h-36 rounded"
         contentEditable={contentEditable}
         ref={contentRef}
         onFocus={() => setEditing(true)}
