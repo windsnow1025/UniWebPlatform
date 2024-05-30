@@ -4,7 +4,7 @@ import MessageDiv from "../message/MessageDiv";
 import React from "react";
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatMessages({ messages, setMessages, sanitize }) {
+function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) {
   const chatLogic = new ChatLogic();
 
   const handleRoleChange = (index, role) => {
@@ -25,11 +25,11 @@ function ChatMessages({ messages, setMessages, sanitize }) {
     setMessages(newMessages);
   };
 
-  const handleFileUpload = (index, fileUrl) => {
+  const handleFileUpload = (index, fileUrls) => {
     const newMessages = [...messages];
     const currentMessage = newMessages[index];
 
-    currentMessage.files = (currentMessage.files || []).concat(fileUrl);
+    currentMessage.files = fileUrls;
     setMessages(newMessages);
   };
 
@@ -55,19 +55,18 @@ function ChatMessages({ messages, setMessages, sanitize }) {
       {messages.map((message, index) => (
         <div key={index}>
           <MessageDiv
-            roleInitial={message.role}
-            contentInitial={message.text}
-            filesInitial={message.files}
-            onRoleChange={(role) => handleRoleChange(index, role)}
-            onContentChange={(content) => handleContentChange(index, content)}
-            onFileUpload={(fileUrl) => {
-              handleFileUpload(index, fileUrl)
-            }}
+            role={message.role}
+            setRole={(role) => handleRoleChange(index, role)}
+            content={message.text}
+            setContent={(content) => handleContentChange(index, content)}
+            files={message.files}
+            setFiles={(fileUrl) => {handleFileUpload(index, fileUrl)}}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
-            shouldSanitize={sanitize}
+            shouldSanitize={shouldSanitize}
+            editableState={editableState}
           />
-          <div className="flex-between">
+          <div className="flex">
             <div className="inflex-fill"/>
             <div className="inflex-end">
               <Tooltip title="Add">
