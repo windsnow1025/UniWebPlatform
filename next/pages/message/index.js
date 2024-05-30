@@ -73,8 +73,8 @@ function MessageTransmitter() {
     setNewMessage(prev => ({...prev, content}));
   };
 
-  const handleFileUpload = (fileUrl) => {
-    const updatedContent = `${newMessage.content}${fileUrl}`;
+  const handleFileUpload = (fileUrls) => {
+    const updatedContent = `${newMessage.content}\n${fileUrls.join('\n')}`;
     setNewMessage(prev => ({...prev, content: updatedContent}));
   }
 
@@ -92,30 +92,27 @@ function MessageTransmitter() {
           {messages.map(message => (
             <MessageDiv
               key={message.id}
-              roleInitial={message.username}
-              contentInitial={message.content}
-              onRoleChange={() => {
-              }}
-              onContentChange={() => {
-              }}
+              role={message.username}
+              setRole={() => {}}
+              content={message.content}
+              setContent={() => {}}
             />
           ))}
         </Paper>
         <div className="flex-center">
           <div className="m-1"><Button variant="contained" color="primary" onClick={fetchMessages}>Receive</Button>
           </div>
-          <div className="m-1"><Button variant="contained" color="secondary"
-                                       onClick={handleClearMessages}>Clear</Button></div>
+          <div className="m-1"><Button variant="contained" color="secondary" onClick={handleClearMessages}>Clear</Button></div>
         </div>
       </div>
       <div className="m-4">
         <Typography variant="h4" className="text-center">Send Messages</Typography>
         <MessageDiv
-          roleInitial={newMessage.username}
-          contentInitial={newMessage.content}
-          onRoleChange={handleNewMessageRoleChange}
-          onContentChange={handleNewMessageContentChange}
-          onFileUpload={handleFileUpload}
+          role={newMessage.username}
+          setRole={handleNewMessageRoleChange}
+          content={newMessage.content}
+          setContent={handleNewMessageContentChange}
+          setFiles={handleFileUpload}
         />
         <div className="text-center">
           <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>

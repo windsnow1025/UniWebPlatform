@@ -124,8 +124,8 @@ function Index() {
       </div>
       <Paper elevation={1} className="m-2 p-4 rounded-lg">
         <ContentDiv
-          contentInitial={prompt}
-          onContentChange={setPrompt}
+          content={prompt}
+          setContent={setPrompt}
         />
       </Paper>
       <div className="flex-center">

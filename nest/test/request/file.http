@@ -1,0 +1,11 @@
+### Upload File
+
+POST {{baseUrl}}/files/file
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.txt"
+Content-Type: text/plain
+
+This is the content of the file.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

@@ -1,9 +1,12 @@
 import UserService from "../service/UserService";
+import AuthService from "@/src/service/AuthService";
 
 export class UserLogic {
+  private authService: AuthService;
   private userService: UserService;
 
   constructor() {
+    this.authService = new AuthService();
     this.userService = new UserService();
   }
 
@@ -12,16 +15,35 @@ export class UserLogic {
       return null;
     }
     try {
-      return await this.userService.fetchUsername();
+      const user = await this.userService.fetchUser();
+      return user.username;
     } catch (err) {
       localStorage.removeItem('token');
       return null;
     }
   }
 
+  async fetchCredit() {
+    try {
+      const user = await this.userService.fetchUser();
+      return user.credit;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async fetchPin() {
+    try {
+      const user = await this.userService.fetchUser();
+      return user.pin;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async signIn(username: string, password: string) {
     try {
-      const token = await this.userService.signIn(username, password);
+      const token = await this.authService.fetchToken(username, password);
       localStorage.setItem('token', token);
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
@@ -35,7 +57,7 @@ export class UserLogic {
 
   async signUp(username: string, password: string) {
     try {
-      await this.userService.signUp(username, password);
+      await this.userService.createUser(username, password);
     } catch (err: any) {
       if (err.response && err.response.status === 409) {
         throw new Error("Username already exists.");

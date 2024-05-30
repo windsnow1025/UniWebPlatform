@@ -4,32 +4,32 @@ import {Bookmark} from '../model/Bookmark';
 export default class BookmarkService {
   private axiosInstance: AxiosInstance;
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NODE_API_BASE_URL });
+    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL });
   }
 
   async fetchBookmarks() {
-    const res = await this.axiosInstance.get('/bookmark/');
+    const res = await this.axiosInstance.get('/bookmarks');
     return res.data;
   }
 
   async addBookmark(newBookmark: Bookmark) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.post('/bookmark/', newBookmark, {
-      headers: { Authorization: token }
+    await this.axiosInstance.post('/bookmarks/bookmark', newBookmark, {
+      headers: {Authorization: `Bearer ${token}`}
     });
   }
 
-  async updateBookmark(id: number, updatedFields: Bookmark) {
+  async updateBookmark(bookmark: Bookmark) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/bookmark/${id}`, updatedFields, {
-      headers: { Authorization: token }
+    await this.axiosInstance.put('/bookmarks/bookmark', bookmark, {
+      headers: {Authorization: `Bearer ${token}`}
     });
   }
 
   async deleteBookmark(id: number) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.delete(`/bookmark/${id}`, {
-      headers: { Authorization: token }
+    await this.axiosInstance.delete(`/bookmarks/bookmark/${id}`, {
+      headers: {Authorization: `Bearer ${token}`}
     });
   }
 }

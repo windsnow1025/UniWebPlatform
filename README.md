@@ -4,15 +4,14 @@
 
 A full stack web application for my personal website containing:
 1. User system
-2. markdown blogs
+2. Markdown blogs
 3. Editable bookmark
 4. Message transmitter
 5. Password generator
 6. Image generator
-7. AI chat bot
+7. AI chatbot
 
 ## Tech Stack
-
 
 ```yaml
 Front End
@@ -27,7 +26,7 @@ Front End
 ```yaml
 Back End
   - Node.js
-    - Express.js
+    - Nest.js
   - Python
     - FastAPI
 ```

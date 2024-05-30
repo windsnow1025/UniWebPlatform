@@ -1,0 +1,54 @@
+### Get Conversations
+
+GET {{baseUrl}}/conversations
+Authorization: Bearer {{token}}
+
+### Create Conversation
+
+POST {{baseUrl}}/conversations/conversation
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "messages": [
+    {
+      "role": "system",
+      "text": "You are a helpful assistant.",
+      "files": []
+    },
+    {
+      "role": "user",
+      "text": "Hello",
+      "files": []
+    },
+    {
+      "role": "assistant",
+      "text": "Hello! How can I assist you today?",
+      "files": []
+    }
+  ]
+}
+
+### Update Conversation
+
+PUT {{baseUrl}}/conversations/conversation
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Test",
+  "messages": [
+    {
+      "role": "system",
+      "text": "You are a helpful assistant.",
+      "files": []
+    }
+  ]
+}
+
+### Delete Conversation
+
+DELETE {{baseUrl}}/conversations/conversation/1
+Authorization: Bearer {{token}}
