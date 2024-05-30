@@ -3,11 +3,11 @@ import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import {Button, CssBaseline, IconButton, Tooltip} from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
-import UserService from "../../src/service/UserService";
 import {generatePassword} from "../../src/logic/PasswordLogic";
 import Snackbar from "@mui/material/Snackbar";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
+import {UserLogic} from "../../src/logic/UserLogic";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -37,14 +37,14 @@ function Index() {
   const [length, setLength] = useState(16);
   const [password, setPassword] = useState();
 
-  const userService = new UserService();
+  const userLogic = new UserLogic();
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
   const fetchPin = async () => {
     try {
-      const pin = await userService.fetchPin();
+      const pin = await userLogic.fetchPin();
       setPin(pin);
     } catch (err) {
       setAlertMessage(err.message);

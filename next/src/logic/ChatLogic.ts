@@ -77,8 +77,13 @@ export class ChatLogic {
   }
 
   async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
+    const unsanitizedMessages = messages.map(message => ({
+      ...message,
+      text: this.unsanitize(message.text)
+    }));
+
     try {
-      const content = await this.chatService.generate(messages, api_type, model, temperature, stream) as string;
+      const content = await this.chatService.generate(unsanitizedMessages, api_type, model, temperature, stream) as string;
       return this.sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
@@ -89,9 +94,14 @@ export class ChatLogic {
   async *streamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
     let controller;
 
+    const unsanitizedMessages = messages.map(message => ({
+      ...message,
+      text: this.unsanitize(message.text)
+    }));
+
     try {
 
-      const response = await this.chatService.generate(messages, api_type, model, temperature, stream) as StreamResponse;
+      const response = await this.chatService.generate(unsanitizedMessages, api_type, model, temperature, stream) as StreamResponse;
       controller = response.controller;
       const reader = response.reader;
 
@@ -113,5 +123,12 @@ export class ChatLogic {
 
   sanitize(content: string) {
     return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  unsanitize(content: string) {
+    return content
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">");
   }
 }
