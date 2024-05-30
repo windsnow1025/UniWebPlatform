@@ -65,15 +65,19 @@ function MessageDiv({
     const mimeType = mime.getType(fileUrl);
     const fileName = fileUrl.split('/').pop();
     return (
-      <div key={fileUrl}>
-        {mimeType && mimeType.startsWith('image/') ? (
-          <img src={fileUrl} alt={fileName} className="max-w-full"/>
-        ) : (
-          <span>{fileName}</span>
-        )}
-        <IconButton aria-label="delete-file" onClick={() => handleFileDelete(fileUrl)}>
-          <RemoveCircleOutlineIcon fontSize="small" />
-        </IconButton>
+      <div className="flex" key={fileUrl}>
+        <div className="inflex-fill">
+          {mimeType && mimeType.startsWith('image/') ? (
+            <img src={fileUrl} alt={fileName} className="max-w-full"/>
+          ) : (
+            <span>{fileName}</span>
+          )}
+        </div>
+        <div className="inflex-end">
+          <IconButton aria-label="delete-file" onClick={() => handleFileDelete(fileUrl)}>
+            <RemoveCircleOutlineIcon fontSize="small" />
+          </IconButton>
+        </div>
       </div>
     );
   };
