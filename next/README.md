@@ -1,4 +1,4 @@
-# UniWebPlatform
+# UniWebPlatform - Next.js
 
 ## Run
 
@@ -6,7 +6,7 @@
 npm run dev
 ```
 
-## Configuration changes made after create-next-app
+## Configuration changes made after `create-next-app`
 
 ### tailwind.config.ts
 

@@ -29,7 +29,6 @@ async def generate(chat_request: ChatRequest, request: Request):
 
     return await handle_chat_interaction(
         username=username,
-        host=host,
         messages=chat_request.messages,
         model=chat_request.model,
         api_type=chat_request.api_type,
