@@ -39,25 +39,16 @@ function MessageDiv({
   const handleFileUpload = async (event) => {
     event.preventDefault();
     const fileList = fileInputRef.current.files;
-    if (fileList.length > 0) {
-      setIsUploading(true);
-      try {
-        const uploadPromises = Array.from(fileList).map(file => fileService.upload(file));
-        const uploadedFileUrls = await Promise.all(uploadPromises);
-        const newFiles = files.concat(uploadedFileUrls);
-        setFiles(newFiles);
-      } catch (error) {
-        setAlertOpen(true);
-        setAlertMessage(error.message);
-      } finally {
-        setIsUploading(false);
-      }
-    }
+    await handleUpload(fileList);
   };
 
   const handleFolderUpload = async (event) => {
     event.preventDefault();
     const fileList = folderInputRef.current.files;
+    await handleUpload(fileList);
+  };
+
+  const handleUpload = async (fileList) => {
     if (fileList.length > 0) {
       setIsUploading(true);
       try {
@@ -72,7 +63,7 @@ function MessageDiv({
         setIsUploading(false);
       }
     }
-  };
+  }
 
   const triggerFileInput = () => {
     fileInputRef.current.click();
