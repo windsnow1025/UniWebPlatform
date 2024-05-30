@@ -66,7 +66,7 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
             shouldSanitize={shouldSanitize}
             editableState={editableState}
           />
-          <div className="flex-between">
+          <div className="flex">
             <div className="inflex-fill"/>
             <div className="inflex-end">
               <Tooltip title="Add">
