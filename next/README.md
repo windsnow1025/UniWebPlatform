@@ -12,6 +12,8 @@ npm run dev
 
 [https://nextjs.org/docs/app/building-your-application/testing/jest](https://nextjs.org/docs/app/building-your-application/testing/jest)
 
+#### jest.config.js
+
 ```ts
 import type { Config } from 'jest'
 import nextJest from 'next/jest.js'
@@ -31,6 +33,17 @@ const config: Config = {
  
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
 export default createJestConfig(config)
+```
+
+#### package.json
+
+```json
+{
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  }
+}
 ```
 
 ### tailwind.config.ts
