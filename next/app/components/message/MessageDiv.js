@@ -62,18 +62,12 @@ function MessageDiv({
   };
 
   const renderFile = (fileUrl) => {
-    console.log('fileUrl:', fileUrl); // Debugging log
-    if (typeof fileUrl !== 'string') {
-      console.error('fileUrl is not a string:', fileUrl);
-      return null;
-    }
-
     const mimeType = mime.getType(fileUrl);
     const fileName = fileUrl.split('/').pop();
     return (
-      <div className="flex items-center" key={fileUrl}>
+      <div key={fileUrl}>
         {mimeType && mimeType.startsWith('image/') ? (
-          <img src={fileUrl} alt="file" className="max-w-full" />
+          <img src={fileUrl} alt={fileName} className="max-w-full"/>
         ) : (
           <span>{fileName}</span>
         )}
