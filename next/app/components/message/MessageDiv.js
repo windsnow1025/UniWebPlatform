@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
@@ -28,6 +29,7 @@ function MessageDiv({
                       editableState = "conditional",
                     }) {
   const fileInputRef = useRef(null);
+  const folderInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
   const fileService = new FileService();
 
@@ -53,8 +55,31 @@ function MessageDiv({
     }
   };
 
+  const handleFolderUpload = async (event) => {
+    event.preventDefault();
+    const fileList = folderInputRef.current.files;
+    if (fileList.length > 0) {
+      setIsUploading(true);
+      try {
+        const uploadPromises = Array.from(fileList).map(file => fileService.upload(file));
+        const uploadedFileUrls = await Promise.all(uploadPromises);
+        const newFiles = files.concat(uploadedFileUrls);
+        setFiles(newFiles);
+      } catch (error) {
+        setAlertOpen(true);
+        setAlertMessage(error.message);
+      } finally {
+        setIsUploading(false);
+      }
+    }
+  };
+
   const triggerFileInput = () => {
     fileInputRef.current.click();
+  };
+
+  const triggerFolderInput = () => {
+    folderInputRef.current.click();
   };
 
   const handleContentCopy = () => {
@@ -99,9 +124,21 @@ function MessageDiv({
                   style={{display: 'none'}}
                   multiple
                 />
-                <Tooltip title="Upload">
-                  <IconButton aria-label="upload" onClick={triggerFileInput}>
+                <input
+                  type="file"
+                  ref={folderInputRef}
+                  onChange={handleFolderUpload}
+                  style={{display: 'none'}}
+                  webkitdirectory="true"
+                />
+                <Tooltip title="Upload File">
+                  <IconButton aria-label="upload-file" onClick={triggerFileInput}>
                     {isUploading ? <CircularProgress size={24}/> : <AttachFileIcon/>}
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Upload Folder">
+                  <IconButton aria-label="upload-folder" onClick={triggerFolderInput}>
+                    {isUploading ? <CircularProgress size={24}/> : <FolderOpenIcon/>}
                   </IconButton>
                 </Tooltip>
               </>
