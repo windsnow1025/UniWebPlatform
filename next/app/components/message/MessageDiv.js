@@ -1,14 +1,20 @@
 import React, {useRef, useState} from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {CircularProgress, IconButton, Paper, Tooltip} from "@mui/material";
+import {
+  CircularProgress,
+  Grid,
+  IconButton,
+  Paper,
+  Tooltip,
+} from "@mui/material";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileService from "../../../src/service/FileService";
 import Snackbar from "@mui/material/Snackbar";
-import mime from 'mime';
+import FileDiv from "./FileDiv";
 
 function MessageDiv({
                       role,
@@ -59,23 +65,6 @@ function MessageDiv({
   const handleFileDelete = (fileUrl) => {
     const newFiles = files.filter(file => file !== fileUrl);
     setFiles(newFiles);
-  };
-
-  const renderFile = (fileUrl) => {
-    const mimeType = mime.getType(fileUrl);
-    const fileName = fileUrl.split('/').pop();
-    return (
-      <div key={fileUrl}>
-        {mimeType && mimeType.startsWith('image/') ? (
-          <img src={fileUrl} alt={fileName} className="max-w-full"/>
-        ) : (
-          <span>{fileName}</span>
-        )}
-        <IconButton aria-label="delete-file" onClick={() => handleFileDelete(fileUrl)}>
-          <RemoveCircleOutlineIcon fontSize="small" />
-        </IconButton>
-      </div>
-    );
   };
 
   return (
@@ -132,11 +121,9 @@ function MessageDiv({
             }
           </div>
         </div>
-        <div>
-          {files && files.map((file, index) => (
-            <div key={index}>
-              {renderFile(file)}
-            </div>
+        <div className="flex-start">
+          {files && files.map((file) => (
+            <FileDiv key={file} fileUrl={file} handleFileDelete={handleFileDelete} />
           ))}
         </div>
       </Paper>
