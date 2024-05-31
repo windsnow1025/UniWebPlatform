@@ -61,3 +61,15 @@ const nextConfig = {
   output: 'standalone',
 };
 ```
+
+## Update public resources
+
+Download
+
+`node_modules/highlight.js/styles/github.css`
+`node_modules/highlight.js/styles/github-dark.css`
+
+to
+
+`public/css/highlight/github.css`
+`public/css/highlight/github-dark.css`
