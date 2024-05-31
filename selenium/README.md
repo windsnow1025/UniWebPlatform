@@ -2,6 +2,15 @@
 
 ## Run
 
+### Pip
+
+```bash
+pip install pytest-selenium
+pip install webdriver-manager
+```
+
+### JetBrains
+
 JetBrains Aqua - Python tests - pytest
 
 Name: Selenium Tests
