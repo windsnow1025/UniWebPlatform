@@ -1,6 +1,6 @@
 import pytest
 from selenium import webdriver
-from src.page.user import User
+from test.src.page.user import User
 
 
 @pytest.fixture(scope="module")
