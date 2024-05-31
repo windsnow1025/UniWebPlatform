@@ -5,7 +5,8 @@
 ### Pip
 
 ```bash
-pip install pytest-html
+pip install pytest-selenium
+pip install webdriver-manager
 ```
 
 ### JetBrains
