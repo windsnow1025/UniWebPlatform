@@ -73,3 +73,16 @@ to
 
 `public/css/highlight/github.css`
 `public/css/highlight/github-dark.css`
+.
+
+Download
+`node_modules/github-markdown-css/github-markdown.css`
+`node_modules/github-markdown-css/github-markdown-light.css`
+`node_modules/github-markdown-css/github-markdown-dark.css`
+
+to
+
+`public/css/markdown/github-markdown.css`
+`public/css/markdown/github-markdown-light.css`
+`public/css/markdown/github-markdown-dark.css`
+.
