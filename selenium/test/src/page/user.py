@@ -1,7 +1,7 @@
 from selenium.common import TimeoutException
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.scraper import Scraper
+from test.src.scraper import Scraper
 
 
 class User(Scraper):
