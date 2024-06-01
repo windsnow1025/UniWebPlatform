@@ -59,7 +59,7 @@ export class ChatLogic {
     try {
       return await this.chatService.fetchApiModels();
     } catch (err) {
-      console.error("Error in GET /models:", err);
+      throw new Error("Failed to fetch API Models");
     }
   }
 

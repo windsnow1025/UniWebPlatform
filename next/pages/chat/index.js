@@ -62,6 +62,8 @@ function Index() {
         setTemperature={setTemperature}
         stream={stream}
         setStream={setStream}
+        setAlertOpen={setAlertOpen}
+        setAlertMessage={setAlertMessage}
       />
 
       <Paper elevation={1} className="m-2 p-4 rounded-lg">

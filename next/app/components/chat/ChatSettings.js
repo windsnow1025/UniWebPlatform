@@ -2,7 +2,18 @@ import React, {useEffect, useState} from 'react';
 import { FormControl, FormControlLabel, InputLabel, MenuItem, Select, Slider, Switch } from "@mui/material";
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatSettings({ apiType, setApiType, model, setModel, temperature, setTemperature, stream, setStream }) {
+function ChatSettings({
+                        apiType,
+                        setApiType,
+                        model,
+                        setModel,
+                        temperature,
+                        setTemperature,
+                        stream,
+                        setStream,
+                        setAlertOpen,
+                        setAlertMessage
+                      }) {
   const chatLogic = new ChatLogic();
 
   const [models, setModels] = useState([]);
@@ -10,8 +21,13 @@ function ChatSettings({ apiType, setApiType, model, setModel, temperature, setTe
 
   useEffect(() => {
     const fetchApiModels = async () => {
-      const apiModels = await chatLogic.fetchApiModels();
-      setApiModels(apiModels);
+      try {
+        const apiModels = await chatLogic.fetchApiModels();
+        setApiModels(apiModels);
+      } catch (e) {
+        setAlertOpen(true);
+        setAlertMessage(e.message);
+      }
     };
 
     fetchApiModels();
