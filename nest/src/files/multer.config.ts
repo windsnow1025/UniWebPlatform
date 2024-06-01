@@ -9,7 +9,8 @@ export const multerOptions = {
       cb(null, 'uploads');
     },
     filename: (req, file, cb) => {
-      cb(null, `${Date.now()}-${file.originalname}`);
+      const filename = Buffer.from(file.originalname, 'latin1').toString('utf8');
+      cb(null, `${Date.now()}-${filename}`);
     },
   }),
 };
