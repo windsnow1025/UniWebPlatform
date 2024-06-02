@@ -20,14 +20,16 @@ function ContentDiv({
     if (editableState === "always-false") {
       setContentEditable("false");
     } else {
-      setContentEditable("plaintext-only");
+      // setContentEditable("plaintext-only");
     }
 
     if (editing || editableState === "always-true") {
       contentRef.current.innerHTML = content;
+      setContentEditable("plaintext-only");
     } else if (!editing) {
       contentRef.current.innerHTML = await parseMarkdown(content, shouldSanitize);
       parseLaTeX(contentRef.current);
+      setContentEditable("true")
     }
   }
 
