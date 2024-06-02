@@ -18,18 +18,24 @@ function ContentDiv({
     }
 
     if (editableState === "always-false") {
+      contentRef.current.innerHTML = await parseMarkdown(content, shouldSanitize);
+      parseLaTeX(contentRef.current);
       setContentEditable("false");
-    } else {
-      // setContentEditable("plaintext-only");
+      return;
     }
 
+    // Focus and unparse
     if (editing || editableState === "always-true") {
       contentRef.current.innerHTML = content;
       setContentEditable("plaintext-only");
-    } else if (!editing) {
+      return;
+    }
+
+    // Blur and parse
+    if (!editing) {
       contentRef.current.innerHTML = await parseMarkdown(content, shouldSanitize);
       parseLaTeX(contentRef.current);
-      setContentEditable("true")
+      setContentEditable("true");
     }
   }
 
