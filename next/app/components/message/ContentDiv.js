@@ -12,29 +12,36 @@ function ContentDiv({
   const [editing, setEditing] = useState(false);
   const contentRef = useRef(null);
 
+  const unparse = (content) => {
+    contentRef.current.innerHTML = content;
+  }
+
+  const parse = async (content, shouldSanitize) => {
+    contentRef.current.innerHTML = await parseMarkdown(content, shouldSanitize);
+    parseLaTeX(contentRef.current);
+  }
+
   const processMarkdown = async (content, editing, shouldSanitize, editableState) => {
     if (!contentRef.current) {
       return;
     }
 
     if (editableState === "always-false") {
-      contentRef.current.innerHTML = await parseMarkdown(content, shouldSanitize);
-      parseLaTeX(contentRef.current);
+      await parse(content, shouldSanitize);
       setContentEditable("false");
       return;
     }
 
     // Focus and unparse
     if (editing || editableState === "always-true") {
-      contentRef.current.innerHTML = content;
+      unparse(content);
       setContentEditable("plaintext-only");
       return;
     }
 
     // Blur and parse
     if (!editing) {
-      contentRef.current.innerHTML = await parseMarkdown(content, shouldSanitize);
-      parseLaTeX(contentRef.current);
+      await parse(content, shouldSanitize);
       setContentEditable("true");
     }
   }
