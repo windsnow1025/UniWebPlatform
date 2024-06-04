@@ -4,6 +4,7 @@ from io import BytesIO
 import docx
 import fitz
 import httpx
+from docx.oxml import CT_P, CT_Tbl
 from fastapi import HTTPException
 
 from app.logic.chat.processor.file_processor.file_type_checker import get_file_type
@@ -46,8 +47,31 @@ def extract_text_from_word(file_content: bytes) -> str:
     text = ""
     try:
         doc = docx.Document(BytesIO(file_content))
-        for para in doc.paragraphs:
-            text += para.text + "\n"
+
+        # Extract text from headers
+        for section in doc.sections:
+            header = section.header
+            for para in header.paragraphs:
+                text += para.text + "\n"
+
+        # Extract text from the main document body
+        for element in doc.element.body:
+            if isinstance(element, CT_P):
+                para = docx.text.paragraph.Paragraph(element, doc)
+                text += para.text + "\n"
+            elif isinstance(element, CT_Tbl):
+                table = docx.table.Table(element, doc)
+                for row in table.rows:
+                    for cell in row.cells:
+                        text += cell.text + "\t"
+                    text += "\n"
+
+        # Extract text from footers
+        for section in doc.sections:
+            footer = section.footer
+            for para in footer.paragraphs:
+                text += para.text + "\n"
+
         return text
     except Exception as e:
         logging.error(e)
