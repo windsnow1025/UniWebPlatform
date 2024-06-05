@@ -1,13 +1,31 @@
-python-dotenv
+# FastAPI and related libraries
 fastapi
 pydantic
 uvicorn
+
+# HTTP client
 httpx
+
+# Environment variables
+python-dotenv
+
+# JWT and cryptography
 python-jose[cryptography]
+
+# MySQL connector
 mysql-connector-python
+
+# SDK
 openai
-tiktoken
 google-generativeai
+
+# Tokenization for OpenAI
+tiktoken
+
+# File processing
 pillow
 PyMuPDF
 python-docx
+openpyxl
+pandas
+python-pptx
