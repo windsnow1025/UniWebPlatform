@@ -4,8 +4,10 @@ from io import BytesIO
 import docx
 import fitz
 import httpx
+import openpyxl
 from docx.oxml import CT_P, CT_Tbl
 from fastapi import HTTPException
+from pptx import Presentation
 
 from app.logic.chat.processor.file_processor.file_type_checker import get_file_type
 
@@ -21,18 +23,27 @@ async def extract_text_from_file(file_url: str) -> str:
 
         file_content = response.content
 
-        if get_file_type(file_url) == "pdf":
-            return extract_text_from_pdf(file_content)
-        elif get_file_type(file_url) == "word":
-            return extract_text_from_word(file_content)
-        elif get_file_type(file_url) == "code":
+        file_type = get_file_type(file_url)
+        if file_type == "code":
             return extract_text_from_code(file_content)
-        else:
-            try:
-                return file_content.decode('utf-8')
-            except UnicodeDecodeError as e:
-                logging.error(e)
-                raise HTTPException(status_code=415)
+        if file_type == "pdf":
+            return extract_text_from_pdf(file_content)
+        if file_type == "word":
+            return extract_text_from_word(file_content)
+        if file_type == "excel":
+            return extract_text_from_excel(file_content)
+        if file_type == "ppt":
+            return extract_text_from_ppt(file_content)
+
+        try:
+            return file_content.decode('utf-8')
+        except UnicodeDecodeError as e:
+            logging.error(e)
+            raise HTTPException(status_code=415)
+
+
+def extract_text_from_code(file_content: bytes) -> str:
+    return file_content.decode('utf-8')
 
 
 def extract_text_from_pdf(file_content: bytes) -> str:
@@ -78,5 +89,29 @@ def extract_text_from_word(file_content: bytes) -> str:
         raise HTTPException(status_code=415)
 
 
-def extract_text_from_code(file_content: bytes) -> str:
-    return file_content.decode('utf-8')
+def extract_text_from_excel(file_content: bytes) -> str:
+    text = ""
+    try:
+        workbook = openpyxl.load_workbook(BytesIO(file_content), data_only=True)
+        for sheet in workbook:
+            text += f"Sheet: {sheet.title}\n"
+            for row in sheet.iter_rows(values_only=True):
+                text += "\t".join([str(cell) if cell is not None else "" for cell in row]) + "\n"
+        return text
+    except Exception as e:
+        logging.error(e)
+        raise HTTPException(status_code=415)
+
+
+def extract_text_from_ppt(file_content: bytes) -> str:
+    text = ""
+    try:
+        presentation = Presentation(BytesIO(file_content))
+        for slide in presentation.slides:
+            for shape in slide.shapes:
+                if hasattr(shape, "text"):
+                    text += shape.text + "\n"
+        return text
+    except Exception as e:
+        logging.error(e)
+        raise HTTPException(status_code=415)
