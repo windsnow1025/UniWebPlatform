@@ -48,7 +48,13 @@ function AuthDiv() {
               <ManageAccountsIcon />
             </IconButton>
           </Link>
-          <Button variant="contained" onClick={handleSignOut}>Sign Out</Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={handleSignOut}
+          >
+            Sign Out
+          </Button>
         </div>
       ) : (
         <div className="flex-around">
