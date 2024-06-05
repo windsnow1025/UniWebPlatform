@@ -45,7 +45,7 @@ function AuthDiv() {
           <span>{username}</span>
           <Link href="/user/account">
             <IconButton aria-label="manage account">
-              <ManageAccountsIcon />
+              <ManageAccountsIcon className="text-white"/>
             </IconButton>
           </Link>
           <Button
