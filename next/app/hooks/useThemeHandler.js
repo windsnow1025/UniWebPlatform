@@ -13,6 +13,7 @@ const useThemeHandler = () => {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem("theme", systemTheme);
     applyTheme(systemTheme, prefersDarkMode);
     setMuiTheme(createMUITheme(systemTheme, prefersDarkMode));
   }, [systemTheme]);
