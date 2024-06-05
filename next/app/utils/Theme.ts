@@ -1,18 +1,15 @@
 import {createTheme} from "@mui/material/styles";
 
-const convertTheme = (systemTheme: string) => {
-  if (systemTheme === "system") {
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    return prefersDarkScheme.matches ? "dark" : "light";
-  } else if (systemTheme === "light" || systemTheme === "dark") {
+const convertTheme = (systemTheme: string, prefersDarkMode: boolean) => {
+  if (systemTheme === "light" || systemTheme === "dark") {
     return systemTheme;
   } else {
-    return "light";
+    return prefersDarkMode ? "dark" : "light";
   }
 }
 
-export function applyTheme(systemTheme: string) {
-  const theme = convertTheme(systemTheme);
+export function applyTheme(systemTheme: string, prefersDarkMode: boolean) {
+  const theme = convertTheme(systemTheme, prefersDarkMode);
   applyMainTheme(theme);
   applyMarkdownTheme(theme);
   applyHighlightTheme(theme);
@@ -90,8 +87,8 @@ function applyHighlightTheme(theme: string) {
   }
 }
 
-export function createMUITheme(systemTheme: string) {
-  const theme = convertTheme(systemTheme);
+export function createMUITheme(systemTheme: string, prefersDarkMode: boolean) {
+  const theme = convertTheme(systemTheme, prefersDarkMode);
   return createTheme({
     palette: {
       mode: theme as "light" || "dark",

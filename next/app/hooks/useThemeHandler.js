@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import {applyTheme, createMUITheme} from "../utils/Theme";
+import {useMediaQuery} from "@mui/material";
 
 const useThemeHandler = () => {
-  const [systemTheme, setSystemTheme] = useState("light");
-  const [muiTheme, setMuiTheme] = useState(createMUITheme(systemTheme));
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [systemTheme, setSystemTheme] = useState(prefersDarkMode ? "dark" : "light");
+  const [muiTheme, setMuiTheme] = useState(createMUITheme(systemTheme, prefersDarkMode));
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "system";
@@ -11,8 +13,8 @@ const useThemeHandler = () => {
   }, []);
 
   useEffect(() => {
-    applyTheme(systemTheme);
-    setMuiTheme(createMUITheme(systemTheme));
+    applyTheme(systemTheme, prefersDarkMode);
+    setMuiTheme(createMUITheme(systemTheme, prefersDarkMode));
   }, [systemTheme]);
 
   return { systemTheme, setSystemTheme, muiTheme };
