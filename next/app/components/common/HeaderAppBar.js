@@ -2,7 +2,6 @@ import { AppBar, IconButton, Typography, Menu, MenuItem } from "@mui/material";
 import AuthDiv from "./AuthDiv";
 import ThemeSelect from "./ThemeSelect";
 import React, { useState } from "react";
-import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 
