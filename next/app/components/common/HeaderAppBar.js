@@ -1,6 +1,6 @@
 import { AppBar, IconButton, Typography, Menu, MenuItem } from "@mui/material";
 import AuthDiv from "./AuthDiv";
-import ThemeSelect from "./ThemeSelect";
+import ThemeToggle from "./ThemeToggle";
 import React, { useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
@@ -17,7 +17,7 @@ const HeaderAppBar = ({ title, useAuthDiv = true, systemTheme, setSystemTheme })
   };
 
   return (
-    <AppBar position="static" color="secondary">
+    <AppBar position="static" color="primary">
       <div className="flex-around p-2">
         <IconButton aria-label="menu" onClick={handleMenuOpen}>
           <MenuIcon fontSize="large" />
@@ -38,12 +38,12 @@ const HeaderAppBar = ({ title, useAuthDiv = true, systemTheme, setSystemTheme })
           {title}
         </Typography>
         {useAuthDiv &&
-          <div className="m-1">
+          <div className="m-1 mx-4">
             <AuthDiv />
           </div>
         }
-        <div className="m-1">
-          <ThemeSelect
+        <div className="m-1 mx-4">
+          <ThemeToggle
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
           />
