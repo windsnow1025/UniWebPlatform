@@ -57,10 +57,22 @@ function AuthDiv() {
           ) : (
             <>
               <div className="m-1">
-                <Button variant="contained" onClick={handleSignInRouter}>Sign In</Button>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleSignInRouter}
+                >
+                  Sign In
+                </Button>
               </div>
               <div className="m-1">
-                <Button variant="contained" onClick={handleSignUpRouter}>Sign Up</Button>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleSignUpRouter}
+                >
+                  Sign Up
+                </Button>
               </div>
             </>
           )}
