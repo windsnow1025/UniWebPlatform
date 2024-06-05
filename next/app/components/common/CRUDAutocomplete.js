@@ -109,12 +109,11 @@ function CRUDAutocomplete({ options, label, onOptionClick, onDelete, onAdd, onUp
             }
           </li>
         )}
-        sx={{ width: 300 }}
         freeSolo
         renderInput={(params) => (
           <TextField {...params} label={label}/>
         )}
-        className="m-2"
+        className="m-2 w-1/4"
       />
       <ConfirmDialog
         open={dialogOpen}
