@@ -20,7 +20,10 @@ const HeaderAppBar = ({ title, useAuthDiv = true, systemTheme, setSystemTheme })
     <AppBar position="static" color="primary">
       <div className="flex-around p-2">
         <IconButton aria-label="menu" onClick={handleMenuOpen}>
-          <MenuIcon fontSize="large" />
+          <MenuIcon
+            fontSize="large"
+            sx={{color: 'white'}}
+          />
         </IconButton>
         <Menu
           anchorEl={anchorEl}

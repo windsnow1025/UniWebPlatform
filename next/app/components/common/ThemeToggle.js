@@ -13,13 +13,22 @@ const ThemeToggle = ({systemTheme, setSystemTheme}) => {
       aria-label="Theme"
     >
       <ToggleButton value="system">
-        <BrightnessAutoIcon fontSize="small"/>
+        <BrightnessAutoIcon
+          fontSize="small"
+          sx={{color: 'white'}}
+        />
       </ToggleButton>
       <ToggleButton value="light">
-        <LightModeIcon fontSize="small"/>
+        <LightModeIcon
+          fontSize="small"
+          sx={{color: 'white'}}
+        />
       </ToggleButton>
       <ToggleButton value="dark">
-        <DarkModeIcon fontSize="small"/>
+        <DarkModeIcon
+          fontSize="small"
+          sx={{color: 'white'}}
+        />
       </ToggleButton>
     </ToggleButtonGroup>
   );
