@@ -15,19 +15,19 @@ const ThemeToggle = ({systemTheme, setSystemTheme}) => {
       <ToggleButton value="system">
         <BrightnessAutoIcon
           fontSize="small"
-          sx={{color: 'white'}}
+          className="text-white"
         />
       </ToggleButton>
       <ToggleButton value="light">
         <LightModeIcon
           fontSize="small"
-          sx={{color: 'white'}}
+          className="text-white"
         />
       </ToggleButton>
       <ToggleButton value="dark">
         <DarkModeIcon
           fontSize="small"
-          sx={{color: 'white'}}
+          className="text-white"
         />
       </ToggleButton>
     </ToggleButtonGroup>

@@ -22,7 +22,7 @@ const HeaderAppBar = ({ title, useAuthDiv = true, systemTheme, setSystemTheme })
         <IconButton aria-label="menu" onClick={handleMenuOpen}>
           <MenuIcon
             fontSize="large"
-            sx={{color: 'white'}}
+            className="text-white"
           />
         </IconButton>
         <Menu
