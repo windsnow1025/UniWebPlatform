@@ -95,7 +95,7 @@ docker compose build
 
 ##### Run
 
-Rename `./env.example` to `./env`, add environment variables in `node.env`, `fastapi.env`, `mysql.env`.
+Rename `./env.example` to `./env`, update environment variables to environment files.
 
 ```bash
 docker compose up [-d]
