@@ -47,11 +47,18 @@ function Action() {
   };
 
   const handleSignUp = async () => {
-    if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {
-      setAlertMessage("Username or Password contains invalid characters or has an invalid length.");
+    if (!userLogic.validateInput(username)) {
+      setAlertMessage("Username must be 4-32 ASCII characters.");
       setAlertOpen(true);
       return;
     }
+
+    if (!userLogic.validateInput(password)) {
+      setAlertMessage("Password must be 4-32 ASCII characters.");
+      setAlertOpen(true);
+      return;
+    }
+
     try {
       await userLogic.signUp(username, password);
       setAlertMessage("Sign up success");
