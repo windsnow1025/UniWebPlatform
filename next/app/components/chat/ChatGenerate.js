@@ -1,8 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Button} from "@mui/material";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop';
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatGenerate({ messages, setMessages, apiType, model, temperature, stream, setAlertMessage, setAlertOpen }) {
+function ChatGenerate({messages, setMessages, apiType, model, temperature, stream, setAlertMessage, setAlertOpen}) {
   const chatLogic = new ChatLogic();
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -113,7 +115,13 @@ function ChatGenerate({ messages, setMessages, apiType, model, temperature, stre
 
   return (
     <div className="m-2">
-      <Button id="generate" variant="contained" color="primary" onClick={handleGenerate}>
+      <Button
+        id="generate"
+        variant="contained"
+        color="primary"
+        onClick={handleGenerate}
+        startIcon={isGenerating ? <StopIcon/> : <PlayArrowIcon/>}
+      >
         {isGenerating ? "Stop" : "Generate"}
       </Button>
     </div>
