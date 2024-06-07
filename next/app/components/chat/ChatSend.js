@@ -4,7 +4,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatGenerate({messages, setMessages, apiType, model, temperature, stream, setAlertMessage, setAlertOpen}) {
+function ChatSend({messages, setMessages, apiType, model, temperature, stream, setAlertMessage, setAlertOpen}) {
   const chatLogic = new ChatLogic();
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -16,8 +16,8 @@ function ChatGenerate({messages, setMessages, apiType, model, temperature, strea
     const handleKeyDown = (e) => {
       if (e.ctrlKey && e.key === 'Enter') {
         document.activeElement.blur();
-        const generateButton = document.getElementById('generate');
-        setTimeout(() => generateButton.click(), 0);
+        const sendButton = document.getElementById('send');
+        setTimeout(() => sendButton.click(), 0);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -116,16 +116,16 @@ function ChatGenerate({messages, setMessages, apiType, model, temperature, strea
   return (
     <div className="m-2">
       <Button
-        id="generate"
+        id="send"
         variant="contained"
         color="primary"
         onClick={handleGenerate}
         startIcon={isGenerating ? <StopIcon/> : <PlayArrowIcon/>}
       >
-        {isGenerating ? "Stop" : "Generate"}
+        {isGenerating ? "Stop" : "Send"}
       </Button>
     </div>
   );
 }
 
-export default ChatGenerate;
+export default ChatSend;
