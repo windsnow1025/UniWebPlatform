@@ -1,9 +1,9 @@
 import React from 'react';
 import {Button} from "@mui/material";
-import ClearIcon from '@mui/icons-material/Clear';
-import { ChatLogic } from "../../../src/logic/ChatLogic";
+import RefreshIcon from '@mui/icons-material/Refresh';
+import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatClear({ setMessages }) {
+function ChatClear({setMessages}) {
   const chatLogic = new ChatLogic();
 
   const handleClear = () => {
@@ -16,7 +16,7 @@ function ChatClear({ setMessages }) {
         variant="contained"
         color="secondary"
         onClick={handleClear}
-        startIcon={<ClearIcon/>}
+        startIcon={<RefreshIcon/>}
       >
         Clear
       </Button>
