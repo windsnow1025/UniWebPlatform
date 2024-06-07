@@ -11,6 +11,7 @@ import ChatInformation from "../../app/components/chat/ChatInformation";
 import ChatGenerate from "../../app/components/chat/ChatGenerate";
 import ChatMessages from "../../app/components/chat/ChatMessages";
 import ChatStates from "../../app/components/chat/ChatStates";
+import ChatClear from "../../app/components/chat/ChatClear";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -33,10 +34,6 @@ function Index() {
   // States
   const [editableState, setEditableState] = useState('conditional');
   const [shouldSanitize, setShouldSanitize] = useState(true);
-
-  const handleClear = () => {
-    setMessages(chatLogic.initMessages);
-  };
 
   const onConversationOptionClick = async (conversation) => {
     setMessages(conversation.messages);
@@ -84,9 +81,7 @@ function Index() {
             setAlertMessage={setAlertMessage}
             setAlertOpen={setAlertOpen}
           />
-          <div className="m-2">
-            <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
-          </div>
+          <ChatClear setMessages={setMessages}/>
         </div>
       </Paper>
       <div className="flex-around m-1">
