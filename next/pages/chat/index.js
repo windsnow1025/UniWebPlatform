@@ -8,7 +8,7 @@ import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import ChatSettings from "../../app/components/chat/ChatSettings";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 import ChatInformation from "../../app/components/chat/ChatInformation";
-import ChatGenerate from "../../app/components/chat/ChatGenerate";
+import ChatSend from "../../app/components/chat/ChatSend";
 import ChatMessages from "../../app/components/chat/ChatMessages";
 import ChatStates from "../../app/components/chat/ChatStates";
 import ChatClear from "../../app/components/chat/ChatClear";
@@ -71,7 +71,7 @@ function Index() {
           editableState={editableState}
         />
         <div className="flex-center">
-          <ChatGenerate
+          <ChatSend
             messages={messages}
             setMessages={setMessages}
             apiType={apiType}
