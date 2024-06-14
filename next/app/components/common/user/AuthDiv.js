@@ -6,7 +6,7 @@ import {UserLogic} from "../../../../src/logic/UserLogic";
 import SignDiv from "./SignDiv";
 import CreditDiv from "./CreditDiv";
 
-function AuthDiv() {
+function AuthDiv({refreshKey}) {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -53,7 +53,7 @@ function AuthDiv() {
             <MenuItem disabled>
               <Typography variant="subtitle1">{username}</Typography>
             </MenuItem>
-            <MenuItem disabled><CreditDiv/></MenuItem>
+            <MenuItem disabled><CreditDiv refreshKey={refreshKey}/></MenuItem>
             <MenuItem component={Link} href="/user/account" onClick={handleMenuClose}>Manage Account</MenuItem>
             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
           </Menu>
