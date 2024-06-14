@@ -7,7 +7,6 @@ import ChatConversationAutocomplete from "../../app/components/chat/ChatConversa
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import ChatSettings from "../../app/components/chat/ChatSettings";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
-import ChatInformation from "../../app/components/chat/ChatInformation";
 import ChatSend from "../../app/components/chat/ChatSend";
 import ChatMessages from "../../app/components/chat/ChatMessages";
 import ChatStates from "../../app/components/chat/ChatStates";
@@ -46,9 +45,7 @@ function Index() {
         title={title}
         systemTheme={systemTheme}
         setSystemTheme={setSystemTheme}
-      />
-      <ChatInformation
-        messages={messages}
+        infoUrl={"/markdown/view/chat-doc.md"}
       />
       <ChatSettings
         apiType={apiType}
