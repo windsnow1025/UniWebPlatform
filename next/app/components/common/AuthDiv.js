@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from "next/navigation";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import {Button, IconButton, CircularProgress, Link} from "@mui/material";
+import { Button, IconButton, CircularProgress, Link, Menu, MenuItem, Typography, Tooltip } from "@mui/material";
 
 import { UserLogic } from "../../../src/logic/UserLogic";
 
 function AuthDiv() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
   const userLogic = new UserLogic();
@@ -23,9 +24,14 @@ function AuthDiv() {
     fetchUsername();
   }, []);
 
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleSignOut = () => {
     localStorage.removeItem('token');
     setUsername("");
+    handleMenuClose();
   };
 
   const handleSignInRouter = () => {
@@ -41,20 +47,26 @@ function AuthDiv() {
   return (
     <div>
       {username ? (
-        <div className="flex-around">
-          <span>{username}</span>
-          <Link href="/user/account">
-            <IconButton aria-label="manage account">
-              <ManageAccountsIcon className="text-white"/>
+        <div>
+          <Tooltip title="Account">
+            <IconButton
+              aria-label="account"
+              onClick={(event) => setAnchorEl(event.currentTarget)}
+            >
+              <ManageAccountsIcon />
             </IconButton>
-          </Link>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={handleSignOut}
+          </Tooltip>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
           >
-            Sign Out
-          </Button>
+            <MenuItem disabled>
+              <Typography variant="subtitle1">{username}</Typography>
+            </MenuItem>
+            <MenuItem component={Link} href="/user/account" onClick={handleMenuClose}>Manage Account</MenuItem>
+            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+          </Menu>
         </div>
       ) : (
         <div className="flex-around">

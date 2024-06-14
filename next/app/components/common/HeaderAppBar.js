@@ -41,11 +41,11 @@ const HeaderAppBar = ({ title, useAuthDiv = true, systemTheme, setSystemTheme })
           {title}
         </Typography>
         {useAuthDiv &&
-          <div className="m-1 mx-4">
+          <div className="m-1 mx-2">
             <AuthDiv />
           </div>
         }
-        <div className="m-1 mx-4">
+        <div className="m-1 mx-2">
           <ThemeToggle
             systemTheme={systemTheme}
             setSystemTheme={setSystemTheme}
