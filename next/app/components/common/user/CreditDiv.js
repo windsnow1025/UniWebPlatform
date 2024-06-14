@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {UserLogic} from "../../../src/logic/UserLogic";
+import {UserLogic} from "../../../../src/logic/UserLogic";
 
 function CreditDiv({ refreshKey }) {
   const userLogic = new UserLogic();

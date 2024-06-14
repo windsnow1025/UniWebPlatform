@@ -14,7 +14,7 @@ import {
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import ContentDiv from "../../app/components/message/ContentDiv";
 import ImageService from "../../src/service/ImageService";
-import CreditDiv from "../../app/components/common/CreditDiv";
+import CreditDiv from "../../app/components/common/user/CreditDiv";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();

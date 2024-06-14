@@ -1,6 +1,6 @@
 import React from 'react';
 import LinkIcon from "@mui/icons-material/Link";
-import CreditDiv from "../common/CreditDiv";
+import CreditDiv from "../common/user/CreditDiv";
 
 function ChatInformation({ messages }) {
   return (
