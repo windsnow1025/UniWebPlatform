@@ -5,7 +5,13 @@ import React, { useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 
-const HeaderAppBar = ({ title, useAuthDiv = true, systemTheme, setSystemTheme }) => {
+const HeaderAppBar = ({
+                        title,
+                        useAuthDiv = true,
+                        systemTheme,
+                        setSystemTheme,
+                        refreshKey
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
@@ -42,7 +48,7 @@ const HeaderAppBar = ({ title, useAuthDiv = true, systemTheme, setSystemTheme })
         </Typography>
         {useAuthDiv &&
           <div className="m-1 mx-2">
-            <AuthDiv />
+            <AuthDiv refreshKey={refreshKey} />
           </div>
         }
         <div className="m-1 mx-2">
