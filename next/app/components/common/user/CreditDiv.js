@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {UserLogic} from "../../../../src/logic/UserLogic";
+import {Typography} from "@mui/material";
 
 function CreditDiv({ refreshKey }) {
   const userLogic = new UserLogic();
@@ -18,7 +19,7 @@ function CreditDiv({ refreshKey }) {
   }, [refreshKey]);
 
   return (
-    <div>Credit: {credit}</div>
+    <Typography>Credit: {credit}</Typography>
   );
 }
 
