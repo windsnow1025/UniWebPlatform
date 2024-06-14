@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { usePathname, useRouter } from "next/navigation";
+import React, {useEffect, useState} from 'react';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { Button, IconButton, CircularProgress, Link, Menu, MenuItem, Typography, Tooltip } from "@mui/material";
+import {IconButton, CircularProgress, Link, Menu, MenuItem, Typography, Tooltip} from "@mui/material";
 
-import { UserLogic } from "../../../src/logic/UserLogic";
+import {UserLogic} from "../../../../src/logic/UserLogic";
+import SignDiv from "./SignDiv";
 
 function AuthDiv() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const router = useRouter();
-  const pathname = usePathname();
   const userLogic = new UserLogic();
 
   useEffect(() => {
@@ -34,16 +32,6 @@ function AuthDiv() {
     handleMenuClose();
   };
 
-  const handleSignInRouter = () => {
-    localStorage.setItem('prevUrl', pathname);
-    router.push('/user/state/signin');
-  };
-
-  const handleSignUpRouter = () => {
-    localStorage.setItem('prevUrl', pathname);
-    router.push('/user/state/signup');
-  };
-
   return (
     <div>
       {username ? (
@@ -53,7 +41,7 @@ function AuthDiv() {
               aria-label="account"
               onClick={(event) => setAnchorEl(event.currentTarget)}
             >
-              <ManageAccountsIcon />
+              <ManageAccountsIcon/>
             </IconButton>
           </Tooltip>
           <Menu
@@ -69,30 +57,11 @@ function AuthDiv() {
           </Menu>
         </div>
       ) : (
-        <div className="flex-around">
+        <div>
           {loading ? (
-            <CircularProgress size={24} />
+            <CircularProgress size={24}/>
           ) : (
-            <>
-              <div className="m-1">
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleSignInRouter}
-                >
-                  Sign In
-                </Button>
-              </div>
-              <div className="m-1">
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleSignUpRouter}
-                >
-                  Sign Up
-                </Button>
-              </div>
-            </>
+            <SignDiv/>
           )}
         </div>
       )}
