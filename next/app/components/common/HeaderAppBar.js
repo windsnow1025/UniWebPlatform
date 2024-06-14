@@ -1,5 +1,5 @@
 import { AppBar, IconButton, Typography, Menu, MenuItem } from "@mui/material";
-import AuthDiv from "./AuthDiv";
+import AuthDiv from "./user/AuthDiv";
 import ThemeToggle from "./ThemeToggle";
 import React, { useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
