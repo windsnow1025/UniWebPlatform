@@ -4,6 +4,7 @@ import {IconButton, CircularProgress, Link, Menu, MenuItem, Typography, Tooltip}
 
 import {UserLogic} from "../../../../src/logic/UserLogic";
 import SignDiv from "./SignDiv";
+import CreditDiv from "./CreditDiv";
 
 function AuthDiv() {
   const [username, setUsername] = useState("");
@@ -52,6 +53,7 @@ function AuthDiv() {
             <MenuItem disabled>
               <Typography variant="subtitle1">{username}</Typography>
             </MenuItem>
+            <MenuItem disabled><CreditDiv/></MenuItem>
             <MenuItem component={Link} href="/user/account" onClick={handleMenuClose}>Manage Account</MenuItem>
             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
           </Menu>
