@@ -1,8 +1,9 @@
-import { AppBar, IconButton, Typography, Menu, MenuItem } from "@mui/material";
+import { AppBar, IconButton, Typography, Menu, MenuItem, Tooltip } from "@mui/material";
 import AuthDiv from "./user/AuthDiv";
 import ThemeToggle from "./ThemeToggle";
 import React, { useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
+import InfoIcon from '@mui/icons-material/Info';
 import Link from 'next/link';
 
 const HeaderAppBar = ({
@@ -10,8 +11,9 @@ const HeaderAppBar = ({
                         useAuthDiv = true,
                         systemTheme,
                         setSystemTheme,
-                        refreshKey
-}) => {
+                        refreshKey,
+                        infoUrl
+                      }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
@@ -25,12 +27,14 @@ const HeaderAppBar = ({
   return (
     <AppBar position="static" color="primary">
       <div className="flex-around p-2">
-        <IconButton aria-label="menu" onClick={handleMenuOpen}>
-          <MenuIcon
-            fontSize="large"
-            className="text-white"
-          />
-        </IconButton>
+        <Tooltip title="Menu">
+          <IconButton aria-label="menu" onClick={handleMenuOpen}>
+            <MenuIcon
+              fontSize="large"
+              className="text-white"
+            />
+          </IconButton>
+        </Tooltip>
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
@@ -43,9 +47,23 @@ const HeaderAppBar = ({
           <MenuItem component={Link} href="/image" onClick={handleMenuClose}>Image Generate</MenuItem>
           <MenuItem component={Link} href="/chat" onClick={handleMenuClose}>AI Chat</MenuItem>
         </Menu>
-        <Typography variant="h4" className="grow">
+        <Typography variant="h4">
           {title}
         </Typography>
+        {infoUrl && (
+          <Tooltip title="More Information">
+            <IconButton
+              component="a"
+              href={infoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="information"
+            >
+              <InfoIcon fontSize="large" className="text-white" />
+            </IconButton>
+          </Tooltip>
+        )}
+        <div className="grow"></div>
         {useAuthDiv &&
           <div className="m-1 mx-2">
             <AuthDiv refreshKey={refreshKey} />
