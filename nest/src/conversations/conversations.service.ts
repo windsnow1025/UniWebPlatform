@@ -1,6 +1,10 @@
-import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from "typeorm";
+import { In, Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
 import { UsersService } from '../users/users.service';
 import { ConversationDto } from './dto/conversation.dto';
