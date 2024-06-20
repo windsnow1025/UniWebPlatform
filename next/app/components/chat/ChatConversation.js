@@ -15,7 +15,8 @@ import {
   DialogTitle,
   Autocomplete,
   Menu,
-  MenuItem
+  MenuItem,
+  Slide
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -177,97 +178,101 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
   return (
     <>
       <div className={`${drawerOpen ? 'block' : 'hidden'}`}>
-          <List>
-            {conversations.map((conversation, index) => (
-              <ListItem key={conversation.id} disablePadding>
-                <ListItemButton onClick={() => handleConversationClick(conversation.messages)}>
+        <Slide direction="right" in={drawerOpen} mountOnEnter unmountOnExit>
+          <div>
+            <List>
+              {conversations.map((conversation, index) => (
+                <ListItem key={conversation.id} disablePadding>
+                  <ListItemButton onClick={() => handleConversationClick(conversation.messages)}>
+                    {editingIndex === index ? (
+                      <TextField
+                        value={editingName}
+                        onChange={(e) => setEditingName(e.target.value)}
+                        autoFocus
+                        fullWidth
+                      />
+                    ) : (
+                      <ListItemText primary={conversation.name}/>
+                    )}
+                  </ListItemButton>
                   {editingIndex === index ? (
-                    <TextField
-                      value={editingName}
-                      onChange={(e) => setEditingName(e.target.value)}
-                      autoFocus
-                      fullWidth
-                    />
+                    <Tooltip title="Save">
+                      <IconButton onClick={(e) => {
+                        e.stopPropagation();
+                        handleUpdateConversationName(index);
+                      }}>
+                        <SaveOutlinedIcon/>
+                      </IconButton>
+                    </Tooltip>
                   ) : (
-                    <ListItemText primary={conversation.name}/>
+                    <Tooltip title="Rename">
+                      <IconButton onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingIndex(index);
+                        setEditingName(conversation.name);
+                      }}>
+                        <EditIcon/>
+                      </IconButton>
+                    </Tooltip>
                   )}
-                </ListItemButton>
-                {editingIndex === index ? (
-                  <Tooltip title="Save">
+                  <Tooltip title="More">
                     <IconButton onClick={(e) => {
                       e.stopPropagation();
-                      handleUpdateConversationName(index);
+                      handleMenuOpen(e, index);
                     }}>
-                      <SaveOutlinedIcon/>
+                      <MoreVertIcon/>
                     </IconButton>
                   </Tooltip>
-                ) : (
-                  <Tooltip title="Rename">
-                    <IconButton onClick={(e) => {
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={menuIndex === index}
+                    onClose={handleMenuClose}
+                  >
+                    <MenuItem onClick={(e) => {
                       e.stopPropagation();
-                      setEditingIndex(index);
-                      setEditingName(conversation.name);
+                      handleUpdateConversation(index);
+                      handleMenuClose();
                     }}>
-                      <EditIcon/>
-                    </IconButton>
-                  </Tooltip>
-                )}
-                <Tooltip title="More">
-                  <IconButton onClick={(e) => {
-                    e.stopPropagation();
-                    handleMenuOpen(e, index);
-                  }}>
-                    <MoreVertIcon/>
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={menuIndex === index}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem onClick={(e) => {
-                    e.stopPropagation();
-                    handleUpdateConversation(index);
-                    handleMenuClose();
-                  }}>
-                    <SaveIcon className="m-1"/>Update
-                  </MenuItem>
-                  <MenuItem onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteConversation(index);
-                    handleMenuClose();
-                  }}>
-                    <DeleteOutlinedIcon className="m-1"/>Delete
-                  </MenuItem>
-                  <MenuItem onClick={(e) => {
-                    e.stopPropagation();
-                    openShareDialog(index);
-                    handleMenuClose();
-                  }}>
-                    <ShareIcon className="m-1" />Share
-                  </MenuItem>
-                </Menu>
-              </ListItem>
-            ))}
-          </List>
-          <div className="p-2">
-            <TextField
-              label="New Conversation"
-              value={newConversationName}
-              onChange={(e) => setNewConversationName(e.target.value)}
-              fullWidth
-            />
-            <div className="my-2">
-              <Button
-                variant="outlined"
-                startIcon={<AddIcon/>}
-                onClick={handleAddConversation}
+                      <SaveIcon className="m-1"/>Update
+                    </MenuItem>
+                    <MenuItem onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteConversation(index);
+                      handleMenuClose();
+                    }}>
+                      <DeleteOutlinedIcon className="m-1"/>Delete
+                    </MenuItem>
+                    <MenuItem onClick={(e) => {
+                      e.stopPropagation();
+                      openShareDialog(index);
+                      handleMenuClose();
+                    }}>
+                      <ShareIcon className="m-1" />Share
+                    </MenuItem>
+                  </Menu>
+                </ListItem>
+              ))}
+            </List>
+            <div className="p-2">
+              <TextField
+                label="New Conversation"
+                value={newConversationName}
+                onChange={(e) => setNewConversationName(e.target.value)}
                 fullWidth
-              >
-                Add
-              </Button>
+              />
+              <div className="my-2">
+                <Button
+                  variant="outlined"
+                  startIcon={<AddIcon/>}
+                  onClick={handleAddConversation}
+                  fullWidth
+                >
+                  Add
+                </Button>
+              </div>
             </div>
           </div>
+        </Slide>
       </div>
       <Snackbar
         open={alertOpen}
