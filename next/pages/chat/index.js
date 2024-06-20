@@ -41,20 +41,22 @@ function Index() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme />
-      <div className="h-screen overflow-hidden flex flex-col">
+      <div className="h-screen flex-column">
         <HeaderAppBar
           title={title}
           systemTheme={systemTheme}
           setSystemTheme={setSystemTheme}
           infoUrl={"/markdown/view/chat-doc.md"}
         />
-        <div className="flex grow overflow-hidden">
-          <ChatConversation
-            drawerOpen={drawerOpen}
-            messages={messages}
-            setMessages={setMessages}
-          />
-          <div className="flex flex-col grow overflow-auto">
+        <div className="flex overflow-hidden">
+          <div>
+            <ChatConversation
+              drawerOpen={drawerOpen}
+              messages={messages}
+              setMessages={setMessages}
+            />
+          </div>
+          <div className="grow overflow-auto">
             <div className="flex">
               <div className="m-2">
                 <ToggleConversationButton
