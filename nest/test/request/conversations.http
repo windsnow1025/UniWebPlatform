@@ -11,23 +11,7 @@ Content-Type: application/json
 
 {
   "name": "Test",
-  "messages": [
-    {
-      "role": "system",
-      "text": "You are a helpful assistant.",
-      "files": []
-    },
-    {
-      "role": "user",
-      "text": "Hello",
-      "files": []
-    },
-    {
-      "role": "assistant",
-      "text": "Hello! How can I assist you today?",
-      "files": []
-    }
-  ]
+  "messages": "[{\"role\":\"system\",\"text\":\"You are a helpful assistant.\",\"files\":[]},{\"role\":\"user\",\"text\":\"Hello\",\"files\":[]},{\"role\":\"assistant\",\"text\":\"Hi there! How can I assist you today?\",\"files\":[]},{\"role\":\"user\",\"text\":\"\",\"files\":[]}]"
 }
 
 ### Update Conversation
@@ -39,13 +23,7 @@ Content-Type: application/json
 {
   "id": 1,
   "name": "Test",
-  "messages": [
-    {
-      "role": "system",
-      "text": "You are a helpful assistant.",
-      "files": []
-    }
-  ]
+  "messages": "[{\"role\":\"system\",\"text\":\"You are a helpful assistant.\",\"files\":[]},{\"role\":\"user\",\"text\":\"Hello\",\"files\":[]}]"
 }
 
 ### Patch Conversation
