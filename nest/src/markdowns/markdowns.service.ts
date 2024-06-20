@@ -25,7 +25,7 @@ export class MarkdownsService {
   async update(newMarkdown: Markdown) {
     const markdown = await this.findOne(newMarkdown.id);
     if (!markdown) {
-      throw new NotFoundException();
+      throw new NotFoundException('Markdown not found');
     }
 
     markdown.title = newMarkdown.title;
