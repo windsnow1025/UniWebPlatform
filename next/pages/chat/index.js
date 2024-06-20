@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline, Paper, Snackbar } from "@mui/material";
+import {CssBaseline, Paper, Slide, Snackbar} from "@mui/material";
 
 import { ChatLogic } from "../../src/logic/ChatLogic";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
