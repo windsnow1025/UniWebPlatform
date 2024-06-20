@@ -10,6 +10,16 @@ export class UserLogic {
     this.userService = new UserService();
   }
 
+  async fetchUsernames(): Promise<string[]> {
+    try {
+      const users = await this.userService.fetchUsers();
+      return users.map(user => user.username);
+    } catch (err) {
+      console.error(err);
+      throw new Error("Failed to fetch usernames.");
+    }
+  }
+
   async fetchUsername() {
     if (!localStorage.getItem('token')) {
       return null;
