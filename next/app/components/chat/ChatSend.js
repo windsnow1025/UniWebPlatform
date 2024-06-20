@@ -59,7 +59,7 @@ function ChatSend({messages, setMessages, apiType, model, temperature, stream, s
           return;
         }
 
-        const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+        const isAtBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 50);
 
         if (isFirstChunk) {
           setMessages(prevMessages => [...prevMessages, chatLogic.emptyAssistantMessage]);
