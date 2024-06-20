@@ -30,6 +30,13 @@ export default class ConversationService {
     });
   }
 
+  async updateConversationName(id: number, name: string) {
+    const token = localStorage.getItem('token');
+    await this.axiosInstance.patch(`/conversations/conversation/${id}/name`, { name }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
   async deleteConversation(id: number) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.delete(`/conversations/conversation/${id}`, {
