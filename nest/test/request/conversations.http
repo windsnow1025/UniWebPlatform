@@ -48,6 +48,16 @@ Content-Type: application/json
   ]
 }
 
+### Patch Conversation
+
+PATCH {{baseUrl}}/conversations/conversation/117/name
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Test1"
+}
+
 ### Delete Conversation
 
 DELETE {{baseUrl}}/conversations/conversation/1

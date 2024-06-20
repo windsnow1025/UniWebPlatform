@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer, List, ListItem, ListItemText, IconButton, Snackbar, TextField, Button, ListItemButton } from '@mui/material';
-import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import {ConversationLogic} from "../../../src/logic/ConversationLogic";
+import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Save as SaveIcon } from '@mui/icons-material';
+import { ConversationLogic } from "../../../src/logic/ConversationLogic";
 
 function ChatConversation({ open, onClose, onConversationClick, conversation }) {
   const [conversations, setConversations] = useState([]);
@@ -31,8 +31,8 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
   const handleAddConversation = async () => {
     try {
       await conversationLogic.addConversation({
-        "name": newConversationName,
-        "messages": JSON.stringify(conversation)
+        name: newConversationName,
+        messages: JSON.stringify(conversation)
       });
       fetchConversations();
       setNewConversationName('');
@@ -48,18 +48,31 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
   const handleUpdateConversation = async (index) => {
     try {
       await conversationLogic.updateConversation({
-        "id": conversations[index].id,
-        "name": editingName,
-        "messages": JSON.stringify(conversation)
+        id: conversations[index].id,
+        name: conversations[index].name,
+        messages: JSON.stringify(conversation)
       });
       fetchConversations();
-      setEditingIndex(null);
-      setEditingName('');
       setAlertOpen(true);
       setAlertMessage('Conversation updated');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error updating conversation');
+      console.error(err);
+    }
+  };
+
+  const handleUpdateConversationName = async (index) => {
+    try {
+      await conversationLogic.updateConversationName(conversations[index].id, editingName);
+      fetchConversations();
+      setEditingIndex(null);
+      setEditingName('');
+      setAlertOpen(true);
+      setAlertMessage('Conversation name updated');
+    } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage('Error updating conversation name');
       console.error(err);
     }
   };
@@ -88,18 +101,26 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
                   <TextField
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
-                    onBlur={() => handleUpdateConversation(index)}
                     autoFocus
                   />
                 ) : (
                   <ListItemText primary={conversation.name} />
                 )}
               </ListItemButton>
-              <IconButton onClick={(e) => { e.stopPropagation(); setEditingIndex(index); }}>
-                <EditIcon />
-              </IconButton>
+              {editingIndex === index ? (
+                <IconButton onClick={(e) => { e.stopPropagation(); handleUpdateConversationName(index); }}>
+                  <SaveIcon />
+                </IconButton>
+              ) : (
+                <IconButton onClick={(e) => { e.stopPropagation(); setEditingIndex(index); setEditingName(conversation.name); }}>
+                  <EditIcon />
+                </IconButton>
+              )}
               <IconButton onClick={(e) => { e.stopPropagation(); handleDeleteConversation(index); }}>
                 <DeleteIcon />
+              </IconButton>
+              <IconButton onClick={(e) => { e.stopPropagation(); handleUpdateConversation(index); }}>
+                <SaveIcon />
               </IconButton>
             </ListItem>
           ))}
