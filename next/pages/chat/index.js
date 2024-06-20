@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { ThemeProvider } from "@mui/material/styles";
-import {Collapse, CssBaseline, Paper, Slide, Snackbar} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {ThemeProvider} from "@mui/material/styles";
+import {Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
 
-import { ChatLogic } from "../../src/logic/ChatLogic";
+import {ChatLogic} from "../../src/logic/ChatLogic";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import ChatSettings from "../../app/components/chat/ChatSettings";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
@@ -47,13 +47,15 @@ function Index() {
           infoUrl={"/markdown/view/chat-doc.md"}
         />
         <div className="flex grow overflow-hidden">
-          <Collapse in={drawerOpen} orientation="horizontal">
-            <ChatConversation
-              drawerOpen={drawerOpen}
-              messages={messages}
-              setMessages={setMessages}
-            />
-          </Collapse>
+          <Paper elevation={2} sx={{ borderRadius: 0 }}>
+            <Collapse in={drawerOpen} orientation="horizontal">
+                <ChatConversation
+                  drawerOpen={drawerOpen}
+                  messages={messages}
+                  setMessages={setMessages}
+                />
+            </Collapse>
+          </Paper>
           <div className="grow overflow-auto">
             <div className="flex">
               <div className="m-2">

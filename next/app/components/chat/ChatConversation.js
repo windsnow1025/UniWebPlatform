@@ -1,30 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import {
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
-  Snackbar,
-  TextField,
+  Autocomplete,
   Button,
-  ListItemButton,
-  Tooltip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Autocomplete,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   Menu,
-  MenuItem
+  MenuItem,
+  Snackbar,
+  TextField,
+  Tooltip,
+  Typography
 } from '@mui/material';
 import {
   Add as AddIcon,
-  Edit as EditIcon,
   DeleteOutlined as DeleteOutlinedIcon,
+  Edit as EditIcon,
+  MoreVert as MoreVertIcon,
   Save as SaveIcon,
   SaveOutlined as SaveOutlinedIcon,
-  Share as ShareIcon,
-  MoreVert as MoreVertIcon
+  Share as ShareIcon
 } from '@mui/icons-material';
 import {ConversationLogic} from "../../../src/logic/ConversationLogic";
 import {UserLogic} from "../../../src/logic/UserLogic";
@@ -177,6 +178,9 @@ function ChatConversation({messages, setMessages}) {
   return (
     <>
       <div>
+        <div className="p-4">
+          <Typography variant="h6">Conversations:</Typography>
+        </div>
         <List>
           {conversations.map((conversation, index) => (
             <ListItem key={conversation.id} disablePadding>
