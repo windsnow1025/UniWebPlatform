@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
@@ -32,13 +32,23 @@ export class ConversationsService {
   }
 
   async findOne(userId: number, id: number) {
-    return this.conversationsRepository.findOne({
-      where: {
-        id,
-        users: { id: userId },
-      },
+    const conversation = await this.conversationsRepository.findOne({
+      where: { id },
       relations: ['users'],
     });
+
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    const userInConversation = conversation.users.find(
+      (user) => user.id === userId,
+    );
+    if (!userInConversation) {
+      throw new ForbiddenException();
+    }
+
+    return conversation;
   }
 
   async create(userId: number, conversation: Conversation) {
