@@ -13,6 +13,7 @@ import ChatMessages from "../../app/components/chat/ChatMessages";
 import ChatStates from "../../app/components/chat/ChatStates";
 import ChatClear from "../../app/components/chat/ChatClear";
 import ChatConversation from "../../app/components/chat/ChatConversation";
+import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
 
 function Index() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
@@ -37,10 +38,6 @@ function Index() {
   const [editableState, setEditableState] = useState('conditional');
   const [shouldSanitize, setShouldSanitize] = useState(true);
 
-  const onConversationOptionClick = async (conversation) => {
-    setMessages(conversation.messages);
-  };
-
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme />
@@ -54,17 +51,16 @@ function Index() {
         <div className="flex grow overflow-hidden">
           <ChatConversation
             drawerOpen={drawerOpen}
-            onConversationClick={onConversationOptionClick}
-            conversation={messages}
+            messages={messages}
+            setMessages={setMessages}
           />
           <div className="flex flex-col grow overflow-auto">
             <div className="flex">
               <div className="m-2">
-                <Tooltip title="Conversations">
-                  <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
-                    {drawerOpen ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
-                  </IconButton>
-                </Tooltip>
+                <ToggleConversationButton
+                  drawerOpen={drawerOpen}
+                  setDrawerOpen={setDrawerOpen}
+                />
               </div>
               <div className="grow">
                 <ChatSettings
