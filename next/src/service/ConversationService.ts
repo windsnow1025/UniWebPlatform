@@ -30,11 +30,12 @@ export default class ConversationService {
     });
   }
 
-  async updateConversationName(id: number, name: string) {
+  async updateConversationName(id: number, name: string): Promise<Conversation> {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.patch(`/conversations/conversation/${id}/name`, { name }, {
+    const res = await this.axiosInstance.patch(`/conversations/conversation/${id}/name`, { name }, {
       headers: { Authorization: `Bearer ${token}` }
     });
+    return res.data;
   }
 
   async deleteConversation(id: number) {

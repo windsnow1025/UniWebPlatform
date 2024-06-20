@@ -49,7 +49,7 @@ export class ConversationLogic {
 
   async updateConversationName(id: number, name: string) {
     try {
-      const conversation = this.conversationService.updateConversationName(id, name);
+      return this.conversationService.updateConversationName(id, name);
     } catch (err: any) {
       if (err.response.status === 401) {
         throw new Error('Unauthorized');
