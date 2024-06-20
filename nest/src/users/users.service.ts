@@ -26,6 +26,10 @@ export class UsersService {
     return userDto;
   }
 
+  find() {
+    return this.usersRepository.find();
+  }
+
   findOneById(id: number) {
     return this.usersRepository.findOneBy({ id });
   }
