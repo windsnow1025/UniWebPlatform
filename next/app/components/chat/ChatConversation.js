@@ -257,22 +257,20 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
       <Dialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)}>
         <DialogTitle>Share Conversation</DialogTitle>
         <DialogContent>
-          <Autocomplete
-            options={usernames}
-            getOptionLabel={(option) => option}
-            value={selectedUsername}
-            onChange={(event, newValue) => setSelectedUsername(newValue)}
-            renderInput={(params) => <TextField {...params} label="Username" />}
-            fullWidth
-          />
+          <div className="m-2">
+            <Autocomplete
+              options={usernames}
+              getOptionLabel={(option) => option}
+              value={selectedUsername}
+              onChange={(event, newValue) => setSelectedUsername(newValue)}
+              renderInput={(params) => <TextField {...params} label="Username" />}
+              fullWidth
+            />
+          </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShareDialogOpen(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleShareConversation} color="primary">
-            Share
-          </Button>
+          <Button onClick={() => setShareDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleShareConversation}>Share</Button>
         </DialogActions>
       </Dialog>
     </>
