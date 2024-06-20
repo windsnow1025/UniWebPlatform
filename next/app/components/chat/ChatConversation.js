@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   List,
   ListItem,
@@ -26,10 +26,10 @@ import {
   Share as ShareIcon,
   MoreVert as MoreVertIcon
 } from '@mui/icons-material';
-import { ConversationLogic } from "../../../src/logic/ConversationLogic";
-import { UserLogic } from "../../../src/logic/UserLogic";
+import {ConversationLogic} from "../../../src/logic/ConversationLogic";
+import {UserLogic} from "../../../src/logic/UserLogic";
 
-function ChatConversation({ drawerOpen, messages, setMessages }) {
+function ChatConversation({drawerOpen, messages, setMessages}) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
@@ -176,8 +176,8 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
 
   return (
     <>
-      {drawerOpen && (
-        <div>
+      <div
+        className={`transition-all duration-300 ${drawerOpen ? 'max-w-xs opacity-100' : 'max-w-0 opacity-0'}`}>
           <List>
             {conversations.map((conversation, index) => (
               <ListItem key={conversation.id}>
@@ -189,25 +189,35 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
                       autoFocus
                     />
                   ) : (
-                    <ListItemText primary={conversation.name} />
+                    <ListItemText primary={conversation.name}/>
                   )}
                 </ListItemButton>
                 {editingIndex === index ? (
                   <Tooltip title="Save">
-                    <IconButton onClick={(e) => { e.stopPropagation(); handleUpdateConversationName(index); }}>
-                      <SaveOutlinedIcon />
+                    <IconButton onClick={(e) => {
+                      e.stopPropagation();
+                      handleUpdateConversationName(index);
+                    }}>
+                      <SaveOutlinedIcon/>
                     </IconButton>
                   </Tooltip>
                 ) : (
                   <Tooltip title="Rename">
-                    <IconButton onClick={(e) => { e.stopPropagation(); setEditingIndex(index); setEditingName(conversation.name); }}>
+                    <IconButton onClick={(e) => {
+                      e.stopPropagation();
+                      setEditingIndex(index);
+                      setEditingName(conversation.name);
+                    }}>
                       <EditIcon/>
                     </IconButton>
                   </Tooltip>
                 )}
                 <Tooltip title="More">
-                  <IconButton onClick={(e) => { e.stopPropagation(); handleMenuOpen(e, index); }}>
-                    <MoreVertIcon />
+                  <IconButton onClick={(e) => {
+                    e.stopPropagation();
+                    handleMenuOpen(e, index);
+                  }}>
+                    <MoreVertIcon/>
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -215,13 +225,25 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
                   open={menuIndex === index}
                   onClose={handleMenuClose}
                 >
-                  <MenuItem onClick={(e) => { e.stopPropagation(); handleUpdateConversation(index); handleMenuClose(); }}>
+                  <MenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    handleUpdateConversation(index);
+                    handleMenuClose();
+                  }}>
                     <SaveIcon className="m-1"/>Update
                   </MenuItem>
-                  <MenuItem onClick={(e) => { e.stopPropagation(); handleDeleteConversation(index); handleMenuClose(); }}>
+                  <MenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteConversation(index);
+                    handleMenuClose();
+                  }}>
                     <DeleteOutlinedIcon className="m-1"/>Delete
                   </MenuItem>
-                  <MenuItem onClick={(e) => { e.stopPropagation(); openShareDialog(index); handleMenuClose(); }}>
+                  <MenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    openShareDialog(index);
+                    handleMenuClose();
+                  }}>
                     <ShareIcon className="m-1"/>Share
                   </MenuItem>
                 </Menu>
@@ -238,7 +260,7 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
             <div className="my-2">
               <Button
                 variant="outlined"
-                startIcon={<AddIcon />}
+                startIcon={<AddIcon/>}
                 onClick={handleAddConversation}
                 fullWidth
               >
@@ -246,8 +268,7 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
               </Button>
             </div>
           </div>
-        </div>
-      )}
+      </div>
       <Snackbar
         open={alertOpen}
         autoHideDuration={6000}
@@ -263,7 +284,7 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
               getOptionLabel={(option) => option}
               value={selectedUsername}
               onChange={(event, newValue) => setSelectedUsername(newValue)}
-              renderInput={(params) => <TextField {...params} label="Username" />}
+              renderInput={(params) => <TextField {...params} label="Username"/>}
               fullWidth
             />
           </div>
