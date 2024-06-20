@@ -43,8 +43,8 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
   return (
     <div>
       <div className="flex-between">
-        <div className="inflex-fill"/>
-        <div className="inflex-end">
+        <div className="grow"/>
+        <div>
           <Tooltip title="Add">
             <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
               <AddCircleIcon fontSize="small"/>
@@ -67,8 +67,8 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
             editableState={editableState}
           />
           <div className="flex">
-            <div className="inflex-fill"/>
-            <div className="inflex-end">
+            <div className="grow"/>
+            <div>
               <Tooltip title="Add">
                 <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
                   <AddCircleIcon fontSize="small"/>
