@@ -29,6 +29,16 @@ export class ConversationsController {
     return this.conversationsService.create(userId, conversation);
   }
 
+  @Post('/conversation/:id/user')
+  addUser(
+    @Request() req: RequestWithUser,
+    @Param('id') id: number,
+    @Body('username') username: string,
+  ) {
+    const userId = req.user.sub;
+    return this.conversationsService.addUser(userId, id, username);
+  }
+
   @Put('/conversation')
   update(@Request() req: RequestWithUser, @Body() conversation: Conversation) {
     const userId = req.user.sub;
