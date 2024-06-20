@@ -4,7 +4,16 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatSend({messages, setMessages, apiType, model, temperature, stream, setAlertMessage, setAlertOpen}) {
+function ChatSend({
+                    messages,
+                    setMessages,
+                    apiType,
+                    model,
+                    temperature,
+                    stream,
+                    setAlertMessage,
+                    setAlertOpen
+}) {
   const chatLogic = new ChatLogic();
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -38,6 +47,8 @@ function ChatSend({messages, setMessages, apiType, model, temperature, stream, s
     currentRequestIndex.current += 1;
     const thisRequestIndex = currentRequestIndex.current;
 
+    const scrollableContainer = document.querySelector('.grow.overflow-auto');
+
     if (!stream) {
 
       const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
@@ -59,7 +70,7 @@ function ChatSend({messages, setMessages, apiType, model, temperature, stream, s
           return;
         }
 
-        const isAtBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 50);
+        const isAtBottom = (scrollableContainer.scrollHeight - scrollableContainer.scrollTop) <= (scrollableContainer.clientHeight + 50);
 
         if (isFirstChunk) {
           setMessages(prevMessages => [...prevMessages, chatLogic.emptyAssistantMessage]);
@@ -72,14 +83,14 @@ function ChatSend({messages, setMessages, apiType, model, temperature, stream, s
           return newMessages;
         });
 
-        if (isAtBottom) window.scrollTo(0, document.body.scrollHeight);
+        if (isAtBottom) scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
       }
 
       setMessages(prevMessages => [...prevMessages, chatLogic.emptyUserMessage]);
 
     }
 
-    window.scrollTo(0, document.body.scrollHeight);
+    scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
     switchStatus(false);
   }
 
@@ -101,17 +112,6 @@ function ChatSend({messages, setMessages, apiType, model, temperature, stream, s
       switchStatus(false);
     }
   };
-
-  /**
-   * Button clicked -> Switch status
-   *
-   * Finish reasons:
-   * 1. Normally finished -> Set status to false
-   * 2. Abnormally terminated due to API Exception -> Set status to false
-   * 3. Aborted by user -> No actions
-   *   3.1 Ref status == true: Previous Request Index !== Current Request Index
-   *   3.2 Ref status == false
-   * **/
 
   return (
     <div className="m-2">
