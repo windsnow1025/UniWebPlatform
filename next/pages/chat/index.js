@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {ThemeProvider} from "@mui/material/styles";
-import {Button, CssBaseline, Paper, Snackbar} from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { ThemeProvider } from "@mui/material/styles";
+import {CssBaseline, Paper, Snackbar, IconButton, Tooltip} from "@mui/material";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-import {ChatLogic} from "../../src/logic/ChatLogic";
-import ChatConversationAutocomplete from "../../app/components/chat/ChatConversationAutocomplete";
+import { ChatLogic } from "../../src/logic/ChatLogic";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import ChatSettings from "../../app/components/chat/ChatSettings";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
@@ -11,11 +12,13 @@ import ChatSend from "../../app/components/chat/ChatSend";
 import ChatMessages from "../../app/components/chat/ChatMessages";
 import ChatStates from "../../app/components/chat/ChatStates";
 import ChatClear from "../../app/components/chat/ChatClear";
+import ChatConversation from "../../app/components/chat/ChatConversation";
 
 function Index() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [drawerOpen, setDrawerOpen] = useState(true);
   const title = "AI Chat";
   useEffect(() => {
     document.title = title;
@@ -40,67 +43,81 @@ function Index() {
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <HeaderAppBar
-        title={title}
-        systemTheme={systemTheme}
-        setSystemTheme={setSystemTheme}
-        infoUrl={"/markdown/view/chat-doc.md"}
+      <CssBaseline enableColorScheme />
+      <ChatConversation
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onConversationClick={onConversationOptionClick}
+        conversation={messages}
       />
-      <ChatSettings
-        apiType={apiType}
-        setApiType={setApiType}
-        model={model}
-        setModel={setModel}
-        temperature={temperature}
-        setTemperature={setTemperature}
-        stream={stream}
-        setStream={setStream}
-        setAlertOpen={setAlertOpen}
-        setAlertMessage={setAlertMessage}
-      />
-
-      <Paper elevation={1} className="m-2 p-4 rounded-lg">
-        <ChatMessages
-          messages={messages}
-          setMessages={setMessages}
-          shouldSanitize={shouldSanitize}
-          editableState={editableState}
+      <div style={{ marginLeft: drawerOpen ? 250 : 0, transition: 'margin-left 0.3s' }}>
+        <HeaderAppBar
+          title={title}
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
+          infoUrl={"/markdown/view/chat-doc.md"}
         />
         <div className="flex-center">
-          <ChatSend
+          <div className="m-2">
+            <Tooltip title="Conversations">
+              <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
+                {drawerOpen ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
+              </IconButton>
+            </Tooltip>
+          </div>
+          <div className="grow">
+            <ChatSettings
+              apiType={apiType}
+              setApiType={setApiType}
+              model={model}
+              setModel={setModel}
+              temperature={temperature}
+              setTemperature={setTemperature}
+              stream={stream}
+              setStream={setStream}
+              setAlertOpen={setAlertOpen}
+              setAlertMessage={setAlertMessage}
+            />
+          </div>
+        </div>
+        <Paper elevation={1} className="m-2 p-4 rounded-lg">
+          <ChatMessages
             messages={messages}
             setMessages={setMessages}
-            apiType={apiType}
-            model={model}
-            temperature={temperature}
-            stream={stream}
-            setAlertMessage={setAlertMessage}
-            setAlertOpen={setAlertOpen}
+            shouldSanitize={shouldSanitize}
+            editableState={editableState}
           />
-          <ChatClear setMessages={setMessages}/>
+          <div className="flex-center">
+            <ChatSend
+              messages={messages}
+              setMessages={setMessages}
+              apiType={apiType}
+              model={model}
+              temperature={temperature}
+              stream={stream}
+              setAlertMessage={setAlertMessage}
+              setAlertOpen={setAlertOpen}
+            />
+            <ChatClear setMessages={setMessages} />
+          </div>
+        </Paper>
+        <div className="flex-around m-1">
+          <ChatStates
+            editableState={editableState}
+            setEditableState={setEditableState}
+            shouldSanitize={shouldSanitize}
+            setShouldSanitize={setShouldSanitize}
+          />
         </div>
-      </Paper>
-      <div className="flex-around m-1">
-        <ChatStates
-          editableState={editableState}
-          setEditableState={setEditableState}
-          shouldSanitize={shouldSanitize}
-          setShouldSanitize={setShouldSanitize}
-        />
-        <ChatConversationAutocomplete
-          conversation={messages}
-          onConversationClick={onConversationOptionClick}
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={6000}
+          onClose={() => setAlertOpen(false)}
+          message={alertMessage}
         />
       </div>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={6000}
-        onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
     </ThemeProvider>
-  )
+  );
 }
 
 export default Index;
