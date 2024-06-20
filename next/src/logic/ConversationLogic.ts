@@ -1,24 +1,25 @@
-import BookmarkService from "../service/BookmarkService";
-import {Bookmark} from "../model/Bookmark";
+import ConversationService from "../service/ConversationService";
+import {Conversation} from "../model/Conversation";
 
-export class BookmarkLogic {
-  private bookmarkService: BookmarkService;
+export class ConversationLogic {
+  private conversationService: ConversationService;
 
   constructor() {
-    this.bookmarkService = new BookmarkService();
+    this.conversationService = new ConversationService();
   }
 
-  async fetchBookmarks() {
+  async fetchConversations() {
     try {
-      return await this.bookmarkService.fetchBookmarks();
+      return await this.conversationService.fetchConversations();
     } catch (error) {
       console.error(error);
+      throw error;
     }
   }
 
-  async addBookmark(bookmark: Bookmark) {
+  async addConversation(conversation: Conversation) {
     try {
-      await this.bookmarkService.addBookmark(bookmark);
+      await this.conversationService.addConversation(conversation);
     } catch (err: any) {
       if (err.response.status === 401) {
         throw new Error('Unauthorized');
@@ -31,9 +32,9 @@ export class BookmarkLogic {
     }
   }
 
-  async updateBookmark(bookmark: Bookmark) {
+  async updateConversation(conversation: Conversation) {
     try {
-      await this.bookmarkService.updateBookmark(bookmark);
+      await this.conversationService.updateConversation(conversation);
     } catch (err: any) {
       if (err.response.status === 401) {
         throw new Error('Unauthorized');
@@ -46,9 +47,9 @@ export class BookmarkLogic {
     }
   }
 
-  async deleteBookmark(id: number) {
+  async deleteConversation(id: number) {
     try {
-      await this.bookmarkService.deleteBookmark(id);
+      await this.conversationService.deleteConversation(id);
     } catch (err: any) {
       if (err.response.status === 401) {
         throw new Error('Unauthorized');
