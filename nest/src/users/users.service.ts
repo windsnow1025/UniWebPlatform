@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -14,6 +15,16 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
+
+  public toUserDto(user: User) {
+    const userDto: UserDto = {
+      id: user.id,
+      username: user.username,
+      roles: user.roles,
+      credit: user.credit,
+    };
+    return userDto;
+  }
 
   findOneById(id: number) {
     return this.usersRepository.findOneBy({ id });
