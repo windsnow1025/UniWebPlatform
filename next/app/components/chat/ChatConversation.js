@@ -9,7 +9,12 @@ import {
   TextField,
   Button,
   ListItemButton,
-  Tooltip
+  Tooltip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Autocomplete
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -17,8 +22,10 @@ import {
   DeleteOutlined as DeleteOutlinedIcon,
   Save as SaveIcon,
   SaveOutlined as SaveOutlinedIcon,
+  Share as ShareIcon
 } from '@mui/icons-material';
 import { ConversationLogic } from "../../../src/logic/ConversationLogic";
+import { UserLogic } from "../../../src/logic/UserLogic";
 
 function ChatConversation({ open, onClose, onConversationClick, conversation }) {
   const [conversations, setConversations] = useState([]);
@@ -27,8 +34,13 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
   const [editingName, setEditingName] = useState('');
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [usernames, setUsernames] = useState([]);
+  const [selectedUsername, setSelectedUsername] = useState('');
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
 
   const conversationLogic = new ConversationLogic();
+  const userLogic = new UserLogic();
 
   useEffect(() => {
     fetchConversations();
@@ -40,6 +52,16 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error fetching conversations');
+      console.error(err);
+    }
+  };
+
+  const fetchUsernames = async () => {
+    try {
+      setUsernames(await userLogic.fetchUsernames());
+    } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage('Error fetching usernames');
       console.error(err);
     }
   };
@@ -110,6 +132,26 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
     }
   };
 
+  const handleShareConversation = async () => {
+    try {
+      await conversationLogic.addUserToConversation(conversations[selectedConversationIndex].id, selectedUsername);
+      setShareDialogOpen(false);
+      setSelectedUsername('');
+      setAlertOpen(true);
+      setAlertMessage('Conversation shared');
+    } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage('Error sharing conversation');
+      console.error(err);
+    }
+  };
+
+  const openShareDialog = async (index) => {
+    setSelectedConversationIndex(index);
+    await fetchUsernames();
+    setShareDialogOpen(true);
+  };
+
   return (
     <Drawer variant="persistent" anchor="left" open={open} onClose={onClose}>
       <div style={{ width: 250 }}>
@@ -150,6 +192,11 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
                   <DeleteOutlinedIcon />
                 </IconButton>
               </Tooltip>
+              <Tooltip title="Share">
+                <IconButton onClick={(e) => { e.stopPropagation(); openShareDialog(index); }}>
+                  <ShareIcon />
+                </IconButton>
+              </Tooltip>
             </ListItem>
           ))}
         </List>
@@ -178,6 +225,27 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
         onClose={() => setAlertOpen(false)}
         message={alertMessage}
       />
+      <Dialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)}>
+        <DialogTitle>Share Conversation</DialogTitle>
+        <DialogContent>
+          <Autocomplete
+            options={usernames}
+            getOptionLabel={(option) => option}
+            value={selectedUsername}
+            onChange={(event, newValue) => setSelectedUsername(newValue)}
+            renderInput={(params) => <TextField {...params} label="Username" />}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShareDialogOpen(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleShareConversation} color="primary">
+            Share
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Drawer>
   );
 }
