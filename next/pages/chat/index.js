@@ -48,7 +48,7 @@ function Index() {
           setSystemTheme={setSystemTheme}
           infoUrl={"/markdown/view/chat-doc.md"}
         />
-        <div className="flex overflow-hidden">
+        <div className="flex grow overflow-hidden">
           <div>
             <ChatConversation
               drawerOpen={drawerOpen}

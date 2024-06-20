@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   List,
   ListItem,
@@ -15,7 +15,11 @@ import {
   DialogTitle,
   Autocomplete,
   Menu,
-  MenuItem
+  MenuItem,
+  Paper,
+  Box,
+  Grid,
+  Typography, Container
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -26,10 +30,10 @@ import {
   Share as ShareIcon,
   MoreVert as MoreVertIcon
 } from '@mui/icons-material';
-import {ConversationLogic} from "../../../src/logic/ConversationLogic";
-import {UserLogic} from "../../../src/logic/UserLogic";
+import { ConversationLogic } from "../../../src/logic/ConversationLogic";
+import { UserLogic } from "../../../src/logic/UserLogic";
 
-function ChatConversation({drawerOpen, messages, setMessages}) {
+function ChatConversation({ drawerOpen, messages, setMessages }) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
@@ -179,13 +183,14 @@ function ChatConversation({drawerOpen, messages, setMessages}) {
       <div className={`transition-all duration-300 ${drawerOpen ? 'max-w-xs opacity-100' : 'max-w-0 opacity-0'}`}>
         <List>
           {conversations.map((conversation, index) => (
-            <ListItem key={conversation.id}>
+            <ListItem key={conversation.id} disablePadding>
               <ListItemButton onClick={() => handleConversationClick(conversation.messages)}>
                 {editingIndex === index ? (
                   <TextField
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
                     autoFocus
+                    fullWidth
                   />
                 ) : (
                   <ListItemText primary={conversation.name}/>
@@ -243,13 +248,13 @@ function ChatConversation({drawerOpen, messages, setMessages}) {
                   openShareDialog(index);
                   handleMenuClose();
                 }}>
-                  <ShareIcon className="m-1"/>Share
+                  <ShareIcon className="m-1" />Share
                 </MenuItem>
               </Menu>
             </ListItem>
           ))}
         </List>
-        <div className="px-4 py-2">
+        <div className="p-2">
           <TextField
             label="New Conversation"
             value={newConversationName}
