@@ -57,7 +57,7 @@ function Index() {
           setSystemTheme={setSystemTheme}
           infoUrl={"/markdown/view/chat-doc.md"}
         />
-        <div className="flex-center">
+        <div className="flex">
           <div className="m-2">
             <Tooltip title="Conversations">
               <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
