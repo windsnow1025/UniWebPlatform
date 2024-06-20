@@ -58,10 +58,8 @@ function Index() {
         title={title}
         systemTheme={systemTheme}
         setSystemTheme={setSystemTheme}
+        refreshKey={loading}
       />
-      <div className="flex-around m-2">
-        <CreditDiv refreshKey={loading}/>
-      </div>
       <div className="flex-around m-2">
         <div className="m-1">
           <FormControl fullWidth className="mt-2">
