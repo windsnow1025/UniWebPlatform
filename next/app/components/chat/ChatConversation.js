@@ -1,6 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Drawer, List, ListItem, ListItemText, IconButton, Snackbar, TextField, Button, ListItemButton } from '@mui/material';
-import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Save as SaveIcon } from '@mui/icons-material';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Snackbar,
+  TextField,
+  Button,
+  ListItemButton,
+  Tooltip
+} from '@mui/material';
+import {
+  Add as AddIcon,
+  Edit as EditIcon,
+  DeleteOutlined as DeleteOutlinedIcon,
+  Save as SaveIcon,
+  SaveOutlined as SaveOutlinedIcon,
+} from '@mui/icons-material';
 import { ConversationLogic } from "../../../src/logic/ConversationLogic";
 
 function ChatConversation({ open, onClose, onConversationClick, conversation }) {
@@ -108,40 +125,48 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
                 )}
               </ListItemButton>
               {editingIndex === index ? (
-                <IconButton onClick={(e) => { e.stopPropagation(); handleUpdateConversationName(index); }}>
+                <Tooltip title="Save">
+                  <IconButton onClick={(e) => { e.stopPropagation(); handleUpdateConversationName(index); }}>
+                    <SaveOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Rename">
+                  <IconButton onClick={(e) => { e.stopPropagation(); setEditingIndex(index); setEditingName(conversation.name); }}>
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Tooltip title="Update">
+                <IconButton onClick={(e) => { e.stopPropagation(); handleUpdateConversation(index); }}>
                   <SaveIcon />
                 </IconButton>
-              ) : (
-                <IconButton onClick={(e) => { e.stopPropagation(); setEditingIndex(index); setEditingName(conversation.name); }}>
-                  <EditIcon />
+              </Tooltip>
+              <Tooltip title="Delete">
+                <IconButton onClick={(e) => { e.stopPropagation(); handleDeleteConversation(index); }}>
+                  <DeleteOutlinedIcon />
                 </IconButton>
-              )}
-              <IconButton onClick={(e) => { e.stopPropagation(); handleDeleteConversation(index); }}>
-                <DeleteIcon />
-              </IconButton>
-              <IconButton onClick={(e) => { e.stopPropagation(); handleUpdateConversation(index); }}>
-                <SaveIcon />
-              </IconButton>
+              </Tooltip>
             </ListItem>
           ))}
         </List>
-        <div style={{ padding: 16 }}>
+        <div className="px-4 py-2">
           <TextField
             label="New Conversation"
             value={newConversationName}
             onChange={(e) => setNewConversationName(e.target.value)}
             fullWidth
           />
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AddIcon />}
-            onClick={handleAddConversation}
-            fullWidth
-            style={{ marginTop: 8 }}
-          >
-            Add
-          </Button>
+          <div className="my-2">
+            <Button
+              variant="outlined"
+              startIcon={<AddIcon />}
+              onClick={handleAddConversation}
+              fullWidth
+            >
+              Add
+            </Button>
+          </div>
         </div>
       </div>
       <Snackbar
