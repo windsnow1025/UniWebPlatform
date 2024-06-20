@@ -39,7 +39,7 @@ export class UsersService {
   async update(currentUsername: string, newUsername: string, password: string) {
     const user = await this.findOneByUsername(currentUsername);
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException('User not found');
     }
 
     if (currentUsername !== newUsername) {

@@ -25,7 +25,7 @@ export class BookmarksService {
   async update(newBookmark: Bookmark) {
     const bookmark = await this.findOne(newBookmark.id);
     if (!bookmark) {
-      throw new NotFoundException();
+      throw new NotFoundException('Bookmark not found');
     }
 
     bookmark.firstTitle = newBookmark.firstTitle;
