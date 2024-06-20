@@ -14,7 +14,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Autocomplete
+  Autocomplete,
+  Menu,
+  MenuItem
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -22,7 +24,8 @@ import {
   DeleteOutlined as DeleteOutlinedIcon,
   Save as SaveIcon,
   SaveOutlined as SaveOutlinedIcon,
-  Share as ShareIcon
+  Share as ShareIcon,
+  MoreVert as MoreVertIcon
 } from '@mui/icons-material';
 import { ConversationLogic } from "../../../src/logic/ConversationLogic";
 import { UserLogic } from "../../../src/logic/UserLogic";
@@ -38,6 +41,8 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
   const [selectedUsername, setSelectedUsername] = useState('');
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [menuIndex, setMenuIndex] = useState(null);
 
   const conversationLogic = new ConversationLogic();
   const userLogic = new UserLogic();
@@ -152,6 +157,16 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
     setShareDialogOpen(true);
   };
 
+  const handleMenuOpen = (event, index) => {
+    setAnchorEl(event.currentTarget);
+    setMenuIndex(index);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setMenuIndex(null);
+  };
+
   return (
     <Drawer variant="persistent" anchor="left" open={open} onClose={onClose}>
       <div style={{ width: 250 }}>
@@ -182,21 +197,26 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
                   </IconButton>
                 </Tooltip>
               )}
-              <Tooltip title="Update">
-                <IconButton onClick={(e) => { e.stopPropagation(); handleUpdateConversation(index); }}>
-                  <SaveIcon />
+              <Tooltip title="More">
+                <IconButton onClick={(e) => { e.stopPropagation(); handleMenuOpen(e, index); }}>
+                  <MoreVertIcon />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton onClick={(e) => { e.stopPropagation(); handleDeleteConversation(index); }}>
-                  <DeleteOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Share">
-                <IconButton onClick={(e) => { e.stopPropagation(); openShareDialog(index); }}>
-                  <ShareIcon />
-                </IconButton>
-              </Tooltip>
+              <Menu
+                anchorEl={anchorEl}
+                open={menuIndex === index}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={(e) => { e.stopPropagation(); handleUpdateConversation(index); handleMenuClose(); }}>
+                  <SaveIcon className="m-1"/>Update
+                </MenuItem>
+                <MenuItem onClick={(e) => { e.stopPropagation(); handleDeleteConversation(index); handleMenuClose(); }}>
+                  <DeleteOutlinedIcon className="m-1"/>Delete
+                </MenuItem>
+                <MenuItem onClick={(e) => { e.stopPropagation(); openShareDialog(index); handleMenuClose(); }}>
+                  <ShareIcon className="m-1"/>Share
+                </MenuItem>
+              </Menu>
             </ListItem>
           ))}
         </List>
