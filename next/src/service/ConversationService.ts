@@ -16,23 +16,16 @@ export default class ConversationService {
     return res.data;
   }
 
-  async addConversation(name: string, messages: string) {
+  async addConversation(conversation: Conversation) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.post("/conversations/conversation", {
-      name: name,
-      messages: messages
-    }, {
+    await this.axiosInstance.post("/conversations/conversation", conversation, {
       headers: {Authorization: `Bearer ${token}`}
     });
   }
 
-  async updateConversation(name: string, messages: string, id: number) {
+  async updateConversation(conversation: Conversation) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put('/conversations/conversation', {
-      id: id,
-      name: name,
-      messages: messages,
-    }, {
+    await this.axiosInstance.put('/conversations/conversation', conversation, {
       headers: {Authorization: `Bearer ${token}`}
     });
   }
