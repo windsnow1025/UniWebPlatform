@@ -3,6 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
 import { UsersService } from '../users/users.service';
+import { UserDto } from '../users/dto/user.dto';
+import { User } from '../users/user.entity';
+import { ConversationDto } from './dto/conversation.dto';
 
 @Injectable()
 export class ConversationsService {
@@ -12,15 +15,39 @@ export class ConversationsService {
     private usersService: UsersService,
   ) {}
 
-  find(userId: number) {
-    return this.conversationsRepository
+  private toUserDto(user: User) {
+    const userDto: UserDto = {
+      id: user.id,
+      username: user.username,
+      roles: user.roles,
+      credit: user.credit,
+    };
+    return userDto;
+  }
+
+  private toConversationDto(conversation: Conversation) {
+    const conversationDto: ConversationDto = {
+      id: conversation.id,
+      name: conversation.name,
+      messages: conversation.messages,
+      users: conversation.users.map(this.toUserDto),
+    };
+    return conversationDto;
+  }
+
+  async find(userId: number) {
+    const conversations = await this.conversationsRepository
       .createQueryBuilder('conversation')
       .leftJoinAndSelect('conversation.users', 'user')
       .where('user.id = :userId', { userId })
       .getMany();
+
+    return conversations.map((conversation) =>
+      this.toConversationDto(conversation),
+    );
   }
 
-  findOne(userId: number, id: number) {
+  async findOne(userId: number, id: number) {
     return this.conversationsRepository.findOne({
       where: {
         id,
@@ -36,7 +63,9 @@ export class ConversationsService {
     }
 
     conversation.users = [user];
-    return this.conversationsRepository.save(conversation);
+    const savedConversation =
+      await this.conversationsRepository.save(conversation);
+    return this.toConversationDto(savedConversation);
   }
 
   async update(userId: number, newConversation: Conversation) {
@@ -48,7 +77,9 @@ export class ConversationsService {
     conversation.name = newConversation.name;
     conversation.messages = newConversation.messages;
 
-    return this.conversationsRepository.save(conversation);
+    const updatedConversation =
+      await this.conversationsRepository.save(conversation);
+    return this.toConversationDto(updatedConversation);
   }
 
   async updateName(userId: number, id: number, name: string) {
@@ -58,7 +89,9 @@ export class ConversationsService {
     }
 
     conversation.name = name;
-    return this.conversationsRepository.save(conversation);
+    const updatedConversation =
+      await this.conversationsRepository.save(conversation);
+    return this.toConversationDto(updatedConversation);
   }
 
   async remove(userId: number, id: number) {
