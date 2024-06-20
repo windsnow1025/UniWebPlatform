@@ -52,7 +52,8 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
 
   const fetchConversations = async () => {
     try {
-      setConversations(await conversationLogic.fetchConversations());
+      const newConversations = await conversationLogic.fetchConversations();
+      setConversations(newConversations);
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error fetching conversations');
@@ -70,9 +71,9 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
     }
   };
 
-  const handleConversationClick = (conversation) => {
-    console.log(conversation);
-    setMessages(conversation.messages);
+  const handleConversationClick = (conversationMessages) => {
+    const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
+    setMessages(messagesCopy);
   }
 
   const handleAddConversation = async () => {
@@ -180,7 +181,7 @@ function ChatConversation({ drawerOpen, messages, setMessages }) {
           <List>
             {conversations.map((conversation, index) => (
               <ListItem key={conversation.id}>
-                <ListItemButton onClick={() => handleConversationClick(conversation)}>
+                <ListItemButton onClick={() => handleConversationClick(conversation.messages)}>
                   {editingIndex === index ? (
                     <TextField
                       value={editingName}
