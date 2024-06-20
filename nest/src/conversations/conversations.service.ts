@@ -53,13 +53,14 @@ export class ConversationsService {
         id,
         users: { id: userId },
       },
+      relations: ['users'],
     });
   }
 
   async create(userId: number, conversation: Conversation) {
     const user = await this.usersService.findOneById(userId);
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException('User not found');
     }
 
     conversation.users = [user];
@@ -68,10 +69,27 @@ export class ConversationsService {
     return this.toConversationDto(savedConversation);
   }
 
+  async addUser(userId: number, conversationId: number, username: string) {
+    const conversation = await this.findOne(userId, conversationId);
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    const userToAdd = await this.usersService.findOneByUsername(username);
+    if (!userToAdd) {
+      throw new NotFoundException('User not found');
+    }
+
+    conversation.users.push(userToAdd);
+    const updatedConversation =
+      await this.conversationsRepository.save(conversation);
+    return this.toConversationDto(updatedConversation);
+  }
+
   async update(userId: number, newConversation: Conversation) {
     const conversation = await this.findOne(userId, newConversation.id);
     if (!conversation) {
-      throw new NotFoundException();
+      throw new NotFoundException('Conversation not found');
     }
 
     conversation.name = newConversation.name;
@@ -85,7 +103,7 @@ export class ConversationsService {
   async updateName(userId: number, id: number, name: string) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
-      throw new NotFoundException();
+      throw new NotFoundException('Conversation not found');
     }
 
     conversation.name = name;
@@ -97,7 +115,7 @@ export class ConversationsService {
   async remove(userId: number, id: number) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
-      throw new NotFoundException();
+      throw new NotFoundException('Conversation not found');
     }
 
     return await this.conversationsRepository.remove(conversation);
