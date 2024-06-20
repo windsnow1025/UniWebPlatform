@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from "typeorm";
 import { Conversation } from './conversation.entity';
 import { UsersService } from '../users/users.service';
 import { ConversationDto } from './dto/conversation.dto';
@@ -23,12 +23,24 @@ export class ConversationsService {
     return conversationDto;
   }
 
-  find(userId: number) {
-    return this.conversationsRepository
+  async find(userId: number) {
+    const conversationIds = await this.conversationsRepository
       .createQueryBuilder('conversation')
-      .leftJoinAndSelect('conversation.users', 'user')
+      .leftJoin('conversation.users', 'user')
       .where('user.id = :userId', { userId })
+      .select('conversation.id')
       .getMany();
+
+    const ids = conversationIds.map((conversation) => conversation.id);
+
+    if (ids.length === 0) {
+      return [];
+    }
+
+    return this.conversationsRepository.find({
+      where: { id: In(ids) },
+      relations: ['users'],
+    });
   }
 
   async findOne(userId: number, id: number) {
