@@ -8,6 +8,14 @@ export default class UserService {
     this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL });
   }
 
+  async fetchUsers(): Promise<User[]> {
+    const token = localStorage.getItem('token');
+    const res = await this.axiosInstance.get("/users", {
+      headers: {Authorization: `Bearer ${token}`}
+    });
+    return res.data;
+  }
+
   async fetchUser(): Promise<User> {
     const token = localStorage.getItem('token');
     const res = await this.axiosInstance.get("/users/user", {
