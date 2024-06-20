@@ -50,7 +50,7 @@ Content-Type: application/json
 
 ### Patch Conversation
 
-PATCH {{baseUrl}}/conversations/conversation/117/name
+PATCH {{baseUrl}}/conversations/conversation/1/name
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
