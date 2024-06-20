@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Typography, CircularProgress } from "@mui/material";
 import { UserLogic } from "../../../../src/logic/UserLogic";
 
@@ -32,4 +32,4 @@ function CreditDiv({ refreshKey }) {
   );
 }
 
-export default CreditDiv;
+export default memo(CreditDiv);
