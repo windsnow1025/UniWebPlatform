@@ -29,7 +29,7 @@ import {
 import { ConversationLogic } from "../../../src/logic/ConversationLogic";
 import { UserLogic } from "../../../src/logic/UserLogic";
 
-function ChatConversation({ drawerOpen, onConversationClick, conversation }) {
+function ChatConversation({ drawerOpen, messages, setMessages }) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
@@ -70,11 +70,16 @@ function ChatConversation({ drawerOpen, onConversationClick, conversation }) {
     }
   };
 
+  const handleConversationClick = (conversation) => {
+    console.log(conversation);
+    setMessages(conversation.messages);
+  }
+
   const handleAddConversation = async () => {
     try {
       await conversationLogic.addConversation({
         name: newConversationName,
-        messages: JSON.stringify(conversation)
+        messages: JSON.stringify(messages)
       });
       fetchConversations();
       setNewConversationName('');
@@ -92,7 +97,7 @@ function ChatConversation({ drawerOpen, onConversationClick, conversation }) {
       await conversationLogic.updateConversation({
         id: conversations[index].id,
         name: conversations[index].name,
-        messages: JSON.stringify(conversation)
+        messages: JSON.stringify(messages)
       });
       fetchConversations();
       setAlertOpen(true);
@@ -112,6 +117,7 @@ function ChatConversation({ drawerOpen, onConversationClick, conversation }) {
         newConversations[index] = updatedConversation;
         return newConversations;
       });
+      fetchConversations();
       setEditingIndex(null);
       setEditingName('');
       setAlertOpen(true);
@@ -139,6 +145,7 @@ function ChatConversation({ drawerOpen, onConversationClick, conversation }) {
   const handleShareConversation = async () => {
     try {
       await conversationLogic.addUserToConversation(conversations[selectedConversationIndex].id, selectedUsername);
+      fetchConversations();
       setShareDialogOpen(false);
       setSelectedUsername('');
       setAlertOpen(true);
@@ -173,7 +180,7 @@ function ChatConversation({ drawerOpen, onConversationClick, conversation }) {
           <List>
             {conversations.map((conversation, index) => (
               <ListItem key={conversation.id}>
-                <ListItemButton onClick={() => onConversationClick(conversation)}>
+                <ListItemButton onClick={() => handleConversationClick(conversation)}>
                   {editingIndex === index ? (
                     <TextField
                       value={editingName}
