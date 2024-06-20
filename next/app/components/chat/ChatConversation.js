@@ -36,8 +36,7 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
 
   const fetchConversations = async () => {
     try {
-      const conversations = await conversationLogic.fetchConversations();
-      setConversations(conversations);
+      setConversations(await conversationLogic.fetchConversations());
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error fetching conversations');
@@ -81,8 +80,12 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
 
   const handleUpdateConversationName = async (index) => {
     try {
-      await conversationLogic.updateConversationName(conversations[index].id, editingName);
-      fetchConversations();
+      const updatedConversation = await conversationLogic.updateConversationName(conversations[index].id, editingName);
+      setConversations((prevConversations) => {
+        const newConversations = [...prevConversations];
+        newConversations[index] = updatedConversation;
+        return newConversations;
+      });
       setEditingIndex(null);
       setEditingName('');
       setAlertOpen(true);
