@@ -17,7 +17,13 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('user')
+  @Get()
+  async find() {
+    const users = await this.usersService.find();
+    return users.map((user) => this.usersService.toUserDto(user));
+  }
+
+  @Get('/user')
   async findOne(@Request() req: RequestWithUser) {
     const id = req.user.sub;
     const user = await this.usersService.findOneById(id);
@@ -28,12 +34,12 @@ export class UsersController {
   }
 
   @Public()
-  @Post('user')
+  @Post('/user')
   create(@Body() authDto: AuthDto) {
     return this.usersService.create(authDto.username, authDto.password);
   }
 
-  @Put('user')
+  @Put('/user')
   update(@Request() req: RequestWithUser, @Body() authDto: AuthDto) {
     const currentUsername = req.user.username;
     return this.usersService.update(
@@ -43,7 +49,7 @@ export class UsersController {
     );
   }
 
-  @Delete('user')
+  @Delete('/user')
   delete(@Request() req: RequestWithUser) {
     const id = req.user.sub;
     return this.usersService.remove(id);
