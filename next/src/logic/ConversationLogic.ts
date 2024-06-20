@@ -32,6 +32,21 @@ export class ConversationLogic {
     }
   }
 
+  async addUserToConversation(id: number, username: string) {
+    try {
+      await this.conversationService.addUserToConversation(id, username);
+    } catch (err: any) {
+      if (err.response.status === 401) {
+        throw new Error('Unauthorized');
+      } else if (err.response.status === 403) {
+        throw new Error('Forbidden');
+      } else {
+        console.error(err);
+        throw new Error('Unknown Error');
+      }
+    }
+  }
+
   async updateConversation(conversation: Conversation) {
     try {
       await this.conversationService.updateConversation(conversation);
