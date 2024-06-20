@@ -30,7 +30,10 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
 
   const handleAddConversation = async () => {
     try {
-      await conversationService.addConversation(newConversationName, JSON.stringify(conversation));
+      await conversationService.addConversation({
+        "name": newConversationName,
+        "messages": JSON.stringify(conversation)
+      });
       fetchConversations();
       setNewConversationName('');
       setAlertOpen(true);
@@ -44,7 +47,11 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
 
   const handleUpdateConversation = async (index) => {
     try {
-      await conversationService.updateConversation(editingName, JSON.stringify(conversation), conversations[index].id);
+      await conversationService.updateConversation({
+        "id": conversations[index].id,
+        "name": editingName,
+        "messages": JSON.stringify(conversation)
+      });
       fetchConversations();
       setEditingIndex(null);
       setEditingName('');
