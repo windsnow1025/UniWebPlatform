@@ -13,14 +13,18 @@ export class ConversationsService {
   ) {}
 
   find(userId: number) {
-    return this.conversationsRepository.findBy({ user: { id: userId } });
+    return this.conversationsRepository
+      .createQueryBuilder('conversation')
+      .leftJoinAndSelect('conversation.users', 'user')
+      .where('user.id = :userId', { userId })
+      .getMany();
   }
 
   findOne(userId: number, id: number) {
     return this.conversationsRepository.findOne({
       where: {
         id,
-        user: { id: userId },
+        users: { id: userId },
       },
     });
   }
@@ -31,7 +35,7 @@ export class ConversationsService {
       throw new NotFoundException();
     }
 
-    conversation.user = user;
+    conversation.users = [user];
     return this.conversationsRepository.save(conversation);
   }
 
