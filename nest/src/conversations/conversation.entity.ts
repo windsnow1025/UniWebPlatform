@@ -1,8 +1,8 @@
 import {
   Column,
   Entity,
-  JoinColumn,
-  ManyToOne,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../users/user.entity';
@@ -12,10 +12,6 @@ import { ConversationMessage } from './interfaces/conversation-message.interface
 export class Conversation {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @ManyToOne(() => User, (user) => user.conversations)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
 
   @Column({
     type: 'varchar',
@@ -27,4 +23,8 @@ export class Conversation {
     type: 'json',
   })
   messages: ConversationMessage[];
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  users: User[];
 }
