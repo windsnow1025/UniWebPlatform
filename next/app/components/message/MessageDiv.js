@@ -97,7 +97,7 @@ function MessageDiv({
           />
         }
         <div className="flex">
-          <Paper elevation={4} className="inflex-fill my-2">
+          <Paper elevation={4} className="grow my-2">
             <ContentDiv
               content={content}
               setContent={setContent}
@@ -105,7 +105,7 @@ function MessageDiv({
               editableState={editableState}
             />
           </Paper>
-          <div className="flex-column inflex-end">
+          <div className="flex-column self-end">
             {setFiles &&
               <>
                 <input

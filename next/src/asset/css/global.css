@@ -34,18 +34,3 @@ div.flex-column {
   display: flex;
   flex-direction: column;
 }
-
-div.flex-end {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-div.inflex-fill {
-  flex: 1;
-  overflow: auto;
-}
-
-div.inflex-end {
-  align-self: flex-end;
-}

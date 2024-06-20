@@ -10,10 +10,10 @@ const FileDiv = ({fileUrl, handleFileDelete}) => {
   if (mimeType && mimeType.startsWith('image/')) {
     return (
       <Paper key={fileUrl} className="flex p-2 m-2">
-        <div className="inflex-fill">
+        <div className="grow">
           <img src={fileUrl} alt={fileName} className="max-w-full"/>
         </div>
-        <div className="inflex-end">
+        <div className="self-end">
           <IconButton aria-label="delete-file" onClick={() => handleFileDelete(fileUrl)}>
             <RemoveCircleOutlineIcon fontSize="small"/>
           </IconButton>
