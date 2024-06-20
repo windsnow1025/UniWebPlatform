@@ -47,6 +47,21 @@ export class ConversationLogic {
     }
   }
 
+  async updateConversationName(id: number, name: string) {
+    try {
+      const conversation = this.conversationService.updateConversationName(id, name);
+    } catch (err: any) {
+      if (err.response.status === 401) {
+        throw new Error('Unauthorized');
+      } else if (err.response.status === 403) {
+        throw new Error('Forbidden');
+      } else {
+        console.error(err);
+        throw new Error('Unknown Error');
+      }
+    }
+  }
+
   async deleteConversation(id: number) {
     try {
       await this.conversationService.deleteConversation(id);

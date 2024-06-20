@@ -47,6 +47,16 @@ export class ConversationsService {
     return this.conversationsRepository.save(conversation);
   }
 
+  async updateName(userId: number, id: number, name: string) {
+    const conversation = await this.findOne(userId, id);
+    if (!conversation) {
+      throw new NotFoundException();
+    }
+
+    conversation.name = name;
+    return this.conversationsRepository.save(conversation);
+  }
+
   async remove(userId: number, id: number) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
