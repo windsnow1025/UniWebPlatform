@@ -42,7 +42,7 @@ function AuthDiv({refreshKey}) {
               aria-label="account"
               onClick={(event) => setAnchorEl(event.currentTarget)}
             >
-              <ManageAccountsIcon fontSize="large"/>
+              <ManageAccountsIcon fontSize="large" className="text-white"/>
             </IconButton>
           </Tooltip>
           <Menu
