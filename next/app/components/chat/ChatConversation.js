@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Drawer, List, ListItem, ListItemText, IconButton, Snackbar, TextField, Button, ListItemButton } from '@mui/material';
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import ConversationService from "../../../src/service/ConversationService";
+import {ConversationLogic} from "../../../src/logic/ConversationLogic";
 
 function ChatConversation({ open, onClose, onConversationClick, conversation }) {
   const [conversations, setConversations] = useState([]);
@@ -11,7 +11,7 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
-  const conversationService = new ConversationService();
+  const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
     fetchConversations();
@@ -19,7 +19,7 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
 
   const fetchConversations = async () => {
     try {
-      const conversations = await conversationService.fetchConversations();
+      const conversations = await conversationLogic.fetchConversations();
       setConversations(conversations);
     } catch (err) {
       setAlertOpen(true);
@@ -30,7 +30,7 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
 
   const handleAddConversation = async () => {
     try {
-      await conversationService.addConversation({
+      await conversationLogic.addConversation({
         "name": newConversationName,
         "messages": JSON.stringify(conversation)
       });
@@ -47,7 +47,7 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
 
   const handleUpdateConversation = async (index) => {
     try {
-      await conversationService.updateConversation({
+      await conversationLogic.updateConversation({
         "id": conversations[index].id,
         "name": editingName,
         "messages": JSON.stringify(conversation)
@@ -66,7 +66,7 @@ function ChatConversation({ open, onClose, onConversationClick, conversation }) 
 
   const handleDeleteConversation = async (index) => {
     try {
-      await conversationService.deleteConversation(conversations[index].id);
+      await conversationLogic.deleteConversation(conversations[index].id);
       fetchConversations();
       setAlertOpen(true);
       setAlertMessage('Conversation deleted');
