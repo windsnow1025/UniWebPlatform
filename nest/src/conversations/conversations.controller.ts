@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Request,
@@ -32,6 +33,16 @@ export class ConversationsController {
   update(@Request() req: RequestWithUser, @Body() conversation: Conversation) {
     const userId = req.user.sub;
     return this.conversationsService.update(userId, conversation);
+  }
+
+  @Patch('/conversation/:id/name')
+  updateName(
+    @Request() req: RequestWithUser,
+    @Param('id') id: number,
+    @Body('name') name: string,
+  ) {
+    const userId = req.user.sub;
+    return this.conversationsService.updateName(userId, id, name);
   }
 
   @Delete('/conversation/:id')
