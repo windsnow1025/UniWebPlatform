@@ -40,16 +40,18 @@ function MarkdownViewer() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <HeaderAppBar
-        title="Markdown View"
-        systemTheme={systemTheme}
-        setSystemTheme={setSystemTheme}
-      />
-      <div className="m-2">
-        <div
-          className="markdown-body p-2 min-h-16"
-          ref={markdownRef}
+      <div className="local-scroll-root">
+        <HeaderAppBar
+          title="Markdown View"
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
         />
+        <div className="local-scroll-scrollable m-2">
+          <div
+            className="markdown-body p-2 min-h-16"
+            ref={markdownRef}
+          />
+        </div>
       </div>
     </ThemeProvider>
   );

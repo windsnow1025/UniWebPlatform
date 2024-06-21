@@ -34,3 +34,21 @@ div.flex-column {
   display: flex;
   flex-direction: column;
 }
+
+/* Local Scroll */
+.local-scroll-root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.local-scroll-unscrollable {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.local-scroll-scrollable {
+  flex-grow: 1;
+  overflow: auto;
+}
