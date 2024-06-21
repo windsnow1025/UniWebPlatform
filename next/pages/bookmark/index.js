@@ -15,12 +15,16 @@ function Index() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <HeaderAppBar
-        title="Bookmarks"
-        systemTheme={systemTheme}
-        setSystemTheme={setSystemTheme}
-      />
-      <BookmarkDataGrid/>
+      <div className="local-scroll-root">
+        <HeaderAppBar
+          title="Bookmarks"
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
+        />
+        <div className="local-scroll-scrollable">
+          <BookmarkDataGrid/>
+        </div>
+      </div>
     </ThemeProvider>
   );
 }
