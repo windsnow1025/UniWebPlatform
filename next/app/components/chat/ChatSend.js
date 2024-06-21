@@ -47,7 +47,7 @@ function ChatSend({
     currentRequestIndex.current += 1;
     const thisRequestIndex = currentRequestIndex.current;
 
-    const scrollableContainer = document.querySelector('.grow.overflow-auto');
+    const scrollableContainer = document.querySelector('.local-scroll-scrollable');
 
     if (!stream) {
 
