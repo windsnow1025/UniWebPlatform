@@ -39,14 +39,14 @@ function Index() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme />
-      <div className="h-screen flex-column">
+      <div className="local-scroll-root">
         <HeaderAppBar
           title={title}
           systemTheme={systemTheme}
           setSystemTheme={setSystemTheme}
           infoUrl={"/markdown/view/chat-doc.md"}
         />
-        <div className="flex grow overflow-hidden">
+        <div className="local-scroll-unscrollable">
           <Paper elevation={2} sx={{ borderRadius: 0 }}>
             <Collapse in={drawerOpen} orientation="horizontal">
                 <ChatConversation
@@ -56,7 +56,7 @@ function Index() {
                 />
             </Collapse>
           </Paper>
-          <div className="grow overflow-auto">
+          <div className="local-scroll-scrollable">
             <div className="flex">
               <div className="m-2">
                 <ToggleConversationButton
