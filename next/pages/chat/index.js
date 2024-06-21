@@ -14,7 +14,7 @@ import ChatConversation from "../../app/components/chat/ChatConversation";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
 
 function Index() {
-  const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(true);
@@ -38,7 +38,7 @@ function Index() {
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme />
+      <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
         <HeaderAppBar
           title={title}
@@ -47,13 +47,13 @@ function Index() {
           infoUrl={"/markdown/view/chat-doc.md"}
         />
         <div className="local-scroll-unscrollable">
-          <Paper elevation={2} sx={{ borderRadius: 0 }}>
+          <Paper elevation={2} sx={{borderRadius: 0}}>
             <Collapse in={drawerOpen} orientation="horizontal">
-                <ChatConversation
-                  drawerOpen={drawerOpen}
-                  messages={messages}
-                  setMessages={setMessages}
-                />
+              <ChatConversation
+                drawerOpen={drawerOpen}
+                messages={messages}
+                setMessages={setMessages}
+              />
             </Collapse>
           </Paper>
           <div className="local-scroll-scrollable">
