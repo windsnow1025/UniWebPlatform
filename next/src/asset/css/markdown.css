@@ -1,5 +1,12 @@
 .markdown-body {
+
 }
+
 .markdown-body table {
     display: table !important;
+}
+
+/* Required for local scrolling */
+.katex {
+    position: relative;
 }
