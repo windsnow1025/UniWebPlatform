@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {parseMarkdown} from "../../../src/util/MarkdownParser";
 import {parseLaTeX} from "../../../src/util/LaTeXParser";
 import {MarkdownLogic} from '../../../src/logic/MarkdownLogic';
-import '../../../src/asset/css/markdown.css';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline} from "@mui/material";
 import {useRouter} from "next/router";
