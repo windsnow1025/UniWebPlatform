@@ -39,45 +39,49 @@ function Index() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <HeaderAppBar
-        title={title}
-        systemTheme={systemTheme}
-        setSystemTheme={setSystemTheme}
-      />
-      <Paper elevation={4} className="m-8 p-8">
-        <div className="flex-between">
-          <Button variant="outlined">
-            <Link
-              href="/markdown/add"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              New Markdown
-            </Link>
-          </Button>
-        </div>
-        <List>
-          {markdowns.map((markdown, index) => (
-            <div key={markdown.id}>
-              <ListItem disablePadding>
-                <ListItemText
-                  primary={
-                    <Link
-                      href={`/markdown/update/${markdown.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      color="secondary"
-                    >
-                      {markdown.title}
-                    </Link>
-                  }
-                />
-              </ListItem>
-              {index < markdowns.length - 1 && <Divider/>}
+      <div className="local-scroll-root">
+        <HeaderAppBar
+          title={title}
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
+        />
+        <div className="local-scroll-scrollable">
+          <Paper elevation={4} className="m-8 p-8">
+            <div className="flex-between">
+              <Button variant="outlined">
+                <Link
+                  href="/markdown/add"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  New Markdown
+                </Link>
+              </Button>
             </div>
-          ))}
-        </List>
-      </Paper>
+            <List>
+              {markdowns.map((markdown, index) => (
+                <div key={markdown.id}>
+                  <ListItem disablePadding>
+                    <ListItemText
+                      primary={
+                        <Link
+                          href={`/markdown/update/${markdown.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          color="secondary"
+                        >
+                          {markdown.title}
+                        </Link>
+                      }
+                    />
+                  </ListItem>
+                  {index < markdowns.length - 1 && <Divider/>}
+                </div>
+              ))}
+            </List>
+          </Paper>
+        </div>
+      </div>
     </ThemeProvider>
   );
 }
