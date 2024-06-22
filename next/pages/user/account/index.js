@@ -41,36 +41,38 @@ function Index() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <HeaderAppBar
-        title="User Center"
-        useAuthDiv={false}
-        systemTheme={systemTheme}
-        setSystemTheme={setSystemTheme}
-      />
-      <div className="flex-center">
-        <div className="text-center">
-          <div className="m-2">
-            <TextField
-              label="Username"
-              variant="outlined"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="mt-2"
-            />
-          </div>
-          <div className="m-2">
-            <TextField
-              label="Password"
-              variant="outlined"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-2"
-            />
-          </div>
-          <div className="m-2">
-            <Button variant="contained" onClick={handleUpdate}>Update</Button>
+      <div className="local-scroll-root">
+        <HeaderAppBar
+          title="User Center"
+          useAuthDiv={false}
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
+        />
+        <div className="local-scroll-scrollable flex-center">
+          <div className="text-center">
+            <div className="m-2">
+              <TextField
+                label="Username"
+                variant="outlined"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-2"
+              />
+            </div>
+            <div className="m-2">
+              <TextField
+                label="Password"
+                variant="outlined"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-2"
+              />
+            </div>
+            <div className="m-2">
+              <Button variant="contained" onClick={handleUpdate}>Update</Button>
+            </div>
           </div>
         </div>
       </div>

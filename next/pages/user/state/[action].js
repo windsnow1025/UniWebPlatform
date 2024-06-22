@@ -73,36 +73,38 @@ function Action() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <HeaderAppBar
-        title={title}
-        useAuthDiv={false}
-        systemTheme={systemTheme}
-        setSystemTheme={setSystemTheme}
-      />
-      <div className="flex-center">
-        <div className="text-center">
-          <div className="m-2">
-            <TextField
-              label="Username"
-              variant="outlined"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="mt-2"
-            />
-          </div>
-          <div className="m-2">
-            <TextField
-              label="Password"
-              variant="outlined"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-2"
-            />
-          </div>
-          <div className="m-2">
-            <Button variant="contained" onClick={action === 'signin' ? handleSignIn : handleSignUp}>{title}</Button>
+      <div className="local-scroll-root">
+        <HeaderAppBar
+          title={title}
+          useAuthDiv={false}
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
+        />
+        <div className="local-scroll-scrollable flex-center">
+          <div className="text-center">
+            <div className="m-2">
+              <TextField
+                label="Username"
+                variant="outlined"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-2"
+              />
+            </div>
+            <div className="m-2">
+              <TextField
+                label="Password"
+                variant="outlined"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-2"
+              />
+            </div>
+            <div className="m-2">
+              <Button variant="contained" onClick={action === 'signin' ? handleSignIn : handleSignUp}>{title}</Button>
+            </div>
           </div>
         </div>
       </div>

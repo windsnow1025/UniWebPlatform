@@ -17,22 +17,24 @@ function Index() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <HeaderAppBar
-        title="Windsnow1025"
-        systemTheme={systemTheme}
-        setSystemTheme={setSystemTheme}
-      />
-      <div className="flex-around m-2">
-        <span>My Email: windsnow1024@gmail.com</span>
-        <Link
-          href="https://github.com/windsnow1025/UniWebPlatform"
-          target="_blank"
-          rel="noopener noreferrer">
-          <div className="flex-around m-2">
-            <span className="m-2">My GitHub</span>
-            <GitHubIcon/>
-          </div>
-        </Link>
+      <div className="local-scroll-root">
+        <HeaderAppBar
+          title="Windsnow1025"
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
+        />
+        <div className="local-scroll-scrollable flex-around m-2">
+          <span>My Email: windsnow1024@gmail.com</span>
+          <Link
+            href="https://github.com/windsnow1025/UniWebPlatform"
+            target="_blank"
+            rel="noopener noreferrer">
+            <div className="flex-around m-2">
+              <span className="m-2">My GitHub</span>
+              <GitHubIcon/>
+            </div>
+          </Link>
+        </div>
       </div>
     </ThemeProvider>
   );
