@@ -81,41 +81,48 @@ function MessageTransmitter() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <HeaderAppBar
-        title="Message Transmitter"
-        systemTheme={systemTheme}
-        setSystemTheme={setSystemTheme}
-      />
-      <div className="m-4">
-        <Typography variant="h4" className="text-center">Receive Messages</Typography>
-        <Paper elevation={1} className="m-2 p-4 rounded-lg">
-          {messages.map(message => (
-            <MessageDiv
-              key={message.id}
-              role={message.username}
-              setRole={() => {}}
-              content={message.content}
-              setContent={() => {}}
-            />
-          ))}
-        </Paper>
-        <div className="flex-center">
-          <div className="m-1"><Button variant="contained" color="primary" onClick={fetchMessages}>Receive</Button>
-          </div>
-          <div className="m-1"><Button variant="contained" color="secondary" onClick={handleClearMessages}>Clear</Button></div>
-        </div>
-      </div>
-      <div className="m-4">
-        <Typography variant="h4" className="text-center">Send Messages</Typography>
-        <MessageDiv
-          role={newMessage.username}
-          setRole={handleNewMessageRoleChange}
-          content={newMessage.content}
-          setContent={handleNewMessageContentChange}
-          setFiles={handleFileUpload}
+      <div className="local-scroll-root">
+        <HeaderAppBar
+          title="Message Transmitter"
+          systemTheme={systemTheme}
+          setSystemTheme={setSystemTheme}
         />
-        <div className="text-center">
-          <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>
+        <div className="local-scroll-scrollable">
+          <div className="m-4">
+            <Typography variant="h4" className="text-center">Receive Messages</Typography>
+            <Paper elevation={1} className="m-2 p-4 rounded-lg">
+              {messages.map(message => (
+                <MessageDiv
+                  key={message.id}
+                  role={message.username}
+                  setRole={() => {
+                  }}
+                  content={message.content}
+                  setContent={() => {
+                  }}
+                />
+              ))}
+            </Paper>
+            <div className="flex-center">
+              <div className="m-1"><Button variant="contained" color="primary" onClick={fetchMessages}>Receive</Button>
+              </div>
+              <div className="m-1"><Button variant="contained" color="secondary"
+                                           onClick={handleClearMessages}>Clear</Button></div>
+            </div>
+          </div>
+          <div className="m-4">
+            <Typography variant="h4" className="text-center">Send Messages</Typography>
+            <MessageDiv
+              role={newMessage.username}
+              setRole={handleNewMessageRoleChange}
+              content={newMessage.content}
+              setContent={handleNewMessageContentChange}
+              setFiles={handleFileUpload}
+            />
+            <div className="text-center">
+              <Button id="send" variant="outlined" onClick={handleSendMessage}>Send</Button>
+            </div>
+          </div>
         </div>
       </div>
     </ThemeProvider>
