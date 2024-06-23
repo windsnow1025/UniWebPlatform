@@ -8,7 +8,7 @@ from fastapi import HTTPException
 from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
-from app.logic.chat.processor.chat_processor.interfaces.gpt_processor import GPTProcessor
+from chat.interfaces.gpt_processor import GPTProcessor
 
 
 def process_delta(completion_delta: ChatCompletionChunk) -> str:

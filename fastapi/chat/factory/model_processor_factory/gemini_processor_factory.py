@@ -4,14 +4,12 @@ from typing import Callable, Generator
 import google.generativeai as genai
 from fastapi.responses import StreamingResponse
 
-from app.logic.chat.processor.file_processor.document_processor import \
-    extract_text_from_file
-from app.logic.chat.processor.file_processor.file_type_checker import get_file_type
-from app.logic.chat.processor.chat_processor.factory.model_processor_factory.gemini_image_processor import get_image_part_from_file
-from app.logic.chat.processor.chat_processor.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
-from app.logic.chat.processor.chat_processor.implementations.stream_gemini_processor import StreamGeminiProcessor
-from app.model.gemini_message import GeminiMessage
-from app.model.message import Message
+from chat.logic.file_type_checker import get_file_type
+from chat.factory.model_processor_factory.gemini_image_processor import get_image_part_from_file
+from chat.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
+from chat.implementations.stream_gemini_processor import StreamGeminiProcessor
+from chat.model.gemini_message import GeminiMessage
+from chat.model.message import Message
 
 
 async def create_gemini_processor(

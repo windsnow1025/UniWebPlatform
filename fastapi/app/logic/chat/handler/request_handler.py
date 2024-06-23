@@ -1,6 +1,6 @@
 from typing import Callable
 
-from app.model.message import Message
+from chat import Message
 from app.logic.chat.util.token_counter import num_tokens_from_text
 
 
