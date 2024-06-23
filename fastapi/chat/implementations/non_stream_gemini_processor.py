@@ -4,7 +4,7 @@ import re
 import httpx
 from fastapi import HTTPException
 
-from app.logic.chat.processor.chat_processor.interfaces.gemini_processor import GeminiProcessor
+from chat.interfaces.gemini_processor import GeminiProcessor
 
 
 class NonStreamGeminiProcessor(GeminiProcessor):

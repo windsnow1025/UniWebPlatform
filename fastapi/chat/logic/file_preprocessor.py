@@ -1,6 +1,6 @@
-from app.logic.chat.processor.file_processor.document_processor import extract_text_from_file
-from app.logic.chat.processor.file_processor.file_type_checker import get_file_type
-from app.model.message import Message
+from chat.logic.document_processor import extract_text_from_file
+from chat.logic.file_type_checker import get_file_type
+from chat.model.message import Message
 
 
 async def preprocess_message(message: Message) -> None:

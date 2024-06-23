@@ -1,7 +1,7 @@
 import base64
 
-from app.logic.chat.processor.file_processor.image_processor import fetch_img_data
-from app.model.gpt_message import ImageURL, ImageContent
+from chat.logic.image_processor import fetch_img_data
+from chat.model.gpt_message import ImageURL, ImageContent
 
 
 async def get_image_content_from_file(file: str) -> ImageContent:

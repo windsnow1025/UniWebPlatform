@@ -3,15 +3,13 @@ import os
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
-from app.logic.chat.handler.response_handler import StreamResponseHandler, NonStreamResponseHandler
-from app.logic.chat.processor.file_processor.document_processor import \
-    extract_text_from_file
-from app.logic.chat.processor.file_processor.file_type_checker import get_file_type
-from app.logic.chat.processor.chat_processor.factory.model_processor_factory.gpt_image_processor import get_image_content_from_file
-from app.logic.chat.processor.chat_processor.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
-from app.logic.chat.processor.chat_processor.implementations.stream_gpt_processor import StreamGPTProcessor
-from app.model.gpt_message import *
-from app.model.message import Message
+from chat.model.handler import NonStreamResponseHandler, StreamResponseHandler
+from chat.logic.file_type_checker import get_file_type
+from chat.factory.model_processor_factory.gpt_image_processor import get_image_content_from_file
+from chat.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
+from chat.implementations.stream_gpt_processor import StreamGPTProcessor
+from chat.model.gpt_message import *
+from chat.model.message import Message
 
 
 async def create_gpt_processor(

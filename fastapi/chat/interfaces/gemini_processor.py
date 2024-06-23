@@ -1,8 +1,8 @@
 from google.generativeai import GenerativeModel
 
-from app.logic.chat.handler.response_handler import NonStreamResponseHandler, StreamResponseHandler
-from app.logic.chat.processor.chat_processor.interfaces.chat_processor import ChatProcessor
-from app.model.gemini_message import GeminiMessage
+from chat.model.handler import NonStreamResponseHandler, StreamResponseHandler
+from chat.interfaces.chat_processor import ChatProcessor
+from chat.model.gemini_message import GeminiMessage
 
 
 class GeminiProcessor(ChatProcessor):
