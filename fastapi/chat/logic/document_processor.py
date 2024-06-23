@@ -9,7 +9,7 @@ from docx.oxml import CT_P, CT_Tbl
 from fastapi import HTTPException
 from pptx import Presentation
 
-from app.logic.chat.processor.file_processor.file_type_checker import get_file_type
+from chat.logic.file_type_checker import get_file_type
 
 
 async def extract_text_from_file(file_url: str) -> str:
