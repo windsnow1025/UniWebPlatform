@@ -122,7 +122,10 @@ export class ChatLogic {
   }
 
   sanitize(content: string) {
-    return content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return content
+      .replace(/&/g, '&amp;')
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
   unsanitize(content: string) {
