@@ -6,7 +6,7 @@ import httpx
 from fastapi import HTTPException
 from google.generativeai.types import GenerateContentResponse
 
-from app.logic.chat.processor.chat_processor.interfaces.gemini_processor import GeminiProcessor
+from chat.interfaces.gemini_processor import GeminiProcessor
 
 
 def process_delta(completion_delta: GenerateContentResponse) -> str:

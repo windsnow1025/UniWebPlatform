@@ -5,7 +5,7 @@ import app.dao.user_dao as user_dao
 import app.logic.auth as auth
 import app.logic.chat.util.chat_pricing as pricing
 from app.logic.chat.chat_service import handle_chat_interaction
-from app.model.message import Message
+from chat import Message
 
 chat_router = APIRouter()
 

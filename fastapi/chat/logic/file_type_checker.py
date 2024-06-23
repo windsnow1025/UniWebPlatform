@@ -1,7 +1,6 @@
 import mimetypes
 
-from app.logic.chat.processor.file_processor.code_file_extensions import \
-    code_file_extensions
+from chat.logic.code_file_extensions import code_file_extensions
 
 
 def get_file_type(file_name: str) -> str:

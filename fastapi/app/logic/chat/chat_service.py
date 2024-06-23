@@ -3,10 +3,10 @@ import logging
 from app.dao import user_dao
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
-from app.logic.chat.processor.chat_processor.factory import chat_processor_factory
-from app.logic.chat.processor.file_processor.file_preprocessor import preprocess_message
-from app.model.message import Message
 from app.logic.chat.util import chat_pricing
+from chat import create_chat_processor
+from chat import preprocess_message
+from chat import Message
 
 
 async def handle_chat_interaction(
@@ -37,7 +37,7 @@ async def handle_chat_interaction(
         lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
     )
 
-    processor = await chat_processor_factory.create_chat_processor(
+    processor = await create_chat_processor(
         messages=messages,
         model=model,
         api_type=api_type,
