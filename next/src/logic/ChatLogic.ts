@@ -1,6 +1,7 @@
 import ChatService, {StreamResponse} from "../service/ChatService";
 import {Message} from "../model/Message"
 import {ApiTypeModel} from "@/src/model/Chat";
+import {sanitize, desanitize} from "@/src/util/MarkdownParser";
 
 export class ChatLogic {
   private chatService: ChatService;
@@ -77,14 +78,14 @@ export class ChatLogic {
   }
 
   async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
-    const unsanitizedMessages = messages.map(message => ({
+    const desanitizedMessages = messages.map(message => ({
       ...message,
-      text: this.unsanitize(message.text)
+      text: desanitize(message.text)
     }));
 
     try {
-      const content = await this.chatService.generate(unsanitizedMessages, api_type, model, temperature, stream) as string;
-      return this.sanitize(content);
+      const content = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as string;
+      return sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
@@ -94,21 +95,21 @@ export class ChatLogic {
   async *streamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
     let controller;
 
-    const unsanitizedMessages = messages.map(message => ({
+    const desanitizedMessages = messages.map(message => ({
       ...message,
-      text: this.unsanitize(message.text)
+      text: desanitize(message.text)
     }));
 
     try {
 
-      const response = await this.chatService.generate(unsanitizedMessages, api_type, model, temperature, stream) as StreamResponse;
+      const response = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as StreamResponse;
       controller = response.controller;
       const reader = response.reader;
 
       while (true) {
         const {value, done} = await reader.read();
         if (done) break;
-        yield this.sanitize(new TextDecoder().decode(value));
+        yield sanitize(new TextDecoder().decode(value));
       }
 
     } catch (err) {
@@ -119,19 +120,5 @@ export class ChatLogic {
         controller.abort();
       }
     }
-  }
-
-  sanitize(content: string) {
-    return content
-      .replace(/&/g, '&amp;')
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
-  unsanitize(content: string) {
-    return content
-      .replace(/&amp;/g, "&")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">");
   }
 }

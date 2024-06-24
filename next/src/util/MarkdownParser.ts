@@ -21,19 +21,20 @@ const addLaTeXEscape = (text: string) => {
     .replace(/\\\)/g, '\\\\\)');
 };
 
-const deSanitize = function (text: string) {
-  const deSanitizeMap = {
-    '&amp;': '&',
-    '&lt;': '<',
-    '&gt;': '>',
-    '&quot;': '"',
-    '&#039;': "'"
-  };
-  return text.replace(
-    /&amp;|&lt;|&gt;|&quot;|&#039;/g,
-    (matchedEntity) => {
-      return deSanitizeMap[matchedEntity as keyof typeof deSanitizeMap];
-    });
+// Order: '&' -> '< >'
+export function sanitize(content: string) {
+  return content
+    .replace(/&/g, '&amp;')
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+// Order: '< >' -> '&'
+export function desanitize(content: string) {
+  return content
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
 }
 
 const decodeEntitiesInParsedCode = function (text: string) {
@@ -46,7 +47,7 @@ const decodeEntitiesInParsedCode = function (text: string) {
 export async function parseMarkdown(content: string, sanitize = true) {
   content = addLaTeXEscape(content);
   if (!sanitize) {
-    content = deSanitize(content);
+    content = desanitize(content);
   }
   content = await marked.parse(content);
   content = decodeEntitiesInParsedCode(content);
