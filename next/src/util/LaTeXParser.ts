@@ -16,5 +16,5 @@ const katex_config = {
 // \]</p>
 // </div>
 export function parseLaTeX(content_div: HTMLElement) {
-  renderMathInElement(content_div, katex_config)
+  renderMathInElement(content_div, katex_config);
 }

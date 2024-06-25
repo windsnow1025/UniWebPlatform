@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {parseMarkdown} from "../../../src/util/MarkdownParser";
 import {parseLaTeX} from "../../../src/util/LaTeXParser";
+import {parseMarkdownLaTeX} from "../../../src/util/MarkdownLaTeXParser";
 
 function ContentDiv({
                       content,
@@ -16,9 +17,8 @@ function ContentDiv({
     contentRef.current.innerHTML = content;
   }
 
-  const parse = async (content, shouldSanitize) => {
-    contentRef.current.innerHTML = await parseMarkdown(content, shouldSanitize);
-    parseLaTeX(contentRef.current);
+  const parse = (content, shouldSanitize) => {
+    parseMarkdownLaTeX(contentRef.current, content, shouldSanitize);
   }
 
   const processMarkdown = async (content, editing, shouldSanitize, editableState) => {
