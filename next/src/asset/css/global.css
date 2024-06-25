@@ -46,6 +46,11 @@ div.flex-column {
   flex-direction: column;
 }
 
+div.inflex-fill {
+  flex: 1;
+  overflow: auto;
+}
+
 /* Local Scroll */
 .local-scroll-root {
   height: 100vh;
