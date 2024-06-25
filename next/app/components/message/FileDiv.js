@@ -10,7 +10,7 @@ const FileDiv = ({fileUrl, handleFileDelete}) => {
   if (mimeType && mimeType.startsWith('image/')) {
     return (
       <Paper key={fileUrl} className="flex p-2 m-2">
-        <div className="grow">
+        <div className="inflex-fill">
           <img src={fileUrl} alt={fileName} className="max-w-full"/>
         </div>
         <div className="self-end">
