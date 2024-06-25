@@ -11,7 +11,7 @@ const katex_config = {
 };
 
 
-//<div class="markdown-body" contenteditable="plaintext-only"><p>\[
+//<div class="markdown-body" contenteditable="true"><p>\[
 // e^{ix} = \cos(x) + i\sin(x)
 // \]</p>
 // </div>
