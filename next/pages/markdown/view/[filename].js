@@ -8,6 +8,7 @@ import {parseLaTeX} from "../../../src/util/LaTeXParser";
 import PublicService from "../../../src/service/PublicService";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
+import {parseMarkdownLaTeX} from "../../../src/util/MarkdownLaTeXParser";
 
 function MarkdownViewer() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -20,7 +21,7 @@ function MarkdownViewer() {
   const fetchMarkdown = async () => {
     const markdown = await publicService.fetchMarkdown(filename);
     if (markdownRef.current) {
-      markdownRef.current.innerHTML = await parseMarkdown(markdown);
+      parseMarkdownLaTeX(markdownRef.current, markdown);
     }
   };
 
