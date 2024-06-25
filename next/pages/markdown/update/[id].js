@@ -8,6 +8,7 @@ import {useRouter} from "next/router";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
+import {parseMarkdownLaTeX} from "../../../src/util/MarkdownLaTeXParser";
 
 function MarkdownUpdate() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -24,8 +25,7 @@ function MarkdownUpdate() {
     setMarkdown(markdown);
 
     document.title = markdown.title;
-    markdownRef.current.innerHTML = await parseMarkdown(markdown.content);
-    parseLaTeX(markdownRef.current);
+    parseMarkdownLaTeX(markdownRef.current, markdown.content);
   };
 
   useEffect(() => {
@@ -43,8 +43,7 @@ function MarkdownUpdate() {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setMarkdown(prev => ({...prev, content: content}));
-      markdownRef.current.innerHTML = await parseMarkdown(content);
-      parseLaTeX(markdownRef.current);
+      parseMarkdownLaTeX(markdownRef.current, markdown.content);
     }
     setIsEditing(false);
   };

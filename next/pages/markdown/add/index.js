@@ -7,6 +7,7 @@ import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
+import {parseMarkdownLaTeX} from "../../../src/util/MarkdownLaTeXParser";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -29,8 +30,7 @@ function Index() {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setContent(content);
-      markdownRef.current.innerHTML = await parseMarkdown(content);
-      parseLaTeX(markdownRef.current);
+      parseMarkdownLaTeX(markdownRef.current, content);
     }
     setIsEditing(false);
   };
