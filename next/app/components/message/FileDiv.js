@@ -1,6 +1,7 @@
 import React from 'react';
 import {Typography, IconButton, Paper} from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import GetAppIcon from '@mui/icons-material/GetApp';
 import mime from 'mime';
 
 const FileDiv = ({fileUrl, handleFileDelete}) => {
@@ -26,6 +27,16 @@ const FileDiv = ({fileUrl, handleFileDelete}) => {
         <Typography variant="body2">
           {fileName}
         </Typography>
+        <IconButton
+          aria-label="download-file"
+          component="a"
+          href={fileUrl}
+          download={fileName}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <GetAppIcon fontSize="small"/>
+        </IconButton>
         <IconButton aria-label="delete-file" onClick={() => handleFileDelete(fileUrl)}>
           <RemoveCircleOutlineIcon fontSize="small"/>
         </IconButton>
