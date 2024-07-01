@@ -1,5 +1,15 @@
 # UniWebPlatform - Nest.js
 
+## Nest.js init
+
+```bash
+npm i -g @nestjs/cli
+```
+
+```bash
+nest new <project-name>
+```
+
 ## Setup
 
 Copy `./env.example` and rename it to `.env`, then fill in the environment variables.
