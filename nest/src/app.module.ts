@@ -20,8 +20,8 @@ import { ConversationsModule } from './conversations/conversations.module';
 import { Conversation } from './conversations/conversation.entity';
 import { Markdown } from './markdowns/markdown.entity';
 import { MarkdownsModule } from './markdowns/markdowns.module';
-import { Message } from "./messages/message.entity";
-import { MessagesModule } from "./messages/messages.module";
+import { Message } from './messages/message.entity';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
