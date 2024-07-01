@@ -1,7 +1,7 @@
 import ChatService, {StreamResponse} from "../service/ChatService";
 import {Message} from "../model/Message"
 import {ApiTypeModel} from "@/src/model/Chat";
-import {sanitize, desanitize} from "@/src/util/MarkdownParser";
+import {sanitize, desanitize} from "@/markdown-latext-renderer";
 
 export class ChatLogic {
   private chatService: ChatService;

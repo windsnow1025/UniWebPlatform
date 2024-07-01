@@ -1,6 +1,4 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {parseMarkdown} from "../../../src/util/MarkdownParser";
-import {parseLaTeX} from "../../../src/util/LaTeXParser";
 import {MarkdownLogic} from '../../../src/logic/MarkdownLogic';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline} from "@mui/material";
@@ -8,7 +6,7 @@ import {useRouter} from "next/router";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import {parseMarkdownLaTeX} from "../../../src/util/MarkdownLaTeXParser";
+import {parseMarkdownLaTeX} from "../../../markdown-latext-renderer";
 
 function MarkdownUpdate() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();

@@ -3,12 +3,10 @@ import {useRouter} from 'next/router';
 import {ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
 
-import {parseMarkdown} from "../../../src/util/MarkdownParser";
-import {parseLaTeX} from "../../../src/util/LaTeXParser";
 import PublicService from "../../../src/service/PublicService";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import {parseMarkdownLaTeX} from "../../../src/util/MarkdownLaTeXParser";
+import {parseMarkdownLaTeX} from "../../../markdown-latext-renderer";
 
 function MarkdownViewer() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -31,12 +29,6 @@ function MarkdownViewer() {
       document.title = filename;
     }
   }, [filename]);
-
-  useEffect(() => {
-    if (markdownRef.current) {
-      parseLaTeX(markdownRef.current);
-    }
-  }, [markdownRef]);
 
   return (
     <ThemeProvider theme={muiTheme}>
