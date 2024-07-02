@@ -22,6 +22,18 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  minio:
+    image: quay.io/minio/minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    restart: always
+    env_file:
+      - env/minio.env
+    volumes:
+      - minio_data:/data
+
   next:
     image: windsnow1025/next
     build:
@@ -39,6 +51,7 @@ services:
       - env/nest.env
     depends_on:
       - mysql
+      - minio
 
   fastapi:
     image: windsnow1025/fastapi
@@ -53,3 +66,4 @@ services:
 
 volumes:
   mysql_data:
+  minio_data:
