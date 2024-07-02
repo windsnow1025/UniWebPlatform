@@ -68,7 +68,10 @@ export class UsersService {
       user.username = newUsername;
     }
 
-    user.password = password;
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(password, salt);
+
+    user.password = hash;
 
     return await this.usersRepository.save(user);
   }
