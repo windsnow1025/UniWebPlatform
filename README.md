@@ -34,6 +34,7 @@ Back End
 ```yaml
 Storage
   - MySQL
+  - MinIO
 ```
 
 
@@ -105,7 +106,9 @@ docker compose up [-d]
 
 #### Windows
 
-Manually setup and run Next, Node, FastAPI separately according to their documentations.
+1. Setup and run MySQL and MinIO either by native approach or by Docker.
+
+2. Setup and run Next, Nest, FastAPI separately according to their documentations.
 
 ## Usage
 
