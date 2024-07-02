@@ -35,7 +35,7 @@ import { MessagesModule } from './messages/messages.module';
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
         host: configService.get<string>('mysql.host'),
-        port: 3306,
+        port: configService.get<number>('mysql.port'),
         username: configService.get<string>('mysql.user'),
         password: configService.get<string>('mysql.password'),
         database: configService.get<string>('mysql.database'),
