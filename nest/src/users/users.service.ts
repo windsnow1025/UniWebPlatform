@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
 import { UserDto } from './dto/user.dto';
@@ -43,9 +44,12 @@ export class UsersService {
       throw new ConflictException();
     }
 
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(password, salt);
+
     const user = new User();
     user.username = username;
-    user.password = password;
+    user.password = hash;
     user.roles = [Role.User];
 
     return await this.usersRepository.save(user);
