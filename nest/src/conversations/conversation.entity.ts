@@ -5,11 +5,12 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BaseEntity } from '../common/entities/base.entity';
 import { User } from '../users/user.entity';
 import { ConversationMessage } from './interfaces/conversation-message.interface';
 
 @Entity()
-export class Conversation {
+export class Conversation extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
