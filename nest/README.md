@@ -86,3 +86,34 @@ module.exports = {
   },
 };
 ```
+
+### tsconfig.json
+
+From:
+
+```json
+{
+  "compilerOptions": {
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
+```
+
+To:
+
+```json
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}
+```
+```
