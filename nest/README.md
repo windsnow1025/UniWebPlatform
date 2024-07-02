@@ -10,6 +10,12 @@ npm i -g @nestjs/cli
 nest new <project-name>
 ```
 
+## Run a single typescript file
+
+```bash
+npx ts-node <filepath>
+```
+
 ## Setup
 
 Copy `./env.example` and rename it to `.env`, then fill in the environment variables.
