@@ -55,15 +55,13 @@ function ContentDiv({
   };
 
   return (
-    <div>
-      <div
-        className="markdown-body p-4 min-h-36 rounded"
-        contentEditable={contentEditable}
-        ref={contentRef}
-        onFocus={() => setEditing(true)}
-        onBlur={handleContentBlur}
-      />
-    </div>
+    <div
+      className="markdown-body p-4 min-h-36 rounded"
+      contentEditable={contentEditable}
+      ref={contentRef}
+      onFocus={() => setEditing(true)}
+      onBlur={handleContentBlur}
+    />
   );
 }
 
