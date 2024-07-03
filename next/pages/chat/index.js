@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
+import {Card, Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
 
 import {ChatLogic} from "../../src/logic/ChatLogic";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
@@ -79,7 +79,7 @@ function Index() {
                 />
               </div>
             </div>
-            <Paper elevation={1} className="m-2 p-4 rounded-lg">
+            <Paper elevation={0} variant='outlined' className="m-2 p-4 rounded-lg">
               <ChatMessages
                 messages={messages}
                 setMessages={setMessages}
