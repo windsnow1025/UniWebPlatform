@@ -40,6 +40,7 @@ const HeaderAppBar = ({
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
+          <MenuItem component={Link} href="/" onClick={handleMenuClose}>Home</MenuItem>
           <MenuItem component={Link} href="/markdown" onClick={handleMenuClose}>Markdown Blogs</MenuItem>
           <MenuItem component={Link} href="/bookmark" onClick={handleMenuClose}>Bookmarks</MenuItem>
           <MenuItem component={Link} href="/message" onClick={handleMenuClose}>Message Transmitter</MenuItem>
