@@ -12,6 +12,7 @@ import ChatStates from "../../app/components/chat/ChatStates";
 import ChatClear from "../../app/components/chat/ChatClear";
 import ChatConversation from "../../app/components/chat/ChatConversation";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
+import Head from "next/head";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -39,6 +40,11 @@ function Index() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content="Windsnow1025 - AI Chat" />
+        <meta name="keywords" content="AI, Chat, Windsnow, Windsnow1025, GPT" />
+      </Head>
       <div className="local-scroll-root">
         <HeaderAppBar
           title={title}
