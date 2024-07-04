@@ -16,7 +16,8 @@ import {
   Snackbar,
   TextField,
   Tooltip,
-  Typography
+  Typography,
+  Alert,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -37,6 +38,7 @@ function ChatConversation({messages, setMessages}) {
   const [editingName, setEditingName] = useState('');
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
   const [usernames, setUsernames] = useState([]);
   const [selectedUsername, setSelectedUsername] = useState('');
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
@@ -58,6 +60,7 @@ function ChatConversation({messages, setMessages}) {
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error fetching conversations');
+      setAlertSeverity('error');
       console.error(err);
     }
   };
@@ -68,6 +71,7 @@ function ChatConversation({messages, setMessages}) {
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error fetching usernames');
+      setAlertSeverity('error');
       console.error(err);
     }
   };
@@ -87,9 +91,11 @@ function ChatConversation({messages, setMessages}) {
       setNewConversationName('');
       setAlertOpen(true);
       setAlertMessage('Conversation added');
+      setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error adding conversation');
+      setAlertSeverity('error');
       console.error(err);
     }
   };
@@ -104,9 +110,11 @@ function ChatConversation({messages, setMessages}) {
       fetchConversations();
       setAlertOpen(true);
       setAlertMessage('Conversation updated');
+      setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error updating conversation');
+      setAlertSeverity('error');
       console.error(err);
     }
   };
@@ -124,9 +132,11 @@ function ChatConversation({messages, setMessages}) {
       setEditingName('');
       setAlertOpen(true);
       setAlertMessage('Conversation name updated');
+      setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error updating conversation name');
+      setAlertSeverity('error');
       console.error(err);
     }
   };
@@ -137,9 +147,11 @@ function ChatConversation({messages, setMessages}) {
       fetchConversations();
       setAlertOpen(true);
       setAlertMessage('Conversation deleted');
+      setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error deleting conversation');
+      setAlertSeverity('error');
       console.error(err);
     }
   };
@@ -152,9 +164,11 @@ function ChatConversation({messages, setMessages}) {
       setSelectedUsername('');
       setAlertOpen(true);
       setAlertMessage('Conversation shared');
+      setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error sharing conversation');
+      setAlertSeverity('error');
       console.error(err);
     }
   };
@@ -277,8 +291,11 @@ function ChatConversation({messages, setMessages}) {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
       <Dialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)}>
         <DialogTitle>Share Conversation</DialogTitle>
         <DialogContent>
