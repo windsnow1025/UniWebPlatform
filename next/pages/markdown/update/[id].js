@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import {parseMarkdownLaTeX} from "../../../markdown-latex-renderer";
+import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 
 function MarkdownUpdate() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
