@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
@@ -12,7 +13,6 @@ import ChatStates from "../../app/components/chat/ChatStates";
 import ChatClear from "../../app/components/chat/ChatClear";
 import ChatConversation from "../../app/components/chat/ChatConversation";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
-import Head from "next/head";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
