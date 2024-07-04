@@ -6,7 +6,7 @@ import {CssBaseline} from "@mui/material";
 import PublicService from "../../../src/service/PublicService";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import {parseMarkdownLaTeX} from "../../../markdown-latext-renderer";
+import {parseMarkdownLaTeX} from "../../../markdown-latex-renderer";
 
 function MarkdownViewer() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
