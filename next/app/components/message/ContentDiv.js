@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {parseMarkdownLaTeX} from "../../../markdown-latext-renderer";
+import {parseMarkdownLaTeX} from "../../../markdown-latex-renderer";
 
 function ContentDiv({
                       content,

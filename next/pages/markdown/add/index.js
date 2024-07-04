@@ -5,7 +5,7 @@ import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import {parseMarkdownLaTeX} from "../../../markdown-latext-renderer";
+import {parseMarkdownLaTeX} from "../../../markdown-latex-renderer";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
