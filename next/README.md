@@ -59,6 +59,7 @@ To:
 ```js
 const nextConfig = {
   output: 'standalone',
+  transpilePackages: ['<package_name>'],
 };
 ```
 
