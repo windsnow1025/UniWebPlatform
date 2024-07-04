@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import {BookmarkLogic} from "../../../src/logic/BookmarkLogic";
 
 function EditToolbar(props) {
@@ -58,6 +59,7 @@ function BookmarkDataGrid() {
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   const processRowUpdate = async (newRow) => {
     const updatedRow = {...newRow, isNew: false};
@@ -67,9 +69,11 @@ function BookmarkDataGrid() {
         await bookmarkLogic.addBookmark(updatedRow);
         setAlertOpen(true);
         setAlertMessage("Bookmark added");
+        setAlertSeverity('success');
       } catch (e) {
         setAlertOpen(true);
         setAlertMessage(e.message);
+        setAlertSeverity('error');
         return;
       }
     } else {
@@ -77,9 +81,11 @@ function BookmarkDataGrid() {
         await bookmarkLogic.updateBookmark(updatedRow);
         setAlertOpen(true);
         setAlertMessage("Bookmark updated");
+        setAlertSeverity('success');
       } catch (e) {
         setAlertOpen(true);
         setAlertMessage(e.message);
+        setAlertSeverity('error');
         return;
       }
     }
@@ -92,9 +98,11 @@ function BookmarkDataGrid() {
       await bookmarkLogic.deleteBookmark(id);
       setAlertOpen(true);
       setAlertMessage("Bookmark deleted");
+      setAlertSeverity('success');
     } catch (e) {
       setAlertOpen(true);
       setAlertMessage(e.message);
+      setAlertSeverity('error');
       return;
     }
     loadBookmarks();
@@ -266,8 +274,11 @@ function BookmarkDataGrid() {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -2,9 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {UserLogic} from "../../../src/logic/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, CssBaseline} from "@mui/material";
+import {Button, CssBaseline, Snackbar, Alert} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
@@ -34,6 +33,7 @@ function Action() {
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   const handleSignIn = async () => {
     try {
@@ -42,6 +42,7 @@ function Action() {
       router.push(prevUrl);
     } catch (e) {
       setAlertMessage(e.message);
+      setAlertSeverity('error');
       setAlertOpen(true);
     }
   };
@@ -49,12 +50,14 @@ function Action() {
   const handleSignUp = async () => {
     if (!userLogic.validateInput(username)) {
       setAlertMessage("Username must be 4-32 ASCII characters.");
+      setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
 
     if (!userLogic.validateInput(password)) {
       setAlertMessage("Password must be 4-32 ASCII characters.");
+      setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
@@ -62,10 +65,12 @@ function Action() {
     try {
       await userLogic.signUp(username, password);
       setAlertMessage("Sign up success");
+      setAlertSeverity('success');
       setAlertOpen(true);
       setAction('signin');
     } catch (e) {
       setAlertMessage(e.message);
+      setAlertSeverity('error');
       setAlertOpen(true);
     }
   };
@@ -112,8 +117,11 @@ function Action() {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }

@@ -6,6 +6,8 @@ import {
   IconButton,
   Paper,
   Tooltip,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
@@ -13,7 +15,6 @@ import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileService from "../../../src/service/FileService";
-import Snackbar from "@mui/material/Snackbar";
 import FileDiv from "./FileDiv";
 
 function MessageDiv({
@@ -35,6 +36,7 @@ function MessageDiv({
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   const handleFileUpload = async (event) => {
     event.preventDefault();
@@ -56,9 +58,13 @@ function MessageDiv({
         const uploadedFileUrls = await Promise.all(uploadPromises);
         const newFiles = files.concat(uploadedFileUrls);
         setFiles(newFiles);
+        setAlertMessage("Files uploaded successfully");
+        setAlertSeverity('success');
+        setAlertOpen(true);
       } catch (error) {
         setAlertOpen(true);
         setAlertMessage(error.message);
+        setAlertSeverity('error');
       } finally {
         setIsUploading(false);
       }
@@ -75,11 +81,17 @@ function MessageDiv({
 
   const handleContentCopy = () => {
     navigator.clipboard.writeText(content);
+    setAlertMessage("Content copied to clipboard");
+    setAlertSeverity('success');
+    setAlertOpen(true);
   };
 
   const handleFileDelete = (fileUrl) => {
     const newFiles = files.filter(file => file !== fileUrl);
     setFiles(newFiles);
+    setAlertMessage("File deleted successfully");
+    setAlertSeverity('success');
+    setAlertOpen(true);
   };
 
   return (
@@ -158,8 +170,11 @@ function MessageDiv({
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
