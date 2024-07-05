@@ -50,7 +50,10 @@ export class MinioService {
   }
 
   async uploadFile(file: Express.Multer.File): Promise<string> {
-    const fileName = `${Date.now()}-${file.originalname}`;
+    const originalName = Buffer.from(file.originalname, 'latin1').toString(
+      'utf8',
+    );
+    const fileName = `${Date.now()}-${originalName}`;
     const fileStream = Readable.from(file.buffer);
 
     await this.minioClient.putObject(
