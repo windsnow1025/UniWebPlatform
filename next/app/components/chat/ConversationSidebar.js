@@ -31,7 +31,7 @@ import {
 import {ConversationLogic} from "../../../src/logic/ConversationLogic";
 import {UserLogic} from "../../../src/logic/UserLogic";
 
-function ChatConversation({messages, setMessages}) {
+function ConversationSidebar({messages, setMessages}) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
@@ -319,4 +319,4 @@ function ChatConversation({messages, setMessages}) {
   );
 }
 
-export default ChatConversation;
+export default ConversationSidebar;

@@ -5,13 +5,13 @@ import {Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
 
 import {ChatLogic} from "../../src/logic/ChatLogic";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
-import ChatSettings from "../../app/components/chat/ChatSettings";
+import SettingsDiv from "../../app/components/chat/SettingsDiv";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
-import ChatSend from "../../app/components/chat/ChatSend";
-import ChatMessages from "../../app/components/chat/ChatMessages";
-import ChatStates from "../../app/components/chat/ChatStates";
-import ChatClear from "../../app/components/chat/ChatClear";
-import ChatConversation from "../../app/components/chat/ChatConversation";
+import SendButton from "../../app/components/chat/SendButton";
+import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";
+import StatesDiv from "../../app/components/chat/StatesDiv";
+import ClearConversationButton from "../../app/components/chat/ClearConversationButton";
+import ConversationSidebar from "../../app/components/chat/ConversationSidebar";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
 
 function Index() {
@@ -55,7 +55,7 @@ function Index() {
         <div className="local-scroll-unscrollable">
           <Paper elevation={2} sx={{borderRadius: 0}}>
             <Collapse in={drawerOpen} orientation="horizontal">
-              <ChatConversation
+              <ConversationSidebar
                 drawerOpen={drawerOpen}
                 messages={messages}
                 setMessages={setMessages}
@@ -71,7 +71,7 @@ function Index() {
                 />
               </div>
               <div className="grow">
-                <ChatSettings
+                <SettingsDiv
                   apiType={apiType}
                   setApiType={setApiType}
                   model={model}
@@ -86,14 +86,14 @@ function Index() {
               </div>
             </div>
             <Paper elevation={0} variant='outlined' className="m-2 p-4 rounded-lg">
-              <ChatMessages
+              <ChatMessagesDiv
                 messages={messages}
                 setMessages={setMessages}
                 shouldSanitize={shouldSanitize}
                 editableState={editableState}
               />
               <div className="flex-center">
-                <ChatSend
+                <SendButton
                   messages={messages}
                   setMessages={setMessages}
                   apiType={apiType}
@@ -103,11 +103,11 @@ function Index() {
                   setAlertMessage={setAlertMessage}
                   setAlertOpen={setAlertOpen}
                 />
-                <ChatClear setMessages={setMessages}/>
+                <ClearConversationButton setMessages={setMessages}/>
               </div>
             </Paper>
             <div className="flex-around m-1">
-              <ChatStates
+              <StatesDiv
                 editableState={editableState}
                 setEditableState={setEditableState}
                 shouldSanitize={shouldSanitize}

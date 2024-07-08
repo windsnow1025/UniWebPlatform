@@ -4,7 +4,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatSend({
+function SendButton({
                     messages,
                     setMessages,
                     apiType,
@@ -128,4 +128,4 @@ function ChatSend({
   );
 }
 
-export default ChatSend;
+export default SendButton;
