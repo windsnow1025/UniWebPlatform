@@ -2,13 +2,13 @@ import React, { useRef, useState } from 'react';
 import { CircularProgress, IconButton, Tooltip, Snackbar, Alert } from "@mui/material";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import FileService from "../../../src/service/FileService";
+import FileLogic from "../../../src/logic/FileLogic";
 
 function FileUpload({ files, setFiles, setUploadProgress }) {
   const fileInputRef = useRef(null);
   const folderInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
-  const fileService = new FileService();
+  const fileLogic = new FileLogic();
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -35,7 +35,7 @@ function FileUpload({ files, setFiles, setUploadProgress }) {
         let uploadedFiles = 0;
 
         const uploadPromises = Array.from(fileList).map(file => {
-          return fileService.upload(file, (progressEvent) => {
+          return fileLogic.upload(file, (progressEvent) => {
             const progress = (progressEvent.loaded / progressEvent.total) * (1 / totalFiles);
             setUploadProgress(prevProgress => prevProgress + progress);
           }).then(url => {
