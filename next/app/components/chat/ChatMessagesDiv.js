@@ -2,7 +2,7 @@ import {IconButton, Tooltip} from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import MessageDiv from "../message/MessageDiv";
 import React from "react";
-import {ChatLogic} from "../../../src/logic/ChatLogic";
+import ChatLogic from "../../../src/logic/ChatLogic";
 
 function ChatMessagesDiv({ messages, setMessages, shouldSanitize, editableState }) {
   const chatLogic = new ChatLogic();
