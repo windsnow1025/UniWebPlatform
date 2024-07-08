@@ -4,7 +4,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileService from "../../../src/service/FileService";
 
-function FileUpload({ files, setFiles }) {
+function FileUpload({ files, setFiles, setUploadProgress }) {
   const fileInputRef = useRef(null);
   const folderInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -29,8 +29,22 @@ function FileUpload({ files, setFiles }) {
   const handleUpload = async (fileList) => {
     if (fileList.length > 0) {
       setIsUploading(true);
+      setUploadProgress(0);
       try {
-        const uploadPromises = Array.from(fileList).map(file => fileService.upload(file));
+        const totalFiles = fileList.length;
+        let uploadedFiles = 0;
+
+        const uploadPromises = Array.from(fileList).map(file => {
+          return fileService.upload(file, (progressEvent) => {
+            const progress = (progressEvent.loaded / progressEvent.total) * (1 / totalFiles);
+            setUploadProgress(prevProgress => prevProgress + progress);
+          }).then(url => {
+            uploadedFiles += 1;
+            setUploadProgress(uploadedFiles / totalFiles);
+            return url;
+          });
+        });
+
         const uploadedFileUrls = await Promise.all(uploadPromises);
         const newFiles = files.concat(uploadedFileUrls);
         setFiles(newFiles);
@@ -43,6 +57,7 @@ function FileUpload({ files, setFiles }) {
         setAlertSeverity('error');
       } finally {
         setIsUploading(false);
+        setUploadProgress(0);
       }
     }
   }
