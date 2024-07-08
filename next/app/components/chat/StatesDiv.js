@@ -1,7 +1,7 @@
 import {Checkbox, FormControlLabel, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import React from "react";
 
-function ChatStates({editableState, setEditableState, shouldSanitize, setShouldSanitize}) {
+function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSanitize}) {
   return (
     <div className="flex-around">
       <FormControl className="m-2">
@@ -25,4 +25,4 @@ function ChatStates({editableState, setEditableState, shouldSanitize, setShouldS
   )
 }
 
-export default ChatStates;
+export default StatesDiv;

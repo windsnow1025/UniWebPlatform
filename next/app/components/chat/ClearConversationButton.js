@@ -3,7 +3,7 @@ import {Button} from "@mui/material";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatClear({setMessages}) {
+function ClearConversationButton({setMessages}) {
   const chatLogic = new ChatLogic();
 
   const handleClear = () => {
@@ -24,4 +24,4 @@ function ChatClear({setMessages}) {
   );
 }
 
-export default ChatClear;
+export default ClearConversationButton;
