@@ -1,3 +1,5 @@
+import axios, { AxiosProgressEvent } from 'axios';
+
 export default class FileService {
   private readonly baseUrl: string;
 
@@ -5,24 +7,26 @@ export default class FileService {
     this.baseUrl = process.env.NEXT_PUBLIC_NEST_API_BASE_URL!;
   }
 
-  async upload(file: File): Promise<string> {
+  async upload(file: File, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<string> {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch(`${this.baseUrl}/files/file`, {
-      method: 'POST',
-      body: formData,
-    });
+    try {
+      const response = await axios.post(`${this.baseUrl}/files/file`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: onProgress,
+      });
 
-    if (response.status === 413) {
-      throw new Error('File is too large');
-    } else if (!response.ok) {
-      console.error(response);
-      throw new Error('Failed to upload file');
+      return response.data.url;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 413) {
+        throw new Error('File is too large');
+      } else {
+        console.error(error);
+        throw new Error('Failed to upload file');
+      }
     }
-
-    const res = await response.json()
-    return res.url;
   }
 }
-
