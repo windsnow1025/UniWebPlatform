@@ -1,5 +1,5 @@
 import UserService from "./UserService";
-import AuthService from "@/src/common/auth/AuthService";
+import AuthService from "@/src/common/user/AuthService";
 import axios from "axios";
 
 export default class UserLogic {
