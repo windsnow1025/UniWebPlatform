@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
 
-import PublicService from "../../../src/service/PublicService";
+import PublicService from "../../../src/common/public/PublicService";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";

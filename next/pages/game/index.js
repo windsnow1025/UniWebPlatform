@@ -16,12 +16,12 @@ import {
 } from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
-import graph from "../../src/logic/game/data/Graph";
-import unitClasses from "../../src/logic/game/data/Unit";
-import initPlayers from "../../src/logic/game/data/Player";
+import graph from "../../src/game/data/Graph";
+import unitClasses from "../../src/game/data/Unit";
+import initPlayers from "../../src/game/data/Player";
 
 import dynamic from 'next/dynamic';
-import GameSystem from "../../src/logic/game/GameSystem";
+import GameSystem from "../../src/game/GameSystem";
 import UnitProperties from "../../app/components/game/UnitProperties";
 
 const GraphComponent = dynamic(() => import('../../app/components/game/GraphComponent'), {
