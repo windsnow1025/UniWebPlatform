@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {IconButton, CircularProgress, Link, Menu, MenuItem, Typography, Tooltip} from "@mui/material";
 
-import UserLogic from "../../../../src/logic/UserLogic";
+import UserLogic from "../../../../src/common/user/UserLogic";
 import SignDiv from "./SignDiv";
 import CreditDiv from "./CreditDiv";
 

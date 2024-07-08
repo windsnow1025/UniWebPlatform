@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
-import {User} from "@/src/model/User";
+import {User} from "@/src/common/user/User";
 
 export default class UserService {
   private axiosInstance: AxiosInstance;

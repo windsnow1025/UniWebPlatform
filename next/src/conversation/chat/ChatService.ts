@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
-import {Message} from '../model/Message'
-import {ApiTypeModel} from "../model/Chat";
+import {Message} from './Message'
+import {ApiTypeModel} from "./Chat";
 
 export interface StreamResponse {
   reader: ReadableStreamDefaultReader;

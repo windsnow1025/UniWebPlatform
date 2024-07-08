@@ -1,32 +1,25 @@
-import MarkdownService from "../service/MarkdownService";
+import BookmarkService from "./BookmarkService";
+import {Bookmark} from "./Bookmark";
 import axios from "axios";
 
-export default class MarkdownLogic {
-  private markdownService: MarkdownService;
+export default class BookmarkLogic {
+  private bookmarkService: BookmarkService;
 
   constructor() {
-    this.markdownService = new MarkdownService();
+    this.bookmarkService = new BookmarkService();
   }
 
-  async fetchMarkdowns() {
+  async fetchBookmarks() {
     try {
-      return await this.markdownService.fetchMarkdowns();
+      return await this.bookmarkService.fetchBookmarks();
     } catch (error) {
       console.error(error);
     }
   }
 
-  async fetchMarkdown(id: number) {
+  async addBookmark(bookmark: Bookmark) {
     try {
-      return await this.markdownService.fetchMarkdown(id);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async addMarkdown(title: string, content: string) {
-    try {
-      await this.markdownService.addMarkdown({ title, content });
+      await this.bookmarkService.addBookmark(bookmark);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -37,13 +30,13 @@ export default class MarkdownLogic {
         }
       }
       console.error(error);
-      throw new Error('Failed to add markdown');
+      throw new Error('Failed to add bookmark');
     }
   }
 
-  async updateMarkdown(id: number, title: string, content: string) {
+  async updateBookmark(bookmark: Bookmark) {
     try {
-      await this.markdownService.updateMarkdown(id, { title, content });
+      await this.bookmarkService.updateBookmark(bookmark);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -54,13 +47,13 @@ export default class MarkdownLogic {
         }
       }
       console.error(error);
-      throw new Error('Failed to update markdown');
+      throw new Error('Failed to update bookmark');
     }
   }
 
-  async deleteMarkdown(id: number) {
+  async deleteBookmark(id: number) {
     try {
-      await this.markdownService.deleteMarkdown(id);
+      await this.bookmarkService.deleteBookmark(id);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -71,11 +64,8 @@ export default class MarkdownLogic {
         }
       }
       console.error(error);
-      throw new Error('Failed to delete markdown');
+      throw new Error('Failed to delete bookmark');
     }
   }
 
-  getTitleFromContent(content: string) {
-    return content.split('\n')[0].replace('# ', '');
-  }
 }

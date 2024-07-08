@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import {Bookmark} from '../model/Bookmark';
+import {Bookmark} from './Bookmark';
 
 export default class BookmarkService {
   private axiosInstance: AxiosInstance;

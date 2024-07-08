@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import ContentDiv from "../../app/components/message/ContentDiv";
-import ImageService from "../../src/service/ImageService";
+import ImageService from "../../src/image/ImageService";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();

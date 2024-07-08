@@ -1,4 +1,4 @@
-import FileService from "../service/FileService";
+import FileService from "./FileService";
 import axios, {AxiosProgressEvent} from "axios";
 
 export default class FileLogic {

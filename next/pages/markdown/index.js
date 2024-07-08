@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import MarkdownLogic from "../../src/logic/MarkdownLogic";
+import MarkdownLogic from "../../src/markdown/MarkdownLogic";
 import {
   Button,
   CssBaseline,

@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
-import {Conversation} from '../model/Conversation';
+import {Conversation} from './Conversation';
 
 export default class ConversationService {
   private axiosInstance: AxiosInstance;

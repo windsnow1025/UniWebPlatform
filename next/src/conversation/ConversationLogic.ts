@@ -1,5 +1,5 @@
-import ConversationService from "../service/ConversationService";
-import {Conversation} from "../model/Conversation";
+import ConversationService from "./ConversationService";
+import {Conversation} from "./Conversation";
 import axios from "axios";
 
 export default class ConversationLogic {

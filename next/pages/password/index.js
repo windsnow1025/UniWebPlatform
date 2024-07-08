@@ -3,11 +3,11 @@ import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import {Button, CssBaseline, IconButton, Tooltip} from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
-import {generatePassword} from "../../src/logic/PasswordLogic";
+import {generatePassword} from "../../src/password/PasswordLogic";
 import Snackbar from "@mui/material/Snackbar";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
-import UserLogic from "../../src/logic/UserLogic";
+import UserLogic from "../../src/common/user/UserLogic";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
