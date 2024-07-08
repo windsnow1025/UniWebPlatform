@@ -16,8 +16,6 @@ import ToggleConversationButton from "../../app/components/chat/ToggleConversati
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(true);
   const title = "AI Chat";
   useEffect(() => {
@@ -80,8 +78,6 @@ function Index() {
                   setTemperature={setTemperature}
                   stream={stream}
                   setStream={setStream}
-                  setAlertOpen={setAlertOpen}
-                  setAlertMessage={setAlertMessage}
                 />
               </div>
             </div>
@@ -100,8 +96,6 @@ function Index() {
                   model={model}
                   temperature={temperature}
                   stream={stream}
-                  setAlertMessage={setAlertMessage}
-                  setAlertOpen={setAlertOpen}
                 />
                 <ClearConversationButton setMessages={setMessages}/>
               </div>
@@ -117,12 +111,6 @@ function Index() {
           </div>
         </div>
       </div>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={6000}
-        onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
     </ThemeProvider>
   );
 }

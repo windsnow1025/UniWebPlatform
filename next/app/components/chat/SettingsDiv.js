@@ -1,23 +1,35 @@
 import React, {useEffect, useState} from 'react';
-import { FormControl, FormControlLabel, InputLabel, MenuItem, Select, Slider, Switch } from "@mui/material";
+import {
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Slider,
+  Switch,
+  Snackbar,
+  Alert
+} from "@mui/material";
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
 function SettingsDiv({
-                        apiType,
-                        setApiType,
-                        model,
-                        setModel,
-                        temperature,
-                        setTemperature,
-                        stream,
-                        setStream,
-                        setAlertOpen,
-                        setAlertMessage
-                      }) {
+                       apiType,
+                       setApiType,
+                       model,
+                       setModel,
+                       temperature,
+                       setTemperature,
+                       stream,
+                       setStream,
+                     }) {
   const chatLogic = new ChatLogic();
 
   const [models, setModels] = useState([]);
   const [apiModels, setApiModels] = useState([]);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   useEffect(() => {
     const fetchApiModels = async () => {
@@ -25,8 +37,9 @@ function SettingsDiv({
         const apiModels = await chatLogic.fetchApiModels();
         setApiModels(apiModels);
       } catch (e) {
-        setAlertOpen(true);
         setAlertMessage(e.message);
+        setAlertSeverity('error');
+        setAlertOpen(true);
       }
     };
 
@@ -37,7 +50,6 @@ function SettingsDiv({
     setModels(chatLogic.filterModelsByApiType(apiModels, apiType));
     setModel(chatLogic.filterDefaultModelByApiType(apiType));
   }, [apiModels, apiType]);
-
 
   return (
     <div className="flex-around m-2">
@@ -91,6 +103,15 @@ function SettingsDiv({
           <Switch checked={stream} onChange={e => setStream(e.target.checked)}/>
         } label="Stream"/>
       </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
