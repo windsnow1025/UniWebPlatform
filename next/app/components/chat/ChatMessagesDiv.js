@@ -4,7 +4,7 @@ import MessageDiv from "../message/MessageDiv";
 import React from "react";
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) {
+function ChatMessagesDiv({ messages, setMessages, shouldSanitize, editableState }) {
   const chatLogic = new ChatLogic();
 
   const handleRoleChange = (index, role) => {
@@ -82,4 +82,4 @@ function ChatMessages({ messages, setMessages, shouldSanitize, editableState }) 
   )
 }
 
-export default ChatMessages;
+export default ChatMessagesDiv;

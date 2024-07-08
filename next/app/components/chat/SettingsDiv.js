@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { FormControl, FormControlLabel, InputLabel, MenuItem, Select, Slider, Switch } from "@mui/material";
 import {ChatLogic} from "../../../src/logic/ChatLogic";
 
-function ChatSettings({
+function SettingsDiv({
                         apiType,
                         setApiType,
                         model,
@@ -95,4 +95,4 @@ function ChatSettings({
   );
 }
 
-export default ChatSettings;
+export default SettingsDiv;
