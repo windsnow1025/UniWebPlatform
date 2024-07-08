@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
-import {ChatLogic} from "../../../src/logic/ChatLogic";
+import ChatLogic from "../../../src/logic/ChatLogic";
 
 function SendButton({
                     messages,

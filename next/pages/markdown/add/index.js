@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {MarkdownLogic} from '../../../src/logic/MarkdownLogic';
+import MarkdownLogic from '../../../src/logic/MarkdownLogic';
 import {Button, CssBaseline} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";

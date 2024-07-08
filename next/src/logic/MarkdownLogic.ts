@@ -1,7 +1,7 @@
 import MarkdownService from "../service/MarkdownService";
 import axios from "axios";
 
-export class MarkdownLogic {
+export default class MarkdownLogic {
   private markdownService: MarkdownService;
 
   constructor() {

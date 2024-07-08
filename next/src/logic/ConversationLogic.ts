@@ -2,7 +2,7 @@ import ConversationService from "../service/ConversationService";
 import {Conversation} from "../model/Conversation";
 import axios from "axios";
 
-export class ConversationLogic {
+export default class ConversationLogic {
   private conversationService: ConversationService;
 
   constructor() {

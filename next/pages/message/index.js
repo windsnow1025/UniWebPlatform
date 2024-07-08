@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import MessageService from "../../src/service/MessageService";
-import {UserLogic} from "../../src/logic/UserLogic";
+import UserLogic from "../../src/logic/UserLogic";
 import MessageDiv from '../../app/components/message/MessageDiv';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline, Paper, Typography} from "@mui/material";
