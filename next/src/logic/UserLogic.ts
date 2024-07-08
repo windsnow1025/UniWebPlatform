@@ -2,7 +2,7 @@ import UserService from "../service/UserService";
 import AuthService from "@/src/service/AuthService";
 import axios from "axios";
 
-export class UserLogic {
+export default class UserLogic {
   private authService: AuthService;
   private userService: UserService;
 

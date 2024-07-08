@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
 
-import {ChatLogic} from "../../src/logic/ChatLogic";
+import ChatLogic from "../../src/logic/ChatLogic";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import SettingsDiv from "../../app/components/chat/SettingsDiv";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
