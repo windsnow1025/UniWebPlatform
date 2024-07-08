@@ -1,5 +1,4 @@
 import axios, {AxiosInstance} from 'axios';
-import {User} from "@/src/model/User";
 
 export default class AuthService {
     private axiosInstance: AxiosInstance;

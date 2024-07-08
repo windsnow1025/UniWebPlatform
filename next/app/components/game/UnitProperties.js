@@ -1,5 +1,5 @@
 import {Paper, Typography} from "@mui/material";
-import unitClasses from "../../../src/logic/game/data/Unit";
+import unitClasses from "../../../src/game/data/Unit";
 import React from "react";
 
 export default function UnitProperties() {

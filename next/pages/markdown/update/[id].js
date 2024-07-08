@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import MarkdownLogic from '../../../src/logic/MarkdownLogic';
+import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline} from "@mui/material";
 import {useRouter} from "next/router";

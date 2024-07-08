@@ -1,42 +1,32 @@
-import BookmarkService from "../service/BookmarkService";
-import {Bookmark} from "../model/Bookmark";
+import MarkdownService from "./MarkdownService";
 import axios from "axios";
 
-export default class BookmarkLogic {
-  private bookmarkService: BookmarkService;
+export default class MarkdownLogic {
+  private markdownService: MarkdownService;
 
   constructor() {
-    this.bookmarkService = new BookmarkService();
+    this.markdownService = new MarkdownService();
   }
 
-  async fetchBookmarks() {
+  async fetchMarkdowns() {
     try {
-      return await this.bookmarkService.fetchBookmarks();
+      return await this.markdownService.fetchMarkdowns();
     } catch (error) {
       console.error(error);
     }
   }
 
-  async addBookmark(bookmark: Bookmark) {
+  async fetchMarkdown(id: number) {
     try {
-      await this.bookmarkService.addBookmark(bookmark);
+      return await this.markdownService.fetchMarkdown(id);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
-      }
       console.error(error);
-      throw new Error('Failed to add bookmark');
     }
   }
 
-  async updateBookmark(bookmark: Bookmark) {
+  async addMarkdown(title: string, content: string) {
     try {
-      await this.bookmarkService.updateBookmark(bookmark);
+      await this.markdownService.addMarkdown({ title, content });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -47,13 +37,13 @@ export default class BookmarkLogic {
         }
       }
       console.error(error);
-      throw new Error('Failed to update bookmark');
+      throw new Error('Failed to add markdown');
     }
   }
 
-  async deleteBookmark(id: number) {
+  async updateMarkdown(id: number, title: string, content: string) {
     try {
-      await this.bookmarkService.deleteBookmark(id);
+      await this.markdownService.updateMarkdown(id, { title, content });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -64,8 +54,28 @@ export default class BookmarkLogic {
         }
       }
       console.error(error);
-      throw new Error('Failed to delete bookmark');
+      throw new Error('Failed to update markdown');
     }
   }
 
+  async deleteMarkdown(id: number) {
+    try {
+      await this.markdownService.deleteMarkdown(id);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
+      }
+      console.error(error);
+      throw new Error('Failed to delete markdown');
+    }
+  }
+
+  getTitleFromContent(content: string) {
+    return content.split('\n')[0].replace('# ', '');
+  }
 }
