@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import UserLogic from "../../../src/logic/UserLogic";
+import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import {Button, CssBaseline} from "@mui/material";

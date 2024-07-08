@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
-import UserLogic from "../../../src/logic/UserLogic";
+import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import {Button, CssBaseline, Snackbar, Alert} from "@mui/material";
 import TextField from "@mui/material/TextField";

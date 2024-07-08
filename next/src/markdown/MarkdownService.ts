@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
-import {Markdown} from "@/src/model/Markdown";
+import {Markdown} from "@/src/markdown/Markdown";
 
 export default class MarkdownService {
   private axiosInstance: AxiosInstance;

@@ -28,8 +28,8 @@ import {
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon
 } from '@mui/icons-material';
-import ConversationLogic from "../../../src/logic/ConversationLogic";
-import UserLogic from "../../../src/logic/UserLogic";
+import ConversationLogic from "../../../src/conversation/ConversationLogic";
+import UserLogic from "../../../src/common/user/UserLogic";
 
 function ConversationSidebar({messages, setMessages}) {
   const [conversations, setConversations] = useState([]);
