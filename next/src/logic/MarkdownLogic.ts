@@ -1,4 +1,5 @@
 import MarkdownService from "../service/MarkdownService";
+import axios from "axios";
 
 export class MarkdownLogic {
   private markdownService: MarkdownService;
@@ -26,45 +27,51 @@ export class MarkdownLogic {
   async addMarkdown(title: string, content: string) {
     try {
       await this.markdownService.addMarkdown({ title, content });
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to add markdown');
     }
   }
 
   async updateMarkdown(id: number, title: string, content: string) {
     try {
       await this.markdownService.updateMarkdown(id, { title, content });
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to update markdown');
     }
   }
 
   async deleteMarkdown(id: number) {
     try {
       await this.markdownService.deleteMarkdown(id);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to delete markdown');
     }
   }
 

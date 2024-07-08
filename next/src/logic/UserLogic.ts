@@ -1,5 +1,6 @@
 import UserService from "../service/UserService";
 import AuthService from "@/src/service/AuthService";
+import axios from "axios";
 
 export class UserLogic {
   private authService: AuthService;
@@ -55,39 +56,42 @@ export class UserLogic {
     try {
       const token = await this.authService.fetchToken(username, password);
       localStorage.setItem('token', token);
-    } catch (err: any) {
-      if (err.response && err.response.status === 401) {
-        throw new Error("Incorrect Username or Password.");
-      } else {
-        console.error(err);
-        throw new Error("Sign In Fail.");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Incorrect Username or Password');
+        }
       }
+      console.error(error);
+      throw new Error('Sign in failed');
     }
   }
 
   async signUp(username: string, password: string) {
     try {
       await this.userService.createUser(username, password);
-    } catch (err: any) {
-      if (err.response && err.response.status === 409) {
-        throw new Error("Username already exists.");
-      } else {
-        console.error(err);
-        throw new Error("Sign Up Fail.");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 409) {
+          throw new Error('Username already exists');
+        }
       }
+      console.error(error);
+      throw new Error('Sign up failed');
     }
   }
 
   async updateUser(username: string, password: string) {
     try {
       await this.userService.updateUser(username, password);
-    } catch (err: any) {
-      if (err.response && err.response.status === 409) {
-        throw new Error("Username already exists.");
-      } else {
-        console.error(err);
-        throw new Error("Update Fail.");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 409) {
+          throw new Error('Username already exists');
+        }
       }
+      console.error(error);
+      throw new Error('Update user failed');
     }
   }
 

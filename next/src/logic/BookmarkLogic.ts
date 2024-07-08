@@ -1,5 +1,6 @@
 import BookmarkService from "../service/BookmarkService";
 import {Bookmark} from "../model/Bookmark";
+import axios from "axios";
 
 export class BookmarkLogic {
   private bookmarkService: BookmarkService;
@@ -19,45 +20,51 @@ export class BookmarkLogic {
   async addBookmark(bookmark: Bookmark) {
     try {
       await this.bookmarkService.addBookmark(bookmark);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to add bookmark');
     }
   }
 
   async updateBookmark(bookmark: Bookmark) {
     try {
       await this.bookmarkService.updateBookmark(bookmark);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to update bookmark');
     }
   }
 
   async deleteBookmark(id: number) {
     try {
       await this.bookmarkService.deleteBookmark(id);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to delete bookmark');
     }
   }
 

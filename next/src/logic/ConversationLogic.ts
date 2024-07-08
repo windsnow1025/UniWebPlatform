@@ -1,5 +1,6 @@
 import ConversationService from "../service/ConversationService";
 import {Conversation} from "../model/Conversation";
+import axios from "axios";
 
 export class ConversationLogic {
   private conversationService: ConversationService;
@@ -20,75 +21,85 @@ export class ConversationLogic {
   async addConversation(conversation: Conversation) {
     try {
       await this.conversationService.addConversation(conversation);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to add conversation');
     }
   }
 
   async addUserToConversation(id: number, username: string) {
     try {
       await this.conversationService.addUserToConversation(id, username);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to share conversation');
     }
   }
 
   async updateConversation(conversation: Conversation) {
     try {
       await this.conversationService.updateConversation(conversation);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to update bookmark');
     }
   }
 
   async updateConversationName(id: number, name: string) {
     try {
       return this.conversationService.updateConversationName(id, name);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to update conversation name');
     }
   }
 
   async deleteConversation(id: number) {
     try {
       await this.conversationService.deleteConversation(id);
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        throw new Error('Unauthorized');
-      } else if (err.response.status === 403) {
-        throw new Error('Forbidden');
-      } else {
-        console.error(err);
-        throw new Error('Unknown Error');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to delete conversation');
     }
   }
 

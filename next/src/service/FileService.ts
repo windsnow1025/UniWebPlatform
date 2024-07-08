@@ -21,12 +21,13 @@ export default class FileService {
 
       return response.data.url;
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 413) {
-        throw new Error('File is too large');
-      } else {
-        console.error(error);
-        throw new Error('Failed to upload file');
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 413) {
+          throw new Error('File is too large');
+        }
       }
+      console.error(error);
+      throw new Error('Failed to upload file');
     }
   }
 }
