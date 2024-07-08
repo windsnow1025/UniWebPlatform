@@ -1,21 +1,12 @@
-import React, {useRef, useState} from 'react';
+import React, { useState } from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {
-  CircularProgress,
-  IconButton,
-  Paper,
-  Tooltip,
-  Snackbar,
-  Alert,
-} from "@mui/material";
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import { Paper, IconButton, Tooltip, Snackbar, Alert } from "@mui/material";
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
-import FileService from "../../../src/service/FileService";
 import FileDiv from "./FileDiv";
+import FileUpload from './FileUpload';
 
 function MessageDiv({
                       role,
@@ -29,55 +20,9 @@ function MessageDiv({
                       shouldSanitize = true,
                       editableState = "conditional",
                     }) {
-  const fileInputRef = useRef(null);
-  const folderInputRef = useRef(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const fileService = new FileService();
-
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
-
-  const handleFileUpload = async (event) => {
-    event.preventDefault();
-    const fileList = fileInputRef.current.files;
-    await handleUpload(fileList);
-  };
-
-  const handleFolderUpload = async (event) => {
-    event.preventDefault();
-    const fileList = folderInputRef.current.files;
-    await handleUpload(fileList);
-  };
-
-  const handleUpload = async (fileList) => {
-    if (fileList.length > 0) {
-      setIsUploading(true);
-      try {
-        const uploadPromises = Array.from(fileList).map(file => fileService.upload(file));
-        const uploadedFileUrls = await Promise.all(uploadPromises);
-        const newFiles = files.concat(uploadedFileUrls);
-        setFiles(newFiles);
-        setAlertMessage("Files uploaded successfully");
-        setAlertSeverity('success');
-        setAlertOpen(true);
-      } catch (error) {
-        setAlertOpen(true);
-        setAlertMessage(error.message);
-        setAlertSeverity('error');
-      } finally {
-        setIsUploading(false);
-      }
-    }
-  }
-
-  const triggerFileInput = () => {
-    fileInputRef.current.click();
-  };
-
-  const triggerFolderInput = () => {
-    folderInputRef.current.click();
-  };
 
   const handleContentCopy = () => {
     navigator.clipboard.writeText(content);
@@ -119,32 +64,7 @@ function MessageDiv({
           </Paper>
           <div className="flex-column self-end">
             {setFiles &&
-              <>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileUpload}
-                  style={{display: 'none'}}
-                  multiple
-                />
-                <input
-                  type="file"
-                  ref={folderInputRef}
-                  onChange={handleFolderUpload}
-                  style={{display: 'none'}}
-                  webkitdirectory="true"
-                />
-                <Tooltip title="Upload File">
-                  <IconButton aria-label="upload-file" onClick={triggerFileInput}>
-                    {isUploading ? <CircularProgress size={24}/> : <AttachFileIcon/>}
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Upload Folder">
-                  <IconButton aria-label="upload-folder" onClick={triggerFolderInput}>
-                    {isUploading ? <CircularProgress size={24}/> : <FolderOpenIcon/>}
-                  </IconButton>
-                </Tooltip>
-              </>
+              <FileUpload files={files} setFiles={setFiles} />
             }
             <Tooltip title="Copy">
               <IconButton aria-label="copy" onClick={handleContentCopy}>
