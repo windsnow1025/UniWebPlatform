@@ -21,6 +21,19 @@ export default class UserLogic {
     }
   }
 
+  async fetchId() {
+    if (!localStorage.getItem('token')) {
+      return null;
+    }
+    try {
+      const user = await this.userService.fetchUser();
+      return user.id;
+    } catch (err) {
+      localStorage.removeItem('token');
+      return null;
+    }
+  }
+
   async fetchUsername() {
     if (!localStorage.getItem('token')) {
       return null;
