@@ -1,25 +1,27 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button} from "@mui/material";
+import {Button, Snackbar, Alert} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
 function SendButton({
-                    messages,
-                    setMessages,
-                    apiType,
-                    model,
-                    temperature,
-                    stream,
-                    setAlertMessage,
-                    setAlertOpen
-}) {
+                      messages,
+                      setMessages,
+                      apiType,
+                      model,
+                      temperature,
+                      stream
+                    }) {
   const chatLogic = new ChatLogic();
 
   const [isGenerating, setIsGenerating] = useState(false);
   const isGeneratingRef = useRef(false);
 
   const currentRequestIndex = useRef(0);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -38,6 +40,7 @@ function SendButton({
   const startGenerate = async () => {
     if (!localStorage.getItem('token')) {
       setAlertMessage('Please sign in first.');
+      setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
@@ -105,6 +108,7 @@ function SendButton({
         await startGenerate();
       } catch (error) {
         setAlertMessage(error.message);
+        setAlertSeverity('error');
         setAlertOpen(true);
         switchStatus(false);
       }
@@ -124,6 +128,15 @@ function SendButton({
       >
         {isGenerating ? "Stop" : "Send"}
       </Button>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
