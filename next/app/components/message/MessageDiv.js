@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { Paper, IconButton, Tooltip, Snackbar, Alert } from "@mui/material";
+import { Paper, IconButton, Tooltip, Snackbar, Alert, LinearProgress } from "@mui/material";
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
@@ -23,6 +23,7 @@ function MessageDiv({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleContentCopy = () => {
     navigator.clipboard.writeText(content);
@@ -64,7 +65,7 @@ function MessageDiv({
           </Paper>
           <div className="flex-column self-end">
             {setFiles &&
-              <FileUpload files={files} setFiles={setFiles} />
+              <FileUpload files={files} setFiles={setFiles} setUploadProgress={setUploadProgress} />
             }
             <Tooltip title="Copy">
               <IconButton aria-label="copy" onClick={handleContentCopy}>
@@ -80,6 +81,9 @@ function MessageDiv({
             }
           </div>
         </div>
+        {uploadProgress > 0 && (
+          <LinearProgress variant="determinate" value={uploadProgress * 100} />
+        )}
         <div className="flex-start">
           {files && files.map((file) => (
             <FileDiv key={file} fileUrl={file} handleFileDelete={handleFileDelete} />
