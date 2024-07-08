@@ -7,7 +7,7 @@ import {generatePassword} from "../../src/logic/PasswordLogic";
 import Snackbar from "@mui/material/Snackbar";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
-import {UserLogic} from "../../src/logic/UserLogic";
+import UserLogic from "../../src/logic/UserLogic";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();

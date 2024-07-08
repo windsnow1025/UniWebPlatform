@@ -2,7 +2,7 @@ import BookmarkService from "../service/BookmarkService";
 import {Bookmark} from "../model/Bookmark";
 import axios from "axios";
 
-export class BookmarkLogic {
+export default class BookmarkLogic {
   private bookmarkService: BookmarkService;
 
   constructor() {

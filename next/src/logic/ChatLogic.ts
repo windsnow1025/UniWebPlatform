@@ -3,7 +3,7 @@ import {Message} from "../model/Message"
 import {ApiTypeModel} from "@/src/model/Chat";
 import {sanitize, desanitize} from "markdown-latex-renderer";
 
-export class ChatLogic {
+export default class ChatLogic {
   private chatService: ChatService;
   public initMessages: Message[];
   public emptyUserMessage: Message;
