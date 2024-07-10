@@ -31,7 +31,7 @@ services:
     env_file:
       - ./env/minio.env
     environment:
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:81/minio/ui
+      MINIO_BROWSER_REDIRECT_URL: http://localhost:81/minio/ui
     volumes:
       - minio_data:/data
 
