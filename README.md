@@ -55,9 +55,13 @@ Infrastructure
 
 ### Production
 
-#### Requirements
+#### Environments
 
-##### Linux
+Copy `./env.example` to `./env`, add environment variables to each `.env` files.
+
+Copy `./docker-compose.yaml`, `./env`, `./config` to production folder.
+
+#### Debian install Docker Compose
 
 1. Logged in as the root user in Debian 11 with a minimum RAM of 4GB.
 
@@ -84,19 +88,7 @@ echo \
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-##### Windows
-
-Docker Desktop
-
-#### Build
-
-```bash
-docker compose build
-```
-
-##### Run
-
-Rename `./env.example` to `./env`, update environment variables to environment files.
+#### Run
 
 ```bash
 docker compose up [-d]
