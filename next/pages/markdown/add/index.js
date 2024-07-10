@@ -1,13 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
-import {Button, CssBaseline} from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
+import {Button, CssBaseline, Snackbar, Alert} from "@mui/material";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 
-function Index() {
+function MarkdownAdd() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const [content, setContent] = useState('');
@@ -35,15 +34,18 @@ function Index() {
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   const handleAdd = async () => {
     const title = markdownLogic.getTitleFromContent(content);
     try {
       await markdownLogic.addMarkdown(title, content);
       setAlertMessage('Add success');
+      setAlertSeverity('success');
       setAlertOpen(true);
     } catch (e) {
       setAlertMessage(e.message);
+      setAlertSeverity('error');
       setAlertOpen(true);
     }
   };
@@ -78,9 +80,13 @@ function Index() {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
         message={alertMessage}
-      />
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
 
-export default Index;
+export default MarkdownAdd;

@@ -3,7 +3,7 @@ import MessageService from "../../src/message/MessageService";
 import UserLogic from "../../src/common/user/UserLogic";
 import MessageDiv from '../../app/components/message/MessageDiv';
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, CssBaseline, Paper, Typography} from "@mui/material";
+import {Button, CssBaseline, Paper, Typography, Snackbar, Alert} from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 
@@ -41,8 +41,10 @@ function MessageTransmitter() {
     try {
       const messages = await messageService.fetchMessages();
       setMessages(messages);
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      setAlertMessage(e.message);
+      setAlertSeverity('error');
+      setAlertOpen(true);
     }
   };
 
@@ -77,6 +79,10 @@ function MessageTransmitter() {
     const updatedContent = `${newMessage.content}\n${fileUrls.join('\n')}`;
     setNewMessage(prev => ({...prev, content: updatedContent}));
   }
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   return (
     <ThemeProvider theme={muiTheme}>
@@ -125,6 +131,16 @@ function MessageTransmitter() {
           </div>
         </div>
       </div>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+        message={alertMessage}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
