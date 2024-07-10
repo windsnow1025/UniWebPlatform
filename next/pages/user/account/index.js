@@ -2,12 +2,11 @@ import React, {useEffect, useState} from 'react';
 import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-import {Button, CssBaseline} from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
+import {Button, CssBaseline, Snackbar, Alert} from "@mui/material";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
-function Index() {
+function AccountCenter() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   const [username, setUsername] = useState('');
@@ -20,10 +19,12 @@ function Index() {
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   const handleUpdate = async () => {
     if (!userLogic.validateInput(username) || !userLogic.validateInput(password)) {
       setAlertMessage("Username or Password contains invalid characters or has an invalid length.");
+      setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
@@ -31,9 +32,11 @@ function Index() {
     try {
       await userLogic.updateUser(username, password);
       setAlertMessage("Update success");
+      setAlertSeverity('success');
       setAlertOpen(true);
     } catch (e) {
       setAlertMessage(e.message);
+      setAlertSeverity('error');
       setAlertOpen(true);
     }
   };
@@ -80,10 +83,13 @@ function Index() {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
 
-export default Index;
+export default AccountCenter;

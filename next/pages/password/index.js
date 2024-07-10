@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-import {Button, CssBaseline, IconButton, Tooltip} from "@mui/material";
+import {Button, CssBaseline, IconButton, Tooltip, Snackbar, Alert} from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import {generatePassword} from "../../src/password/PasswordLogic";
-import Snackbar from "@mui/material/Snackbar";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 import UserLogic from "../../src/common/user/UserLogic";
 
-function Index() {
+function PasswordGenerator() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
 
   useEffect(() => {
@@ -41,6 +40,7 @@ function Index() {
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
 
   const fetchPin = async () => {
     try {
@@ -48,6 +48,7 @@ function Index() {
       setPin(pin);
     } catch (err) {
       setAlertMessage(err.message);
+      setAlertSeverity('error');
       setAlertOpen(true);
     }
   }
@@ -61,9 +62,11 @@ function Index() {
       await userService.updatePin(newPin);
       fetchPin();
       setAlertMessage("Update success");
+      setAlertSeverity('success');
       setAlertOpen(true);
     } catch (e) {
       setAlertMessage(e.message);
+      setAlertSeverity('error');
       setAlertOpen(true);
     }
   }
@@ -162,10 +165,13 @@ function Index() {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
 
-export default Index;
+export default PasswordGenerator;

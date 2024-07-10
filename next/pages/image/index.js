@@ -9,16 +9,17 @@ import {
   MenuItem,
   Paper,
   Select,
-  Slider, Snackbar
+  Slider, Snackbar, Alert
 } from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import ContentDiv from "../../app/components/message/ContentDiv";
 import ImageService from "../../src/image/ImageService";
 
-function Index() {
+function ImageGenerate() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
   const title = "Image Generate";
   useEffect(() => {
     document.title = title;
@@ -43,6 +44,7 @@ function Index() {
       setImageUrls(response);
     } catch (e) {
       setAlertMessage(e.message);
+      setAlertSeverity('error');
       setAlertOpen(true);
       console.error(e);
     } finally {
@@ -157,10 +159,13 @@ function Index() {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        message={alertMessage}
-      />
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
 
-export default Index;
+export default ImageGenerate;
