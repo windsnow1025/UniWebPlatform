@@ -7,7 +7,7 @@ import useScreenSize from "../../hooks/useScreenSize";
 
 const ThemeToggle = ({systemTheme, setSystemTheme}) => {
   const screenSize = useScreenSize();
-  const smallMediumIconSize = screenSize === 'xs' ? 'small' : 'medium';
+  const smallMediumIconSize = screenSize === 'xs' || screenSize === 'sm' ? 'small' : 'medium';
 
   return (
     <ToggleButtonGroup
