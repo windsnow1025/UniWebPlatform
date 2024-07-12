@@ -190,7 +190,7 @@ function ConversationSidebar({messages, setMessages}) {
   };
 
   return (
-    <div className="local-scroll-scrollable max-h-full">
+    <div>
       <div>
         <div className="p-4">
           <Typography variant="h6">Conversations:</Typography>
