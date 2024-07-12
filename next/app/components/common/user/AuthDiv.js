@@ -1,12 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import {IconButton, CircularProgress, Link, Menu, MenuItem, Typography, Tooltip} from "@mui/material";
+import {
+  IconButton,
+  CircularProgress,
+  Link,
+  Menu,
+  MenuItem,
+  Typography,
+  Tooltip,
+  useMediaQuery,
+  useTheme
+} from "@mui/material";
 
 import UserLogic from "../../../../src/common/user/UserLogic";
 import SignDiv from "./SignDiv";
 import CreditDiv from "./CreditDiv";
+import useScreenSize from "../../../hooks/useScreenSize";
 
 function AuthDiv({refreshKey}) {
+  const screenSize = useScreenSize();
+  const iconSize = screenSize === 'xs' ? 'small' : screenSize === 'sm' ? 'medium' : 'large';
+
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -38,11 +52,8 @@ function AuthDiv({refreshKey}) {
       {username ? (
         <div>
           <Tooltip title="Account">
-            <IconButton
-              aria-label="account"
-              onClick={(event) => setAnchorEl(event.currentTarget)}
-            >
-              <ManageAccountsIcon fontSize="large" className="text-white"/>
+            <IconButton onClick={(event) => setAnchorEl(event.currentTarget)}>
+              <ManageAccountsIcon fontSize={iconSize} className="text-white"/>
             </IconButton>
           </Tooltip>
           <Menu
