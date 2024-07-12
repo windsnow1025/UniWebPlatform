@@ -8,7 +8,7 @@ import {
   Slider,
   Switch,
   Snackbar,
-  Alert
+  Alert, Typography
 } from "@mui/material";
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
@@ -52,9 +52,9 @@ function SettingsDiv({
   }, [apiModels, apiType]);
 
   return (
-    <div className="flex-around m-2">
-      <div className="m-1">
-        <FormControl fullWidth className="mt-2">
+    <div className="flex-around m-1">
+      <div className="mx-1">
+        <FormControl fullWidth size="small" className="mt-2">
           <InputLabel id="api-type-select-label">API Type</InputLabel>
           <Select
             labelId="api-type-select-label"
@@ -69,8 +69,8 @@ function SettingsDiv({
           </Select>
         </FormControl>
       </div>
-      <div className="m-1">
-        <FormControl fullWidth className="mt-2">
+      <div className="mx-1">
+        <FormControl fullWidth size="small" className="mt-2">
           <InputLabel id="model-select-label">Model</InputLabel>
           <Select
             labelId="model-select-label"
@@ -85,10 +85,10 @@ function SettingsDiv({
           </Select>
         </FormControl>
       </div>
-      <div className="m-1">
-        <InputLabel htmlFor="temperature">Temperature: {temperature.toFixed(1)}</InputLabel>
+      <div className="mx-1">
+        <Typography variant="body1">Temperature</Typography>
         <Slider
-          aria-label="Temperature"
+          id="temperature"
           value={temperature}
           onChange={(e, newValue) => setTemperature(newValue)}
           valueLabelDisplay="auto"
@@ -96,11 +96,16 @@ function SettingsDiv({
           marks
           min={0}
           max={2}
+          size="small"
         />
       </div>
-      <div>
+      <div className="mx-1">
         <FormControlLabel control={
-          <Switch checked={stream} onChange={e => setStream(e.target.checked)}/>
+          <Switch
+            checked={stream}
+            onChange={e => setStream(e.target.checked)}
+            size="small"
+          />
         } label="Stream"/>
       </div>
       <Snackbar
