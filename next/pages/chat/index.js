@@ -45,8 +45,8 @@ function Chat() {
           infoUrl={"/markdown/view/chat-doc.md"}
         />
         <div className="local-scroll-unscrollable-x">
-          <Paper elevation={2} sx={{borderRadius: 0}} className="overflow-auto">
-            <Collapse in={drawerOpen} orientation="horizontal">
+          <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
+            <Collapse in={drawerOpen} orientation="horizontal" className="overflow-auto">
               <ConversationSidebar
                 drawerOpen={drawerOpen}
                 messages={messages}
