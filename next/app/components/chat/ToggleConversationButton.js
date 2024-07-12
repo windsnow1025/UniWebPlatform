@@ -5,11 +5,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const ToggleDrawerButton = ({ drawerOpen, setDrawerOpen }) => {
   return (
-    <Tooltip title="Conversations">
-      <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
-        {drawerOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-      </IconButton>
-    </Tooltip>
+    <div className="m-2">
+      <Tooltip title="Conversations">
+        <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
+          {drawerOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+      </Tooltip>
+    </div>
   );
 };
 

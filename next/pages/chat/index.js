@@ -40,8 +40,8 @@ function Index() {
       <CssBaseline enableColorScheme/>
       <Head>
         <title>{title}</title>
-        <meta name="description" content="Windsnow1025 - AI Chat" />
-        <meta name="keywords" content="AI, Chat, Windsnow, Windsnow1025, GPT" />
+        <meta name="description" content="Windsnow1025 - AI Chat"/>
+        <meta name="keywords" content="AI, Chat, Windsnow, Windsnow1025, GPT"/>
       </Head>
       <div className="local-scroll-root">
         <HeaderAppBar
@@ -50,7 +50,7 @@ function Index() {
           setSystemTheme={setSystemTheme}
           infoUrl={"/markdown/view/chat-doc.md"}
         />
-        <div className="local-scroll-unscrollable">
+        <div className="local-scroll-unscrollable-x">
           <Paper elevation={2} sx={{borderRadius: 0}}>
             <Collapse in={drawerOpen} orientation="horizontal">
               <ConversationSidebar
@@ -60,14 +60,12 @@ function Index() {
               />
             </Collapse>
           </Paper>
-          <div className="local-scroll-scrollable">
+          <div className="local-scroll-unscrollable-y">
             <div className="flex">
-              <div className="m-2">
-                <ToggleConversationButton
-                  drawerOpen={drawerOpen}
-                  setDrawerOpen={setDrawerOpen}
-                />
-              </div>
+              <ToggleConversationButton
+                drawerOpen={drawerOpen}
+                setDrawerOpen={setDrawerOpen}
+              />
               <div className="grow">
                 <SettingsDiv
                   apiType={apiType}
@@ -81,12 +79,22 @@ function Index() {
                 />
               </div>
             </div>
-            <Paper elevation={0} variant='outlined' className="m-2 p-4 rounded-lg">
-              <ChatMessagesDiv
-                messages={messages}
-                setMessages={setMessages}
-                shouldSanitize={shouldSanitize}
+            <div className="local-scroll-scrollable">
+              <Paper elevation={0} variant='outlined' className="m-2 p-4 rounded-lg">
+                <ChatMessagesDiv
+                  messages={messages}
+                  setMessages={setMessages}
+                  shouldSanitize={shouldSanitize}
+                  editableState={editableState}
+                />
+              </Paper>
+            </div>
+            <div className="flex-around m-1">
+              <StatesDiv
                 editableState={editableState}
+                setEditableState={setEditableState}
+                shouldSanitize={shouldSanitize}
+                setShouldSanitize={setShouldSanitize}
               />
               <div className="flex-center">
                 <SendButton
@@ -99,20 +107,13 @@ function Index() {
                 />
                 <ClearConversationButton setMessages={setMessages}/>
               </div>
-            </Paper>
-            <div className="flex-around m-1">
-              <StatesDiv
-                editableState={editableState}
-                setEditableState={setEditableState}
-                shouldSanitize={shouldSanitize}
-                setShouldSanitize={setShouldSanitize}
-              />
             </div>
           </div>
         </div>
       </div>
     </ThemeProvider>
-  );
+  )
+    ;
 }
 
 export default Index;
