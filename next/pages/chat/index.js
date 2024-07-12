@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
+import {Collapse, CssBaseline, Paper} from "@mui/material";
 
 import ChatLogic from "../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
