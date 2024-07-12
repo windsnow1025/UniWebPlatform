@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Collapse, CssBaseline, Paper} from "@mui/material";
@@ -38,11 +37,6 @@ function Chat() {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content="Windsnow1025 - AI Chat"/>
-        <meta name="keywords" content="AI, Chat, Windsnow, Windsnow1025, GPT"/>
-      </Head>
       <div className="local-scroll-root">
         <HeaderAppBar
           title={title}
@@ -112,8 +106,7 @@ function Chat() {
         </div>
       </div>
     </ThemeProvider>
-  )
-    ;
+  );
 }
 
 export default Chat;
