@@ -14,7 +14,7 @@ import ClearConversationButton from "../../app/components/chat/ClearConversation
 import ConversationSidebar from "../../app/components/chat/ConversationSidebar";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
 
-function Index() {
+function Chat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const [drawerOpen, setDrawerOpen] = useState(true);
   const title = "AI Chat";
@@ -116,4 +116,4 @@ function Index() {
     ;
 }
 
-export default Index;
+export default Chat;
