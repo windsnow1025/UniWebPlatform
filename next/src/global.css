@@ -58,8 +58,15 @@ div.inflex-fill {
   flex-direction: column;
 }
 
-.local-scroll-unscrollable {
+.local-scroll-unscrollable-x {
   display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.local-scroll-unscrollable-y {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   overflow: hidden;
 }
