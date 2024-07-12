@@ -73,16 +73,16 @@ function Chat() {
                 />
               </div>
             </div>
-            <div className="local-scroll-scrollable">
-              <Paper elevation={0} variant='outlined' className="m-2 p-4 rounded-lg">
+            <Paper elevation={0} variant='outlined' className="m-1 rounded-lg local-scroll-unscrollable-y">
+              <div className="local-scroll-scrollable p-2">
                 <ChatMessagesDiv
                   messages={messages}
                   setMessages={setMessages}
                   shouldSanitize={shouldSanitize}
                   editableState={editableState}
                 />
-              </Paper>
-            </div>
+              </div>
+            </Paper>
             <div className="flex-around m-1">
               <StatesDiv
                 editableState={editableState}
