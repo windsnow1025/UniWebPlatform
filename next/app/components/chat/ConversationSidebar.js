@@ -226,7 +226,7 @@ function ConversationSidebar({messages, setMessages}) {
                     setEditingIndex(index);
                     setEditingName(conversation.name);
                   }}>
-                    <EditIcon/>
+                    <EditIcon fontSize="small"/>
                   </IconButton>
                 </Tooltip>
               )}
@@ -235,7 +235,7 @@ function ConversationSidebar({messages, setMessages}) {
                   e.stopPropagation();
                   handleMenuOpen(e, index);
                 }}>
-                  <MoreVertIcon/>
+                  <MoreVertIcon fontSize="small"/>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -248,21 +248,21 @@ function ConversationSidebar({messages, setMessages}) {
                   handleUpdateConversation(index);
                   handleMenuClose();
                 }}>
-                  <SaveIcon className="m-1"/>Update
+                  <SaveIcon fontSize="small" className="m-1"/>Update
                 </MenuItem>
                 <MenuItem onClick={(e) => {
                   e.stopPropagation();
                   handleDeleteConversation(index);
                   handleMenuClose();
                 }}>
-                  <DeleteOutlinedIcon className="m-1"/>Delete
+                  <DeleteOutlinedIcon fontSize="small" className="m-1"/>Delete
                 </MenuItem>
                 <MenuItem onClick={(e) => {
                   e.stopPropagation();
                   openShareDialog(index);
                   handleMenuClose();
                 }}>
-                  <ShareIcon className="m-1"/>Share
+                  <ShareIcon fontSize="small" className="m-1"/>Share
                 </MenuItem>
               </Menu>
             </ListItem>
