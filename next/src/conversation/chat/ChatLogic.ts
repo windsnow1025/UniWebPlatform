@@ -49,6 +49,15 @@ export default class ChatLogic {
     ]
   }
 
+  createUserMessage(text: string) {
+    const message: Message = {
+      "role": "user",
+      "text": text,
+      "files": []
+    }
+    return message;
+  }
+
   createAssistantMessage(text: string) {
     const message: Message = {
       "role": "assistant",

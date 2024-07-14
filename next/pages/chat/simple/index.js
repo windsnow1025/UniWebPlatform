@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {ThemeProvider} from "@mui/material/styles";
-import {CssBaseline, Paper} from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline, Paper, Box, InputBase } from "@mui/material";
 
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import SendButton from "../../../app/components/chat/SendButton";
 import ClearConversationButton from "../../../app/components/chat/ClearConversationButton";
 import SimpleChatMessagesDiv from "../../../app/components/chat/simple/SimpleChatMessagesDiv";
+import SimpleSendButton from "../../../app/components/chat/simple/SimpleSendButton";
 
 function EasyChat() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
   const title = "Simple AI Chat";
   useEffect(() => {
     document.title = title;
@@ -19,7 +19,8 @@ function EasyChat() {
   const chatLogic = new ChatLogic();
 
   // Chat Parameters
-  const [messages, setMessages] = useState(chatLogic.initMessages);
+  const [messages, setMessages] = useState([chatLogic.initMessages[0]]);
+  const [newContent, setNewContent] = useState('');
   const apiType = chatLogic.defaultApiType;
   const model = chatLogic.defaultModel;
   const temperature = 0;
@@ -45,15 +46,24 @@ function EasyChat() {
                 />
               </div>
             </Paper>
+            <Box display="flex" alignItems="center" p={1} m={1} component={Paper} elevation={2}>
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="Type a message"
+                value={newContent}
+                onChange={(e) => setNewContent(e.target.value)}
+              />
+            </Box>
             <div className="flex-around m-1">
               <div className="flex-center">
-                <SendButton
+                <SimpleSendButton
                   messages={messages}
                   setMessages={setMessages}
                   apiType={apiType}
                   model={model}
                   temperature={temperature}
                   stream={stream}
+                  newContent={newContent}
                 />
                 <ClearConversationButton setMessages={setMessages}/>
               </div>
