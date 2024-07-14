@@ -9,6 +9,7 @@ export default class ChatLogic {
   public emptyUserMessage: Message;
   public emptyAssistantMessage: Message;
   public defaultApiType: string;
+  public defaultModel: string;
   public defaultApiModels: ApiTypeModel[];
 
   constructor() {
@@ -40,6 +41,7 @@ export default class ChatLogic {
     };
 
     this.defaultApiType = "open_ai";
+    this.defaultModel = "gpt-4o";
     this.defaultApiModels = [
       {"api_type": "open_ai", "model": "gpt-4o"},
       {"api_type": "azure", "model": "gpt-4"},
