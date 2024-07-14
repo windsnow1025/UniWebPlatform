@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper, Avatar } from "@mui/material";
+import { Box, Paper, Avatar, Typography } from "@mui/material";
 import ContentDiv from "../../message/ContentDiv";
 
 function SimpleMessageDiv({
@@ -14,31 +14,29 @@ function SimpleMessageDiv({
 
   return (
     <Box
-      display="flex"
-      justifyContent={role === 'user' ? 'flex-end' : 'flex-start'}
-      alignItems="flex-start"
-      my={1}
+      className={`flex my-2 ${role === 'user' ? 'justify-end' : 'justify-start'}`}
     >
       {role !== 'user' && (
-        <Avatar sx={{ bgcolor: 'secondary.main', mr: 1 }}>
+        <Avatar className="mr-2">
           {role.charAt(0).toUpperCase()}
         </Avatar>
       )}
       <Paper
         elevation={2}
-        sx={{
-          p: 2,
-          width: "75%",
-          borderRadius: 2,
-          backgroundColor: role === 'user' ? 'primary.main' : 'background.paper'
-        }}
+        className={`p-4 w-3/4 rounded-lg`}
       >
-        <ContentDiv
-          content={content}
-          setContent={setContent}
-          shouldSanitize={true}
-          editableState={editableState}
-        />
+        {role === 'user' ? (
+          <Typography variant="body1">
+            {content}
+          </Typography>
+        ) : (
+          <ContentDiv
+            content={content}
+            setContent={setContent}
+            shouldSanitize={true}
+            editableState={editableState}
+          />
+        )}
       </Paper>
       {role === 'user' && (
         <Avatar className="ml-2">
