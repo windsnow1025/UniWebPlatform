@@ -26,7 +26,7 @@ function Chat() {
   // Chat Parameters
   const [messages, setMessages] = useState(chatLogic.initMessages);
   const [apiType, setApiType] = useState(chatLogic.defaultApiType);
-  const [model, setModel] = useState(chatLogic.defaultApiModels);
+  const [model, setModel] = useState(chatLogic.defaultModel);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
 
