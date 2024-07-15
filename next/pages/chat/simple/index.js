@@ -46,12 +46,12 @@ function EasyChat() {
                 />
               </div>
             </Paper>
-            <Box display="flex" alignItems="center" p={1} m={1} component={Paper} elevation={2}>
+            <Box component={Paper} elevation={2} className="flex items-center p-2 m-2">
               <InputBase
-                sx={{ ml: 1, flex: 1 }}
                 placeholder="Type a message"
                 value={newContent}
                 onChange={(e) => setNewContent(e.target.value)}
+                className="flex-1 ml-2"
               />
             </Box>
             <div className="flex-around m-1">
