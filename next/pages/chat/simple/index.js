@@ -5,9 +5,9 @@ import { CssBaseline, Paper, Box, InputBase } from "@mui/material";
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import ClearConversationButton from "../../../app/components/chat/ClearConversationButton";
 import SimpleChatMessagesDiv from "../../../app/components/chat/simple/SimpleChatMessagesDiv";
 import SimpleSendButton from "../../../app/components/chat/simple/SimpleSendButton";
+import SimpleClearButton from "../../../app/components/chat/simple/SimpleClearButton";
 
 function EasyChat() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
@@ -65,7 +65,7 @@ function EasyChat() {
                   stream={stream}
                   newContent={newContent}
                 />
-                <ClearConversationButton setMessages={setMessages}/>
+                <SimpleClearButton setMessages={setMessages}/>
               </div>
             </div>
           </div>
