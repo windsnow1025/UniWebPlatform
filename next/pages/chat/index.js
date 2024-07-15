@@ -9,7 +9,7 @@ import useThemeHandler from "../../app/hooks/useThemeHandler";
 import SendButton from "../../app/components/chat/SendButton";
 import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";
 import StatesDiv from "../../app/components/chat/StatesDiv";
-import ClearConversationButton from "../../app/components/chat/ClearConversationButton";
+import ClearButton from "../../app/components/chat/ClearButton";
 import ConversationSidebar from "../../app/components/chat/ConversationSidebar";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
 
@@ -99,7 +99,7 @@ function Chat() {
                   temperature={temperature}
                   stream={stream}
                 />
-                <ClearConversationButton setMessages={setMessages}/>
+                <ClearButton setMessages={setMessages}/>
               </div>
             </div>
           </div>
