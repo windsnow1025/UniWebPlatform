@@ -47,8 +47,9 @@ function SendButton({
     }
 
     const newMessage = chatLogic.createUserMessage(newContent);
+    const newMessages = [...messages, newMessage]
 
-    setMessages(prevMessages => [...prevMessages, newMessage]);
+    setMessages(newMessages);
 
     switchStatus(true);
 
@@ -59,7 +60,7 @@ function SendButton({
 
     if (!stream) {
 
-      const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
+      const content = await chatLogic.nonStreamGenerate(newMessages, apiType, model, temperature, stream);
 
       if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
         // console.log(`previous index ${thisRequestIndex}, current index ${currentRequestIndex.current}, is generating ${isGeneratingRef.current}`);
@@ -72,7 +73,7 @@ function SendButton({
 
       let isFirstChunk = true;
 
-      for await (const chunk of chatLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
+      for await (const chunk of chatLogic.streamGenerate(newMessages, apiType, model, temperature, stream)) {
 
         if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
           return;
