@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline, Paper, Box, InputBase } from "@mui/material";
+import { CssBaseline, Paper, Box, InputBase, InputAdornment, IconButton } from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import SimpleChatMessagesDiv from "../../../app/components/chat/simple/SimpleChatMessagesDiv";
-import SimpleSendButton from "../../../app/components/chat/simple/SimpleSendButton";
-import SimpleClearButton from "../../../app/components/chat/simple/SimpleClearButton";
 
-function EasyChat() {
+function SimpleChat() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
   const title = "Simple AI Chat";
   useEffect(() => {
@@ -25,6 +25,47 @@ function EasyChat() {
   const model = chatLogic.defaultModel;
   const temperature = 0;
   const stream = true;
+
+  const handleSend = async () => {
+    if (!localStorage.getItem('token')) {
+      alert('Please sign in first.');
+      return;
+    }
+
+    const newMessage = chatLogic.createUserMessage(newContent);
+    const newMessages = [...messages, newMessage];
+    setMessages(newMessages);
+    setNewContent('');
+
+    const scrollableContainer = document.querySelector('.local-scroll-scrollable');
+
+    if (!stream) {
+      const content = await chatLogic.nonStreamGenerate(newMessages, apiType, model, temperature, stream);
+      setMessages(prevMessages => [...prevMessages, chatLogic.createAssistantMessage(content), chatLogic.emptyUserMessage]);
+    } else {
+      let isFirstChunk = true;
+      for await (const chunk of chatLogic.streamGenerate(newMessages, apiType, model, temperature, stream)) {
+        if (isFirstChunk) {
+          setMessages(prevMessages => [...prevMessages, chatLogic.emptyAssistantMessage]);
+          isFirstChunk = false;
+        }
+        setMessages(prevMessages => {
+          const newMessages = [...prevMessages];
+          newMessages[newMessages.length - 1].text += chunk;
+          return newMessages;
+        });
+        scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+      }
+    }
+    scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
 
   return (
     <ThemeProvider theme={muiTheme}>
@@ -51,23 +92,17 @@ function EasyChat() {
                 placeholder="Type a message"
                 value={newContent}
                 onChange={(e) => setNewContent(e.target.value)}
+                onKeyDown={handleKeyDown}
                 className="flex-1 ml-2"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleSend} color="primary">
+                      <SendIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
             </Box>
-            <div className="flex-around m-1">
-              <div className="flex-center">
-                <SimpleSendButton
-                  messages={messages}
-                  setMessages={setMessages}
-                  apiType={apiType}
-                  model={model}
-                  temperature={temperature}
-                  stream={stream}
-                  newContent={newContent}
-                />
-                <SimpleClearButton setMessages={setMessages}/>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -75,4 +110,4 @@ function EasyChat() {
   );
 }
 
-export default EasyChat;
+export default SimpleChat;
