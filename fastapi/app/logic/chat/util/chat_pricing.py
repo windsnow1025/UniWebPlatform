@@ -7,6 +7,12 @@ chat_prices = [
     },
     {
         "api_type": "open_ai",
+        "model": "gpt-4o-mini",
+        "input": 0.15,
+        "output": 0.6
+    },
+    {
+        "api_type": "open_ai",
         "model": "gpt-4-turbo",
         "input": 10,
         "output": 30
