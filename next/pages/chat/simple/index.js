@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline, Paper, Box, InputBase, InputAdornment, IconButton } from "@mui/material";
+import { CssBaseline, Paper, Box, TextareaAutosize, InputAdornment, IconButton } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
-import ClearIcon from '@mui/icons-material/Clear';
 
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
@@ -88,20 +87,20 @@ function SimpleChat() {
               </div>
             </Paper>
             <Box component={Paper} elevation={2} className="flex items-center p-2 m-2">
-              <InputBase
+              <TextareaAutosize
                 placeholder="Type a message"
                 value={newContent}
                 onChange={(e) => setNewContent(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="flex-1 ml-2"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleSend} color="primary">
-                      <SendIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
+                className="flex-1 m-1 p-2 rounded border"
+                minRows={1}
+                maxRows={10}
               />
+              <InputAdornment position="end">
+                <IconButton onClick={handleSend} color="primary">
+                  <SendIcon />
+                </IconButton>
+              </InputAdornment>
             </Box>
           </div>
         </div>
