@@ -65,7 +65,7 @@ export default class ConversationLogic {
         }
       }
       console.error(error);
-      throw new Error('Failed to update bookmark');
+      throw new Error('Failed to update conversation');
     }
   }
 
