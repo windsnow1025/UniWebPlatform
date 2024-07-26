@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {Paper, IconButton, Tooltip, Snackbar, Alert, LinearProgress} from "@mui/material";
@@ -53,6 +53,9 @@ function MessageDiv({
               setContent={setContent}
               shouldSanitize={shouldSanitize}
               editableState={editableState}
+              files={files}
+              setFiles={setFiles}
+              setUploadProgress={setUploadProgress}
             />
           </Paper>
           <div className="flex-column self-end">
