@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { Paper, IconButton, Tooltip, Snackbar, Alert, LinearProgress } from "@mui/material";
+import {Paper, IconButton, Tooltip, Snackbar, Alert, LinearProgress} from "@mui/material";
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
@@ -32,14 +32,6 @@ function MessageDiv({
     setAlertOpen(true);
   };
 
-  const handleFileDelete = (fileUrl) => {
-    const newFiles = files.filter(file => file !== fileUrl);
-    setFiles(newFiles);
-    setAlertMessage("File deleted successfully");
-    setAlertSeverity('success');
-    setAlertOpen(true);
-  };
-
   return (
     <>
       <Paper elevation={2} className="my-1 p-2 rounded-lg">
@@ -65,7 +57,7 @@ function MessageDiv({
           </Paper>
           <div className="flex-column self-end">
             {setFiles &&
-              <FileUpload files={files} setFiles={setFiles} setUploadProgress={setUploadProgress} />
+              <FileUpload files={files} setFiles={setFiles} setUploadProgress={setUploadProgress}/>
             }
             <Tooltip title="Copy">
               <IconButton aria-label="copy" onClick={handleContentCopy}>
@@ -82,11 +74,11 @@ function MessageDiv({
           </div>
         </div>
         {uploadProgress > 0 && (
-          <LinearProgress variant="determinate" value={uploadProgress * 100} />
+          <LinearProgress variant="determinate" value={uploadProgress * 100}/>
         )}
         <div className="flex-start">
           {files && files.map((file) => (
-            <FileDiv key={file} fileUrl={file} handleFileDelete={handleFileDelete} />
+            <FileDiv key={file} fileUrl={file} files={files} setFiles={setFiles}/>
           ))}
         </div>
       </Paper>
@@ -95,7 +87,7 @@ function MessageDiv({
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>
