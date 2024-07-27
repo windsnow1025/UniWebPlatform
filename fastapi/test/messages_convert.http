@@ -1,0 +1,16 @@
+### Post Messages Convert
+
+POST {{baseUrl}}/messages/convert
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "text": "Say this is a test.",
+      "files": []
+    }
+  ],
+  "api_type": "open_ai"
+}

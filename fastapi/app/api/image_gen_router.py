@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
 
-import app.dao.user_dao as user_dao
 import app.logic.auth as auth
 from app.logic.image_gen.image_gen_service import *
 
