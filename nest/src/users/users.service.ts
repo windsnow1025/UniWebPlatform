@@ -9,6 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
 import { UserDto } from './dto/user.dto';
+import { PrivateUserDto } from "./dto/privateUser.dto";
 
 @Injectable()
 export class UsersService {
@@ -25,6 +26,17 @@ export class UsersService {
       credit: user.credit,
     };
     return userDto;
+  }
+
+  public toPrivateUserDto(user: User) {
+    const privateUserDto: PrivateUserDto = {
+      id: user.id,
+      username: user.username,
+      roles: user.roles,
+      credit: user.credit,
+      pin: user.pin,
+    };
+    return privateUserDto;
   }
 
   find() {

@@ -30,7 +30,7 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return this.usersService.toUserDto(user);
+    return this.usersService.toPrivateUserDto(user);
   }
 
   @Public()
