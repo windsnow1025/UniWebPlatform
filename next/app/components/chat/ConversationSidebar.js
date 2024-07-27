@@ -205,6 +205,7 @@ function ConversationSidebar({messages, setMessages}) {
                     onChange={(e) => setEditingName(e.target.value)}
                     autoFocus
                     fullWidth
+                    onClick={(e) => e.stopPropagation()}
                   />
                 ) : (
                   <ListItemText primary={conversation.name}/>
