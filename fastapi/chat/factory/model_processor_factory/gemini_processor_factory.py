@@ -4,11 +4,9 @@ from typing import Callable, Generator
 import google.generativeai as genai
 from fastapi.responses import StreamingResponse
 
-from chat.logic.file_type_checker import get_file_type
-from chat.factory.model_processor_factory.gemini_image_processor import get_image_part_from_file
+from chat.factory.message_converter import convert_messages_to_gemini
 from chat.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
 from chat.implementations.stream_gemini_processor import StreamGeminiProcessor
-from chat.model.gemini_message import GeminiMessage
 from chat.model.message import Message
 
 
@@ -69,31 +67,3 @@ async def create_gemini_processor(
         )
 
 
-async def convert_messages_to_gemini(messages: list[Message]) -> list[GeminiMessage]:
-    return [await convert_message_to_gemini(message) for message in messages]
-
-
-async def convert_message_to_gemini(message: Message) -> GeminiMessage:
-    role = message.role
-    text = message.text
-    files = message.files
-
-    gemini_role = ""
-    if role == "user" or role == "system":
-        gemini_role = "user"
-    elif role == "assistant":
-        gemini_role = "model"
-
-    parts = []
-
-    if text:
-        parts.append(text)
-    else:
-        parts.append("")
-
-    for file in files:
-        if get_file_type(file) == "image":
-            image_contents = await get_image_part_from_file(file)
-            parts.append(image_contents)
-
-    return GeminiMessage(role=gemini_role, parts=parts)
