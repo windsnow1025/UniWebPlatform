@@ -3,12 +3,10 @@ import os
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
+from chat.factory.message_converter import convert_messages_to_gpt
 from chat.model.handler import NonStreamResponseHandler, StreamResponseHandler
-from chat.logic.file_type_checker import get_file_type
-from chat.factory.model_processor_factory.gpt_image_processor import get_image_content_from_file
 from chat.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
 from chat.implementations.stream_gpt_processor import StreamGPTProcessor
-from chat.model.gpt_message import *
 from chat.model.message import Message
 
 
@@ -55,24 +53,3 @@ async def create_gpt_processor(
         )
 
 
-async def convert_messages_to_gpt(messages: list[Message]) -> list[GptMessage]:
-    return [await convert_message_to_gpt(message) for message in messages]
-
-
-async def convert_message_to_gpt(message: Message) -> GptMessage:
-    role = message.role
-    text = message.text
-    files = message.files
-
-    content = []
-
-    if text:
-        text_content = TextContent(type="text", text=text)
-        content.append(text_content)
-
-    for file in files:
-        if get_file_type(file) == "image":
-            image_contents = await get_image_content_from_file(file)
-            content.append(image_contents)
-
-    return GptMessage(role=role, content=content)
