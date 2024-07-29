@@ -18,6 +18,7 @@ mysql-connector-python
 # SDK
 openai
 google-generativeai
+anthropic
 
 # Tokenization for OpenAI
 tiktoken
