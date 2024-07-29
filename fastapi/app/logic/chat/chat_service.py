@@ -5,7 +5,7 @@ from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
 from app.logic.chat.util import chat_pricing
 from chat import create_chat_processor
-from chat import preprocess_message
+from chat import preprocess_messages
 from chat import Message
 
 
@@ -19,8 +19,7 @@ async def handle_chat_interaction(
 ):
     logging.info(f"username: {username}, model: {model}")
 
-    for message in messages:
-        await preprocess_message(message)
+    await preprocess_messages(messages)
 
     def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
         cost = chat_pricing.calculate_chat_cost(
