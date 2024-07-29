@@ -1,3 +1,7 @@
+### Get API Models
+
+GET {{baseUrl}}/chat
+
 ### Post OpenAI Stream Text
 
 POST {{baseUrl}}/chat
@@ -79,6 +83,26 @@ Authorization: {{token}}
   ],
   "model": "gemini-1.5-pro-latest",
   "api_type": "gemini",
+  "temperature": 0,
+  "stream": true
+}
+
+### Post Claude Stream Text
+
+POST {{baseUrl}}/chat
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "text": "Say this is a test.",
+      "files": []
+    }
+  ],
+  "model": "claude-3-5-sonnet-20240620",
+  "api_type": "claude",
   "temperature": 0,
   "stream": true
 }
