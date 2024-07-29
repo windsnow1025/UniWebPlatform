@@ -2,6 +2,7 @@ from typing import Callable, Generator
 
 from fastapi.responses import StreamingResponse
 
+from chat.factory.model_processor_factory.claude_processor_factory import create_claude_processor
 from chat.factory.model_processor_factory.gemini_processor_factory import create_gemini_processor
 from chat.factory.model_processor_factory.gpt_processor_factory import create_gpt_processor
 from chat.model.message import Message
@@ -28,6 +29,15 @@ async def create_chat_processor(
         )
     elif api_type == 'gemini':
         return await create_gemini_processor(
+            messages=messages,
+            model=model,
+            temperature=temperature,
+            stream=stream,
+            stream_response_handler=stream_response_handler,
+            non_stream_response_handler=non_stream_response_handler
+        )
+    elif api_type == 'claude':
+        return await create_claude_processor(
             messages=messages,
             model=model,
             temperature=temperature,
