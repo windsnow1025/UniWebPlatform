@@ -93,7 +93,6 @@ function SendButton({
 
     }
 
-    scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
     switchStatus(false);
   }
 
