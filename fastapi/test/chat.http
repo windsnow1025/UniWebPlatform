@@ -106,3 +106,25 @@ Authorization: {{token}}
   "temperature": 0,
   "stream": true
 }
+
+### Post Claude Stream Image
+
+POST {{baseUrl}}/chat
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "text": "What's in this image?",
+      "files": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
+      ]
+    }
+  ],
+  "model": "claude-3-5-sonnet-20240620",
+  "api_type": "claude",
+  "temperature": 0,
+  "stream": true
+}
