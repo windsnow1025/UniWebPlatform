@@ -13,7 +13,7 @@ class TextContent:
     text: str
 
 
-# role: "image_url"
+# type: "image_url"
 @dataclass
 class ImageContent:
     type: str
