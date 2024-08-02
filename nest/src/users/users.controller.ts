@@ -35,18 +35,23 @@ export class UsersController {
 
   @Public()
   @Post('/user')
-  create(@Body() authDto: AuthDto) {
-    return this.usersService.create(authDto.username, authDto.password);
+  async create(@Body() authDto: AuthDto) {
+    const user = await this.usersService.create(
+      authDto.username,
+      authDto.password,
+    );
+    return this.usersService.toPrivateUserDto(user);
   }
 
   @Put('/user')
-  update(@Request() req: RequestWithUser, @Body() authDto: AuthDto) {
+  async update(@Request() req: RequestWithUser, @Body() authDto: AuthDto) {
     const currentUsername = req.user.username;
-    return this.usersService.update(
+    const user = await this.usersService.update(
       currentUsername,
       authDto.username,
       authDto.password,
     );
+    return this.usersService.toPrivateUserDto(user);
   }
 
   @Delete('/user')

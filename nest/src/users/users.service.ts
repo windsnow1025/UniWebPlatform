@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
 import { UserDto } from './dto/user.dto';
-import { PrivateUserDto } from "./dto/privateUser.dto";
+import { PrivateUserDto } from './dto/privateUser.dto';
 
 @Injectable()
 export class UsersService {
