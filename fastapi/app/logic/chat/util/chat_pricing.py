@@ -48,6 +48,12 @@ chat_prices = [
         "output": 21
     },
     {
+        "api_type": "gemini",
+        "model": "gemini-1.5-pro-exp-0801",
+        "input": 7,
+        "output": 21
+    },
+    {
         "api_type": "claude",
         "model": "claude-3-5-sonnet-20240620",
         "input": 3,
