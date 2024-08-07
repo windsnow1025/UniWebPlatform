@@ -1,4 +1,4 @@
-import { Message } from "@/src/conversation/chat/Message";
+import {Message} from "@/src/conversation/chat/Message";
 
 export interface Conversation {
     id: number;
