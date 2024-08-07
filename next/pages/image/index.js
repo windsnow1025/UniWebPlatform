@@ -19,7 +19,7 @@ function ImageGenerate() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
+  const [alertSeverity, setAlertSeverity] = useState('info');
   const title = "Image Generate";
   useEffect(() => {
     document.title = title;
