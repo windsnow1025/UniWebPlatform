@@ -21,7 +21,7 @@ function SendButton({
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   useEffect(() => {
     const handleKeyDown = (e) => {
