@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import {Bookmark} from './Bookmark';
 
 export default class BookmarkService {
