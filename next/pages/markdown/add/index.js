@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
-import {Button, CssBaseline, Snackbar, Alert} from "@mui/material";
+import {Alert, Button, CssBaseline, Snackbar} from "@mui/material";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";

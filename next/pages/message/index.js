@@ -3,7 +3,7 @@ import MessageService from "../../src/message/MessageService";
 import UserLogic from "../../src/common/user/UserLogic";
 import MessageDiv from '../../app/components/message/MessageDiv';
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, CssBaseline, Paper, Typography, Snackbar, Alert} from "@mui/material";
+import {Alert, Button, CssBaseline, Paper, Snackbar, Typography} from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 

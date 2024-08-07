@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline, Paper, Box, TextField, InputAdornment, IconButton } from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {ThemeProvider} from "@mui/material/styles";
+import {Box, CssBaseline, IconButton, InputAdornment, Paper, TextField} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
