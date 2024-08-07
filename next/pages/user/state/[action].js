@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Button, CssBaseline, Snackbar, Alert} from "@mui/material";
+import {Alert, Button, CssBaseline, Snackbar} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
