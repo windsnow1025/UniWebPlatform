@@ -40,7 +40,7 @@ function MarkdownUpdate() {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setMarkdown(prev => ({...prev, content: content}));
-      parseMarkdownLaTeX(markdownRef.current, markdown.content);
+      parseMarkdownLaTeX(markdownRef.current, content);
     }
     setIsEditing(false);
   };
