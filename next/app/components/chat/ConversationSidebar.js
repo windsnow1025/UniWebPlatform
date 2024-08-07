@@ -38,7 +38,7 @@ function ConversationSidebar({messages, setMessages}) {
   const [editingName, setEditingName] = useState('');
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('info'); // 'success', 'error', 'warning', 'info'
+  const [alertSeverity, setAlertSeverity] = useState('info');
   const [usernames, setUsernames] = useState([]);
   const [selectedUsername, setSelectedUsername] = useState('');
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
