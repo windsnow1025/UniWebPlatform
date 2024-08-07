@@ -1,15 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import MarkdownLogic from "../../src/markdown/MarkdownLogic";
-import {
-  Button,
-  CssBaseline,
-  Divider,
-  Link,
-  List,
-  ListItem,
-  ListItemText,
-  Paper
-} from "@mui/material";
+import {Button, CssBaseline, Divider, Link, List, ListItem, ListItemText, Paper} from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import {ThemeProvider} from "@mui/material/styles";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
