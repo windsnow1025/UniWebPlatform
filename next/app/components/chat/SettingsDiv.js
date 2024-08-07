@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   FormControl,
   FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
   Slider,
-  Switch,
   Snackbar,
-  Alert, Typography
+  Switch,
+  Typography
 } from "@mui/material";
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
