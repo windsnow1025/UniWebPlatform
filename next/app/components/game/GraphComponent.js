@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { DataSet, Network } from 'vis-network/standalone/esm/vis-network';
+import React, {useEffect, useRef} from 'react';
+import {DataSet, Network} from 'vis-network/standalone/esm/vis-network';
 
 const playerColors = ["#add8e6", "#f08080", "#90ee90"]
 

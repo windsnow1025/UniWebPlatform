@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper, Avatar, Typography } from "@mui/material";
+import {Avatar, Box, Paper, Typography} from "@mui/material";
 import ContentDiv from "../../message/ContentDiv";
 
 function SimpleMessageDiv({

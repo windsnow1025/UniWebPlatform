@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {applyTheme, createMUITheme} from "../utils/Theme";
 import {useMediaQuery} from "@mui/material";
 

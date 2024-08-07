@@ -1,4 +1,4 @@
-import {Checkbox, FormControlLabel, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select} from "@mui/material";
 import React from "react";
 
 function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSanitize}) {

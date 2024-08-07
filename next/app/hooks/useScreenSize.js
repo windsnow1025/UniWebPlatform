@@ -1,4 +1,4 @@
-import { useTheme, useMediaQuery } from '@mui/material';
+import {useMediaQuery, useTheme} from '@mui/material';
 
 const useScreenSize = () => {
   const theme = useTheme();

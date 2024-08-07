@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { parseMarkdownLaTeX } from "markdown-latex-renderer";
+import {useEffect, useRef, useState} from "react";
+import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
 
 function ContentDiv({
