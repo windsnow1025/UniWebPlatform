@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-import {Button, CssBaseline, IconButton, Tooltip, Snackbar, Alert} from "@mui/material";
+import {Alert, Button, CssBaseline, IconButton, Snackbar, Tooltip} from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import {generatePassword} from "../../src/password/PasswordLogic";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
