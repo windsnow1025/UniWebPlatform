@@ -1,16 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import {
-  IconButton,
-  CircularProgress,
-  Link,
-  Menu,
-  MenuItem,
-  Typography,
-  Tooltip,
-  useMediaQuery,
-  useTheme
-} from "@mui/material";
+import {CircularProgress, IconButton, Link, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 
 import UserLogic from "../../../../src/common/user/UserLogic";
 import SignDiv from "./SignDiv";

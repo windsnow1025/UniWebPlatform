@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, IconButton, Paper } from '@mui/material';
+import {IconButton, Paper, Typography} from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import mime from 'mime';
