@@ -18,8 +18,8 @@ jobs:
 
       - name: Copy files to server
         run: |
-          scp ./docker-compose.yaml root@${{ secrets.SERVER_ADDRESS }}:/root/UniWebPlatform/
+          scp -o StrictHostKeyChecking=no ./docker-compose.yaml ${{ secrets.SERVER_ADDRESS }}:/root/UniWebPlatform/
 
       - name: Deploy with Docker Compose
         run: |
-          ssh root@${{ secrets.SERVER_ADDRESS }} 'cd /root/UniWebPlatform/ && docker-compose pull && docker-compose up -d'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_ADDRESS }} 'cd /root/UniWebPlatform/ && docker-compose pull && docker-compose up -d'
