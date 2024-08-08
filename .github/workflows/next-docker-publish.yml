@@ -1,4 +1,4 @@
-name: ci
+name: Next publish
 
 on:
   push:
