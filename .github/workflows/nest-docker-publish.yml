@@ -1,4 +1,4 @@
-name: ci
+name: Nest publish
 
 on:
   push:
