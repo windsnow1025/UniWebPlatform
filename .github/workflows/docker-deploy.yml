@@ -22,4 +22,4 @@ jobs:
 
       - name: Deploy with Docker Compose
         run: |
-          ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_ADDRESS }} 'cd /root/UniWebPlatform/ && docker-compose pull && docker-compose up -d'
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_ADDRESS }} 'cd /root/UniWebPlatform/ && docker compose pull && docker compose up -d'
