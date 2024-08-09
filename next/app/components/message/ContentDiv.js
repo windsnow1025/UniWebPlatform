@@ -63,10 +63,12 @@ function ContentDiv({
     const fileLogic = new FileLogic();
     const uploadPromises = [];
     let totalProgress = 0;
+    let filePasted = false;
 
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       if (item.kind === 'file') {
+        filePasted = true;
         const file = item.getAsFile();
         if (file) {
           const uploadPromise = fileLogic.upload(file, (progressEvent) => {
@@ -77,6 +79,10 @@ function ContentDiv({
           uploadPromises.push(uploadPromise);
         }
       }
+    }
+
+    if (filePasted) {
+      event.preventDefault();
     }
 
     try {
