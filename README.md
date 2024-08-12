@@ -22,7 +22,6 @@ Front End
       - MUI
 ```
 
-
 ```yaml
 Back End
   - Node.js
@@ -37,7 +36,6 @@ Storage
   - MinIO
 ```
 
-
 ```yaml
 Infrastructure
   - Nginx
@@ -45,6 +43,11 @@ Infrastructure
     - Docker Compose
   - Linux
     - Debian 11
+```
+
+```yaml
+DevOps
+  - GitHub Actions
 ```
 
 ## Live Demo
@@ -64,7 +67,6 @@ Copy `./docker-compose.yaml`, `./env`, `./config` to production folder.
 #### Debian install Docker Compose
 
 1. Logged in as the root user in Debian 11 with a minimum RAM of 4GB.
-
 2. Install Docker Compose
 
 ```bash
@@ -99,8 +101,16 @@ docker compose up [-d]
 #### Windows
 
 1. Setup and run MySQL and MinIO either by native approach or by Docker.
-
 2. Setup and run Next, Nest, FastAPI separately according to their documentations.
+
+#### CI/CD
+
+GitHub >> Repository >> Settings >> Security >> Secrets and variables >> Actions >> Repository secrets: add
+
+- DOCKERHUB_TOKEN
+- DOCKERHUB_USERNAME
+- SERVER_ADDRESS
+- SSH_PRIVATE_KEY
 
 ## Usage
 
