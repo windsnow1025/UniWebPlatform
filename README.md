@@ -119,3 +119,10 @@ GitHub >> Repository >> Settings >> Security >> Secrets and variables >> Actions
 - DOCKERHUB_USERNAME
 - SERVER_ADDRESS
 - SSH_PRIVATE_KEY
+
+## Make Contributions
+
+1. Create a new branch based on `dev`
+2. Commit to the new branch
+3. Open a pull request to merge commits into `dev` branch
+4. Accept the pull request, wait for automatic testing to pass
