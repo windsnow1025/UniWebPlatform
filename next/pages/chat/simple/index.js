@@ -18,7 +18,7 @@ function SimpleChat() {
   const chatLogic = new ChatLogic();
 
   // Chat Parameters
-  const [messages, setMessages] = useState([chatLogic.initMessages[0]]);
+  const [messages, setMessages] = useState([]);
   const [newContent, setNewContent] = useState('');
   const apiType = chatLogic.defaultApiType;
   const model = chatLogic.defaultModel;
