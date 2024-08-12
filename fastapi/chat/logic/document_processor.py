@@ -14,7 +14,10 @@ from chat.logic.file_type_checker import get_file_type
 
 async def extract_text_from_file(file_url: str) -> str:
     async with httpx.AsyncClient() as client:
-        response = await client.get(file_url)
+        try:
+            response = await client.get(file_url)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
 
         if response.status_code != 200:
             status_code = response.status_code
