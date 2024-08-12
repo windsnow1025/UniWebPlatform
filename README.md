@@ -112,9 +112,9 @@ GitHub >> Repository >> Settings >> Security >> Secrets and variables >> Actions
 - SERVER_ADDRESS
 - SSH_PRIVATE_KEY
 
-## Usage
+### Usage
 
-### Test Availability
+#### Test Availability
 
 ```bash
 curl localhost:81
