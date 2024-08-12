@@ -96,6 +96,14 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 docker compose up [-d]
 ```
 
+#### Usage
+
+##### Test Availability
+
+```bash
+curl localhost:81
+```
+
 ### Development
 
 #### Windows
@@ -111,11 +119,3 @@ GitHub >> Repository >> Settings >> Security >> Secrets and variables >> Actions
 - DOCKERHUB_USERNAME
 - SERVER_ADDRESS
 - SSH_PRIVATE_KEY
-
-### Usage
-
-#### Test Availability
-
-```bash
-curl localhost:81
-```
