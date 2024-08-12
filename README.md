@@ -96,6 +96,14 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 docker compose up [-d]
 ```
 
+#### Usage
+
+##### Test Availability
+
+```bash
+curl localhost:81
+```
+
 ### Development
 
 #### Windows
@@ -112,10 +120,14 @@ GitHub >> Repository >> Settings >> Security >> Secrets and variables >> Actions
 - SERVER_ADDRESS
 - SSH_PRIVATE_KEY
 
-### Usage
+## Make Contributions
 
-#### Test Availability
+Step 1,2,3 should be done by contributors; Step 4,5,6,7 should be done by repo owner.
 
-```bash
-curl localhost:81
-```
+1. Create a new branch based on `dev`
+2. Commit to the new branch
+3. Open a pull request from the new branch and based on `dev`
+4. Merge the pull request, wait for automatic test to pass
+5. Open a pull request from the dev branch and based on `main`
+6. Merge the pull request, wait for automatic test to pass and docker push to finish
+7. Dispatch workflow for automatic deployment
