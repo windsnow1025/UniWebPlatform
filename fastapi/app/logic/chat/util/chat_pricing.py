@@ -44,8 +44,8 @@ chat_prices = [
     {
         "api_type": "gemini",
         "model": "gemini-1.5-flash-latest",
-        "input": 0.7,
-        "output": 2.1
+        "input": 0.15,
+        "output": 0.6
     },
     {
         "api_type": "gemini",
