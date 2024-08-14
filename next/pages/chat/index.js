@@ -31,7 +31,7 @@ function Chat() {
   const [stream, setStream] = useState(true);
 
   // States
-  const [editableState, setEditableState] = useState('conditional');
+  const [editableState, setEditableState] = useState('role-based');
   const [shouldSanitize, setShouldSanitize] = useState(true);
 
   return (
