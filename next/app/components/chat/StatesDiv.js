@@ -14,6 +14,7 @@ function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSa
             label="Editable"
             onChange={e => setEditableState(e.target.value)}
           >
+            <MenuItem value="role-based">Role-based</MenuItem>
             <MenuItem value="conditional">Conditional</MenuItem>
             <MenuItem value="always-true">Always True</MenuItem>
             <MenuItem value="always-false">Always False</MenuItem>
