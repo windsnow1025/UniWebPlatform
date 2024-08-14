@@ -12,6 +12,7 @@ import StatesDiv from "../../app/components/chat/StatesDiv";
 import ClearButton from "../../app/components/chat/ClearButton";
 import ConversationSidebar from "../../app/components/chat/ConversationSidebar";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
+import {EditableState} from "../../src/conversation/chat/Message";
 
 function Chat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -31,7 +32,7 @@ function Chat() {
   const [stream, setStream] = useState(true);
 
   // States
-  const [editableState, setEditableState] = useState('role-based');
+  const [editableState, setEditableState] = useState(EditableState.RoleBased);
   const [shouldSanitize, setShouldSanitize] = useState(true);
 
   return (
