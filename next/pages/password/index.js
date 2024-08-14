@@ -29,7 +29,7 @@ function PasswordGenerator() {
     };
   }, []);
 
-  const [pin, setPin] = useState(0);
+  const [fetchedPin, setFetchedPin] = useState(0);
   const [newPin, setNewPin] = useState('');
   const [name, setName] = useState('');
   const [no, setNo] = useState(0);
@@ -45,7 +45,7 @@ function PasswordGenerator() {
   const fetchPin = async () => {
     try {
       const pin = await userLogic.fetchPin();
-      setPin(pin);
+      setFetchedPin(pin);
     } catch (err) {
       setAlertMessage(err.message);
       setAlertSeverity('error');
@@ -59,7 +59,7 @@ function PasswordGenerator() {
 
   const handleUpdatePin = async () => {
     try {
-      await userService.updatePin(newPin);
+      await userLogic.updateUserPin(parseInt(newPin));
       fetchPin();
       setAlertMessage("Update success");
       setAlertSeverity('success');
@@ -72,7 +72,13 @@ function PasswordGenerator() {
   }
 
   const handleGeneratePassword = () => {
-    const password = generatePassword(pin, name, no, length);
+    let currentPin;
+    if (newPin !== "") {
+      currentPin = newPin;
+    } else {
+      currentPin = fetchedPin;
+    }
+    const password = generatePassword(currentPin, name, no, length);
     setPassword(password);
     navigator.clipboard.writeText(password);
   }
@@ -93,7 +99,7 @@ function PasswordGenerator() {
         <div className="local-scroll-scrollable flex-center">
           <div className="text-center">
             <div className="m-2">
-              {pin ? (
+              {fetchedPin ? (
                 <div>Pin Loaded</div>
               ) : (
                 <div>Pin Loading</div>
