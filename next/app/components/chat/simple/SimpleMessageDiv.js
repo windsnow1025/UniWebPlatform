@@ -1,15 +1,16 @@
 import React from 'react';
 import {Avatar, Box, Paper, Typography} from "@mui/material";
 import ContentDiv from "../../message/ContentDiv";
+import {EditableState} from "../../../../src/conversation/chat/Message";
 
 function SimpleMessageDiv({
                             role,
                             content,
                             setContent,
                           }) {
-  let editableState = "always-false";
+  let editableState = EditableState.AlwaysFalse;
   if (role === 'user') {
-    editableState = "always-true";
+    editableState = EditableState.AlwaysTrue;
   }
 
   return (
