@@ -1,5 +1,6 @@
 import {Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select} from "@mui/material";
 import React from "react";
+import {EditableState} from "../../../src/conversation/chat/Message";
 
 function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSanitize}) {
   return (
@@ -14,10 +15,10 @@ function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSa
             label="Editable"
             onChange={e => setEditableState(e.target.value)}
           >
-            <MenuItem value="role-based">Role-based</MenuItem>
-            <MenuItem value="conditional">Conditional</MenuItem>
-            <MenuItem value="always-true">Always True</MenuItem>
-            <MenuItem value="always-false">Always False</MenuItem>
+            <MenuItem value={EditableState.RoleBased}>Role-based</MenuItem>
+            <MenuItem value={EditableState.InteractionBased}>Interaction-based</MenuItem>
+            <MenuItem value={EditableState.AlwaysTrue}>Always True</MenuItem>
+            <MenuItem value={EditableState.AlwaysFalse}>Always False</MenuItem>
           </Select>
         </FormControl>
       </div>
