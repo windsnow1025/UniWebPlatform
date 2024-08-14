@@ -1,12 +1,13 @@
 import {useEffect, useRef, useState} from "react";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
+import {EditableState} from "../../../src/conversation/chat/Message";
 
 function ContentDiv({
                       content,
                       setContent,
                       shouldSanitize = true,
-                      editableState = "conditional",
+                      editableState = EditableState.InteractionBased,
                       files,
                       setFiles,
                       setUploadProgress,
@@ -28,14 +29,14 @@ function ContentDiv({
       return;
     }
 
-    if (editableState === "always-false") {
+    if (editableState === EditableState.AlwaysFalse) {
       await parse(content, shouldSanitize);
       setContentEditable("false");
       return;
     }
 
     // Focus and unparse
-    if (editing || editableState === "always-true") {
+    if (editing || editableState === EditableState.AlwaysTrue) {
       unparse(content);
       setContentEditable("plaintext-only");
       return;
