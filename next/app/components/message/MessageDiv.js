@@ -18,12 +18,21 @@ function MessageDiv({
                       useRoleSelect = false,
                       onMessageDelete = null,
                       shouldSanitize = true,
-                      editableState = "conditional",
+                      editableState = "role-based",
                     }) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  let convertedEditableState = editableState;
+  if (editableState === "role-based") {
+    if (role === "assistant") {
+      convertedEditableState = "always-false";
+    } else {
+      convertedEditableState = "always-true";
+    }
+  }
 
   const handleContentCopy = () => {
     navigator.clipboard.writeText(content);
@@ -52,7 +61,7 @@ function MessageDiv({
               content={content}
               setContent={setContent}
               shouldSanitize={shouldSanitize}
-              editableState={editableState}
+              editableState={convertedEditableState}
               files={files}
               setFiles={setFiles}
               setUploadProgress={setUploadProgress}
