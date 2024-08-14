@@ -8,8 +8,8 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
-import { UserDto } from './dto/user.dto';
-import { PrivateUserDto } from './dto/privateUser.dto';
+import { UserResDto } from './dto/user.res.dto';
+import { PrivateUserResDto } from './dto/private-user.res.dto';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +19,7 @@ export class UsersService {
   ) {}
 
   public toUserDto(user: User) {
-    const userDto: UserDto = {
+    const userDto: UserResDto = {
       id: user.id,
       username: user.username,
       roles: user.roles,
@@ -29,7 +29,7 @@ export class UsersService {
   }
 
   public toPrivateUserDto(user: User) {
-    const privateUserDto: PrivateUserDto = {
+    const privateUserDto: PrivateUserResDto = {
       id: user.id,
       username: user.username,
       roles: user.roles,
@@ -84,6 +84,17 @@ export class UsersService {
     const hash = await bcrypt.hash(password, salt);
 
     user.password = hash;
+
+    return await this.usersRepository.save(user);
+  }
+
+  async updatePin(username: string, pin: number) {
+    const user = await this.findOneByUsername(username);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.pin = pin;
 
     return await this.usersRepository.save(user);
   }
