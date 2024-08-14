@@ -122,12 +122,10 @@ GitHub >> Repository >> Settings >> Security >> Secrets and variables >> Actions
 
 ## Make Contributions
 
-Step 1,2,3 should be done by contributors; Step 4,5,6,7 should be done by repo owner.
+Step 1,2,3 should be done by contributors; Step 4,5 should be done by repo owner.
 
-1. Create a new branch based on `dev`
+1. Create a new branch based on `main`
 2. Commit to the new branch
-3. Open a pull request from the new branch and based on `dev`
-4. Merge the pull request, wait for automatic test to pass
-5. Open a pull request from the dev branch and based on `main`
-6. Merge the pull request, wait for automatic test to pass and docker push to finish
-7. Dispatch workflow for automatic deployment
+3. Open a pull request from the new branch
+4. Merge the pull request, wait for automatic test to pass and docker push to finish
+5. Dispatch workflow for automatic deployment
