@@ -113,6 +113,25 @@ export default class UserLogic {
     }
   }
 
+  async updateUserPin(pin: number) {
+    try {
+      await this.userService.updateUserPin(pin);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 401) {
+            throw new Error('Unauthorized');
+          }
+          if (error.response?.status === 403) {
+            throw new Error('Forbidden');
+          }
+        }
+        console.error(error);
+        throw new Error('Failed to update pin');
+      }
+    }
+  }
+
   validateInput(input: string) {
     const asciiRegex = /^[\x20-\x7F]{4,32}$/;
     return asciiRegex.test(input);
