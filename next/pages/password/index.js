@@ -59,7 +59,7 @@ function PasswordGenerator() {
 
   const handleUpdatePin = async () => {
     try {
-      await userService.updatePin(newPin);
+      await userLogic.updateUserPin(parseInt(newPin));
       fetchPin();
       setAlertMessage("Update success");
       setAlertSeverity('success');
