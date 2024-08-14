@@ -41,6 +41,15 @@ export default class UserService {
     });
   }
 
+  async updateUserPin(pin: number) {
+    const token = localStorage.getItem('token');
+    await this.axiosInstance.put(`/users/user/pin`, {
+      pin: pin
+    }, {
+      headers: {Authorization: `Bearer ${token}`}
+    });
+  }
+
   async deleteUser() {
     const token = localStorage.getItem('token');
     const res = await this.axiosInstance.delete("/users/user", {
