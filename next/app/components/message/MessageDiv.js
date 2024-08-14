@@ -7,6 +7,7 @@ import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileDiv from "./FileDiv";
 import FileUpload from './FileUpload';
+import {EditableState} from "../../../src/conversation/chat/Message";
 
 function MessageDiv({
                       role,
@@ -18,7 +19,7 @@ function MessageDiv({
                       useRoleSelect = false,
                       onMessageDelete = null,
                       shouldSanitize = true,
-                      editableState = "role-based",
+                      editableState = EditableState.RoleBased,
                     }) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -26,11 +27,11 @@ function MessageDiv({
   const [uploadProgress, setUploadProgress] = useState(0);
 
   let convertedEditableState = editableState;
-  if (editableState === "role-based") {
+  if (editableState === EditableState.RoleBased) {
     if (role === "assistant") {
-      convertedEditableState = "always-false";
+      convertedEditableState = EditableState.AlwaysFalse;
     } else {
-      convertedEditableState = "always-true";
+      convertedEditableState = EditableState.AlwaysTrue;
     }
   }
 
