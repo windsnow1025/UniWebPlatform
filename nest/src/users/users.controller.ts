@@ -10,8 +10,9 @@ import {
 } from '@nestjs/common';
 import { Public } from '../common/decorators/public.decorator';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
-import { AuthDto } from '../auth/dto/auth.dto';
+import { AuthReqDto } from '../auth/dto/auth.req.dto';
 import { UsersService } from './users.service';
+import { UserPinReqDto } from './dto/user.pin.req.dto';
 
 @Controller('users')
 export class UsersController {
@@ -35,7 +36,7 @@ export class UsersController {
 
   @Public()
   @Post('/user')
-  async create(@Body() authDto: AuthDto) {
+  async create(@Body() authDto: AuthReqDto) {
     const user = await this.usersService.create(
       authDto.username,
       authDto.password,
@@ -44,13 +45,23 @@ export class UsersController {
   }
 
   @Put('/user')
-  async update(@Request() req: RequestWithUser, @Body() authDto: AuthDto) {
+  async update(@Request() req: RequestWithUser, @Body() authDto: AuthReqDto) {
     const currentUsername = req.user.username;
     const user = await this.usersService.update(
       currentUsername,
       authDto.username,
       authDto.password,
     );
+    return this.usersService.toPrivateUserDto(user);
+  }
+
+  @Put('/user/pin')
+  async updatePin(
+    @Request() req: RequestWithUser,
+    @Body() userPinReqDto: UserPinReqDto,
+  ) {
+    const username = req.user.username;
+    const user = await this.usersService.updatePin(username, userPinReqDto.pin);
     return this.usersService.toPrivateUserDto(user);
   }
 
