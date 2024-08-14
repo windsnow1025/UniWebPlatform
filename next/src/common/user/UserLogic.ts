@@ -41,8 +41,13 @@ export default class UserLogic {
     try {
       const user = await this.userService.fetchUser();
       return user.username;
-    } catch (err) {
-      localStorage.removeItem('token');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.status !== 0) {
+          localStorage.removeItem('token');
+        }
+      }
+      console.error(error);
       return null;
     }
   }
