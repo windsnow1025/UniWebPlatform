@@ -1,10 +1,16 @@
 import {createTheme} from "@mui/material/styles";
 
+export enum ThemeType {
+  System = "system",
+  Light = "light",
+  Dark = "dark",
+}
+
 const convertTheme = (systemTheme: string, prefersDarkMode: boolean) => {
-  if (systemTheme === "light" || systemTheme === "dark") {
+  if (systemTheme === ThemeType.Light || systemTheme === ThemeType.Dark) {
     return systemTheme;
   } else {
-    return prefersDarkMode ? "dark" : "light";
+    return prefersDarkMode ? ThemeType.Dark : ThemeType.Light;
   }
 }
 
@@ -22,9 +28,9 @@ function applyMainTheme(theme: string) {
   body.classList.remove("light-theme");
   body.classList.remove("dark-theme");
 
-  if (theme === "light") {
+  if (theme === ThemeType.Light) {
     body.classList.add("light-theme");
-  } else if (theme === "dark") {
+  } else if (theme === ThemeType.Dark) {
     body.classList.add("dark-theme");
   }
 }
@@ -91,7 +97,7 @@ export function createMUITheme(systemTheme: string, prefersDarkMode: boolean) {
   const theme = convertTheme(systemTheme, prefersDarkMode);
   return createTheme({
     palette: {
-      mode: theme as "light" || "dark",
+      mode: theme as ThemeType.Light || ThemeType.Dark,
     }
   });
 }
