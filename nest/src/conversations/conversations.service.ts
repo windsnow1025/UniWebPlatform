@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
 import { UsersService } from '../users/users.service';
-import { ConversationDto } from './dto/conversation.dto';
+import { ConversationResDto } from './dto/conversation.res.dto';
 
 @Injectable()
 export class ConversationsService {
@@ -18,7 +18,7 @@ export class ConversationsService {
   ) {}
 
   public toConversationDto(conversation: Conversation) {
-    const conversationDto: ConversationDto = {
+    const conversationDto: ConversationResDto = {
       id: conversation.id,
       name: conversation.name,
       messages: conversation.messages,
