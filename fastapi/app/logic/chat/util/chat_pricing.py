@@ -7,7 +7,7 @@ chat_prices = [
     },
     {
         "api_type": "open_ai",
-        "model": "gpt-4o-2024-08-06",
+        "model": "chatgpt-4o-latest",
         "input": 2.5,
         "output": 10
     },
