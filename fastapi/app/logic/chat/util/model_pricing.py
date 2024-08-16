@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+
 chat_prices = [
     {
         "api_type": "open_ai",
@@ -77,6 +79,9 @@ def find_chat_prices(api_type: str, model: str):
 
 def calculate_chat_cost(api_type: str, model: str, prompt_tokens: int, completion_tokens: int) -> float:
     model_pricing = find_chat_prices(api_type, model)
+
+    if model_pricing is None:
+        raise HTTPException(status_code=400, detail="Invalid Model")
 
     input_cost = model_pricing["input"] * (prompt_tokens / 1000000)
     output_cost = model_pricing["output"] * (completion_tokens / 1000000)
