@@ -43,7 +43,7 @@ export default class ChatLogic {
     this.defaultApiType = "open_ai";
     this.defaultModel = "gpt-4o";
     this.defaultApiModels = [
-      {"api_type": "open_ai", "model": "gpt-4o"},
+      {"api_type": "open_ai", "model": "chatgpt-4o-latest"},
       {"api_type": "azure", "model": "gpt-4"},
       {"api_type": "gemini", "model": "gemini-1.5-pro-latest"},
       {"api_type": "claude", "model": "claude-3-5-sonnet-20240620"}
