@@ -11,15 +11,15 @@ export default class ChatService {
   private axiosInstance: AxiosInstance;
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL });
+    this.axiosInstance = axios.create({baseURL: process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL});
   }
 
   async generate(
-      messages: Message[],
-      api_type: string,
-      model: string,
-      temperature: number,
-      stream: boolean
+    messages: Message[],
+    api_type: string,
+    model: string,
+    temperature: number,
+    stream: boolean
   ): Promise<string | StreamResponse> {
     const token = localStorage.getItem('token')!;
 
@@ -53,19 +53,9 @@ export default class ChatService {
       });
 
       if (!response.ok) {
-        let errorDetail: string;
-
-        try {
-          const error = await response.json();
-          errorDetail = error.detail;
-        } catch (e) {
-          errorDetail = await response.text();
-          if (!errorDetail) {
-            errorDetail = `Unable to parse response: ${response}`;
-          }
-        }
-
-        throw new Error(errorDetail);
+        const status = response.status;
+        const statusText = response.statusText;
+        throw new Error(`${status}: ${statusText}`)
       }
 
       const reader = response.body!.getReader();
