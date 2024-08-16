@@ -53,9 +53,19 @@ export default class ChatService {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        const detail = error.detail
-        throw new Error(detail);
+        let errorDetail: string;
+
+        try {
+          const error = await response.json();
+          errorDetail = error.detail;
+        } catch (e) {
+          errorDetail = await response.text();
+          if (!errorDetail) {
+            errorDetail = `Unable to parse response: ${response}`;
+          }
+        }
+
+        throw new Error(errorDetail);
       }
 
       const reader = response.body!.getReader();
