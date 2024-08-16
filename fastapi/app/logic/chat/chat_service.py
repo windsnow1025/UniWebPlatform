@@ -22,7 +22,7 @@ async def handle_chat_interaction(
     await preprocess_messages(messages)
 
     def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
-        cost = chat_pricing.calculate_chat_cost(
+        cost = model_pricing.calculate_chat_cost(
             api_type=api_type,
             model=model,
             prompt_tokens=prompt_tokens,
