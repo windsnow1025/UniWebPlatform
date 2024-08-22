@@ -13,14 +13,21 @@ import ClearButton from "../../app/components/chat/ClearButton";
 import ConversationSidebar from "../../app/components/chat/ConversationSidebar";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
 import {EditableState} from "../../src/conversation/chat/Message";
+import useScreenSize from '../../app/hooks/useScreenSize';
 
 function Chat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const screenSize = useScreenSize();
+  const [drawerOpen, setDrawerOpen] = useState();
   const title = "AI Chat";
+
   useEffect(() => {
     document.title = title;
   }, []);
+
+  useEffect(() => {
+    setDrawerOpen(screenSize !== 'xs' && screenSize !== 'sm');
+  }, [screenSize]);
 
   const chatLogic = new ChatLogic();
 
