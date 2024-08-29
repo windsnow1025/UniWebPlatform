@@ -6,7 +6,7 @@ import mime from 'mime';
 
 const FileDiv = ({ fileUrl, files, setFiles }) => {
   const mimeType = mime.getType(fileUrl);
-  const fileName = fileUrl.split('/').pop().split('-').pop();
+  const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1];
 
   const handleFileDelete = () => {
     const newFiles = files.filter(file => file !== fileUrl);
