@@ -23,3 +23,7 @@ jobs:
       - name: Deploy with Docker Compose
         run: |
           ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_ADDRESS }} 'cd /root/UniWebPlatform/ && docker compose pull && docker compose up -d'
+
+      - name: Clean up Docker system
+        run: |
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_ADDRESS }} 'docker system prune -f'
