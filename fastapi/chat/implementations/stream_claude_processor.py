@@ -2,7 +2,6 @@ import logging
 import re
 from typing import Generator
 
-import anthropic
 import httpx
 from anthropic import MessageStream
 from fastapi import HTTPException
@@ -40,7 +39,7 @@ class StreamClaudeProcessor(ClaudeProcessor):
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text
-            raise HTTPException(status_code=status_code, detail=text)
+            raise HTTPException(status_code=status_code, detail=text) from e
         except Exception as e:
             match = re.search(r'\d{3}', str(e))
             if match:
@@ -48,4 +47,4 @@ class StreamClaudeProcessor(ClaudeProcessor):
             else:
                 error_code = 500
 
-            raise HTTPException(status_code=error_code, detail=str(e))
+            raise HTTPException(status_code=error_code, detail=str(e)) from e
