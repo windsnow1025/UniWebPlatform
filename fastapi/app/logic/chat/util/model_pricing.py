@@ -57,7 +57,7 @@ chat_prices = [
     },
     {
         "api_type": "gemini",
-        "model": "gemini-1.5-pro-exp-0801",
+        "model": "gemini-1.5-pro-exp-0827",
         "input": 7,
         "output": 21
     },
