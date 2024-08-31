@@ -55,7 +55,11 @@ export default class ChatService {
       if (!response.ok) {
         const status = response.status;
         const statusText = response.statusText;
-        throw new Error(`${status}: ${statusText}`)
+        if (statusText) {
+          throw new Error(`${status}: ${statusText}`);
+        } else {
+          throw new Error(`${status}`);
+        }
       }
 
       const reader = response.body!.getReader();
