@@ -24,11 +24,11 @@ class NonStreamGPTProcessor(GPTProcessor):
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text
-            raise HTTPException(status_code=status_code, detail=text) from e
+            raise HTTPException(status_code=status_code, detail=text)
         except openai.BadRequestError as e:
             status_code = e.status_code
             text = e.message
-            raise HTTPException(status_code=status_code, detail=text) from e
+            raise HTTPException(status_code=status_code, detail=text)
         except Exception as e:
             match = re.search(r'\d{3}', str(e))
             if match:
@@ -36,4 +36,5 @@ class NonStreamGPTProcessor(GPTProcessor):
             else:
                 error_code = 500
 
-            raise HTTPException(status_code=error_code, detail=str(e)) from e
+            logging.exception(e)
+            raise HTTPException(status_code=error_code, detail=str(e))
