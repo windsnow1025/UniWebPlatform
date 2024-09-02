@@ -24,6 +24,7 @@ import {
   DeleteOutlined as DeleteOutlinedIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
+  Refresh as RefreshIcon,
   Save as SaveIcon,
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon
@@ -189,11 +190,30 @@ function ConversationSidebar({messages, setMessages}) {
     setMenuIndex(null);
   };
 
+  const handleRefreshConversations = async () => {
+    try {
+      await fetchConversations();
+      setAlertOpen(true);
+      setAlertMessage('Conversations refreshed successfully');
+      setAlertSeverity('success');
+    } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage('Error refreshing conversations');
+      setAlertSeverity('error');
+      console.error(err);
+    }
+  };
+
   return (
     <div>
       <div>
-        <div className="p-4">
+        <div className="p-4 flex-between">
           <Typography variant="h6">Conversations:</Typography>
+          <Tooltip title="Refresh conversations">
+            <IconButton onClick={handleRefreshConversations}>
+              <RefreshIcon fontSize="small"/>
+            </IconButton>
+          </Tooltip>
         </div>
         <List>
           {conversations.map((conversation, index) => (
