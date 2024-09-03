@@ -2,7 +2,12 @@ import axios from 'axios';
 
 export default class PublicService {
   async fetchMarkdown(filename: string): Promise<string> {
-    const response = await axios.get(`/markdown/${filename}`);
-    return response.data;
+    try {
+      const response = await axios.get(`/api/fetchMarkdown?filename=${encodeURIComponent(filename)}`);
+      return response.data.content;
+    } catch (error) {
+      console.error('Error fetching markdown:', error);
+      throw new Error('Failed to fetch markdown file');
+    }
   }
 }
