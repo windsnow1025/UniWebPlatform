@@ -1,12 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
-  Autocomplete,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Divider,
   IconButton,
   List,
@@ -30,16 +25,14 @@ import {
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon
 } from '@mui/icons-material';
-import ConversationLogic from "../../../src/conversation/ConversationLogic";
-import UserLogic from "../../../src/common/user/UserLogic";
+import ConversationLogic from "../../../../src/conversation/ConversationLogic";
+import ShareConversationDialog from './ShareConversationDialog';
 
 function ConversationSidebar({messages, setMessages}) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingName, setEditingName] = useState('');
-  const [usernames, setUsernames] = useState([]);
-  const [selectedUsername, setSelectedUsername] = useState('');
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,7 +43,6 @@ function ConversationSidebar({messages, setMessages}) {
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   const conversationLogic = new ConversationLogic();
-  const userLogic = new UserLogic();
 
   useEffect(() => {
     fetchConversations();
@@ -68,21 +60,10 @@ function ConversationSidebar({messages, setMessages}) {
     }
   };
 
-  const fetchUsernames = async () => {
-    try {
-      setUsernames(await userLogic.fetchUsernames());
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage('Error fetching usernames');
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
   const handleConversationClick = (conversationMessages) => {
     const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
     setMessages(messagesCopy);
-  }
+  };
 
   const handleAddConversation = async () => {
     try {
@@ -159,26 +140,8 @@ function ConversationSidebar({messages, setMessages}) {
     }
   };
 
-  const handleShareConversation = async () => {
-    try {
-      await conversationLogic.addUserToConversation(conversations[selectedConversationIndex].id, selectedUsername);
-      fetchConversations();
-      setShareDialogOpen(false);
-      setSelectedUsername('');
-      setAlertOpen(true);
-      setAlertMessage('Conversation shared');
-      setAlertSeverity('success');
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage('Error sharing conversation');
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
-  const openShareDialog = async (index) => {
+  const openShareDialog = (index) => {
     setSelectedConversationIndex(index);
-    await fetchUsernames();
     setShareDialogOpen(true);
   };
 
@@ -321,25 +284,11 @@ function ConversationSidebar({messages, setMessages}) {
           {alertMessage}
         </Alert>
       </Snackbar>
-      <Dialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)}>
-        <DialogTitle>Share Conversation</DialogTitle>
-        <DialogContent>
-          <div className="m-2">
-            <Autocomplete
-              options={usernames}
-              getOptionLabel={(option) => option}
-              value={selectedUsername}
-              onChange={(event, newValue) => setSelectedUsername(newValue)}
-              renderInput={(params) => <TextField {...params} label="Username"/>}
-              fullWidth
-            />
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShareDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleShareConversation}>Share</Button>
-        </DialogActions>
-      </Dialog>
+      <ShareConversationDialog
+        open={shareDialogOpen}
+        onClose={() => setShareDialogOpen(false)}
+        conversationId={conversations[selectedConversationIndex]?.id}
+      />
     </div>
   );
 }
