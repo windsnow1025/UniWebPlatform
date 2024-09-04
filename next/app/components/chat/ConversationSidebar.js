@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   IconButton,
   List,
   ListItem,
@@ -208,13 +209,14 @@ function ConversationSidebar({messages, setMessages}) {
     <div>
       <div>
         <div className="p-4 flex-between">
-          <Typography variant="h6">Conversations:</Typography>
+          <Typography variant="h6">Conversations</Typography>
           <Tooltip title="Refresh conversations">
             <IconButton onClick={handleRefreshConversations}>
               <RefreshIcon fontSize="small"/>
             </IconButton>
           </Tooltip>
         </div>
+        <Divider/>
         <List>
           {conversations.map((conversation, index) => (
             <ListItem key={conversation.id} disablePadding>
@@ -289,6 +291,7 @@ function ConversationSidebar({messages, setMessages}) {
             </ListItem>
           ))}
         </List>
+        <Divider/>
         <div className="p-2">
           <TextField
             label="New Conversation"
@@ -313,7 +316,7 @@ function ConversationSidebar({messages, setMessages}) {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>
