@@ -41,5 +41,4 @@ class StreamGeminiProcessor(GeminiProcessor):
             else:
                 error_code = 500
 
-            logging.exception(e)
             raise HTTPException(status_code=error_code, detail=str(e))
