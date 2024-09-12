@@ -114,7 +114,7 @@ function ConversationSidebar({messages, setMessages}) {
       setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage('Error updating conversation');
+      setAlertMessage(`Error updating conversation: ${err}`);
       setAlertSeverity('error');
       console.error(err);
     }
