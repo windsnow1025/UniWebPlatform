@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
@@ -20,20 +22,24 @@ class ChatRequest(BaseModel):
 
 @chat_router.post("/chat")
 async def generate(chat_request: ChatRequest, request: Request):
-    authorization_header = request.headers.get("Authorization")
-    username = auth.get_username_from_token(authorization_header)
+    try:
+        authorization_header = request.headers.get("Authorization")
+        username = auth.get_username_from_token(authorization_header)
 
-    if user_dao.select_credit(username) <= 0:
-        raise HTTPException(status_code=402)
+        if user_dao.select_credit(username) <= 0:
+            raise HTTPException(status_code=402)
 
-    return await handle_chat_interaction(
-        username=username,
-        messages=chat_request.messages,
-        model=chat_request.model,
-        api_type=chat_request.api_type,
-        temperature=chat_request.temperature,
-        stream=chat_request.stream,
-    )
+        return await handle_chat_interaction(
+            username=username,
+            messages=chat_request.messages,
+            model=chat_request.model,
+            api_type=chat_request.api_type,
+            temperature=chat_request.temperature,
+            stream=chat_request.stream,
+        )
+    except Exception as e:
+        logging.exception(e)
+        raise e
 
 
 @chat_router.get("/chat")
