@@ -27,21 +27,9 @@ chat_prices = [
     },
     {
         "api_type": "azure",
-        "model": "gpt-35-turbo",
-        "input": 1.5,
-        "output": 2
-    },
-    {
-        "api_type": "azure",
-        "model": "gpt-35-turbo-16k",
-        "input": 3,
-        "output": 4
-    },
-    {
-        "api_type": "azure",
-        "model": "gpt-4",
-        "input": 10,
-        "output": 30
+        "model": "gpt-4o",
+        "input": 2.5,
+        "output": 10
     },
     {
         "api_type": "gemini",
