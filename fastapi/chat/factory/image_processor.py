@@ -1,4 +1,5 @@
 import base64
+import logging
 from io import BytesIO
 
 import PIL.Image

@@ -41,8 +41,7 @@ async def extract_text_from_file(file_url: str) -> str:
         try:
             return file_content.decode('utf-8')
         except UnicodeDecodeError as e:
-            logging.error(e)
-            raise HTTPException(status_code=415)
+            raise HTTPException(status_code=415, detail=str(e))
 
 
 def extract_text_from_code(file_content: bytes) -> str:
@@ -88,8 +87,7 @@ def extract_text_from_word(file_content: bytes) -> str:
 
         return text
     except Exception as e:
-        logging.error(e)
-        raise HTTPException(status_code=415)
+        raise HTTPException(status_code=415, detail=str(e))
 
 
 def extract_text_from_excel(file_content: bytes) -> str:
@@ -102,8 +100,7 @@ def extract_text_from_excel(file_content: bytes) -> str:
                 text += "\t".join([str(cell) if cell is not None else "" for cell in row]) + "\n"
         return text
     except Exception as e:
-        logging.error(e)
-        raise HTTPException(status_code=415)
+        raise HTTPException(status_code=415, detail=str(e))
 
 
 def extract_text_from_ppt(file_content: bytes) -> str:
@@ -116,5 +113,4 @@ def extract_text_from_ppt(file_content: bytes) -> str:
                     text += shape.text + "\n"
         return text
     except Exception as e:
-        logging.error(e)
-        raise HTTPException(status_code=415)
+        raise HTTPException(status_code=415, detail=str(e))
