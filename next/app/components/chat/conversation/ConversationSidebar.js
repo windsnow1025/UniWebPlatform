@@ -16,7 +16,6 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  Add as AddIcon,
   DeleteOutlined as DeleteOutlinedIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
@@ -266,11 +265,11 @@ function ConversationSidebar({messages, setMessages}) {
           <div className="my-2">
             <Button
               variant="outlined"
-              startIcon={<AddIcon/>}
+              startIcon={<SaveIcon/>}
               onClick={handleAddConversation}
               fullWidth
             >
-              Add
+              Save
             </Button>
           </div>
         </div>
