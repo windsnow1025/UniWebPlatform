@@ -1,12 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
-  Autocomplete,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  Divider,
   IconButton,
   List,
   ListItem,
@@ -20,7 +16,6 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  Add as AddIcon,
   DeleteOutlined as DeleteOutlinedIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
@@ -29,26 +24,24 @@ import {
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon
 } from '@mui/icons-material';
-import ConversationLogic from "../../../src/conversation/ConversationLogic";
-import UserLogic from "../../../src/common/user/UserLogic";
+import ConversationLogic from "../../../../src/conversation/ConversationLogic";
+import ShareConversationDialog from './ShareConversationDialog';
 
 function ConversationSidebar({messages, setMessages}) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingName, setEditingName] = useState('');
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('info');
-  const [usernames, setUsernames] = useState([]);
-  const [selectedUsername, setSelectedUsername] = useState('');
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
 
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
+
   const conversationLogic = new ConversationLogic();
-  const userLogic = new UserLogic();
 
   useEffect(() => {
     fetchConversations();
@@ -66,21 +59,10 @@ function ConversationSidebar({messages, setMessages}) {
     }
   };
 
-  const fetchUsernames = async () => {
-    try {
-      setUsernames(await userLogic.fetchUsernames());
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage('Error fetching usernames');
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
   const handleConversationClick = (conversationMessages) => {
     const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
     setMessages(messagesCopy);
-  }
+  };
 
   const handleAddConversation = async () => {
     try {
@@ -157,26 +139,8 @@ function ConversationSidebar({messages, setMessages}) {
     }
   };
 
-  const handleShareConversation = async () => {
-    try {
-      await conversationLogic.addUserToConversation(conversations[selectedConversationIndex].id, selectedUsername);
-      fetchConversations();
-      setShareDialogOpen(false);
-      setSelectedUsername('');
-      setAlertOpen(true);
-      setAlertMessage('Conversation shared');
-      setAlertSeverity('success');
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage('Error sharing conversation');
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
-  const openShareDialog = async (index) => {
+  const openShareDialog = (index) => {
     setSelectedConversationIndex(index);
-    await fetchUsernames();
     setShareDialogOpen(true);
   };
 
@@ -208,13 +172,14 @@ function ConversationSidebar({messages, setMessages}) {
     <div>
       <div>
         <div className="p-4 flex-between">
-          <Typography variant="h6">Conversations:</Typography>
+          <Typography variant="h6">Conversations</Typography>
           <Tooltip title="Refresh conversations">
             <IconButton onClick={handleRefreshConversations}>
               <RefreshIcon fontSize="small"/>
             </IconButton>
           </Tooltip>
         </div>
+        <Divider/>
         <List>
           {conversations.map((conversation, index) => (
             <ListItem key={conversation.id} disablePadding>
@@ -289,6 +254,7 @@ function ConversationSidebar({messages, setMessages}) {
             </ListItem>
           ))}
         </List>
+        <Divider/>
         <div className="p-2">
           <TextField
             label="New Conversation"
@@ -299,11 +265,11 @@ function ConversationSidebar({messages, setMessages}) {
           <div className="my-2">
             <Button
               variant="outlined"
-              startIcon={<AddIcon/>}
+              startIcon={<SaveIcon/>}
               onClick={handleAddConversation}
               fullWidth
             >
-              Add
+              Save
             </Button>
           </div>
         </div>
@@ -313,29 +279,15 @@ function ConversationSidebar({messages, setMessages}) {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>
-      <Dialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)}>
-        <DialogTitle>Share Conversation</DialogTitle>
-        <DialogContent>
-          <div className="m-2">
-            <Autocomplete
-              options={usernames}
-              getOptionLabel={(option) => option}
-              value={selectedUsername}
-              onChange={(event, newValue) => setSelectedUsername(newValue)}
-              renderInput={(params) => <TextField {...params} label="Username"/>}
-              fullWidth
-            />
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShareDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleShareConversation}>Share</Button>
-        </DialogActions>
-      </Dialog>
+      <ShareConversationDialog
+        open={shareDialogOpen}
+        onClose={() => setShareDialogOpen(false)}
+        conversationId={conversations[selectedConversationIndex]?.id}
+      />
     </div>
   );
 }
