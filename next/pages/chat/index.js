@@ -10,8 +10,8 @@ import SendButton from "../../app/components/chat/SendButton";
 import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";
 import StatesDiv from "../../app/components/chat/StatesDiv";
 import ClearButton from "../../app/components/chat/ClearButton";
-import ConversationSidebar from "../../app/components/chat/ConversationSidebar";
-import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
+import ConversationSidebar from "../../app/components/chat/conversation/ConversationSidebar";
+import ToggleConversationButton from "../../app/components/chat/conversation/ToggleConversationButton";
 import {EditableState} from "../../src/conversation/chat/Message";
 import useScreenSize from '../../app/hooks/useScreenSize';
 
