@@ -1,12 +1,8 @@
-import {IconButton, Tooltip} from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import MessageDiv from "../message/MessageDiv";
 import React from "react";
-import ChatLogic from "../../../src/conversation/chat/ChatLogic";
+import AddMessageDivider from "./AddMessageDivider";
 
 function ChatMessagesDiv({ messages, setMessages, shouldSanitize, editableState }) {
-  const chatLogic = new ChatLogic();
-
   const handleRoleChange = (index, role) => {
     const newMessages = [...messages];
     newMessages[index].role = role;
@@ -33,25 +29,13 @@ function ChatMessagesDiv({ messages, setMessages, shouldSanitize, editableState 
     setMessages(newMessages);
   };
 
-  const handleMessageAdd = (index) => {
-    const newMessages = [...messages];
-    newMessages.splice(index + 1, 0, chatLogic.emptyUserMessage);
-    setMessages(newMessages);
-  };
-
-
   return (
     <div>
-      <div className="flex-between">
-        <div className="inflex-fill"/>
-        <div>
-          <Tooltip title="Add">
-            <IconButton aria-label="add" onClick={() => handleMessageAdd(-1)}>
-              <AddCircleIcon fontSize="small"/>
-            </IconButton>
-          </Tooltip>
-        </div>
-      </div>
+      <AddMessageDivider
+        messages={messages}
+        setMessages={setMessages}
+        index={-1}
+      />
       {messages.map((message, index) => (
         <div key={index}>
           <MessageDiv
@@ -66,16 +50,11 @@ function ChatMessagesDiv({ messages, setMessages, shouldSanitize, editableState 
             shouldSanitize={shouldSanitize}
             editableState={editableState}
           />
-          <div className="flex">
-            <div className="inflex-fill"/>
-            <div>
-              <Tooltip title="Add">
-                <IconButton aria-label="add" onClick={() => handleMessageAdd(index)}>
-                  <AddCircleIcon fontSize="small"/>
-                </IconButton>
-              </Tooltip>
-            </div>
-          </div>
+          <AddMessageDivider
+            messages={messages}
+            setMessages={setMessages}
+            index={index}
+          />
         </div>
       ))}
     </div>
