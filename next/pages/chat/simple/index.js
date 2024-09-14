@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Box, Collapse, CssBaseline, IconButton, InputAdornment, Paper, TextField} from "@mui/material";
-import SendIcon from '@mui/icons-material/Send';
+import {Collapse, CssBaseline, Paper} from "@mui/material";
 
-import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import SimpleChatMessagesDiv from "../../../app/components/chat/simple/SimpleChatMessagesDiv";
-import ConversationSidebar from "../../../app/components/chat/conversation/ConversationSidebar";
 import useScreenSize from "../../../app/hooks/useScreenSize";
 import SimpleMessageInputBox from "../../../app/components/chat/simple/SimpleMessageInputBox";
+import SimpleConversationSidebar from "../../../app/components/chat/simple/SimpleConversationSidebar";
 
 function SimpleChat() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
@@ -39,7 +37,7 @@ function SimpleChat() {
         <div className="local-scroll-unscrollable-x">
           <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
             <Collapse in={drawerOpen} orientation="horizontal" className="overflow-auto">
-              <ConversationSidebar
+              <SimpleConversationSidebar
                 drawerOpen={drawerOpen}
                 messages={messages}
                 setMessages={setMessages}
