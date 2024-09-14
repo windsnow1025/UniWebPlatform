@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
 
-function SimpleMessageInputBox({ messages, setMessages, currentConversationId }) {
+function SimpleMessageInputBox({ messages, setMessages, setConversations, currentConversationId }) {
   const chatLogic = new ChatLogic();
 
   // Chat Parameters
@@ -25,34 +25,35 @@ function SimpleMessageInputBox({ messages, setMessages, currentConversationId })
       return;
     }
 
+    let updatedMessages = [...messages];
+
     const newMessage = chatLogic.createUserMessage(newContent);
-    const newMessages = [...messages, newMessage];
-    setMessages(newMessages);
+    updatedMessages = [...updatedMessages, newMessage];
+    setMessages(updatedMessages);
     setNewContent('');
 
     const scrollableContainer = document.querySelector('.local-scroll-scrollable');
 
     if (!stream) {
-      const content = await chatLogic.nonStreamGenerate(newMessages, apiType, model, temperature, stream);
-      setMessages(prevMessages => [...prevMessages, chatLogic.createAssistantMessage(content), chatLogic.emptyUserMessage]);
+      const content = await chatLogic.nonStreamGenerate(updatedMessages, apiType, model, temperature, stream);
+      updatedMessages = [...updatedMessages, chatLogic.createAssistantMessage(content), chatLogic.emptyUserMessage];
+      setMessages(updatedMessages);
     } else {
       let isFirstChunk = true;
-      for await (const chunk of chatLogic.streamGenerate(newMessages, apiType, model, temperature, stream)) {
+      for await (const chunk of chatLogic.streamGenerate(updatedMessages, apiType, model, temperature, stream)) {
         if (isFirstChunk) {
-          setMessages(prevMessages => [...prevMessages, chatLogic.emptyAssistantMessage]);
+          updatedMessages = [...updatedMessages, chatLogic.emptyAssistantMessage];
+          setMessages(updatedMessages);
           isFirstChunk = false;
         }
-        setMessages(prevMessages => {
-          const newMessages = [...prevMessages];
-          newMessages[newMessages.length - 1].text += chunk;
-          return newMessages;
-        });
+        updatedMessages[updatedMessages.length - 1].text += chunk;
+        setMessages([...updatedMessages]);
         scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
       }
     }
     scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
 
-    updateConversation();
+    updateConversation(updatedMessages);
   };
 
   const handleKeyDown = (e) => {
@@ -64,15 +65,16 @@ function SimpleMessageInputBox({ messages, setMessages, currentConversationId })
 
   const conversationLogic = new ConversationLogic();
 
-  const updateConversation = async () => {
+  const updateConversation = async (updatedMessages) => {
     try {
       const conversations = await conversationLogic.fetchConversations();
       const conversation = conversations.find(convo => convo.id === currentConversationId);
       await conversationLogic.updateConversation({
         id: currentConversationId,
         name: conversation.name,
-        messages: JSON.stringify(messages)
+        messages: JSON.stringify(updatedMessages)
       });
+      setConversations(await conversationLogic.fetchConversations());
       setAlertOpen(true);
       setAlertMessage('Conversation updated');
       setAlertSeverity('success');

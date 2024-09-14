@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Alert, Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
+import {Collapse, CssBaseline, Paper} from "@mui/material";
 
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
@@ -23,6 +23,7 @@ function SimpleChat() {
   }, [screenSize]);
 
   const [messages, setMessages] = useState([]);
+  const [conversations, setConversations] = useState([]);
   const [currentConversationId, setCurrentConversationId] = useState(null);
 
   return (
@@ -40,8 +41,9 @@ function SimpleChat() {
             <Collapse in={drawerOpen} orientation="horizontal" className="overflow-auto">
               <SimpleConversationSidebar
                 drawerOpen={drawerOpen}
-                messages={messages}
                 setMessages={setMessages}
+                conversations={conversations}
+                setConversations={setConversations}
                 setCurrentConversationId={setCurrentConversationId}
               />
             </Collapse>
@@ -57,6 +59,7 @@ function SimpleChat() {
             <SimpleMessageInputBox
               messages={messages}
               setMessages={setMessages}
+              setConversations={setConversations}
               currentConversationId={currentConversationId}
             />
           </div>
