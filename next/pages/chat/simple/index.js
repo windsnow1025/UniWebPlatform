@@ -8,6 +8,7 @@ import SimpleChatMessagesDiv from "../../../app/components/chat/simple/SimpleCha
 import useScreenSize from "../../../app/hooks/useScreenSize";
 import SimpleMessageInputBox from "../../../app/components/chat/simple/SimpleMessageInputBox";
 import SimpleConversationSidebar from "../../../app/components/chat/simple/SimpleConversationSidebar";
+import ToggleConversationButton from "../../../app/components/chat/conversation/ToggleConversationButton";
 
 function SimpleChat() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
@@ -50,6 +51,10 @@ function SimpleChat() {
           </Paper>
           <div className="local-scroll-unscrollable-y">
             <Paper elevation={0} variant='outlined' className="m-1 rounded-lg local-scroll-unscrollable-y">
+              <ToggleConversationButton
+                drawerOpen={drawerOpen}
+                setDrawerOpen={setDrawerOpen}
+              />
               <div className="local-scroll-scrollable p-2">
                 <SimpleChatMessagesDiv
                   messages={messages}
