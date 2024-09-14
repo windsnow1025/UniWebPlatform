@@ -1,13 +1,7 @@
 import React from "react";
 import SimpleMessageDiv from "./SimpleMessageDiv";
 
-function SimpleChatMessagesDiv({ messages, setMessages }) {
-  const handleContentChange = (index, content) => {
-    const newMessages = [...messages];
-    newMessages[index].text = content;
-    setMessages(newMessages);
-  };
-
+function SimpleChatMessagesDiv({ messages }) {
   return (
     <div>
       <div className="flex-between">
@@ -18,7 +12,6 @@ function SimpleChatMessagesDiv({ messages, setMessages }) {
           <SimpleMessageDiv
             role={message.role}
             content={message.text}
-            setContent={(content) => handleContentChange(index, content)}
           />
         </div>
       ))}
