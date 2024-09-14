@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
-  Button,
   Divider,
   IconButton,
   List,
@@ -13,24 +12,24 @@ import {
   Snackbar,
   TextField,
   Tooltip,
-  Typography,
 } from '@mui/material';
 import {
+  AddBox as AddBoxIcon,
   DeleteOutlined as DeleteOutlinedIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
-  Refresh as RefreshIcon,
-  Save as SaveIcon,
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon
 } from '@mui/icons-material';
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
-import ShareConversationDialog from './ShareConversationDialog';
+import ShareConversationDialog from '../conversation/ShareConversationDialog';
 
-function ConversationSidebar({messages, setMessages}) {
-  const [conversations, setConversations] = useState([]);
-  const [newConversationName, setNewConversationName] = useState('');
-
+function ConversationSidebar({
+                               setMessages,
+                               conversations,
+                               setConversations,
+                               setCurrentConversationId,
+                             }) {
   // Conversation Menu
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
@@ -65,44 +64,35 @@ function ConversationSidebar({messages, setMessages}) {
     }
   };
 
-  const handleConversationClick = (conversationMessages) => {
-    const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
+  const handleConversationClick = (conversation) => {
+    const messagesCopy = JSON.parse(JSON.stringify(conversation.messages));
     setMessages(messagesCopy);
+    setCurrentConversationId(conversation.id);
   };
 
   const handleAddConversation = async () => {
+    let baseName = "New Conversation";
+    let newConversationName = baseName;
+    let counter = 1;
+
+    while (conversations.some(convo => convo.name === newConversationName)) {
+      newConversationName = `${baseName} ${counter}`;
+      counter++;
+    }
+
     try {
-      await conversationLogic.addConversation({
+      const conversation = await conversationLogic.addConversation({
         name: newConversationName,
-        messages: JSON.stringify(messages)
+        messages: JSON.stringify([])
       });
-      fetchConversations();
-      setNewConversationName('');
+      await fetchConversations();
+      setCurrentConversationId(conversation.id);
       setAlertOpen(true);
       setAlertMessage('Conversation added');
       setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error adding conversation');
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
-  const handleUpdateConversation = async (index) => {
-    try {
-      await conversationLogic.updateConversation({
-        id: conversations[index].id,
-        name: conversations[index].name,
-        messages: JSON.stringify(messages)
-      });
-      fetchConversations();
-      setAlertOpen(true);
-      setAlertMessage('Conversation updated');
-      setAlertSeverity('success');
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage(`Error updating conversation: ${err}`);
       setAlertSeverity('error');
       console.error(err);
     }
@@ -160,28 +150,19 @@ function ConversationSidebar({messages, setMessages}) {
     setMenuIndex(null);
   };
 
-  const handleRefreshConversations = async () => {
-    try {
-      await fetchConversations();
-      setAlertOpen(true);
-      setAlertMessage('Conversations refreshed successfully');
-      setAlertSeverity('success');
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage('Error refreshing conversations');
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
   return (
     <div>
       <div>
         <div className="p-4 flex-between">
-          <Typography variant="h6">Conversations</Typography>
-          <Tooltip title="Refresh conversations">
-            <IconButton onClick={handleRefreshConversations}>
-              <RefreshIcon fontSize="small"/>
+          <div></div>
+          <Tooltip title="New Conversation">
+            <IconButton
+              onClick={() => {
+                setMessages([]);
+                handleAddConversation();
+              }}
+            >
+              <AddBoxIcon/>
             </IconButton>
           </Tooltip>
         </div>
@@ -189,7 +170,7 @@ function ConversationSidebar({messages, setMessages}) {
         <List>
           {conversations.map((conversation, index) => (
             <ListItem key={conversation.id} disablePadding>
-              <ListItemButton onClick={() => handleConversationClick(conversation.messages)}>
+              <ListItemButton onClick={() => handleConversationClick(conversation)}>
                 {editingIndex === index ? (
                   <TextField
                     value={editingName}
@@ -237,13 +218,6 @@ function ConversationSidebar({messages, setMessages}) {
               >
                 <MenuItem onClick={(e) => {
                   e.stopPropagation();
-                  handleUpdateConversation(index);
-                  handleMenuClose();
-                }}>
-                  <SaveIcon fontSize="small" className="m-1"/>Update
-                </MenuItem>
-                <MenuItem onClick={(e) => {
-                  e.stopPropagation();
                   handleDeleteConversation(index);
                   handleMenuClose();
                 }}>
@@ -260,25 +234,6 @@ function ConversationSidebar({messages, setMessages}) {
             </ListItem>
           ))}
         </List>
-        <Divider/>
-        <div className="p-2">
-          <TextField
-            label="New Conversation"
-            value={newConversationName}
-            onChange={(e) => setNewConversationName(e.target.value)}
-            fullWidth
-          />
-          <div className="my-2">
-            <Button
-              variant="outlined"
-              startIcon={<SaveIcon/>}
-              onClick={handleAddConversation}
-              fullWidth
-            >
-              Save
-            </Button>
-          </div>
-        </div>
       </div>
       <Snackbar
         open={alertOpen}
