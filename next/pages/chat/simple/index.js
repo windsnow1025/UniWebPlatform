@@ -10,7 +10,7 @@ import SimpleMessageInputBox from "../../../app/components/chat/simple/SimpleMes
 import SimpleConversationSidebar from "../../../app/components/chat/simple/SimpleConversationSidebar";
 import ToggleConversationButton from "../../../app/components/chat/conversation/ToggleConversationButton";
 
-function SimpleChat() {
+function SimpleAIChat() {
   const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
   const screenSize = useScreenSize();
   const [drawerOpen, setDrawerOpen] = useState();
@@ -74,4 +74,4 @@ function SimpleChat() {
   );
 }
 
-export default SimpleChat;
+export default SimpleAIChat;
