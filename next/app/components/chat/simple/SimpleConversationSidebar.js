@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
-  Button,
   Divider,
   IconButton,
   List,
@@ -19,7 +18,6 @@ import {
   DeleteOutlined as DeleteOutlinedIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
-  Save as SaveIcon,
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon
 } from '@mui/icons-material';
@@ -27,12 +25,11 @@ import ConversationLogic from "../../../../src/conversation/ConversationLogic";
 import ShareConversationDialog from '../conversation/ShareConversationDialog';
 
 function ConversationSidebar({
-                               messages,
                                setMessages,
+                               conversations,
+                               setConversations,
                                setCurrentConversationId,
                              }) {
-  const [conversations, setConversations] = useState([]);
-
   // Conversation Menu
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
@@ -86,7 +83,7 @@ function ConversationSidebar({
     try {
       const conversation = await conversationLogic.addConversation({
         name: newConversationName,
-        messages: JSON.stringify(messages)
+        messages: JSON.stringify([])
       });
       await fetchConversations();
       setCurrentConversationId(conversation.id);
