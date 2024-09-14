@@ -1,9 +1,10 @@
-import {Box, IconButton, InputAdornment, Paper, TextField} from "@mui/material";
+import {Alert, Box, IconButton, InputAdornment, Paper, Snackbar, TextField} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import React, {useState} from "react";
 import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
+import ConversationLogic from "../../../../src/conversation/ConversationLogic";
 
-function SimpleMessageInputBox({ messages, setMessages }) {
+function SimpleMessageInputBox({ messages, setMessages, currentConversationId }) {
   const chatLogic = new ChatLogic();
 
   // Chat Parameters
@@ -13,6 +14,10 @@ function SimpleMessageInputBox({ messages, setMessages }) {
   const stream = true;
 
   const [newContent, setNewContent] = useState('');
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   const handleSend = async () => {
     if (!localStorage.getItem('token')) {
@@ -46,6 +51,8 @@ function SimpleMessageInputBox({ messages, setMessages }) {
       }
     }
     scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+
+    updateConversation();
   };
 
   const handleKeyDown = (e) => {
@@ -55,29 +62,62 @@ function SimpleMessageInputBox({ messages, setMessages }) {
     }
   };
 
+  const conversationLogic = new ConversationLogic();
+
+  const updateConversation = async () => {
+    try {
+      const conversations = await conversationLogic.fetchConversations();
+      const conversation = conversations.find(convo => convo.id === currentConversationId);
+      await conversationLogic.updateConversation({
+        id: currentConversationId,
+        name: conversation.name,
+        messages: JSON.stringify(messages)
+      });
+      setAlertOpen(true);
+      setAlertMessage('Conversation updated');
+      setAlertSeverity('success');
+    } catch (err) {
+      setAlertOpen(true);
+      setAlertMessage(`Error updating conversation: ${err}`);
+      setAlertSeverity('error');
+      console.error(err);
+    }
+  };
+
   return (
-    <Box component={Paper} elevation={2} className="flex items-center p-2 m-2">
-      <TextField
-        placeholder="Type a message"
-        value={newContent}
-        onChange={(e) => setNewContent(e.target.value)}
-        onKeyDown={handleKeyDown}
-        className="flex-1 m-1"
-        multiline
-        minRows={1}
-        maxRows={10}
-        variant="outlined"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={handleSend} color="primary">
-                <SendIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-    </Box>
+    <>
+      <Box component={Paper} elevation={2} className="flex items-center p-2 m-2">
+        <TextField
+          placeholder="Type a message"
+          value={newContent}
+          onChange={(e) => setNewContent(e.target.value)}
+          onKeyDown={handleKeyDown}
+          className="flex-1 m-1"
+          multiline
+          minRows={1}
+          maxRows={10}
+          variant="outlined"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleSend} color="primary">
+                  <SendIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </>
   )
 }
 
