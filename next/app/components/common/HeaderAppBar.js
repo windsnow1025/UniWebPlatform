@@ -51,7 +51,7 @@ const HeaderAppBar = ({
           <MenuItem component={Link} href="/message" onClick={handleMenuClose}>Message Transmitter</MenuItem>
           <MenuItem component={Link} href="/password" onClick={handleMenuClose}>Password Generator</MenuItem>
           <MenuItem component={Link} href="/image" onClick={handleMenuClose}>Image Generate</MenuItem>
-          <MenuItem component={Link} href="/chat" onClick={handleMenuClose}>AI Chat</MenuItem>
+          <MenuItem component={Link} href="/chat/advanced" onClick={handleMenuClose}>Advanced AI Chat</MenuItem>
           <MenuItem component={Link} href="/chat/simple" onClick={handleMenuClose}>Simple AI Chat</MenuItem>
         </Menu>
         <Typography variant={typographyVariant}>{title}</Typography>
