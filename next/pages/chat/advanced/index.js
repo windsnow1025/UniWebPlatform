@@ -2,24 +2,24 @@ import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Collapse, CssBaseline, Paper} from "@mui/material";
 
-import ChatLogic from "../../src/conversation/chat/ChatLogic";
-import HeaderAppBar from "../../app/components/common/HeaderAppBar";
-import SettingsDiv from "../../app/components/chat/SettingsDiv";
-import useThemeHandler from "../../app/hooks/useThemeHandler";
-import SendButton from "../../app/components/chat/SendButton";
-import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";
-import StatesDiv from "../../app/components/chat/StatesDiv";
-import ClearButton from "../../app/components/chat/ClearButton";
-import ConversationSidebar from "../../app/components/chat/conversation/ConversationSidebar";
-import ToggleConversationButton from "../../app/components/chat/conversation/ToggleConversationButton";
-import {EditableState} from "../../src/conversation/chat/Message";
-import useScreenSize from '../../app/hooks/useScreenSize';
+import ChatLogic from "../../../src/conversation/chat/ChatLogic";
+import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import SettingsDiv from "../../../app/components/chat/SettingsDiv";
+import useThemeHandler from "../../../app/hooks/useThemeHandler";
+import SendButton from "../../../app/components/chat/SendButton";
+import ChatMessagesDiv from "../../../app/components/chat/ChatMessagesDiv";
+import StatesDiv from "../../../app/components/chat/StatesDiv";
+import ClearButton from "../../../app/components/chat/ClearButton";
+import ConversationSidebar from "../../../app/components/chat/conversation/ConversationSidebar";
+import ToggleConversationButton from "../../../app/components/chat/conversation/ToggleConversationButton";
+import {EditableState} from "../../../src/conversation/chat/Message";
+import useScreenSize from '../../../app/hooks/useScreenSize';
 
-function Chat() {
+function AdvancedAIChat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const screenSize = useScreenSize();
   const [drawerOpen, setDrawerOpen] = useState();
-  const title = "AI Chat";
+  const title = "Advanced AI Chat";
 
   useEffect(() => {
     document.title = title;
@@ -117,4 +117,4 @@ function Chat() {
   );
 }
 
-export default Chat;
+export default AdvancedAIChat;
