@@ -18,9 +18,9 @@ export default class ConversationLogic {
     }
   }
 
-  async addConversation(conversation: Conversation) {
+  async addConversation(conversation: Conversation): Promise<Conversation> {
     try {
-      await this.conversationService.addConversation(conversation);
+      return await this.conversationService.addConversation(conversation);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {

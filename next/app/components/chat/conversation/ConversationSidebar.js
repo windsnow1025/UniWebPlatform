@@ -30,12 +30,18 @@ import ShareConversationDialog from './ShareConversationDialog';
 function ConversationSidebar({messages, setMessages}) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editingName, setEditingName] = useState('');
-  const [shareDialogOpen, setShareDialogOpen] = useState(false);
-  const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
+
+  // Conversation Menu
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
+
+  // Edit Conversation Name
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingName, setEditingName] = useState('');
+
+  // Share Conversation
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');

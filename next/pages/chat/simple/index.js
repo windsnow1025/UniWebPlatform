@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Collapse, CssBaseline, Paper} from "@mui/material";
+import {Alert, Collapse, CssBaseline, Paper, Snackbar} from "@mui/material";
 
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
@@ -23,6 +23,7 @@ function SimpleChat() {
   }, [screenSize]);
 
   const [messages, setMessages] = useState([]);
+  const [currentConversationId, setCurrentConversationId] = useState(null);
 
   return (
     <ThemeProvider theme={muiTheme}>
@@ -41,6 +42,7 @@ function SimpleChat() {
                 drawerOpen={drawerOpen}
                 messages={messages}
                 setMessages={setMessages}
+                setCurrentConversationId={setCurrentConversationId}
               />
             </Collapse>
           </Paper>
@@ -55,6 +57,7 @@ function SimpleChat() {
             <SimpleMessageInputBox
               messages={messages}
               setMessages={setMessages}
+              currentConversationId={currentConversationId}
             />
           </div>
         </div>
