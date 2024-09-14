@@ -6,7 +6,6 @@ import {EditableState} from "../../../../src/conversation/chat/Message";
 function SimpleMessageDiv({
                             role,
                             content,
-                            setContent,
                           }) {
   let editableState = EditableState.AlwaysFalse;
   if (role === 'user') {
@@ -33,7 +32,7 @@ function SimpleMessageDiv({
         ) : (
           <ContentDiv
             content={content}
-            setContent={setContent}
+            setContent={() => {}}
             shouldSanitize={true}
             editableState={editableState}
           />
