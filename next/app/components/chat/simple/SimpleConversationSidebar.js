@@ -26,14 +26,24 @@ import {
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
 import ShareConversationDialog from '../conversation/ShareConversationDialog';
 
-function ConversationSidebar({messages, setMessages}) {
+function ConversationSidebar({
+                               messages,
+                               setMessages,
+                               setCurrentConversationId,
+                             }) {
   const [conversations, setConversations] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editingName, setEditingName] = useState('');
-  const [shareDialogOpen, setShareDialogOpen] = useState(false);
-  const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
+
+  // Conversation Menu
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
+
+  // Edit Conversation Name
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingName, setEditingName] = useState('');
+
+  // Share Conversation
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -57,9 +67,10 @@ function ConversationSidebar({messages, setMessages}) {
     }
   };
 
-  const handleConversationClick = (conversationMessages) => {
-    const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
+  const handleConversationClick = (conversation) => {
+    const messagesCopy = JSON.parse(JSON.stringify(conversation.messages));
     setMessages(messagesCopy);
+    setCurrentConversationId(conversation.id);
   };
 
   const handleAddConversation = async () => {
@@ -73,36 +84,18 @@ function ConversationSidebar({messages, setMessages}) {
     }
 
     try {
-      await conversationLogic.addConversation({
+      const conversation = await conversationLogic.addConversation({
         name: newConversationName,
         messages: JSON.stringify(messages)
       });
-      fetchConversations();
+      await fetchConversations();
+      setCurrentConversationId(conversation.id);
       setAlertOpen(true);
       setAlertMessage('Conversation added');
       setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage('Error adding conversation');
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
-  const handleUpdateConversation = async (index) => {
-    try {
-      await conversationLogic.updateConversation({
-        id: conversations[index].id,
-        name: conversations[index].name,
-        messages: JSON.stringify(messages)
-      });
-      fetchConversations();
-      setAlertOpen(true);
-      setAlertMessage('Conversation updated');
-      setAlertSeverity('success');
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage(`Error updating conversation: ${err}`);
       setAlertSeverity('error');
       console.error(err);
     }
@@ -180,7 +173,7 @@ function ConversationSidebar({messages, setMessages}) {
         <List>
           {conversations.map((conversation, index) => (
             <ListItem key={conversation.id} disablePadding>
-              <ListItemButton onClick={() => handleConversationClick(conversation.messages)}>
+              <ListItemButton onClick={() => handleConversationClick(conversation)}>
                 {editingIndex === index ? (
                   <TextField
                     value={editingName}
@@ -226,13 +219,6 @@ function ConversationSidebar({messages, setMessages}) {
                 open={menuIndex === index}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={(e) => {
-                  e.stopPropagation();
-                  handleUpdateConversation(index);
-                  handleMenuClose();
-                }}>
-                  <SaveIcon fontSize="small" className="m-1"/>Update
-                </MenuItem>
                 <MenuItem onClick={(e) => {
                   e.stopPropagation();
                   handleDeleteConversation(index);
