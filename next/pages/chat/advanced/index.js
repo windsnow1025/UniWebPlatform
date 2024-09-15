@@ -4,14 +4,14 @@ import {Collapse, CssBaseline, Paper} from "@mui/material";
 
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
-import SettingsDiv from "../../../app/components/chat/SettingsDiv";
+import AdvancedSettingsDiv from "../../../app/components/chat/advanced/AdvancedSettingsDiv";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import SendButton from "../../../app/components/chat/SendButton";
-import ChatMessagesDiv from "../../../app/components/chat/ChatMessagesDiv";
-import StatesDiv from "../../../app/components/chat/StatesDiv";
-import ClearButton from "../../../app/components/chat/ClearButton";
-import ConversationSidebar from "../../../app/components/chat/conversation/ConversationSidebar";
-import ToggleConversationButton from "../../../app/components/chat/conversation/ToggleConversationButton";
+import AdvancedSendButton from "../../../app/components/chat/advanced/AdvancedSendButton";
+import AdvancedChatMessagesDiv from "../../../app/components/chat/advanced/AdvancedChatMessagesDiv";
+import AdvancedStatesDiv from "../../../app/components/chat/advanced/AdvancedStatesDiv";
+import AdvancedClearButton from "../../../app/components/chat/advanced/AdvancedClearButton";
+import AdvancedConversationSidebar from "../../../app/components/chat/advanced/AdvancedConversationSidebar";
+import ToggleConversationButton from "../../../app/components/chat/ToggleConversationButton";
 import {EditableState} from "../../../src/conversation/chat/Message";
 import useScreenSize from '../../../app/hooks/useScreenSize';
 
@@ -55,7 +55,7 @@ function AdvancedAIChat() {
         <div className="local-scroll-unscrollable-x">
           <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
             <Collapse in={drawerOpen} orientation="horizontal" className="overflow-auto">
-              <ConversationSidebar
+              <AdvancedConversationSidebar
                 drawerOpen={drawerOpen}
                 messages={messages}
                 setMessages={setMessages}
@@ -69,7 +69,7 @@ function AdvancedAIChat() {
                 setDrawerOpen={setDrawerOpen}
               />
               <div className="grow">
-                <SettingsDiv
+                <AdvancedSettingsDiv
                   apiType={apiType}
                   setApiType={setApiType}
                   model={model}
@@ -83,7 +83,7 @@ function AdvancedAIChat() {
             </div>
             <Paper elevation={0} variant='outlined' className="m-1 rounded-lg local-scroll-unscrollable-y">
               <div className="local-scroll-scrollable p-2">
-                <ChatMessagesDiv
+                <AdvancedChatMessagesDiv
                   messages={messages}
                   setMessages={setMessages}
                   shouldSanitize={shouldSanitize}
@@ -92,14 +92,14 @@ function AdvancedAIChat() {
               </div>
             </Paper>
             <div className="flex-around m-1">
-              <StatesDiv
+              <AdvancedStatesDiv
                 editableState={editableState}
                 setEditableState={setEditableState}
                 shouldSanitize={shouldSanitize}
                 setShouldSanitize={setShouldSanitize}
               />
               <div className="flex-center">
-                <SendButton
+                <AdvancedSendButton
                   messages={messages}
                   setMessages={setMessages}
                   apiType={apiType}
@@ -107,7 +107,7 @@ function AdvancedAIChat() {
                   temperature={temperature}
                   stream={stream}
                 />
-                <ClearButton setMessages={setMessages}/>
+                <AdvancedClearButton setMessages={setMessages}/>
               </div>
             </div>
           </div>

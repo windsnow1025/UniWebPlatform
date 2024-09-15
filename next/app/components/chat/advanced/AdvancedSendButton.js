@@ -2,9 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Alert, Button, Snackbar} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
-import ChatLogic from "../../../src/conversation/chat/ChatLogic";
+import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
 
-function SendButton({
+function AdvancedSendButton({
                       messages,
                       setMessages,
                       apiType,
@@ -140,4 +140,4 @@ function SendButton({
   );
 }
 
-export default SendButton;
+export default AdvancedSendButton;
