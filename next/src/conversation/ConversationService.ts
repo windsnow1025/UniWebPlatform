@@ -24,6 +24,14 @@ export default class ConversationService {
     return res.data;
   }
 
+  async addConversationForUser(id: number, username: string): Promise<Conversation> {
+    const token = localStorage.getItem('token');
+    const res = await this.axiosInstance.post(`/conversations/conversation/${id}/user`, { username }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return res.data;
+  }
+
   async updateConversation(conversation: Conversation) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.put('/conversations/conversation', conversation, {
