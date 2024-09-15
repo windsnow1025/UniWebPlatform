@@ -23,12 +23,12 @@ function SimpleMessageDiv({
       )}
       <Paper
         elevation={2}
-        className={`p-4 w-3/4 rounded-lg`}
+        className={`w-3/4 rounded-lg`}
       >
         {role === 'user' ? (
-          <Typography variant="body1">
+          <div className="m-4">
             {content}
-          </Typography>
+          </div>
         ) : (
           <ContentDiv
             content={content}
