@@ -24,13 +24,6 @@ export default class ConversationService {
     return res.data;
   }
 
-  async addUserToConversation(id: number, username: string) {
-    const token = localStorage.getItem('token');
-    await this.axiosInstance.post(`/conversations/conversation/${id}/user`, { username }, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-  }
-
   async updateConversation(conversation: Conversation) {
     const token = localStorage.getItem('token');
     await this.axiosInstance.put('/conversations/conversation', conversation, {
@@ -44,6 +37,13 @@ export default class ConversationService {
       headers: { Authorization: `Bearer ${token}` }
     });
     return res.data;
+  }
+
+  async addUserToConversation(id: number, username: string) {
+    const token = localStorage.getItem('token');
+    await this.axiosInstance.patch(`/conversations/conversation/${id}/users`, { username }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
   }
 
   async deleteConversation(id: number) {
