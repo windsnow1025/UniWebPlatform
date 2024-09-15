@@ -69,6 +69,10 @@ function SimpleMessageInputBox({ messages, setMessages, setConversations, curren
     try {
       const conversations = await conversationLogic.fetchConversations();
       const conversation = conversations.find(convo => convo.id === currentConversationId);
+      // For temporary chat
+      if (conversation === undefined) {
+        return;
+      }
       await conversationLogic.updateConversation({
         id: currentConversationId,
         name: conversation.name,

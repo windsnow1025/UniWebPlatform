@@ -11,7 +11,7 @@ import SimpleConversationSidebar from "../../../app/components/chat/simple/Simpl
 import ToggleConversationButton from "../../../app/components/chat/conversation/ToggleConversationButton";
 
 function SimpleAIChat() {
-  const { systemTheme, setSystemTheme, muiTheme } = useThemeHandler();
+  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
   const screenSize = useScreenSize();
   const [drawerOpen, setDrawerOpen] = useState();
   const title = "Simple AI Chat";
