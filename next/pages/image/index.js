@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import HeaderAppBar from "../../app/components/common/HeaderAppBar";
 import ContentDiv from "../../app/components/message/ContentDiv";
-import ImageService from "../../src/image/ImageService";
+import ImageClient from "../../src/image/ImageClient";
 
 function ImageGenerate() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -28,7 +28,7 @@ function ImageGenerate() {
     document.title = title;
   }, []);
 
-  const imageService = new ImageService();
+  const imageService = new ImageClient();
 
   const [prompt, setPrompt] = useState("");
   const [imageUrls, setImageUrls] = useState([]);

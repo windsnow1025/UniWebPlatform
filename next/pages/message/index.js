@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import MessageService from "../../src/message/MessageService";
+import MessageClient from "../../src/message/MessageClient";
 import UserLogic from "../../src/common/user/UserLogic";
 import MessageDiv from '../../app/components/message/MessageDiv';
 import {ThemeProvider} from "@mui/material/styles";
@@ -13,7 +13,7 @@ function MessageTransmitter() {
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
   const [newMessage, setNewMessage] = useState({username: '', content: ''});
-  const messageService = new MessageService();
+  const messageService = new MessageClient();
 
   const userLogic = new UserLogic();
 

@@ -1,6 +1,6 @@
 import axios, {AxiosProgressEvent} from 'axios';
 
-export default class FileService {
+export default class FileClient {
   private readonly baseUrl: string;
 
   constructor() {

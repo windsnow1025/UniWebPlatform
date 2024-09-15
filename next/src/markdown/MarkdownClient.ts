@@ -1,7 +1,7 @@
 import axios, {AxiosInstance} from 'axios';
 import {Markdown} from "@/src/markdown/Markdown";
 
-export default class MarkdownService {
+export default class MarkdownClient {
   private axiosInstance: AxiosInstance;
 
   constructor() {

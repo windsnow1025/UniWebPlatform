@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import {ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
 
-import PublicService from "../../../src/common/public/PublicService";
+import PublicClient from "../../../src/common/public/PublicClient";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
@@ -14,7 +14,7 @@ function MarkdownViewer() {
   const router = useRouter();
   const {filename} = router.query;
   const markdownRef = useRef(null);
-  const publicService = new PublicService();
+  const publicService = new PublicClient();
 
   const fetchMarkdown = async () => {
     const markdown = await publicService.fetchMarkdown(filename);
