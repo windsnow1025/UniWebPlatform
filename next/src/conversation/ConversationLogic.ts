@@ -35,9 +35,9 @@ export default class ConversationLogic {
     }
   }
 
-  async addUserToConversation(id: number, username: string) {
+  async addConversationForUser(id: number, username: string): Promise<Conversation> {
     try {
-      await this.conversationService.addUserToConversation(id, username);
+      return await this.conversationService.addConversationForUser(id, username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -48,7 +48,7 @@ export default class ConversationLogic {
         }
       }
       console.error(error);
-      throw new Error('Failed to share conversation');
+      throw new Error('Failed to add conversation for user');
     }
   }
 
@@ -83,6 +83,23 @@ export default class ConversationLogic {
       }
       console.error(error);
       throw new Error('Failed to update conversation name');
+    }
+  }
+
+  async addUserToConversation(id: number, username: string) {
+    try {
+      await this.conversationService.addUserToConversation(id, username);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
+      }
+      console.error(error);
+      throw new Error('Failed to share conversation');
     }
   }
 
