@@ -45,6 +45,7 @@ function SimpleAIChat() {
                 setMessages={setMessages}
                 conversations={conversations}
                 setConversations={setConversations}
+                currentConversationId={currentConversationId}
                 setCurrentConversationId={setCurrentConversationId}
               />
             </Collapse>

@@ -28,6 +28,7 @@ function ConversationSidebar({
                                setMessages,
                                conversations,
                                setConversations,
+                               currentConversationId,
                                setCurrentConversationId,
                              }) {
   // Conversation Menu
@@ -170,7 +171,10 @@ function ConversationSidebar({
         <List>
           {conversations.map((conversation, index) => (
             <ListItem key={conversation.id} disablePadding>
-              <ListItemButton onClick={() => handleConversationClick(conversation)}>
+              <ListItemButton
+                selected={conversation.id === currentConversationId}
+                onClick={() => handleConversationClick(conversation)}
+              >
                 {editingIndex === index ? (
                   <TextField
                     value={editingName}
