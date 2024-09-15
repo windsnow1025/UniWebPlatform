@@ -14,7 +14,7 @@ Content-Type: application/json
   "messages": "[{\"role\":\"system\",\"text\":\"You are a helpful assistant.\",\"files\":[]},{\"role\":\"user\",\"text\":\"Hello\",\"files\":[]},{\"role\":\"assistant\",\"text\":\"Hi there! How can I assist you today?\",\"files\":[]},{\"role\":\"user\",\"text\":\"\",\"files\":[]}]"
 }
 
-### Add User to Conversation
+### Create Conversation for User
 
 POST {{baseUrl}}/conversations/conversation/1/user
 Authorization: Bearer {{token}}
@@ -44,6 +44,16 @@ Content-Type: application/json
 
 {
   "name": "Test1"
+}
+
+### Add User to Conversation Users
+
+PATCH {{baseUrl}}/conversations/conversation/1/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "test1"
 }
 
 ### Delete Conversation
