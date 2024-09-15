@@ -22,7 +22,7 @@ import {
   Share as ShareIcon
 } from '@mui/icons-material';
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
-import ShareConversationDialog from '../conversation/ShareConversationDialog';
+import ShareConversationDialog from '../ShareConversationDialog';
 
 function ConversationSidebar({
                                setMessages,

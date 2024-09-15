@@ -8,7 +8,7 @@ import SimpleChatMessagesDiv from "../../../app/components/chat/simple/SimpleCha
 import useScreenSize from "../../../app/hooks/useScreenSize";
 import SimpleMessageInputBox from "../../../app/components/chat/simple/SimpleMessageInputBox";
 import SimpleConversationSidebar from "../../../app/components/chat/simple/SimpleConversationSidebar";
-import ToggleConversationButton from "../../../app/components/chat/conversation/ToggleConversationButton";
+import ToggleConversationButton from "../../../app/components/chat/ToggleConversationButton";
 
 function SimpleAIChat() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();

@@ -1,8 +1,8 @@
 import {Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select} from "@mui/material";
 import React from "react";
-import {EditableState} from "../../../src/conversation/chat/Message";
+import {EditableState} from "../../../../src/conversation/chat/Message";
 
-function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSanitize}) {
+function AdvancedStatesDiv({editableState, setEditableState, shouldSanitize, setShouldSanitize}) {
   return (
     <div className="flex-around">
       <div className="mx-1">
@@ -34,4 +34,4 @@ function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSa
   )
 }
 
-export default StatesDiv;
+export default AdvancedStatesDiv;
