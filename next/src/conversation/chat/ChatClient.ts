@@ -7,7 +7,7 @@ export interface StreamResponse {
   controller: AbortController;
 }
 
-export default class ChatService {
+export default class ChatClient {
   private axiosInstance: AxiosInstance;
 
   constructor() {

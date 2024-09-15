@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from "axios";
 
-export default class MessageService {
+export default class MessageClient {
   private axiosInstance: AxiosInstance;
 
   constructor() {

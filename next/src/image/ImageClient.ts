@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 
-export default class ImageService {
+export default class ImageClient {
     private axiosInstance: AxiosInstance;
     constructor() {
         this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL });

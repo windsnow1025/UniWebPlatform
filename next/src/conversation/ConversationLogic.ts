@@ -1,12 +1,12 @@
-import ConversationService from "./ConversationService";
+import ConversationClient from "./ConversationClient";
 import {Conversation} from "./Conversation";
 import axios from "axios";
 
 export default class ConversationLogic {
-  private conversationService: ConversationService;
+  private conversationService: ConversationClient;
 
   constructor() {
-    this.conversationService = new ConversationService();
+    this.conversationService = new ConversationClient();
   }
 
   async fetchConversations() {

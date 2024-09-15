@@ -1,11 +1,11 @@
-import MarkdownService from "./MarkdownService";
+import MarkdownClient from "./MarkdownClient";
 import axios from "axios";
 
 export default class MarkdownLogic {
-  private markdownService: MarkdownService;
+  private markdownService: MarkdownClient;
 
   constructor() {
-    this.markdownService = new MarkdownService();
+    this.markdownService = new MarkdownClient();
   }
 
   async fetchMarkdowns() {
