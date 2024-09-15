@@ -9,6 +9,8 @@ import {
   Snackbar,
   TextField,
   Alert,
+  Checkbox,
+  FormControlLabel,
 } from '@mui/material';
 import UserLogic from "../../../../src/common/user/UserLogic";
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
@@ -19,6 +21,7 @@ function ShareConversationDialog({open, onClose, conversationId}) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
+  const [isLink, setIsLink] = useState(false);
 
   const userLogic = new UserLogic();
   const conversationLogic = new ConversationLogic();
@@ -39,8 +42,13 @@ function ShareConversationDialog({open, onClose, conversationId}) {
 
   const handleShare = async () => {
     try {
-      await conversationLogic.addUserToConversation(conversationId, selectedUsername);
-      setAlertMessage('Conversation shared successfully');
+      if (isLink) {
+        await conversationLogic.addUserToConversation(conversationId, selectedUsername);
+        setAlertMessage('Conversation shared (link) successfully');
+      } else {
+        await conversationLogic.addConversationForUser(conversationId, selectedUsername);
+        setAlertMessage('Conversation shared (copy) successfully');
+      }
       setAlertSeverity('success');
       setAlertOpen(true);
       setSelectedUsername('');
@@ -68,6 +76,15 @@ function ShareConversationDialog({open, onClose, conversationId}) {
               fullWidth
             />
           </div>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isLink}
+                onChange={(e) => setIsLink(e.target.checked)}
+              />
+            }
+            label="Link"
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
