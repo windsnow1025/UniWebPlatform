@@ -1,10 +1,10 @@
-import ChatService, {StreamResponse} from "./ChatService";
+import ChatClient, {StreamResponse} from "./ChatClient";
 import {Message} from "./Message"
 import {ApiTypeModel} from "@/src/conversation/chat/Chat";
 import {desanitize, sanitize} from "markdown-latex-renderer";
 
 export default class ChatLogic {
-  private chatService: ChatService;
+  private chatService: ChatClient;
   public initMessages: Message[];
   public emptyUserMessage: Message;
   public emptyAssistantMessage: Message;
@@ -14,7 +14,7 @@ export default class ChatLogic {
 
   constructor() {
 
-    this.chatService = new ChatService();
+    this.chatService = new ChatClient();
 
     this.initMessages = [
       {

@@ -1,12 +1,12 @@
-import BookmarkService from "./BookmarkService";
+import BookmarkClient from "./BookmarkClient";
 import {Bookmark} from "./Bookmark";
 import axios from "axios";
 
 export default class BookmarkLogic {
-  private bookmarkService: BookmarkService;
+  private bookmarkService: BookmarkClient;
 
   constructor() {
-    this.bookmarkService = new BookmarkService();
+    this.bookmarkService = new BookmarkClient();
   }
 
   async fetchBookmarks() {
