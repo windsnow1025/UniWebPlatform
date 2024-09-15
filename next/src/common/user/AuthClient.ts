@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 
-export default class AuthService {
+export default class AuthClient {
     private axiosInstance: AxiosInstance;
 
     constructor() {

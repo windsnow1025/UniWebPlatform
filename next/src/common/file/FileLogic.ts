@@ -1,11 +1,11 @@
-import FileService from "./FileService";
+import FileClient from "./FileClient";
 import axios, {AxiosProgressEvent} from "axios";
 
 export default class FileLogic {
-  private fileService: FileService;
+  private fileService: FileClient;
 
   constructor() {
-    this.fileService = new FileService();
+    this.fileService = new FileClient();
   }
 
   async upload(file: File, onProgress?: (progressEvent: AxiosProgressEvent) => void) {

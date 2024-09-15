@@ -1,7 +1,7 @@
 import axios, {AxiosInstance} from 'axios';
 import {Conversation} from './Conversation';
 
-export default class ConversationService {
+export default class ConversationClient {
   private axiosInstance: AxiosInstance;
 
   constructor() {

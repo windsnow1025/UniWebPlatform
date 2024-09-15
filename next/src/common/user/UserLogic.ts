@@ -1,14 +1,14 @@
-import UserService from "./UserService";
-import AuthService from "@/src/common/user/AuthService";
+import UserClient from "./UserClient";
+import AuthClient from "@/src/common/user/AuthClient";
 import axios from "axios";
 
 export default class UserLogic {
-  private authService: AuthService;
-  private userService: UserService;
+  private authService: AuthClient;
+  private userService: UserClient;
 
   constructor() {
-    this.authService = new AuthService();
-    this.userService = new UserService();
+    this.authService = new AuthClient();
+    this.userService = new UserClient();
   }
 
   async fetchUsernames(): Promise<string[]> {
