@@ -1,7 +1,7 @@
 import axios, {AxiosInstance} from 'axios';
 import {User} from "@/src/common/user/User";
 
-export default class UserService {
+export default class UserClient {
   private axiosInstance: AxiosInstance;
 
   constructor() {
