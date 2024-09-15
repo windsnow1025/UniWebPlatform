@@ -25,9 +25,9 @@ import {
   Share as ShareIcon
 } from '@mui/icons-material';
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
-import ShareConversationDialog from './ShareConversationDialog';
+import ShareConversationDialog from '../ShareConversationDialog';
 
-function ConversationSidebar({messages, setMessages}) {
+function AdvancedConversationSidebar({messages, setMessages}) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
 
@@ -298,4 +298,4 @@ function ConversationSidebar({messages, setMessages}) {
   );
 }
 
-export default ConversationSidebar;
+export default AdvancedConversationSidebar;
