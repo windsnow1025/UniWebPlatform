@@ -40,18 +40,18 @@ export class ConversationsController {
   }
 
   @Post('/conversation/:id/user')
-  async addUser(
+  async createForUser(
     @Request() req: RequestWithUser,
     @Param('id') id: number,
     @Body('username') username: string,
   ) {
     const userId = req.user.sub;
-    const updatedConversation = await this.conversationsService.addUser(
+    const savedConversation = await this.conversationsService.createForUser(
       userId,
       id,
       username,
     );
-    return this.conversationsService.toConversationDto(updatedConversation);
+    return this.conversationsService.toConversationDto(savedConversation);
   }
 
   @Put('/conversation')
@@ -78,6 +78,21 @@ export class ConversationsController {
       userId,
       id,
       name,
+    );
+    return this.conversationsService.toConversationDto(updatedConversation);
+  }
+
+  @Patch('/conversation/:id/users')
+  async updateUsers(
+    @Request() req: RequestWithUser,
+    @Param('id') id: number,
+    @Body('username') username: string,
+  ) {
+    const userId = req.user.sub;
+    const updatedConversation = await this.conversationsService.updateUsers(
+      userId,
+      id,
+      username,
     );
     return this.conversationsService.toConversationDto(updatedConversation);
   }
