@@ -1,5 +1,5 @@
 import React from 'react';
-import {IconButton, Paper, Typography} from '@mui/material';
+import { IconButton, Paper, Typography } from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import mime from 'mime';
@@ -9,8 +9,21 @@ const FileDiv = ({ fileUrl, files, setFiles }) => {
   const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1];
 
   const handleFileDelete = () => {
-    const newFiles = files.filter(file => file !== fileUrl);
-    setFiles(newFiles);
+    if (setFiles) {
+      const newFiles = files.filter(file => file !== fileUrl);
+      setFiles(newFiles);
+    }
+  };
+
+  const renderDeleteIcon = () => {
+    if (setFiles) {
+      return (
+        <IconButton aria-label="delete-file" onClick={handleFileDelete}>
+          <RemoveCircleOutlineIcon fontSize="small" />
+        </IconButton>
+      );
+    }
+    return null;
   };
 
   if (mimeType && mimeType.startsWith('image/')) {
@@ -20,9 +33,7 @@ const FileDiv = ({ fileUrl, files, setFiles }) => {
           <img src={fileUrl} alt={fileName} className="max-w-full" />
         </div>
         <div className="self-end">
-          <IconButton aria-label="delete-file" onClick={handleFileDelete}>
-            <RemoveCircleOutlineIcon fontSize="small" />
-          </IconButton>
+          {renderDeleteIcon()}
         </div>
       </Paper>
     );
@@ -42,9 +53,7 @@ const FileDiv = ({ fileUrl, files, setFiles }) => {
         >
           <GetAppIcon fontSize="small" />
         </IconButton>
-        <IconButton aria-label="delete-file" onClick={handleFileDelete}>
-          <RemoveCircleOutlineIcon fontSize="small" />
-        </IconButton>
+        {renderDeleteIcon()}
       </Paper>
     );
   }
