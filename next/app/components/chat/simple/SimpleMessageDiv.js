@@ -26,7 +26,7 @@ function SimpleMessageDiv({
         className={`w-3/4 rounded-lg`}
       >
         {role === 'user' ? (
-          <div className="m-4">
+          <div className="m-4 whitespace-pre-wrap">
             {content}
           </div>
         ) : (
