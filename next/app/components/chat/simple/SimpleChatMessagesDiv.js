@@ -12,6 +12,7 @@ function SimpleChatMessagesDiv({ messages }) {
           <SimpleMessageDiv
             role={message.role}
             content={message.text}
+            files={message.files}
           />
         </div>
       ))}
