@@ -53,6 +53,18 @@ export default class ChatClient {
       });
 
       if (!response.ok) {
+        // Response is JSON
+        let resJson;
+        try {
+          resJson = await response.json();
+        } catch (error) {
+          console.log(error);
+        }
+        if (resJson.detail) {
+          throw new Error(resJson.detail);
+        }
+
+        // Response is not JSON
         const status = response.status;
         const statusText = response.statusText;
         if (statusText) {
