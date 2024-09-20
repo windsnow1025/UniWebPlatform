@@ -32,6 +32,12 @@ chat_prices = [
         "output": 10
     },
     {
+        "api_type": "github",
+        "model": "gpt-4o",
+        "input": 2.5,
+        "output": 10
+    },
+    {
         "api_type": "gemini",
         "model": "gemini-1.5-flash-latest",
         "input": 0.15,

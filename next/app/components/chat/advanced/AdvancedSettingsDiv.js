@@ -66,6 +66,7 @@ function AdvancedSettingsDiv({
           >
             <MenuItem value="open_ai">Open AI</MenuItem>
             <MenuItem value="azure">Azure</MenuItem>
+            <MenuItem value="github">GitHub</MenuItem>
             <MenuItem value="gemini">Gemini</MenuItem>
             <MenuItem value="claude">Claude</MenuItem>
           </Select>

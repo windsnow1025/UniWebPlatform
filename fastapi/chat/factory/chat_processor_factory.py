@@ -17,7 +17,7 @@ async def create_chat_processor(
         stream_response_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
         non_stream_response_handler: Callable[[str], str] = None
 ):
-    if api_type == 'open_ai' or api_type == 'azure':
+    if api_type in ['open_ai', 'azure', 'github']:
         return await create_gpt_processor(
             messages=messages,
             model=model,
