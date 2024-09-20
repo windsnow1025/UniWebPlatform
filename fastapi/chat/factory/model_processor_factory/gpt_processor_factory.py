@@ -30,6 +30,11 @@ async def create_gpt_processor(
             azure_endpoint=os.environ["AZURE_API_BASE"],
             api_key=os.environ["AZURE_API_KEY"],
         )
+    elif api_type == "github":
+        openai = OpenAI(
+            base_url="https://models.inference.ai.azure.com",
+            api_key=os.environ["GITHUB_API_KEY"],
+        )
 
     gpt_messages = await convert_messages_to_gpt(messages)
 
