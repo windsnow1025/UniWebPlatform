@@ -23,6 +23,8 @@ async def create_claude_processor(
     )
 
     system = extract_system_messages(messages)
+    if system == "":
+        system = "/"
 
     claude_messages = await convert_messages_to_claude(messages)
 

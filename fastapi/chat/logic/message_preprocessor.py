@@ -38,8 +38,4 @@ def extract_system_messages(messages: list[Message]) -> str:
     for index in sorted(indices_to_delete):
         del messages[index]
 
-    # Required for Claude
-    if system_message == "":
-        system_message = " "
-
     return system_message
