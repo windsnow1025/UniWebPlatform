@@ -5,7 +5,7 @@ from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
 from app.logic.chat.util import model_pricing
 from chat import Message
-from chat import create_chat_processor
+from chat import create_chat_client
 from chat import preprocess_messages
 
 
@@ -32,11 +32,13 @@ async def handle_chat_interaction(
         return cost
 
     reduce_prompt_credit = lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
+    reduce_completion_credit = lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
+
     request_handler.handle_request(
         messages, reduce_prompt_credit
     )
 
-    processor = await create_chat_processor(
+    processor = await create_chat_client(
         messages=messages,
         model=model,
         api_type=api_type,
@@ -44,7 +46,8 @@ async def handle_chat_interaction(
         stream=stream,
     )
 
-    reduce_completion_credit = lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
+    response = processor.generate_response()
+
     if stream:
         final_response_handler = lambda generator_function: response_handler.stream_handler(
             generator_function, reduce_completion_credit
@@ -53,6 +56,5 @@ async def handle_chat_interaction(
         final_response_handler = lambda content: response_handler.non_stream_handler(
             content, reduce_completion_credit
         )
-    response = processor.process_request()
 
     return final_response_handler(response)

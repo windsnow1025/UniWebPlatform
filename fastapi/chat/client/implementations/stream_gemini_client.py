@@ -6,7 +6,7 @@ import httpx
 from fastapi import HTTPException
 from google.generativeai.types import GenerateContentResponse
 
-from chat.interfaces.gemini_processor import GeminiProcessor
+from chat.client.model_client.gemini_client import GeminiClient
 
 
 def process_delta(completion_delta: GenerateContentResponse) -> str:
@@ -19,8 +19,8 @@ def generate_chunk(response: GenerateContentResponse) -> Generator[str, None, No
         yield content_delta
 
 
-class StreamGeminiProcessor(GeminiProcessor):
-    def process_request(self):
+class StreamGeminiProcessor(GeminiClient):
+    def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
             response = self.model.generate_content(

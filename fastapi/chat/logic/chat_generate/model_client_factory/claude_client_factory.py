@@ -2,14 +2,14 @@ import os
 
 import anthropic
 
-from chat.factory.message_converter import convert_messages_to_claude
-from chat.implementations.non_stream_claude_processor import NonStreamClaudeProcessor
-from chat.implementations.stream_claude_processor import StreamClaudeProcessor
-from chat.logic.message_preprocessor import extract_system_messages
+from chat.client.implementations.non_stream_claude_client import NonStreamClaudeClient
+from chat.client.implementations.stream_claude_client import StreamClaudeProcessor
+from chat.logic.chat_generate.message_converter import convert_messages_to_claude
+from chat.logic.message_preprocess.message_preprocessor import extract_system_messages
 from chat.model.message import Message
 
 
-async def create_claude_processor(
+async def create_claude_client(
         messages: list[Message],
         model: str,
         temperature: float,
@@ -34,7 +34,7 @@ async def create_claude_processor(
             anthropic=client,
         )
     else:
-        return NonStreamClaudeProcessor(
+        return NonStreamClaudeClient(
             model=model,
             messages=claude_messages,
             temperature=temperature,
