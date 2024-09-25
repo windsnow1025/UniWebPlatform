@@ -1,8 +1,6 @@
 import os
-from typing import Callable, Generator
 
 import google.generativeai as genai
-from fastapi.responses import StreamingResponse
 
 from chat.factory.message_converter import convert_messages_to_gemini
 from chat.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor

@@ -1,8 +1,7 @@
 from anthropic import Anthropic
 
-from chat.model.claude_message import ClaudeMessage
-from chat.model.handler import NonStreamResponseHandler, StreamResponseHandler
 from chat.interfaces.chat_processor import ChatProcessor
+from chat.model.claude_message import ClaudeMessage
 
 
 class ClaudeProcessor(ChatProcessor):
