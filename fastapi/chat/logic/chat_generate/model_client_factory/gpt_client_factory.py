@@ -3,13 +3,13 @@ import os
 from openai import OpenAI
 from openai.lib.azure import AzureOpenAI
 
-from chat.factory.message_converter import convert_messages_to_gpt
-from chat.implementations.non_stream_gpt_processor import NonStreamGPTProcessor
-from chat.implementations.stream_gpt_processor import StreamGPTProcessor
+from chat.client.implementations.non_stream_gpt_client import NonStreamGPTProcessor
+from chat.client.implementations.stream_gpt_client import StreamGPTProcessor
+from chat.logic.chat_generate.message_converter import convert_messages_to_gpt
 from chat.model.message import Message
 
 
-async def create_gpt_processor(
+async def create_gpt_client(
         messages: list[Message],
         model: str,
         api_type: str,

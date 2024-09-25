@@ -2,14 +2,14 @@ import os
 
 import google.generativeai as genai
 
-from chat.factory.message_converter import convert_messages_to_gemini
-from chat.implementations.non_stream_gemini_processor import NonStreamGeminiProcessor
-from chat.implementations.stream_gemini_processor import StreamGeminiProcessor
-from chat.logic.message_preprocessor import extract_system_messages
+from chat.client.implementations.non_stream_gemini_client import NonStreamGeminiProcessor
+from chat.client.implementations.stream_gemini_client import StreamGeminiProcessor
+from chat.logic.chat_generate.message_converter import convert_messages_to_gemini
+from chat.logic.message_preprocess.message_preprocessor import extract_system_messages
 from chat.model.message import Message
 
 
-async def create_gemini_processor(
+async def create_gemini_client(
         messages: list[Message],
         model: str,
         temperature: float,

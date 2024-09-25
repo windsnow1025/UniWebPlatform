@@ -1,10 +1,10 @@
 from google.generativeai import GenerativeModel
 
-from chat.interfaces.chat_processor import ChatProcessor
+from chat.client.chat_client import ChatClient
 from chat.model.gemini_message import GeminiMessage
 
 
-class GeminiProcessor(ChatProcessor):
+class GeminiClient(ChatClient):
     def __init__(
             self,
             model: GenerativeModel,
@@ -15,5 +15,5 @@ class GeminiProcessor(ChatProcessor):
         self.messages = messages
         self.temperature = temperature
 
-    def process_request(self):
+    def generate_response(self):
         raise NotImplementedError

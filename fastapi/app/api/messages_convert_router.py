@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 import app.logic.auth as auth
 from app.logic.image_gen.image_gen_service import *
-from chat.factory.message_converter import *
+from chat.logic.chat_generate.message_converter import *
 from chat.model.message import Message
 
 messages_convert_router = APIRouter()
