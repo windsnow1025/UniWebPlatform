@@ -16,8 +16,6 @@ async def create_gemini_processor(
         model: str,
         temperature: float,
         stream: bool,
-        stream_response_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
-        non_stream_response_handler: Callable[[str], str] = None
 ):
     genai.configure(api_key=os.environ["GOOGLE_AI_STUDIO_API_KEY"])
 
@@ -60,14 +58,12 @@ async def create_gemini_processor(
             model=generative_model,
             messages=gemini_messages,
             temperature=temperature,
-            response_handler=stream_response_handler
         )
     else:
         return NonStreamGeminiProcessor(
             model=generative_model,
             messages=gemini_messages,
             temperature=temperature,
-            response_handler=non_stream_response_handler
         )
 
 

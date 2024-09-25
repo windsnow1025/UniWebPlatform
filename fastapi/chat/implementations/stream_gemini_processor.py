@@ -28,7 +28,7 @@ class StreamGeminiProcessor(GeminiProcessor):
                 stream=True,
             )
 
-            return self.response_handler(lambda: generate_chunk(response))
+            return lambda: generate_chunk(response)
 
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code

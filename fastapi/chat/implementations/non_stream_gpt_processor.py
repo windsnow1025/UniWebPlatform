@@ -20,7 +20,7 @@ class NonStreamGPTProcessor(GPTProcessor):
             )
 
             content = completion.choices[0].message.content
-            return self.response_handler(content)
+            return content
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text
