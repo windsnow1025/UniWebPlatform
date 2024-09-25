@@ -20,7 +20,7 @@ class NonStreamClaudeProcessor(ClaudeProcessor):
             )
 
             content = message.content[0].text
-            return self.response_handler(content)
+            return content
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text

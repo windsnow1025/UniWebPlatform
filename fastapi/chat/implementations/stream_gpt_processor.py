@@ -40,7 +40,7 @@ class StreamGPTProcessor(GPTProcessor):
                 stream=True
             )
 
-            return self.response_handler(lambda: generate_chunk(completion))
+            return lambda: generate_chunk(completion)
 
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code

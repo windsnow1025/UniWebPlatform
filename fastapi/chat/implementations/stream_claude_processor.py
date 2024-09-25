@@ -34,7 +34,7 @@ class StreamClaudeProcessor(ClaudeProcessor):
 
             stream = stream_manager.__enter__()
 
-            return self.response_handler(lambda: generate_chunk(stream))
+            return lambda: generate_chunk(stream)
 
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code

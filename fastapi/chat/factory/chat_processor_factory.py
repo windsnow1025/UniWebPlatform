@@ -14,8 +14,6 @@ async def create_chat_processor(
         api_type: str,
         temperature: float,
         stream: bool,
-        stream_response_handler: Callable[[Callable[[], Generator[str, None, None]]], StreamingResponse] | None = None,
-        non_stream_response_handler: Callable[[str], str] = None
 ):
     if api_type in ['open_ai', 'azure', 'github']:
         return await create_gpt_processor(
@@ -24,8 +22,6 @@ async def create_chat_processor(
             api_type=api_type,
             temperature=temperature,
             stream=stream,
-            stream_response_handler=stream_response_handler,
-            non_stream_response_handler=non_stream_response_handler
         )
     elif api_type == 'gemini':
         return await create_gemini_processor(
@@ -33,8 +29,6 @@ async def create_chat_processor(
             model=model,
             temperature=temperature,
             stream=stream,
-            stream_response_handler=stream_response_handler,
-            non_stream_response_handler=non_stream_response_handler
         )
     elif api_type == 'claude':
         return await create_claude_processor(
@@ -42,6 +36,4 @@ async def create_chat_processor(
             model=model,
             temperature=temperature,
             stream=stream,
-            stream_response_handler=stream_response_handler,
-            non_stream_response_handler=non_stream_response_handler
         )

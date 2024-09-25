@@ -31,9 +31,9 @@ async def handle_chat_interaction(
         user_dao.reduce_credit(username, cost)
         return cost
 
+    reduce_prompt_credit = lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
     request_handler.handle_request(
-        messages,
-        lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
+        messages, reduce_prompt_credit
     )
 
     processor = await create_chat_processor(
@@ -42,15 +42,17 @@ async def handle_chat_interaction(
         api_type=api_type,
         temperature=temperature,
         stream=stream,
-        stream_response_handler=lambda generator_function: response_handler.stream_handler(
-            generator_function,
-            lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-        ),
-        non_stream_response_handler=lambda content: response_handler.non_stream_handler(
-            content,
-            lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
-        )
     )
+
+    reduce_completion_credit = lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
+    if stream:
+        final_response_handler = lambda generator_function: response_handler.stream_handler(
+            generator_function, reduce_completion_credit
+        )
+    else:
+        final_response_handler = lambda content: response_handler.non_stream_handler(
+            content, reduce_completion_credit
+        )
     response = processor.process_request()
 
-    return response
+    return final_response_handler(response)
