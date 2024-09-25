@@ -15,8 +15,6 @@ async def create_claude_processor(
         model: str,
         temperature: float,
         stream: bool,
-        stream_response_handler: StreamResponseHandler | None = None,
-        non_stream_response_handler: NonStreamResponseHandler | None = None
 ):
     client = anthropic.Anthropic(
         api_key=os.environ["ANTHROPIC_API_KEY"],
@@ -35,7 +33,6 @@ async def create_claude_processor(
             temperature=temperature,
             system=system,
             anthropic=client,
-            response_handler=stream_response_handler
         )
     else:
         return NonStreamClaudeProcessor(
@@ -44,7 +41,6 @@ async def create_claude_processor(
             temperature=temperature,
             system="",
             anthropic=client,
-            response_handler=non_stream_response_handler
         )
 
 

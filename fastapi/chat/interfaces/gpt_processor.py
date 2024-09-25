@@ -11,14 +11,11 @@ class GPTProcessor(ChatProcessor):
             temperature: float,
             api_type: str,
             openai,
-            response_handler: NonStreamResponseHandler | StreamResponseHandler
     ):
         self.model = model
         self.messages = messages
         self.temperature = temperature
         self.api_type = api_type
         self.openai = openai
-        self.response_handler = response_handler
-
     def process_request(self):
         raise NotImplementedError
