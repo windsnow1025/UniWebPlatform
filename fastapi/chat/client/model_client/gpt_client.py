@@ -1,8 +1,8 @@
-from chat.interfaces.chat_processor import ChatProcessor
+from chat.client.chat_client import ChatClient
 from chat.model.gpt_message import GptMessage
 
 
-class GPTProcessor(ChatProcessor):
+class GPTClient(ChatClient):
     def __init__(
             self,
             model: str,
@@ -16,5 +16,5 @@ class GPTProcessor(ChatProcessor):
         self.temperature = temperature
         self.api_type = api_type
         self.openai = openai
-    def process_request(self):
+    def generate_response(self):
         raise NotImplementedError

@@ -1,5 +1,5 @@
-from chat.logic.document_processor import extract_text_from_file
-from chat.logic.file_type_checker import get_file_type
+from chat.logic.message_preprocess.document_processor import extract_text_from_file
+from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.model.message import Message
 
 
