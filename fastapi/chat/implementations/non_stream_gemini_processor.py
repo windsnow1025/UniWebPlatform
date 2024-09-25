@@ -17,7 +17,7 @@ class NonStreamGeminiProcessor(GeminiProcessor):
                 stream=False
             )
 
-            return self.response_handler(response.text)
+            return response.text
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text

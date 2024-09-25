@@ -16,8 +16,6 @@ async def create_gpt_processor(
         api_type: str,
         temperature: float,
         stream: bool,
-        stream_response_handler: StreamResponseHandler | None = None,
-        non_stream_response_handler: NonStreamResponseHandler | None = None
 ):
     openai = None
     if api_type == "open_ai":
@@ -45,7 +43,6 @@ async def create_gpt_processor(
             temperature=temperature,
             api_type=api_type,
             openai=openai,
-            response_handler=stream_response_handler
         )
     else:
         return NonStreamGPTProcessor(
@@ -54,7 +51,6 @@ async def create_gpt_processor(
             temperature=temperature,
             api_type=api_type,
             openai=openai,
-            response_handler=non_stream_response_handler
         )
 
 
