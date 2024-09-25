@@ -8,7 +8,7 @@ from fastapi import HTTPException
 from openai import Stream
 from openai.types.chat import ChatCompletionChunk
 
-from chat.interfaces.gpt_processor import GPTProcessor
+from chat.client.model_client.gpt_client import GPTClient
 
 
 def process_delta(completion_delta: ChatCompletionChunk) -> str:
@@ -29,8 +29,8 @@ def generate_chunk(completion: Stream[ChatCompletionChunk]) -> Generator[str, No
         yield content_delta
 
 
-class StreamGPTProcessor(GPTProcessor):
-    def process_request(self):
+class StreamGPTProcessor(GPTClient):
+    def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
             completion = self.openai.chat.completions.create(
