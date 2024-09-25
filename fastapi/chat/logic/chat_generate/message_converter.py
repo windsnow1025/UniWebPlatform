@@ -1,5 +1,5 @@
-from chat.factory.image_processor import *
-from chat.logic.file_type_checker import get_file_type
+from chat.logic.chat_generate.image_processor import *
+from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.model import gpt_message, claude_message
 from chat.model.claude_message import ClaudeMessage
 from chat.model.gemini_message import GeminiMessage

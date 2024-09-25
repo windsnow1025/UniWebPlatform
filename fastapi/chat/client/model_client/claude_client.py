@@ -1,10 +1,10 @@
 from anthropic import Anthropic
 
-from chat.interfaces.chat_processor import ChatProcessor
+from chat.client.chat_client import ChatClient
 from chat.model.claude_message import ClaudeMessage
 
 
-class ClaudeProcessor(ChatProcessor):
+class ClaudeClient(ChatClient):
     def __init__(
             self,
             model: str,
@@ -19,5 +19,5 @@ class ClaudeProcessor(ChatProcessor):
         self.system = system
         self.anthropic = anthropic
 
-    def process_request(self):
+    def generate_response(self):
         raise NotImplementedError

@@ -1,17 +1,30 @@
 import logging
 import re
+from typing import Generator
 
 import httpx
+from anthropic import MessageStream
 from fastapi import HTTPException
 
-from chat.interfaces.claude_processor import ClaudeProcessor
+from chat.client.model_client.claude_client import ClaudeClient
 
 
-class NonStreamClaudeProcessor(ClaudeProcessor):
-    def process_request(self):
+def process_delta(completion_delta: str) -> str:
+    return completion_delta
+
+
+def generate_chunk(response: MessageStream) -> Generator[str, None, None]:
+    for response_delta in response.text_stream:
+        content_delta = process_delta(response_delta)
+        yield content_delta
+
+
+class StreamClaudeProcessor(ClaudeClient):
+    def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
-            message = self.anthropic.messages.create(
+
+            stream_manager = self.anthropic.messages.stream(
                 model=self.model,
                 max_tokens=4096,
                 temperature=self.temperature,
@@ -19,8 +32,10 @@ class NonStreamClaudeProcessor(ClaudeProcessor):
                 messages=self._to_dict(self.messages)
             )
 
-            content = message.content[0].text
-            return content
+            stream = stream_manager.__enter__()
+
+            return lambda: generate_chunk(stream)
+
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text

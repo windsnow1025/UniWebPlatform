@@ -4,20 +4,23 @@ import re
 import httpx
 from fastapi import HTTPException
 
-from chat.interfaces.gemini_processor import GeminiProcessor
+from chat.client.model_client.claude_client import ClaudeClient
 
 
-class NonStreamGeminiProcessor(GeminiProcessor):
-    def process_request(self):
+class NonStreamClaudeClient(ClaudeClient):
+    def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
-
-            response = self.model.generate_content(
-                contents=self._to_dict(self.messages),
-                stream=False
+            message = self.anthropic.messages.create(
+                model=self.model,
+                max_tokens=4096,
+                temperature=self.temperature,
+                system=self.system,
+                messages=self._to_dict(self.messages)
             )
 
-            return response.text
+            content = message.content[0].text
+            return content
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text

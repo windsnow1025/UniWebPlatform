@@ -1,11 +1,11 @@
 import logging
-from typing import Callable
+from typing import Generator, Callable
 
 from fastapi.responses import StreamingResponse
 
 from app.logic.chat.util.token_counter import num_tokens_from_text
-from chat import ChunkGenerator
 
+ChunkGenerator = Generator[str, None, None]
 ReduceCredit = Callable[[int], float]
 
 
