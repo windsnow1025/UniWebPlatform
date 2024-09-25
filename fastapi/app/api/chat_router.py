@@ -44,4 +44,4 @@ async def generate(chat_request: ChatRequest, request: Request):
 
 @chat_router.get("/chat")
 async def get_models() -> list[dict]:
-    return pricing.chat_prices
+    return pricing.load_model_prices()
