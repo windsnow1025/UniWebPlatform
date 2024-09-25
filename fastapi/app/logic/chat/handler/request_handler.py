@@ -1,7 +1,7 @@
 from typing import Callable
 
-from chat import Message
 from app.logic.chat.util.token_counter import num_tokens_from_text
+from chat import Message
 
 
 def handle_request(

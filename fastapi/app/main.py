@@ -1,8 +1,8 @@
 import logging
 
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.chat_router import chat_router
 from app.api.image_gen_router import image_gen_router
