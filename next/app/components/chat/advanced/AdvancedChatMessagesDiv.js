@@ -2,7 +2,14 @@ import MessageDiv from "../../message/MessageDiv";
 import React from "react";
 import AdvancedAddMessageDivider from "./AdvancedAddMessageDivider";
 
-function AdvancedChatMessagesDiv({ messages, setMessages, shouldSanitize, editableState }) {
+function AdvancedChatMessagesDiv({
+                                   messages,
+                                   setMessages,
+                                   shouldSanitize,
+                                   editableState,
+                                   setIsGenerating,
+                                   isGeneratingRef,
+                                 }) {
   const handleRoleChange = (index, role) => {
     const newMessages = [...messages];
     newMessages[index].role = role;
@@ -16,6 +23,11 @@ function AdvancedChatMessagesDiv({ messages, setMessages, shouldSanitize, editab
   };
 
   const handleMessageDelete = (index) => {
+    if (index ===  messages.length - 1) {
+      setIsGenerating(false);
+      isGeneratingRef.current = false;
+    }
+
     const newMessages = [...messages];
     newMessages.splice(index, 1);
     setMessages(newMessages);
@@ -35,6 +47,8 @@ function AdvancedChatMessagesDiv({ messages, setMessages, shouldSanitize, editab
         messages={messages}
         setMessages={setMessages}
         index={-1}
+        setIsGenerating={setIsGenerating}
+        isGeneratingRef={isGeneratingRef}
       />
       {messages.map((message, index) => (
         <div key={index}>
@@ -44,7 +58,9 @@ function AdvancedChatMessagesDiv({ messages, setMessages, shouldSanitize, editab
             content={message.text}
             setContent={(content) => handleContentChange(index, content)}
             files={message.files}
-            setFiles={(fileUrl) => {handleFileUpload(index, fileUrl)}}
+            setFiles={(fileUrl) => {
+              handleFileUpload(index, fileUrl)
+            }}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
             shouldSanitize={shouldSanitize}
@@ -54,6 +70,8 @@ function AdvancedChatMessagesDiv({ messages, setMessages, shouldSanitize, editab
             messages={messages}
             setMessages={setMessages}
             index={index}
+            setIsGenerating={setIsGenerating}
+            isGeneratingRef={isGeneratingRef}
           />
         </div>
       ))}
