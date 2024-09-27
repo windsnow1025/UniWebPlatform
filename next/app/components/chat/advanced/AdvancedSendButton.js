@@ -5,17 +5,17 @@ import StopIcon from '@mui/icons-material/Stop';
 import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
 
 function AdvancedSendButton({
-                      messages,
-                      setMessages,
-                      apiType,
-                      model,
-                      temperature,
-                      stream
-                    }) {
+                              isGenerating,
+                              setIsGenerating,
+                              isGeneratingRef,
+                              messages,
+                              setMessages,
+                              apiType,
+                              model,
+                              temperature,
+                              stream,
+                            }) {
   const chatLogic = new ChatLogic();
-
-  const [isGenerating, setIsGenerating] = useState(false);
-  const isGeneratingRef = useRef(false);
 
   const currentRequestIndex = useRef(0);
 

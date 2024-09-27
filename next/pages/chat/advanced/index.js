@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import {Collapse, CssBaseline, Paper} from "@mui/material";
 
@@ -41,6 +41,10 @@ function AdvancedAIChat() {
   // States
   const [editableState, setEditableState] = useState(EditableState.RoleBased);
   const [shouldSanitize, setShouldSanitize] = useState(true);
+
+  // Generation Control
+  const [isGenerating, setIsGenerating] = useState(false);
+  const isGeneratingRef = useRef(false);
 
   return (
     <ThemeProvider theme={muiTheme}>
@@ -88,6 +92,8 @@ function AdvancedAIChat() {
                   setMessages={setMessages}
                   shouldSanitize={shouldSanitize}
                   editableState={editableState}
+                  setIsGenerating={setIsGenerating}
+                  isGeneratingRef={isGeneratingRef}
                 />
               </div>
             </Paper>
@@ -100,6 +106,9 @@ function AdvancedAIChat() {
               />
               <div className="flex-center">
                 <AdvancedSendButton
+                  isGenerating={isGenerating}
+                  setIsGenerating={setIsGenerating}
+                  isGeneratingRef={isGeneratingRef}
                   messages={messages}
                   setMessages={setMessages}
                   apiType={apiType}
@@ -107,7 +116,11 @@ function AdvancedAIChat() {
                   temperature={temperature}
                   stream={stream}
                 />
-                <AdvancedClearButton setMessages={setMessages}/>
+                <AdvancedClearButton
+                  setMessages={setMessages}
+                  setIsGenerating={setIsGenerating}
+                  isGeneratingRef={isGeneratingRef}
+                />
               </div>
             </div>
           </div>
