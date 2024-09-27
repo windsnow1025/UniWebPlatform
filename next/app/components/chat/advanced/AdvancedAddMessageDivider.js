@@ -3,10 +3,21 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import React from "react";
 import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
 
-function AdvancedAddMessageDivider({ messages, setMessages, index }) {
+function AdvancedAddMessageDivider({
+                                     messages,
+                                     setMessages,
+                                     index,
+                                     setIsGenerating,
+                                     isGeneratingRef,
+                                   }) {
   const chatLogic = new ChatLogic();
 
   const handleMessageAdd = (index) => {
+    if (index ===  messages.length - 1) {
+      setIsGenerating(false);
+      isGeneratingRef.current = false;
+    }
+
     const newMessages = [...messages];
     newMessages.splice(index + 1, 0, chatLogic.emptyUserMessage);
     setMessages(newMessages);
