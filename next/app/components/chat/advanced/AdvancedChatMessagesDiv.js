@@ -58,9 +58,7 @@ function AdvancedChatMessagesDiv({
             content={message.text}
             setContent={(content) => handleContentChange(index, content)}
             files={message.files}
-            setFiles={(fileUrl) => {
-              handleFileUpload(index, fileUrl)
-            }}
+            setFiles={(fileUrl) => {handleFileUpload(index, fileUrl)}}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
             shouldSanitize={shouldSanitize}
