@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio-deployment
+  labels:
+    app: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          image: quay.io/minio/minio
+          args:
+            - server
+            - /data
+            - "--console-address=:9001"
+          ports:
+            - containerPort: 9000
+            - containerPort: 9001
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_ACCESS_KEY
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_SECRET_KEY
+            - name: MINIO_BROWSER_REDIRECT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: minio-configmap
+                  key: MINIO_BROWSER_REDIRECT_URL
+          volumeMounts:
+            - name: minio-persistent-storage
+              mountPath: /data
+      volumes:
+        - name: minio-persistent-storage
+          persistentVolumeClaim:
+            claimName: minio-pvc
