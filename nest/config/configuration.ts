@@ -1,3 +1,5 @@
+import * as process from 'node:process';
+
 export default () => {
   const isProduction = process.env.ENV !== 'development';
   console.log(`Using ${isProduction ? 'production' : 'development'} setting.`);
@@ -6,7 +8,7 @@ export default () => {
     port: isProduction ? 3000 : 3001,
     baseUrl: isProduction ? '/api/nest' : '',
     mysql: {
-      host: isProduction ? 'mysql' : 'localhost',
+      host: process.env.MYSQL_HOST,
       port: 3306,
       user: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
@@ -14,7 +16,7 @@ export default () => {
     },
     jwtSecret: process.env.JWT_SECRET,
     minio: {
-      endPoint: isProduction ? 'minio' : 'localhost',
+      endPoint: process.env.MINIO_ENDPOINT,
       port: 9000,
       useSSL: false,
       accessKey: process.env.MINIO_ACCESS_KEY,
