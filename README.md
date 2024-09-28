@@ -1,15 +1,35 @@
 # UniWebPlatform
 
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Tech Stack](#tech-stack)
+3. [Live Demo](#live-demo)
+4. [Setup](#setup)
+    - [Environment](#environment)
+    - [Debian Production](#debian-production)
+        - [Debian Docker Compose](#debian-docker-compose)
+        - [Linux Minikube](#linux-minikube)
+        - [Minikube Dashboard](#minikube-dashboard)
+        - [Start](#start)
+        - [Nginx (Optional)](#nginx-optional)
+        - [Usage](#usage)
+    - [Development](#development)
+        - [Windows Develop Environment](#windows-develop-environment)
+        - [Windows Production Environment](#windows-production-environment)
+    - [CI/CD](#cicd)
+5. [Make Contributions](#make-contributions)
+
 ## Introduction
 
 A full stack web application for my personal website containing:
-1. User system
-2. Markdown blogs
-3. Editable bookmark
-4. Message transmitter
-5. Password generator
-6. Image generator
-7. AI chatbot
+1. User Module
+2. Markdown Blogs
+3. Editable Bookmark
+4. Message Transmitter
+5. Password Generator
+6. Image Generator
+7. Advanced AI Chat / Simple AI Chat
 
 ## Tech Stack
 
@@ -38,11 +58,10 @@ Storage
 
 ```yaml
 Infrastructure
-  - Nginx
-  - Docker
+  - Linux (Debian 11)
     - Docker Compose
-  - Linux
-    - Debian 11
+    - Kubernetes
+      - Docker
 ```
 
 ```yaml
@@ -56,18 +75,13 @@ DevOps
 
 ## Setup
 
-### Production
+### Environment
 
-#### Environments
+1. Copy `./kubernetes/app-secret.example.yaml` to `./kubernetes/app-secret.example.yaml`, modify value for each key.
 
-Copy `./env.example` to `./env`, add environment variables to each `.env` files.
+### Debian Production
 
-Copy `./docker-compose.yaml`, `./env`, `./config` to production folder.
-
-#### Debian install Docker Compose
-
-1. Logged in as the root user in Debian 11 with a minimum RAM of 4GB.
-2. Install Docker Compose
+#### Debian Docker Compose
 
 ```bash
 apt-get install ca-certificates curl gnupg
@@ -90,26 +104,99 @@ echo \
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-#### Run
+#### Linux Minikube
 
 ```bash
-docker compose up [-d]
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+```
+
+```bash
+minikube start --force
+```
+
+#### Minikube Dashboard
+
+```bash
+minikube dashboard
+```
+
+```bash
+alias kubectl="minikube kubectl --"
+kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
+```
+
+#### Start
+
+1. Create a production directory and cd into it
+2. Paste `./kubernetes`
+
+#### Nginx (Optional)
+
+```
+server {
+
+	server_name <domain_name>;
+
+	client_max_body_size 100M;
+
+    location / {
+        proxy_pass http://localhost:81/;
+        proxy_buffering off;
+        proxy_request_buffering off;
+
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Port $server_port;
+        proxy_set_header X-Forwarded-Host $host;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    location /kubernetes/ {
+        proxy_pass http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/;
+    }
+}
+```
+
+#### After Server Start
+
+```bash
+minikube start --force
+```
+
+#### Keep Running
+
+```bash
+minikube dashboard
+```
+
+```bash
+alias kubectl="minikube kubectl --"
+kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
 ```
 
 #### Usage
 
-##### Test Availability
-
-```bash
-curl localhost:81
-```
+- Main: `<server_address>:81`
+- MinIO: `<server_address>:81/minio/ui/`
+- MiniKube: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/`
 
 ### Development
 
-#### Windows
+#### Windows Develop Environment
 
-1. Setup and run MySQL and MinIO either by native approach or by Docker.
+1. Setup and run MySQL and MinIO natively / by Docker / by Minikube.
 2. Setup and run Next, Nest, FastAPI separately according to their documentations.
+
+#### Windows Production Environment
+
+1. Install Docker Desktop
+2. `docker compose pull`, `docker compose up`
 
 #### CI/CD
 
