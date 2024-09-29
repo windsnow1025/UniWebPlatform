@@ -1,11 +1,5 @@
 # Commands
 
-## Set Alias
-
-```bash
-alias kubectl="minikube kubectl --"
-```
-
 ## Apply
 
 ```bash
