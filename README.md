@@ -174,6 +174,8 @@ minikube start --force
 
 #### Keep Running
 
+##### Dashboard
+
 ```bash
 minikube dashboard
 ```
@@ -181,6 +183,10 @@ minikube dashboard
 ```bash
 kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
 ```
+
+##### Port Forward
+
+See `./kubernetes/app-command`
 
 #### Usage
 
