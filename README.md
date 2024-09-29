@@ -115,6 +115,10 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-a
 minikube start --force
 ```
 
+```bash
+ln -s $(which minikube) /usr/local/bin/kubectl
+```
+
 #### Minikube Dashboard
 
 ```bash
@@ -122,7 +126,6 @@ minikube dashboard
 ```
 
 ```bash
-alias kubectl="minikube kubectl --"
 kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
 ```
 
@@ -176,7 +179,6 @@ minikube dashboard
 ```
 
 ```bash
-alias kubectl="minikube kubectl --"
 kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
 ```
 
