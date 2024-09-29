@@ -63,10 +63,10 @@ kubectl rollout restart deployment nginx-deployment
 
 ```bash
 # MySQL
-kubectl port-forward svc/mysql-service 3306:3306
+kubectl port-forward --address 0.0.0.0 svc/mysql-service 3306:3306
 
 # MinIO
-kubectl port-forward svc/minio-service 9000:9000 9001:9001
+kubectl port-forward --address 0.0.0.0 svc/minio-service 9000:9000 9001:9001
 
 # Nginx
 kubectl port-forward svc/nginx-service 81:80
