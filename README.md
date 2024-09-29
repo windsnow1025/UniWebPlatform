@@ -147,13 +147,13 @@ ln -s $(which minikube) /usr/local/bin/kubectl
    ```bash
    kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
    ```
-   Visit: `http://<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard-kong-proxy:443/proxy/`
+   Visit: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard-kong-proxy:443/proxy/`
    
 5. Set Proxy
    ```bash
    kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
    ```
-   Visit: `https://<server_address>:8443/`
+   Visit (HTTPS): `<server_address>:8443/`
 
 6. Create admin-user
    ```bash
@@ -223,7 +223,8 @@ See `./kubernetes/app-command`
 
 - Main: `<server_address>:81`
 - MinIO: `<server_address>:81/minio/ui/`
-- MiniKube: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/`
+- MiniKube Port Forward (HTTPS): `<server_address>:8443`
+- MiniKube Proxy: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard-kong-proxy:443/proxy/`
 
 ### Development
 
