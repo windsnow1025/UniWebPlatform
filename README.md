@@ -149,21 +149,15 @@ ln -s $(which minikube) /usr/local/bin/kubectl
    kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
    ```
    Visit: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard-kong-proxy:443/proxy/`
-   
-5. Set Proxy
-   ```bash
-   kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
-   ```
-   Visit (HTTPS): `<server_address>:8443/`
 
-6. Create admin-user
+5. Create admin-user
    ```bash
    kubectl apply -f ./kubernetes/dashboard/dashboard-serviceaccount.yaml
    kubectl apply -f ./kubernetes/dashboard/dashboard-clusterrolebinding.yaml
    kubectl apply -f ./kubernetes/dashboard/dashboard-secret.yaml
    ```
 
-7. Get a long-lived Bearer Token
+6. Get a long-lived Bearer Token
    ```bash
    kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
    ```
@@ -234,8 +228,7 @@ See `./kubernetes/app-command`
 
 - Main: `<server_address>:81`
 - MinIO: `<server_address>:81/minio/ui/`
-- MiniKube Port Forward (HTTPS): `<server_address>:8443`
-- MiniKube Proxy: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard-kong-proxy:443/proxy/`
+- Kubernetes Dashboard Port Forward (HTTPS): `<server_address>:8443`
 
 ### Development
 
