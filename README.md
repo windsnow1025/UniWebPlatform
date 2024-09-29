@@ -119,15 +119,51 @@ minikube start --force
 ln -s $(which minikube) /usr/local/bin/kubectl
 ```
 
-#### Minikube Dashboard
+#### Kubernetes Dashboard
 
-```bash
-minikube dashboard
-```
+1. Install Helm
+   ```bash
+   curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+   sudo apt-get install apt-transport-https --yes
+   echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+   sudo apt-get update
+   sudo apt-get install helm
+   ```
 
-```bash
-kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
-```
+2. Delete existing namespace
+   ```bash
+   kubectl delete namespace kubernetes-dashboard
+   ```
+
+3. Deploy Dashboard
+   ```bash
+   # Add kubernetes-dashboard repository
+   helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+   # Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
+   helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+   ```
+   
+4. Port Forward
+   ```bash
+   kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
+   ```
+   
+5. Set Proxy
+   ```bash
+   kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
+   ```
+
+6. Create admin-user
+   ```bash
+   kubectl apply -f ./kubernetes/dashboard/dashboard-serviceaccount.yaml
+   kubectl apply -f ./kubernetes/dashboard/dashboard-clusterrolebinding.yaml
+   kubectl apply -f ./kubernetes/dashboard/dashboard-secret.yaml
+   ```
+
+7. Get a long-lived Bearer Token
+   ```bash
+   kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
+   ```
 
 #### Start
 
@@ -176,13 +212,6 @@ minikube start --force
 
 ##### Dashboard
 
-```bash
-minikube dashboard
-```
-
-```bash
-kubectl proxy --address 0.0.0.0 --accept-hosts='^.*$'
-```
 
 ##### Port Forward
 
