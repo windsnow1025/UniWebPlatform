@@ -78,7 +78,7 @@ DevOps
 ### Environment
 
 1. Copy `./kubernetes/app-secret.example.yaml` to `./kubernetes/app-secret.example.yaml`, modify value for each key.
-1. Copy `./kubernetes/dashboard/dashboard-secret.copy.yaml` to `./kubernetes/dashboard/dashboard-secret.yaml`.
+2. Copy `./kubernetes/dashboard/dashboard-secret.copy.yaml` to `./kubernetes/dashboard/dashboard-secret.yaml`.
 
 ### Debian Production
 
