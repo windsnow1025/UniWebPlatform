@@ -217,13 +217,8 @@ minikube start --force
 
 #### Keep Running
 
-##### Dashboard
-
-kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
-
-##### Port Forward
-
-See `./kubernetes/app-command.md`
+- Dashboard: `kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443`
+- Port Forward: see `./kubernetes/app-command.md`
 
 #### Usage
 
