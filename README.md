@@ -65,6 +65,10 @@ DevOps
 #### Debian Docker Compose
 
 ```bash
+apt-get update
+```
+
+```bash
 apt-get install ca-certificates curl gnupg
 ```
 
