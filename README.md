@@ -1,25 +1,5 @@
 # UniWebPlatform
 
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Tech Stack](#tech-stack)
-3. [Live Demo](#live-demo)
-4. [Setup](#setup)
-    - [Environment](#environment)
-    - [Debian Production](#debian-production)
-        - [Debian Docker Compose](#debian-docker-compose)
-        - [Linux Minikube](#linux-minikube)
-        - [Minikube Dashboard](#minikube-dashboard)
-        - [Start](#start)
-        - [Nginx (Optional)](#nginx-optional)
-        - [Usage](#usage)
-    - [Development](#development)
-        - [Windows Develop Environment](#windows-develop-environment)
-        - [Windows Production Environment](#windows-production-environment)
-    - [CI/CD](#cicd)
-5. [Make Contributions](#make-contributions)
-
 ## Introduction
 
 A full stack web application for my personal website containing:
@@ -75,7 +55,7 @@ DevOps
 
 ## Setup
 
-### Environment
+### Prepare Environment
 
 1. Copy `./kubernetes/app-secret.example.yaml` to `./kubernetes/app-secret.example.yaml`, modify value for each key.
 2. Copy `./kubernetes/dashboard/dashboard-secret.copy.yaml` to `./kubernetes/dashboard/dashboard-secret.yaml`.
@@ -162,7 +142,7 @@ ln -s $(which minikube) /usr/local/bin/kubectl
    kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
    ```
 
-#### Start
+#### Set Config and Environment
 
 1. Create a production directory and cd into it
 2. Paste `./kubernetes`
@@ -209,15 +189,22 @@ server {
 }
 ```
 
-#### After Server Start
+#### Start
 
-```bash
-minikube start --force
-```
+##### After Server Start
 
-#### Keep Running
+- Start Minikube:
+   ```bash
+   minikube start --force
+   ```
 
-- Dashboard: `kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443`
+##### Keep Running
+
+- Dashboard
+   ```bash
+   kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
+   ```
+- Minikube Tunnel: `minikube tunnel`
 - Port Forward: see `./kubernetes/app-command.md`
 
 #### Usage
