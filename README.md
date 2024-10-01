@@ -62,6 +62,8 @@ DevOps
 
 ### Debian Production
 
+Log in as root user
+
 #### Debian Docker Compose
 
 ```bash
@@ -106,7 +108,7 @@ ln -s $(which minikube) /usr/local/bin/kubectl
 
 #### Kubernetes Dashboard
 
-1. Install Helm
+1. Debian Install Helm
    ```bash
    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
    sudo apt-get install apt-transport-https --yes
@@ -128,11 +130,17 @@ ln -s $(which minikube) /usr/local/bin/kubectl
    helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
    ```
    
-4. Port Forward
-   ```bash
-   kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
-   ```
-   Visit: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard-kong-proxy:443/proxy/`
+4. Remote Access (Load Balancer)
+
+    ```bash
+    kubectl apply -f ./kubernetes/dashboard/dashboard-service.yaml
+    ```
+  
+    ```bash
+    minikube tunnel
+    ```
+
+Visit (HTTPS): `<server_address>:8443`
 
 5. Create admin-user
    ```bash
