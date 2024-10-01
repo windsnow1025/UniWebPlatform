@@ -144,7 +144,7 @@ ln -s $(which minikube) /usr/local/bin/kubectl
     minikube tunnel
     ```
 
-    Visit (HTTPS): `<localhost/minikube_ip>:8443`
+    Visit (HTTPS): `<localhost>:8443`
 
 4. Create admin-user
    ```bash
