@@ -134,17 +134,12 @@ ln -s $(which minikube) /usr/local/bin/kubectl
    helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
    ```
    
-3. Remote Access (Load Balancer)
+3. Remote Access (Port Forward)
 
-    ```bash
-    kubectl apply -f ./kubernetes/dashboard/dashboard-service.yaml
-    ```
-  
-    ```bash
-    minikube tunnel
-    ```
-
-    Visit (HTTPS): `<localhost>:8443`
+   ```bash
+   kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
+   ```
+   Visit: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard-kong-proxy:443/proxy/`
 
 4. Create admin-user
    ```bash
@@ -215,7 +210,6 @@ server {
    ```bash
    kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
    ```
-- Minikube Tunnel: `minikube tunnel`
 - Port Forward: see `./kubernetes/app-command.md`
 
 #### Usage
