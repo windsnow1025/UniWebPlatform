@@ -64,6 +64,15 @@ DevOps
 
 Log in as root user
 
+#### Set Config and Environment
+
+1. Compress `./kubernetes` to `./kubernetes.zip`
+2. Upload `./kubernetes.zip`
+3. `apt update`
+4. `apt install unzip`
+5. `upzip kubernetes.zip`
+6. `rm kubernetes.zip`
+
 #### Debian Docker Compose
 
 ```bash
@@ -117,12 +126,7 @@ ln -s $(which minikube) /usr/local/bin/kubectl
    sudo apt-get install helm
    ```
 
-2. Delete existing namespace
-   ```bash
-   kubectl delete namespace kubernetes-dashboard
-   ```
-
-3. Deploy Dashboard
+2. Deploy Dashboard
    ```bash
    # Add kubernetes-dashboard repository
    helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
@@ -130,7 +134,7 @@ ln -s $(which minikube) /usr/local/bin/kubectl
    helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
    ```
    
-4. Remote Access (Load Balancer)
+3. Remote Access (Load Balancer)
 
     ```bash
     kubectl apply -f ./kubernetes/dashboard/dashboard-service.yaml
@@ -142,22 +146,17 @@ ln -s $(which minikube) /usr/local/bin/kubectl
 
     Visit (HTTPS): `<server_address>:8443`
 
-5. Create admin-user
+4. Create admin-user
    ```bash
    kubectl apply -f ./kubernetes/dashboard/dashboard-serviceaccount.yaml
    kubectl apply -f ./kubernetes/dashboard/dashboard-clusterrolebinding.yaml
    kubectl apply -f ./kubernetes/dashboard/dashboard-secret.yaml
    ```
 
-6. Get a long-lived Bearer Token
+5. Get a long-lived Bearer Token
    ```bash
    kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
    ```
-
-#### Set Config and Environment
-
-1. Create a production directory and cd into it
-2. Paste `./kubernetes`
 
 #### Nginx (Optional)
 
