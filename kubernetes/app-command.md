@@ -62,6 +62,9 @@ kubectl rollout restart deployment nginx-deployment
 ## Port Forward
 
 ```bash
+# Dashboard
+kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
+
 # MySQL
 kubectl port-forward --address 0.0.0.0 svc/mysql-service 3306:3306
 
