@@ -58,19 +58,3 @@ kubectl rollout restart deployment next-deployment
 # Nginx
 kubectl rollout restart deployment nginx-deployment
 ```
-
-## Port Forward
-
-```bash
-# Dashboard
-kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
-
-# MySQL
-kubectl port-forward --address 0.0.0.0 svc/mysql-service 3306:3306
-
-# MinIO
-kubectl port-forward --address 0.0.0.0 svc/minio-service 9000:9000 9001:9001
-
-# Nginx
-kubectl port-forward svc/nginx-service 81:80
-```
