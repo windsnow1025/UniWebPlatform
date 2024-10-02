@@ -203,7 +203,7 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    ```bash
    kubectl apply -f ./kubernetes/dashboard/dashboard-service.yaml
    ```
-   Test: `curl https://localhost:38443`
+   Test: `curl -k https://localhost:38443`
 
 4. Create admin-user
    ```bash

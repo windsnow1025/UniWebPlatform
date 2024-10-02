@@ -11,4 +11,4 @@ spec:
     - protocol: TCP
       port: 8443
       targetPort: 8443
-      nodePort: 30000
+      nodePort: 38443
