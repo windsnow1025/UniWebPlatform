@@ -102,7 +102,7 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 
 #### Linux Minikube
 
-1. Install requirements
+1. Install dependencies to run minikube with none driver
    - Install conntrack
    ```bash
    apt install conntrack
@@ -293,8 +293,8 @@ stream {
 
 #### Windows Production Environment
 
-1. Install Docker Desktop
-2. `docker compose pull`, `docker compose up`
+1. Install and run Minikube with default docker driver
+2. `minikube service <service_name>`
 
 #### CI/CD
 
