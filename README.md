@@ -294,7 +294,7 @@ stream {
 #### Windows Production Environment
 
 1. Install and run Minikube with default docker driver
-2. `minikube service <service_name>`
+2. `minikube service [-n <namespace>] <service_name>`
 
 #### CI/CD
 
