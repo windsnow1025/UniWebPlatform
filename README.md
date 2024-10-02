@@ -201,7 +201,7 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    ```bash
    kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
    ```
-   Visit: `<server_address>:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard-kong-proxy:443/proxy/`
+   Visit (HTTPS): `<server_address>:8443`
 
 4. Create admin-user
    ```bash
