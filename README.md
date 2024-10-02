@@ -123,19 +123,21 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    tar xvf cri-dockerd-$VERSION.amd64.tgz
    mv cri-dockerd/cri-dockerd /usr/local/bin/
    rm -rf cri-dockerd-$VERSION.amd64.tgz cri-dockerd
+   ```
    
+   ```bash
    wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
    wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
-   
-   mv cri-docker.service /etc/systemd/system/
-   mv cri-docker.socket /etc/systemd/system/
-   
+   sudo mv cri-docker.socket cri-docker.service /etc/systemd/system/
+   sudo sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+
    systemctl daemon-reload
-   
    systemctl enable cri-docker.service
-   systemctl enable cri-docker.socket
-   systemctl start cri-docker.service
-   systemctl start cri-docker.socket
+   systemctl enable --now cri-docker.socket
+   ```
+   
+   ```bash
+   systemctl status cri-docker.socket
    ```
    
    - Install kubeadm
