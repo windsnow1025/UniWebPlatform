@@ -108,14 +108,73 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
     sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
     ```
 
-2. Start Minikube with Docker Driver
-    ```bash
-    minikube start --force
-    ```
+2. Install requirements
+   - Install conntrack
+   ```bash
+   apt install conntrack
+   ```
+   
+   - Install crictl
+   ```bash
+   VERSION="v1.30.0" # check latest version in /releases page
+   wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
+   sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+   rm -f crictl-$VERSION-linux-amd64.tar.gz
+   ```
+   
+   - Install cri-dockerd
+   ```bash
+   VERSION="0.3.15"
+   wget https://github.com/Mirantis/cri-dockerd/releases/download/v$VERSION/cri-dockerd-$VERSION.amd64.tgz
+   tar xvf cri-dockerd-$VERSION.amd64.tgz
+   mv cri-dockerd/cri-dockerd /usr/local/bin/
+   rm -rf cri-dockerd-$VERSION.amd64.tgz cri-dockerd
+   
+   wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
+   wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
+   
+   mv cri-docker.service /etc/systemd/system/
+   mv cri-docker.socket /etc/systemd/system/
+   
+   systemctl daemon-reload
+   
+   systemctl enable cri-docker.service
+   systemctl enable cri-docker.socket
+   systemctl start cri-docker.service
+   systemctl start cri-docker.socket
+   ```
+   
+   - Install kubeadm
+   ```bash
+   sudo apt-get update
+   # apt-transport-https may be a dummy package; if so, you can skip that package
+   sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+   ```
+   
+   ```bash
+   # If the directory `/etc/apt/keyrings` does not exist, it should be created before the curl command, read the note below.
+   # sudo mkdir -p -m 755 /etc/apt/keyrings
+   curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+   ```
+   
+   ```bash
+   # This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
+   echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+   ```
+   
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y kubelet kubeadm kubectl
+   sudo apt-mark hold kubelet kubeadm kubectl
+   ```
+   
+   ```bash
+   sudo systemctl enable --now kubelet
+   ```
 
-3. Create a symlink for `kubectl`
+3. Start Minikube with none driver
     ```bash
-    ln -s $(which minikube) /usr/local/bin/kubectl
+    minikube start --driver=none
     ```
 
 #### Kubernetes Dashboard
