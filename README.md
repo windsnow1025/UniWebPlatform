@@ -70,7 +70,7 @@ Log in as root user
 2. Upload `./kubernetes.zip`
 3. `apt update`
 4. `apt install unzip`
-5. `upzip kubernetes.zip`
+5. `unzip kubernetes.zip`
 6. `rm kubernetes.zip`
 
 #### Debian Docker Compose
