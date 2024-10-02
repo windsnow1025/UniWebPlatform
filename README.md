@@ -174,7 +174,7 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 
 3. Start Minikube with none driver
     ```bash
-    minikube start --driver=none
+    minikube start --driver=none --extra-config=apiserver.service-node-port-range=30000-38443
     ```
 
 #### Kubernetes Dashboard
@@ -196,12 +196,12 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
    ```
    
-3. Remote Access (Port Forward)
+3. Remote Access (NodePort)
 
    ```bash
-   kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
+   kubectl apply -f ./kubernetes/dashboard/dashboard-service.yaml
    ```
-   Visit (HTTPS): `<server_address>:8443`
+   Test: `curl https://localhost:38443`
 
 4. Create admin-user
    ```bash
@@ -217,6 +217,8 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 
 #### Nginx (Optional)
 
+HTTP Block:
+
 ```
 server {
 
@@ -225,7 +227,7 @@ server {
 	client_max_body_size 100M;
 
     location / {
-        proxy_pass http://localhost:81/;
+        proxy_pass http://localhost:30080/;
         
         proxy_buffering off;
         proxy_request_buffering off;
@@ -243,7 +245,7 @@ server {
     }
 
     location /kubernetes/ {
-        proxy_pass https://localhost:8443/;
+        proxy_pass https://localhost:38443/;
 
         proxy_ssl_verify off;
 
@@ -257,28 +259,30 @@ server {
 }
 ```
 
+Stream Block:
+```
+stream {
+    server {
+        listen 3306;
+        proxy_pass localhost:33306;
+    }
+}
+```
+
 #### Start
 
 ##### After Server Start
 
 - Start Minikube:
    ```bash
-   minikube start --force
+   minikube start --driver=None
    ```
-
-##### Keep Running
-
-- Dashboard
-   ```bash
-   kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
-   ```
-- Port Forward: see `./kubernetes/app-command.md`
 
 #### Usage
 
-- Main: `<server_address>:81`
-- MinIO: `<server_address>:81/minio/ui/`
-- Kubernetes Dashboard Port Forward (HTTPS): `<server_address>:8443`
+- Main: `http://localhost:30080/`
+- MinIO: `http://localhost:30080/minio/ui/`
+- Kubernetes Dashboard: `https://localhost:38443/`
 
 ### Development
 
