@@ -217,6 +217,10 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
    ```
 
+#### Apply Custom Configs
+
+See `./kubernetes/app-command.md`
+
 #### Nginx (Optional)
 
 HTTP Block:
