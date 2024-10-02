@@ -102,18 +102,21 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 
 #### Linux Minikube
 
-```bash
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
-```
+1. Download and Install Minikube
+    ```bash
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+    ```
 
-```bash
-minikube start --force
-```
+2. Start Minikube with Docker Driver
+    ```bash
+    minikube start --force
+    ```
 
-```bash
-ln -s $(which minikube) /usr/local/bin/kubectl
-```
+3. Create a symlink for `kubectl`
+    ```bash
+    ln -s $(which minikube) /usr/local/bin/kubectl
+    ```
 
 #### Kubernetes Dashboard
 
