@@ -102,13 +102,7 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 
 #### Linux Minikube
 
-1. Download and Install Minikube
-    ```bash
-    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-    sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
-    ```
-
-2. Install requirements
+1. Install requirements
    - Install conntrack
    ```bash
    apt install conntrack
@@ -171,6 +165,12 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    ```bash
    sudo systemctl enable --now kubelet
    ```
+
+2. Download and Install Minikube
+    ```bash
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+    ```
 
 3. Start Minikube with none driver
     ```bash
