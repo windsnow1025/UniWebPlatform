@@ -39,7 +39,7 @@ async def generate(chat_request: ChatRequest, request: Request):
         )
     except Exception as e:
         logging.exception(e)
-        raise e
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @chat_router.get("/chat")

@@ -66,25 +66,25 @@ export default class ChatClient {
       });
 
       if (!response.ok) {
-        // Response is JSON
+        const status = response.status;
+        const statusText = response.statusText;
+
+        // Parse Response
         let resJson;
         try {
           resJson = await response.json();
         } catch (error) {
           console.log(error);
         }
-        if (resJson.detail) {
-          throw new Error(resJson.detail);
-        }
 
-        // Response is not JSON
-        const status = response.status;
-        const statusText = response.statusText;
+
+        if (resJson.detail) {
+          throw new Error(`${status} : ${resJson.detail}`);
+        }
         if (statusText) {
           throw new Error(`${status}: ${statusText}`);
-        } else {
-          throw new Error(`${status}`);
         }
+        throw new Error(`${status}`);
       }
 
       const reader = response.body!.getReader();
