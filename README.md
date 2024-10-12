@@ -300,7 +300,22 @@ stream {
 #### Windows Production Environment
 
 1. Install and run Minikube with default docker driver
-2. `minikube service [-n <namespace>] <service_name>`
+   ```bash
+   minikube start
+   ```
+2. Remote Access:
+
+   Start minikube tunnel
+   ```bash
+   minikube tunnel
+   ```
+
+   Apply local dashboard config
+   ```bash
+   kubectl apply -f ./kubernetes/dashboard/dashboard-service-local.yaml
+   ```
+
+   Visit: `https://localhost:8443`
 
 #### CI/CD
 

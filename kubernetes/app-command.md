@@ -2,6 +2,8 @@
 
 ## Apply
 
+### Production
+
 ```bash
 # Secret
 kubectl apply -f kubernetes/app-secret.yaml
@@ -35,6 +37,43 @@ kubectl apply -f ./kubernetes/next/next-service.yaml
 kubectl apply -f ./kubernetes/nginx/nginx-configmap.yaml
 kubectl apply -f ./kubernetes/nginx/nginx-deployment.yaml
 kubectl apply -f ./kubernetes/nginx/nginx-service.yaml
+```
+
+### Development
+
+```bash
+# Secret
+kubectl apply -f kubernetes/app-secret.yaml
+
+# MySQL
+kubectl apply -f ./kubernetes/mysql/mysql-pvc.yaml
+kubectl apply -f ./kubernetes/mysql/mysql-deployment.yaml
+kubectl apply -f ./kubernetes/mysql/mysql-service-local.yaml
+
+# MinIO
+kubectl apply -f ./kubernetes/minio/minio-configmap.yaml
+kubectl apply -f ./kubernetes/minio/minio-pvc.yaml
+kubectl apply -f ./kubernetes/minio/minio-deployment.yaml
+kubectl apply -f ./kubernetes/minio/minio-service.yaml
+
+# Nest.js
+kubectl apply -f ./kubernetes/nest/nest-configmap.yaml
+kubectl apply -f ./kubernetes/nest/nest-deployment.yaml
+kubectl apply -f ./kubernetes/nest/nest-service.yaml
+
+# FastAPI
+kubectl apply -f ./kubernetes/fastapi/fastapi-configmap.yaml
+kubectl apply -f ./kubernetes/fastapi/fastapi-deployment.yaml
+kubectl apply -f ./kubernetes/fastapi/fastapi-service.yaml
+
+# Next.js
+kubectl apply -f ./kubernetes/next/next-deployment.yaml
+kubectl apply -f ./kubernetes/next/next-service.yaml
+
+# Nginx
+kubectl apply -f ./kubernetes/nginx/nginx-configmap.yaml
+kubectl apply -f ./kubernetes/nginx/nginx-deployment.yaml
+kubectl apply -f ./kubernetes/nginx/nginx-service-local.yaml
 ```
 
 ## Restart
