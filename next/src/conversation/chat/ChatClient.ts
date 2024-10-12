@@ -32,12 +32,25 @@ export default class ChatClient {
     }
 
     if (!stream) {
-      const res = await this.axiosInstance.post(`/chat`, requestData, {
-          headers: {
-            Authorization: token
+      try {
+        const res = await this.axiosInstance.post(`/chat`, requestData, {
+            headers: {
+              Authorization: token
+            }
+          }
+        );
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+
+          if (error.response) {
+            const status = error.response.status;
+            const detail = error.response.data?.detail || error.response.statusText;
+            throw new Error(`${status}: ${detail}`);
+          } else {
+            throw error;
           }
         }
-      );
+      }
 
       return res.data;
     } else {
