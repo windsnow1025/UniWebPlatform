@@ -42,12 +42,20 @@ async def create_gemini_client(
 
     system_instruction = extract_system_messages(messages)
 
-    generative_model = genai.GenerativeModel(
-        model_name=f"models/{model}",
-        generation_config=generation_config,
-        safety_settings=safety_settings,
-        system_instruction=system_instruction
-    )
+    if system_instruction:
+        generative_model = genai.GenerativeModel(
+            model_name=f"models/{model}",
+            generation_config=generation_config,
+            safety_settings=safety_settings,
+            system_instruction=system_instruction,
+        )
+    else:
+        generative_model = genai.GenerativeModel(
+            model_name=f"models/{model}",
+            generation_config=generation_config,
+            safety_settings=safety_settings,
+        )
+
 
     gemini_messages = await convert_messages_to_gemini(messages)
 
