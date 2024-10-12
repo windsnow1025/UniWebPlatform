@@ -39,9 +39,9 @@ export default class ChatClient {
             }
           }
         );
+        return res.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-
           if (error.response) {
             const status = error.response.status;
             const detail = error.response.data?.detail || error.response.statusText;
@@ -49,10 +49,10 @@ export default class ChatClient {
           } else {
             throw error;
           }
+        } else {
+          throw error;
         }
       }
-
-      return res.data;
     } else {
       const controller = new AbortController();
       const response = await fetch(`${process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL}/chat`, {
