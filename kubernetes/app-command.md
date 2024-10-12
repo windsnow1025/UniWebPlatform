@@ -54,7 +54,7 @@ kubectl apply -f ./kubernetes/mysql/mysql-service-local.yaml
 kubectl apply -f ./kubernetes/minio/minio-configmap.yaml
 kubectl apply -f ./kubernetes/minio/minio-pvc.yaml
 kubectl apply -f ./kubernetes/minio/minio-deployment.yaml
-kubectl apply -f ./kubernetes/minio/minio-service.yaml
+kubectl apply -f ./kubernetes/minio/minio-service-local.yaml
 
 # Nest.js
 kubectl apply -f ./kubernetes/nest/nest-configmap.yaml
