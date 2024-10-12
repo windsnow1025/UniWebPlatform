@@ -24,6 +24,18 @@
     "output": 30
   },
   {
+    "api_type": "open_ai",
+    "model": "o1-preview",
+    "input": 15,
+    "output": 60
+  },
+  {
+    "api_type": "open_ai",
+    "model": "o1-mini",
+    "input": 3,
+    "output": 12
+  },
+  {
     "api_type": "azure",
     "model": "gpt-4o",
     "input": 2.5,
