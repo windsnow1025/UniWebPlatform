@@ -38,7 +38,7 @@ async def create_claude_client(
             model=model,
             messages=claude_messages,
             temperature=temperature,
-            system="",
+            system=system,
             anthropic=client,
         )
 
