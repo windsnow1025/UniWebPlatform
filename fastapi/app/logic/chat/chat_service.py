@@ -38,7 +38,7 @@ async def handle_chat_interaction(
         messages, reduce_prompt_credit
     )
 
-    processor = await create_chat_client(
+    chat_client = await create_chat_client(
         messages=messages,
         model=model,
         api_type=api_type,
@@ -46,7 +46,7 @@ async def handle_chat_interaction(
         stream=stream,
     )
 
-    response = processor.generate_response()
+    response = chat_client.generate_response()
 
     if stream:
         final_response_handler = lambda generator_function: response_handler.stream_handler(

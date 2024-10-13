@@ -3,7 +3,7 @@ from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.model.message import Message
 
 
-async def preprocess_messages(messages: list[Message],) -> None:
+async def preprocess_messages(messages: list[Message]) -> None:
     for message in messages:
         await preprocess_message(message)
 
