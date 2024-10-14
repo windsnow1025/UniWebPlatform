@@ -5,7 +5,7 @@ from typing import Generator
 import httpx
 import openai
 from fastapi import HTTPException
-from openai import Stream
+from openai import Stream, APIStatusError
 from openai.types.chat import ChatCompletionChunk
 
 from chat.client.model_client.gpt_client import GPTClient
@@ -50,7 +50,12 @@ class StreamGPTProcessor(GPTClient):
             status_code = e.status_code
             text = e.message
             raise HTTPException(status_code=status_code, detail=text)
+        except APIStatusError as e:
+            status_code = e.status_code
+            text = e.message
+            raise HTTPException(status_code=status_code, detail=text)
         except Exception as e:
+            logging.exception(e)
             match = re.search(r'\d{3}', str(e))
             if match:
                 error_code = int(match.group(0))
