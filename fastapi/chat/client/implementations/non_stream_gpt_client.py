@@ -4,6 +4,7 @@ import re
 import httpx
 import openai
 from fastapi import HTTPException
+from openai import APIStatusError
 
 from chat.client.model_client.gpt_client import GPTClient
 
@@ -26,6 +27,10 @@ class NonStreamGPTProcessor(GPTClient):
             text = e.response.text
             raise HTTPException(status_code=status_code, detail=text)
         except openai.BadRequestError as e:
+            status_code = e.status_code
+            text = e.message
+            raise HTTPException(status_code=status_code, detail=text)
+        except APIStatusError as e:
             status_code = e.status_code
             text = e.message
             raise HTTPException(status_code=status_code, detail=text)
