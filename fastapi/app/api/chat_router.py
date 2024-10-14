@@ -37,6 +37,8 @@ async def generate(chat_request: ChatRequest, request: Request):
             temperature=chat_request.temperature,
             stream=chat_request.stream,
         )
+    except HTTPException as e:
+        raise e
     except Exception as e:
         logging.exception(e)
         raise HTTPException(status_code=500, detail=str(e))
