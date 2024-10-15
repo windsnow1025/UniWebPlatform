@@ -2,6 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
 import {EditableState} from "../../../src/conversation/chat/Message";
+import {Alert, Snackbar} from "@mui/material";
 
 function ContentDiv({
                       content,
@@ -15,6 +16,10 @@ function ContentDiv({
   const [contentEditable, setContentEditable] = useState("plaintext-only");
   const [editing, setEditing] = useState(false);
   const contentRef = useRef(null);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   const unparse = (content) => {
     contentRef.current.innerHTML = content;
@@ -89,22 +94,40 @@ function ContentDiv({
     try {
       const urls = await Promise.all(uploadPromises);
       setFiles([...files, ...urls]);
+      setAlertMessage("Files uploaded successfully");
+      setAlertSeverity('success');
+      setAlertOpen(true);
       setUploadProgress(0);
     } catch (error) {
       console.error("File upload failed:", error);
+      setAlertMessage(error.message || "Failed to upload file");
+      setAlertSeverity('error');
+      setAlertOpen(true);
       setUploadProgress(0);
     }
+
   };
 
   return (
-    <div
-      className="markdown-body p-4 h-full rounded min-h-16"
-      contentEditable={contentEditable}
-      ref={contentRef}
-      onFocus={() => setEditing(true)}
-      onBlur={handleContentBlur}
-      onPaste={handlePaste}
-    />
+    <>
+      <div
+        className="markdown-body p-4 h-full rounded min-h-16"
+        contentEditable={contentEditable}
+        ref={contentRef}
+        onFocus={() => setEditing(true)}
+        onBlur={handleContentBlur}
+        onPaste={handlePaste}
+      />
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 
