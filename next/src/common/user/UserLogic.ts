@@ -133,7 +133,7 @@ export default class UserLogic {
   }
 
   validateInput(input: string) {
-    const asciiRegex = /^[\x20-\x7F]{4,32}$/;
+    const asciiRegex = /^[\x21-\x7E]{4,32}$/;
     return asciiRegex.test(input);
   }
 }
