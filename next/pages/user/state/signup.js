@@ -7,45 +7,19 @@ import TextField from "@mui/material/TextField";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
-function Action() {
+function SignUp() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
-
-  const [action, setAction] = useState('');
-  const [title, setTitle] = useState('');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const router = useRouter();
   const userLogic = new UserLogic();
-
-  useEffect(() => {
-    setAction(router.query.action);
-  }, [router.query.action]);
-
-  useEffect(() => {
-    if (action === 'signin') {
-      setTitle("Sign In");
-    }
-    if (action === 'signup') {
-      setTitle("Sign Up");
-    }
-  }, [action]);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
-
-  const handleSignIn = async () => {
-    try {
-      await userLogic.signIn(username, password)
-      const prevUrl = localStorage.getItem('prevUrl') || "/";
-      router.push(prevUrl);
-    } catch (e) {
-      setAlertMessage(e.message);
-      setAlertSeverity('error');
-      setAlertOpen(true);
-    }
-  };
 
   const handleSignUp = async () => {
     if (!userLogic.validateInput(username)) {
@@ -62,12 +36,19 @@ function Action() {
       return;
     }
 
+    if (password !== confirmPassword) {
+      setAlertMessage("Confirm Passwords do not match.");
+      setAlertSeverity('warning');
+      setAlertOpen(true);
+      return;
+    }
+
     try {
       await userLogic.signUp(username, password);
       setAlertMessage("Sign up success");
       setAlertSeverity('success');
       setAlertOpen(true);
-      setAction('signin');
+      router.push("/user/state/signin");
     } catch (e) {
       setAlertMessage(e.message);
       setAlertSeverity('error');
@@ -80,7 +61,7 @@ function Action() {
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
         <HeaderAppBar
-          title={title}
+          title="Sign Up"
           useAuthDiv={false}
           systemTheme={systemTheme}
           setSystemTheme={setSystemTheme}
@@ -108,7 +89,17 @@ function Action() {
               />
             </div>
             <div className="m-2">
-              <Button variant="contained" onClick={action === 'signin' ? handleSignIn : handleSignUp}>{title}</Button>
+              <TextField
+                label="ConfirmPassword"
+                variant="outlined"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mt-2"
+              />
+            </div>
+            <div className="m-2">
+              <Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
             </div>
           </div>
         </div>
@@ -126,4 +117,4 @@ function Action() {
   );
 }
 
-export default Action;
+export default SignUp;
