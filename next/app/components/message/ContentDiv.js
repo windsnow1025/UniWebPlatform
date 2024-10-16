@@ -94,10 +94,12 @@ function ContentDiv({
     try {
       const urls = await Promise.all(uploadPromises);
       setFiles([...files, ...urls]);
-      setAlertMessage("Files uploaded successfully");
-      setAlertSeverity('success');
-      setAlertOpen(true);
-      setUploadProgress(0);
+      if (!urls.length > 0) {
+        setAlertMessage("Files uploaded successfully");
+        setAlertSeverity('success');
+        setAlertOpen(true);
+        setUploadProgress(0);
+      }
     } catch (error) {
       console.error("File upload failed:", error);
       setAlertMessage(error.message || "Failed to upload file");
