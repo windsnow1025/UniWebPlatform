@@ -49,14 +49,14 @@ function Action() {
 
   const handleSignUp = async () => {
     if (!userLogic.validateInput(username)) {
-      setAlertMessage("Username must be 4-32 ASCII characters.");
+      setAlertMessage("Username invalid.");
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
 
     if (!userLogic.validateInput(password)) {
-      setAlertMessage("Password must be 4-32 ASCII characters.");
+      setAlertMessage("Password invalid.");
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
