@@ -94,7 +94,7 @@ function ContentDiv({
     try {
       const urls = await Promise.all(uploadPromises);
       setFiles([...files, ...urls]);
-      if (!urls.length > 0) {
+      if (urls.length > 0) {
         setAlertMessage("Files uploaded successfully");
         setAlertSeverity('success');
         setAlertOpen(true);
