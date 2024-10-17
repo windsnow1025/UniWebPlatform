@@ -12,7 +12,7 @@ class NonStreamGeminiProcessor(GeminiClient):
         try:
             logging.info(f"messages: {self.messages}")
 
-            response = self.model.generate_content(
+            response = await self.model.generate_content_async(
                 contents=self._to_dict(self.messages),
                 stream=False
             )
@@ -23,6 +23,7 @@ class NonStreamGeminiProcessor(GeminiClient):
             text = e.response.text
             raise HTTPException(status_code=status_code, detail=text)
         except Exception as e:
+            logging.exception(e)
             match = re.search(r'\d{3}', str(e))
             if match:
                 error_code = int(match.group(0))
