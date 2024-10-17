@@ -31,7 +31,7 @@ async def create_claude_client(
             messages=claude_messages,
             temperature=temperature,
             system=system,
-            anthropic=client,
+            client=client,
         )
     else:
         return NonStreamClaudeClient(
@@ -39,7 +39,7 @@ async def create_claude_client(
             messages=claude_messages,
             temperature=temperature,
             system=system,
-            anthropic=client,
+            client=client,
         )
 
 
