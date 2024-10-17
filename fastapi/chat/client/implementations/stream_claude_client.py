@@ -12,7 +12,7 @@ def process_delta(completion_delta: Any) -> str:
     return completion_delta
 
 
-class StreamClaudeProcessor(ClaudeClient):
+class StreamClaudeClient(ClaudeClient):
     async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
