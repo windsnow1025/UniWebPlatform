@@ -1,32 +1,33 @@
 import logging
-from typing import Generator, Callable
+from collections.abc import AsyncGenerator
+from typing import Callable, Coroutine, Any
 
 from fastapi.responses import StreamingResponse
 
 from app.logic.chat.util.token_counter import num_tokens_from_text
 
-ChunkGenerator = Generator[str, None, None]
+ChunkGenerator = AsyncGenerator[str, None]
 ReduceCredit = Callable[[int], float]
 
 
-def non_stream_handler(
+async def non_stream_handler(
         content: str,
         reduce_credit: ReduceCredit
-) -> (str, float):
+) -> str:
     completion_tokens = num_tokens_from_text(content)
     reduce_credit(completion_tokens)
     logging.info(f"content: {content}")
     return content
 
 
-def stream_handler(
+async def stream_handler(
         generator_function: Callable[[], ChunkGenerator],
         reduce_credit: ReduceCredit
 ) -> StreamingResponse:
 
-    def wrapper_generator():
+    async def wrapper_generator():
         content = ""
-        for chunk in generator_function():
+        async for chunk in generator_function():
             content += chunk
             yield chunk
         completion_tokens = num_tokens_from_text(content)

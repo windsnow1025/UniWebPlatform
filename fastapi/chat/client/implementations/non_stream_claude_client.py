@@ -8,7 +8,7 @@ from chat.client.model_client.claude_client import ClaudeClient
 
 
 class NonStreamClaudeClient(ClaudeClient):
-    def generate_response(self):
+    async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
             message = self.anthropic.messages.create(
