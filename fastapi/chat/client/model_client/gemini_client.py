@@ -1,4 +1,4 @@
-from google.generativeai import GenerativeModel
+import google.generativeai
 
 from chat.client.chat_client import ChatClient
 from chat.model.gemini_message import GeminiMessage
@@ -7,7 +7,7 @@ from chat.model.gemini_message import GeminiMessage
 class GeminiClient(ChatClient):
     def __init__(
             self,
-            model: GenerativeModel,
+            model: google.generativeai.GenerativeModel,
             messages: list[GeminiMessage],
             temperature: float,
     ):
