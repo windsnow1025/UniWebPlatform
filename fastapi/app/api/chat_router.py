@@ -7,6 +7,7 @@ import app.repository.user_dao as user_dao
 import app.logic.auth as auth
 import app.logic.chat.util.model_pricing as pricing
 from app.logic.chat.chat_service import handle_chat_interaction
+from app.repository.db_connection import SessionDep
 from chat import Message
 
 chat_router = APIRouter()
@@ -21,15 +22,16 @@ class ChatRequest(BaseModel):
 
 
 @chat_router.post("/chat")
-async def generate(chat_request: ChatRequest, request: Request):
+async def generate(chat_request: ChatRequest, request: Request, session: SessionDep):
     try:
         authorization_header = request.headers.get("Authorization")
         username = auth.get_username_from_token(authorization_header)
 
-        if user_dao.select_credit(username) <= 0:
+        if user_dao.select_credit(username, session) <= 0:
             raise HTTPException(status_code=402)
 
         return await handle_chat_interaction(
+            session=session,
             username=username,
             messages=chat_request.messages,
             model=chat_request.model,

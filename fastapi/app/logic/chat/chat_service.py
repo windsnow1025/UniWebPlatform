@@ -1,5 +1,7 @@
 import logging
 
+from sqlmodel import Session
+
 from app.repository import user_dao
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
@@ -10,6 +12,7 @@ from chat import preprocess_messages
 
 
 async def handle_chat_interaction(
+        session: Session,
         username: str,
         messages: list[Message],
         model: str,
@@ -28,7 +31,7 @@ async def handle_chat_interaction(
             prompt_tokens=prompt_tokens,
             completion_tokens=completion_tokens
         )
-        user_dao.reduce_credit(username, cost)
+        user_dao.reduce_credit(username, cost, session)
         return cost
 
     reduce_prompt_credit = lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
