@@ -1,4 +1,4 @@
-from anthropic import Anthropic
+from anthropic import Anthropic, AsyncAnthropic
 
 from chat.client.chat_client import ChatClient
 from chat.model.claude_message import ClaudeMessage
@@ -11,7 +11,7 @@ class ClaudeClient(ChatClient):
             messages: list[ClaudeMessage],
             temperature: float,
             system: str,
-            anthropic: Anthropic,
+            anthropic: AsyncAnthropic,
     ):
         self.model = model
         self.messages = messages

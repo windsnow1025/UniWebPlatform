@@ -15,7 +15,7 @@ async def create_claude_client(
         temperature: float,
         stream: bool,
 ):
-    client = anthropic.Anthropic(
+    client = anthropic.AsyncAnthropic(
         api_key=os.environ["ANTHROPIC_API_KEY"],
     )
 
