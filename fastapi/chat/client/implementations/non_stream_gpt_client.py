@@ -35,6 +35,7 @@ class NonStreamGPTProcessor(GPTClient):
             text = e.message
             raise HTTPException(status_code=status_code, detail=text)
         except Exception as e:
+            logging.exception(e)
             match = re.search(r'\d{3}', str(e))
             if match:
                 error_code = int(match.group(0))
