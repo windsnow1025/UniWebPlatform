@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from chat.client.model_client.gemini_client import GeminiClient
 
 
-class NonStreamGeminiProcessor(GeminiClient):
+class NonStreamGeminiClient(GeminiClient):
     async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
