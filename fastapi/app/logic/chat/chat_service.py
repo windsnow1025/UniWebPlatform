@@ -1,6 +1,6 @@
 import logging
 
-from app.dao import user_dao
+from app.repository import user_dao
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
 from app.logic.chat.util import model_pricing

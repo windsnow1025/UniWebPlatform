@@ -1,4 +1,4 @@
-from app.dao import user_dao
+from app.repository import user_dao
 from app.logic.image_gen import image_gen_client
 from app.logic.image_gen.image_gen_pricing import calculate_image_gen_cost
 from app.logic.image_gen.image_gen_parameter import Size, Quality

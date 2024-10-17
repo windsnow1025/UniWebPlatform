@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
-import app.dao.user_dao as user_dao
+import app.repository.user_dao as user_dao
 import app.logic.auth as auth
 import app.logic.chat.util.model_pricing as pricing
 from app.logic.chat.chat_service import handle_chat_interaction

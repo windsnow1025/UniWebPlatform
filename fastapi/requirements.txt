@@ -2,6 +2,7 @@
 fastapi
 pydantic
 uvicorn
+sqlmodel
 
 # HTTP client
 httpx
@@ -11,9 +12,6 @@ python-dotenv
 
 # JWT and cryptography
 python-jose[cryptography]
-
-# MySQL connector
-mysql-connector-python
 
 # SDK
 openai
