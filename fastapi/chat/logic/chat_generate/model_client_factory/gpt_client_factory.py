@@ -1,7 +1,7 @@
 import os
 
-from openai import OpenAI
-from openai.lib.azure import AzureOpenAI
+from openai import OpenAI, AsyncOpenAI
+from openai.lib.azure import AzureOpenAI, AsyncAzureOpenAI
 
 from chat.client.implementations.non_stream_gpt_client import NonStreamGPTProcessor
 from chat.client.implementations.stream_gpt_client import StreamGPTProcessor
@@ -18,17 +18,17 @@ async def create_gpt_client(
 ):
     openai = None
     if api_type == "open_ai":
-        openai = OpenAI(
+        openai = AsyncOpenAI(
             api_key=os.environ["OPENAI_API_KEY"],
         )
     elif api_type == "azure":
-        openai = AzureOpenAI(
+        openai = AsyncAzureOpenAI(
             api_version="2024-02-01",
             azure_endpoint=os.environ["AZURE_API_BASE"],
             api_key=os.environ["AZURE_API_KEY"],
         )
     elif api_type == "github":
-        openai = OpenAI(
+        openai = AsyncOpenAI(
             base_url="https://models.inference.ai.azure.com",
             api_key=os.environ["GITHUB_API_KEY"],
         )

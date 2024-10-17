@@ -20,7 +20,7 @@ def generate_chunk(response: GenerateContentResponse) -> Generator[str, None, No
 
 
 class StreamGeminiProcessor(GeminiClient):
-    def generate_response(self):
+    async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
             response = self.model.generate_content(
