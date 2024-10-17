@@ -1,20 +1,16 @@
+import logging
 import os
+from typing import Annotated
 
+from fastapi import Depends
 from sqlmodel import create_engine, Session
 
 
-class DatabaseConnection:
-    _instance = None
+def get_session():
+    db_url = f"mysql+mysqlconnector://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}"
+    engine = create_engine(db_url, echo=True)
 
-    def __init__(self):
-        db_url = f"mysql+mysqlconnector://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}"
-        self.engine = create_engine(db_url, echo=True)
+    with Session(engine) as session:
+        yield session
 
-    @staticmethod
-    def get_instance():
-        if DatabaseConnection._instance is None:
-            DatabaseConnection._instance = DatabaseConnection()
-        return DatabaseConnection._instance
-
-    def get_session(self) -> Session:
-        return Session(self.engine)
+SessionDep = Annotated[Session, Depends(get_session)]

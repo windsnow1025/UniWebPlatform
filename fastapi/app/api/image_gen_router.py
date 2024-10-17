@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from pydantic import BaseModel
 
 import app.logic.auth as auth
 from app.logic.image_gen.image_gen_service import *
+from app.repository.db_connection import SessionDep
 
 image_gen_router = APIRouter()
 
@@ -16,14 +17,15 @@ class ImageGenRequest(BaseModel):
 
 
 @image_gen_router.post("/image-gen")
-async def generate(chat_request: ImageGenRequest, request: Request):
+async def generate(chat_request: ImageGenRequest, request: Request, session: SessionDep):
     authorization_header = request.headers.get("Authorization")
     username = auth.get_username_from_token(authorization_header)
 
-    if user_dao.select_credit(username) <= 0:
+    if user_dao.select_credit(username, session) <= 0:
         raise HTTPException(status_code=402)
 
     return await handle_image_gen_interaction(
+        session=session,
         username=username,
         prompt=chat_request.prompt,
         model=chat_request.model,
