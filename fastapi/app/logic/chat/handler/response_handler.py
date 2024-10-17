@@ -1,6 +1,6 @@
 import logging
 from collections.abc import AsyncGenerator
-from typing import Callable, Coroutine, Any
+from typing import Callable
 
 from fastapi.responses import StreamingResponse
 

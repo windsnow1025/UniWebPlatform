@@ -1,6 +1,8 @@
 from fastapi import HTTPException
 from sqlmodel import select, Session
+
 from app.repository.user import User
+
 
 def select_credit(username: str, session: Session) -> float:
     statement = select(User).where(User.username == username)
