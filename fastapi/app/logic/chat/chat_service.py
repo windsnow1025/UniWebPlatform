@@ -2,10 +2,10 @@ import logging
 
 from sqlmodel import Session
 
-from app.repository import user_dao
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
 from app.logic.chat.util import model_pricing
+from app.repository import user_dao
 from chat import Message
 from chat import create_chat_client
 from chat import preprocess_messages
