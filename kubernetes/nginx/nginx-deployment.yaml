@@ -27,3 +27,4 @@ spec:
         - name: nginx-config-volume
           configMap:
             name: nginx-configmap
+  revisionHistoryLimit: 0

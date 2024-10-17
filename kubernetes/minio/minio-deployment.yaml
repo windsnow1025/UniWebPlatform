@@ -47,3 +47,4 @@ spec:
         - name: minio-persistent-storage
           persistentVolumeClaim:
             claimName: minio-pvc
+  revisionHistoryLimit: 0

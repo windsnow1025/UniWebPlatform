@@ -65,3 +65,4 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: MINIO_SECRET_KEY
+  revisionHistoryLimit: 0

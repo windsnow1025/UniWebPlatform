@@ -80,3 +80,4 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: GITHUB_API_KEY
+  revisionHistoryLimit: 0

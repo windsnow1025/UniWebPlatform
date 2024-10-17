@@ -47,3 +47,4 @@ spec:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
+  revisionHistoryLimit: 0
