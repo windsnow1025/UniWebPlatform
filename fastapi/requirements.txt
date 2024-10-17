@@ -13,6 +13,9 @@ python-dotenv
 # JWT and cryptography
 python-jose[cryptography]
 
+# MySQL connector
+mysql-connector-python
+
 # SDK
 openai
 google-generativeai
