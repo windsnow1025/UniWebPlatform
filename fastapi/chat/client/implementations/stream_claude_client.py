@@ -20,7 +20,7 @@ def generate_chunk(response: MessageStream) -> Generator[str, None, None]:
 
 
 class StreamClaudeProcessor(ClaudeClient):
-    def generate_response(self):
+    async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
 

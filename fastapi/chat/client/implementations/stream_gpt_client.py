@@ -1,11 +1,11 @@
 import logging
 import re
-from typing import Generator
+from typing import AsyncGenerator
 
 import httpx
 import openai
 from fastapi import HTTPException
-from openai import Stream, APIStatusError
+from openai import APIStatusError, AsyncStream
 from openai.types.chat import ChatCompletionChunk
 
 from chat.client.model_client.gpt_client import GPTClient
@@ -23,17 +23,17 @@ def process_delta(completion_delta: ChatCompletionChunk) -> str:
     return content_delta
 
 
-def generate_chunk(completion: Stream[ChatCompletionChunk]) -> Generator[str, None, None]:
-    for completion_delta in completion:
+async def generate_chunk(completion: AsyncStream[ChatCompletionChunk]) -> AsyncGenerator[str, None]:
+    async for completion_delta in completion:
         content_delta = process_delta(completion_delta)
         yield content_delta
 
 
 class StreamGPTProcessor(GPTClient):
-    def generate_response(self):
+    async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
-            completion = self.openai.chat.completions.create(
+            completion = await self.openai.chat.completions.create(
                 messages=self._to_dict(self.messages),
                 model=self.model,
                 temperature=self.temperature,

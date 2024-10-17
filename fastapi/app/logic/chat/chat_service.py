@@ -46,7 +46,7 @@ async def handle_chat_interaction(
         stream=stream,
     )
 
-    response = chat_client.generate_response()
+    response = await chat_client.generate_response()
 
     if stream:
         final_response_handler = lambda generator_function: response_handler.stream_handler(
@@ -57,4 +57,4 @@ async def handle_chat_interaction(
             content, reduce_completion_credit
         )
 
-    return final_response_handler(response)
+    return await final_response_handler(response)
