@@ -19,7 +19,7 @@ async def generate_chunk(response: AsyncGenerateContentResponse) -> AsyncGenerat
         yield content_delta
 
 
-class StreamGeminiProcessor(GeminiClient):
+class StreamGeminiClient(GeminiClient):
     async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
