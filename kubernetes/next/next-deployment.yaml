@@ -19,3 +19,4 @@ spec:
           image: windsnow1025/next
           ports:
             - containerPort: 3000
+  revisionHistoryLimit: 0
