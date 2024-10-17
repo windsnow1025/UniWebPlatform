@@ -1,7 +1,7 @@
 import os
 
-from openai import OpenAI, AsyncOpenAI
-from openai.lib.azure import AzureOpenAI, AsyncAzureOpenAI
+import openai
+import openai.lib.azure
 
 from chat.client.implementations.non_stream_gpt_client import NonStreamGPTProcessor
 from chat.client.implementations.stream_gpt_client import StreamGPTProcessor
@@ -16,19 +16,19 @@ async def create_gpt_client(
         temperature: float,
         stream: bool,
 ):
-    openai = None
+    client = None
     if api_type == "open_ai":
-        openai = AsyncOpenAI(
+        client = openai.AsyncOpenAI(
             api_key=os.environ["OPENAI_API_KEY"],
         )
     elif api_type == "azure":
-        openai = AsyncAzureOpenAI(
+        client = openai.lib.azure.AsyncAzureOpenAI(
             api_version="2024-02-01",
             azure_endpoint=os.environ["AZURE_API_BASE"],
             api_key=os.environ["AZURE_API_KEY"],
         )
     elif api_type == "github":
-        openai = AsyncOpenAI(
+        client = openai.AsyncOpenAI(
             base_url="https://models.inference.ai.azure.com",
             api_key=os.environ["GITHUB_API_KEY"],
         )
@@ -41,7 +41,7 @@ async def create_gpt_client(
             messages=gpt_messages,
             temperature=temperature,
             api_type=api_type,
-            openai=openai,
+            openai=client,
         )
     else:
         return NonStreamGPTProcessor(
@@ -49,7 +49,7 @@ async def create_gpt_client(
             messages=gpt_messages,
             temperature=temperature,
             api_type=api_type,
-            openai=openai,
+            openai=client,
         )
 
 

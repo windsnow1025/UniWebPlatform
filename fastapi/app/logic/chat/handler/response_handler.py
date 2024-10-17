@@ -21,13 +21,13 @@ async def non_stream_handler(
 
 
 async def stream_handler(
-        generator_function: Callable[[], ChunkGenerator],
+        generator: ChunkGenerator,
         reduce_credit: ReduceCredit
 ) -> StreamingResponse:
 
     async def wrapper_generator():
         content = ""
-        async for chunk in generator_function():
+        async for chunk in generator:
             content += chunk
             yield chunk
         completion_tokens = num_tokens_from_text(content)

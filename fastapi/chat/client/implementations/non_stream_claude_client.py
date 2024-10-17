@@ -11,7 +11,7 @@ class NonStreamClaudeClient(ClaudeClient):
     async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
-            message = self.anthropic.messages.create(
+            message = await self.anthropic.messages.create(
                 model=self.model,
                 max_tokens=4096,
                 temperature=self.temperature,
