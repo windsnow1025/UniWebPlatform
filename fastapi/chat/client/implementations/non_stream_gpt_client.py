@@ -9,7 +9,7 @@ from openai import APIStatusError
 from chat.client.model_client.gpt_client import GPTClient
 
 
-class NonStreamGPTProcessor(GPTClient):
+class NonStreamGPTClient(GPTClient):
     async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")

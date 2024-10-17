@@ -3,8 +3,8 @@ import os
 import openai
 import openai.lib.azure
 
-from chat.client.implementations.non_stream_gpt_client import NonStreamGPTProcessor
-from chat.client.implementations.stream_gpt_client import StreamGPTProcessor
+from chat.client.implementations.non_stream_gpt_client import NonStreamGPTClient
+from chat.client.implementations.stream_gpt_client import StreamGPTClient
 from chat.logic.chat_generate.message_converter import convert_messages_to_gpt
 from chat.model.message import Message
 
@@ -36,7 +36,7 @@ async def create_gpt_client(
     gpt_messages = await convert_messages_to_gpt(messages)
 
     if stream:
-        return StreamGPTProcessor(
+        return StreamGPTClient(
             model=model,
             messages=gpt_messages,
             temperature=temperature,
@@ -44,7 +44,7 @@ async def create_gpt_client(
             openai=client,
         )
     else:
-        return NonStreamGPTProcessor(
+        return NonStreamGPTClient(
             model=model,
             messages=gpt_messages,
             temperature=temperature,

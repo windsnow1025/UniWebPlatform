@@ -29,7 +29,7 @@ async def generate_chunk(completion: AsyncStream[ChatCompletionChunk]) -> AsyncG
         yield content_delta
 
 
-class StreamGPTProcessor(GPTClient):
+class StreamGPTClient(GPTClient):
     async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")

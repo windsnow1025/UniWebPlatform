@@ -3,7 +3,7 @@ import os
 import anthropic
 
 from chat.client.implementations.non_stream_claude_client import NonStreamClaudeClient
-from chat.client.implementations.stream_claude_client import StreamClaudeProcessor
+from chat.client.implementations.stream_claude_client import StreamClaudeClient
 from chat.logic.chat_generate.message_converter import convert_messages_to_claude
 from chat.logic.message_preprocess.message_preprocessor import extract_system_messages
 from chat.model.message import Message
@@ -26,7 +26,7 @@ async def create_claude_client(
     claude_messages = await convert_messages_to_claude(messages)
 
     if stream:
-        return StreamClaudeProcessor(
+        return StreamClaudeClient(
             model=model,
             messages=claude_messages,
             temperature=temperature,
