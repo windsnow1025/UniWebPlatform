@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import Any
+from typing import Any, AsyncGenerator
 
 import httpx
 from fastapi import HTTPException
@@ -17,17 +17,19 @@ class StreamClaudeClient(ClaudeClient):
         try:
             logging.info(f"messages: {self.messages}")
 
-            async with self.anthropic.messages.stream(
-                model=self.model,
-                max_tokens=4096,
-                temperature=self.temperature,
-                system=self.system,
-                messages=self._to_dict(self.messages)
-            ) as stream:
+            async def chunk_generator() -> AsyncGenerator[str, None]:
+                async with self.anthropic.messages.stream(
+                    model=self.model,
+                    max_tokens=4096,
+                    temperature=self.temperature,
+                    system=self.system,
+                    messages=self._to_dict(self.messages)
+                ) as stream:
+                    async for response_delta in stream.text_stream:
+                        content_delta = process_delta(response_delta)
+                        yield content_delta
 
-                async for response_delta in stream.text_stream:
-                    content_delta = process_delta(response_delta)
-                    yield content_delta
+            return chunk_generator()
 
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
