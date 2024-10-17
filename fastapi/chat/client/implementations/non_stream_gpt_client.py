@@ -13,7 +13,7 @@ class NonStreamGPTClient(GPTClient):
     async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
-            completion = await self.openai.chat.completions.create(
+            completion = await self.client.chat.completions.create(
                 messages=self._to_dict(self.messages),
                 model=self.model,
                 temperature=self.temperature,

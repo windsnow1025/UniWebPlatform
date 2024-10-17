@@ -1,6 +1,5 @@
 import os
 
-import openai
 import openai.lib.azure
 
 from chat.client.implementations.non_stream_gpt_client import NonStreamGPTClient
@@ -41,7 +40,7 @@ async def create_gpt_client(
             messages=gpt_messages,
             temperature=temperature,
             api_type=api_type,
-            openai=client,
+            client=client,
         )
     else:
         return NonStreamGPTClient(
@@ -49,7 +48,7 @@ async def create_gpt_client(
             messages=gpt_messages,
             temperature=temperature,
             api_type=api_type,
-            openai=client,
+            client=client,
         )
 
 

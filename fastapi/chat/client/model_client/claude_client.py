@@ -1,4 +1,4 @@
-from anthropic import Anthropic, AsyncAnthropic
+import anthropic
 
 from chat.client.chat_client import ChatClient
 from chat.model.claude_message import ClaudeMessage
@@ -11,13 +11,13 @@ class ClaudeClient(ChatClient):
             messages: list[ClaudeMessage],
             temperature: float,
             system: str,
-            anthropic: AsyncAnthropic,
+            client: anthropic.AsyncAnthropic,
     ):
         self.model = model
         self.messages = messages
         self.temperature = temperature
         self.system = system
-        self.anthropic = anthropic
+        self.client = client
 
     def generate_response(self):
         raise NotImplementedError

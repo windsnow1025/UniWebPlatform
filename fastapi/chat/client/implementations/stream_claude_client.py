@@ -18,7 +18,7 @@ class StreamClaudeClient(ClaudeClient):
             logging.info(f"messages: {self.messages}")
 
             async def chunk_generator() -> AsyncGenerator[str, None]:
-                async with self.anthropic.messages.stream(
+                async with self.client.messages.stream(
                     model=self.model,
                     max_tokens=4096,
                     temperature=self.temperature,
