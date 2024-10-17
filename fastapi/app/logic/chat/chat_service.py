@@ -49,8 +49,8 @@ async def handle_chat_interaction(
     response = await chat_client.generate_response()
 
     if stream:
-        final_response_handler = lambda generator_function: response_handler.stream_handler(
-            generator_function, reduce_completion_credit
+        final_response_handler = lambda generator: response_handler.stream_handler(
+            generator, reduce_completion_credit
         )
     else:
         final_response_handler = lambda content: response_handler.non_stream_handler(
