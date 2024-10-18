@@ -8,7 +8,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 async def get_session() -> AsyncSession:
     db_url = f"mysql+asyncmy://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}"
-    engine = create_async_engine(db_url, echo=True)
+    engine = create_async_engine(db_url)
 
     async with AsyncSession(engine) as session:
         yield session

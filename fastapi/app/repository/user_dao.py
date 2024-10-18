@@ -22,4 +22,5 @@ async def reduce_credit(username: str, cost: float, session: AsyncSession) -> fl
     user.credit -= cost
     session.add(user)
     await session.commit()
+    await session.refresh(user)
     return user.credit

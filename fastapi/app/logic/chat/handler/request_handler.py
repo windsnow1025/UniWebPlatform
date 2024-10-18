@@ -1,15 +1,15 @@
-from typing import Callable
+from typing import Callable, Awaitable
 
 from app.logic.chat.util.token_counter import num_tokens_from_text
 from chat import Message
 
 
-def handle_request(
+async def handle_request(
         messages: list[Message],
-        reduce_credit: Callable[[int], float]
+        reduce_credit: Callable[[int], Awaitable[float]]
 ) -> float:
     text = ''.join(message.text for message in messages)
     file_length = sum(len(file) for message in messages for file in message.files)
     prompt_tokens = num_tokens_from_text(text) + file_length * 1000
-    cost = reduce_credit(prompt_tokens)
+    cost = await reduce_credit(prompt_tokens)
     return cost
