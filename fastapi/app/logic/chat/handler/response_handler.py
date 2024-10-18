@@ -15,7 +15,7 @@ async def non_stream_handler(
         reduce_credit: ReduceCredit
 ) -> str:
     completion_tokens = num_tokens_from_text(content)
-    reduce_credit(completion_tokens)
+    await reduce_credit(completion_tokens)
     logging.info(f"content: {content}")
     return content
 
@@ -31,7 +31,7 @@ async def stream_handler(
             content += chunk
             yield chunk
         completion_tokens = num_tokens_from_text(content)
-        reduce_credit(completion_tokens)
+        await reduce_credit(completion_tokens)
         logging.info(f"content: {content}")
 
     response = StreamingResponse(wrapper_generator(), media_type='text/plain')
