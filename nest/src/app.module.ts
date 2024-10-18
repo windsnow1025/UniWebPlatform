@@ -43,10 +43,6 @@ import { MessagesModule } from './messages/messages.module';
         synchronize: true,
       }),
     }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../uploads'),
-      serveRoot: '/uploads',
-    }),
     JwtModule,
     AuthModule,
     UsersModule,
