@@ -27,7 +27,7 @@ async def generate(chat_request: ChatRequest, request: Request, session: Session
         authorization_header = request.headers.get("Authorization")
         username = auth.get_username_from_token(authorization_header)
 
-        if user_dao.select_credit(username, session) <= 0:
+        if await user_dao.select_credit(username, session) <= 0:
             raise HTTPException(status_code=402)
 
         return await handle_chat_interaction(
