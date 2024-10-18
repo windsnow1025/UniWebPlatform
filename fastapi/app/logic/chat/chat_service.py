@@ -1,6 +1,6 @@
 import logging
 
-from sqlmodel import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
@@ -12,7 +12,7 @@ from chat import preprocess_messages
 
 
 async def handle_chat_interaction(
-        session: Session,
+        session: AsyncSession,
         username: str,
         messages: list[Message],
         model: str,
@@ -24,20 +24,20 @@ async def handle_chat_interaction(
 
     await preprocess_messages(messages)
 
-    def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
+    async def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
         cost = model_pricing.calculate_chat_cost(
             api_type=api_type,
             model=model,
             prompt_tokens=prompt_tokens,
             completion_tokens=completion_tokens
         )
-        user_dao.reduce_credit(username, cost, session)
+        await user_dao.reduce_credit(username, cost, session)
         return cost
 
     reduce_prompt_credit = lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
     reduce_completion_credit = lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
 
-    request_handler.handle_request(
+    await request_handler.handle_request(
         messages, reduce_prompt_credit
     )
 
