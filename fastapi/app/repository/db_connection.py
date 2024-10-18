@@ -2,14 +2,15 @@ import os
 from typing import Annotated
 
 from fastapi import Depends
-from sqlmodel import create_engine, Session
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 
-def get_session():
-    db_url = f"mysql+mysqlconnector://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}"
-    engine = create_engine(db_url)
+async def get_session() -> AsyncSession:
+    db_url = f"mysql+asyncmy://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}"
+    engine = create_async_engine(db_url, echo=True)
 
-    with Session(engine) as session:
+    async with AsyncSession(engine) as session:
         yield session
 
-SessionDep = Annotated[Session, Depends(get_session)]
+SessionDep = Annotated[AsyncSession, Depends(get_session)]
