@@ -5,3 +5,4 @@ metadata:
 data:
   ENV: "production"
   MYSQL_HOST: "mysql-service"
+  MINIO_HOST: "minio-service"
