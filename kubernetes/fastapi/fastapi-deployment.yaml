@@ -50,6 +50,11 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: MYSQL_DATABASE
+            - name: MINIO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: fastapi-configmap
+                  key: MINIO_HOST
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
