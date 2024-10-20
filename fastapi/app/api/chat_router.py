@@ -7,14 +7,14 @@ import app.logic.auth as auth
 import app.logic.chat.util.model_pricing as pricing
 import app.repository.user_dao as user_dao
 from app.logic.chat.chat_service import handle_chat_interaction
+from app.api.message_dto import MessageDto
 from app.repository.db_connection import SessionDep
-from chat import Message
 
 chat_router = APIRouter()
 
 
 class ChatRequest(BaseModel):
-    messages: list[Message]
+    messages: list[MessageDto]
     model: str
     api_type: str
     temperature: float
@@ -33,7 +33,7 @@ async def generate(chat_request: ChatRequest, request: Request, session: Session
         return await handle_chat_interaction(
             session=session,
             username=username,
-            messages=chat_request.messages,
+            message_dtos=chat_request.messages,
             model=chat_request.model,
             api_type=chat_request.api_type,
             temperature=chat_request.temperature,

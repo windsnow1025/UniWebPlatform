@@ -1,4 +1,4 @@
-from chat.logic.chat_generate.image_processor import *
+from chat.logic.chat_generate import image_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.model import gpt_message, claude_message
 from chat.model.claude_message import ClaudeMessage
@@ -22,7 +22,7 @@ async def convert_messages_to_claude(messages: list[Message]) -> list[ClaudeMess
 async def convert_message_to_gpt(message: Message) -> GptMessage:
     role = message.role
     text = message.text
-    files = message.files
+    files = message.file_urls
 
     content = []
 
@@ -31,8 +31,9 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
         content.append(text_content)
 
     for file in files:
-        if get_file_type(file) == "image":
-            image_contents = await get_gpt_image_content_from_url(file)
+        external_file_url = file.external_url
+        if get_file_type(external_file_url) == "image":
+            image_contents = await image_processor.get_gpt_image_content_from_url(external_file_url)
             content.append(image_contents)
 
     return GptMessage(role=role, content=content)
@@ -41,7 +42,7 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
 async def convert_message_to_gemini(message: Message) -> GeminiMessage:
     role = message.role
     text = message.text
-    files = message.files
+    files = message.file_urls
 
     gemini_role = ""
     if role == "user" or role == "system":
@@ -57,8 +58,9 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
         parts.append("")
 
     for file in files:
-        if get_file_type(file) == "image":
-            image_contents = await get_gemini_image_part_from_url(file)
+        external_file_url = file.external_url
+        if get_file_type(external_file_url) == "image":
+            image_contents = await image_processor.get_gemini_image_part_from_url(external_file_url)
             parts.append(image_contents)
 
     return GeminiMessage(role=gemini_role, parts=parts)
@@ -67,7 +69,7 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
 async def convert_message_to_claude(message: Message) -> ClaudeMessage:
     role = message.role
     text = message.text
-    files = message.files
+    files = message.file_urls
 
     claude_role = ""
     if role == "user" or role == "system":
@@ -82,8 +84,9 @@ async def convert_message_to_claude(message: Message) -> ClaudeMessage:
         content.append(text_content)
 
     for file in files:
-        if get_file_type(file) == "image":
-            image_contents = await get_claude_image_content_from_url(file)
+        external_file_url = file.external_url
+        if get_file_type(external_file_url) == "image":
+            image_contents = await image_processor.get_claude_image_content_from_url(external_file_url)
             content.append(image_contents)
 
     return ClaudeMessage(role=claude_role, content=content)
