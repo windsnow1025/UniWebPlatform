@@ -32,7 +32,7 @@ def convert_message_dtos_to_messages(message_dtos: List[MessageDto]) -> List[Mes
 
 def get_internal_url(external_url):
     return re.sub(
-        r'https?://[^/]+',
-        f'http://{os.environ["MINIO_HOST"]}',
+        r'https?://[^/]+/(?:minio/)?uploads/(\S+)',
+        rf'http://{os.environ["MINIO_HOST"]}:9000/uploads/\1',
         external_url
     )
