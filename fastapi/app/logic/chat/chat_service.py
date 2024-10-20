@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
 from app.logic.chat.util import model_pricing
+from app.logic.chat.util.message_file_url_converter import convert_message_file_url
 from app.repository import user_dao
 from chat import Message
 from chat import create_chat_client
@@ -21,6 +22,8 @@ async def handle_chat_interaction(
         stream: bool
 ):
     logging.info(f"username: {username}, model: {model}")
+
+    convert_message_file_url(messages)
 
     await preprocess_messages(messages)
 
