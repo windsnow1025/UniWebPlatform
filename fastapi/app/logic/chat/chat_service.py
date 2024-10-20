@@ -4,18 +4,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
+from app.api.message_dto import MessageDto, convert_message_dtos_to_messages
 from app.logic.chat.util import model_pricing
-from app.logic.chat.util.message_file_url_converter import convert_message_file_url
 from app.repository import user_dao
-from chat import Message
-from chat import create_chat_client
-from chat import preprocess_messages
+from chat import create_chat_client, preprocess_messages
 
 
 async def handle_chat_interaction(
         session: AsyncSession,
         username: str,
-        messages: list[Message],
+        message_dtos: list[MessageDto],
         model: str,
         api_type: str,
         temperature: float,
@@ -23,7 +21,7 @@ async def handle_chat_interaction(
 ):
     logging.info(f"username: {username}, model: {model}")
 
-    convert_message_file_url(messages)
+    messages = convert_message_dtos_to_messages(message_dtos)
 
     await preprocess_messages(messages)
 

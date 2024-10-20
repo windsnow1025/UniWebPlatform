@@ -1,4 +1,11 @@
 from dataclasses import dataclass
+from typing import List
+
+
+@dataclass
+class FileUrl:
+    external_url: str
+    internal_url: str
 
 
 # role: "user" || "assistant" || "system"
@@ -6,4 +13,4 @@ from dataclasses import dataclass
 class Message:
     role: str
     text: str
-    files: list[str]
+    file_urls: List[FileUrl]
