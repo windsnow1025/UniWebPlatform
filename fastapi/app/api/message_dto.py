@@ -3,7 +3,7 @@ import re
 from dataclasses import dataclass
 from typing import List
 
-from chat.model.message import Message, FileUrl
+from chat.model.message import Message
 
 
 # role: "user" || "assistant" || "system"
