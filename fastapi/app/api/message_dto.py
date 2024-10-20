@@ -19,9 +19,7 @@ def convert_message_dtos_to_messages(message_dtos: List[MessageDto]) -> List[Mes
     for message_dto in message_dtos:
         file_urls = []
         for file in message_dto.files:
-            external_url = file
-            internal_url = get_internal_url(file)
-            file_urls.append(FileUrl(external_url, internal_url))
+            file_urls.append(get_internal_url(file))
         messages.append(Message(
             message_dto.role,
             message_dto.text,
@@ -30,7 +28,7 @@ def convert_message_dtos_to_messages(message_dtos: List[MessageDto]) -> List[Mes
     return messages
 
 
-def get_internal_url(external_url):
+def get_internal_url(external_url: str) -> str:
     return re.sub(
         r'https?://[^/]+/(?:minio/)?uploads/(\S+)',
         rf'http://{os.environ["MINIO_HOST"]}:9000/uploads/\1',

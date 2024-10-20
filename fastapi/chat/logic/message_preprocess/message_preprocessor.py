@@ -11,11 +11,10 @@ async def preprocess_messages(messages: list[Message]) -> None:
 async def extract_text_files_to_message(message: Message) -> None:
     indices_to_delete = []
     for i, file_url in enumerate(message.file_urls[::-1]):
-        internal_file_url = file_url.internal_url
-        if get_file_type(internal_file_url) == "image":
+        if get_file_type(file_url) == "image":
             continue
-        filename = internal_file_url.split('-', 1)[1]
-        file_text = await document_processor.extract_text_from_file(internal_file_url)
+        filename = file_url.split('-', 1)[1]
+        file_text = await document_processor.extract_text_from_file(file_url)
         message.text = f"{filename}: \n{file_text}\n{message.text}"
         indices_to_delete.append(len(message.file_urls) - 1 - i)
 
