@@ -47,7 +47,7 @@ export default class ChatLogic {
       {"api_type": "azure", "model": "gpt-4o"},
       {"api_type": "github", "model": "gpt-4o"},
       {"api_type": "gemini", "model": "gemini-1.5-pro-latest"},
-      {"api_type": "claude", "model": "claude-3-5-sonnet-20240620"}
+      {"api_type": "claude", "model": "claude-3-5-sonnet-20241022"}
     ]
   }
 
