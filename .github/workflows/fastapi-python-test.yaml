@@ -5,12 +5,10 @@ on:
     branches: [ "main" ]
     paths:
       - 'fastapi/**'
-      - '.github/workflows'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'fastapi/**'
-      - '.github/workflows'
 
 jobs:
   build:
