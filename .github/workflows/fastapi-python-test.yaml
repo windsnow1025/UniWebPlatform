@@ -5,10 +5,12 @@ on:
     branches: [ "main" ]
     paths:
       - 'fastapi/**'
+      - '.github/workflows'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'fastapi/**'
+      - '.github/workflows'
 
 jobs:
   build:
@@ -30,4 +32,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r fastapi/requirements.txt
       - name: Test with pytest
-        run: pytest
+        run: pytest fastapi/tests
