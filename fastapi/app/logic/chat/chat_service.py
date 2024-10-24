@@ -1,4 +1,5 @@
 import logging
+import os
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -42,12 +43,22 @@ async def handle_chat_interaction(
         messages, reduce_prompt_credit
     )
 
+    api_keys = {
+        "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY"),
+        "AZURE_API_KEY": os.environ.get("AZURE_API_KEY"),
+        "AZURE_API_BASE": os.environ.get("AZURE_API_BASE"),
+        "GITHUB_API_KEY": os.environ.get("GITHUB_API_KEY"),
+        "GOOGLE_AI_STUDIO_API_KEY": os.environ.get("GOOGLE_AI_STUDIO_API_KEY"),
+        "ANTHROPIC_API_KEY": os.environ.get("ANTHROPIC_API_KEY"),
+    }
+
     chat_client = await create_chat_client(
         messages=messages,
         model=model,
         api_type=api_type,
         temperature=temperature,
         stream=stream,
+        api_keys=api_keys,
     )
 
     response = await chat_client.generate_response()

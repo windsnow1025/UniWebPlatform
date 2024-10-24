@@ -1,5 +1,3 @@
-import os
-
 import anthropic
 
 from chat.client.implementations.non_stream_claude_client import NonStreamClaudeClient
@@ -14,9 +12,10 @@ async def create_claude_client(
         model: str,
         temperature: float,
         stream: bool,
+        api_key: str,
 ):
     client = anthropic.AsyncAnthropic(
-        api_key=os.environ["ANTHROPIC_API_KEY"],
+        api_key=api_key,
     )
 
     system = extract_system_messages(messages)

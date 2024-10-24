@@ -1,5 +1,3 @@
-import os
-
 import google.generativeai as genai
 
 from chat.client.implementations.non_stream_gemini_client import NonStreamGeminiClient
@@ -14,8 +12,9 @@ async def create_gemini_client(
         model: str,
         temperature: float,
         stream: bool,
+        api_key: str,
 ):
-    genai.configure(api_key=os.environ["GOOGLE_AI_STUDIO_API_KEY"])
+    genai.configure(api_key=api_key)
 
     generation_config = {
         "temperature": temperature

@@ -10,14 +10,37 @@ async def create_chat_client(
         api_type: str,
         temperature: float,
         stream: bool,
+        api_keys: dict
 ):
-    if api_type in ['open_ai', 'azure', 'github']:
+    if api_type == 'open_ai':
         return await create_gpt_client(
             messages=messages,
             model=model,
             api_type=api_type,
             temperature=temperature,
             stream=stream,
+            api_keys={"OPENAI_API_KEY": api_keys["OPENAI_API_KEY"]}
+        )
+    elif api_type == 'azure':
+        return await create_gpt_client(
+            messages=messages,
+            model=model,
+            api_type=api_type,
+            temperature=temperature,
+            stream=stream,
+            api_keys={
+                "AZURE_API_KEY": api_keys["AZURE_API_KEY"],
+                "AZURE_API_BASE": api_keys["AZURE_API_BASE"]
+            }
+        )
+    elif api_type == 'github':
+        return await create_gpt_client(
+            messages=messages,
+            model=model,
+            api_type=api_type,
+            temperature=temperature,
+            stream=stream,
+            api_keys={"GITHUB_API_KEY": api_keys["GITHUB_API_KEY"]}
         )
     elif api_type == 'gemini':
         return await create_gemini_client(
@@ -25,6 +48,7 @@ async def create_chat_client(
             model=model,
             temperature=temperature,
             stream=stream,
+            api_key=api_keys["GOOGLE_AI_STUDIO_API_KEY"]
         )
     elif api_type == 'claude':
         return await create_claude_client(
@@ -32,4 +56,5 @@ async def create_chat_client(
             model=model,
             temperature=temperature,
             stream=stream,
+            api_key=api_keys["ANTHROPIC_API_KEY"]
         )

@@ -1,5 +1,3 @@
-import os
-
 import openai.lib.azure
 
 from chat.client.implementations.non_stream_gpt_client import NonStreamGPTClient
@@ -14,22 +12,23 @@ async def create_gpt_client(
         api_type: str,
         temperature: float,
         stream: bool,
+        api_keys: dict
 ):
     client = None
     if api_type == "open_ai":
         client = openai.AsyncOpenAI(
-            api_key=os.environ["OPENAI_API_KEY"],
+            api_key=api_keys["OPENAI_API_KEY"],
         )
     elif api_type == "azure":
         client = openai.lib.azure.AsyncAzureOpenAI(
             api_version="2024-02-01",
-            azure_endpoint=os.environ["AZURE_API_BASE"],
-            api_key=os.environ["AZURE_API_KEY"],
+            azure_endpoint=api_keys["AZURE_API_BASE"],
+            api_key=api_keys["AZURE_API_KEY"],
         )
     elif api_type == "github":
         client = openai.AsyncOpenAI(
             base_url="https://models.inference.ai.azure.com",
-            api_key=os.environ["GITHUB_API_KEY"],
+            api_key=api_keys["GITHUB_API_KEY"],
         )
 
     gpt_messages = await convert_messages_to_gpt(messages)
@@ -50,5 +49,3 @@ async def create_gpt_client(
             api_type=api_type,
             client=client,
         )
-
-
