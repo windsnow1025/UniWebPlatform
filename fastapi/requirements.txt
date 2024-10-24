@@ -32,3 +32,9 @@ python-docx
 openpyxl
 pandas
 python-pptx
+SQLAlchemy
+protobuf
+
+# Testing
+pytest
+pytest-asyncio
