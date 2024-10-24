@@ -56,7 +56,6 @@ async def create_gemini_client(
             safety_settings=safety_settings,
         )
 
-
     gemini_messages = await convert_messages_to_gemini(messages)
 
     if stream:
@@ -71,5 +70,3 @@ async def create_gemini_client(
             messages=gemini_messages,
             temperature=temperature,
         )
-
-
