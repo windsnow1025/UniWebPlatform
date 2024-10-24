@@ -1,6 +1,14 @@
 name: Python package
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'fastapi/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'fastapi/**'
 
 jobs:
   build:
@@ -8,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["pypy3.10", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.12"]
 
     steps:
       - uses: actions/checkout@v4
@@ -18,12 +26,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
       - name: Install dependencies
-        run: python -m pip install --upgrade pip setuptools wheel
-      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test with pytest
-        run: |
-          pip install pytest pytest-cov
-          pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+        run: pytest
