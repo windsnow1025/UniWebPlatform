@@ -7,7 +7,7 @@ from openai import AsyncOpenAI
 
 from chat.client.implementations.non_stream_gpt_client import NonStreamGPTClient
 from chat.client.implementations.stream_gpt_client import StreamGPTClient
-from chat.logic.chat_generate.model_client_factory.gpt_client_factory import create_gpt_client
+from chat.logic.chat_generate.chat_client_factory import create_chat_client
 from chat.model.gpt_message import GptMessage, TextContent
 from chat.model.message import Message
 
@@ -37,7 +37,7 @@ async def test_create_gpt_client_openai():
     stream = False
 
     with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}):
-        client = await create_gpt_client(
+        client = await create_chat_client(
             messages=messages,
             model=model,
             api_type=api_type,
@@ -65,7 +65,7 @@ async def test_create_gpt_client_azure():
         "AZURE_API_BASE": "https://test.openai.azure.com"
     }):
 
-        client = await create_gpt_client(
+        client = await create_chat_client(
             messages=messages,
             model=model,
             api_type=api_type,
@@ -90,7 +90,7 @@ async def test_create_gpt_client_stream():
 
     with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}):
 
-        client = await create_gpt_client(
+        client = await create_chat_client(
             messages=messages,
             model=model,
             api_type=api_type,
@@ -110,7 +110,7 @@ async def test_create_gpt_client_message_conversion(sample_messages, expected_gp
 
     with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}):
 
-        client = await create_gpt_client(
+        client = await create_chat_client(
             messages=sample_messages,
             model=model,
             api_type=api_type,
@@ -134,7 +134,7 @@ async def test_create_gpt_client_github():
 
     with patch.dict(os.environ, {"GITHUB_API_KEY": "test-key"}):
 
-        client = await create_gpt_client(
+        client = await create_chat_client(
             messages=messages,
             model=model,
             api_type=api_type,
@@ -159,7 +159,7 @@ async def test_create_gpt_client_with_missing_env_vars():
     stream = False
 
     with pytest.raises(KeyError):
-        await create_gpt_client(
+        await create_chat_client(
             messages=messages,
             model=model,
             api_type=api_type,
