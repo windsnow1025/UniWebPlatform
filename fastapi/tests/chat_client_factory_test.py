@@ -1,11 +1,10 @@
 import pytest
-from unittest.mock import patch
-
 from openai import AsyncOpenAI
+
 from chat.client.implementations.non_stream_gpt_client import NonStreamGPTClient
 from chat.logic.chat_generate.chat_client_factory import create_chat_client
-from chat.model.message import Message
 from chat.model.gpt_message import GptMessage, TextContent
+from chat.model.message import Message
 
 
 @pytest.fixture
