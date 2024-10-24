@@ -3,9 +3,9 @@ import os
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.message_dto import MessageDto, convert_message_dtos_to_messages
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
-from app.api.message_dto import MessageDto, convert_message_dtos_to_messages
 from app.logic.chat.util import model_pricing
 from app.repository import user_dao
 from chat import create_chat_client, preprocess_messages
