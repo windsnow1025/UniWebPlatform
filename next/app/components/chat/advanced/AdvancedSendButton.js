@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Button, Snackbar} from "@mui/material";
+import {Alert, Button, Snackbar, Tooltip} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
@@ -118,15 +118,17 @@ function AdvancedSendButton({
 
   return (
     <div className="m-2">
-      <Button
-        id="send"
-        variant="contained"
-        color="primary"
-        onClick={handleGenerate}
-        startIcon={isGenerating ? <StopIcon/> : <PlayArrowIcon/>}
-      >
-        {isGenerating ? "Stop" : "Send"}
-      </Button>
+      <Tooltip title="Ctrl + Enter">
+        <Button
+          id="send"
+          variant="contained"
+          color="primary"
+          onClick={handleGenerate}
+          startIcon={isGenerating ? <StopIcon/> : <PlayArrowIcon/>}
+        >
+          {isGenerating ? "Stop" : "Send"}
+        </Button>
+      </Tooltip>
       <Snackbar
         open={alertOpen}
         autoHideDuration={6000}
