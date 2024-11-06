@@ -68,10 +68,14 @@ Log in as root user
 
 1. Compress `./kubernetes` to `./kubernetes.zip`
 2. Upload `./kubernetes.zip`
-3. `apt update`
-4. `apt install unzip`
-5. `unzip kubernetes.zip`
-6. `rm kubernetes.zip`
+3. Run
+   ```bash
+   apt update
+   apt install unzip
+   unzip kubernetes.zip
+   rm kubernetes.zip
+   mv kubernetes UniWebPlatform
+   ```
 
 #### Debian Docker Compose
 
