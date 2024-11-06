@@ -57,8 +57,8 @@ DevOps
 
 ### Prepare Environment
 
-1. Copy `./kubernetes/app-secret.example.yaml` to `./kubernetes/app-secret.example.yaml`, modify value for each key.
-2. Copy `./kubernetes/dashboard/dashboard-secret.copy.yaml` to `./kubernetes/dashboard/dashboard-secret.yaml`.
+1. Copy `./app-secret.example.yaml` to `./app-secret.example.yaml`, modify value for each key.
+2. Copy `./dashboard/dashboard-secret.copy.yaml` to `./dashboard/dashboard-secret.yaml`.
 
 ### Debian Production
 
@@ -205,15 +205,15 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 3. Remote Access (NodePort)
 
    ```bash
-   kubectl apply -f ./kubernetes/dashboard/dashboard-service.yaml
+   kubectl apply -f ./dashboard/dashboard-service.yaml
    ```
    Test: `curl -k https://localhost:38443`
 
 4. Create admin-user
    ```bash
-   kubectl apply -f ./kubernetes/dashboard/dashboard-serviceaccount.yaml
-   kubectl apply -f ./kubernetes/dashboard/dashboard-clusterrolebinding.yaml
-   kubectl apply -f ./kubernetes/dashboard/dashboard-secret.yaml
+   kubectl apply -f ./dashboard/dashboard-serviceaccount.yaml
+   kubectl apply -f ./dashboard/dashboard-clusterrolebinding.yaml
+   kubectl apply -f ./dashboard/dashboard-secret.yaml
    ```
 
 5. Get a long-lived Bearer Token
@@ -223,7 +223,7 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 
 #### Apply Custom Configs
 
-See `./kubernetes/app-command.md`
+See `./app-command.md`
 
 #### Nginx (Optional)
 
@@ -303,23 +303,26 @@ stream {
 
 #### Windows Production Environment
 
-1. Install and run Minikube with default docker driver
-   ```bash
-   minikube start
-   ```
-2. Remote Access:
-
-   Start minikube tunnel
-   ```bash
-   minikube tunnel
-   ```
-
-   Apply local dashboard config
-   ```bash
-   kubectl apply -f ./kubernetes/dashboard/dashboard-service-local.yaml
-   ```
-
-   Visit: `https://localhost:8443`
+1. Install WSL2 Debian
+2. Enable systemd
+   1. Edit config
+      ```bash
+       vi /etc/wsl.conf
+      ```
+   2. Add
+      ```conf
+      [boot]
+      systemd=true
+      ```
+   3. Restart WSL2
+      ```bash
+      wsl --shutdown
+      ```
+   4. Check WSL2 IP
+      ```bash
+      ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+      ```
+3. Follow the Debian Production steps
 
 #### CI/CD
 
@@ -327,8 +330,6 @@ GitHub >> Repository >> Settings >> Security >> Secrets and variables >> Actions
 
 - DOCKERHUB_TOKEN
 - DOCKERHUB_USERNAME
-- SERVER_ADDRESS
-- SSH_PRIVATE_KEY
 
 ## Make Contributions
 
