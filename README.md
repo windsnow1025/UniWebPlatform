@@ -180,7 +180,7 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 
 3. Start Minikube with none driver
     ```bash
-    minikube start --driver=none --extra-config=apiserver.service-node-port-range=30000-38443
+    minikube start --driver=none --extra-config=apiserver.service-node-port-range=30000-39001
     ```
 
 #### Kubernetes Dashboard
