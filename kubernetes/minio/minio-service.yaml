@@ -5,7 +5,7 @@ metadata:
   labels:
     app: minio
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: minio
   ports:
@@ -13,7 +13,9 @@ spec:
       protocol: TCP
       port: 9000
       targetPort: 9000
+      nodePort: 39000
     - name: minio-console
       protocol: TCP
       port: 9001
       targetPort: 9001
+      nodePort: 39001
