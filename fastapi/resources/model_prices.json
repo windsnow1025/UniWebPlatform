@@ -47,6 +47,12 @@
     "input": 2.5,
     "output": 10
   },
+    {
+    "api_type": "gemini",
+    "model": "gemini-exp-1114",
+    "input": 0,
+    "output": 0
+  },
   {
     "api_type": "gemini",
     "model": "gemini-1.5-flash-latest",
