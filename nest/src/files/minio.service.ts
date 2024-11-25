@@ -21,7 +21,16 @@ export class MinioService {
   }
 
   private async initializeBucket() {
-    if (await this.minioClient.bucketExists(this.bucketName)) {
+    let bucketExists: boolean;
+    try {
+      bucketExists = await this.minioClient.bucketExists(this.bucketName);
+    } catch (error) {
+      console.error('Unable to connect to MinIO', error.message);
+      return;
+    }
+
+    if (bucketExists) {
+      console.log(`Bucket ${this.bucketName} already exists.`);
       return;
     }
 
