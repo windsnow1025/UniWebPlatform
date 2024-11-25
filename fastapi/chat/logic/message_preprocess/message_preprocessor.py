@@ -13,7 +13,7 @@ async def extract_text_files_to_message(message: Message) -> None:
     for i, file_url in enumerate(message.file_urls[::-1]):
         if get_file_type(file_url) == "image":
             continue
-        filename = file_url.split('-', 1)[1]
+        filename = file_url.rsplit('/', 1)[-1].split('-', 1)[1]
         file_text = await document_processor.extract_text_from_file(file_url)
         message.text = f"{filename}: \n{file_text}\n{message.text}"
         indices_to_delete.append(len(message.file_urls) - 1 - i)
