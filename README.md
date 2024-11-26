@@ -38,7 +38,7 @@ Storage
 
 ```yaml
 Infrastructure
-  - Linux (Debian 11)
+  - Linux (Debian 12)
     - Docker Compose
     - Kubernetes
       - Docker
