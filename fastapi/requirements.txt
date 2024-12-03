@@ -1,40 +1,34 @@
 # FastAPI and related libraries
-fastapi
-pydantic
+fastapi # fastapi
 uvicorn
-sqlmodel
+sqlmodel # sqlmodel
 asyncmy
 
 # HTTP client
-httpx
+httpx # httpx
 
 # Environment variables
-python-dotenv
+python-dotenv # dotenv
 
 # JWT and cryptography
-python-jose[cryptography]
-
-# MySQL connector
-mysql-connector-python
+python-jose[cryptography] # jose
 
 # SDK
-openai
-google-generativeai
-anthropic
+openai # openai
+google-generativeai # google.generativeai
+anthropic # anthropic
 
 # Tokenization for OpenAI
-tiktoken
+tiktoken # tiktoken
 
 # File processing
-pillow
-PyMuPDF
-python-docx
-openpyxl
-pandas
-python-pptx
-SQLAlchemy
-protobuf
+pillow # PIL
+PyMuPDF # fitz
+python-docx # docx
+openpyxl # openpyxl
+python-pptx # pptx
+SQLAlchemy # sqlalchemy
 
 # Testing
-pytest
+pytest # pytest
 pytest-asyncio
