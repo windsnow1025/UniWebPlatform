@@ -95,7 +95,7 @@ function ContentDiv({
     try {
       const urls = await Promise.all(uploadPromises);
 
-      await wait(5);
+      // await wait(5);
 
       setFiles([...files, ...urls]);
       if (urls.length > 0) {
