@@ -3,6 +3,13 @@ import mimetypes
 from chat.logic.message_preprocess.code_file_extensions import code_file_extensions
 
 
+def is_file_type_supported(file_name: str) -> bool:
+    if file_name.endswith(('.doc', '.xls', '.ppt')):
+        return False
+    else:
+        return True
+
+
 def get_file_type(file_name: str) -> str:
     if file_name.endswith(code_file_extensions):
         return 'code'
