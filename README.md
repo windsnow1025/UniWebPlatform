@@ -6,10 +6,9 @@ A full stack web application for my personal website containing:
 1. User Module
 2. Markdown Blogs
 3. Editable Bookmark
-4. Message Transmitter
-5. Password Generator
-6. Image Generator
-7. Advanced AI Chat / Simple AI Chat
+4. Password Generator
+5. Image Generator
+6. Advanced AI Chat / Simple AI Chat
 
 ## Tech Stack
 
