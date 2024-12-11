@@ -33,12 +33,20 @@ function AdvancedChatMessagesDiv({
     setMessages(newMessages);
   };
 
-  const handleFileUpload = (index, fileUrls) => {
-    const newMessages = [...messages];
-    const currentMessage = newMessages[index];
+  const handleFileChange = (index, fileUrls) => {
+    setMessages((prevMessages) => {
+      const newMessages = [...prevMessages];
+      const currentMessage = newMessages[index];
 
-    currentMessage.files = fileUrls;
-    setMessages(newMessages);
+      currentMessage.files = fileUrls;
+      return newMessages;
+    });
+
+    // const newMessages = [...messages];
+    // const currentMessage = newMessages[index];
+    //
+    // currentMessage.files = fileUrls;
+    // setMessages(newMessages);
   };
 
   return (
@@ -58,7 +66,7 @@ function AdvancedChatMessagesDiv({
             content={message.text}
             setContent={(content) => handleContentChange(index, content)}
             files={message.files}
-            setFiles={(fileUrl) => {handleFileUpload(index, fileUrl)}}
+            setFiles={(fileUrl) => {handleFileChange(index, fileUrl)}}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
             shouldSanitize={shouldSanitize}
