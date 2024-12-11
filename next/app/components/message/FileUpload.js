@@ -49,7 +49,7 @@ function FileUpload({ files, setFiles, setUploadProgress }) {
         const uploadedFileUrls = await Promise.all(uploadPromises);
         const newFiles = files.concat(uploadedFileUrls);
 
-        await wait(5);
+        // await wait(5);
 
         setFiles(newFiles);
         setAlertMessage("Files uploaded successfully");

@@ -11,9 +11,11 @@ function AdvancedChatMessagesDiv({
                                    isGeneratingRef,
                                  }) {
   const handleMessageUpdate = (index, updatedMessage) => {
-    const newMessages = [...messages];
-    newMessages[index] = updatedMessage;
-    setMessages(newMessages);
+    setMessages(prevMessages => {
+      const newMessages = [...prevMessages];
+      newMessages[index] = updatedMessage;
+      return newMessages;
+    });
   };
 
   const handleMessageDelete = (index) => {
