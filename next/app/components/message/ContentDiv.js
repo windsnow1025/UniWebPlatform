@@ -3,6 +3,7 @@ import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
 import {EditableState} from "../../../src/conversation/chat/Message";
 import {Alert, Snackbar} from "@mui/material";
+import {wait} from "../../utils/Wait";
 
 function ContentDiv({
                       content,
@@ -93,6 +94,9 @@ function ContentDiv({
 
     try {
       const urls = await Promise.all(uploadPromises);
+
+      // await wait(5);
+
       setFiles([...files, ...urls]);
       if (urls.length > 0) {
         setAlertMessage("Files uploaded successfully");
