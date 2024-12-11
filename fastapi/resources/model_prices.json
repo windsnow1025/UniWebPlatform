@@ -61,7 +61,7 @@
   },
   {
     "api_type": "gemini",
-    "model": "gemini-exp-1121",
+    "model": "gemini-exp-1206",
     "input": 0,
     "output": 0
   },
