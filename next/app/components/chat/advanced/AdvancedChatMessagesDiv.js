@@ -40,7 +40,7 @@ function AdvancedChatMessagesDiv({
         <div key={index}>
           <MessageDiv
             message={message}
-            onMessageUpdate={(updatedMessage) => handleMessageUpdate(index, updatedMessage)}
+            setMessage={(updatedMessage) => handleMessageUpdate(index, updatedMessage)}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
             shouldSanitize={shouldSanitize}
