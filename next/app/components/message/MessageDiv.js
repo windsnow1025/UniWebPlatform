@@ -10,12 +10,8 @@ import FileUpload from './FileUpload';
 import {EditableState} from "../../../src/conversation/chat/Message";
 
 function MessageDiv({
-                      role,
-                      setRole,
-                      content,
-                      setContent,
-                      files = [],
-                      setFiles = null,
+                      message,
+                      onMessageUpdate,
                       useRoleSelect = false,
                       onMessageDelete = null,
                       shouldSanitize = true,
@@ -26,17 +22,36 @@ function MessageDiv({
   const [alertSeverity, setAlertSeverity] = useState('info');
   const [uploadProgress, setUploadProgress] = useState(0);
 
+  const handleRoleChange = (newRole) => {
+    onMessageUpdate({
+      ...message,
+      role: newRole
+    });
+  };
+
+  const handleContentChange = (newContent) => {
+    onMessageUpdate({
+      ...message,
+      text: newContent
+    });
+  };
+
+  const handleFileChange = (fileUrls) => {
+    onMessageUpdate({
+      ...message,
+      files: fileUrls
+    });
+  };
+
   let convertedEditableState = editableState;
   if (editableState === EditableState.RoleBased) {
-    if (role === "assistant") {
-      convertedEditableState = EditableState.AlwaysFalse;
-    } else {
-      convertedEditableState = EditableState.AlwaysTrue;
-    }
+    convertedEditableState = message.role === "assistant"
+      ? EditableState.AlwaysFalse
+      : EditableState.AlwaysTrue;
   }
 
   const handleContentCopy = () => {
-    navigator.clipboard.writeText(content);
+    navigator.clipboard.writeText(message.text);
     setAlertMessage("Content copied to clipboard");
     setAlertSeverity('success');
     setAlertOpen(true);
@@ -47,31 +62,33 @@ function MessageDiv({
       <Paper elevation={2} className="my-1 p-2 rounded-lg">
         {useRoleSelect ?
           <RoleSelect
-            role={role}
-            setRole={setRole}
+            role={message.role}
+            setRole={handleRoleChange}
           />
           :
           <RoleDiv
-            role={role}
-            setRole={setRole}
+            role={message.role}
+            setRole={handleRoleChange}
           />
         }
         <div className="flex">
           <Paper elevation={4} className="inflex-fill my-2">
             <ContentDiv
-              content={content}
-              setContent={setContent}
+              content={message.text}
+              setContent={handleContentChange}
               shouldSanitize={shouldSanitize}
               editableState={convertedEditableState}
-              files={files}
-              setFiles={setFiles}
+              files={message.files}
+              setFiles={handleFileChange}
               setUploadProgress={setUploadProgress}
             />
           </Paper>
           <div className="flex-column self-end">
-            {setFiles &&
-              <FileUpload files={files} setFiles={setFiles} setUploadProgress={setUploadProgress}/>
-            }
+            <FileUpload
+              files={message.files}
+              setFiles={handleFileChange}
+              setUploadProgress={setUploadProgress}
+            />
             <Tooltip title="Copy">
               <IconButton aria-label="copy" onClick={handleContentCopy}>
                 <ContentCopyIcon fontSize="small"/>
@@ -90,8 +107,13 @@ function MessageDiv({
           <LinearProgress variant="determinate" value={uploadProgress * 100}/>
         )}
         <div className="flex-start">
-          {files && files.map((file) => (
-            <FileDiv key={file} fileUrl={file} files={files} setFiles={setFiles}/>
+          {message.files && message.files.map((file) => (
+            <FileDiv
+              key={file}
+              fileUrl={file}
+              files={message.files}
+              setFiles={handleFileChange}
+            />
           ))}
         </div>
       </Paper>

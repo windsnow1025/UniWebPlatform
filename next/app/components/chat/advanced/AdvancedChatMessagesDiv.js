@@ -10,20 +10,14 @@ function AdvancedChatMessagesDiv({
                                    setIsGenerating,
                                    isGeneratingRef,
                                  }) {
-  const handleRoleChange = (index, role) => {
+  const handleMessageUpdate = (index, updatedMessage) => {
     const newMessages = [...messages];
-    newMessages[index].role = role;
-    setMessages(newMessages);
-  };
-
-  const handleContentChange = (index, content) => {
-    const newMessages = [...messages];
-    newMessages[index].text = content;
+    newMessages[index] = updatedMessage;
     setMessages(newMessages);
   };
 
   const handleMessageDelete = (index) => {
-    if (index ===  messages.length - 1) {
+    if (index === messages.length - 1) {
       setIsGenerating(false);
       isGeneratingRef.current = false;
     }
@@ -31,22 +25,6 @@ function AdvancedChatMessagesDiv({
     const newMessages = [...messages];
     newMessages.splice(index, 1);
     setMessages(newMessages);
-  };
-
-  const handleFileChange = (index, fileUrls) => {
-    setMessages((prevMessages) => {
-      const newMessages = [...prevMessages];
-      const currentMessage = newMessages[index];
-
-      currentMessage.files = fileUrls;
-      return newMessages;
-    });
-
-    // const newMessages = [...messages];
-    // const currentMessage = newMessages[index];
-    //
-    // currentMessage.files = fileUrls;
-    // setMessages(newMessages);
   };
 
   return (
@@ -61,12 +39,8 @@ function AdvancedChatMessagesDiv({
       {messages.map((message, index) => (
         <div key={index}>
           <MessageDiv
-            role={message.role}
-            setRole={(role) => handleRoleChange(index, role)}
-            content={message.text}
-            setContent={(content) => handleContentChange(index, content)}
-            files={message.files}
-            setFiles={(fileUrl) => {handleFileChange(index, fileUrl)}}
+            message={message}
+            onMessageUpdate={(updatedMessage) => handleMessageUpdate(index, updatedMessage)}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(index)}
             shouldSanitize={shouldSanitize}
@@ -82,7 +56,7 @@ function AdvancedChatMessagesDiv({
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 export default AdvancedChatMessagesDiv;
