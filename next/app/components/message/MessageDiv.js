@@ -11,7 +11,7 @@ import {EditableState} from "../../../src/conversation/chat/Message";
 
 function MessageDiv({
                       message,
-                      onMessageUpdate,
+                      setMessage,
                       useRoleSelect = false,
                       onMessageDelete = null,
                       shouldSanitize = true,
@@ -23,21 +23,21 @@ function MessageDiv({
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleRoleChange = (newRole) => {
-    onMessageUpdate({
+    setMessage({
       ...message,
       role: newRole
     });
   };
 
   const handleContentChange = (newContent) => {
-    onMessageUpdate({
+    setMessage({
       ...message,
       text: newContent
     });
   };
 
   const handleFileChange = (fileUrls) => {
-    onMessageUpdate({
+    setMessage({
       ...message,
       files: fileUrls
     });
