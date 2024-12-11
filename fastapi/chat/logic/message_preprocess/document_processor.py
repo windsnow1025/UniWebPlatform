@@ -1,3 +1,4 @@
+import logging
 from io import BytesIO
 
 import docx
@@ -8,7 +9,7 @@ from docx.oxml import CT_P, CT_Tbl
 from fastapi import HTTPException
 from pptx import Presentation
 
-from chat.logic.message_preprocess.file_type_checker import get_file_type
+from chat.logic.message_preprocess import file_type_checker
 
 
 async def extract_text_from_file(file_url: str) -> str:
@@ -25,7 +26,9 @@ async def extract_text_from_file(file_url: str) -> str:
 
         file_content = response.content
 
-        file_type = get_file_type(file_url)
+        if file_type_checker.is_file_type_supported(file_url) is False:
+            raise HTTPException(status_code=415, detail="legacy filetypes ('.doc', '.xls', '.ppt') are not supported")
+        file_type = file_type_checker.get_file_type(file_url)
         if file_type == "code":
             return extract_text_from_code(file_content)
         if file_type == "pdf":
@@ -40,6 +43,7 @@ async def extract_text_from_file(file_url: str) -> str:
         try:
             return file_content.decode('utf-8')
         except UnicodeDecodeError as e:
+            logging.exception(e)
             raise HTTPException(status_code=415, detail=str(e))
 
 
@@ -86,6 +90,7 @@ def extract_text_from_word(file_content: bytes) -> str:
 
         return text
     except Exception as e:
+        logging.exception(e)
         raise HTTPException(status_code=415, detail=str(e))
 
 
@@ -99,6 +104,7 @@ def extract_text_from_excel(file_content: bytes) -> str:
                 text += "\t".join([str(cell) if cell is not None else "" for cell in row]) + "\n"
         return text
     except Exception as e:
+        logging.exception(e)
         raise HTTPException(status_code=415, detail=str(e))
 
 
@@ -112,4 +118,5 @@ def extract_text_from_ppt(file_content: bytes) -> str:
                     text += shape.text + "\n"
         return text
     except Exception as e:
+        logging.exception(e)
         raise HTTPException(status_code=415, detail=str(e))
