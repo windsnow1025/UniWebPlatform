@@ -3,6 +3,7 @@ import {Alert, CircularProgress, IconButton, Snackbar, Tooltip} from "@mui/mater
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileLogic from "../../../src/common/file/FileLogic";
+import {wait} from "../../utils/Wait";
 
 function FileUpload({ files, setFiles, setUploadProgress }) {
   const fileInputRef = useRef(null);
@@ -47,6 +48,9 @@ function FileUpload({ files, setFiles, setUploadProgress }) {
 
         const uploadedFileUrls = await Promise.all(uploadPromises);
         const newFiles = files.concat(uploadedFileUrls);
+
+        // await wait(5);
+
         setFiles(newFiles);
         setAlertMessage("Files uploaded successfully");
         setAlertSeverity('success');
