@@ -17,6 +17,7 @@ async def extract_text_from_file(file_url: str) -> str:
         try:
             response = await client.get(file_url)
         except Exception as e:
+            logging.exception(e)
             raise HTTPException(status_code=500, detail=str(e))
 
         if response.status_code != 200:
