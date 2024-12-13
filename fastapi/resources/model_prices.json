@@ -49,15 +49,21 @@
   },
   {
     "api_type": "gemini",
-    "model": "gemini-1.5-flash-latest",
-    "input": 0.15,
-    "output": 0.6
+    "model": "gemini-2.0-flash-exp",
+    "input": 0,
+    "output": 0
   },
   {
     "api_type": "gemini",
     "model": "gemini-1.5-pro-latest",
     "input": 2.5,
     "output": 10
+  },
+  {
+    "api_type": "gemini",
+    "model": "gemini-1.5-flash-latest",
+    "input": 0.15,
+    "output": 0.6
   },
   {
     "api_type": "gemini",
