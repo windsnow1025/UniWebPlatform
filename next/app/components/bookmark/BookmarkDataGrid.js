@@ -33,7 +33,7 @@ function EditToolbar(props) {
   return (
     <GridToolbarContainer>
       <GridToolbar/>
-      <Button startIcon={<AddIcon/>} onClick={handleClick} className="pt-1 px-0 pb-0">
+      <Button startIcon={<AddIcon/>} onClick={handleClick}>
         Add record
       </Button>
     </GridToolbarContainer>
@@ -64,32 +64,22 @@ function BookmarkDataGrid() {
   const processRowUpdate = async (newRow) => {
     const updatedRow = {...newRow, isNew: false};
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    if (newRow.isNew) {
-      try {
+    try {
+      if (newRow.isNew) {
         await bookmarkLogic.addBookmark(updatedRow);
-        setAlertOpen(true);
         setAlertMessage("Bookmark added");
-        setAlertSeverity('success');
-      } catch (e) {
-        setAlertOpen(true);
-        setAlertMessage(e.message);
-        setAlertSeverity('error');
-        return;
-      }
-    } else {
-      try {
+      } else {
         await bookmarkLogic.updateBookmark(updatedRow);
-        setAlertOpen(true);
         setAlertMessage("Bookmark updated");
-        setAlertSeverity('success');
-      } catch (e) {
-        setAlertOpen(true);
-        setAlertMessage(e.message);
-        setAlertSeverity('error');
-        return;
       }
+      setAlertSeverity("success");
+    } catch (e) {
+      setAlertMessage(e.message);
+      setAlertSeverity("error");
+    } finally {
+      setAlertOpen(true);
+      await loadBookmarks();
     }
-    loadBookmarks();
     return updatedRow;
   };
 
@@ -178,7 +168,7 @@ function BookmarkDataGrid() {
       headerName: 'Actions',
       flex: 0.2,
       getActions: ({id}) => {
-        const isInEditMode = rowModesModel[id]?.mode === 'edit';
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
         if (isInEditMode) {
           return [
@@ -275,7 +265,7 @@ function BookmarkDataGrid() {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>
