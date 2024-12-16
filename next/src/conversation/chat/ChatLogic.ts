@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import ChatClient, {StreamResponse} from "./ChatClient";
 import {Message} from "./Message"
 import {ApiTypeModel} from "@/src/conversation/chat/Chat";
@@ -18,26 +19,30 @@ export default class ChatLogic {
 
     this.initMessages = [
       {
-        "role": "system",
-        "text": "You are a helpful assistant.",
-        "files": []
+        id: uuidv4(),
+        role: "system",
+        text: "You are a helpful assistant.",
+        files: []
       },
       {
-        "role": "user",
-        "text": "",
-        "files": []
+        id: uuidv4(),
+        role: "user",
+        text: "",
+        files: []
       }
     ];
 
     this.emptyUserMessage = {
+      id: uuidv4(),
       "role": "user",
       "text": "",
       "files": []
     };
     this.emptyAssistantMessage = {
-      "role": "assistant",
-      "text": "",
-      "files": []
+      id: uuidv4(),
+      role: "assistant",
+      text: "",
+      files: []
     };
 
     this.defaultApiType = "open_ai";
@@ -53,19 +58,21 @@ export default class ChatLogic {
 
   createUserMessage(text: string) {
     const message: Message = {
-      "role": "user",
-      "text": text,
-      "files": []
-    }
+      id: uuidv4(),
+      role: "user",
+      text: text,
+      files: []
+    };
     return message;
   }
 
   createAssistantMessage(text: string) {
     const message: Message = {
-      "role": "assistant",
-      "text": text,
-      "files": []
-    }
+      id: uuidv4(),
+      role: "assistant",
+      text: text,
+      files: []
+    };
     return message;
   }
 
