@@ -1,6 +1,8 @@
+import axios from "axios";
+import {v4 as uuidv4} from 'uuid';
 import ConversationClient from "./ConversationClient";
 import {Conversation} from "./Conversation";
-import axios from "axios";
+import {Message} from "./chat/Message";
 
 export default class ConversationLogic {
   private conversationService: ConversationClient;
@@ -9,9 +11,39 @@ export default class ConversationLogic {
     this.conversationService = new ConversationClient();
   }
 
+  // Should be removed after all data synced
+  private async ensureMessageIdsAndSync(conversations: Conversation[]): Promise<Conversation[]> {
+    const updatedConversations = conversations.map((conversation) => {
+      const updatedMessages: Message[] = [];
+
+      conversation.messages.forEach((message) => {
+        if (!message.id) {
+          updatedMessages.unshift({...message, id: uuidv4()});
+        } else {
+          updatedMessages.push(message);
+        }
+      });
+
+      return {...conversation, messages: updatedMessages};
+    });
+
+    for (const conversation of updatedConversations) {
+      try {
+        await this.updateConversation(conversation);
+      } catch (error) {
+        console.error(`Failed to sync conversation ${conversation.id}:`, error);
+      }
+    }
+
+    return updatedConversations;
+  }
+
   async fetchConversations() {
     try {
-      return await this.conversationService.fetchConversations();
+      const conversations = await this.conversationService.fetchConversations();
+      return this.ensureMessageIdsAndSync(conversations);
+
+      // return await this.conversationService.fetchConversations();
     } catch (error) {
       console.error(error);
       throw error;

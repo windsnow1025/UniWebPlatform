@@ -10,23 +10,19 @@ function AdvancedChatMessagesDiv({
                                    setIsGenerating,
                                    isGeneratingRef,
                                  }) {
-  const handleMessageUpdate = (index, updatedMessage) => {
-    setMessages(prevMessages => {
-      const newMessages = [...prevMessages];
-      newMessages[index] = updatedMessage;
-      return newMessages;
-    });
+  const handleMessageUpdate = (id, updatedMessage) => {
+    setMessages((prevMessages) =>
+      prevMessages.map((msg) => (msg.id === id ? updatedMessage : msg))
+    );
   };
 
-  const handleMessageDelete = (index) => {
-    if (index === messages.length - 1) {
+  const handleMessageDelete = (id) => {
+    if (messages[messages.length - 1].id === id) {
       setIsGenerating(false);
       isGeneratingRef.current = false;
     }
 
-    const newMessages = [...messages];
-    newMessages.splice(index, 1);
-    setMessages(newMessages);
+    setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== id));
   };
 
   return (
@@ -39,12 +35,12 @@ function AdvancedChatMessagesDiv({
         isGeneratingRef={isGeneratingRef}
       />
       {messages.map((message, index) => (
-        <div key={index}>
+        <div key={message.id}>
           <MessageDiv
             message={message}
-            setMessage={(updatedMessage) => handleMessageUpdate(index, updatedMessage)}
+            setMessage={(updatedMessage) => handleMessageUpdate(message.id, updatedMessage)}
             useRoleSelect={true}
-            onMessageDelete={() => handleMessageDelete(index)}
+            onMessageDelete={() => handleMessageDelete(message.id)}
             shouldSanitize={shouldSanitize}
             editableState={editableState}
           />
