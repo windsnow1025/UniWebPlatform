@@ -124,12 +124,13 @@ function CustomDataGrid({
         return innerFilterFn;
       }
 
-      return (params) => {
-        if (rowSelectionModelLookupRef.current[params.id] || rowModesModel[params.id]?.mode === GridRowModes.Edit) {
+      return (value, row, column, apiRef) => {
+        const rowId = apiRef.current.getRowId(row);
+        if (rowSelectionModelLookupRef.current[rowId] || rowModesModel[rowId]?.mode === GridRowModes.Edit) {
           return true;
         }
 
-        return innerFilterFn(params);
+        return innerFilterFn(value, row, column, apiRef);
       };
     };
 
