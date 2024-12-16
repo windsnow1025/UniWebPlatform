@@ -41,17 +41,21 @@ function CustomDataGrid({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async () => {
+    setLoading(true);
     try {
       const data = await fetchData();
       setRows(data);
     } catch (error) {
       console.error('Error loading data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -255,6 +259,7 @@ function CustomDataGrid({
           onFilterModelChange={handleFilterModelChange}
           handleRowModelChange={(newModel) => setRowModesModel(newModel)}
           processRowUpdate={processRowUpdate}
+          loading={loading}
           slots={{
             toolbar: EditToolbar,
           }}
