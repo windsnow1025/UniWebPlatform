@@ -58,7 +58,7 @@ function AdvancedAIChat() {
         />
         <div className="local-scroll-unscrollable-x">
           <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
-            <Collapse in={drawerOpen} orientation="horizontal" className="overflow-auto">
+            <Collapse orientation="horizontal" in={drawerOpen}>
               <AdvancedConversationSidebar
                 drawerOpen={drawerOpen}
                 messages={messages}
