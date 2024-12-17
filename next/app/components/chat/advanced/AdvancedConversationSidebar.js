@@ -175,9 +175,9 @@ function AdvancedConversationSidebar({messages, setMessages}) {
   };
 
   return (
-    <div>
+    <>
       <div>
-        <div className="p-4 flex-between">
+        <div className="flex-between-nowrap p-4">
           <Typography variant="h6">Conversations</Typography>
           <Tooltip title="Refresh conversations">
             <IconButton onClick={handleRefreshConversations}>
@@ -294,7 +294,7 @@ function AdvancedConversationSidebar({messages, setMessages}) {
         onClose={() => setShareDialogOpen(false)}
         conversationId={conversations[selectedConversationIndex]?.id}
       />
-    </div>
+    </>
   );
 }
 
