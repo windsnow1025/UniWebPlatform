@@ -60,9 +60,15 @@ div.inflex-fill {
 
 /* Local Scroll */
 .local-scroll-root {
-  height: 100svh;
   display: flex;
   flex-direction: column;
+  height: 100svh;
+}
+
+.local-scroll-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .local-scroll-unscrollable-x {

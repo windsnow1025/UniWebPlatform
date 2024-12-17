@@ -175,9 +175,9 @@ function AdvancedConversationSidebar({messages, setMessages}) {
   };
 
   return (
-    <>
-      <div>
-        <div className="flex-between-nowrap p-4">
+    <div className="local-scroll-container">
+      <div className="local-scroll-unscrollable-y">
+        <div className="flex-between-nowrap p-4 ">
           <Typography variant="h6">Conversations</Typography>
           <Tooltip title="Refresh conversations">
             <IconButton onClick={handleRefreshConversations}>
@@ -186,7 +186,7 @@ function AdvancedConversationSidebar({messages, setMessages}) {
           </Tooltip>
         </div>
         <Divider/>
-        <List>
+        <List className="local-scroll-scrollable">
           {conversations.map((conversation, index) => (
             <ListItem key={conversation.id} disablePadding>
               <ListItemButton onClick={() => handleConversationClick(conversation.messages)}>
@@ -294,7 +294,7 @@ function AdvancedConversationSidebar({messages, setMessages}) {
         onClose={() => setShareDialogOpen(false)}
         conversationId={conversations[selectedConversationIndex]?.id}
       />
-    </>
+    </div>
   );
 }
 
