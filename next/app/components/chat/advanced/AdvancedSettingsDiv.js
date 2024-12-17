@@ -14,19 +14,20 @@ import {
 import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
 
 function AdvancedSettingsDiv({
-                       apiType,
-                       setApiType,
-                       model,
-                       setModel,
-                       temperature,
-                       setTemperature,
-                       stream,
-                       setStream,
-                     }) {
+                               apiType,
+                               setApiType,
+                               model,
+                               setModel,
+                               temperature,
+                               setTemperature,
+                               stream,
+                               setStream,
+                             }) {
   const chatLogic = new ChatLogic();
 
   const [models, setModels] = useState([]);
   const [apiModels, setApiModels] = useState([]);
+  const [apiTypes, setApiTypes] = useState([]);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -35,8 +36,7 @@ function AdvancedSettingsDiv({
   useEffect(() => {
     const fetchApiModels = async () => {
       try {
-        const apiModels = await chatLogic.fetchApiModels();
-        setApiModels(apiModels);
+        setApiModels(await chatLogic.fetchApiModels());
       } catch (e) {
         setAlertMessage(e.message);
         setAlertSeverity('error');
@@ -48,9 +48,14 @@ function AdvancedSettingsDiv({
   }, []);
 
   useEffect(() => {
+    setApiTypes(chatLogic.getAllApiTypes(apiModels));
+    setApiType(chatLogic.getDefaultApiType(apiModels));
+  }, [apiModels]);
+
+  useEffect(() => {
     setModels(chatLogic.filterModelsByApiType(apiModels, apiType));
-    setModel(chatLogic.filterDefaultModelByApiType(apiType));
-  }, [apiModels, apiType]);
+    setModel(chatLogic.filterDefaultModelByApiType(apiModels, apiType));
+  }, [apiType]);
 
   return (
     <div className="flex-around m-1">
@@ -64,11 +69,9 @@ function AdvancedSettingsDiv({
             label="API Type"
             onChange={e => setApiType(e.target.value)}
           >
-            <MenuItem value="open_ai">Open AI</MenuItem>
-            <MenuItem value="azure">Azure</MenuItem>
-            <MenuItem value="github">GitHub</MenuItem>
-            <MenuItem value="gemini">Gemini</MenuItem>
-            <MenuItem value="claude">Claude</MenuItem>
+            {apiTypes.map(type => (
+              <MenuItem key={type} value={type}>{type}</MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>

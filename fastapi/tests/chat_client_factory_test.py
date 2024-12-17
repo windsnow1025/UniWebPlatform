@@ -19,7 +19,7 @@ def sample_messages():
 async def test_create_gpt_client_openai():
     messages = [Message(role="user", text="Hello", file_urls=[])]
     model = "gpt-4"
-    api_type = "open_ai"
+    api_type = "OpenAI"
     temperature = 0
     stream = False
     api_keys = {
