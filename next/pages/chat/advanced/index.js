@@ -60,7 +60,6 @@ function AdvancedAIChat() {
           <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
             <Collapse orientation="horizontal" in={drawerOpen}>
               <AdvancedConversationSidebar
-                drawerOpen={drawerOpen}
                 messages={messages}
                 setMessages={setMessages}
               />
