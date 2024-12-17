@@ -9,8 +9,6 @@ export default class ChatLogic {
   public initMessages: Message[];
   public emptyUserMessage: Message;
   public emptyAssistantMessage: Message;
-  public defaultApiType: string;
-  public defaultModel: string;
   public defaultApiModels: ApiTypeModel[];
 
   constructor() {
@@ -45,10 +43,8 @@ export default class ChatLogic {
       files: []
     };
 
-    this.defaultApiType = "open_ai";
-    this.defaultModel = "gpt-4o";
     this.defaultApiModels = [
-      {api_type: "loading", model: "loading", input: 0, output: 0},
+      {api_type: "", model: "", input: 0, output: 0},
     ]
   }
 
@@ -89,25 +85,17 @@ export default class ChatLogic {
     return this.getAllApiTypes(apiModels)[0];
   }
 
-  filterModelsByApiType(apiModels: ApiTypeModel[], apiType: string) {
+  filterModelsByApiType(apiModels: ApiTypeModel[], apiType: string): string[] {
     if(!Array.isArray(apiModels)) {
       apiModels = this.defaultApiModels;
     }
     return apiModels
-      .filter(model => model.api_type === apiType)
-      .map(model => model.model);
+      .filter(apiModel => apiModel.api_type === apiType)
+      .map(apiModel => apiModel.model);
   }
 
-  filterDefaultModelByApiType(apiModels: ApiTypeModel[], apiType: string) {
-    if(!Array.isArray(apiModels)) {
-      apiModels = this.defaultApiModels;
-    }
-    const filteredApiModels = apiModels
-      .filter(model => model.api_type === apiType);
-    if(!filteredApiModels.length) {
-      return this.defaultModel;
-    }
-    return filteredApiModels[0].model;
+  filterDefaultModelByApiType(apiModels: ApiTypeModel[], apiType: string): string {
+    return this.filterModelsByApiType(apiModels, apiType)[0];
   }
 
   async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {

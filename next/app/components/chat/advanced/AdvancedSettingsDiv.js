@@ -58,61 +58,63 @@ function AdvancedSettingsDiv({
   }, [apiType]);
 
   return (
-    <div className="flex-around m-1">
-      <div className="mx-1">
-        <FormControl fullWidth size="small" className="mt-2">
-          <InputLabel id="api-type-select-label">API Type</InputLabel>
-          <Select
-            labelId="api-type-select-label"
-            id="api-type-select"
-            value={apiType}
-            label="API Type"
-            onChange={e => setApiType(e.target.value)}
-          >
-            {apiTypes.map(type => (
-              <MenuItem key={type} value={type}>{type}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-      <div className="mx-1">
-        <FormControl fullWidth size="small" className="mt-2">
-          <InputLabel id="model-select-label">Model</InputLabel>
-          <Select
-            labelId="model-select-label"
-            id="model-select"
-            value={models.length !== 0 ? model : ''}
-            label="Model"
-            onChange={e => setModel(e.target.value)}
-          >
-            {models.length !== 0 && models.map(model => (
-              <MenuItem key={model} value={model}>{model}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-      <div className="mx-1">
-        <Typography variant="body1">Temperature</Typography>
-        <Slider
-          id="temperature"
-          value={temperature}
-          onChange={(e, newValue) => setTemperature(newValue)}
-          valueLabelDisplay="auto"
-          step={0.1}
-          marks
-          min={0}
-          max={2}
-          size="small"
-        />
-      </div>
-      <div className="mx-1">
-        <FormControlLabel control={
-          <Switch
-            checked={stream}
-            onChange={e => setStream(e.target.checked)}
+    <>
+      <div className="flex-around m-1">
+        <div className="mx-1">
+          <FormControl fullWidth size="small" className="mt-2">
+            <InputLabel id="api-type-select-label">API Type</InputLabel>
+            <Select
+              labelId="api-type-select-label"
+              id="api-type-select"
+              value={apiType ? apiType : ''}
+              label="API Type"
+              onChange={e => setApiType(e.target.value)}
+            >
+              {apiTypes.map(type => (
+                <MenuItem key={type} value={type}>{type}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+        <div className="mx-1">
+          <FormControl fullWidth size="small" className="mt-2">
+            <InputLabel id="model-select-label">Model</InputLabel>
+            <Select
+              labelId="model-select-label"
+              id="model-select"
+              value={model ? model : ''}
+              label="Model"
+              onChange={e => setModel(e.target.value)}
+            >
+              {models.map(model => (
+                <MenuItem key={model} value={model}>{model}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+        <div className="mx-1">
+          <Typography variant="body1">Temperature</Typography>
+          <Slider
+            id="temperature"
+            value={temperature}
+            onChange={(e, newValue) => setTemperature(newValue)}
+            valueLabelDisplay="auto"
+            step={0.1}
+            marks
+            min={0}
+            max={2}
             size="small"
           />
-        } label="Stream"/>
+        </div>
+        <div className="mx-1">
+          <FormControlLabel control={
+            <Switch
+              checked={stream}
+              onChange={e => setStream(e.target.checked)}
+              size="small"
+            />
+          } label="Stream"/>
+        </div>
       </div>
       <Snackbar
         open={alertOpen}
@@ -123,7 +125,8 @@ function AdvancedSettingsDiv({
           {alertMessage}
         </Alert>
       </Snackbar>
-    </div>
+
+    </>
   );
 }
 
