@@ -86,9 +86,15 @@ function AdvancedSettingsDiv({
               label="Model"
               onChange={e => setModel(e.target.value)}
             >
-              {models.map(model => (
-                <MenuItem key={model} value={model}>{model}</MenuItem>
-              ))}
+              {models.map(model => {
+                const apiModel = apiModels.find(apiModel => apiModel.model === model);
+                const price = `Price: Input ${apiModel.input}, Output ${apiModel.output}`;
+                return (
+                  <MenuItem key={model} value={model} title={price}>
+                    {model}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>
@@ -125,7 +131,6 @@ function AdvancedSettingsDiv({
           {alertMessage}
         </Alert>
       </Snackbar>
-
     </>
   );
 }
