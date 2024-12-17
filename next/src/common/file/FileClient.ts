@@ -8,12 +8,15 @@ export default class FileClient {
   }
 
   async upload(file: File, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<string> {
+    const token = localStorage.getItem('token');
+
     const formData = new FormData();
     formData.append('file', file);
 
     const response = await axios.post(`${this.baseUrl}/files/file`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       },
       onUploadProgress: onProgress,
     });
