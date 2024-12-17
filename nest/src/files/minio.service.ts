@@ -58,11 +58,11 @@ export class MinioService {
     console.log(`Bucket policy for ${this.bucketName} set to public.`);
   }
 
-  async uploadFile(file: Express.Multer.File): Promise<string> {
+  async uploadFile(userId: number, file: Express.Multer.File): Promise<string> {
     const originalName = Buffer.from(file.originalname, 'latin1').toString(
       'utf8',
     );
-    const fileName = `${Date.now()}-${originalName}`;
+    const fileName = `${userId}/${Date.now()}-${originalName}`;
     const fileStream = Readable.from(file.buffer);
 
     await this.minioClient.putObject(
