@@ -48,11 +48,7 @@ export default class ChatLogic {
     this.defaultApiType = "open_ai";
     this.defaultModel = "gpt-4o";
     this.defaultApiModels = [
-      {api_type: "open_ai", model: "chatgpt-4o-latest", input: 0, output: 0},
-      {api_type: "azure", model: "gpt-4o", input: 0, output: 0},
-      {api_type: "github", model: "gpt-4o", input: 0, output: 0},
-      {api_type: "gemini", model: "gemini-1.5-pro-latest", input: 0, output: 0},
-      {api_type: "claude", model: "claude-3-5-sonnet-20241022", input: 0, output: 0}
+      {api_type: "loading", model: "loading", input: 0, output: 0},
     ]
   }
 
@@ -84,6 +80,15 @@ export default class ChatLogic {
     }
   }
 
+  getAllApiTypes(apiModels: ApiTypeModel[]): string[] {
+    const apiTypes = apiModels.map(model => model.api_type);
+    return Array.from(new Set(apiTypes));
+  }
+
+  getDefaultApiType(apiModels: ApiTypeModel[]): string {
+    return this.getAllApiTypes(apiModels)[0];
+  }
+
   filterModelsByApiType(apiModels: ApiTypeModel[], apiType: string) {
     if(!Array.isArray(apiModels)) {
       apiModels = this.defaultApiModels;
@@ -93,8 +98,16 @@ export default class ChatLogic {
       .map(model => model.model);
   }
 
-  filterDefaultModelByApiType(apiType: string) {
-    return this.defaultApiModels.filter(model => model.api_type === apiType)[0].model;
+  filterDefaultModelByApiType(apiModels: ApiTypeModel[], apiType: string) {
+    if(!Array.isArray(apiModels)) {
+      apiModels = this.defaultApiModels;
+    }
+    const filteredApiModels = apiModels
+      .filter(model => model.api_type === apiType);
+    if(!filteredApiModels.length) {
+      return this.defaultModel;
+    }
+    return filteredApiModels[0].model;
   }
 
   async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {

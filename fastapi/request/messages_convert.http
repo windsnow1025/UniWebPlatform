@@ -12,5 +12,5 @@ Authorization: {{token}}
       "files": []
     }
   ],
-  "api_type": "open_ai"
+  "api_type": "OpenAI"
 }
