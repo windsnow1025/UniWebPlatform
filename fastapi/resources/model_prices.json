@@ -82,5 +82,11 @@
     "model": "claude-3-5-sonnet-latest",
     "input": 3,
     "output": 15
+  },
+  {
+    "api_type": "Claude",
+    "model": "claude-3-5-haiku-latest",
+    "input": 0.8,
+    "output": 4
   }
 ]
