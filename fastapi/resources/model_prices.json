@@ -25,7 +25,7 @@
   },
   {
     "api_type": "OpenAI",
-    "model": "o1-preview",
+    "model": "o1",
     "input": 15,
     "output": 60
   },
