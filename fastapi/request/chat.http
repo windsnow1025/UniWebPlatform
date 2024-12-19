@@ -101,7 +101,7 @@ Authorization: {{token}}
       "files": []
     }
   ],
-  "model": "claude-3-5-sonnet-20241022",
+  "model": "claude-3-5-sonnet-latest",
   "api_type": "Claude",
   "temperature": 0,
   "stream": true
@@ -123,7 +123,7 @@ Authorization: {{token}}
       ]
     }
   ],
-  "model": "claude-3-5-sonnet-20241022",
+  "model": "claude-3-5-sonnet-latest",
   "api_type": "Claude",
   "temperature": 0,
   "stream": true
