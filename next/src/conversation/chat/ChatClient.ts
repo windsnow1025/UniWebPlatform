@@ -78,7 +78,7 @@ export default class ChatClient {
         }
 
 
-        if (resJson || resJson.detail) {
+        if (resJson && resJson.detail) {
           throw new Error(`${status} : ${resJson.detail}`);
         }
         if (statusText) {
