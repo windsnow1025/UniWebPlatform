@@ -7,13 +7,15 @@ function AdvancedClearButton({
                                setMessages,
                                setIsGenerating,
                                isGeneratingRef,
-}) {
+                               setSelectedConversationId
+                             }) {
   const chatLogic = new ChatLogic();
 
   const handleClear = () => {
     setIsGenerating(false);
     isGeneratingRef.current = false;
     setMessages(chatLogic.initMessages);
+    setSelectedConversationId(null);
   };
 
   return (

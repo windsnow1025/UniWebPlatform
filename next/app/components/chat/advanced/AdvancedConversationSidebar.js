@@ -29,7 +29,12 @@ import {
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
 import ShareConversationDialog from '../ShareConversationDialog';
 
-function AdvancedConversationSidebar({messages, setMessages}) {
+function AdvancedConversationSidebar({
+                                       messages,
+                                       setMessages,
+                                       selectedConversationId,
+                                       setSelectedConversationId
+                                     }) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
 
@@ -51,7 +56,6 @@ function AdvancedConversationSidebar({messages, setMessages}) {
 
   // Auto Update
   const [autoUpdate, setAutoUpdate] = useState(false);
-  const [selectedConversationId, setSelectedConversationId] = useState(null);
 
   const conversationLogic = new ConversationLogic();
 
@@ -218,7 +222,13 @@ function AdvancedConversationSidebar({messages, setMessages}) {
         <Divider/>
         <List className="local-scroll-scrollable">
           {conversations.map((conversation, index) => (
-            <ListItem key={conversation.id} disablePadding>
+            <ListItem
+              key={conversation.id}
+              disablePadding
+              sx={{
+                bgcolor: conversation.id === selectedConversationId ? 'action.selected' : 'inherit',
+              }}
+            >
               <ListItemButton onClick={() => handleConversationClick(conversation.messages, conversation.id)}>
                 {editingIndex === index ? (
                   <TextField
