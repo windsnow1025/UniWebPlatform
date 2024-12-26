@@ -13,11 +13,12 @@ import {
   Snackbar,
   TextField,
   Tooltip,
-  Typography,
+
 } from '@mui/material';
 import {
   DeleteOutlined as DeleteOutlinedIcon,
   Edit as EditIcon,
+  Forum as ForumIcon,
   MoreVert as MoreVertIcon,
   Refresh as RefreshIcon,
   Save as SaveIcon,
@@ -178,7 +179,9 @@ function AdvancedConversationSidebar({messages, setMessages}) {
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-y">
         <div className="flex-between-nowrap p-4 ">
-          <Typography variant="h6">Conversations</Typography>
+          <Tooltip title="Conversations">
+            <ForumIcon/>
+          </Tooltip>
           <Tooltip title="Refresh conversations">
             <IconButton onClick={handleRefreshConversations}>
               <RefreshIcon fontSize="small"/>
