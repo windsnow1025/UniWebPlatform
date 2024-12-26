@@ -13,7 +13,6 @@ import {
   Snackbar,
   TextField,
   Tooltip,
-
 } from '@mui/material';
 import {
   DeleteOutlined as DeleteOutlinedIcon,
@@ -23,7 +22,9 @@ import {
   Refresh as RefreshIcon,
   Save as SaveIcon,
   SaveOutlined as SaveOutlinedIcon,
-  Share as ShareIcon
+  Share as ShareIcon,
+  Sync as SyncIcon,
+  SyncDisabled as SyncDisabledIcon
 } from '@mui/icons-material';
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
 import ShareConversationDialog from '../ShareConversationDialog';
@@ -31,6 +32,10 @@ import ShareConversationDialog from '../ShareConversationDialog';
 function AdvancedConversationSidebar({messages, setMessages}) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   // Conversation Menu
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,15 +49,25 @@ function AdvancedConversationSidebar({messages, setMessages}) {
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
 
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('info');
+  // Auto Update
+  const [autoUpdate, setAutoUpdate] = useState(false);
+  const [selectedConversationId, setSelectedConversationId] = useState(null);
 
   const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
     fetchConversations();
   }, []);
+
+  useEffect(() => {
+    if (autoUpdate && selectedConversationId) {
+      const conversationToUpdate = conversations.find(c => c.id === selectedConversationId);
+      if (conversationToUpdate) {
+        console.log(conversationToUpdate);
+        handleUpdateConversation(conversations.indexOf(conversationToUpdate));
+      }
+    }
+  }, [messages]);
 
   const fetchConversations = async () => {
     try {
@@ -66,9 +81,10 @@ function AdvancedConversationSidebar({messages, setMessages}) {
     }
   };
 
-  const handleConversationClick = (conversationMessages) => {
+  const handleConversationClick = (conversationMessages, conversationId) => {
     const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
     setMessages(messagesCopy);
+    setSelectedConversationId(conversationId);
   };
 
   const handleAddConversation = async () => {
@@ -175,13 +191,24 @@ function AdvancedConversationSidebar({messages, setMessages}) {
     }
   };
 
+  const handleToggleAutoUpdate = () => {
+    setAutoUpdate(!autoUpdate);
+  };
+
   return (
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-y">
         <div className="flex-between-nowrap p-4 ">
-          <Tooltip title="Conversations">
-            <ForumIcon/>
-          </Tooltip>
+          <div className="flex-center">
+            <Tooltip title="Conversations">
+              <ForumIcon/>
+            </Tooltip>
+            <Tooltip title={`${autoUpdate ? 'Disable' : 'Enable'} auto update`}>
+              <IconButton onClick={handleToggleAutoUpdate}>
+                {autoUpdate ? <SyncIcon/> : <SyncDisabledIcon/>}
+              </IconButton>
+            </Tooltip>
+          </div>
           <Tooltip title="Refresh conversations">
             <IconButton onClick={handleRefreshConversations}>
               <RefreshIcon fontSize="small"/>
@@ -192,7 +219,7 @@ function AdvancedConversationSidebar({messages, setMessages}) {
         <List className="local-scroll-scrollable">
           {conversations.map((conversation, index) => (
             <ListItem key={conversation.id} disablePadding>
-              <ListItemButton onClick={() => handleConversationClick(conversation.messages)}>
+              <ListItemButton onClick={() => handleConversationClick(conversation.messages, conversation.id)}>
                 {editingIndex === index ? (
                   <TextField
                     value={editingName}
