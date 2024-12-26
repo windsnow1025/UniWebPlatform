@@ -30,12 +30,12 @@ export class MinioService {
     }
 
     if (bucketExists) {
-      console.log(`Bucket ${this.bucketName} already exists.`);
+      console.log(`Bucket "${this.bucketName}" already exists.`);
       return;
     }
 
     await this.minioClient.makeBucket(this.bucketName);
-    console.log(`Bucket ${this.bucketName} created.`);
+    console.log(`Bucket "${this.bucketName}" created.`);
 
     const policy = {
       Version: '2012-10-17',
@@ -55,7 +55,7 @@ export class MinioService {
       this.bucketName,
       JSON.stringify(policy),
     );
-    console.log(`Bucket policy for ${this.bucketName} set to public.`);
+    console.log(`Bucket policy for "${this.bucketName}" set to public.`);
   }
 
   async uploadFile(userId: number, file: Express.Multer.File): Promise<string> {
