@@ -241,35 +241,35 @@ function AdvancedConversationSidebar({
                 ) : (
                   <ListItemText primary={conversation.name}/>
                 )}
+                {editingIndex === index ? (
+                  <Tooltip title="Save">
+                    <IconButton onClick={(e) => {
+                      e.stopPropagation();
+                      handleUpdateConversationName(index);
+                    }}>
+                      <SaveOutlinedIcon/>
+                    </IconButton>
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Rename">
+                    <IconButton onClick={(e) => {
+                      e.stopPropagation();
+                      setEditingIndex(index);
+                      setEditingName(conversation.name);
+                    }}>
+                      <EditIcon fontSize="small"/>
+                    </IconButton>
+                  </Tooltip>
+                )}
+                <Tooltip title="More">
+                  <IconButton onClick={(e) => {
+                    e.stopPropagation();
+                    handleMenuOpen(e, index);
+                  }}>
+                    <MoreVertIcon fontSize="small"/>
+                  </IconButton>
+                </Tooltip>
               </ListItemButton>
-              {editingIndex === index ? (
-                <Tooltip title="Save">
-                  <IconButton onClick={(e) => {
-                    e.stopPropagation();
-                    handleUpdateConversationName(index);
-                  }}>
-                    <SaveOutlinedIcon/>
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Rename">
-                  <IconButton onClick={(e) => {
-                    e.stopPropagation();
-                    setEditingIndex(index);
-                    setEditingName(conversation.name);
-                  }}>
-                    <EditIcon fontSize="small"/>
-                  </IconButton>
-                </Tooltip>
-              )}
-              <Tooltip title="More">
-                <IconButton onClick={(e) => {
-                  e.stopPropagation();
-                  handleMenuOpen(e, index);
-                }}>
-                  <MoreVertIcon fontSize="small"/>
-                </IconButton>
-              </Tooltip>
               <Menu
                 anchorEl={anchorEl}
                 open={menuIndex === index}
@@ -280,21 +280,24 @@ function AdvancedConversationSidebar({
                   handleUpdateConversation(index);
                   handleMenuClose();
                 }}>
-                  <SaveIcon fontSize="small" className="m-1"/>Update
+                  <SaveIcon fontSize="small" className="m-1"/>
+                  Update
                 </MenuItem>
                 <MenuItem onClick={(e) => {
                   e.stopPropagation();
                   handleDeleteConversation(index);
                   handleMenuClose();
                 }}>
-                  <DeleteOutlinedIcon fontSize="small" className="m-1"/>Delete
+                  <DeleteOutlinedIcon fontSize="small" className="m-1"/>
+                  Delete
                 </MenuItem>
                 <MenuItem onClick={(e) => {
                   e.stopPropagation();
                   openShareDialog(index);
                   handleMenuClose();
                 }}>
-                  <ShareIcon fontSize="small" className="m-1"/>Share
+                  <ShareIcon fontSize="small" className="m-1"/>
+                  Share
                 </MenuItem>
               </Menu>
             </ListItem>
