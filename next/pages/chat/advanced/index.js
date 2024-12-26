@@ -46,6 +46,9 @@ function AdvancedAIChat() {
   const [isGenerating, setIsGenerating] = useState(false);
   const isGeneratingRef = useRef(false);
 
+  // Selected Conversation
+  const [selectedConversationId, setSelectedConversationId] = useState(null);
+
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
@@ -62,6 +65,8 @@ function AdvancedAIChat() {
               <AdvancedConversationSidebar
                 messages={messages}
                 setMessages={setMessages}
+                selectedConversationId={selectedConversationId}
+                setSelectedConversationId={setSelectedConversationId}
               />
             </Collapse>
           </Paper>
@@ -119,6 +124,7 @@ function AdvancedAIChat() {
                   setMessages={setMessages}
                   setIsGenerating={setIsGenerating}
                   isGeneratingRef={isGeneratingRef}
+                  setSelectedConversationId={setSelectedConversationId}
                 />
               </div>
             </div>
