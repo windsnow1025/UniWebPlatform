@@ -11,9 +11,9 @@ import {
   Switch,
   Typography
 } from "@mui/material";
-import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
+import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
-function AdvancedSettingsDiv({
+function SettingsDiv({
                                apiType,
                                setApiType,
                                model,
@@ -135,4 +135,4 @@ function AdvancedSettingsDiv({
   );
 }
 
-export default AdvancedSettingsDiv;
+export default SettingsDiv;

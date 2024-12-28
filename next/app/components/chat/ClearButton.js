@@ -1,9 +1,9 @@
 import React from 'react';
 import {Button} from "@mui/material";
 import RefreshIcon from '@mui/icons-material/Refresh';
-import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
+import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
-function AdvancedClearButton({
+function ClearButton({
                                setMessages,
                                setIsGenerating,
                                isGeneratingRef,
@@ -32,4 +32,4 @@ function AdvancedClearButton({
   );
 }
 
-export default AdvancedClearButton;
+export default ClearButton;

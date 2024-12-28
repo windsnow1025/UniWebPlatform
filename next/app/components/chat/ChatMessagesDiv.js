@@ -1,8 +1,8 @@
-import MessageDiv from "../../message/MessageDiv";
+import MessageDiv from "../message/MessageDiv";
 import React from "react";
-import AdvancedAddMessageDivider from "./AdvancedAddMessageDivider";
+import AddMessageDivider from "./AddMessageDivider";
 
-function AdvancedChatMessagesDiv({
+function ChatMessagesDiv({
                                    messages,
                                    setMessages,
                                    shouldSanitize,
@@ -27,7 +27,7 @@ function AdvancedChatMessagesDiv({
 
   return (
     <div>
-      <AdvancedAddMessageDivider
+      <AddMessageDivider
         messages={messages}
         setMessages={setMessages}
         index={-1}
@@ -44,7 +44,7 @@ function AdvancedChatMessagesDiv({
             shouldSanitize={shouldSanitize}
             editableState={editableState}
           />
-          <AdvancedAddMessageDivider
+          <AddMessageDivider
             messages={messages}
             setMessages={setMessages}
             index={index}
@@ -57,4 +57,4 @@ function AdvancedChatMessagesDiv({
   );
 }
 
-export default AdvancedChatMessagesDiv;
+export default ChatMessagesDiv;
