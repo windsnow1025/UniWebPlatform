@@ -14,7 +14,7 @@ import {
   Snackbar,
   TextField,
   Tooltip,
-  Typography,
+
 } from '@mui/material';
 import {
   DeleteOutlined as DeleteOutlinedIcon,
@@ -38,8 +38,6 @@ function AdvancedConversationSidebar({
                                        setSelectedConversationId
                                      }) {
   const [conversations, setConversations] = useState([]);
-  const [newConversationName, setNewConversationName] = useState('');
-  const [isAddingConversation, setIsAddingConversation] = useState(false);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -61,7 +59,11 @@ function AdvancedConversationSidebar({
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
 
   // Auto Update
-  const [autoUpdate, setAutoUpdate] = useState(false);
+  const [autoUpdate, setAutoUpdate] = useState(true);
+
+  // Save conversation
+  const [newConversationName, setNewConversationName] = useState('');
+  const [isSavingConversation, setIsSavingConversation] = useState(false);
 
   const conversationLogic = new ConversationLogic();
 
@@ -100,7 +102,7 @@ function AdvancedConversationSidebar({
   };
 
   const handleAddConversation = async () => {
-    setIsAddingConversation(true);
+    setIsSavingConversation(true);
   };
 
   const handleSaveNewConversation = async () => {
@@ -119,7 +121,7 @@ function AdvancedConversationSidebar({
 
       setSelectedConversationId(newConversation.id);
       setNewConversationName('');
-      setIsAddingConversation(false);
+      setIsSavingConversation(false);
 
       setAlertOpen(true);
       setAlertMessage('Conversation added');
@@ -133,7 +135,7 @@ function AdvancedConversationSidebar({
   }
 
   const handleCancelAddConversation = () => {
-    setIsAddingConversation(false);
+    setIsSavingConversation(false);
     setNewConversationName('');
   }
 
@@ -338,7 +340,7 @@ function AdvancedConversationSidebar({
         )}
         <Divider/>
         <div className="p-2">
-          {!isAddingConversation && (
+          {!isSavingConversation && (
             <Button
               variant="outlined"
               onClick={handleAddConversation}
@@ -347,7 +349,7 @@ function AdvancedConversationSidebar({
               Save Conversation
             </Button>
           )}
-          {isAddingConversation && (
+          {isSavingConversation && (
             <div>
               <TextField
                 label="Enter conversation name"
