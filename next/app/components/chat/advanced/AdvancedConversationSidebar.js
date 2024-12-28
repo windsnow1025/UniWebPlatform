@@ -75,7 +75,7 @@ function AdvancedConversationSidebar({
     if (autoUpdate && selectedConversationId) {
       const conversationToUpdate = conversations.find(c => c.id === selectedConversationId);
       if (conversationToUpdate) {
-        handleUpdateConversation(conversations.indexOf(conversationToUpdate));
+        handleUpdateConversation(conversations.indexOf(conversationToUpdate), false);
       }
     }
   }, [messages]);
@@ -139,7 +139,7 @@ function AdvancedConversationSidebar({
     setNewConversationName('');
   }
 
-  const handleUpdateConversation = async (index) => {
+  const handleUpdateConversation = async (index, isManualUpdate = false) => {
     try {
       await conversationLogic.updateConversation({
         id: conversations[index].id,
@@ -147,12 +147,15 @@ function AdvancedConversationSidebar({
         messages: JSON.stringify(messages)
       });
       fetchConversations();
-      setAlertOpen(true);
-      setAlertMessage('Conversation updated');
-      setAlertSeverity('success');
+
+      if (isManualUpdate) {
+        setAlertOpen(true);
+        setAlertMessage('Conversation updated successfully');
+        setAlertSeverity('success');
+      }
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage(`Error updating conversation: ${err}`);
+      setAlertMessage(`Error updating conversation: ${err.message}`);
       setAlertSeverity('error');
       console.error(err);
     }
@@ -249,7 +252,7 @@ function AdvancedConversationSidebar({
           </Tooltip>
         </div>
         <Divider/>
-        {loading ? (
+        {(loading && conversations.length === 0) ? (
           <div className="flex-center p-4">
             <CircularProgress/>
           </div>
@@ -311,7 +314,7 @@ function AdvancedConversationSidebar({
                 >
                   <MenuItem onClick={(e) => {
                     e.stopPropagation();
-                    handleUpdateConversation(index);
+                    handleUpdateConversation(index, true);
                     handleMenuClose();
                   }}>
                     <SaveIcon fontSize="small" className="m-1"/>
