@@ -241,7 +241,7 @@ function AdvancedConversationSidebar({
             </Tooltip>
             <Tooltip title={`${autoUpdate ? 'Disable' : 'Enable'} auto update`}>
               <IconButton onClick={handleToggleAutoUpdate}>
-                {autoUpdate ? <SyncIcon/> : <SyncDisabledIcon/>}
+                {autoUpdate ? <SyncIcon fontSize="small"/> : <SyncDisabledIcon fontSize="small"/>}
               </IconButton>
             </Tooltip>
           </div>
