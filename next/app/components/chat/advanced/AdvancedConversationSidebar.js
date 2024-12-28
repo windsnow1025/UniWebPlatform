@@ -67,7 +67,6 @@ function AdvancedConversationSidebar({
     if (autoUpdate && selectedConversationId) {
       const conversationToUpdate = conversations.find(c => c.id === selectedConversationId);
       if (conversationToUpdate) {
-        console.log(conversationToUpdate);
         handleUpdateConversation(conversations.indexOf(conversationToUpdate));
       }
     }
@@ -93,12 +92,15 @@ function AdvancedConversationSidebar({
 
   const handleAddConversation = async () => {
     try {
-      await conversationLogic.addConversation({
+      const newConversation = await conversationLogic.addConversation({
         name: newConversationName,
         messages: JSON.stringify(messages)
       });
-      fetchConversations();
+      await fetchConversations();
+      
+      setSelectedConversationId(newConversation.id);
       setNewConversationName('');
+
       setAlertOpen(true);
       setAlertMessage('Conversation added');
       setAlertSeverity('success');
