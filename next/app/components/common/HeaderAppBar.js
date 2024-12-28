@@ -50,8 +50,7 @@ const HeaderAppBar = ({
           <MenuItem component={Link} href="/bookmark" onClick={handleMenuClose}>Bookmarks</MenuItem>
           <MenuItem component={Link} href="/password" onClick={handleMenuClose}>Password Generator</MenuItem>
           <MenuItem component={Link} href="/image" onClick={handleMenuClose}>Image Generate</MenuItem>
-          <MenuItem component={Link} href="/chat/advanced" onClick={handleMenuClose}>Advanced AI Chat</MenuItem>
-          <MenuItem component={Link} href="/chat/simple" onClick={handleMenuClose}>Simple AI Chat</MenuItem>
+          <MenuItem component={Link} href="/chat" onClick={handleMenuClose}>Windsnow AI Chat</MenuItem>
         </Menu>
         <Typography variant={typographyVariant}>{title}</Typography>
         {infoUrl && (
