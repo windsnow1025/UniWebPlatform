@@ -28,10 +28,10 @@ import {
   Sync as SyncIcon,
   SyncDisabled as SyncDisabledIcon
 } from '@mui/icons-material';
-import ConversationLogic from "../../../../src/conversation/ConversationLogic";
-import ShareConversationDialog from '../ShareConversationDialog';
+import ConversationLogic from "../../../src/conversation/ConversationLogic";
+import ShareConversationDialog from './ShareConversationDialog';
 
-function AdvancedConversationSidebar({
+function ConversationSidebar({
                                        messages,
                                        setMessages,
                                        selectedConversationId,
@@ -397,4 +397,4 @@ function AdvancedConversationSidebar({
   );
 }
 
-export default AdvancedConversationSidebar;
+export default ConversationSidebar;

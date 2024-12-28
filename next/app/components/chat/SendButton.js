@@ -2,9 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Alert, Button, Snackbar, Tooltip} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
-import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
+import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
-function AdvancedSendButton({
+function SendButton({
                               isGenerating,
                               setIsGenerating,
                               isGeneratingRef,
@@ -142,4 +142,4 @@ function AdvancedSendButton({
   );
 }
 
-export default AdvancedSendButton;
+export default SendButton;

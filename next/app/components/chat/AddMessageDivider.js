@@ -1,9 +1,9 @@
 import {Divider, IconButton, Tooltip} from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import React from "react";
-import ChatLogic from "../../../../src/conversation/chat/ChatLogic";
+import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
-function AdvancedAddMessageDivider({
+function AddMessageDivider({
                                      messages,
                                      setMessages,
                                      index,
@@ -34,4 +34,4 @@ function AdvancedAddMessageDivider({
   )
 }
 
-export default AdvancedAddMessageDivider;
+export default AddMessageDivider;
