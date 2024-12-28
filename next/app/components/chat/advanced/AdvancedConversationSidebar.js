@@ -37,6 +37,7 @@ function AdvancedConversationSidebar({
                                      }) {
   const [conversations, setConversations] = useState([]);
   const [newConversationName, setNewConversationName] = useState('');
+  const [isAddingConversation, setIsAddingConversation] = useState(false);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -91,15 +92,26 @@ function AdvancedConversationSidebar({
   };
 
   const handleAddConversation = async () => {
+    setIsAddingConversation(true);
+  };
+
+  const handleSaveNewConversation = async () => {
+    if (newConversationName.trim() === '') {
+      setAlertOpen(true);
+      setAlertMessage('Conversation name cannot be empty');
+      setAlertSeverity('warning');
+      return;
+    }
     try {
       const newConversation = await conversationLogic.addConversation({
         name: newConversationName,
         messages: JSON.stringify(messages)
       });
       await fetchConversations();
-      
+
       setSelectedConversationId(newConversation.id);
       setNewConversationName('');
+      setIsAddingConversation(false);
 
       setAlertOpen(true);
       setAlertMessage('Conversation added');
@@ -110,7 +122,12 @@ function AdvancedConversationSidebar({
       setAlertSeverity('error');
       console.error(err);
     }
-  };
+  }
+
+  const handleCancelAddConversation = () => {
+    setIsAddingConversation(false);
+    setNewConversationName('');
+  }
 
   const handleUpdateConversation = async (index) => {
     try {
@@ -307,22 +324,40 @@ function AdvancedConversationSidebar({
         </List>
         <Divider/>
         <div className="p-2">
-          <TextField
-            label="New Conversation"
-            value={newConversationName}
-            onChange={(e) => setNewConversationName(e.target.value)}
-            fullWidth
-          />
-          <div className="my-2">
+          {!isAddingConversation && (
             <Button
               variant="outlined"
-              startIcon={<SaveIcon/>}
               onClick={handleAddConversation}
               fullWidth
             >
-              Save
+              Save Conversation
             </Button>
-          </div>
+          )}
+          {isAddingConversation && (
+            <div>
+              <TextField
+                label="Enter conversation name"
+                value={newConversationName}
+                onChange={(e) => setNewConversationName(e.target.value)}
+                fullWidth
+              />
+              <div className="my-2 flex-around">
+                <Button
+                  variant="outlined"
+                  startIcon={<SaveIcon/>}
+                  onClick={handleSaveNewConversation}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleCancelAddConversation}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Snackbar
