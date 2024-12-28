@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Button,
+  CircularProgress,
   Divider,
   IconButton,
   List,
@@ -13,6 +14,7 @@ import {
   Snackbar,
   TextField,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import {
   DeleteOutlined as DeleteOutlinedIcon,
@@ -42,6 +44,9 @@ function AdvancedConversationSidebar({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
+
+  // Loading state
+  const [loading, setLoading] = useState(true);
 
   // Conversation Menu
   const [anchorEl, setAnchorEl] = useState(null);
@@ -74,6 +79,7 @@ function AdvancedConversationSidebar({
   }, [messages]);
 
   const fetchConversations = async () => {
+    setLoading(true);
     try {
       const newConversations = await conversationLogic.fetchConversations();
       setConversations(newConversations);
@@ -82,6 +88,8 @@ function AdvancedConversationSidebar({
       setAlertMessage('Error fetching conversations');
       setAlertSeverity('error');
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -239,89 +247,95 @@ function AdvancedConversationSidebar({
           </Tooltip>
         </div>
         <Divider/>
-        <List className="local-scroll-scrollable">
-          {conversations.map((conversation, index) => (
-            <ListItem
-              key={conversation.id}
-              disablePadding
-              sx={{
-                bgcolor: conversation.id === selectedConversationId ? 'action.selected' : 'inherit',
-              }}
-            >
-              <ListItemButton onClick={() => handleConversationClick(conversation.messages, conversation.id)}>
-                {editingIndex === index ? (
-                  <TextField
-                    value={editingName}
-                    onChange={(e) => setEditingName(e.target.value)}
-                    autoFocus
-                    fullWidth
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                ) : (
-                  <ListItemText primary={conversation.name}/>
-                )}
-                {editingIndex === index ? (
-                  <Tooltip title="Save">
-                    <IconButton onClick={(e) => {
-                      e.stopPropagation();
-                      handleUpdateConversationName(index);
-                    }}>
-                      <SaveOutlinedIcon/>
-                    </IconButton>
-                  </Tooltip>
-                ) : (
-                  <Tooltip title="Rename">
-                    <IconButton onClick={(e) => {
-                      e.stopPropagation();
-                      setEditingIndex(index);
-                      setEditingName(conversation.name);
-                    }}>
-                      <EditIcon fontSize="small"/>
-                    </IconButton>
-                  </Tooltip>
-                )}
-                <Tooltip title="More">
-                  <IconButton onClick={(e) => {
-                    e.stopPropagation();
-                    handleMenuOpen(e, index);
-                  }}>
-                    <MoreVertIcon fontSize="small"/>
-                  </IconButton>
-                </Tooltip>
-              </ListItemButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={menuIndex === index}
-                onClose={handleMenuClose}
+        {loading ? (
+          <div className="flex-center p-4">
+            <CircularProgress/>
+          </div>
+        ) : (
+          <List className="local-scroll-scrollable">
+            {conversations.map((conversation, index) => (
+              <ListItem
+                key={conversation.id}
+                disablePadding
+                sx={{
+                  bgcolor: conversation.id === selectedConversationId ? 'action.selected' : 'inherit',
+                }}
               >
-                <MenuItem onClick={(e) => {
-                  e.stopPropagation();
-                  handleUpdateConversation(index);
-                  handleMenuClose();
-                }}>
-                  <SaveIcon fontSize="small" className="m-1"/>
-                  Update
-                </MenuItem>
-                <MenuItem onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteConversation(index);
-                  handleMenuClose();
-                }}>
-                  <DeleteOutlinedIcon fontSize="small" className="m-1"/>
-                  Delete
-                </MenuItem>
-                <MenuItem onClick={(e) => {
-                  e.stopPropagation();
-                  openShareDialog(index);
-                  handleMenuClose();
-                }}>
-                  <ShareIcon fontSize="small" className="m-1"/>
-                  Share
-                </MenuItem>
-              </Menu>
-            </ListItem>
-          ))}
-        </List>
+                <ListItemButton onClick={() => handleConversationClick(conversation.messages, conversation.id)}>
+                  {editingIndex === index ? (
+                    <TextField
+                      value={editingName}
+                      onChange={(e) => setEditingName(e.target.value)}
+                      autoFocus
+                      fullWidth
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  ) : (
+                    <ListItemText primary={conversation.name}/>
+                  )}
+                  {editingIndex === index ? (
+                    <Tooltip title="Save">
+                      <IconButton onClick={(e) => {
+                        e.stopPropagation();
+                        handleUpdateConversationName(index);
+                      }}>
+                        <SaveOutlinedIcon/>
+                      </IconButton>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title="Rename">
+                      <IconButton onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingIndex(index);
+                        setEditingName(conversation.name);
+                      }}>
+                        <EditIcon fontSize="small"/>
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                  <Tooltip title="More">
+                    <IconButton onClick={(e) => {
+                      e.stopPropagation();
+                      handleMenuOpen(e, index);
+                    }}>
+                      <MoreVertIcon fontSize="small"/>
+                    </IconButton>
+                  </Tooltip>
+                </ListItemButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuIndex === index}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    handleUpdateConversation(index);
+                    handleMenuClose();
+                  }}>
+                    <SaveIcon fontSize="small" className="m-1"/>
+                    Update
+                  </MenuItem>
+                  <MenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteConversation(index);
+                    handleMenuClose();
+                  }}>
+                    <DeleteOutlinedIcon fontSize="small" className="m-1"/>
+                    Delete
+                  </MenuItem>
+                  <MenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    openShareDialog(index);
+                    handleMenuClose();
+                  }}>
+                    <ShareIcon fontSize="small" className="m-1"/>
+                    Share
+                  </MenuItem>
+                </Menu>
+              </ListItem>
+            ))}
+          </List>
+        )}
         <Divider/>
         <div className="p-2">
           {!isAddingConversation && (
