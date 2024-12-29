@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import ChatClient, {StreamResponse} from "./ChatClient";
 import {Message} from "./Message"
 import {ApiTypeModel} from "@/src/conversation/chat/Chat";
@@ -86,7 +86,7 @@ export default class ChatLogic {
   }
 
   filterModelsByApiType(apiModels: ApiTypeModel[], apiType: string): string[] {
-    if(!Array.isArray(apiModels)) {
+    if (!Array.isArray(apiModels)) {
       apiModels = this.defaultApiModels;
     }
     return apiModels
@@ -113,7 +113,7 @@ export default class ChatLogic {
     }
   }
 
-  async *streamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
+  async* streamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
     let controller;
 
     const desanitizedMessages = messages.map(message => ({

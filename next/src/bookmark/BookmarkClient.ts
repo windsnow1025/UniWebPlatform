@@ -3,8 +3,9 @@ import {Bookmark} from './Bookmark';
 
 export default class BookmarkClient {
   private axiosInstance: AxiosInstance;
+
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL });
+    this.axiosInstance = axios.create({baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL});
   }
 
   async fetchBookmarks() {

@@ -4,16 +4,16 @@ import React from "react";
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
 function AddMessageDivider({
-                                     messages,
-                                     setMessages,
-                                     index,
-                                     setIsGenerating,
-                                     isGeneratingRef,
-                                   }) {
+                             messages,
+                             setMessages,
+                             index,
+                             setIsGenerating,
+                             isGeneratingRef,
+                           }) {
   const chatLogic = new ChatLogic();
 
   const handleMessageAdd = (index) => {
-    if (index ===  messages.length - 1) {
+    if (index === messages.length - 1) {
       setIsGenerating(false);
       isGeneratingRef.current = false;
     }

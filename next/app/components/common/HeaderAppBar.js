@@ -62,14 +62,14 @@ const HeaderAppBar = ({
               rel="noopener noreferrer"
               aria-label="information"
             >
-              <InfoIcon fontSize={iconSize} className="text-white" />
+              <InfoIcon fontSize={iconSize} className="text-white"/>
             </IconButton>
           </Tooltip>
         )}
         <div className="grow"></div>
         {useAuthDiv &&
           <div className="m-1 mx-2">
-            <AuthDiv refreshKey={refreshKey} />
+            <AuthDiv refreshKey={refreshKey}/>
           </div>
         }
         <div className="m-1 mx-2">

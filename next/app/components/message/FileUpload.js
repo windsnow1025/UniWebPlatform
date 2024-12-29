@@ -4,7 +4,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileLogic from "../../../src/common/file/FileLogic";
 
-function FileUpload({ files, setFiles, setUploadProgress }) {
+function FileUpload({files, setFiles, setUploadProgress}) {
   const fileInputRef = useRef(null);
   const folderInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -102,7 +102,7 @@ function FileUpload({ files, setFiles, setUploadProgress }) {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>

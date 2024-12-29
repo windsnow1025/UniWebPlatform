@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
@@ -109,7 +109,7 @@ function SignUp() {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>

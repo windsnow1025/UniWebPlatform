@@ -5,7 +5,7 @@ export default class ConversationClient {
   private axiosInstance: AxiosInstance;
 
   constructor() {
-    this.axiosInstance = axios.create({ baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL });
+    this.axiosInstance = axios.create({baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL});
   }
 
   async fetchConversations(): Promise<Conversation[]> {
@@ -26,8 +26,8 @@ export default class ConversationClient {
 
   async addConversationForUser(id: number, username: string): Promise<Conversation> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.post(`/conversations/conversation/${id}/user`, { username }, {
-      headers: { Authorization: `Bearer ${token}` }
+    const res = await this.axiosInstance.post(`/conversations/conversation/${id}/user`, {username}, {
+      headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
   }
@@ -41,16 +41,16 @@ export default class ConversationClient {
 
   async updateConversationName(id: number, name: string): Promise<Conversation> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.patch(`/conversations/conversation/${id}/name`, { name }, {
-      headers: { Authorization: `Bearer ${token}` }
+    const res = await this.axiosInstance.patch(`/conversations/conversation/${id}/name`, {name}, {
+      headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
   }
 
   async addUserToConversation(id: number, username: string) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.patch(`/conversations/conversation/${id}/users`, { username }, {
-      headers: { Authorization: `Bearer ${token}` }
+    await this.axiosInstance.patch(`/conversations/conversation/${id}/users`, {username}, {
+      headers: {Authorization: `Bearer ${token}`}
     });
   }
 

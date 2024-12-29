@@ -99,7 +99,8 @@ function MarkdownUpdate() {
           {isEditing &&
             <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button>
             </div>}
-          <div className="m-1"><Button variant="contained" color="secondary" onClick={handleUpdate}>Update</Button></div>
+          <div className="m-1"><Button variant="contained" color="secondary" onClick={handleUpdate}>Update</Button>
+          </div>
           <div className="m-1"><Button variant="outlined" onClick={handleDelete}>Delete</Button></div>
         </div>
       </div>
@@ -109,7 +110,7 @@ function MarkdownUpdate() {
         onClose={() => setAlertOpen(false)}
         message={alertMessage}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>

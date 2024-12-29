@@ -26,7 +26,7 @@ export default class MarkdownLogic {
 
   async addMarkdown(title: string, content: string) {
     try {
-      await this.markdownService.addMarkdown({ title, content });
+      await this.markdownService.addMarkdown({title, content});
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -43,7 +43,7 @@ export default class MarkdownLogic {
 
   async updateMarkdown(id: number, title: string, content: string) {
     try {
-      await this.markdownService.updateMarkdown(id, { title, content });
+      await this.markdownService.updateMarkdown(id, {title, content});
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {

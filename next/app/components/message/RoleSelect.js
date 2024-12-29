@@ -10,7 +10,9 @@ function RoleSelect({role, setRole}) {
         id="role-select"
         value={role}
         label="Role"
-        onChange={e => {setRole(e.target.value)}}
+        onChange={e => {
+          setRole(e.target.value)
+        }}
       >
         <MenuItem value="user">user</MenuItem>
         <MenuItem value="assistant">assistant</MenuItem>

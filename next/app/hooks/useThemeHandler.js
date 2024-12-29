@@ -18,7 +18,7 @@ const useThemeHandler = () => {
     setMuiTheme(createMUITheme(systemTheme, prefersDarkMode));
   }, [systemTheme]);
 
-  return { systemTheme, setSystemTheme, muiTheme };
+  return {systemTheme, setSystemTheme, muiTheme};
 };
 
 export default useThemeHandler;
