@@ -81,7 +81,7 @@ function MarkdownAdd() {
         onClose={() => setAlertOpen(false)}
         message={alertMessage}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>
