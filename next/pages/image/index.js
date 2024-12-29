@@ -163,7 +163,7 @@ function ImageGenerate() {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>

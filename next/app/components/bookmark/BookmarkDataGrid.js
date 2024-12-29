@@ -6,8 +6,8 @@ function BookmarkDataGrid() {
   const bookmarkLogic = new BookmarkLogic();
 
   const columns = [
-    { field: 'firstTitle', headerName: 'First Title', flex: 0.15, editable: true },
-    { field: 'secondTitle', headerName: 'Second Title', flex: 0.15, editable: true },
+    {field: 'firstTitle', headerName: 'First Title', flex: 0.15, editable: true},
+    {field: 'secondTitle', headerName: 'Second Title', flex: 0.15, editable: true},
     {
       field: 'url',
       headerName: 'URL',
@@ -19,7 +19,7 @@ function BookmarkDataGrid() {
         </a>
       ),
     },
-    { field: 'comment', headerName: 'Comment', flex: 0.3, editable: true },
+    {field: 'comment', headerName: 'Comment', flex: 0.3, editable: true},
   ];
 
   const fetchData = async () => {

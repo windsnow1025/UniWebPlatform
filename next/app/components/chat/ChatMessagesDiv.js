@@ -3,13 +3,13 @@ import React from "react";
 import AddMessageDivider from "./AddMessageDivider";
 
 function ChatMessagesDiv({
-                                   messages,
-                                   setMessages,
-                                   shouldSanitize,
-                                   editableState,
-                                   setIsGenerating,
-                                   isGeneratingRef,
-                                 }) {
+                           messages,
+                           setMessages,
+                           shouldSanitize,
+                           editableState,
+                           setIsGenerating,
+                           isGeneratingRef,
+                         }) {
   const handleMessageUpdate = (id, updatedMessage) => {
     setMessages((prevMessages) =>
       prevMessages.map((msg) => (msg.id === id ? updatedMessage : msg))
