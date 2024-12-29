@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   Autocomplete,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   Snackbar,
   TextField,
-  Alert,
-  Checkbox,
-  FormControlLabel,
 } from '@mui/material';
 import UserLogic from "../../../src/common/user/UserLogic";
 import ConversationLogic from "../../../src/conversation/ConversationLogic";
