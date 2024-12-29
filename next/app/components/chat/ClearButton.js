@@ -4,11 +4,11 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
 function ClearButton({
-                               setMessages,
-                               setIsGenerating,
-                               isGeneratingRef,
-                               setSelectedConversationId
-                             }) {
+                       setMessages,
+                       setIsGenerating,
+                       isGeneratingRef,
+                       setSelectedConversationId
+                     }) {
   const chatLogic = new ChatLogic();
 
   const handleClear = () => {

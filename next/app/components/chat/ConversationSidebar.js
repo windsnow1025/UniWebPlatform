@@ -14,7 +14,6 @@ import {
   Snackbar,
   TextField,
   Tooltip,
-
 } from '@mui/material';
 import {
   DeleteOutlined as DeleteOutlinedIcon,
@@ -32,11 +31,11 @@ import ConversationLogic from "../../../src/conversation/ConversationLogic";
 import ShareConversationDialog from './ShareConversationDialog';
 
 function ConversationSidebar({
-                                       messages,
-                                       setMessages,
-                                       selectedConversationId,
-                                       setSelectedConversationId
-                                     }) {
+                               messages,
+                               setMessages,
+                               selectedConversationId,
+                               setSelectedConversationId
+                             }) {
   const [conversations, setConversations] = useState([]);
 
   const [alertOpen, setAlertOpen] = useState(false);

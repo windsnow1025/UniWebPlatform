@@ -14,15 +14,15 @@ import {
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
 function SettingsDiv({
-                               apiType,
-                               setApiType,
-                               model,
-                               setModel,
-                               temperature,
-                               setTemperature,
-                               stream,
-                               setStream,
-                             }) {
+                       apiType,
+                       setApiType,
+                       model,
+                       setModel,
+                       temperature,
+                       setTemperature,
+                       stream,
+                       setStream,
+                     }) {
   const chatLogic = new ChatLogic();
 
   const [models, setModels] = useState([]);

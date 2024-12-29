@@ -3,12 +3,12 @@ import {IconButton, Tooltip} from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-const ToggleDrawerButton = ({ drawerOpen, setDrawerOpen }) => {
+const ToggleDrawerButton = ({drawerOpen, setDrawerOpen}) => {
   return (
     <div className="m-2">
       <Tooltip title="Conversations">
         <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
-          {drawerOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          {drawerOpen ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
         </IconButton>
       </Tooltip>
     </div>
