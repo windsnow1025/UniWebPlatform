@@ -60,7 +60,7 @@ function SettingsDiv({
   return (
     <>
       <div className="flex-around m-1">
-        <div className="mx-1">
+        <div className="m-1">
           <FormControl fullWidth size="small" className="mt-2">
             <InputLabel id="api-type-select-label">API Type</InputLabel>
             <Select
@@ -76,7 +76,7 @@ function SettingsDiv({
             </Select>
           </FormControl>
         </div>
-        <div className="mx-1">
+        <div className="m-1">
           <FormControl fullWidth size="small" className="mt-2">
             <InputLabel id="model-select-label">Model</InputLabel>
             <Select
