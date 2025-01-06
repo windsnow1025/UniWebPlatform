@@ -14,6 +14,7 @@ function SendButton({
                       model,
                       temperature,
                       stream,
+                      setConversationUpdateTrigger
                     }) {
   const chatLogic = new ChatLogic();
 
@@ -94,6 +95,8 @@ function SendButton({
     }
 
     switchStatus(false);
+
+    setConversationUpdateTrigger(true);
   }
 
   const switchStatus = (status) => {
