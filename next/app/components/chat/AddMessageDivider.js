@@ -9,6 +9,7 @@ function AddMessageDivider({
                              index,
                              setIsGenerating,
                              isGeneratingRef,
+                             setConversationUpdateTrigger
                            }) {
   const chatLogic = new ChatLogic();
 
@@ -21,6 +22,8 @@ function AddMessageDivider({
     const newMessages = [...messages];
     newMessages.splice(index + 1, 0, chatLogic.emptyUserMessage);
     setMessages(newMessages);
+
+    setConversationUpdateTrigger(true);
   };
 
   return (
