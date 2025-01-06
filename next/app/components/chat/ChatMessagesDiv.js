@@ -9,6 +9,7 @@ function ChatMessagesDiv({
                            editableState,
                            setIsGenerating,
                            isGeneratingRef,
+                           setConversationUpdateTrigger
                          }) {
   const handleMessageUpdate = (id, updatedMessage) => {
     setMessages((prevMessages) =>
@@ -23,6 +24,8 @@ function ChatMessagesDiv({
     }
 
     setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== id));
+
+    setConversationUpdateTrigger(true);
   };
 
   return (
@@ -33,6 +36,7 @@ function ChatMessagesDiv({
         index={-1}
         setIsGenerating={setIsGenerating}
         isGeneratingRef={isGeneratingRef}
+        setConversationUpdateTrigger={setConversationUpdateTrigger}
       />
       {messages.map((message, index) => (
         <div key={message.id}>
@@ -50,6 +54,7 @@ function ChatMessagesDiv({
             index={index}
             setIsGenerating={setIsGenerating}
             isGeneratingRef={isGeneratingRef}
+            setConversationUpdateTrigger={setConversationUpdateTrigger}
           />
         </div>
       ))}

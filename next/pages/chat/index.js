@@ -46,8 +46,9 @@ function AIChat() {
   const [isGenerating, setIsGenerating] = useState(false);
   const isGeneratingRef = useRef(false);
 
-  // Selected Conversation
+  // Conversation
   const [selectedConversationId, setSelectedConversationId] = useState(null);
+  const [conversationUpdateTrigger, setConversationUpdateTrigger] = useState(false);
 
   return (
     <ThemeProvider theme={muiTheme}>
@@ -67,6 +68,8 @@ function AIChat() {
                 setMessages={setMessages}
                 selectedConversationId={selectedConversationId}
                 setSelectedConversationId={setSelectedConversationId}
+                conversationUpdateTrigger={conversationUpdateTrigger}
+                setConversationUpdateTrigger={setConversationUpdateTrigger}
               />
             </Collapse>
           </Paper>
@@ -98,6 +101,7 @@ function AIChat() {
                   editableState={editableState}
                   setIsGenerating={setIsGenerating}
                   isGeneratingRef={isGeneratingRef}
+                  setConversationUpdateTrigger={setConversationUpdateTrigger}
                 />
               </div>
             </Paper>
@@ -119,6 +123,7 @@ function AIChat() {
                   model={model}
                   temperature={temperature}
                   stream={stream}
+                  setConversationUpdateTrigger={setConversationUpdateTrigger}
                 />
                 <ClearButton
                   setMessages={setMessages}
