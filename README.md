@@ -289,7 +289,7 @@ stream {
 
 - Start Minikube:
    ```bash
-   minikube start --driver=none
+   minikube start
    ```
 
 #### Usage
