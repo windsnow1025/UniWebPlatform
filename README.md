@@ -111,6 +111,11 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    apt install conntrack
    ```
    
+   - Install wget
+   ```bash
+   apt install wget
+   ```
+   
    - Install crictl
    ```bash
    VERSION="v1.30.0" # check latest version in /releases page
