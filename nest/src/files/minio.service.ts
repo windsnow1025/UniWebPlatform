@@ -25,7 +25,7 @@ export class MinioService {
     try {
       bucketExists = await this.minioClient.bucketExists(this.bucketName);
     } catch (error) {
-      console.error('Unable to connect to MinIO', error.message);
+      console.error('Unable to connect to MinIO:', error.message);
       return;
     }
 
