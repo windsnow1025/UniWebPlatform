@@ -1,8 +1,9 @@
 # FastAPI and related libraries
 fastapi # fastapi
-uvicorn
+pydantic # pydantic
 sqlmodel # sqlmodel
 asyncmy
+uvicorn
 
 # HTTP client
 httpx # httpx
