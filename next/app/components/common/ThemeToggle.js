@@ -1,5 +1,5 @@
 import React from 'react';
-import {ToggleButton, ToggleButtonGroup} from "@mui/material";
+import {ToggleButton, ToggleButtonGroup, Tooltip} from "@mui/material";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
@@ -17,24 +17,30 @@ const ThemeToggle = ({systemTheme, setSystemTheme}) => {
       onChange={(event, newTheme) => setSystemTheme(newTheme)}
       size={smallMediumIconSize}
     >
-      <ToggleButton value={ThemeType.System}>
-        <BrightnessAutoIcon
-          fontSize={smallMediumIconSize}
-          className="text-white"
-        />
-      </ToggleButton>
-      <ToggleButton value={ThemeType.Light}>
-        <LightModeIcon
-          fontSize={smallMediumIconSize}
-          className="text-white"
-        />
-      </ToggleButton>
-      <ToggleButton value={ThemeType.Dark}>
-        <DarkModeIcon
-          fontSize={smallMediumIconSize}
-          className="text-white"
-        />
-      </ToggleButton>
+      <Tooltip title="System">
+        <ToggleButton value={ThemeType.System}>
+          <BrightnessAutoIcon
+            fontSize={smallMediumIconSize}
+            className="text-white"
+          />
+        </ToggleButton>
+      </Tooltip>
+      <Tooltip title="Light">
+        <ToggleButton value={ThemeType.Light}>
+          <LightModeIcon
+            fontSize={smallMediumIconSize}
+            className="text-white"
+          />
+        </ToggleButton>
+      </Tooltip>
+      <Tooltip title="Dark">
+        <ToggleButton value={ThemeType.Dark}>
+          <DarkModeIcon
+            fontSize={smallMediumIconSize}
+            className="text-white"
+          />
+        </ToggleButton>
+      </Tooltip>
     </ToggleButtonGroup>
   );
 };
