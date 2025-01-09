@@ -241,7 +241,7 @@ function ConversationSidebar({
   return (
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-y">
-        <div className="flex-between-nowrap p-4 ">
+        <div className="flex-between-nowrap p-4">
           <div className="flex-center">
             <Tooltip title="Conversations">
               <ForumIcon/>
@@ -260,7 +260,7 @@ function ConversationSidebar({
         </div>
         <Divider/>
         {(isLoadingConversation && conversations.length === 0) ? (
-          <div className="flex-center p-4">
+          <div className="local-scroll-scrollable flex-center p-4">
             <CircularProgress/>
           </div>
         ) : (
