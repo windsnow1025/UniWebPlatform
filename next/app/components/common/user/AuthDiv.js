@@ -7,7 +7,7 @@ import SignDiv from "./SignDiv";
 import CreditDiv from "./CreditDiv";
 import useScreenSize from "../../../hooks/useScreenSize";
 
-function AuthDiv({refreshKey}) {
+function AuthDiv() {
   const screenSize = useScreenSize();
   const iconSize = screenSize === 'xs' ? 'small' : screenSize === 'sm' ? 'medium' : 'large';
 
@@ -54,7 +54,7 @@ function AuthDiv({refreshKey}) {
             <MenuItem disabled>
               <Typography variant="subtitle1">{username}</Typography>
             </MenuItem>
-            <MenuItem disabled><CreditDiv refreshKey={refreshKey}/></MenuItem>
+            <MenuItem disabled><CreditDiv/></MenuItem>
             <MenuItem component={Link} href="/user/account" onClick={handleMenuClose}>Manage Account</MenuItem>
             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
           </Menu>

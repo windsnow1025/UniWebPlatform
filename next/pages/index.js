@@ -18,11 +18,7 @@ function Index() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title="Windsnow1025"
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-        />
+        <HeaderAppBar title="Windsnow1025"/>
         <div className="local-scroll-scrollable flex-around m-2">
           <span>My Email: windsnow1024@gmail.com</span>
           <Link

@@ -36,12 +36,7 @@ function SignIn() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title={"Sign In"}
-          useAuthDiv={false}
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-        />
+        <HeaderAppBar title={"Sign In"} useSignDiv={false}/>
         <div className="local-scroll-scrollable flex-center">
           <div className="text-center">
             <div className="m-2">
