@@ -31,11 +31,7 @@ function Index() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title={title}
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-        />
+        <HeaderAppBar title={title}/>
         <div className="local-scroll-scrollable">
           <Paper elevation={4} className="m-8 p-8">
             <div className="flex-between">

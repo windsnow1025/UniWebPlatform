@@ -81,11 +81,7 @@ function MarkdownUpdate() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title="Markdown Update"
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-        />
+        <HeaderAppBar title="Markdown Update"/>
         <div className="local-scroll-scrollable m-2">
           <div
             className="markdown-body p-2 min-h-16"

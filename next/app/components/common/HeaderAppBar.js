@@ -1,24 +1,39 @@
-import {AppBar, IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
-import AuthDiv from "./user/AuthDiv";
-import ThemeToggle from "./ThemeToggle";
-import React, {useState} from "react";
-import MenuIcon from '@mui/icons-material/Menu';
+import {AppBar, CircularProgress, IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import InfoIcon from '@mui/icons-material/Info';
+import MenuIcon from '@mui/icons-material/Menu';
+import SettingsIcon from '@mui/icons-material/Settings';
 import Link from 'next/link';
 import useScreenSize from "../../hooks/useScreenSize";
+import UserLogic from "../../../src/common/user/UserLogic";
+import SignDiv from "./user/SignDiv";
 
 const HeaderAppBar = ({
                         title,
-                        useAuthDiv = true,
-                        systemTheme,
-                        setSystemTheme,
-                        refreshKey,
+                        useSignDiv = true,
                         infoUrl
                       }) => {
   const screenSize = useScreenSize();
   const iconSize = screenSize === 'xs' ? 'small' : screenSize === 'sm' ? 'medium' : 'large';
   const typographyVariant = screenSize === 'xs' ? 'h6' : screenSize === 'sm' ? 'h5' : 'h4';
 
+  // Sign State
+  const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const userLogic = new UserLogic();
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      setLoading(true);
+      const username = await userLogic.fetchUsername();
+      setUsername(username);
+      setLoading(false);
+    };
+
+    fetchUsername();
+  }, []);
+
+  // Menu
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
@@ -27,6 +42,11 @@ const HeaderAppBar = ({
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  // Settings
+  const handleSettingsClick = () => {
+    window.open('/settings', '_blank');
   };
 
   return (
@@ -67,17 +87,20 @@ const HeaderAppBar = ({
           </Tooltip>
         )}
         <div className="grow"></div>
-        {useAuthDiv &&
-          <div className="m-1 mx-2">
-            <AuthDiv refreshKey={refreshKey}/>
+        {!username && useSignDiv &&
+          <div>
+            {loading ? (
+              <CircularProgress size={24}/>
+            ) : (
+              <SignDiv/>
+            )}
           </div>
         }
-        <div className="m-1 mx-2">
-          <ThemeToggle
-            systemTheme={systemTheme}
-            setSystemTheme={setSystemTheme}
-          />
-        </div>
+        <Tooltip title="Settings">
+          <IconButton onClick={handleSettingsClick}>
+            <SettingsIcon fontSize={iconSize}/>
+          </IconButton>
+        </Tooltip>
       </div>
     </AppBar>
   );

@@ -91,11 +91,7 @@ function PasswordGenerator() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title="Password Generator"
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-        />
+        <HeaderAppBar title="Password Generator"/>
         <div className="local-scroll-scrollable flex-center">
           <div className="text-center">
             <div className="m-2">

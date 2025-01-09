@@ -59,12 +59,7 @@ function ImageGenerate() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title={title}
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-          refreshKey={loading}
-        />
+        <HeaderAppBar title={title}/>
         <div className="local-scroll-scrollable">
           <div className="flex-around m-2">
             <div className="m-1">
