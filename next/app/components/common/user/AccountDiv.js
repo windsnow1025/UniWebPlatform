@@ -37,7 +37,7 @@ function AccountCenter() {
 
   return (
     <>
-      <div className="flex-center">
+      <div className="flex-start">
         <div className="text-center">
           <div className="m-2">
             <TextField
