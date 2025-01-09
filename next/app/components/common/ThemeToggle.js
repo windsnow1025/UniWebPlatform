@@ -21,7 +21,6 @@ const ThemeToggle = ({systemTheme, setSystemTheme}) => {
         <ToggleButton value={ThemeType.System}>
           <BrightnessAutoIcon
             fontSize={smallMediumIconSize}
-            className="text-white"
           />
         </ToggleButton>
       </Tooltip>
@@ -29,7 +28,6 @@ const ThemeToggle = ({systemTheme, setSystemTheme}) => {
         <ToggleButton value={ThemeType.Light}>
           <LightModeIcon
             fontSize={smallMediumIconSize}
-            className="text-white"
           />
         </ToggleButton>
       </Tooltip>
@@ -37,7 +35,6 @@ const ThemeToggle = ({systemTheme, setSystemTheme}) => {
         <ToggleButton value={ThemeType.Dark}>
           <DarkModeIcon
             fontSize={smallMediumIconSize}
-            className="text-white"
           />
         </ToggleButton>
       </Tooltip>
