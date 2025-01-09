@@ -12,6 +12,7 @@ import {
   Typography
 } from "@mui/material";
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
+import useScreenSize from "../../hooks/useScreenSize";
 
 function SettingsDiv({
                        apiType,
@@ -23,6 +24,9 @@ function SettingsDiv({
                        stream,
                        setStream,
                      }) {
+  const screenSize = useScreenSize();
+  const smallScreen = screenSize === 'xs';
+
   const chatLogic = new ChatLogic();
 
   const [models, setModels] = useState([]);
@@ -98,29 +102,33 @@ function SettingsDiv({
             </Select>
           </FormControl>
         </div>
-        <div className="mx-1">
-          <Typography variant="body1">Temperature</Typography>
-          <Slider
-            id="temperature"
-            value={temperature}
-            onChange={(e, newValue) => setTemperature(newValue)}
-            valueLabelDisplay="auto"
-            step={0.1}
-            marks
-            min={0}
-            max={2}
-            size="small"
-          />
-        </div>
-        <div className="mx-1">
-          <FormControlLabel control={
-            <Switch
-              checked={stream}
-              onChange={e => setStream(e.target.checked)}
-              size="small"
-            />
-          } label="Stream"/>
-        </div>
+        {!smallScreen && (
+          <>
+            <div className="mx-1">
+              <Typography variant="body1">Temperature</Typography>
+              <Slider
+                id="temperature"
+                value={temperature}
+                onChange={(e, newValue) => setTemperature(newValue)}
+                valueLabelDisplay="auto"
+                step={0.1}
+                marks
+                min={0}
+                max={2}
+                size="small"
+              />
+            </div>
+            <div className="mx-1">
+              <FormControlLabel control={
+                <Switch
+                  checked={stream}
+                  onChange={e => setStream(e.target.checked)}
+                  size="small"
+                />
+              } label="Stream"/>
+            </div>
+          </>
+        )}
       </div>
       <Snackbar
         open={alertOpen}
