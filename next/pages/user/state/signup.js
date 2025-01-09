@@ -60,12 +60,7 @@ function SignUp() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title="Sign Up"
-          useAuthDiv={false}
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-        />
+        <HeaderAppBar title="Sign Up" useSignDiv={false}/>
         <div className="local-scroll-scrollable flex-center">
           <div className="text-center">
             <div className="m-2">

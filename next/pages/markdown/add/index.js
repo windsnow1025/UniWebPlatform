@@ -54,11 +54,7 @@ function MarkdownAdd() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title="Markdown Add"
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-        />
+        <HeaderAppBar title="Markdown Add"/>
         <div className="local-scroll-scrollable m-2">
           <div
             className="markdown-body p-2 min-h-16"

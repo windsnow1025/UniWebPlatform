@@ -54,12 +54,7 @@ function AIChat() {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar
-          title={title}
-          systemTheme={systemTheme}
-          setSystemTheme={setSystemTheme}
-          infoUrl={"/markdown/view/chat-doc.md"}
-        />
+        <HeaderAppBar title={title} infoUrl={"/markdown/view/chat-doc.md"}/>
         <div className="local-scroll-unscrollable-x">
           <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
             <Collapse orientation="horizontal" in={drawerOpen}>
