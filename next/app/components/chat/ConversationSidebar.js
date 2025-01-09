@@ -29,6 +29,7 @@ import {
 } from '@mui/icons-material';
 import ConversationLogic from "../../../src/conversation/ConversationLogic";
 import ShareConversationDialog from './ShareConversationDialog';
+import {wait} from "../../utils/Wait";
 
 function ConversationSidebar({
                                messages,
@@ -45,7 +46,8 @@ function ConversationSidebar({
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   // Loading state
-  const [loading, setLoading] = useState(true);
+  const [isLoadingConversation, setIsLoadingConversation] = useState(true);
+  const [isSavingConversation, setIsSavingConversation] = useState(false);
 
   // Conversation Menu
   const [anchorEl, setAnchorEl] = useState(null);
@@ -64,7 +66,7 @@ function ConversationSidebar({
 
   // Save conversation
   const [newConversationName, setNewConversationName] = useState('');
-  const [isSavingConversation, setIsSavingConversation] = useState(false);
+  const [isToSaveConversation, setIsToSaveConversation] = useState(false);
 
   const conversationLogic = new ConversationLogic();
 
@@ -83,7 +85,7 @@ function ConversationSidebar({
   }, [conversationUpdateTrigger]);
 
   const fetchConversations = async () => {
-    setLoading(true);
+    setIsLoadingConversation(true);
     try {
       const newConversations = await conversationLogic.fetchConversations();
       setConversations(newConversations);
@@ -93,7 +95,7 @@ function ConversationSidebar({
       setAlertSeverity('error');
       console.error(err);
     } finally {
-      setLoading(false);
+      setIsLoadingConversation(false);
     }
   };
 
@@ -104,7 +106,7 @@ function ConversationSidebar({
   };
 
   const handleAddConversation = async () => {
-    setIsSavingConversation(true);
+    setIsToSaveConversation(true);
   };
 
   const handleSaveNewConversation = async () => {
@@ -114,6 +116,7 @@ function ConversationSidebar({
       setAlertSeverity('warning');
       return;
     }
+    setIsSavingConversation(true);
     try {
       const newConversation = await conversationLogic.addConversation({
         name: newConversationName,
@@ -123,7 +126,7 @@ function ConversationSidebar({
 
       setSelectedConversationId(newConversation.id);
       setNewConversationName('');
-      setIsSavingConversation(false);
+      setIsToSaveConversation(false);
 
       setAlertOpen(true);
       setAlertMessage('Conversation added');
@@ -133,11 +136,13 @@ function ConversationSidebar({
       setAlertMessage('Error adding conversation');
       setAlertSeverity('error');
       console.error(err);
+    } finally {
+      setIsSavingConversation(false);
     }
   }
 
   const handleCancelAddConversation = () => {
-    setIsSavingConversation(false);
+    setIsToSaveConversation(false);
     setNewConversationName('');
   }
 
@@ -254,7 +259,7 @@ function ConversationSidebar({
           </Tooltip>
         </div>
         <Divider/>
-        {(loading && conversations.length === 0) ? (
+        {(isLoadingConversation && conversations.length === 0) ? (
           <div className="flex-center p-4">
             <CircularProgress/>
           </div>
@@ -345,7 +350,7 @@ function ConversationSidebar({
         )}
         <Divider/>
         <div className="p-2">
-          {!isSavingConversation && (
+          {!isToSaveConversation && (
             <Button
               variant="outlined"
               onClick={handleAddConversation}
@@ -354,7 +359,7 @@ function ConversationSidebar({
               Save Conversation
             </Button>
           )}
-          {isSavingConversation && (
+          {isToSaveConversation && (
             <div>
               <TextField
                 label="Enter conversation name"
@@ -365,14 +370,16 @@ function ConversationSidebar({
               <div className="my-2 flex-around">
                 <Button
                   variant="outlined"
-                  startIcon={<SaveIcon/>}
+                  startIcon={isSavingConversation ? <CircularProgress size={20}/> : <SaveIcon/>}
                   onClick={handleSaveNewConversation}
+                  disabled={isSavingConversation}
                 >
-                  Save
+                  {isSavingConversation ? 'Saving...' : 'Save'}
                 </Button>
                 <Button
                   variant="outlined"
                   onClick={handleCancelAddConversation}
+                  disabled={isSavingConversation}
                 >
                   Cancel
                 </Button>
