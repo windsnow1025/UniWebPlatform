@@ -1,10 +1,9 @@
 import React from 'react';
-import {IconButton, Paper, Typography} from '@mui/material';
+import { IconButton, Paper, Typography } from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import GetAppIcon from '@mui/icons-material/GetApp';
 import mime from 'mime';
 
-const FileDiv = ({fileUrl, files, setFiles}) => {
+const FileDiv = ({ fileUrl, files, setFiles }) => {
   const mimeType = mime.getType(fileUrl);
   const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1];
 
@@ -15,58 +14,49 @@ const FileDiv = ({fileUrl, files, setFiles}) => {
     }
   };
 
-  const renderDeleteIcon = () => {
-    if (setFiles) {
-      return (
-        <IconButton aria-label="delete-file" onClick={handleFileDelete}>
-          <RemoveCircleOutlineIcon fontSize="small"/>
-        </IconButton>
-      );
-    }
-    return null;
-  };
+  const isImage = mimeType && mimeType.startsWith('image/');
+  const isPdf = mimeType === 'application/pdf';
+  const isVideo = mimeType && mimeType.startsWith('video/');
+  const isAudio = mimeType && mimeType.startsWith('audio/');
 
-  if (mimeType && mimeType.startsWith('image/')) {
-    return (
-      <Paper key={fileUrl} className="flex p-2 m-2">
-        <div className="inflex-fill">
-          <img src={fileUrl} alt={fileName} className="max-w-full"/>
-        </div>
-        <div className="self-end flex">
-          <IconButton
-            aria-label="download-image"
-            component="a"
-            href={fileUrl}
-            download={fileName}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GetAppIcon fontSize="small"/>
-          </IconButton>
-          {renderDeleteIcon()}
-        </div>
-      </Paper>
-    );
-  } else {
-    return (
-      <Paper key={fileUrl} className="flex-center p-2 m-2">
+  return (
+    <Paper key={fileUrl} className={`p-2 m-2 flex`}>
+      <div className="inflex-fill">
         <Typography variant="body2">
-          {fileName}
+          <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+            {fileName}
+          </a>
         </Typography>
-        <IconButton
-          aria-label="download-file"
-          component="a"
-          href={fileUrl}
-          download={fileName}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <GetAppIcon fontSize="small"/>
-        </IconButton>
-        {renderDeleteIcon()}
-      </Paper>
-    );
-  }
+        {isImage && (
+          <img src={fileUrl} alt={fileName} className="max-w-full" />
+        )}
+        {isPdf && (
+          <object data={fileUrl} type="application/pdf" className="max-w-full">
+            Your browser does not support PDF preview.
+          </object>
+        )}
+        {isVideo && (
+          <video controls className="max-w-full">
+            <source src={fileUrl} type={mimeType} />
+            Your browser does not support video preview.
+          </video>
+        )}
+        {isAudio && (
+          <audio controls className="max-w-full">
+            <source src={fileUrl} type={mimeType} />
+            Your browser does not support audio preview.
+          </audio>
+        )}
+      </div>
+      {setFiles && (
+        <div className="self-end">
+          <IconButton aria-label="delete-file" onClick={handleFileDelete}>
+            <RemoveCircleOutlineIcon fontSize="small" />
+          </IconButton>
+        </div>
+      )}
+    </Paper>
+  );
 };
 
 export default FileDiv;
