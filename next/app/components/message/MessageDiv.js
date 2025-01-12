@@ -106,7 +106,7 @@ function MessageDiv({
         {uploadProgress > 0 && (
           <LinearProgress variant="determinate" value={uploadProgress * 100}/>
         )}
-        <div className="flex-start">
+        <div className="flex-start-start">
           {message.files && message.files.map((file) => (
             <FileDiv
               key={file}

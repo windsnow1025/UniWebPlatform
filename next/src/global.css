@@ -16,36 +16,43 @@ html {
 div.flex-center {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 div.flex-around {
     display: flex;
     justify-content: space-around;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 div.flex-between {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 div.flex-between-nowrap {
     display: flex;
     justify-content: space-between;
-    flex-wrap: nowrap;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
-div.flex-start {
+div.flex-start-center {
     display: flex;
     justify-content: start;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+div.flex-start-start {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-wrap: wrap;
 }
 
 div.flex-column {
