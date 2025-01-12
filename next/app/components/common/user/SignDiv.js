@@ -17,7 +17,7 @@ function SignDiv() {
   };
 
   return (
-    <div className="flex-start">
+    <div className="flex-start-center">
       <div className="m-1">
         <Button
           color="secondary"
