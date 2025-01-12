@@ -20,7 +20,7 @@ const FileDiv = ({ fileUrl, files, setFiles }) => {
   const isAudio = mimeType && mimeType.startsWith('audio/');
 
   return (
-    <Paper key={fileUrl} className={`p-2 m-2 flex`}>
+    <Paper key={fileUrl} className={`p-2 m-2 flex-center`}>
       <div className="inflex-fill">
         <Typography variant="body2">
           <a href={fileUrl} target="_blank" rel="noopener noreferrer">
