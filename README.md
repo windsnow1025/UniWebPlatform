@@ -8,7 +8,7 @@ A full stack web application for my personal website containing:
 3. Editable Bookmark
 4. Password Generator
 5. Image Generator
-6. Advanced AI Chat / Simple AI Chat
+6. AI Chat
 
 ## Tech Stack
 
