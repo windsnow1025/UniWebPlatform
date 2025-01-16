@@ -7,13 +7,7 @@ import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileUpload from './FileUpload';
 import {EditableState} from "../../../src/conversation/chat/Message";
-import {
-  arrayMove,
-  rectSortingStrategy,
-  SortableContext
-} from "@dnd-kit/sortable";
-import {closestCenter, DndContext} from "@dnd-kit/core";
-import SortableFileDiv from "./SortableFileDiv";
+import SortableFileDivs from './SortableFileDivs';
 
 function MessageDiv({
                       message,
@@ -61,17 +55,6 @@ function MessageDiv({
     setAlertMessage("Content copied to clipboard");
     setAlertSeverity('success');
     setAlertOpen(true);
-  };
-
-  const handleDragEnd = (event) => {
-    const {active, over} = event;
-
-    if (active.id !== over.id) {
-      const oldIndex = message.files.indexOf(active.id);
-      const newIndex = message.files.indexOf(over.id);
-      const newFiles = arrayMove(message.files, oldIndex, newIndex);
-      handleFileChange(newFiles);
-    }
   };
 
   return (
@@ -123,20 +106,10 @@ function MessageDiv({
         {uploadProgress > 0 && (
           <LinearProgress variant="determinate" value={uploadProgress * 100}/>
         )}
-        <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={message.files}>
-            <div className="flex-start-start">
-              {message.files && message.files.map((file) => (
-                <SortableFileDiv
-                  key={file}
-                  fileUrl={file}
-                  files={message.files}
-                  setFiles={handleFileChange}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
+        <SortableFileDivs
+          files={message.files}
+          setFiles={handleFileChange}
+        />
       </Paper>
       <Snackbar
         open={alertOpen}
