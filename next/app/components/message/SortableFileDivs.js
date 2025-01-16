@@ -1,10 +1,10 @@
 import React from 'react';
-import { DndContext } from "@dnd-kit/core";
+import {DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { closestCenter } from "@dnd-kit/core";
 import SortableFileDiv from './SortableFileDiv';
 
-const SortableFileDivs = ({ files, setFiles, onDragEnd }) => {
+const SortableFileDivs = ({ files, setFiles }) => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -18,8 +18,20 @@ const SortableFileDivs = ({ files, setFiles, onDragEnd }) => {
     }
   };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
+
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd || handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
       <SortableContext items={files} strategy={rectSortingStrategy}>
         <div className="flex-start-start">
           {files.map((file) => (
