@@ -83,9 +83,8 @@ Log in as root user
 
 1. Install K3S
    ```bash
-   curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--service-node-port-range=30000-39001" sh -
+   curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--service-node-port-range=30000-39001 --disable=traefik" sh -
    ```
-   TODO: Disable Traefik to avoid nginx conflict
 
 2. Verify Installation
    ```bash
