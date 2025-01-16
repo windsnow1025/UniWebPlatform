@@ -1,17 +1,15 @@
 import React from 'react';
-import { IconButton, Paper, Typography } from '@mui/material';
+import {IconButton, Paper, Typography} from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import mime from 'mime';
 
-const FileDiv = ({ fileUrl, files, setFiles }) => {
+const FileDiv = ({fileUrl, files, setFiles}) => {
   const mimeType = mime.getType(fileUrl);
   const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1];
 
   const handleFileDelete = () => {
-    if (setFiles) {
-      const newFiles = files.filter(file => file !== fileUrl);
-      setFiles(newFiles);
-    }
+    const newFiles = files.filter(file => file !== fileUrl);
+    setFiles(newFiles);
   };
 
   const isImage = mimeType && mimeType.startsWith('image/');
@@ -28,7 +26,7 @@ const FileDiv = ({ fileUrl, files, setFiles }) => {
           </a>
         </Typography>
         {isImage && (
-          <img src={fileUrl} alt={fileName} className="max-w-full" />
+          <img src={fileUrl} alt={fileName} className="max-w-full"/>
         )}
         {isPdf && (
           <object data={fileUrl} type="application/pdf" className="max-w-full">
@@ -37,13 +35,13 @@ const FileDiv = ({ fileUrl, files, setFiles }) => {
         )}
         {isVideo && (
           <video controls className="max-w-full">
-            <source src={fileUrl} type={mimeType} />
+            <source src={fileUrl} type={mimeType}/>
             Your browser does not support video preview.
           </video>
         )}
         {isAudio && (
           <audio controls className="max-w-full">
-            <source src={fileUrl} type={mimeType} />
+            <source src={fileUrl} type={mimeType}/>
             Your browser does not support audio preview.
           </audio>
         )}
@@ -51,7 +49,7 @@ const FileDiv = ({ fileUrl, files, setFiles }) => {
       {setFiles && (
         <div className="self-end">
           <IconButton aria-label="delete-file" onClick={handleFileDelete}>
-            <RemoveCircleOutlineIcon fontSize="small" />
+            <RemoveCircleOutlineIcon fontSize="small"/>
           </IconButton>
         </div>
       )}
