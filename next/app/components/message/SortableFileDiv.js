@@ -16,6 +16,7 @@ const SortableFileDiv = ({ fileUrl, files, setFiles }) => {
     transform: CSS.Translate.toString(transform),
     transition,
     cursor: 'grab',
+    touchAction: 'none',
   };
 
   return (
