@@ -2,8 +2,6 @@
 
 ## Apply
 
-### Production
-
 ```bash
 # Secret
 kubectl apply -f ./app-secret.yaml
