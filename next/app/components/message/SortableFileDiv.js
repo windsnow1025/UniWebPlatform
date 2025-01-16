@@ -15,6 +15,7 @@ const SortableFileDiv = ({ fileUrl, files, setFiles }) => {
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
+    cursor: 'grab',
   };
 
   return (
