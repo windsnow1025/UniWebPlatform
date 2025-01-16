@@ -38,9 +38,7 @@ Storage
 ```yaml
 Infrastructure
   - Linux (Debian 12)
-    - Docker Compose
-    - Kubernetes
-      - Docker
+    - Kubernetes (K3S)
 ```
 
 ```yaml
@@ -66,130 +64,48 @@ Log in as root user
 #### Set Config and Environment
 
 1. Compress `./kubernetes` to `./kubernetes.zip`
-2. Upload `./kubernetes.zip`
-3. Run
+2. Run
+   ```bash
+   mkdir /root/kubernetes
+   ```
+3. Upload `./kubernetes.zip` to `/root/kubernetes/`
+4. Run
    ```bash
    apt update
    apt install unzip
+   cd /root/kubernetes
    unzip kubernetes.zip
    rm kubernetes.zip
    mv kubernetes UniWebPlatform
    ```
 
-#### Debian Docker Compose
+#### Install K3S
 
-```bash
-apt-get update
-```
-
-```bash
-apt-get install ca-certificates curl gnupg
-```
-
-```bash
-install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-chmod a+r /etc/apt/keyrings/docker.gpg
-```
-
-```bash
-echo \
-  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
-
-```bash
-apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-```
-
-#### Linux Minikube
-
-1. Install dependencies to run minikube with none driver
-   - Install conntrack
+1. Install K3S
    ```bash
-   apt install conntrack
+   curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--service-node-port-range=30000-39001" sh -
+   ```
+   TODO: Disable Traefik to avoid nginx conflict
+
+2. Verify Installation
+   ```bash
+   sudo k3s kubectl get node
    ```
    
-   - Install wget
+3. Copy Kubernetes Config
    ```bash
-   apt install wget
+   cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
    ```
-   
-   - Install crictl
-   ```bash
-   VERSION="v1.30.0" # check latest version in /releases page
-   wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
-   sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
-   rm -f crictl-$VERSION-linux-amd64.tar.gz
-   ```
-   
-   - Install cri-dockerd
-   ```bash
-   VERSION="0.3.15"
-   wget https://github.com/Mirantis/cri-dockerd/releases/download/v$VERSION/cri-dockerd-$VERSION.amd64.tgz
-   tar xvf cri-dockerd-$VERSION.amd64.tgz
-   mv cri-dockerd/cri-dockerd /usr/local/bin/
-   rm -rf cri-dockerd-$VERSION.amd64.tgz cri-dockerd
-   ```
-   
-   ```bash
-   wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
-   wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
-   sudo mv cri-docker.socket cri-docker.service /etc/systemd/system/
-   sudo sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
-
-   systemctl daemon-reload
-   systemctl enable cri-docker.service
-   systemctl enable --now cri-docker.socket
-   ```
-   
-   ```bash
-   systemctl status cri-docker.socket
-   ```
-   
-   - Install kubeadm
-   ```bash
-   sudo apt-get update
-   # apt-transport-https may be a dummy package; if so, you can skip that package
-   sudo apt-get install -y apt-transport-https ca-certificates curl gpg
-   ```
-   
-   ```bash
-   # If the directory `/etc/apt/keyrings` does not exist, it should be created before the curl command, read the note below.
-   # sudo mkdir -p -m 755 /etc/apt/keyrings
-   curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-   ```
-   
-   ```bash
-   # This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
-   echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-   ```
-   
-   ```bash
-   sudo apt-get update
-   sudo apt-get install -y kubelet kubeadm kubectl
-   sudo apt-mark hold kubelet kubeadm kubectl
-   ```
-   
-   ```bash
-   sudo systemctl enable --now kubelet
-   ```
-
-2. Download and Install Minikube
-    ```bash
-    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-    sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
-    ```
-
-3. Start Minikube with none driver
-    ```bash
-    minikube start --driver=none --extra-config=apiserver.service-node-port-range=30000-39001
-    ```
 
 #### Kubernetes Dashboard
 
-1. Debian Install Helm
+1. Install Dependencies
+
+   ```bash
+   apt install gpg
+   ```
+
+2. Debian Install Helm
    ```bash
    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
    sudo apt-get install apt-transport-https --yes
@@ -198,7 +114,7 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    sudo apt-get install helm
    ```
 
-2. Deploy Dashboard
+3. Deploy Dashboard
    ```bash
    # Add kubernetes-dashboard repository
    helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
@@ -206,21 +122,21 @@ apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
    helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
    ```
    
-3. Remote Access (NodePort)
+4. Remote Access (NodePort)
 
    ```bash
    kubectl apply -f ./dashboard/dashboard-service.yaml
    ```
    Test: `curl -k https://localhost:38443`
 
-4. Create admin-user
+5. Create admin-user
    ```bash
    kubectl apply -f ./dashboard/dashboard-serviceaccount.yaml
    kubectl apply -f ./dashboard/dashboard-clusterrolebinding.yaml
    kubectl apply -f ./dashboard/dashboard-secret.yaml
    ```
 
-5. Get a long-lived Bearer Token
+6. Get a long-lived Bearer Token
    ```bash
    kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
    ```
@@ -283,15 +199,6 @@ stream {
 }
 ```
 
-#### Start
-
-##### After Server Start
-
-- Start Minikube:
-   ```bash
-   minikube start
-   ```
-
 #### Usage
 
 - Main: `http://localhost:30080/`
@@ -302,8 +209,8 @@ stream {
 
 #### Windows Develop Environment
 
-1. Setup and run MySQL and MinIO natively / by Docker / by Minikube.
-2. Setup and run Next, Nest, FastAPI separately according to their documentations.
+1. Setup and run MySQL and MinIO natively / by Docker / by K3S.
+2. Setup and run Next, Nest, FastAPI separately by JetBrains IDE according to their documentations.
 
 #### Windows Production Environment
 
