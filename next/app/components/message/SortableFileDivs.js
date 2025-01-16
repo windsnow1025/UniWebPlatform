@@ -1,5 +1,5 @@
 import React from 'react';
-import {DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
+import {DndContext, PointerSensor, TouchSensor, useSensor, useSensors} from "@dnd-kit/core";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { closestCenter } from "@dnd-kit/core";
 import SortableFileDiv from './SortableFileDiv';
@@ -18,8 +18,15 @@ const SortableFileDivs = ({ files, setFiles }) => {
     }
   };
 
+  const detectSensor = () => {
+    const isTouchDevice = () => {
+      return window.matchMedia('(pointer: coarse)').matches;
+    };
+    return isTouchDevice ? PointerSensor : TouchSensor;
+  }
+
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(detectSensor(), {
       activationConstraint: {
         distance: 5,
       },
