@@ -81,9 +81,15 @@ Log in as root user
 
 #### Install K3S
 
-1. Install Dependencies
+1. Prerequisites (WSL2)
    ```bash
    apt install curl iptables
+   ```
+   ```bash
+   sudo swapoff -a
+   ```
+   ```bash
+   /usr/local/bin/k3s-uninstall.sh
    ```
 2. Install K3S
    ```bash
