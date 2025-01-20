@@ -50,7 +50,7 @@ const HeaderAppBar = ({
   };
 
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static">
       <div className="flex-around p-2">
         <Tooltip title="Menu">
           <IconButton aria-label="menu" onClick={handleMenuOpen}>
@@ -98,7 +98,7 @@ const HeaderAppBar = ({
         }
         <Tooltip title="Settings">
           <IconButton onClick={handleSettingsClick}>
-            <SettingsIcon fontSize={iconSize}/>
+            <SettingsIcon fontSize={iconSize} className="text-white"/>
           </IconButton>
         </Tooltip>
       </div>
