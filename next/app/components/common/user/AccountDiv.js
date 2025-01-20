@@ -39,7 +39,7 @@ function AccountCenter() {
     <>
       <div className="flex-start-center">
         <div className="text-center">
-          <div className="m-2">
+          <div className="my-2">
             <TextField
               label="Username"
               variant="outlined"
@@ -49,7 +49,7 @@ function AccountCenter() {
               className="mt-2"
             />
           </div>
-          <div className="m-2">
+          <div className="my-2">
             <TextField
               label="Password"
               variant="outlined"
@@ -59,7 +59,7 @@ function AccountCenter() {
               className="mt-2"
             />
           </div>
-          <div className="m-2">
+          <div className="my-2">
             <Button variant="contained" onClick={handleUpdate}>Update</Button>
           </div>
         </div>
