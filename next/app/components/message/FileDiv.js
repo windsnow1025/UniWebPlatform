@@ -45,31 +45,33 @@ const FileDiv = ({fileUrl, files, setFiles}) => {
             {fileName}
           </a>
         </Typography>
-        {isImage && (
-          <img src={fileUrl} alt={fileName} className="max-w-full"/>
-        )}
-        {isPdf && (
-          <object data={fileUrl} type="application/pdf" className="max-w-full">
-            Your browser does not support PDF preview.
-          </object>
-        )}
-        {isVideo && (
-          <video controls className="max-w-full">
-            <source src={fileUrl} type={mimeType}/>
-            Your browser does not support video preview.
-          </video>
-        )}
-        {isAudio && (
-          <audio controls className="max-w-full">
-            <source src={fileUrl} type={mimeType}/>
-            Your browser does not support audio preview.
-          </audio>
-        )}
-        {isText && (
-          <pre>
+        <div>
+          {isText && (
+            <pre>
             {textContent}
-          </pre>
-        )}
+            </pre>
+          )}
+          {isPdf && (
+            <object data={fileUrl} type="application/pdf" className="max-w-full">
+              Your browser does not support PDF preview.
+            </object>
+          )}
+          {isImage && (
+            <img src={fileUrl} alt={fileName} className="max-w-full"/>
+          )}
+          {isAudio && (
+            <audio controls className="max-w-full">
+              <source src={fileUrl} type={mimeType}/>
+              Your browser does not support audio preview.
+            </audio>
+          )}
+          {isVideo && (
+            <video controls className="max-w-full">
+              <source src={fileUrl} type={mimeType}/>
+              Your browser does not support video preview.
+            </video>
+          )}
+        </div>
       </div>
       {setFiles && (
         <div className="self-end">
