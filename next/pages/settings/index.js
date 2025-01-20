@@ -24,21 +24,23 @@ const Settings = () => {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
-      <Tabs
-        value={activeTab}
-        onChange={handleTabChange}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-      >
-        <Tab label="Auth"/>
-        <Tab label="Personalization"/>
-        <Tab label="Developer"/>
-      </Tabs>
-      <div className="p-4">
-        {activeTab === 0 && <AuthSettings/>}
-        {activeTab === 1 && <PersonalizationSettings systemTheme={systemTheme} setSystemTheme={setSystemTheme}/>}
-        {activeTab === 2 && <DeveloperSettings/>}
+      <div className="local-scroll-root">
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+        >
+          <Tab label="Auth"/>
+          <Tab label="Personalization"/>
+          <Tab label="Developer"/>
+        </Tabs>
+        <div className="local-scroll-scrollable p-4">
+          {activeTab === 0 && <AuthSettings/>}
+          {activeTab === 1 && <PersonalizationSettings systemTheme={systemTheme} setSystemTheme={setSystemTheme}/>}
+          {activeTab === 2 && <DeveloperSettings/>}
+        </div>
       </div>
     </ThemeProvider>
   );
