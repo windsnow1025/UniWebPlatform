@@ -28,8 +28,6 @@ const Settings = () => {
         <Tabs
           value={activeTab}
           onChange={handleTabChange}
-          indicatorColor="primary"
-          textColor="primary"
           centered
         >
           <Tab label="Auth"/>
