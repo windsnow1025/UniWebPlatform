@@ -1,22 +1,42 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {IconButton, Paper, Typography} from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import mime from 'mime';
+import {codeFileExtensions} from "../../../src/conversation/chat/CodeFileExtensions";
 
 const FileDiv = ({fileUrl, files, setFiles}) => {
   const mimeType = mime.getType(fileUrl);
   const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1];
+  const fileExtension = '.' + fileName.split('.').pop().toLowerCase();
+
+  const [textContent, setTextContent] = useState('');
 
   const handleFileDelete = () => {
     const newFiles = files.filter(file => file !== fileUrl);
     setFiles(newFiles);
   };
 
-  const isImage = mimeType && mimeType.startsWith('image/');
-  const isPdf = mimeType === 'application/pdf';
-  const isVideo = mimeType && mimeType.startsWith('video/');
-  const isAudio = mimeType && mimeType.startsWith('audio/');
+  useEffect(() => {
+    const fetchTextContent = async () => {
+      if (isText) {
+        try {
+          const response = await fetch(fileUrl);
+          const text = await response.text();
+          setTextContent(text);
+        } catch (error) {
+          console.error('Error fetching text content:', error);
+        }
+      }
+    };
 
+    fetchTextContent();
+  }, [fileUrl]);
+
+  const isText = codeFileExtensions.has(fileExtension);
+  const isPdf = !isText && mimeType === 'application/pdf';
+  const isImage = !isText && !isPdf && mimeType && mimeType.startsWith('image/');
+  const isAudio = !isText && !isPdf && !isImage && mimeType && mimeType.startsWith('audio/');
+  const isVideo = !isText && !isPdf && !isImage && !isAudio && mimeType && mimeType.startsWith('video/');
   return (
     <Paper key={fileUrl} className={`p-2 m-2 flex-center`}>
       <div className="inflex-fill">
@@ -44,6 +64,11 @@ const FileDiv = ({fileUrl, files, setFiles}) => {
             <source src={fileUrl} type={mimeType}/>
             Your browser does not support audio preview.
           </audio>
+        )}
+        {isText && (
+          <pre>
+            {textContent}
+          </pre>
         )}
       </div>
       {setFiles && (
