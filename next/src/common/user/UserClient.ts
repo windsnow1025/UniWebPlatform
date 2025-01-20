@@ -1,16 +1,10 @@
-import axios, {AxiosInstance} from 'axios';
 import {User} from "@/src/common/user/User";
+import {getNestAxiosInstance} from "@/src/common/APIConfig";
 
 export default class UserClient {
-  private axiosInstance: AxiosInstance;
-
-  constructor() {
-    this.axiosInstance = axios.create({baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL});
-  }
-
   async fetchUsers(): Promise<User[]> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get("/users", {
+    const res = await getNestAxiosInstance().get("/users", {
       headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
@@ -18,14 +12,14 @@ export default class UserClient {
 
   async fetchUser(): Promise<User> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get("/users/user", {
+    const res = await getNestAxiosInstance().get("/users/user", {
       headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
   }
 
   async createUser(username: string, password: string) {
-    await this.axiosInstance.post("/users/user", {
+    await getNestAxiosInstance().post("/users/user", {
       username: username,
       password: password
     });
@@ -33,7 +27,7 @@ export default class UserClient {
 
   async updateUser(username: string, password: string) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/users/user`, {
+    await getNestAxiosInstance().put(`/users/user`, {
       username: username,
       password: password
     }, {
@@ -43,7 +37,7 @@ export default class UserClient {
 
   async updateUserPin(pin: number) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put(`/users/user/pin`, {
+    await getNestAxiosInstance().put(`/users/user/pin`, {
       pin: pin
     }, {
       headers: {Authorization: `Bearer ${token}`}
@@ -52,7 +46,7 @@ export default class UserClient {
 
   async deleteUser() {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.delete("/users/user", {
+    const res = await getNestAxiosInstance().delete("/users/user", {
       headers: {Authorization: `Bearer ${token}`}
     });
   }
