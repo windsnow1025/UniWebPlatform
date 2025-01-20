@@ -12,7 +12,7 @@ const DeveloperSettings = () => {
   return (
     <div>
       <h2>Developer Settings</h2>
-      <div className="m-2">
+      <div className="my-2">
         <TextField
           label="Nest API Base URL"
           variant="outlined"
@@ -21,7 +21,7 @@ const DeveloperSettings = () => {
           onChange={(e) => setNestAPIBaseURL(e.target.value)}
         />
       </div>
-      <div className="m-2">
+      <div className="my-2">
         <TextField
           label="FastAPI API Base URL"
           variant="outlined"
@@ -30,7 +30,7 @@ const DeveloperSettings = () => {
           onChange={(e) => setFastAPIAPIBaseURL(e.target.value)}
         />
       </div>
-      <div className="m-2">
+      <div className="my-2">
         <Button variant="contained" color="primary" onClick={handleSave}>
           Save
         </Button>
