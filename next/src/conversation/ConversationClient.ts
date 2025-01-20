@@ -1,16 +1,10 @@
-import axios, {AxiosInstance} from 'axios';
 import {Conversation} from './Conversation';
+import {getNestAxiosInstance} from "@/src/common/APIConfig";
 
 export default class ConversationClient {
-  private axiosInstance: AxiosInstance;
-
-  constructor() {
-    this.axiosInstance = axios.create({baseURL: process.env.NEXT_PUBLIC_NEST_API_BASE_URL});
-  }
-
   async fetchConversations(): Promise<Conversation[]> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.get('/conversations', {
+    const res = await getNestAxiosInstance().get('/conversations', {
       headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
@@ -18,7 +12,7 @@ export default class ConversationClient {
 
   async addConversation(conversation: Conversation): Promise<Conversation> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.post("/conversations/conversation", conversation, {
+    const res = await getNestAxiosInstance().post("/conversations/conversation", conversation, {
       headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
@@ -26,7 +20,7 @@ export default class ConversationClient {
 
   async addConversationForUser(id: number, username: string): Promise<Conversation> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.post(`/conversations/conversation/${id}/user`, {username}, {
+    const res = await getNestAxiosInstance().post(`/conversations/conversation/${id}/user`, {username}, {
       headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
@@ -34,14 +28,14 @@ export default class ConversationClient {
 
   async updateConversation(conversation: Conversation) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.put('/conversations/conversation', conversation, {
+    await getNestAxiosInstance().put('/conversations/conversation', conversation, {
       headers: {Authorization: `Bearer ${token}`}
     });
   }
 
   async updateConversationName(id: number, name: string): Promise<Conversation> {
     const token = localStorage.getItem('token');
-    const res = await this.axiosInstance.patch(`/conversations/conversation/${id}/name`, {name}, {
+    const res = await getNestAxiosInstance().patch(`/conversations/conversation/${id}/name`, {name}, {
       headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
@@ -49,14 +43,14 @@ export default class ConversationClient {
 
   async addUserToConversation(id: number, username: string) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.patch(`/conversations/conversation/${id}/users`, {username}, {
+    await getNestAxiosInstance().patch(`/conversations/conversation/${id}/users`, {username}, {
       headers: {Authorization: `Bearer ${token}`}
     });
   }
 
   async deleteConversation(id: number) {
     const token = localStorage.getItem('token');
-    await this.axiosInstance.delete(`/conversations/conversation/${id}`, {
+    await getNestAxiosInstance().delete(`/conversations/conversation/${id}`, {
       headers: {Authorization: `Bearer ${token}`}
     });
   }

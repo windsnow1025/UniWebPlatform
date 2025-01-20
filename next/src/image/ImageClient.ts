@@ -1,12 +1,6 @@
-import axios, {AxiosInstance} from 'axios';
+import {getFastAPIAxiosInstance} from "@/src/common/APIConfig";
 
 export default class ImageClient {
-  private axiosInstance: AxiosInstance;
-
-  constructor() {
-    this.axiosInstance = axios.create({baseURL: process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL});
-  }
-
   async generate(
     prompt: string,
     model: string,
@@ -24,7 +18,7 @@ export default class ImageClient {
       n: n
     }
 
-    const res = await this.axiosInstance.post('/image-gen', requestData, {
+    const res = await getFastAPIAxiosInstance().post('/image-gen', requestData, {
       headers: {Authorization: token}
     });
     return res.data;

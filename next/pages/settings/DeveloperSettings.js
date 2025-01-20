@@ -1,12 +1,26 @@
-import React, { useState } from "react";
-import { TextField, Button } from "@mui/material";
+import React, {useState, useEffect} from "react";
+import {TextField, Button} from "@mui/material";
+import {defaultAPIBaseURLs} from "../../src/common/APIConfig";
 
 const DeveloperSettings = () => {
-  const [nestAPIBaseURL, setNestAPIBaseURL] = useState("");
-  const [fastAPIAPIBaseURL, setFastAPIAPIBaseURL] = useState("");
+  const [apiBaseURLs, setApiBaseURLs] = useState(defaultAPIBaseURLs);
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem("apiBaseURLs");
+    if (storedValue) {
+      setApiBaseURLs(JSON.parse(storedValue));
+    } else {
+      setApiBaseURLs(defaultAPIBaseURLs);
+    }
+  }, []);
 
   const handleSave = () => {
-    // TODO
+    localStorage.setItem("apiBaseURLs", JSON.stringify(apiBaseURLs));
+  };
+
+  const handleReset = () => {
+    localStorage.removeItem("apiBaseURLs");
+    setApiBaseURLs(defaultAPIBaseURLs);
   };
 
   return (
@@ -17,8 +31,10 @@ const DeveloperSettings = () => {
           label="Nest API Base URL"
           variant="outlined"
           fullWidth
-          value={nestAPIBaseURL}
-          onChange={(e) => setNestAPIBaseURL(e.target.value)}
+          value={apiBaseURLs.nest}
+          onChange={(e) =>
+            setApiBaseURLs({...apiBaseURLs, nest: e.target.value})
+          }
         />
       </div>
       <div className="my-2">
@@ -26,14 +42,31 @@ const DeveloperSettings = () => {
           label="FastAPI API Base URL"
           variant="outlined"
           fullWidth
-          value={fastAPIAPIBaseURL}
-          onChange={(e) => setFastAPIAPIBaseURL(e.target.value)}
+          value={apiBaseURLs.fastAPI}
+          onChange={(e) =>
+            setApiBaseURLs({...apiBaseURLs, fastAPI: e.target.value})
+          }
         />
       </div>
-      <div className="my-2">
-        <Button variant="contained" color="primary" onClick={handleSave}>
-          Save
-        </Button>
+      <div className="flex">
+        <div className="m-1">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSave}
+          >
+            Save
+          </Button>
+        </div>
+        <div className="m-1">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleReset}
+          >
+            Reset
+          </Button>
+        </div>
       </div>
     </div>
   );

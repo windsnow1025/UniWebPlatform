@@ -1,6 +1,7 @@
-import axios, {AxiosInstance} from 'axios';
+import axios from 'axios';
 import {Message} from './Message'
 import {ApiTypeModel} from "./Chat";
+import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/src/common/APIConfig";
 
 export interface StreamResponse {
   reader: ReadableStreamDefaultReader;
@@ -8,12 +9,6 @@ export interface StreamResponse {
 }
 
 export default class ChatClient {
-  private axiosInstance: AxiosInstance;
-
-  constructor() {
-    this.axiosInstance = axios.create({baseURL: process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL});
-  }
-
   async generate(
     messages: Message[],
     api_type: string,
@@ -33,7 +28,7 @@ export default class ChatClient {
 
     if (!stream) {
       try {
-        const res = await this.axiosInstance.post(`/chat`, requestData, {
+        const res = await getFastAPIAxiosInstance().post(`/chat`, requestData, {
             headers: {
               Authorization: token
             }
@@ -55,7 +50,7 @@ export default class ChatClient {
       }
     } else {
       const controller = new AbortController();
-      const response = await fetch(`${process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL}/chat`, {
+      const response = await fetch(`${getAPIBaseURLs().fastAPI}/chat`, {
         method: "POST",
         body: JSON.stringify(requestData),
         signal: controller.signal,
@@ -96,7 +91,8 @@ export default class ChatClient {
   }
 
   async fetchApiModels(): Promise<ApiTypeModel[]> {
-    const res = await this.axiosInstance.get(`/chat`);
+    console.log(getAPIBaseURLs());
+    const res = await getFastAPIAxiosInstance().get(`/chat`);
     return res.data;
   }
 }
