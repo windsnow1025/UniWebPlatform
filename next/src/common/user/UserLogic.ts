@@ -1,6 +1,7 @@
 import UserClient from "./UserClient";
 import AuthClient from "@/src/common/user/AuthClient";
 import axios from "axios";
+import {Role} from "@/src/common/user/User";
 
 export default class UserLogic {
   private authService: AuthClient;
@@ -70,6 +71,16 @@ export default class UserLogic {
     }
   }
 
+  async isAdmin(): Promise<boolean> {
+    try {
+      const user = await this.userService.fetchUser();
+      return user.roles.includes(Role.Admin);
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
   async signIn(username: string, password: string) {
     try {
       const token = await this.authService.fetchToken(username, password);
@@ -129,6 +140,26 @@ export default class UserLogic {
         console.error(error);
         throw new Error('Failed to update pin');
       }
+    }
+  }
+
+  async updateUserCredit(username: string, credit: number) {
+    try {
+      await this.userService.updateUserCredit(username, credit);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
+        if (error.response?.status === 404) {
+          throw new Error('User not found');
+        }
+      }
+      console.error(error);
+      throw new Error('Failed to update credit');
     }
   }
 
