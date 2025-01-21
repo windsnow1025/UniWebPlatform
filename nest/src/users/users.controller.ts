@@ -13,6 +13,9 @@ import { RequestWithUser } from '../auth/interfaces/request-with-user.interface'
 import { AuthReqDto } from '../auth/dto/auth.req.dto';
 import { UsersService } from './users.service';
 import { UserPinReqDto } from './dto/user.pin.req.dto';
+import { UserCreditReqDto } from './dto/user.credit.req.dto';
+import { Roles } from '../common/decorators/roles.decorator';
+import { Role } from '../common/enums/role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -62,6 +65,16 @@ export class UsersController {
   ) {
     const username = req.user.username;
     const user = await this.usersService.updatePin(username, userPinReqDto.pin);
+    return this.usersService.toPrivateUserDto(user);
+  }
+
+  @Put('/user/credit')
+  @Roles(Role.Admin)
+  async updateCredit(@Body() userCreditReqDto: UserCreditReqDto) {
+    const user = await this.usersService.updateCredit(
+      userCreditReqDto.username,
+      userCreditReqDto.credit,
+    );
     return this.usersService.toPrivateUserDto(user);
   }
 
