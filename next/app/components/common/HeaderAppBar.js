@@ -7,6 +7,7 @@ import Link from 'next/link';
 import useScreenSize from "../../hooks/useScreenSize";
 import UserLogic from "../../../src/common/user/UserLogic";
 import SignDiv from "./user/SignDiv";
+import AnnouncementSnackbar from "./AnnouncementSnackbar";
 
 const HeaderAppBar = ({
                         title,
@@ -102,6 +103,7 @@ const HeaderAppBar = ({
           </IconButton>
         </Tooltip>
       </div>
+      <AnnouncementSnackbar/>
     </AppBar>
   );
 };
