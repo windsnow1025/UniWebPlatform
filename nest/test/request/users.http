@@ -39,6 +39,17 @@ Content-Type: application/json
   "pin": 12345678
 }
 
+### Update User Credit
+
+PUT {{baseUrl}}/users/user/credit
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "windsnow1025@gmail.com",
+  "credit": 366
+}
+
 ### Delete User
 
 DELETE {{baseUrl}}/users/user

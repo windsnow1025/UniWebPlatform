@@ -99,6 +99,17 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
+  async updateCredit(username: string, credit: number) {
+    const user = await this.findOneByUsername(username);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.credit = credit;
+
+    return await this.usersRepository.save(user);
+  }
+
   remove(id: number) {
     return this.usersRepository.delete(id);
   }
