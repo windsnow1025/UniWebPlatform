@@ -27,7 +27,7 @@ export default class UserClient {
 
   async updateUser(username: string, password: string) {
     const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put(`/users/user`, {
+    await getNestAxiosInstance().put("/users/user", {
       username: username,
       password: password
     }, {
@@ -37,10 +37,20 @@ export default class UserClient {
 
   async updateUserPin(pin: number) {
     const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put(`/users/user/pin`, {
+    await getNestAxiosInstance().put("/users/user/pin", {
       pin: pin
     }, {
       headers: {Authorization: `Bearer ${token}`}
+    });
+  }
+
+  async updateUserCredit(username: string, credit: number) {
+    const token = localStorage.getItem('token');
+    await getNestAxiosInstance().put("/users/user/credit", {
+      username: username,
+      credit: credit
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
     });
   }
 
