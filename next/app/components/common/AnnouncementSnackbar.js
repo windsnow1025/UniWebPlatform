@@ -5,7 +5,6 @@ import AnnouncementLogic from '../../../src/announcement/AnnouncementLogic';
 const AnnouncementSnackbar = () => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [severity, setSeverity] = useState('info');
   const announcementLogic = new AnnouncementLogic();
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const AnnouncementSnackbar = () => {
       onClose={handleClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
-      <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+      <Alert onClose={handleClose} severity={'info'} sx={{ width: '100%' }}>
         {message}
       </Alert>
     </Snackbar>
