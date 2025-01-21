@@ -1,7 +1,7 @@
 import UserClient from "./UserClient";
 import AuthClient from "@/src/common/user/AuthClient";
 import axios from "axios";
-import {Role} from "@/src/common/user/User";
+import {Role, User} from "@/src/common/user/User";
 
 export default class UserLogic {
   private authService: AuthClient;
@@ -10,6 +10,15 @@ export default class UserLogic {
   constructor() {
     this.authService = new AuthClient();
     this.userService = new UserClient();
+  }
+
+  async fetchUsers(): Promise<User[]> {
+    try {
+      return await this.userService.fetchUsers();
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to fetch users.");
+    }
   }
 
   async fetchUsernames(): Promise<string[]> {
