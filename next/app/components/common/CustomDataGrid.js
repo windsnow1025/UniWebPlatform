@@ -34,9 +34,8 @@ function CustomDataGrid({
                           addRow,
                           updateRow,
                           deleteRow,
-                          initialRows = [],
                         }) {
-  const [rows, setRows] = useState(initialRows);
+  const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
