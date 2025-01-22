@@ -3,8 +3,10 @@ import { Snackbar, Alert } from '@mui/material';
 import AnnouncementLogic from '../../../src/announcement/AnnouncementLogic';
 
 const AnnouncementSnackbar = () => {
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
+
   const announcementLogic = new AnnouncementLogic();
 
   useEffect(() => {
@@ -12,8 +14,8 @@ const AnnouncementSnackbar = () => {
       try {
         const announcement = await announcementLogic.fetchAnnouncement();
         if (announcement.content) {
-          setMessage(announcement.content);
-          setOpen(true);
+          setAlertMessage(announcement.content);
+          setAlertOpen(true);
         }
       } catch (error) {
         console.error('Failed to fetch announcement:', error);
@@ -23,19 +25,15 @@ const AnnouncementSnackbar = () => {
     fetchAnnouncement();
   }, []);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <Snackbar
-      open={open}
+      open={alertOpen}
       autoHideDuration={6000}
-      onClose={handleClose}
+      onClose={() => setAlertOpen(false)}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
-      <Alert onClose={handleClose} severity={'info'} sx={{ width: '100%' }}>
-        {message}
+      <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
+        {alertMessage}
       </Alert>
     </Snackbar>
   );
