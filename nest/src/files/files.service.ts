@@ -4,7 +4,7 @@ import { Client } from 'minio';
 import { Readable } from 'stream';
 
 @Injectable()
-export class MinioService {
+export class FilesService {
   private readonly minioClient: Client;
   private readonly bucketName: string;
 
@@ -58,7 +58,23 @@ export class MinioService {
     console.log(`Bucket policy for "${this.bucketName}" set to public.`);
   }
 
-  async uploadFile(userId: number, file: Express.Multer.File): Promise<string> {
+  getFileUrl(protocol: string, host: string, fileName: string): string {
+    const minioBaseUrl = this.configService.get<string>('minioBaseUrl')!;
+    const url = new URL(`${protocol}://${host}`);
+    const hostname = url.hostname;
+
+    let minioHost: string;
+    if (minioBaseUrl === '') {
+      const minioPort = this.configService.get<number>('minio.port');
+      minioHost = `${hostname}:${minioPort}`;
+    } else {
+      minioHost = host;
+    }
+
+    return `${protocol}://${minioHost}${minioBaseUrl}/${this.bucketName}/${fileName}`;
+  }
+
+  async create(userId: number, file: Express.Multer.File): Promise<string> {
     const originalName = Buffer.from(file.originalname, 'latin1').toString(
       'utf8',
     );
@@ -78,19 +94,18 @@ export class MinioService {
     return fileName;
   }
 
-  getFileUrl(protocol: string, host: string, fileName: string): string {
-    const minioBaseUrl = this.configService.get<string>('minioBaseUrl')!;
-    const url = new URL(`${protocol}://${host}`);
-    const hostname = url.hostname;
+  async findAll(userId: number): Promise<string[]> {
+    const objects = await this.minioClient
+      .listObjects(this.bucketName, `${userId}/`, true)
+      .toArray();
+    return objects.map((object) => object.name);
+  }
 
-    let minioHost: string;
-    if (minioBaseUrl === '') {
-      const minioPort = this.configService.get<number>('minio.port');
-      minioHost = `${hostname}:${minioPort}`;
-    } else {
-      minioHost = host;
-    }
-
-    return `${protocol}://${minioHost}${minioBaseUrl}/${this.bucketName}/${fileName}`;
+  async deleteFiles(fileNames: string[]): Promise<void> {
+    await Promise.all(
+      fileNames.map(async (fileName) => {
+        await this.minioClient.removeObject(this.bucketName, fileName);
+      }),
+    );
   }
 }
