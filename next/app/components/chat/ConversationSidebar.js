@@ -29,7 +29,6 @@ import {
 } from '@mui/icons-material';
 import ConversationLogic from "../../../src/conversation/ConversationLogic";
 import ShareConversationDialog from './ShareConversationDialog';
-import {wait} from "../../utils/Wait";
 
 function ConversationSidebar({
                                messages,
