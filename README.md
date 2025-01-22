@@ -3,28 +3,27 @@
 ## Introduction
 
 A full stack web application for my personal website containing:
-1. User Module
+1. AI Chat
 2. Markdown Blogs
 3. Editable Bookmark
 4. Password Generator
 5. Image Generator
-6. AI Chat
 
 ## Tech Stack
 
 ```yaml
 Front End
-  - Node.js
-    - React.js
-      - Next.js
-        - Tailwind CSS
+  - Node.JS
+    - React.JS
+      - Next.JS
+      - Tailwind CSS
       - MUI
 ```
 
 ```yaml
 Back End
-  - Node.js
-    - Nest.js
+  - Node.JS
+    - Nest.JS
   - Python
     - FastAPI
 ```
