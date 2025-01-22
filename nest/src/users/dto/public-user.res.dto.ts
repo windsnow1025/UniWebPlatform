@@ -1,6 +1,6 @@
 import { Role } from '../../common/enums/role.enum';
 
-export class UserResDto {
+export class PublicUserResDto {
   id: number;
   username: string;
   roles: Role[];

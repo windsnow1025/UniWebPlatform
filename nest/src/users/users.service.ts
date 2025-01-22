@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
-import { UserResDto } from './dto/user.res.dto';
+import { PublicUserResDto } from './dto/public-user.res.dto';
 import { PrivateUserResDto } from './dto/private-user.res.dto';
 
 @Injectable()
@@ -18,8 +18,8 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  public toUserDto(user: User) {
-    const userDto: UserResDto = {
+  public toPublicUserDto(user: User) {
+    const userDto: PublicUserResDto = {
       id: user.id,
       username: user.username,
       roles: user.roles,
