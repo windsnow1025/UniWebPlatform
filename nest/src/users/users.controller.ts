@@ -24,7 +24,7 @@ export class UsersController {
   @Get()
   async find() {
     const users = await this.usersService.find();
-    return users.map((user) => this.usersService.toUserDto(user));
+    return users.map((user) => this.usersService.toPublicUserDto(user));
   }
 
   @Get('/user')
