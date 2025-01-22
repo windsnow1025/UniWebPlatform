@@ -7,6 +7,7 @@ import AdminSetting from "./AdminSetting";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 import {ThemeProvider} from "@mui/material/styles";
 import UserLogic from "../../src/common/user/UserLogic";
+import StorageSettings from "./StorageSettings";
 
 const Settings = () => {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
@@ -37,20 +38,22 @@ const Settings = () => {
       <div className="local-scroll-root">
         <Tabs value={activeTab} onChange={handleTabChange} centered>
           <Tab label="Auth"/>
+          <Tab label="Storage"/>
           <Tab label="Personalization"/>
           <Tab label="Developer"/>
           {isAdmin && <Tab label="Admin"/>}
         </Tabs>
         <div className="local-scroll-scrollable p-4">
           {activeTab === 0 && <AuthSettings/>}
-          {activeTab === 1 && (
+          {activeTab === 1 && <StorageSettings/>}
+          {activeTab === 2 && (
             <PersonalizationSettings
               systemTheme={systemTheme}
               setSystemTheme={setSystemTheme}
             />
           )}
-          {activeTab === 2 && <DeveloperSettings/>}
-          {isAdmin && activeTab === 3 && <AdminSetting/>}
+          {activeTab === 4 && <DeveloperSettings/>}
+          {isAdmin && activeTab === 5 && <AdminSetting/>}
         </div>
       </div>
     </ThemeProvider>
