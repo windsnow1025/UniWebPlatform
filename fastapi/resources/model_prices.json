@@ -55,7 +55,7 @@
   },
   {
     "api_type": "Gemini",
-    "model": "gemini-2.0-flash-thinking-exp",
+    "model": "gemini-2.0-flash-thinking-exp-01-21",
     "input": 0,
     "output": 0
   },
