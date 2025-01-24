@@ -36,7 +36,13 @@ const Settings = () => {
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <Tabs value={activeTab} onChange={handleTabChange} centered>
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          centered
+        >
           <Tab label="Auth"/>
           <Tab label="Storage"/>
           <Tab label="Personalization"/>
@@ -52,8 +58,8 @@ const Settings = () => {
               setSystemTheme={setSystemTheme}
             />
           )}
-          {activeTab === 4 && <DeveloperSettings/>}
-          {isAdmin && activeTab === 5 && <AdminSetting/>}
+          {activeTab === 3 && <DeveloperSettings/>}
+          {isAdmin && activeTab === 4 && <AdminSetting/>}
         </div>
       </div>
     </ThemeProvider>
