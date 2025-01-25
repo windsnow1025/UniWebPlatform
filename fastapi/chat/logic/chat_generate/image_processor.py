@@ -1,7 +1,6 @@
 import base64
 from io import BytesIO
 
-import PIL.Image
 import httpx
 from fastapi import HTTPException
 
@@ -14,11 +13,12 @@ async def get_gpt_image_content_from_url(req_img_url: str) -> gpt_message.ImageC
     res_img_url = gpt_message.ImageURL(url=f"data:{media_type};base64,{base64_image}")
     return gpt_message.ImageContent(type="image_url", image_url=res_img_url)
 
+from google.genai import types
 
-async def get_gemini_image_part_from_url(req_img_url: str) -> PIL.Image:
-    image_data, _ = await fetch_img_data(req_img_url)
-    return PIL.Image.open(image_data)
-
+async def get_gemini_image_part_from_url(req_img_url: str) -> types.Part:
+    img_data, media_type = await fetch_img_data(req_img_url)
+    img_bytes = img_data.getvalue()
+    return types.Part.from_bytes(data=img_bytes, mime_type=media_type)
 
 async def get_claude_image_content_from_url(req_img_url: str) -> claude_message.ImageContent:
     img_data, media_type = await fetch_img_data(req_img_url)

@@ -1,8 +1,9 @@
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 from chat.client.implementations.non_stream_gemini_client import NonStreamGeminiClient
 from chat.client.implementations.stream_gemini_client import StreamGeminiClient
-from chat.logic.chat_generate.model_message_converter import convert_messages_to_gemini
+from chat.logic.chat_generate.model_message_converter.model_message_converter import convert_messages_to_gemini
 from chat.logic.message_preprocess.message_preprocessor import extract_system_messages
 from chat.model.message import Message
 
@@ -14,58 +15,52 @@ async def create_gemini_client(
         stream: bool,
         api_key: str,
 ):
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key)
 
-    generation_config = {
-        "temperature": temperature
-    }
+    system_instruction = extract_system_messages(messages) or " "
 
-    safety_settings = [
-        {
-            "category": "HARM_CATEGORY_HARASSMENT",
-            "threshold": "BLOCK_NONE"
-        },
-        {
-            "category": "HARM_CATEGORY_HATE_SPEECH",
-            "threshold": "BLOCK_NONE"
-        },
-        {
-            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-            "threshold": "BLOCK_NONE"
-        },
-        {
-            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-            "threshold": "BLOCK_NONE"
-        },
-    ]
-
-    system_instruction = extract_system_messages(messages)
-
-    if system_instruction:
-        generative_model = genai.GenerativeModel(
-            model_name=f"models/{model}",
-            generation_config=generation_config,
-            safety_settings=safety_settings,
-            system_instruction=system_instruction,
-        )
-    else:
-        generative_model = genai.GenerativeModel(
-            model_name=f"models/{model}",
-            generation_config=generation_config,
-            safety_settings=safety_settings,
-        )
+    config = types.GenerateContentConfig(
+        system_instruction=system_instruction,
+        temperature=temperature,
+        safety_settings=[
+            types.SafetySetting(
+                category=types.HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                threshold=types.HarmBlockThreshold.BLOCK_NONE,
+            ),
+            types.SafetySetting(
+                category=types.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                threshold=types.HarmBlockThreshold.BLOCK_NONE,
+            ),
+            types.SafetySetting(
+                category=types.HarmCategory.HARM_CATEGORY_HARASSMENT,
+                threshold = types.HarmBlockThreshold.BLOCK_NONE,
+            ),
+            types.SafetySetting(
+                category=types.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                threshold = types.HarmBlockThreshold.BLOCK_NONE,
+            ),
+            types.SafetySetting(
+                category=types.HarmCategory.HARM_CATEGORY_CIVIC_INTEGRITY,
+                threshold = types.HarmBlockThreshold.BLOCK_NONE,
+            ),
+        ]
+    )
 
     gemini_messages = await convert_messages_to_gemini(messages)
 
     if stream:
         return StreamGeminiClient(
-            model=generative_model,
+            model=model,
             messages=gemini_messages,
             temperature=temperature,
+            client=client,
+            config=config,
         )
     else:
         return NonStreamGeminiClient(
-            model=generative_model,
+            model=model,
             messages=gemini_messages,
             temperature=temperature,
+            client=client,
+            config=config,
         )
