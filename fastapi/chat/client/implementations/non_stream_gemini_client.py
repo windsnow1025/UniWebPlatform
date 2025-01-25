@@ -12,9 +12,10 @@ class NonStreamGeminiClient(GeminiClient):
         try:
             logging.info(f"messages: {self.messages}")
 
-            response = await self.model.generate_content_async(
-                contents=self._to_dict(self.messages),
-                stream=False
+            response = await self.client.aio.models.generate_content(
+                model=self.model,
+                contents=self.messages,
+                config=self.config,
             )
 
             return response.text
