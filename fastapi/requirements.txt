@@ -16,7 +16,7 @@ python-jose[cryptography] # jose
 
 # SDK
 openai # openai
-google-generativeai # google.generativeai
+google-genai # google.genai
 anthropic # anthropic
 
 # Tokenization for OpenAI

@@ -1,19 +1,19 @@
 import logging
 import re
-from typing import AsyncGenerator
+from typing import AsyncGenerator, AsyncIterator
 
 import httpx
 from fastapi import HTTPException
-from google.generativeai.types import GenerateContentResponse, AsyncGenerateContentResponse
+from google.genai import types
 
 from chat.client.model_client.gemini_client import GeminiClient
 
 
-def process_delta(completion_delta: GenerateContentResponse) -> str:
+def process_delta(completion_delta: types.GenerateContentResponse) -> str:
     return completion_delta.text
 
 
-async def generate_chunk(response: AsyncGenerateContentResponse) -> AsyncGenerator[str, None]:
+async def generate_chunk(response: AsyncIterator[types.GenerateContentResponse]) -> AsyncGenerator[str, None]:
     async for response_delta in response:
         content_delta = process_delta(response_delta)
         yield content_delta
@@ -23,9 +23,11 @@ class StreamGeminiClient(GeminiClient):
     async def generate_response(self):
         try:
             logging.info(f"messages: {self.messages}")
-            response = await self.model.generate_content_async(
-                contents=self._to_dict(self.messages),
-                stream=True,
+
+            response = self.client.aio.models.generate_content_stream(
+                model=self.model,
+                contents=self.messages,
+                config=self.config,
             )
 
             return generate_chunk(response)
