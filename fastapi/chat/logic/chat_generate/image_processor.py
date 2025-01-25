@@ -13,12 +13,12 @@ async def get_gpt_image_content_from_url(req_img_url: str) -> gpt_message.ImageC
     res_img_url = gpt_message.ImageURL(url=f"data:{media_type};base64,{base64_image}")
     return gpt_message.ImageContent(type="image_url", image_url=res_img_url)
 
-from google.genai import types
 
-async def get_gemini_image_part_from_url(req_img_url: str) -> types.Part:
+async def get_gemini_image_content_from_url(req_img_url: str) -> tuple[bytes, str]:
     img_data, media_type = await fetch_img_data(req_img_url)
     img_bytes = img_data.getvalue()
-    return types.Part.from_bytes(data=img_bytes, mime_type=media_type)
+    return img_bytes, media_type
+
 
 async def get_claude_image_content_from_url(req_img_url: str) -> claude_message.ImageContent:
     img_data, media_type = await fetch_img_data(req_img_url)
