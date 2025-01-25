@@ -21,7 +21,7 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
 
     for file_url in file_urls:
         if get_file_type(file_url) == "image":
-            image_contents = await image_processor.get_gemini_image_part_from_url(file_url)
-            parts.append(image_contents)
+            img_bytes, media_type = await image_processor.get_gemini_image_content_from_url(file_url)
+            parts.append(types.Part.from_bytes(data=img_bytes, mime_type=media_type))
 
     return GeminiMessage(parts=parts, role=gemini_role)
