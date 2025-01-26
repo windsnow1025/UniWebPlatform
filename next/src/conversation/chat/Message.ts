@@ -44,3 +44,9 @@ export function convertToRawEditableState(
   }
   return RawEditableState.InteractionBased; // unreachable
 }
+
+export enum ContentEditable {
+  True = "true",
+  False = "false",
+  PlainTextOnly = "plaintext-only",
+}

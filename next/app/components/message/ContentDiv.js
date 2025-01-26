@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
-import {RawEditableState} from "../../../src/conversation/chat/Message";
+import {ContentEditable, RawEditableState} from "../../../src/conversation/chat/Message";
 import {Alert, Snackbar} from "@mui/material";
 
 function ContentDiv({
@@ -36,21 +36,21 @@ function ContentDiv({
     // Always False -> Parse and not allow edit
     if (editableState === RawEditableState.AlwaysFalse) {
       await parse(content, shouldSanitize);
-      setContentEditable("false");
+      setContentEditable(ContentEditable.False);
       return;
     }
 
     // Focus or Always True -> Unparse and allow edit
     if (editing || editableState === RawEditableState.AlwaysTrue) {
       unparse(content);
-      setContentEditable("plaintext-only");
+      setContentEditable(ContentEditable.PlainTextOnly);
       return;
     }
 
     // Blur -> Parse and allow edit
     if (!editing) {
       await parse(content, shouldSanitize);
-      setContentEditable("true"); // "plaintext-only" will lead to inconsistent display behavior with "false"
+      setContentEditable(ContentEditable.True); // "plaintext-only" will lead to inconsistent display behavior with "false"
       return;
     }
   }
