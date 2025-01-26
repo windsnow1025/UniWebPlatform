@@ -6,7 +6,7 @@ function ChatMessagesDiv({
                            messages,
                            setMessages,
                            shouldSanitize,
-                           editableState,
+                           roleEditableState,
                            setIsGenerating,
                            isGeneratingRef,
                            setConversationUpdateTrigger
@@ -46,7 +46,7 @@ function ChatMessagesDiv({
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(message.id)}
             shouldSanitize={shouldSanitize}
-            editableState={editableState}
+            roleEditableState={roleEditableState}
           />
           <AddMessageDivider
             messages={messages}

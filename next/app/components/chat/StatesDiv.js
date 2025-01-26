@@ -1,8 +1,13 @@
 import {Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select} from "@mui/material";
 import React from "react";
-import {EditableState} from "../../../src/conversation/chat/Message";
+import {RoleEditableState} from "../../../src/conversation/chat/Message";
 
-function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSanitize}) {
+function StatesDiv({
+                     roleEditableState,
+                     setRoleEditableState,
+                     shouldSanitize,
+                     setShouldSanitize
+}) {
   return (
     <div className="flex-around">
       <div className="mx-1">
@@ -11,14 +16,15 @@ function StatesDiv({editableState, setEditableState, shouldSanitize, setShouldSa
           <Select
             labelId="editable-select-label"
             id="editable-select"
-            value={editableState}
+            value={roleEditableState}
             label="Editable"
-            onChange={e => setEditableState(e.target.value)}
+            variant="outlined"
+            onChange={e => setRoleEditableState(e.target.value)}
           >
-            <MenuItem value={EditableState.RoleBased}>Role-based</MenuItem>
-            <MenuItem value={EditableState.InteractionBased}>Interaction-based</MenuItem>
-            <MenuItem value={EditableState.AlwaysTrue}>Always True</MenuItem>
-            <MenuItem value={EditableState.AlwaysFalse}>Always False</MenuItem>
+            <MenuItem value={RoleEditableState.RoleBased}>Role-based</MenuItem>
+            <MenuItem value={RoleEditableState.InteractionBased}>Interaction-based</MenuItem>
+            <MenuItem value={RoleEditableState.AlwaysTrue}>Always True</MenuItem>
+            <MenuItem value={RoleEditableState.AlwaysFalse}>Always False</MenuItem>
           </Select>
         </FormControl>
       </div>

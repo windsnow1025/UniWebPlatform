@@ -6,7 +6,7 @@ import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileUpload from './FileUpload';
-import {EditableState} from "../../../src/conversation/chat/Message";
+import {convertToRawEditableState, RoleEditableState} from "../../../src/conversation/chat/Message";
 import SortableFileDivs from './SortableFileDivs';
 
 function MessageDiv({
@@ -15,7 +15,7 @@ function MessageDiv({
                       useRoleSelect = false,
                       onMessageDelete = null,
                       shouldSanitize = true,
-                      editableState = EditableState.RoleBased,
+                      roleEditableState = RoleEditableState.RoleBased,
                     }) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -43,12 +43,7 @@ function MessageDiv({
     });
   };
 
-  let convertedEditableState = editableState;
-  if (editableState === EditableState.RoleBased) {
-    convertedEditableState = message.role === "assistant"
-      ? EditableState.AlwaysFalse
-      : EditableState.AlwaysTrue;
-  }
+  const rawEditableState = convertToRawEditableState(roleEditableState, message.role);
 
   const handleContentCopy = () => {
     navigator.clipboard.writeText(message.text);
@@ -77,7 +72,7 @@ function MessageDiv({
               content={message.text}
               setContent={handleContentChange}
               shouldSanitize={shouldSanitize}
-              editableState={convertedEditableState}
+              rawEditableState={rawEditableState}
               files={message.files}
               setFiles={handleFileChange}
               setUploadProgress={setUploadProgress}
