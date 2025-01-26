@@ -1,14 +1,14 @@
 import {useEffect, useRef, useState} from "react";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
-import {EditableState} from "../../../src/conversation/chat/Message";
+import {RawEditableState} from "../../../src/conversation/chat/Message";
 import {Alert, Snackbar} from "@mui/material";
 
 function ContentDiv({
                       content,
                       setContent,
                       shouldSanitize = true,
-                      editableState = EditableState.InteractionBased,
+                      rawEditableState = RawEditableState.InteractionBased,
                       files,
                       setFiles,
                       setUploadProgress,
@@ -34,14 +34,14 @@ function ContentDiv({
     }
 
     // Always False -> Parse and not allow edit
-    if (editableState === EditableState.AlwaysFalse) {
+    if (editableState === RawEditableState.AlwaysFalse) {
       await parse(content, shouldSanitize);
       setContentEditable("false");
       return;
     }
 
     // Focus or Always True -> Unparse and allow edit
-    if (editing || editableState === EditableState.AlwaysTrue) {
+    if (editing || editableState === RawEditableState.AlwaysTrue) {
       unparse(content);
       setContentEditable("plaintext-only");
       return;
@@ -56,8 +56,8 @@ function ContentDiv({
   }
 
   useEffect(() => {
-    processMarkdown(content, editing, shouldSanitize, editableState);
-  }, [content, editing, shouldSanitize, editableState]);
+    processMarkdown(content, editing, shouldSanitize, rawEditableState);
+  }, [content, editing, shouldSanitize, rawEditableState]);
 
   const handleContentBlur = () => {
     const newContent = contentRef.current.innerHTML;
@@ -66,7 +66,7 @@ function ContentDiv({
   };
 
   const handleFocus = () => {
-    if (editableState === EditableState.AlwaysFalse) { // to avoid default behavior being interrupted
+    if (rawEditableState === RawEditableState.AlwaysFalse) { // to avoid default behavior being interrupted
       return;
     }
     setEditing(true);
