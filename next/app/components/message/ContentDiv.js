@@ -21,12 +21,11 @@ function ContentDiv({
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  const unparse = (content) => {
-    contentRef.current.innerHTML = content;
-  }
-
   const parse = (content, shouldSanitize) => {
     parseMarkdownLaTeX(contentRef.current, content, shouldSanitize);
+  }
+  const unparse = (content) => {
+    contentRef.current.innerHTML = content;
   }
 
   const processMarkdown = async (content, editing, shouldSanitize, editableState) => {
@@ -34,23 +33,25 @@ function ContentDiv({
       return;
     }
 
+    // Always False -> Parse and not allow edit
     if (editableState === EditableState.AlwaysFalse) {
       await parse(content, shouldSanitize);
       setContentEditable("false");
       return;
     }
 
-    // Focus and unparse
+    // Focus or Always True -> Unparse and allow edit
     if (editing || editableState === EditableState.AlwaysTrue) {
       unparse(content);
       setContentEditable("plaintext-only");
       return;
     }
 
-    // Blur and parse
+    // Blur -> Parse and allow edit
     if (!editing) {
       await parse(content, shouldSanitize);
-      setContentEditable("true");
+      setContentEditable("true"); // "plaintext-only" will lead to inconsistent display behavior with "false"
+      return;
     }
   }
 
@@ -62,6 +63,13 @@ function ContentDiv({
     const newContent = contentRef.current.innerHTML;
     setContent(newContent);
     setEditing(false);
+  };
+
+  const handleFocus = () => {
+    if (editableState === EditableState.AlwaysFalse) { // to avoid default behavior being interrupted
+      return;
+    }
+    setEditing(true);
   };
 
   const handlePaste = async (event) => {
@@ -117,7 +125,7 @@ function ContentDiv({
         className="markdown-body p-4 h-full rounded min-h-16"
         contentEditable={contentEditable}
         ref={contentRef}
-        onFocus={() => setEditing(true)}
+        onFocus={handleFocus}
         onBlur={handleContentBlur}
         onPaste={handlePaste}
       />
