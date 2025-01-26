@@ -72,6 +72,7 @@ function SettingsDiv({
               id="api-type-select"
               value={apiType ? apiType : ''}
               label="API Type"
+              variant="outlined"
               onChange={e => setApiType(e.target.value)}
             >
               {apiTypes.map(type => (
@@ -88,6 +89,7 @@ function SettingsDiv({
               id="model-select"
               value={model ? model : ''}
               label="Model"
+              variant="outlined"
               onChange={e => setModel(e.target.value)}
             >
               {models.map(model => {
