@@ -12,7 +12,7 @@ import StatesDiv from "../../app/components/chat/StatesDiv";
 import ClearButton from "../../app/components/chat/ClearButton";
 import ConversationSidebar from "../../app/components/chat/ConversationSidebar";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
-import {EditableState} from "../../src/conversation/chat/Message";
+import {RoleEditableState} from "../../src/conversation/chat/Message";
 import useScreenSize from '../../app/hooks/useScreenSize';
 
 function AIChat() {
@@ -39,7 +39,7 @@ function AIChat() {
   const [stream, setStream] = useState(true);
 
   // States
-  const [editableState, setEditableState] = useState(EditableState.RoleBased);
+  const [roleEditableState, setRoleEditableState] = useState(RoleEditableState.RoleBased);
   const [shouldSanitize, setShouldSanitize] = useState(true);
 
   // Generation Control
@@ -93,7 +93,7 @@ function AIChat() {
                   messages={messages}
                   setMessages={setMessages}
                   shouldSanitize={shouldSanitize}
-                  editableState={editableState}
+                  roleEditableState={roleEditableState}
                   setIsGenerating={setIsGenerating}
                   isGeneratingRef={isGeneratingRef}
                   setConversationUpdateTrigger={setConversationUpdateTrigger}
@@ -102,8 +102,8 @@ function AIChat() {
             </Paper>
             <div className="flex-around m-1">
               <StatesDiv
-                editableState={editableState}
-                setEditableState={setEditableState}
+                roleEditableState={roleEditableState}
+                setRoleEditableState={setRoleEditableState}
                 shouldSanitize={shouldSanitize}
                 setShouldSanitize={setShouldSanitize}
               />
