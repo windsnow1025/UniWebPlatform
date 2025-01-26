@@ -33,16 +33,21 @@ async def create_gemini_client(
             ),
             types.SafetySetting(
                 category=types.HarmCategory.HARM_CATEGORY_HARASSMENT,
-                threshold = types.HarmBlockThreshold.BLOCK_NONE,
+                threshold=types.HarmBlockThreshold.BLOCK_NONE,
             ),
             types.SafetySetting(
                 category=types.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-                threshold = types.HarmBlockThreshold.BLOCK_NONE,
+                threshold=types.HarmBlockThreshold.BLOCK_NONE,
             ),
             types.SafetySetting(
                 category=types.HarmCategory.HARM_CATEGORY_CIVIC_INTEGRITY,
-                threshold = types.HarmBlockThreshold.BLOCK_NONE,
+                threshold=types.HarmBlockThreshold.BLOCK_NONE,
             ),
+        ],
+        tools=[
+            types.Tool(
+                google_search=types.GoogleSearch()
+            )
         ]
     )
 
