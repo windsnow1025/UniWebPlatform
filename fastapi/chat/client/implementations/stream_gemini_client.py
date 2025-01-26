@@ -10,6 +10,8 @@ from chat.client.model_client.gemini_client import GeminiClient
 
 
 def process_delta(completion_delta: types.GenerateContentResponse) -> str:
+    # if completion_delta.candidates[0].grounding_metadata:
+    #     return completion_delta.text + completion_delta.candidates[0].grounding_metadata.search_entry_point.rendered_content
     return completion_delta.text
 
 
