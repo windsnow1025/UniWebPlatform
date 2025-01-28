@@ -1,5 +1,6 @@
 from google import genai
 from google.genai import types
+from google.genai._api_client import HttpOptions
 
 from chat.client.implementations.non_stream_gemini_client import NonStreamGeminiClient
 from chat.client.implementations.stream_gemini_client import StreamGeminiClient
@@ -15,9 +16,23 @@ async def create_gemini_client(
         stream: bool,
         api_key: str,
 ):
-    client = genai.Client(api_key=api_key)
+    client = genai.Client(
+        api_key=api_key,
+        http_options=HttpOptions(api_version='v1alpha')
+    )
 
     system_instruction = extract_system_messages(messages) or " "
+
+    thinking_config = None
+    tools = []
+    if "thinking" in model:
+        thinking_config = types.ThinkingConfig(include_thoughts=True)
+    else:
+        tools.append(
+            types.Tool(
+                google_search=types.GoogleSearch()
+            )
+        )
 
     config = types.GenerateContentConfig(
         system_instruction=system_instruction,
@@ -44,11 +59,8 @@ async def create_gemini_client(
                 threshold=types.HarmBlockThreshold.BLOCK_NONE,
             ),
         ],
-        tools=[
-            types.Tool(
-                google_search=types.GoogleSearch()
-            )
-        ]
+        tools=tools,
+        thinking_config=thinking_config,
     )
 
     gemini_messages = await convert_messages_to_gemini(messages)
