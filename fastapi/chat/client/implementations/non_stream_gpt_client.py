@@ -10,7 +10,7 @@ from chat.client.model_client.gpt_client import GPTClient
 
 
 class NonStreamGPTClient(GPTClient):
-    async def generate_response(self):
+    async def generate_response(self) -> str:
         try:
             logging.info(f"messages: {self.messages}")
             completion = await self.client.chat.completions.create(
