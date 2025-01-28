@@ -31,8 +31,8 @@ def process_delta(completion_delta: types.GenerateContentResponse) -> str:
             output += f"\n\n# Model Response:\n\n"
             printing_status = PrintingStatus.Response
         output += part.text
-    # if completion_delta.candidates[0].grounding_metadata:
-    #     return completion_delta.text + completion_delta.candidates[0].grounding_metadata.search_entry_point.rendered_content
+    if grounding_metadata := completion_delta.candidates[0].grounding_metadata:
+        output += grounding_metadata.search_entry_point.rendered_content
     return output
 
 
