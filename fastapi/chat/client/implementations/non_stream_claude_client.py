@@ -8,7 +8,7 @@ from chat.client.model_client.claude_client import ClaudeClient
 
 
 class NonStreamClaudeClient(ClaudeClient):
-    async def generate_response(self):
+    async def generate_response(self) -> str:
         try:
             logging.info(f"messages: {self.messages}")
             message = await self.client.messages.create(
