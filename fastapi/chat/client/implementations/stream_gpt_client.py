@@ -30,7 +30,7 @@ async def generate_chunk(completion: AsyncStream[ChatCompletionChunk]) -> AsyncG
 
 
 class StreamGPTClient(GPTClient):
-    async def generate_response(self):
+    async def generate_response(self) -> AsyncGenerator[str, None]:
         try:
             logging.info(f"messages: {self.messages}")
             completion = await self.client.chat.completions.create(
