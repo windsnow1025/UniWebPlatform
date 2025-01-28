@@ -18,9 +18,16 @@ class NonStreamGeminiClient(GeminiClient):
                 config=self.config,
             )
 
+            output = ""
+            for part in response.candidates[0].content.parts:
+                if part.thought:
+                    output += "# Model Thought:\n\n"
+                else:
+                    output += f"\n\n# Model Response:\n\n"
+                output += part.text
             # if response.candidates[0].grounding_metadata:
             #     return response.text + response.candidates[0].grounding_metadata.search_entry_point.rendered_content
-            return response.text
+            return output
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text

@@ -8,12 +8,22 @@ from google.genai import types
 
 from chat.client.model_client.gemini_client import GeminiClient
 
+printing_status = "start"
 
 def process_delta(completion_delta: types.GenerateContentResponse) -> str:
+    global printing_status
+    output = ""
+    for part in completion_delta.candidates[0].content.parts:
+        if part.thought and printing_status == "start":
+            output += "# Model Thought:\n\n"
+            printing_status = "thought"
+        elif not part.thought and printing_status == "thought":
+            output += f"\n\n# Model Response:\n\n"
+            printing_status = "response"
+        output += part.text
     # if completion_delta.candidates[0].grounding_metadata:
     #     return completion_delta.text + completion_delta.candidates[0].grounding_metadata.search_entry_point.rendered_content
-    return completion_delta.text
-
+    return output
 
 async def generate_chunk(response: AsyncIterator[types.GenerateContentResponse]) -> AsyncGenerator[str, None]:
     async for response_delta in response:
