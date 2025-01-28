@@ -1,6 +1,7 @@
 import logging
 import re
 from typing import AsyncGenerator, AsyncIterator
+from enum import Enum
 
 import httpx
 from fastapi import HTTPException
@@ -8,22 +9,32 @@ from google.genai import types
 
 from chat.client.model_client.gemini_client import GeminiClient
 
-printing_status = "start"
+
+class PrintingStatus(Enum):
+    Start = "start"
+    Thought = "thought"
+    Response = "response"
+
+
+printing_status = PrintingStatus.Start
+
 
 def process_delta(completion_delta: types.GenerateContentResponse) -> str:
     global printing_status
     output = ""
+
     for part in completion_delta.candidates[0].content.parts:
-        if part.thought and printing_status == "start":
+        if part.thought and printing_status == PrintingStatus.Start:
             output += "# Model Thought:\n\n"
-            printing_status = "thought"
-        elif not part.thought and printing_status == "thought":
+            printing_status = PrintingStatus.Thought
+        elif not part.thought and printing_status == PrintingStatus.Thought:
             output += f"\n\n# Model Response:\n\n"
-            printing_status = "response"
+            printing_status = PrintingStatus.Response
         output += part.text
     # if completion_delta.candidates[0].grounding_metadata:
     #     return completion_delta.text + completion_delta.candidates[0].grounding_metadata.search_entry_point.rendered_content
     return output
+
 
 async def generate_chunk(response: AsyncIterator[types.GenerateContentResponse]) -> AsyncGenerator[str, None]:
     async for response_delta in response:
