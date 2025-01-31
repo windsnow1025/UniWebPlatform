@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from openai import APIStatusError
 
 from chat.client.model_client.gpt_client import GPTClient
-from chat.type.dictionary_converter import to_dict
+from chat.type.serializer import serialize
 
 
 class NonStreamGPTClient(GPTClient):
@@ -15,7 +15,7 @@ class NonStreamGPTClient(GPTClient):
         try:
             logging.info(f"messages: {self.messages}")
             completion = await self.client.chat.completions.create(
-                messages=to_dict(self.messages),
+                messages=serialize(self.messages),
                 model=self.model,
                 temperature=self.temperature,
                 stream=False
