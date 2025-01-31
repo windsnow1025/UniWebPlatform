@@ -6,26 +6,14 @@ import httpx
 from fastapi import HTTPException
 from google.genai import types
 
-from chat.client.implementations.gemini.printing_status import PrintingStatus
+from chat.client.implementations.gemini.gemini_response_handler import PrintingStatus, GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
 
-printing_status = PrintingStatus.Start
+gemini_response_handler = GeminiResponseHandler()
 
 
 def process_delta(completion_delta: types.GenerateContentResponse) -> str:
-    global printing_status
-    output = ""
-
-    for part in completion_delta.candidates[0].content.parts:
-        if part.thought and printing_status == PrintingStatus.Start:
-            output += "# Model Thought:\n\n"
-            printing_status = PrintingStatus.Thought
-        elif not part.thought and printing_status == PrintingStatus.Thought:
-            output += f"\n\n# Model Response:\n\n"
-            printing_status = PrintingStatus.Response
-        output += part.text
-    if grounding_metadata := completion_delta.candidates[0].grounding_metadata:
-        output += grounding_metadata.search_entry_point.rendered_content
+    output = gemini_response_handler.process_gemini_response(completion_delta)
     return output
 
 
