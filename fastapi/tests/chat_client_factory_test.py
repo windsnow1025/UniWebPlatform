@@ -1,7 +1,7 @@
 import pytest
 from openai import AsyncOpenAI
 
-from chat.client.implementations.non_stream_gpt_client import NonStreamGPTClient
+from chat.client.implementations.gpt.non_stream_gpt_client import NonStreamGPTClient
 from chat.logic.chat_generate.chat_client_factory import create_chat_client
 from chat.type.model_message.gpt_message import GptMessage, TextContent
 from chat.type.message import Message
