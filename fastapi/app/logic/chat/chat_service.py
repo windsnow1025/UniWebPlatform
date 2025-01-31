@@ -1,7 +1,9 @@
 import logging
 import os
+from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette.responses import StreamingResponse
 
 from app.api.message_dto import MessageDto, convert_message_dtos_to_messages
 from app.logic.chat.handler import request_handler
@@ -36,8 +38,11 @@ async def handle_chat_interaction(
         await user_dao.reduce_credit(username, cost, session)
         return cost
 
-    reduce_prompt_credit = lambda prompt_tokens: reduce_credit(prompt_tokens=prompt_tokens, completion_tokens=0)
-    reduce_completion_credit = lambda completion_tokens: reduce_credit(prompt_tokens=0, completion_tokens=completion_tokens)
+    async def reduce_prompt_credit(prompt_tokens: int) -> float:
+        return await reduce_credit(prompt_tokens, 0)
+
+    async def reduce_completion_credit(completion_tokens: int) -> float:
+        return await reduce_credit(0, completion_tokens)
 
     await request_handler.handle_request(
         messages, reduce_prompt_credit
@@ -64,12 +69,10 @@ async def handle_chat_interaction(
     response = await chat_client.generate_response()
 
     if stream:
-        final_response_handler = lambda generator: response_handler.stream_handler(
-            generator, reduce_completion_credit
-        )
+        async def final_response_handler(generator: AsyncGenerator[str, None]) -> StreamingResponse:
+            return await response_handler.stream_handler(generator, reduce_prompt_credit)
     else:
-        final_response_handler = lambda content: response_handler.non_stream_handler(
-            content, reduce_completion_credit
-        )
+        async def final_response_handler(content: str) -> str:
+            return await response_handler.non_stream_handler(content, reduce_completion_credit)
 
     return await final_response_handler(response)
