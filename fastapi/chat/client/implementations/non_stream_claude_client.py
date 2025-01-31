@@ -5,7 +5,7 @@ import httpx
 from fastapi import HTTPException
 
 from chat.client.model_client.claude_client import ClaudeClient
-from chat.type.dictionary_converter import to_dict
+from chat.type.serializer import serialize
 
 
 class NonStreamClaudeClient(ClaudeClient):
@@ -17,7 +17,7 @@ class NonStreamClaudeClient(ClaudeClient):
                 max_tokens=4096,
                 temperature=self.temperature,
                 system=self.system,
-                messages=to_dict(self.messages)
+                messages=serialize(self.messages)
             )
 
             content = message.content[0].text

@@ -6,7 +6,7 @@ import httpx
 from fastapi import HTTPException
 
 from chat.client.model_client.claude_client import ClaudeClient
-from chat.type.dictionary_converter import to_dict
+from chat.type.serializer import serialize
 
 
 class StreamClaudeClient(ClaudeClient):
@@ -20,7 +20,7 @@ class StreamClaudeClient(ClaudeClient):
                     max_tokens=4096,
                     temperature=self.temperature,
                     system=self.system,
-                    messages=to_dict(self.messages)
+                    messages=serialize(self.messages)
                 ) as stream:
                     async for response_delta in stream.text_stream:
                         yield response_delta
