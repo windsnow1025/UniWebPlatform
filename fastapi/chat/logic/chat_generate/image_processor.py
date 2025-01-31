@@ -4,7 +4,7 @@ from io import BytesIO
 import httpx
 from fastapi import HTTPException
 
-from chat.model import gpt_message, claude_message
+from chat.type.model_message import gpt_message, claude_message
 
 
 async def get_gpt_image_content_from_url(req_img_url: str) -> gpt_message.ImageContent:

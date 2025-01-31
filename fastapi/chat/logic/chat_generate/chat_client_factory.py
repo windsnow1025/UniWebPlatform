@@ -1,7 +1,7 @@
 from chat.logic.chat_generate.model_client_factory.claude_client_factory import create_claude_client
 from chat.logic.chat_generate.model_client_factory.gemini_client_factory import create_gemini_client
 from chat.logic.chat_generate.model_client_factory.gpt_client_factory import create_gpt_client
-from chat.model.message import Message
+from chat.type.message import Message
 
 
 async def create_chat_client(

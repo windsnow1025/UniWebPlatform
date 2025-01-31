@@ -1,8 +1,8 @@
 from chat.logic.chat_generate import image_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
-from chat.model import gpt_message
-from chat.model.gpt_message import GptMessage
-from chat.model.message import Message
+from chat.type.model_message import gpt_message
+from chat.type.model_message.gpt_message import GptMessage
+from chat.type.message import Message
 
 
 async def convert_message_to_gpt(message: Message) -> GptMessage:

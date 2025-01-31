@@ -1,7 +1,7 @@
 import openai.lib.azure
 
 from chat.client.chat_client import ChatClient
-from chat.model.gpt_message import GptMessage
+from chat.type.model_message.gpt_message import GptMessage
 
 
 class GPTClient(ChatClient):

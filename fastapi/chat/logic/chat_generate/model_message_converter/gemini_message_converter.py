@@ -2,8 +2,8 @@ from google.genai import types
 
 from chat.logic.chat_generate import image_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
-from chat.model.gemini_message import GeminiMessage
-from chat.model.message import Message, Role
+from chat.type.model_message.gemini_message import GeminiMessage
+from chat.type.message import Message, Role
 
 
 async def convert_message_to_gemini(message: Message) -> GeminiMessage:
