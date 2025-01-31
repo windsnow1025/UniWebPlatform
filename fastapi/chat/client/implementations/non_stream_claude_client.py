@@ -5,6 +5,7 @@ import httpx
 from fastapi import HTTPException
 
 from chat.client.model_client.claude_client import ClaudeClient
+from chat.type.dictionary_converter import to_dict
 
 
 class NonStreamClaudeClient(ClaudeClient):
@@ -16,7 +17,7 @@ class NonStreamClaudeClient(ClaudeClient):
                 max_tokens=4096,
                 temperature=self.temperature,
                 system=self.system,
-                messages=self._to_dict(self.messages)
+                messages=to_dict(self.messages)
             )
 
             content = message.content[0].text
