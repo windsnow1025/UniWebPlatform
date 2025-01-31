@@ -40,6 +40,9 @@ kubectl apply -f ./nginx/nginx-service.yaml
 ## Restart
 
 ```bash
+# Dashboard
+kubectl rollout restart deployment -n kubernetes-dashboard
+
 # MySQL
 kubectl rollout restart deployment mysql-deployment
 
