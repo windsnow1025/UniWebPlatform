@@ -1,20 +1,13 @@
 import logging
 import re
 from typing import AsyncGenerator, AsyncIterator
-from enum import Enum
 
 import httpx
 from fastapi import HTTPException
 from google.genai import types
 
+from chat.client.implementations.gemini.printing_status import PrintingStatus
 from chat.client.model_client.gemini_client import GeminiClient
-
-
-class PrintingStatus(Enum):
-    Start = "start"
-    Thought = "thought"
-    Response = "response"
-
 
 printing_status = PrintingStatus.Start
 

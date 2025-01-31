@@ -4,6 +4,7 @@ import re
 import httpx
 from fastapi import HTTPException
 
+from chat.client.implementations.gemini.printing_status import PrintingStatus
 from chat.client.model_client.gemini_client import GeminiClient
 
 
@@ -18,12 +19,16 @@ class NonStreamGeminiClient(GeminiClient):
                 config=self.config,
             )
 
+            printing_status = PrintingStatus.Start
             output = ""
+            
             for part in response.candidates[0].content.parts:
-                if part.thought:
+                if part.thought and printing_status == PrintingStatus.Start:
                     output += "# Model Thought:\n\n"
-                else:
+                    printing_status = PrintingStatus.Thought
+                elif not part.thought and printing_status == PrintingStatus.Thought:
                     output += f"\n\n# Model Response:\n\n"
+                    printing_status = PrintingStatus.Response
                 output += part.text
             if grounding_metadata := response.candidates[0].grounding_metadata:
                 output += grounding_metadata.search_entry_point.rendered_content
