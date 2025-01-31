@@ -16,7 +16,6 @@ class GeminiResponseHandler:
         output = ""
 
         for part in response.candidates[0].content.parts:
-            print("debug", part.thought, self.printing_status)
             if part.thought and self.printing_status == PrintingStatus.Start:
                 output += "# Model Thought:\n\n"
                 self.printing_status = PrintingStatus.Thought
