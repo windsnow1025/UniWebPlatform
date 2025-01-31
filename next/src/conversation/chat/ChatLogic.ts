@@ -3,6 +3,7 @@ import ChatClient, {StreamResponse} from "./ChatClient";
 import {Message} from "./Message"
 import {ApiTypeModel, ChatResponse} from "@/src/conversation/chat/Chat";
 import {desanitize, sanitize} from "markdown-latex-renderer";
+import {JsonStreamParser} from "@/src/conversation/chat/JsonStreamParser";
 
 export default class ChatLogic {
   private chatService: ChatClient;
@@ -126,8 +127,8 @@ export default class ChatLogic {
         if (done) break;
 
         const chunk = new TextDecoder().decode(value);
-        const chatResponses = this.parseJsonChunk<ChatResponse>(chunk);
-        for (const jsonObject of chatResponses) {
+        const parsedObjects = new JsonStreamParser<ChatResponse>().pushChunk(chunk);
+        for (const jsonObject of parsedObjects) {
           yield sanitize(jsonObject.text);
         }
       }
@@ -140,25 +141,5 @@ export default class ChatLogic {
         controller.abort();
       }
     }
-  }
-
-  parseJsonChunk<T>(chunk: string): T[] {
-    const jsonObjects: T[] = [];
-
-    const jsonRegex = /{.*?}/g;
-    const matches = chunk.match(jsonRegex);
-
-    if (matches) {
-      for (const match of matches) {
-        try {
-          const jsonObject = JSON.parse(match) as T;
-          jsonObjects.push(jsonObject);
-        } catch (err) {
-          console.error("Error parsing JSON:", err, match);
-        }
-      }
-    }
-
-    return jsonObjects;
   }
 }
