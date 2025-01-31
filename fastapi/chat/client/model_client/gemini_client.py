@@ -2,7 +2,7 @@ from google import genai
 from google.genai import types
 
 from chat.client.chat_client import ChatClient
-from chat.model.gemini_message import GeminiMessage
+from chat.type.model_message.gemini_message import GeminiMessage
 
 
 class GeminiClient(ChatClient):
