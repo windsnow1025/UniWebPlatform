@@ -4,13 +4,13 @@ import re
 import httpx
 from fastapi import HTTPException
 
-from chat.client.implementations.gemini.gemini_response_handler import PrintingStatus, GeminiResponseHandler
+from chat.client.implementations.gemini.gemini_response_handler import GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
 from chat.type.chat_response import ChatResponse
 
 
 class NonStreamGeminiClient(GeminiClient):
-    async def generate_response(self) -> str:
+    async def generate_response(self) -> ChatResponse:
         try:
             logging.info(f"messages: {self.messages}")
 
