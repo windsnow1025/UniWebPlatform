@@ -1,20 +1,18 @@
 import os
 import re
 from dataclasses import dataclass
-from typing import List
 
-from chat.model.message import Message
+from chat import Role, Message
 
 
-# role: "user" || "assistant" || "system"
 @dataclass
 class MessageDto:
-    role: str
+    role: Role
     text: str
-    files: List[str]
+    files: list[str]
 
 
-def convert_message_dtos_to_messages(message_dtos: List[MessageDto]) -> List[Message]:
+def convert_message_dtos_to_messages(message_dtos: list[MessageDto]) -> list[Message]:
     messages = []
     for message_dto in message_dtos:
         file_urls = []

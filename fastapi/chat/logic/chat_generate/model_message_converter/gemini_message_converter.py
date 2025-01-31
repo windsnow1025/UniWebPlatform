@@ -3,7 +3,7 @@ from google.genai import types
 from chat.logic.chat_generate import image_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.model.gemini_message import GeminiMessage
-from chat.model.message import Message
+from chat.model.message import Message, Role
 
 
 async def convert_message_to_gemini(message: Message) -> GeminiMessage:
@@ -11,11 +11,8 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
     text = message.text
     file_urls = message.file_urls
 
-    gemini_role = ""
-    if role == "user" or role == "system":
-        gemini_role = "user"
-    elif role == "assistant":
-        gemini_role = "model"
+    if role == Role.System:
+        role = Role.User
 
     parts = [types.Part.from_text(text)]
 
@@ -24,4 +21,4 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
             img_bytes, media_type = await image_processor.get_gemini_image_content_from_url(file_url)
             parts.append(types.Part.from_bytes(data=img_bytes, mime_type=media_type))
 
-    return GeminiMessage(parts=parts, role=gemini_role)
+    return GeminiMessage(parts=parts, role=role)
