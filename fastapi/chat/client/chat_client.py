@@ -1,10 +1,11 @@
 from dataclasses import asdict, is_dataclass
 from enum import Enum
+from typing import Any
 
 
 class ChatClient:
-    def _to_dict(self, data_list):
-        def serialize(obj):
+    def _to_dict(self, data_list: list[Any]) -> list[dict]:
+        def serialize(obj: Any) -> str | dict | list | Any:
             if isinstance(obj, Enum):
                 return obj.value
             elif is_dataclass(obj):
