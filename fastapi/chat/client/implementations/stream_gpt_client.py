@@ -9,7 +9,7 @@ from openai import APIStatusError, AsyncStream
 from openai.types.chat import ChatCompletionChunk
 
 from chat.client.model_client.gpt_client import GPTClient
-from chat.type.dictionary_converter import to_dict
+from chat.type.serializer import serialize
 
 
 def process_delta(completion_delta: ChatCompletionChunk) -> str:
@@ -35,7 +35,7 @@ class StreamGPTClient(GPTClient):
         try:
             logging.info(f"messages: {self.messages}")
             completion = await self.client.chat.completions.create(
-                messages=to_dict(self.messages),
+                messages=serialize(self.messages),
                 model=self.model,
                 temperature=self.temperature,
                 stream=True
