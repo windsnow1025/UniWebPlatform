@@ -2,8 +2,8 @@ from google import genai
 from google.genai import types
 from google.genai._api_client import HttpOptions
 
-from chat.client.implementations.non_stream_gemini_client import NonStreamGeminiClient
-from chat.client.implementations.stream_gemini_client import StreamGeminiClient
+from chat.client.implementations.gemini.non_stream_gemini_client import NonStreamGeminiClient
+from chat.client.implementations.gemini.stream_gemini_client import StreamGeminiClient
 from chat.logic.chat_generate.model_message_converter.model_message_converter import convert_messages_to_gemini
 from chat.logic.message_preprocess.message_preprocessor import extract_system_messages
 from chat.model.message import Message
