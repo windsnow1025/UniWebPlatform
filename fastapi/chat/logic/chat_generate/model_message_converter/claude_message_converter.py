@@ -2,7 +2,7 @@ from chat.logic.chat_generate import image_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.model import claude_message
 from chat.model.claude_message import ClaudeMessage
-from chat.model.message import Message
+from chat.model.message import Message, Role
 
 
 async def convert_message_to_claude(message: Message) -> ClaudeMessage:
@@ -10,11 +10,8 @@ async def convert_message_to_claude(message: Message) -> ClaudeMessage:
     text = message.text
     file_urls = message.file_urls
 
-    claude_role = ""
-    if role == "user" or role == "system":
-        claude_role = "user"
-    elif role == "assistant":
-        claude_role = "assistant"
+    if role == Role.System:
+        role = Role.User
 
     content = []
 
@@ -27,4 +24,4 @@ async def convert_message_to_claude(message: Message) -> ClaudeMessage:
             image_contents = await image_processor.get_claude_image_content_from_url(file_url)
             content.append(image_contents)
 
-    return ClaudeMessage(role=claude_role, content=content)
+    return ClaudeMessage(role=role, content=content)

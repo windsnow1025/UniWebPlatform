@@ -1,10 +1,15 @@
 from dataclasses import dataclass
-from typing import List
+from enum import Enum
 
 
-# role: "user" || "assistant" || "system"
+class Role(Enum):
+    User = "user"
+    Assistant = "assistant"
+    System = "system"
+
+
 @dataclass
 class Message:
-    role: str
+    role: Role
     text: str
-    file_urls: List[str]
+    file_urls: list[str]
