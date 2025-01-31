@@ -4,6 +4,7 @@ from chat.logic.chat_generate import image_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.type.model_message.gemini_message import GeminiMessage
 from chat.type.message import Message, Role
+from chat.type.serializer import serialize
 
 
 async def convert_message_to_gemini(message: Message) -> GeminiMessage:
@@ -13,6 +14,7 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
 
     if role == Role.System:
         role = Role.User
+    role = serialize(role)
 
     parts = [types.Part.from_text(text)]
 

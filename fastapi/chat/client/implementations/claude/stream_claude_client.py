@@ -11,11 +11,11 @@ from chat.type.serializer import serialize
 
 
 class StreamClaudeClient(ClaudeClient):
-    async def generate_response(self) -> AsyncGenerator[str, None]:
+    async def generate_response(self) -> AsyncGenerator[ChatResponse, None]:
         try:
             logging.info(f"messages: {self.messages}")
 
-            async def chunk_generator() -> AsyncGenerator[str, None]:
+            async def chunk_generator() -> AsyncGenerator[ChatResponse, None]:
                 async with self.client.messages.stream(
                     model=self.model,
                     max_tokens=4096,
