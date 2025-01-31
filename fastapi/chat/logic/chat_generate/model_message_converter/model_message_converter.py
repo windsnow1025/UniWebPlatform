@@ -1,10 +1,10 @@
 from chat.logic.chat_generate.model_message_converter.claude_message_converter import convert_message_to_claude
 from chat.logic.chat_generate.model_message_converter.gpt_message_converter import convert_message_to_gpt
 from chat.logic.chat_generate.model_message_converter.gemini_message_converter import convert_message_to_gemini
-from chat.model.claude_message import ClaudeMessage
-from chat.model.gemini_message import GeminiMessage
-from chat.model.gpt_message import GptMessage
-from chat.model.message import Message
+from chat.type.model_message.claude_message import ClaudeMessage
+from chat.type.model_message.gemini_message import GeminiMessage
+from chat.type.model_message.gpt_message import GptMessage
+from chat.type.message import Message
 
 
 async def convert_messages_to_gemini(messages: list[Message]) -> list[GeminiMessage]:

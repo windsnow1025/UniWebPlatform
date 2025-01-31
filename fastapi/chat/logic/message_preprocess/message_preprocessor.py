@@ -1,6 +1,6 @@
 from chat.logic.message_preprocess import document_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
-from chat.model.message import Message
+from chat.type.message import Message
 
 
 async def preprocess_messages(messages: list[Message]) -> None:
