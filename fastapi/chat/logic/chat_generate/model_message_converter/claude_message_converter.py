@@ -1,8 +1,8 @@
 from chat.logic.chat_generate import image_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
-from chat.model import claude_message
-from chat.model.claude_message import ClaudeMessage
-from chat.model.message import Message, Role
+from chat.type.model_message import claude_message
+from chat.type.model_message.claude_message import ClaudeMessage
+from chat.type.message import Message, Role
 
 
 async def convert_message_to_claude(message: Message) -> ClaudeMessage:

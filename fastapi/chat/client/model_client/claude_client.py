@@ -1,7 +1,7 @@
 import anthropic
 
 from chat.client.chat_client import ChatClient
-from chat.model.claude_message import ClaudeMessage
+from chat.type.model_message.claude_message import ClaudeMessage
 
 
 class ClaudeClient(ChatClient):

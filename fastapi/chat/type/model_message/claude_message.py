@@ -1,11 +1,14 @@
 from dataclasses import dataclass
 
-from chat.model.message import Role
+from chat.type.message import Role
 
 
+# type: "base64"
 @dataclass
-class ImageURL:
-    url: str
+class ImageSource:
+    type: str
+    media_type: str
+    data: str
 
 
 # type: "text"
@@ -15,14 +18,14 @@ class TextContent:
     text: str
 
 
-# type: "image_url"
+# type: "image"
 @dataclass
 class ImageContent:
     type: str
-    image_url: ImageURL
+    source: ImageSource
 
 
 @dataclass
-class GptMessage:
+class ClaudeMessage:
     role: Role
     content: str | list[TextContent | ImageContent]
