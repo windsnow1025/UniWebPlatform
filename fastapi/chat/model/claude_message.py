@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from chat.model.message import Role
+
 
 # type: "base64"
 @dataclass
@@ -25,5 +27,5 @@ class ImageContent:
 
 @dataclass
 class ClaudeMessage:
-    role: str
+    role: Role
     content: str | list[TextContent | ImageContent]

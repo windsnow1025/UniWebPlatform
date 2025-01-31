@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from chat.model.message import Role
+
 
 @dataclass
 class ImageURL:
@@ -20,8 +22,7 @@ class ImageContent:
     image_url: ImageURL
 
 
-# role: user || assistant || system
 @dataclass
 class GptMessage:
-    role: str
+    role: Role
     content: str | list[TextContent | ImageContent]

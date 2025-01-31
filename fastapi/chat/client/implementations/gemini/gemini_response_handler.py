@@ -24,6 +24,7 @@ class GeminiResponseHandler:
                 self.printing_status = PrintingStatus.Response
             output += part.text
         if grounding_metadata := response.candidates[0].grounding_metadata:
-            output += "\n" + grounding_metadata.search_entry_point.rendered_content
+            if search_entry_point := grounding_metadata.search_entry_point:
+                output += "\n" + search_entry_point.rendered_content
         return output
 
