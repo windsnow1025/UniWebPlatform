@@ -12,7 +12,7 @@ from chat.type.serializer import serialize
 
 
 class NonStreamGPTClient(GPTClient):
-    async def generate_response(self) -> str:
+    async def generate_response(self) -> ChatResponse:
         try:
             logging.info(f"messages: {self.messages}")
             completion = await self.client.chat.completions.create(

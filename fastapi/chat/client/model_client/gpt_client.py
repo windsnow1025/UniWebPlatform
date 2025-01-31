@@ -18,5 +18,6 @@ class GPTClient(ChatClient):
         self.temperature = temperature
         self.api_type = api_type
         self.client = client
+
     def generate_response(self):
         raise NotImplementedError
