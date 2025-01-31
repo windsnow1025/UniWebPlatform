@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import AsyncGenerator, AsyncIterator
+from typing import AsyncGenerator, AsyncIterator, Awaitable
 
 import httpx
 from fastapi import HTTPException
@@ -33,7 +33,7 @@ class StreamGeminiClient(GeminiClient):
         try:
             logging.info(f"messages: {self.messages}")
 
-            response = self.client.aio.models.generate_content_stream(
+            response = await self.client.aio.models.generate_content_stream(
                 model=self.model,
                 contents=self.messages,
                 config=self.config,

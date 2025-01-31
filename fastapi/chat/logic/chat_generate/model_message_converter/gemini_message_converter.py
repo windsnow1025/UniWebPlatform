@@ -16,7 +16,7 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
         role = Role.User
     role = serialize(role)
 
-    parts = [types.Part.from_text(text)]
+    parts = [types.Part.from_text(text=text)]
 
     for file_url in file_urls:
         if get_file_type(file_url) == "image":
