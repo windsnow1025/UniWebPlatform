@@ -4,7 +4,7 @@ import re
 import httpx
 from fastapi import HTTPException
 
-from chat.client.implementations.gemini.printing_status import PrintingStatus
+from chat.client.implementations.gemini.gemini_response_handler import PrintingStatus, GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
 
 
@@ -19,19 +19,8 @@ class NonStreamGeminiClient(GeminiClient):
                 config=self.config,
             )
 
-            printing_status = PrintingStatus.Start
-            output = ""
-            
-            for part in response.candidates[0].content.parts:
-                if part.thought and printing_status == PrintingStatus.Start:
-                    output += "# Model Thought:\n\n"
-                    printing_status = PrintingStatus.Thought
-                elif not part.thought and printing_status == PrintingStatus.Thought:
-                    output += f"\n\n# Model Response:\n\n"
-                    printing_status = PrintingStatus.Response
-                output += part.text
-            if grounding_metadata := response.candidates[0].grounding_metadata:
-                output += grounding_metadata.search_entry_point.rendered_content
+            gemini_response_handler = GeminiResponseHandler()
+            output = gemini_response_handler.process_gemini_response(response)
             return output
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
