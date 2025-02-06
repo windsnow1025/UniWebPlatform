@@ -27,7 +27,7 @@ async def create_gemini_client(
     tools = []
     if "thinking" in model:
         thinking_config = types.ThinkingConfig(include_thoughts=True)
-    else:
+    if "thinking" not in model and "gemini-2.0-flash-lite-preview-02-05" not in model:
         tools.append(
             types.Tool(
                 google_search=types.GoogleSearch()
