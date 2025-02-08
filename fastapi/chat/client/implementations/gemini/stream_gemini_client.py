@@ -14,23 +14,19 @@ from chat.type.chat_response import ChatResponse
 gemini_response_handler = GeminiResponseHandler()
 
 
-def process_delta(
-        completion_delta: types.GenerateContentResponse
-) -> ChatResponse:
+def process_delta(completion_delta: types.GenerateContentResponse) -> str:
     output = gemini_response_handler.process_gemini_response(completion_delta)
     return ChatResponse(text=output, display=None)
 
 
-async def generate_chunk(
-        response: AsyncIterator[types.GenerateContentResponse]
-) -> AsyncGenerator[ChatResponse, None]:
+async def generate_chunk(response: AsyncIterator[types.GenerateContentResponse]) -> AsyncGenerator[str, None]:
     async for response_delta in response:
         content_delta = process_delta(response_delta)
         yield content_delta
 
 
 class StreamGeminiClient(GeminiClient):
-    async def generate_response(self) -> AsyncGenerator[ChatResponse, None]:
+    async def generate_response(self) -> AsyncGenerator[str, None]:
         try:
             logging.info(f"messages: {self.messages}")
 
