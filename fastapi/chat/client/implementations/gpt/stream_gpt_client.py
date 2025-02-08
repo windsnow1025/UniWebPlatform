@@ -25,9 +25,13 @@ def process_delta(completion_delta: ChatCompletionChunk) -> str:
 
 
 async def generate_chunk(completion: AsyncStream[ChatCompletionChunk]) -> AsyncGenerator[str, None]:
-    async for completion_delta in completion:
-        content_delta = process_delta(completion_delta)
-        yield content_delta
+    try:
+        async for completion_delta in completion:
+            content_delta = process_delta(completion_delta)
+            yield content_delta
+    except Exception as e:
+        logging.exception(e)
+        yield str(e)
 
 
 class StreamGPTClient(GPTClient):
