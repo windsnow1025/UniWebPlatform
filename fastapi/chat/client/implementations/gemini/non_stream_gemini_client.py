@@ -6,7 +6,6 @@ from fastapi import HTTPException
 
 from chat.client.implementations.gemini.gemini_response_handler import PrintingStatus, GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
-from chat.type.chat_response import ChatResponse
 
 
 class NonStreamGeminiClient(GeminiClient):
@@ -23,17 +22,16 @@ class NonStreamGeminiClient(GeminiClient):
             gemini_response_handler = GeminiResponseHandler()
             output = gemini_response_handler.process_gemini_response(response)
             if grounding_metadata := response.candidates[0].grounding_metadata:
-                if grounding_supports := grounding_metadata.grounding_supports:
-                    for grounding_support in grounding_supports:
-                        citation = ""
-                        for grounding_chunk_index in grounding_support.grounding_chunk_indices:
-                            citation += f"[{str(grounding_chunk_index)}]"
+                for grounding_support in grounding_metadata.grounding_supports:
+                    citation = ""
+                    for grounding_chunk_index in grounding_support.grounding_chunk_indices:
+                        citation += f"[{str(grounding_chunk_index)}]"
 
-                        text = grounding_support.segment.text
-                        index = output.find(text) + len(text)
-                        original_output = output
-                        output = original_output[:index] + citation + original_output[index:]
-            return ChatResponse(text=output, display=None)
+                    text = grounding_support.segment.text
+                    index = output.find(text) + len(text)
+                    original_output = output
+                    output = original_output[:index] + citation + original_output[index:]
+            return output
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text
