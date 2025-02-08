@@ -4,8 +4,3 @@ export interface ApiTypeModel {
   input: number
   output: number
 }
-
-export interface ChatResponse {
-  text: string
-  display: string
-}
