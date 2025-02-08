@@ -13,6 +13,8 @@ async def convert_message_to_gemini(message: Message) -> GeminiMessage:
 
     if role == Role.System:
         role = Role.User
+    if role == Role.Assistant:
+        role = Role.Model
 
     parts = [types.Part.from_text(text=text)]
 
