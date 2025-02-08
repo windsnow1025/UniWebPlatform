@@ -1,7 +1,7 @@
 import openai.lib.azure
 
-from chat.client.implementations.gpt.non_stream_gpt_client import NonStreamGPTClient
-from chat.client.implementations.gpt.stream_gpt_client import StreamGPTClient
+from chat.client.implementations.non_stream_gpt_client import NonStreamGPTClient
+from chat.client.implementations.stream_gpt_client import StreamGPTClient
 from chat.logic.chat_generate.model_message_converter.model_message_converter import convert_messages_to_gpt
 from chat.type.message import Message
 
