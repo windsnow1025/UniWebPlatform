@@ -46,6 +46,6 @@ async def generate(chat_request: ChatRequest, request: Request, session: Session
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@chat_router.get("/chat")
+@chat_router.get("/model")
 async def get_models() -> list[dict]:
     return pricing.load_model_prices()

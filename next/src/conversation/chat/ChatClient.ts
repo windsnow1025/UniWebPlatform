@@ -91,7 +91,7 @@ export default class ChatClient {
   }
 
   async fetchApiModels(): Promise<ApiTypeModel[]> {
-    const res = await getFastAPIAxiosInstance().get(`/chat`);
+    const res = await getFastAPIAxiosInstance().get(`/model`);
     return res.data;
   }
 }
