@@ -1,7 +1,7 @@
 import anthropic
 
-from chat.client.implementations.non_stream_claude_client import NonStreamClaudeClient
-from chat.client.implementations.stream_claude_client import StreamClaudeClient
+from chat.client.implementations.claude.non_stream_claude_client import NonStreamClaudeClient
+from chat.client.implementations.claude.stream_claude_client import StreamClaudeClient
 from chat.logic.chat_generate.model_message_converter.model_message_converter import convert_messages_to_claude
 from chat.logic.message_preprocess.message_preprocessor import extract_system_messages
 from chat.type.message import Message
