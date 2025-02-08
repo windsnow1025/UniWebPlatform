@@ -121,13 +121,14 @@ export default class ChatLogic {
       const response = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as StreamResponse;
       controller = response.controller;
       const reader = response.reader;
+      const jsonStreamParser = new JsonStreamParser<ChatResponse>();
 
       while (true) {
         const {value, done} = await reader.read();
         if (done) break;
 
         const chunk = new TextDecoder().decode(value);
-        const parsedObjects = new JsonStreamParser<ChatResponse>().pushChunk(chunk);
+        const parsedObjects = jsonStreamParser.pushChunk(chunk);
         for (const jsonObject of parsedObjects) {
           yield sanitize(jsonObject.text);
         }
