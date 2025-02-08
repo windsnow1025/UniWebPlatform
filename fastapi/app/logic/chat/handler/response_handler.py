@@ -25,7 +25,7 @@ async def stream_handler(
         reduce_credit: ReduceCredit
 ) -> StreamingResponse:
 
-    async def wrapper_generator():
+    async def wrapper_generator() -> AsyncGenerator[str, None]:
         content = ""
         async for chunk in generator:
             content += chunk

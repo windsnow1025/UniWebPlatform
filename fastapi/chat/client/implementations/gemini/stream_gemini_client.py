@@ -1,13 +1,13 @@
 import logging
 import re
-from typing import AsyncGenerator, AsyncIterator, Awaitable
+from typing import AsyncGenerator, AsyncIterator
 
 import httpx
 from fastapi import HTTPException
 from google.genai import types
 from google.genai.errors import ClientError
 
-from chat.client.implementations.gemini.gemini_response_handler import PrintingStatus, GeminiResponseHandler
+from chat.client.implementations.gemini.gemini_response_handler import GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
 
 gemini_response_handler = GeminiResponseHandler()
@@ -18,7 +18,9 @@ def process_delta(completion_delta: types.GenerateContentResponse) -> str:
     return output
 
 
-async def generate_chunk(response: AsyncIterator[types.GenerateContentResponse]) -> AsyncGenerator[str, None]:
+async def generate_chunk(
+        response: AsyncIterator[types.GenerateContentResponse]
+) -> AsyncGenerator[str, None]:
     async for response_delta in response:
         content_delta = process_delta(response_delta)
         yield content_delta
