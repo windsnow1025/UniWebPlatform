@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient, {StreamResponse} from "./ChatClient";
 import {Message} from "./Message"
-import {ApiTypeModel, ChatResponse} from "@/src/conversation/chat/Chat";
+import {ApiTypeModel} from "@/src/conversation/chat/Chat";
 import {desanitize, sanitize} from "markdown-latex-renderer";
 
 export default class ChatLogic {
@@ -48,6 +48,16 @@ export default class ChatLogic {
     ]
   }
 
+  createUserMessage(text: string) {
+    const message: Message = {
+      id: uuidv4(),
+      role: "user",
+      text: text,
+      files: []
+    };
+    return message;
+  }
+
   createAssistantMessage(text: string) {
     const message: Message = {
       id: uuidv4(),
@@ -88,26 +98,22 @@ export default class ChatLogic {
     return this.filterModelsByApiType(apiModels, apiType)[0];
   }
 
-  async nonStreamGenerate(
-    messages: Message[], api_type: string, model: string, temperature: number, stream: boolean
-  ) {
+  async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
     const desanitizedMessages = messages.map(message => ({
       ...message,
       text: desanitize(message.text)
     }));
 
     try {
-      const content = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as ChatResponse;
-      return sanitize(content.text);
+      const content = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as string;
+      return sanitize(content);
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
     }
   }
 
-  async* streamGenerate(
-    messages: Message[], api_type: string, model: string, temperature: number, stream: boolean
-  ) {
+  async* streamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
     let controller;
 
     const desanitizedMessages = messages.map(message => ({
@@ -124,12 +130,7 @@ export default class ChatLogic {
       while (true) {
         const {value, done} = await reader.read();
         if (done) break;
-
-        const chunk = new TextDecoder().decode(value);
-        const chatResponses = this.parseJsonChunk<ChatResponse>(chunk);
-        for (const jsonObject of chatResponses) {
-          yield sanitize(jsonObject.text);
-        }
+        yield sanitize(new TextDecoder().decode(value));
       }
 
     } catch (err) {
@@ -140,25 +141,5 @@ export default class ChatLogic {
         controller.abort();
       }
     }
-  }
-
-  parseJsonChunk<T>(chunk: string): T[] {
-    const jsonObjects: T[] = [];
-
-    const jsonRegex = /{.*?}/g;
-    const matches = chunk.match(jsonRegex);
-
-    if (matches) {
-      for (const match of matches) {
-        try {
-          const jsonObject = JSON.parse(match) as T;
-          jsonObjects.push(jsonObject);
-        } catch (err) {
-          console.error("Error parsing JSON:", err, match);
-        }
-      }
-    }
-
-    return jsonObjects;
   }
 }
