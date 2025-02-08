@@ -5,7 +5,6 @@ from typing import AsyncGenerator, AsyncIterator
 import httpx
 from fastapi import HTTPException
 from google.genai import types
-from google.genai.errors import ClientError
 
 from chat.client.implementations.gemini.gemini_response_handler import GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
@@ -39,8 +38,6 @@ class StreamGeminiClient(GeminiClient):
 
             return generate_chunk(response)
 
-        except ClientError as e:
-            raise HTTPException(status_code=e.code, detail=e.message)
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text
