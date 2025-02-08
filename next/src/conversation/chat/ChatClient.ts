@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Message} from './Message'
-import {ApiTypeModel, ChatResponse} from "./Chat";
+import {ApiTypeModel} from "./Chat";
 import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/src/common/APIConfig";
 
 export interface StreamResponse {
@@ -15,7 +15,7 @@ export default class ChatClient {
     model: string,
     temperature: number,
     stream: boolean
-  ): Promise<ChatResponse | StreamResponse> {
+  ): Promise<string | StreamResponse> {
     const token = localStorage.getItem('token')!;
 
     const requestData = {
