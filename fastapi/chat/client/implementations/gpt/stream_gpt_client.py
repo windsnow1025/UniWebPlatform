@@ -24,6 +24,12 @@ def process_delta(completion_delta: ChatCompletionChunk) -> str:
     return content_delta
 
 
+async def generate_chunk(completion: AsyncStream[ChatCompletionChunk]) -> AsyncGenerator[str, None]:
+    async for completion_delta in completion:
+        content_delta = process_delta(completion_delta)
+        yield content_delta
+
+
 class StreamGPTClient(GPTClient):
     async def generate_response(self) -> AsyncGenerator[str, None]:
         try:
@@ -35,9 +41,7 @@ class StreamGPTClient(GPTClient):
                 stream=True
             )
 
-            async for completion_delta in completion:
-                content_delta = process_delta(completion_delta)
-                yield content_delta
+            return generate_chunk(completion)
 
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
