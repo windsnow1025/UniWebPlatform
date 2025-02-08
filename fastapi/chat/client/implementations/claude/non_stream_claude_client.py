@@ -10,7 +10,7 @@ from chat.type.serializer import serialize
 
 
 class NonStreamClaudeClient(ClaudeClient):
-    async def generate_response(self) -> ChatResponse:
+    async def generate_response(self) -> str:
         try:
             logging.info(f"messages: {self.messages}")
             message = await self.client.messages.create(

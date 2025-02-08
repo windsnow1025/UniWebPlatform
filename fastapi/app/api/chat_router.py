@@ -22,9 +22,7 @@ class ChatRequest(BaseModel):
 
 
 @chat_router.post("/chat")
-async def generate(
-        chat_request: ChatRequest, request: Request, session: SessionDep
-):
+async def generate(chat_request: ChatRequest, request: Request, session: SessionDep):
     try:
         authorization_header = request.headers.get("Authorization")
         username = auth.get_username_from_token(authorization_header)
