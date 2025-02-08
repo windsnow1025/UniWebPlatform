@@ -26,17 +26,13 @@ async def stream_handler(
 ) -> StreamingResponse:
 
     async def wrapper_generator() -> AsyncGenerator[str, None]:
-        try:
-            content = ""
-            async for chunk in generator:
-                content += chunk
-                yield chunk
-            completion_tokens = num_tokens_from_text(content)
-            await reduce_credit(completion_tokens)
-            logging.info(f"content: {content}")
-        except Exception as e:
-            logging.error(f"Stream error: {str(e)}")
-            yield f"Stream error: {str(e)}"
+        content = ""
+        async for chunk in generator:
+            content += chunk
+            yield chunk
+        completion_tokens = num_tokens_from_text(content)
+        await reduce_credit(completion_tokens)
+        logging.info(f"content: {content}")
 
     response = StreamingResponse(wrapper_generator(), media_type='text/plain')
     return response
