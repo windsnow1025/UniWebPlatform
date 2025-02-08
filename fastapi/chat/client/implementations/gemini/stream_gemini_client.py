@@ -9,14 +9,13 @@ from google.genai.errors import ClientError
 
 from chat.client.implementations.gemini.gemini_response_handler import PrintingStatus, GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
-from chat.type.chat_response import ChatResponse
 
 gemini_response_handler = GeminiResponseHandler()
 
 
 def process_delta(completion_delta: types.GenerateContentResponse) -> str:
     output = gemini_response_handler.process_gemini_response(completion_delta)
-    return ChatResponse(text=output, display=None)
+    return output
 
 
 async def generate_chunk(response: AsyncIterator[types.GenerateContentResponse]) -> AsyncGenerator[str, None]:
