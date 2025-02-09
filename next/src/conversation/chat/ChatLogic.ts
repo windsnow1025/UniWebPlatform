@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
 import {Message} from "./Message"
-import {ApiTypeModel} from "@/src/conversation/chat/Chat";
+import {ApiTypeModel, ChatResponse} from "@/src/conversation/chat/Chat";
 import {desanitize, sanitize} from "markdown-latex-renderer";
 
 export default class ChatLogic {
@@ -96,8 +96,8 @@ export default class ChatLogic {
     }));
 
     try {
-      const content = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as string;
-      return sanitize(content);
+      const content = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as ChatResponse;
+      return sanitize(content.text!);
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
@@ -113,10 +113,10 @@ export default class ChatLogic {
     }));
 
     try {
-      const response = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as AsyncGenerator<string, void, unknown>;
+      const response = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as AsyncGenerator<ChatResponse, void, unknown>;
 
       for await (const chunk of response) {
-        yield sanitize(chunk);
+        yield sanitize(chunk.text!);
       }
     } catch (err) {
       console.error("Error in POST /:", err);
