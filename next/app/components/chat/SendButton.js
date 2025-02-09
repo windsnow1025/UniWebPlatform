@@ -73,8 +73,9 @@ function SendButton({
     } else {
 
       let isFirstChunk = true;
+      const generator = chatLogic.streamGenerate(messages, apiType, model, temperature);
 
-      for await (const chunk of chatLogic.streamGenerate(messages, apiType, model, temperature)) {
+      for await (const chunk of generator) {
 
         if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
           return;
@@ -92,6 +93,15 @@ function SendButton({
         ));
 
         if (isAtBottom) scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+      }
+
+      const {value: textWithCitations} = await generator.next();
+      if (textWithCitations) {
+        setMessages(prevMessages => {
+          const updatedMessages = [...prevMessages];
+          updatedMessages[updatedMessages.length - 1].text = textWithCitations;
+          return updatedMessages;
+        });
       }
 
       setMessages(prevMessages => [...prevMessages, chatLogic.emptyUserMessage]);

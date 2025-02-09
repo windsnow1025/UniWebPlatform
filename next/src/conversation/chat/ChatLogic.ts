@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
 import {Message} from "./Message"
-import {ApiTypeModel, ChatResponse} from "@/src/conversation/chat/Chat";
+import {ApiTypeModel, ChatResponse, Citation} from "@/src/conversation/chat/Chat";
 import {desanitize, sanitize} from "markdown-latex-renderer";
 
 export default class ChatLogic {
@@ -118,10 +118,20 @@ export default class ChatLogic {
       if (content.error) {
         throw new Error(content.error);
       }
-      return {
-        text: content.text ? sanitize(content.text) : undefined,
-        display: content.display,
+
+      let text = content.text;
+      let citations = content.citations;
+      if (text) {
+        if (citations) {
+          text = this.addCitations(text, citations);
+        }
+        text = sanitize(text);
       }
+
+      return {
+        text: text,
+        display: content.display,
+      };
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
@@ -130,7 +140,7 @@ export default class ChatLogic {
 
   async* streamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
-  ): AsyncGenerator<ChatResponse, void, unknown> {
+  ): AsyncGenerator<ChatResponse, string, unknown> {
     const desanitizedMessages = messages.map(message => ({
       ...message,
       text: desanitize(message.text)
@@ -141,18 +151,42 @@ export default class ChatLogic {
         desanitizedMessages, api_type, model, temperature
       );
 
+      let text = "";
+      let citations: Citation[] = [];
+
       for await (const chunk of response) {
         if (chunk.error) {
           throw new Error(chunk.error);
         }
+
+        if (chunk.text) {
+          text += chunk.text;
+        }
+        if (chunk.citations) {
+          citations = citations.concat(chunk.citations);
+        }
+
         yield {
           text: chunk.text ? sanitize(chunk.text) : undefined,
           display: chunk.display,
         }
       }
+
+      return this.addCitations(text, citations);
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
     }
+  }
+
+  addCitations(text: string, citations: Citation[]): string {
+    for (const citation of citations) {
+      const citationText = citation.text;
+      const citationIndices = citation.indices;
+      const index = text.indexOf(citationText) + citationText.length;
+      const citationStr = citationIndices.map(i => `[${i}]`).join("");
+      text = text.slice(0, index) + citationStr + text.slice(index);
+    }
+    return text;
   }
 }
