@@ -8,6 +8,7 @@ from google.genai import types
 
 from chat.client.implementations.gemini.gemini_response_handler import GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
+from chat.type.chat_response import ChatResponse
 
 gemini_response_handler = GeminiResponseHandler()
 
@@ -19,18 +20,18 @@ def process_delta(completion_delta: types.GenerateContentResponse) -> str:
 
 async def generate_chunk(
         response: AsyncIterator[types.GenerateContentResponse]
-) -> AsyncGenerator[str, None]:
+) -> AsyncGenerator[ChatResponse, None]:
     try:
         async for response_delta in response:
             content_delta = process_delta(response_delta)
-            yield content_delta
+            yield ChatResponse(text=content_delta)
     except Exception as e:
         logging.exception(e)
-        yield str(e)
+        yield ChatResponse(error=str(e))
 
 
 class StreamGeminiClient(GeminiClient):
-    async def generate_response(self) -> AsyncGenerator[str, None]:
+    async def generate_response(self) -> AsyncGenerator[ChatResponse, None]:
         try:
             logging.info(f"messages: {self.messages}")
 

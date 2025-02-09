@@ -7,11 +7,12 @@ from fastapi import HTTPException
 from openai import APIStatusError
 
 from chat.client.model_client.gpt_client import GPTClient
+from chat.type.chat_response import ChatResponse
 from chat.type.serializer import serialize
 
 
 class NonStreamGPTClient(GPTClient):
-    async def generate_response(self) -> str:
+    async def generate_response(self) -> ChatResponse:
         try:
             logging.info(f"messages: {self.messages}")
             completion = await self.client.chat.completions.create(
@@ -22,7 +23,7 @@ class NonStreamGPTClient(GPTClient):
             )
 
             content = completion.choices[0].message.content
-            return content
+            return ChatResponse(text=content)
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text
