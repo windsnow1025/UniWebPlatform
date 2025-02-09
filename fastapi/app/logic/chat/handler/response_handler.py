@@ -1,3 +1,4 @@
+import json
 import logging
 from collections.abc import AsyncGenerator
 from typing import Callable, Awaitable
@@ -29,7 +30,7 @@ async def stream_handler(
         content = ""
         async for chunk in generator:
             content += chunk
-            yield f"data: {chunk}\n\n"
+            yield f"data: {json.dumps(chunk)}\n\n"
         completion_tokens = num_tokens_from_text(content)
         await reduce_credit(completion_tokens)
         logging.info(f"content: {content}")

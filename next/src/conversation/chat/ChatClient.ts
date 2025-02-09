@@ -76,7 +76,8 @@ export default class ChatClient {
             }
           },
           onmessage(event) {
-            queue.push(event.data);
+            const parsedData = JSON.parse(event.data);
+            queue.push(parsedData);
             if (resolveQueue) {
               resolveQueue();
               resolveQueue = null;
