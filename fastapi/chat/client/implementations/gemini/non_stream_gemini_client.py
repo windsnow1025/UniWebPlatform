@@ -22,17 +22,7 @@ class NonStreamGeminiClient(GeminiClient):
 
             gemini_response_handler = GeminiResponseHandler()
             text, display = gemini_response_handler.process_gemini_response(response)
-
-            # Citation
-            if grounding_metadata := response.candidates[0].grounding_metadata:
-                for grounding_support in grounding_metadata.grounding_supports:
-                    citation = ""
-                    for grounding_chunk_index in grounding_support.grounding_chunk_indices:
-                        citation += f"[{str(grounding_chunk_index + 1)}]"
-
-                    citation_text = grounding_support.segment.text
-                    index = text.find(citation_text) + len(citation_text)
-                    text = text[:index] + citation + text[index:]
+            text = gemini_response_handler.add_citations(text, response)
 
             return ChatResponse(text=text, display=display)
         except httpx.HTTPStatusError as e:
