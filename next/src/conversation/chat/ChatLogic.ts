@@ -140,7 +140,7 @@ export default class ChatLogic {
 
   async* streamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
-  ): AsyncGenerator<ChatResponse, string, unknown> {
+  ): AsyncGenerator<ChatResponse | string, void, unknown> {
     const desanitizedMessages = messages.map(message => ({
       ...message,
       text: desanitize(message.text)
@@ -172,7 +172,7 @@ export default class ChatLogic {
         }
       }
 
-      return this.addCitations(text, citations);
+      yield this.addCitations(text, citations);
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
