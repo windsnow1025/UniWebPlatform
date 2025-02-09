@@ -29,10 +29,10 @@ async def stream_handler(
         content = ""
         async for chunk in generator:
             content += chunk
-            yield chunk
+            yield f"data: {chunk}\n\n"
         completion_tokens = num_tokens_from_text(content)
         await reduce_credit(completion_tokens)
         logging.info(f"content: {content}")
 
-    response = StreamingResponse(wrapper_generator(), media_type='text/plain')
+    response = StreamingResponse(wrapper_generator(), media_type='text/event-stream')
     return response
