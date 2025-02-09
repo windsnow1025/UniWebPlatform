@@ -21,12 +21,8 @@ class NonStreamGeminiClient(GeminiClient):
             )
 
             gemini_response_handler = GeminiResponseHandler()
-            text, display = gemini_response_handler.process_gemini_response(response)
+            return gemini_response_handler.process_gemini_response(response)
 
-            citations = extract_citations(response)
-            text = add_citations(text, citations)
-
-            return ChatResponse(text=text, display=display)
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text
