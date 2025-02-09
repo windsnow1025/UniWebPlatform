@@ -4,7 +4,7 @@ import re
 import httpx
 from fastapi import HTTPException
 
-from chat.client.implementations.gemini.gemini_response_handler import PrintingStatus, GeminiResponseHandler
+from chat.client.implementations.gemini.gemini_response_handler import *
 from chat.client.model_client.gemini_client import GeminiClient
 from chat.type.chat_response import ChatResponse
 
@@ -22,7 +22,10 @@ class NonStreamGeminiClient(GeminiClient):
 
             gemini_response_handler = GeminiResponseHandler()
             text, display = gemini_response_handler.process_gemini_response(response)
-            text = gemini_response_handler.add_citations(text, response)
+
+            # Extract and process citations
+            citations = extract_citations(response)
+            text = add_citations(text, citations)
 
             return ChatResponse(text=text, display=display)
         except httpx.HTTPStatusError as e:

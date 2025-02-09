@@ -31,15 +31,17 @@ class GeminiResponseHandler:
                 display = search_entry_point.rendered_content
         return text, display
 
-    def add_citations(self, text: str, response: types.GenerateContentResponse) -> str:
-        if grounding_metadata := response.candidates[0].grounding_metadata:
-            for grounding_support in grounding_metadata.grounding_supports:
-                citation = ""
-                for grounding_chunk_index in grounding_support.grounding_chunk_indices:
-                    citation += f"[{str(grounding_chunk_index + 1)}]"
+def extract_citations(response: types.GenerateContentResponse) -> list[tuple[str, str]]:
+    citations = []
+    if grounding_metadata := response.candidates[0].grounding_metadata:
+        for grounding_support in grounding_metadata.grounding_supports:
+            citation_indices = "".join(f"[{str(index + 1)}]" for index in grounding_support.grounding_chunk_indices)
+            citation_text = grounding_support.segment.text
+            citations.append((citation_text, citation_indices))
+    return citations
 
-                citation_text = grounding_support.segment.text
-                index = text.find(citation_text) + len(citation_text)
-                text = text[:index] + citation + text[index:]
-
-        return text
+def add_citations(text: str, citations: list[tuple[str, str]]) -> str:
+    for citation_text, citation_indices in citations:
+        index = text.find(citation_text) + len(citation_text)
+        text = text[:index] + citation_indices + text[index:]
+    return text
