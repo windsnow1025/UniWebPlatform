@@ -23,7 +23,6 @@ class NonStreamGeminiClient(GeminiClient):
             gemini_response_handler = GeminiResponseHandler()
             text, display = gemini_response_handler.process_gemini_response(response)
 
-            # Extract and process citations
             citations = extract_citations(response)
             text = add_citations(text, citations)
 
