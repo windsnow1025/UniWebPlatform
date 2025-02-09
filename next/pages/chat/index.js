@@ -40,7 +40,7 @@ function AIChat() {
 
   // States
   const [roleEditableState, setRoleEditableState] = useState(RoleEditableState.RoleBased);
-  const [shouldSanitize, setShouldSanitize] = useState(false);
+  const [shouldSanitize, setShouldSanitize] = useState(true);
 
   // Generation Control
   const [isGenerating, setIsGenerating] = useState(false);
