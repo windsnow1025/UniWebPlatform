@@ -29,6 +29,11 @@ class GeminiResponseHandler:
         if grounding_metadata := response.candidates[0].grounding_metadata:
             if search_entry_point := grounding_metadata.search_entry_point:
                 display = search_entry_point.rendered_content
+            if grounding_metadata.grounding_chunks:
+                text += "\n\n# Grounding Sources:\n"
+                for i, chunk in enumerate(grounding_metadata.grounding_chunks, start=1):
+                    if chunk.web:
+                        text += f"{i}. [{chunk.web.title}]({chunk.web.uri})\n"
         return text, display
 
 def extract_citations(response: types.GenerateContentResponse) -> list[tuple[str, str]]:
