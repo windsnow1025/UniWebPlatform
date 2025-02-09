@@ -112,13 +112,13 @@ function AIChat() {
                   isGenerating={isGenerating}
                   setIsGenerating={setIsGenerating}
                   isGeneratingRef={isGeneratingRef}
+                  setConversationUpdateTrigger={setConversationUpdateTrigger}
                   messages={messages}
                   setMessages={setMessages}
                   apiType={apiType}
                   model={model}
                   temperature={temperature}
                   stream={stream}
-                  setConversationUpdateTrigger={setConversationUpdateTrigger}
                 />
                 <ClearButton
                   setMessages={setMessages}

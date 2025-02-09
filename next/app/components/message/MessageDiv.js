@@ -8,6 +8,7 @@ import ContentDiv from './ContentDiv';
 import FileUpload from './FileUpload';
 import {convertToRawEditableState, RoleEditableState} from "../../../src/conversation/chat/Message";
 import SortableFileDivs from './SortableFileDivs';
+import DisplayDiv from "./DisplayDiv";
 
 function MessageDiv({
                       message,
@@ -55,49 +56,52 @@ function MessageDiv({
   return (
     <>
       <Paper elevation={2} className="my-1 p-2 rounded-lg">
-        {useRoleSelect ?
-          <RoleSelect
-            role={message.role}
-            setRole={handleRoleChange}
-          />
-          :
-          <RoleDiv
-            role={message.role}
-            setRole={handleRoleChange}
-          />
-        }
         <div className="flex">
-          <Paper elevation={4} className="inflex-fill my-2">
-            <ContentDiv
-              content={message.text}
-              setContent={handleContentChange}
-              shouldSanitize={shouldSanitize}
-              rawEditableState={rawEditableState}
-              files={message.files}
-              setFiles={handleFileChange}
-              setUploadProgress={setUploadProgress}
+          {useRoleSelect ?
+            <RoleSelect
+              role={message.role}
+              setRole={handleRoleChange}
             />
-          </Paper>
-          <div className="flex-column self-end">
-            <FileUpload
-              files={message.files}
-              setFiles={handleFileChange}
-              setUploadProgress={setUploadProgress}
+            :
+            <RoleDiv
+              role={message.role}
+              setRole={handleRoleChange}
             />
-            <Tooltip title="Copy">
-              <IconButton aria-label="copy" onClick={handleContentCopy}>
-                <ContentCopyIcon fontSize="small"/>
+          }
+          <div className="inflex-fill"></div>
+          <FileUpload
+            files={message.files}
+            setFiles={handleFileChange}
+            setUploadProgress={setUploadProgress}
+          />
+          <Tooltip title="Copy">
+            <IconButton aria-label="copy" onClick={handleContentCopy}>
+              <ContentCopyIcon fontSize="small"/>
+            </IconButton>
+          </Tooltip>
+          {onMessageDelete &&
+            <Tooltip title="Delete">
+              <IconButton aria-label="delete" onClick={onMessageDelete}>
+                <RemoveCircleOutlineIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
-            {onMessageDelete &&
-              <Tooltip title="Delete">
-                <IconButton aria-label="delete" onClick={onMessageDelete}>
-                  <RemoveCircleOutlineIcon fontSize="small"/>
-                </IconButton>
-              </Tooltip>
-            }
-          </div>
+          }
         </div>
+        <Paper elevation={4} className="inflex-fill my-2">
+          <ContentDiv
+            content={message.text}
+            setContent={handleContentChange}
+            shouldSanitize={shouldSanitize}
+            rawEditableState={rawEditableState}
+            files={message.files}
+            setFiles={handleFileChange}
+            setUploadProgress={setUploadProgress}
+          />
+        </Paper>
+        <DisplayDiv
+          message={message}
+          setMessage={setMessage}
+        />
         {uploadProgress > 0 && (
           <LinearProgress variant="determinate" value={uploadProgress * 100}/>
         )}
