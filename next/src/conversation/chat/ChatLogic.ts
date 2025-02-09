@@ -102,7 +102,7 @@ export default class ChatLogic {
       if (content.error || !content.text) {
         throw new Error(content.error || "`content.text` not found");
       }
-      return sanitize(content.text!);
+      return sanitize(content.text);
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
@@ -126,7 +126,7 @@ export default class ChatLogic {
         if (chunk.error || !chunk.text) {
           throw new Error(chunk.error || "`content.text` not found");
         }
-        yield sanitize(chunk.text!);
+        yield sanitize(chunk.text);
       }
     } catch (err) {
       console.error("Error in POST /:", err);
