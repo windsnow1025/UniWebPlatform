@@ -48,27 +48,16 @@ export default class ChatLogic {
     ]
   }
 
-  createUserMessage(text: string) {
-    const message: Message = {
-      id: uuidv4(),
-      role: "user",
-      text: text,
-      files: []
-    };
-    return message;
-  }
-
-  createAssistantMessage(text: string) {
-    const message: Message = {
+  createAssistantMessage(text: string): Message {
+    return {
       id: uuidv4(),
       role: "assistant",
       text: text,
       files: []
     };
-    return message;
   }
 
-  async fetchApiModels() {
+  async fetchApiModels(): Promise<ApiTypeModel[]> {
     try {
       return await this.chatService.fetchApiModels();
     } catch (err) {
@@ -98,7 +87,9 @@ export default class ChatLogic {
     return this.filterModelsByApiType(apiModels, apiType)[0];
   }
 
-  async nonStreamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
+  async nonStreamGenerate(
+    messages: Message[], api_type: string, model: string, temperature: number, stream: boolean
+  ): Promise<string> {
     const desanitizedMessages = messages.map(message => ({
       ...message,
       text: desanitize(message.text)
@@ -113,7 +104,9 @@ export default class ChatLogic {
     }
   }
 
-  async* streamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
+  async* streamGenerate(
+    messages: Message[], api_type: string, model: string, temperature: number, stream: boolean
+  ): AsyncGenerator<string, void, unknown> {
     const desanitizedMessages = messages.map(message => ({
       ...message,
       text: desanitize(message.text)
