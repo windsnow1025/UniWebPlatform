@@ -14,13 +14,17 @@ ReduceCredit = Callable[[int], Awaitable[float]]
 
 
 async def non_stream_handler(
-        content: ChatResponse,
+        chat_response: ChatResponse,
         reduce_credit: ReduceCredit
 ) -> ChatResponse:
-    completion_tokens = num_tokens_from_text(content.text)
+    # Credit
+    completion_tokens = num_tokens_from_text(chat_response.text)
     await reduce_credit(completion_tokens)
-    logging.info(f"content: {content}")
-    return content
+
+    # Logging
+    logging.info(f"content: {chat_response}")
+
+    return chat_response
 
 
 async def stream_handler(
@@ -29,14 +33,26 @@ async def stream_handler(
 ) -> StreamingResponse:
 
     async def wrapper_generator() -> AsyncGenerator[str, None]:
-        content = ""
+        text = ""
+        display = ""
+        citations = []
+
         async for chunk in generator:
             if chunk.text:
-                content += chunk.text
+                text += chunk.text
+            if chunk.display:
+                display += chunk.display
+            if chunk.citations:
+                citations += chunk.citations
             yield f"data: {json.dumps(serialize(chunk))}\n\n"
-        completion_tokens = num_tokens_from_text(content)
+
+        # Credit
+        completion_tokens = num_tokens_from_text(text)
         await reduce_credit(completion_tokens)
-        logging.info(f"content: {content}")
+
+        # Logging
+        chat_response = ChatResponse(text=text, display=display, citations=citations)
+        logging.info(f"content: {str(chat_response)}")
 
     response = StreamingResponse(wrapper_generator(), media_type='text/event-stream')
     return response
