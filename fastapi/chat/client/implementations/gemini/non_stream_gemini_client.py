@@ -28,12 +28,11 @@ class NonStreamGeminiClient(GeminiClient):
                 for grounding_support in grounding_metadata.grounding_supports:
                     citation = ""
                     for grounding_chunk_index in grounding_support.grounding_chunk_indices:
-                        citation += f"[{str(grounding_chunk_index)}]"
+                        citation += f"[{str(grounding_chunk_index + 1)}]"
 
-                    text = grounding_support.segment.text
-                    index = text.find(text) + len(text)
-                    original_output = text
-                    text = original_output[:index] + citation + original_output[index:]
+                    citation_text = grounding_support.segment.text
+                    index = text.find(citation_text) + len(citation_text)
+                    text = text[:index] + citation + text[index:]
 
             return ChatResponse(text=text, display=display)
         except httpx.HTTPStatusError as e:
