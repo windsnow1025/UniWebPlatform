@@ -2,7 +2,7 @@ from enum import Enum
 
 from google.genai import types
 
-from chat.type.chat_response import Citation
+from chat.type.chat_response import Citation, ChatResponse
 
 
 class PrintingStatus(Enum):
@@ -17,9 +17,10 @@ class GeminiResponseHandler:
 
     def process_gemini_response(
             self, response: types.GenerateContentResponse
-    ) -> tuple[str, str]:
+    ) -> ChatResponse:
         text = ""
         display = None
+        citations = extract_citations(response)
 
         for part in response.candidates[0].content.parts:
             if part.thought and self.printing_status == PrintingStatus.Start:
@@ -37,7 +38,8 @@ class GeminiResponseHandler:
                 for i, chunk in enumerate(grounding_metadata.grounding_chunks, start=1):
                     if chunk.web:
                         text += f"{i}. [{chunk.web.title}]({chunk.web.uri})\n"
-        return text, display
+
+        return ChatResponse(text=text, display=display, citations=citations)
 
 
 def extract_citations(response: types.GenerateContentResponse) -> list[Citation]:
