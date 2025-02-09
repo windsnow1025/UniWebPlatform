@@ -1,7 +1,9 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
 class ChatResponse:
-    text: str
-    display: str
+    text: Optional[str]
+    display: Optional[str]
+    error: Optional[str]
