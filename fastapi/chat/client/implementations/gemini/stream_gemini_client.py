@@ -13,9 +13,8 @@ from chat.type.chat_response import ChatResponse
 gemini_response_handler = GeminiResponseHandler()
 
 
-def process_delta(completion_delta: types.GenerateContentResponse) -> str:
-    output = gemini_response_handler.process_gemini_response(completion_delta)
-    return output
+def process_delta(completion_delta: types.GenerateContentResponse) -> tuple[str, str]:
+    return gemini_response_handler.process_gemini_response(completion_delta)
 
 
 async def generate_chunk(
@@ -23,8 +22,8 @@ async def generate_chunk(
 ) -> AsyncGenerator[ChatResponse, None]:
     try:
         async for response_delta in response:
-            content_delta = process_delta(response_delta)
-            yield ChatResponse(text=content_delta)
+            text, display = process_delta(response_delta)
+            yield ChatResponse(text=text, display=display)
     except Exception as e:
         logging.exception(e)
         yield ChatResponse(error=str(e))
