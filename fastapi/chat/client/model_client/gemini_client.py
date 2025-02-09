@@ -1,3 +1,5 @@
+from typing import AsyncGenerator
+
 from google import genai
 from google.genai import types
 
@@ -20,5 +22,5 @@ class GeminiClient(ChatClient):
         self.client = client
         self.config = config
 
-    def generate_response(self):
+    def generate_response(self) -> str | AsyncGenerator[str, None]:
         raise NotImplementedError
