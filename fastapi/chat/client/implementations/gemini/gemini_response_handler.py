@@ -8,6 +8,7 @@ class PrintingStatus(Enum):
     Thought = "thought"
     Response = "response"
 
+
 class GeminiResponseHandler:
     def __init__(self):
         self.printing_status = PrintingStatus.Start
@@ -36,17 +37,20 @@ class GeminiResponseHandler:
                         text += f"{i}. [{chunk.web.title}]({chunk.web.uri})\n"
         return text, display
 
-def extract_citations(response: types.GenerateContentResponse) -> list[tuple[str, str]]:
+
+def extract_citations(response: types.GenerateContentResponse) -> list[tuple[str, list[int]]]:
     citations = []
     if grounding_metadata := response.candidates[0].grounding_metadata:
         for grounding_support in grounding_metadata.grounding_supports:
-            citation_indices = "".join(f"[{str(index + 1)}]" for index in grounding_support.grounding_chunk_indices)
+            citation_indices = [index + 1 for index in grounding_support.grounding_chunk_indices]
             citation_text = grounding_support.segment.text
             citations.append((citation_text, citation_indices))
     return citations
 
-def add_citations(text: str, citations: list[tuple[str, str]]) -> str:
+
+def add_citations(text: str, citations: list[tuple[str, list[int]]]) -> str:
     for citation_text, citation_indices in citations:
         index = text.find(citation_text) + len(citation_text)
-        text = text[:index] + citation_indices + text[index:]
+        citation_str = "".join(f"[{i}]" for i in citation_indices)
+        text = text[:index] + citation_str + text[index:]
     return text
