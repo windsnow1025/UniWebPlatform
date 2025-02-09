@@ -20,27 +20,30 @@ export default class ChatLogic {
         id: uuidv4(),
         role: "system",
         text: "You are a helpful assistant.",
-        files: []
+        files: [],
+        display: "",
       },
       {
         id: uuidv4(),
         role: "user",
         text: "",
-        files: []
+        files: [],
+        display: "",
       }
     ];
-
     this.emptyUserMessage = {
       id: uuidv4(),
       "role": "user",
       "text": "",
-      "files": []
+      "files": [],
+      display: "",
     };
     this.emptyAssistantMessage = {
       id: uuidv4(),
       role: "assistant",
       text: "",
-      files: []
+      files: [],
+      display: "",
     };
 
     this.defaultApiModels = [
@@ -48,12 +51,13 @@ export default class ChatLogic {
     ]
   }
 
-  createAssistantMessage(text: string): Message {
+  createAssistantMessage(text: string, display: string): Message {
     return {
       id: uuidv4(),
       role: "assistant",
       text: text,
-      files: []
+      files: [],
+      display: display,
     };
   }
 

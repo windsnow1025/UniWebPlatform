@@ -8,13 +8,13 @@ function SendButton({
                       isGenerating,
                       setIsGenerating,
                       isGeneratingRef,
+                      setConversationUpdateTrigger,
                       messages,
                       setMessages,
                       apiType,
                       model,
                       temperature,
                       stream,
-                      setConversationUpdateTrigger
                     }) {
   const chatLogic = new ChatLogic();
 
@@ -66,7 +66,7 @@ function SendButton({
 
       setMessages(prevMessages => [
         ...prevMessages,
-        chatLogic.createAssistantMessage(text),
+        chatLogic.createAssistantMessage(text, content.display),
         chatLogic.emptyUserMessage,
       ]);
 
@@ -92,6 +92,9 @@ function SendButton({
         setMessages(prevMessages => {
           const newMessages = [...prevMessages];
           newMessages[newMessages.length - 1].text += text;
+          if (chunk.display) {
+            newMessages[newMessages.length - 1].display += chunk.display;
+          }
           return newMessages;
         });
 
