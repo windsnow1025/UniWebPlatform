@@ -61,6 +61,18 @@ export default class ChatLogic {
     };
   }
 
+  appendToMessage(messages: Message[], index: number, chunk: ChatResponse): Message[] {
+    const newMessages = [...messages];
+    const message = newMessages[index];
+    if (chunk.text) {
+      message.text += chunk.text;
+    }
+    if (chunk.display) {
+      message.display = chunk.display;
+    }
+    return messages;
+  }
+
   async fetchApiModels(): Promise<ApiTypeModel[]> {
     try {
       return await this.chatService.fetchApiModels();
