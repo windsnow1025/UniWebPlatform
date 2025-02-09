@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Message} from './Message'
-import {ApiTypeModel} from "./Chat";
+import {ApiTypeModel, ChatResponse} from "./Chat";
 import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/src/common/APIConfig";
 import {fetchEventSource} from '@microsoft/fetch-event-source';
 
@@ -11,7 +11,7 @@ export default class ChatClient {
     model: string,
     temperature: number,
     stream: boolean
-  ): Promise<string | AsyncGenerator<string, void, unknown>> {
+  ): Promise<ChatResponse | AsyncGenerator<ChatResponse, void, unknown>> {
     const token = localStorage.getItem('token')!;
 
     const requestData = {
@@ -47,7 +47,7 @@ export default class ChatClient {
       const controller = new AbortController();
 
       const streamGenerator = async function* () {
-        const queue: string[] = [];
+        const queue: ChatResponse[] = [];
         let resolveQueue: (() => void) | null = null;
         let isDone = false;
 
