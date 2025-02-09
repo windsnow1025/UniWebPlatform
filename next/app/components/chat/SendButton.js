@@ -76,6 +76,7 @@ function SendButton({
       const generator = chatLogic.streamGenerate(messages, apiType, model, temperature);
 
       for await (const chunk of generator) {
+        // Final text for citations
         if (typeof chunk === "string") {
           setMessages(prevMessages => {
             const updatedMessages = [...prevMessages];
