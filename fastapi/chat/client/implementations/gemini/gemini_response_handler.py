@@ -2,6 +2,8 @@ from enum import Enum
 
 from google.genai import types
 
+from chat.type.chat_response import Citation
+
 
 class PrintingStatus(Enum):
     Start = "start"
@@ -38,18 +40,20 @@ class GeminiResponseHandler:
         return text, display
 
 
-def extract_citations(response: types.GenerateContentResponse) -> list[tuple[str, list[int]]]:
+def extract_citations(response: types.GenerateContentResponse) -> list[Citation]:
     citations = []
     if grounding_metadata := response.candidates[0].grounding_metadata:
         for grounding_support in grounding_metadata.grounding_supports:
             citation_indices = [index + 1 for index in grounding_support.grounding_chunk_indices]
             citation_text = grounding_support.segment.text
-            citations.append((citation_text, citation_indices))
+            citations.append(Citation(text=citation_text, indices=citation_indices))
     return citations
 
 
-def add_citations(text: str, citations: list[tuple[str, list[int]]]) -> str:
-    for citation_text, citation_indices in citations:
+def add_citations(text: str, citations: list[Citation]) -> str:
+    for citation in citations:
+        citation_text = citation.text
+        citation_indices = citation.indices
         index = text.find(citation_text) + len(citation_text)
         citation_str = "".join(f"[{i}]" for i in citation_indices)
         text = text[:index] + citation_str + text[index:]
