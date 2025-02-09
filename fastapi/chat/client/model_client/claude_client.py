@@ -1,3 +1,5 @@
+from typing import AsyncGenerator
+
 import anthropic
 
 from chat.client.chat_client import ChatClient
@@ -19,5 +21,5 @@ class ClaudeClient(ChatClient):
         self.system = system
         self.client = client
 
-    def generate_response(self):
+    def generate_response(self) -> str | AsyncGenerator[str, None]:
         raise NotImplementedError
