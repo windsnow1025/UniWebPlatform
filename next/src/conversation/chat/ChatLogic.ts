@@ -88,7 +88,7 @@ export default class ChatLogic {
   }
 
   async nonStreamGenerate(
-    messages: Message[], api_type: string, model: string, temperature: number, stream: boolean
+    messages: Message[], api_type: string, model: string, temperature: number
   ): Promise<string> {
     const desanitizedMessages = messages.map(message => ({
       ...message,
@@ -96,7 +96,9 @@ export default class ChatLogic {
     }));
 
     try {
-      const content = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as ChatResponse;
+      const content = await this.chatService.nonStreamGenerate(
+        desanitizedMessages, api_type, model, temperature
+      );
       return sanitize(content.text!);
     } catch (err) {
       console.error("Error in POST /:", err);
@@ -105,7 +107,7 @@ export default class ChatLogic {
   }
 
   async* streamGenerate(
-    messages: Message[], api_type: string, model: string, temperature: number, stream: boolean
+    messages: Message[], api_type: string, model: string, temperature: number
   ): AsyncGenerator<string, void, unknown> {
     const desanitizedMessages = messages.map(message => ({
       ...message,
@@ -113,7 +115,9 @@ export default class ChatLogic {
     }));
 
     try {
-      const response = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as AsyncGenerator<ChatResponse, void, unknown>;
+      const response = this.chatService.streamGenerate(
+        desanitizedMessages, api_type, model, temperature
+      );
 
       for await (const chunk of response) {
         yield sanitize(chunk.text!);
