@@ -99,6 +99,9 @@ export default class ChatLogic {
       const content = await this.chatService.nonStreamGenerate(
         desanitizedMessages, api_type, model, temperature
       );
+      if (content.error || !content.text) {
+        throw new Error(content.error || "`content.text` not found");
+      }
       return sanitize(content.text!);
     } catch (err) {
       console.error("Error in POST /:", err);
@@ -120,6 +123,9 @@ export default class ChatLogic {
       );
 
       for await (const chunk of response) {
+        if (chunk.error || !chunk.text) {
+          throw new Error(chunk.error || "`content.text` not found");
+        }
         yield sanitize(chunk.text!);
       }
     } catch (err) {

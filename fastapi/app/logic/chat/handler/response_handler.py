@@ -31,7 +31,8 @@ async def stream_handler(
     async def wrapper_generator() -> AsyncGenerator[str, None]:
         content = ""
         async for chunk in generator:
-            content += chunk.text
+            if chunk.text:
+                content += chunk.text
             yield f"data: {json.dumps(serialize(chunk))}\n\n"
         completion_tokens = num_tokens_from_text(content)
         await reduce_credit(completion_tokens)
