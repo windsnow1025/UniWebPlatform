@@ -1,6 +1,6 @@
 ### Get API Models
 
-GET {{baseUrl}}/chat
+GET {{baseUrl}}/model
 
 ### Post OpenAI Stream Text
 
