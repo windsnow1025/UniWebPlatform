@@ -31,3 +31,15 @@ class GeminiResponseHandler:
                 display = search_entry_point.rendered_content
         return text, display
 
+    def add_citations(self, text: str, response: types.GenerateContentResponse) -> str:
+        if grounding_metadata := response.candidates[0].grounding_metadata:
+            for grounding_support in grounding_metadata.grounding_supports:
+                citation = ""
+                for grounding_chunk_index in grounding_support.grounding_chunk_indices:
+                    citation += f"[{str(grounding_chunk_index + 1)}]"
+
+                citation_text = grounding_support.segment.text
+                index = text.find(citation_text) + len(citation_text)
+                text = text[:index] + citation + text[index:]
+
+        return text
