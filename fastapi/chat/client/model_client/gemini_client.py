@@ -4,6 +4,7 @@ from google import genai
 from google.genai import types
 
 from chat.client.chat_client import ChatClient
+from chat.type.chat_response import ChatResponse
 from chat.type.model_message.gemini_message import GeminiMessage
 
 
@@ -22,5 +23,5 @@ class GeminiClient(ChatClient):
         self.client = client
         self.config = config
 
-    def generate_response(self) -> str | AsyncGenerator[str, None]:
+    def generate_response(self) -> ChatResponse | AsyncGenerator[ChatResponse, None]:
         raise NotImplementedError

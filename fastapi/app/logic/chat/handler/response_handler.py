@@ -6,16 +6,18 @@ from typing import Callable, Awaitable
 from fastapi.responses import StreamingResponse
 
 from app.logic.chat.util.token_counter import num_tokens_from_text
+from chat.type.chat_response import ChatResponse
+from chat.type.serializer import serialize
 
-ChunkGenerator = AsyncGenerator[str, None]
+ChunkGenerator = AsyncGenerator[ChatResponse, None]
 ReduceCredit = Callable[[int], Awaitable[float]]
 
 
 async def non_stream_handler(
-        content: str,
+        content: ChatResponse,
         reduce_credit: ReduceCredit
-) -> str:
-    completion_tokens = num_tokens_from_text(content)
+) -> ChatResponse:
+    completion_tokens = num_tokens_from_text(content.text)
     await reduce_credit(completion_tokens)
     logging.info(f"content: {content}")
     return content
@@ -29,8 +31,8 @@ async def stream_handler(
     async def wrapper_generator() -> AsyncGenerator[str, None]:
         content = ""
         async for chunk in generator:
-            content += chunk
-            yield f"data: {json.dumps(chunk)}\n\n"
+            content += chunk.text
+            yield f"data: {json.dumps(serialize(chunk))}\n\n"
         completion_tokens = num_tokens_from_text(content)
         await reduce_credit(completion_tokens)
         logging.info(f"content: {content}")
