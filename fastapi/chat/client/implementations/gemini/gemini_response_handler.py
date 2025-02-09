@@ -50,13 +50,3 @@ def extract_citations(response: types.GenerateContentResponse) -> list[Citation]
             citation_text = grounding_support.segment.text
             citations.append(Citation(text=citation_text, indices=citation_indices))
     return citations if citations else None
-
-
-def add_citations(text: str, citations: list[Citation]) -> str:
-    for citation in citations:
-        citation_text = citation.text
-        citation_indices = citation.indices
-        index = text.find(citation_text) + len(citation_text)
-        citation_str = "".join(f"[{i}]" for i in citation_indices)
-        text = text[:index] + citation_str + text[index:]
-    return text
