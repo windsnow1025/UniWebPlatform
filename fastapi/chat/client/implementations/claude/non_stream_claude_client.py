@@ -5,11 +5,12 @@ import httpx
 from fastapi import HTTPException
 
 from chat.client.model_client.claude_client import ClaudeClient
+from chat.type.chat_response import ChatResponse
 from chat.type.serializer import serialize
 
 
 class NonStreamClaudeClient(ClaudeClient):
-    async def generate_response(self) -> str:
+    async def generate_response(self) -> ChatResponse:
         try:
             logging.info(f"messages: {self.messages}")
             message = await self.client.messages.create(
@@ -21,7 +22,7 @@ class NonStreamClaudeClient(ClaudeClient):
             )
 
             content = message.content[0].text
-            return content
+            return ChatResponse(text=content)
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text

@@ -6,10 +6,11 @@ from fastapi import HTTPException
 
 from chat.client.implementations.gemini.gemini_response_handler import PrintingStatus, GeminiResponseHandler
 from chat.client.model_client.gemini_client import GeminiClient
+from chat.type.chat_response import ChatResponse
 
 
 class NonStreamGeminiClient(GeminiClient):
-    async def generate_response(self) -> str:
+    async def generate_response(self) -> ChatResponse:
         try:
             logging.info(f"messages: {self.messages}")
 
@@ -31,7 +32,7 @@ class NonStreamGeminiClient(GeminiClient):
                     index = output.find(text) + len(text)
                     original_output = output
                     output = original_output[:index] + citation + original_output[index:]
-            return output
+            return ChatResponse(text=output)
         except httpx.HTTPStatusError as e:
             status_code = e.response.status_code
             text = e.response.text

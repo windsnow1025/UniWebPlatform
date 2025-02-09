@@ -6,15 +6,16 @@ import httpx
 from fastapi import HTTPException
 
 from chat.client.model_client.claude_client import ClaudeClient
+from chat.type.chat_response import ChatResponse
 from chat.type.serializer import serialize
 
 
 class StreamClaudeClient(ClaudeClient):
-    async def generate_response(self) -> AsyncGenerator[str, None]:
+    async def generate_response(self) -> AsyncGenerator[ChatResponse, None]:
         try:
             logging.info(f"messages: {self.messages}")
 
-            async def chunk_generator() -> AsyncGenerator[str, None]:
+            async def chunk_generator() -> AsyncGenerator[ChatResponse, None]:
                 try:
                     async with self.client.messages.stream(
                         model=self.model,
@@ -24,10 +25,10 @@ class StreamClaudeClient(ClaudeClient):
                         messages=serialize(self.messages)
                     ) as stream:
                         async for response_delta in stream.text_stream:
-                            yield response_delta
+                            yield ChatResponse(text=response_delta)
                 except Exception as e:
                     logging.exception(e)
-                    yield str(e)
+                    yield ChatResponse(error=str(e))
 
             return chunk_generator()
 
