@@ -18,7 +18,7 @@ async def create_gemini_client(
 ):
     client = genai.Client(
         api_key=api_key,
-        http_options=HttpOptions(api_version='v1alpha')
+        http_options=HttpOptions(api_version='v1alpha') # Thinking
     )
 
     system_instruction = extract_system_messages(messages) or " "
