@@ -55,20 +55,26 @@ function SendButton({
 
     if (!stream) {
 
-      const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature, stream);
+      const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature);
 
       if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
         // console.log(`previous index ${thisRequestIndex}, current index ${currentRequestIndex.current}, is generating ${isGeneratingRef.current}`);
         return;
       }
 
-      setMessages(prevMessages => [...prevMessages, chatLogic.createAssistantMessage(content), chatLogic.emptyUserMessage]);
+      const text = content.text ? content.text : '';
+
+      setMessages(prevMessages => [
+        ...prevMessages,
+        chatLogic.createAssistantMessage(text),
+        chatLogic.emptyUserMessage,
+      ]);
 
     } else {
 
       let isFirstChunk = true;
 
-      for await (const chunk of chatLogic.streamGenerate(messages, apiType, model, temperature, stream)) {
+      for await (const chunk of chatLogic.streamGenerate(messages, apiType, model, temperature)) {
 
         if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
           return;
@@ -81,9 +87,11 @@ function SendButton({
           isFirstChunk = false;
         }
 
+        const text = chunk.text ? chunk.text : '';
+
         setMessages(prevMessages => {
           const newMessages = [...prevMessages];
-          newMessages[newMessages.length - 1].text += chunk;
+          newMessages[newMessages.length - 1].text += text;
           return newMessages;
         });
 
