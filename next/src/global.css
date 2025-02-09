@@ -13,54 +13,59 @@ html {
 }
 
 /* Customize */
-div.flex-center {
+.flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
 }
 
-div.flex-around {
+.flex-around {
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
 }
 
-div.flex-between {
+.flex-between {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
 }
 
-div.flex-between-nowrap {
+.flex-between-nowrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
 }
 
-div.flex-start-center {
+.flex-start-center {
     display: flex;
     justify-content: start;
     align-items: center;
     flex-wrap: wrap;
 }
 
-div.flex-start-start {
+.flex-start-start {
     display: flex;
     justify-content: start;
     align-items: start;
     flex-wrap: wrap;
 }
 
-div.flex-column {
+.flex-column {
     display: flex;
     flex-direction: column;
 }
 
-div.inflex-fill {
+.flex-stretch {
+    display: flex;
+    align-items: stretch;
+}
+
+.inflex-fill {
     flex: 1;
     overflow: auto;
 }
