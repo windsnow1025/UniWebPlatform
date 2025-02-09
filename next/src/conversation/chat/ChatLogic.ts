@@ -1,5 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
-import ChatClient, {StreamResponse} from "./ChatClient";
+import ChatClient from "./ChatClient";
 import {Message} from "./Message"
 import {ApiTypeModel} from "@/src/conversation/chat/Chat";
 import {desanitize, sanitize} from "markdown-latex-renderer";
@@ -114,32 +114,20 @@ export default class ChatLogic {
   }
 
   async* streamGenerate(messages: Message[], api_type: string, model: string, temperature: number, stream: boolean) {
-    let controller;
-
     const desanitizedMessages = messages.map(message => ({
       ...message,
       text: desanitize(message.text)
     }));
 
     try {
+      const response = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as AsyncGenerator<string, void, unknown>;
 
-      const response = await this.chatService.generate(desanitizedMessages, api_type, model, temperature, stream) as StreamResponse;
-      controller = response.controller;
-      const reader = response.reader;
-
-      while (true) {
-        const {value, done} = await reader.read();
-        if (done) break;
-        yield sanitize(new TextDecoder().decode(value));
+      for await (const chunk of response) {
+        yield sanitize(chunk);
       }
-
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
-    } finally {
-      if (controller) {
-        controller.abort();
-      }
     }
   }
 }
