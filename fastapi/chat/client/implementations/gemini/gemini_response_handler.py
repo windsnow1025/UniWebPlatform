@@ -49,7 +49,7 @@ def extract_citations(response: types.GenerateContentResponse) -> list[Citation]
             citation_indices = [index + 1 for index in grounding_support.grounding_chunk_indices]
             citation_text = grounding_support.segment.text
             citations.append(Citation(text=citation_text, indices=citation_indices))
-    return citations
+    return citations if citations else None
 
 
 def add_citations(text: str, citations: list[Citation]) -> str:
