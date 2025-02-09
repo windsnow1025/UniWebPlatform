@@ -6,6 +6,7 @@ export interface ApiTypeModel {
 }
 
 export interface ChatResponse {
-  text: string
-  display: string
+  text?: string
+  display?: string
+  error?: string
 }
