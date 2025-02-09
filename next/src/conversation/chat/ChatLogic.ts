@@ -89,7 +89,7 @@ export default class ChatLogic {
 
   async nonStreamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
-  ): Promise<string> {
+  ): Promise<ChatResponse> {
     const desanitizedMessages = messages.map(message => ({
       ...message,
       text: desanitize(message.text)
@@ -99,10 +99,13 @@ export default class ChatLogic {
       const content = await this.chatService.nonStreamGenerate(
         desanitizedMessages, api_type, model, temperature
       );
-      if (content.error || !content.text) {
-        throw new Error(content.error || "`content.text` not found");
+      if (content.error) {
+        throw new Error(content.error);
       }
-      return sanitize(content.text);
+      return {
+        text: content.text ? sanitize(content.text) : undefined,
+        display: content.display,
+      }
     } catch (err) {
       console.error("Error in POST /:", err);
       throw err;
@@ -111,7 +114,7 @@ export default class ChatLogic {
 
   async* streamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
-  ): AsyncGenerator<string, void, unknown> {
+  ): AsyncGenerator<ChatResponse, void, unknown> {
     const desanitizedMessages = messages.map(message => ({
       ...message,
       text: desanitize(message.text)
@@ -123,10 +126,13 @@ export default class ChatLogic {
       );
 
       for await (const chunk of response) {
-        if (chunk.error || !chunk.text) {
-          throw new Error(chunk.error || "`content.text` not found");
+        if (chunk.error) {
+          throw new Error(chunk.error);
         }
-        yield sanitize(chunk.text);
+        yield {
+          text: chunk.text ? sanitize(chunk.text) : undefined,
+          display: chunk.display,
+        }
       }
     } catch (err) {
       console.error("Error in POST /:", err);
