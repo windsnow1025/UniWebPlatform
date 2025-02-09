@@ -87,16 +87,9 @@ function SendButton({
           isFirstChunk = false;
         }
 
-        const text = chunk.text ? chunk.text : '';
-
-        setMessages(prevMessages => {
-          const newMessages = [...prevMessages];
-          newMessages[newMessages.length - 1].text += text;
-          if (chunk.display) {
-            newMessages[newMessages.length - 1].display += chunk.display;
-          }
-          return newMessages;
-        });
+        setMessages(prevMessages => chatLogic.appendToMessage(
+          prevMessages, prevMessages.length - 1, chunk
+        ));
 
         if (isAtBottom) scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
       }
