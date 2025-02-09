@@ -9,6 +9,7 @@ from openai import APIStatusError, AsyncStream
 from openai.types.chat import ChatCompletionChunk
 
 from chat.client.model_client.gpt_client import GPTClient
+from chat.type.chat_response import ChatResponse
 from chat.type.serializer import serialize
 
 
@@ -24,18 +25,20 @@ def process_delta(completion_delta: ChatCompletionChunk) -> str:
     return content_delta
 
 
-async def generate_chunk(completion: AsyncStream[ChatCompletionChunk]) -> AsyncGenerator[str, None]:
+async def generate_chunk(
+        completion: AsyncStream[ChatCompletionChunk]
+) -> AsyncGenerator[ChatResponse, None]:
     try:
         async for completion_delta in completion:
             content_delta = process_delta(completion_delta)
-            yield content_delta
+            yield ChatResponse(text=content_delta)
     except Exception as e:
         logging.exception(e)
-        yield str(e)
+        yield ChatResponse(error=str(e))
 
 
 class StreamGPTClient(GPTClient):
-    async def generate_response(self) -> AsyncGenerator[str, None]:
+    async def generate_response(self) -> AsyncGenerator[ChatResponse, None]:
         try:
             logging.info(f"messages: {self.messages}")
             completion = await self.client.chat.completions.create(

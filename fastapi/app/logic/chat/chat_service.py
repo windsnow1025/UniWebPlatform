@@ -11,6 +11,7 @@ from app.logic.chat.handler import response_handler
 from app.logic.chat.util import model_pricing
 from app.repository import user_dao
 from chat import create_chat_client, preprocess_messages
+from chat.type.chat_response import ChatResponse
 
 
 async def handle_chat_interaction(
@@ -69,10 +70,18 @@ async def handle_chat_interaction(
     response = await chat_client.generate_response()
 
     if stream:
-        async def final_response_handler(generator: AsyncGenerator[str, None]) -> StreamingResponse:
-            return await response_handler.stream_handler(generator, reduce_prompt_credit)
+        async def final_response_handler(
+                generator: AsyncGenerator[ChatResponse, None]
+        ) -> StreamingResponse:
+            return await response_handler.stream_handler(
+                generator, reduce_prompt_credit
+            )
     else:
-        async def final_response_handler(content: str) -> str:
-            return await response_handler.non_stream_handler(content, reduce_completion_credit)
+        async def final_response_handler(
+                content: ChatResponse
+        ) -> ChatResponse:
+            return await response_handler.non_stream_handler(
+                content, reduce_completion_credit
+            )
 
     return await final_response_handler(response)

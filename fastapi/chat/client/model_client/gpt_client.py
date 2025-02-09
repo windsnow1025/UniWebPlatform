@@ -3,6 +3,7 @@ from typing import AsyncGenerator
 import openai.lib.azure
 
 from chat.client.chat_client import ChatClient
+from chat.type.chat_response import ChatResponse
 from chat.type.model_message.gpt_message import GptMessage
 
 
@@ -21,5 +22,5 @@ class GPTClient(ChatClient):
         self.api_type = api_type
         self.client = client
 
-    def generate_response(self) -> str | AsyncGenerator[str, None]:
+    def generate_response(self) -> ChatResponse | AsyncGenerator[ChatResponse, None]:
         raise NotImplementedError
