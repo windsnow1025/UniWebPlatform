@@ -50,7 +50,6 @@ export default class ChatClient {
     temperature: number
   ): AsyncGenerator<ChatResponse, void, unknown> {
     const token = localStorage.getItem('token')!;
-    const controller = new AbortController();
 
     const requestData = {
       messages: messages,
@@ -63,11 +62,11 @@ export default class ChatClient {
     const queue: ChatResponse[] = [];
     let resolveQueue: (() => void) | null = null;
     let isDone = false;
+    let errorOccurred: Error | null = null;
 
     fetchEventSource(`${getAPIBaseURLs().fastAPI}/chat`, {
       method: "POST",
       body: JSON.stringify(requestData),
-      signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': token
@@ -103,7 +102,11 @@ export default class ChatClient {
         }
       },
       onerror(err) {
-        console.error("Stream error:", err);
+        errorOccurred = err;
+        isDone = true;
+        if (resolveQueue) {
+          resolveQueue();
+        }
         throw err;
       }
     });
@@ -115,7 +118,11 @@ export default class ChatClient {
         await new Promise<void>(resolve => resolveQueue = resolve);
       }
     }
-  };
+
+    if (errorOccurred) {
+      throw errorOccurred;
+    }
+  }
 
   async fetchApiModels(): Promise<ApiTypeModel[]> {
     const res = await getFastAPIAxiosInstance().get(`/model`);
