@@ -45,8 +45,9 @@ class GeminiResponseHandler:
 def extract_citations(response: types.GenerateContentResponse) -> list[Citation]:
     citations = []
     if grounding_metadata := response.candidates[0].grounding_metadata:
-        for grounding_support in grounding_metadata.grounding_supports:
-            citation_indices = [index + 1 for index in grounding_support.grounding_chunk_indices]
-            citation_text = grounding_support.segment.text
-            citations.append(Citation(text=citation_text, indices=citation_indices))
+        if grounding_supports := grounding_metadata.grounding_supports:
+            for grounding_support in grounding_supports:
+                citation_indices = [index + 1 for index in grounding_support.grounding_chunk_indices]
+                citation_text = grounding_support.segment.text
+                citations.append(Citation(text=citation_text, indices=citation_indices))
     return citations if citations else None
