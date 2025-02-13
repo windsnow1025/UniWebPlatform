@@ -56,26 +56,14 @@
   {
     "api_type": "Gemini",
     "model": "gemini-2.0-flash-thinking-exp-01-21",
-    "input": 0,
-    "output": 0
+    "input": 0.7,
+    "output": 0.4
   },
   {
     "api_type": "Gemini",
     "model": "gemini-2.0-flash-exp",
-    "input": 0,
-    "output": 0
-  },
-  {
-    "api_type": "Gemini",
-    "model": "gemini-exp-1206",
-    "input": 0,
-    "output": 0
-  },
-  {
-    "api_type": "Gemini",
-    "model": "learnlm-1.5-pro-experimental",
-    "input": 0,
-    "output": 0
+    "input": 0.7,
+    "output": 0.4
   },
   {
     "api_type": "Gemini",
