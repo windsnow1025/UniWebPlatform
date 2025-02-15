@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useTheme} from '@mui/material/styles';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {Alert, IconButton, LinearProgress, Paper, Snackbar, Tooltip} from "@mui/material";
@@ -6,7 +7,7 @@ import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileUpload from './FileUpload';
-import {convertToRawEditableState, RoleEditableState} from "../../../src/conversation/chat/Message";
+import {convertToRawEditableState, RoleEditableState, MessageRole} from "../../../src/conversation/chat/Message";
 import SortableFileDivs from './SortableFileDivs';
 import DisplayDiv from "./DisplayDiv";
 
@@ -53,21 +54,33 @@ function MessageDiv({
     setAlertOpen(true);
   };
 
+  const theme = useTheme();
+
+  const getRoleBorderStyles = (role) => {
+    switch (role) {
+      case MessageRole.User:
+        return {border: `1px solid ${theme.palette.primary.main}`};
+      case MessageRole.Assistant:
+        return {border: `1px solid ${theme.palette.secondary.main}`};
+      case MessageRole.System:
+        return {border: `1px solid ${theme.palette.warning.main}`};
+      default:
+        return {};
+    }
+  };
+
   return (
     <>
-      <Paper elevation={2} className="my-1 p-2 rounded-lg">
+      <div
+        className="p-2 rounded-lg"
+        style={getRoleBorderStyles(message.role)}
+      >
         <div className="flex">
-          {useRoleSelect ?
-            <RoleSelect
-              role={message.role}
-              setRole={handleRoleChange}
-            />
-            :
-            <RoleDiv
-              role={message.role}
-              setRole={handleRoleChange}
-            />
-          }
+          {useRoleSelect ? (
+            <RoleSelect role={message.role} setRole={handleRoleChange}/>
+          ) : (
+            <RoleDiv role={message.role} setRole={handleRoleChange}/>
+          )}
           <div className="inflex-fill"></div>
           <FileUpload
             files={message.files}
@@ -79,15 +92,15 @@ function MessageDiv({
               <ContentCopyIcon fontSize="small"/>
             </IconButton>
           </Tooltip>
-          {onMessageDelete &&
+          {onMessageDelete && (
             <Tooltip title="Delete">
               <IconButton aria-label="delete" onClick={onMessageDelete}>
                 <RemoveCircleOutlineIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
-          }
+          )}
         </div>
-        <Paper elevation={4} className="inflex-fill my-2">
+        <Paper elevation={4} className="inflex-fill my-2 p-1">
           <ContentDiv
             content={message.text}
             setContent={handleContentChange}
@@ -98,23 +111,11 @@ function MessageDiv({
             setUploadProgress={setUploadProgress}
           />
         </Paper>
-        <DisplayDiv
-          message={message}
-          setMessage={setMessage}
-        />
-        {uploadProgress > 0 && (
-          <LinearProgress variant="determinate" value={uploadProgress * 100}/>
-        )}
-        <SortableFileDivs
-          files={message.files}
-          setFiles={handleFileChange}
-        />
-      </Paper>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={6000}
-        onClose={() => setAlertOpen(false)}
-      >
+        <DisplayDiv message={message} setMessage={setMessage}/>
+        {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress * 100}/>}
+        <SortableFileDivs files={message.files} setFiles={handleFileChange}/>
+      </div>
+      <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
         <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
