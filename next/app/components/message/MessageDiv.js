@@ -59,9 +59,9 @@ function MessageDiv({
   const getRoleBorderStyles = (role) => {
     switch (role) {
       case MessageRole.User:
-        return {border: `1px solid ${theme.palette.primary.main}`};
+        return {border: `1px solid ${theme.palette.primary.main}`, minWidth: "75%",};
       case MessageRole.Assistant:
-        return {border: `1px solid ${theme.palette.secondary.main}`};
+        return {border: `1px solid ${theme.palette.secondary.main}`, minWidth: "75%"};
       case MessageRole.System:
         return {border: `1px solid ${theme.palette.warning.main}`};
       default:
@@ -69,10 +69,23 @@ function MessageDiv({
     }
   };
 
+  const getMessageContainerStyles = (role) => {
+    switch (role) {
+      case MessageRole.User:
+        return { display: 'flex', justifyContent: 'flex-end' };
+      case MessageRole.Assistant:
+        return { display: 'flex', justifyContent: 'flex-start' };
+      case MessageRole.System:
+        return {};
+      default:
+        return {};
+    }
+  };
+
   return (
-    <>
+    <div style={getMessageContainerStyles(message.role)}>
       <div
-        className="p-2 rounded-lg"
+        className="px-2 py-3 rounded-lg"
         style={getRoleBorderStyles(message.role)}
       >
         <div className="flex">
@@ -120,7 +133,7 @@ function MessageDiv({
           {alertMessage}
         </Alert>
       </Snackbar>
-    </>
+    </div>
   );
 }
 
