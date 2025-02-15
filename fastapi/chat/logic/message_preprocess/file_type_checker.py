@@ -10,21 +10,18 @@ def is_file_type_supported(file_name: str) -> bool:
         return True
 
 
-def get_file_type(file_name: str) -> str:
+def get_file_type(file_name: str) -> tuple[str, str]:
     if file_name.endswith(code_file_extensions):
-        return 'code'
+        return 'text', 'code'
     if file_name.endswith('.pdf'):
-        return 'pdf'
+        return 'text', 'pdf'
     if file_name.endswith(('.docx', '.doc')):
-        return 'word'
+        return 'text', 'word'
     if file_name.endswith(('.xlsx', '.xls')):
-        return 'excel'
+        return 'text', 'excel'
     if file_name.endswith(('.pptx', '.ppt')):
-        return 'ppt'
+        return 'text', 'ppt'
     mime_type, _ = mimetypes.guess_type(file_name)
     if mime_type:
-        if mime_type.startswith('application'):
-            return mime_type.split('/')[1]
-        else:
-            return mime_type.split('/')[0]
-    return 'unknown'
+        return mime_type.split('/')[0], mime_type.split('/')[1]
+    return 'unknown', 'unknown'
