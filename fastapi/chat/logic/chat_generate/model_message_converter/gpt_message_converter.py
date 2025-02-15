@@ -21,5 +21,11 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
         if file_type == "image":
             image_contents = await media_processor.get_gpt_image_content_from_url(file_url)
             content.append(image_contents)
+            continue
+        text_content = gpt_message.TextContent(
+            type="text",
+            text=f"\n{file_url}: {file_type}/{sub_type} not supported by the current model.\n"
+        )
+        content.append(text_content)
 
     return GptMessage(role=role, content=content)
