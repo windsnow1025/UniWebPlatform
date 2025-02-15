@@ -1,9 +1,15 @@
 export interface Message {
   id: string
-  role: string
+  role: MessageRole
   text: string
   files: string[]
   display: string
+}
+
+export enum MessageRole {
+  User = 'user',
+  Assistant = 'assistant',
+  System = 'system',
 }
 
 export enum RawEditableState {
@@ -24,13 +30,13 @@ export function convertToRawEditableState(
   role: string
 ): RawEditableState {
   if (editableState === RoleEditableState.RoleBased) {
-    if (role === "system") {
+    if (role === MessageRole.System) {
       return RawEditableState.AlwaysTrue
     }
-    if (role === "user") {
+    if (role === MessageRole.User) {
       return RawEditableState.AlwaysTrue
     }
-    if (role === "assistant") {
+    if (role === MessageRole.Assistant) {
       return RawEditableState.AlwaysFalse
     }
   }
