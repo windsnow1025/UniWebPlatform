@@ -59,9 +59,9 @@ function MessageDiv({
   const getRoleBorderStyles = (role) => {
     switch (role) {
       case MessageRole.User:
-        return { border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`, minWidth: "75%" };
+        return { border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`, maxWidth: "95%" };
       case MessageRole.Assistant:
-        return { border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`, minWidth: "75%" };
+        return { border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`, maxWidth: "95%"};
       case MessageRole.System:
         return { border: `1px solid ${lighten(theme.palette.warning.main, 0.5)}` };
       default:
@@ -72,9 +72,9 @@ function MessageDiv({
   const getMessageContainerStyles = (role) => {
     switch (role) {
       case MessageRole.User:
-        return { display: 'flex', justifyContent: 'flex-end' };
+        return { justifyContent: 'flex-end' };
       case MessageRole.Assistant:
-        return { display: 'flex', justifyContent: 'flex-start' };
+        return { justifyContent: 'flex-start' };
       case MessageRole.System:
         return {};
       default:
@@ -83,10 +83,16 @@ function MessageDiv({
   };
 
   return (
-    <div style={getMessageContainerStyles(message.role)}>
+    <div style={{
+      ...getMessageContainerStyles(message.role),
+      display: 'flex',
+    }}>
       <div
         className="px-2 py-3 rounded-lg"
-        style={getRoleBorderStyles(message.role)}
+        style={{
+          ...getRoleBorderStyles(message.role),
+          minWidth: "75%",
+        }}
       >
         <div className="flex">
           {useRoleSelect ? (
@@ -113,7 +119,7 @@ function MessageDiv({
             </Tooltip>
           )}
         </div>
-        <Paper elevation={4} className="inflex-fill my-2 p-1">
+        <Paper elevation={4} className="inflex-fill p-1">
           <ContentDiv
             content={message.text}
             setContent={handleContentChange}
