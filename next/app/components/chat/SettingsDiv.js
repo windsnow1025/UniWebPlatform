@@ -63,9 +63,9 @@ function SettingsDiv({
 
   return (
     <>
-      <div className="flex-around m-1">
-        <div className="m-1">
-          <FormControl fullWidth size="small" className="mt-2">
+      <div className="flex-around mt-1">
+        <div className="mt-2">
+          <FormControl fullWidth size="small">
             <InputLabel id="api-type-select-label">API Type</InputLabel>
             <Select
               labelId="api-type-select-label"
@@ -81,8 +81,8 @@ function SettingsDiv({
             </Select>
           </FormControl>
         </div>
-        <div className="m-1">
-          <FormControl fullWidth size="small" className="mt-2">
+        <div className="mt-2">
+          <FormControl fullWidth size="small">
             <InputLabel id="model-select-label">Model</InputLabel>
             <Select
               labelId="model-select-label"
