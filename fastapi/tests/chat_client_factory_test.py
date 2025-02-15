@@ -4,20 +4,20 @@ from openai import AsyncOpenAI
 from chat.client.implementations.gpt.non_stream_gpt_client import NonStreamGPTClient
 from chat.logic.chat_generate.chat_client_factory import create_chat_client
 from chat.type.model_message.gpt_message import GptMessage, TextContent
-from chat.type.message import Message
+from chat.type.message import Message, Role
 
 
 @pytest.fixture
 def sample_messages():
     return [
-        Message(role="system", text="You are a helpful assistant.", file_urls=[]),
-        Message(role="user", text="Hello", file_urls=[])
+        Message(role=Role.System, text="You are a helpful assistant.", file_urls=[]),
+        Message(role=Role.User, text="Hello", file_urls=[])
     ]
 
 
 @pytest.mark.asyncio
 async def test_create_gpt_client_openai():
-    messages = [Message(role="user", text="Hello", file_urls=[])]
+    messages = [Message(role=Role.User, text="Hello", file_urls=[])]
     model = "gpt-4"
     api_type = "OpenAI"
     temperature = 0
@@ -43,7 +43,7 @@ async def test_create_gpt_client_openai():
 
     assert len(client.messages) == len(messages)
     assert isinstance(client.messages[0], GptMessage)
-    assert client.messages[0].role == "user"
+    assert client.messages[0].role == Role.User
     assert isinstance(client.messages[0].content, list)
     assert isinstance(client.messages[0].content[0], TextContent)
     assert client.messages[0].content[0].text == "Hello"
