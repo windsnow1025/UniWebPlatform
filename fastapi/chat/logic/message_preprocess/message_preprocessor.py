@@ -11,7 +11,7 @@ async def preprocess_messages(messages: list[Message]) -> None:
 async def extract_text_files_to_message(message: Message) -> None:
     indices_to_delete = []
     for i, file_url in enumerate(message.file_urls[::-1]):
-        if get_file_type(file_url) == "image":
+        if get_file_type(file_url) in ("image", "audio"):
             continue
         filename = file_url.rsplit('/', 1)[-1].split('-', 1)[1]
         file_text = await document_processor.extract_text_from_file(file_url)
