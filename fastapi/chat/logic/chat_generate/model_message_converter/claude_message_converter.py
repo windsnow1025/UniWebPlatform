@@ -24,5 +24,11 @@ async def convert_message_to_claude(message: Message) -> ClaudeMessage:
         if file_type == "image":
             image_contents = await media_processor.get_claude_image_content_from_url(file_url)
             content.append(image_contents)
+            continue
+        text_content = claude_message.TextContent(
+            type="text",
+            text=f"\n{file_url}: {file_type}/{sub_type} not supported by the current model.\n"
+        )
+        content.append(text_content)
 
     return ClaudeMessage(role=role, content=content)
