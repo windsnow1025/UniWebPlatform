@@ -1,4 +1,4 @@
-from chat.logic.chat_generate import image_processor
+from chat.logic.chat_generate import media_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.type.model_message import gpt_message
 from chat.type.model_message.gpt_message import GptMessage
@@ -18,7 +18,7 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
 
     for file_url in file_urls:
         if get_file_type(file_url) == "image":
-            image_contents = await image_processor.get_gpt_image_content_from_url(file_url)
+            image_contents = await media_processor.get_gpt_image_content_from_url(file_url)
             content.append(image_contents)
 
     return GptMessage(role=role, content=content)
