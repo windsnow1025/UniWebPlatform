@@ -17,7 +17,8 @@ async def convert_message_to_gpt(message: Message) -> GptMessage:
         content.append(text_content)
 
     for file_url in file_urls:
-        if get_file_type(file_url) == "image":
+        file_type, sub_type = get_file_type(file_url)
+        if file_type == "image":
             image_contents = await media_processor.get_gpt_image_content_from_url(file_url)
             content.append(image_contents)
 
