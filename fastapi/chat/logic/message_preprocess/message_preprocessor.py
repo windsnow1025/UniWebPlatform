@@ -1,6 +1,6 @@
 from chat.logic.message_preprocess import document_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
-from chat.type.message import Message
+from chat.type.message import Message, Role
 
 
 async def preprocess_messages(messages: list[Message]) -> None:
@@ -26,7 +26,7 @@ def extract_system_messages(messages: list[Message]) -> str:
     system_message = ""
     indices_to_delete = []
     for i, message in enumerate(messages):
-        if message.role != "system":
+        if message.role != Role.System:
             continue
         system_message += f"{message.text}\n"
         indices_to_delete.append(i)
