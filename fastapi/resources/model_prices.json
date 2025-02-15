@@ -36,13 +36,13 @@
     "output": 4.4
   },
   {
-    "api_type": "Azure",
+    "api_type": "OpenAI-Azure",
     "model": "gpt-4o",
     "input": 2.5,
     "output": 10
   },
   {
-    "api_type": "GitHub",
+    "api_type": "OpenAI-GitHub",
     "model": "gpt-4o",
     "input": 2.5,
     "output": 10
@@ -56,14 +56,14 @@
   {
     "api_type": "Gemini",
     "model": "gemini-2.0-flash-thinking-exp-01-21",
-    "input": 0.7,
-    "output": 0.4
+    "input": 0,
+    "output": 0
   },
   {
     "api_type": "Gemini",
     "model": "gemini-2.0-flash-exp",
-    "input": 0.7,
-    "output": 0.4
+    "input": 0,
+    "output": 0
   },
   {
     "api_type": "Gemini",
