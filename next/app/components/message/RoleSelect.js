@@ -1,5 +1,6 @@
 import React from 'react';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {MessageRole} from "../../../src/conversation/chat/Message";
 
 function RoleSelect({role, setRole}) {
   return (
@@ -10,13 +11,14 @@ function RoleSelect({role, setRole}) {
         id="role-select"
         value={role}
         label="Role"
+        variant="outlined"
         onChange={e => {
           setRole(e.target.value)
         }}
       >
-        <MenuItem value="user">user</MenuItem>
-        <MenuItem value="assistant">assistant</MenuItem>
-        <MenuItem value="system">system</MenuItem>
+        <MenuItem value={MessageRole.User}>{MessageRole.User}</MenuItem>
+        <MenuItem value={MessageRole.Assistant}>{MessageRole.Assistant}</MenuItem>
+        <MenuItem value={MessageRole.System}>{MessageRole.System}</MenuItem>
       </Select>
     </FormControl>
   );

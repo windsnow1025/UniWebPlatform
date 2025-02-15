@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
-import {Message} from "./Message"
+import {Message, MessageRole} from "./Message"
 import {ApiTypeModel, ChatResponse, Citation} from "@/src/conversation/chat/Chat";
 import {desanitize, sanitize} from "markdown-latex-renderer";
 
@@ -18,14 +18,14 @@ export default class ChatLogic {
     this.initMessages = [
       {
         id: uuidv4(),
-        role: "system",
+        role: MessageRole.System,
         text: "You are a helpful assistant.",
         files: [],
         display: "",
       },
       {
         id: uuidv4(),
-        role: "user",
+        role: MessageRole.User,
         text: "",
         files: [],
         display: "",
@@ -33,14 +33,14 @@ export default class ChatLogic {
     ];
     this.emptyUserMessage = {
       id: uuidv4(),
-      "role": "user",
+      "role": MessageRole.User,
       "text": "",
       "files": [],
       display: "",
     };
     this.emptyAssistantMessage = {
       id: uuidv4(),
-      role: "assistant",
+      role: MessageRole.Assistant,
       text: "",
       files: [],
       display: "",
@@ -54,7 +54,7 @@ export default class ChatLogic {
   createAssistantMessage(text: string, display: string): Message {
     return {
       id: uuidv4(),
-      role: "assistant",
+      role: MessageRole.Assistant,
       text: text,
       files: [],
       display: display,
