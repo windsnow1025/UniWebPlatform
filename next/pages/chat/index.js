@@ -87,8 +87,8 @@ function AIChat() {
                 />
               </div>
             </div>
-            <Paper elevation={0} variant='outlined' className="m-1 rounded-lg local-scroll-unscrollable-y">
-              <div className="local-scroll-scrollable p-2">
+            <Paper elevation={0} className="rounded-lg local-scroll-unscrollable-y">
+              <div className="local-scroll-scrollable mx-2">
                 <ChatMessagesDiv
                   messages={messages}
                   setMessages={setMessages}
