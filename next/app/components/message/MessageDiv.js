@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {Alert, IconButton, LinearProgress, Paper, Snackbar, Tooltip} from "@mui/material";
+import {Alert, IconButton, lighten, LinearProgress, Paper, Snackbar, Tooltip} from "@mui/material";
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
@@ -59,11 +59,11 @@ function MessageDiv({
   const getRoleBorderStyles = (role) => {
     switch (role) {
       case MessageRole.User:
-        return {border: `1px solid ${theme.palette.primary.main}`, minWidth: "75%",};
+        return { border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`, minWidth: "75%" };
       case MessageRole.Assistant:
-        return {border: `1px solid ${theme.palette.secondary.main}`, minWidth: "75%"};
+        return { border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`, minWidth: "75%" };
       case MessageRole.System:
-        return {border: `1px solid ${theme.palette.warning.main}`};
+        return { border: `1px solid ${lighten(theme.palette.warning.main, 0.5)}` };
       default:
         return {};
     }
