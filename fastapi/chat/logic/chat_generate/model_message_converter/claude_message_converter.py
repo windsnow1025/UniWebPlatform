@@ -1,4 +1,4 @@
-from chat.logic.chat_generate import image_processor
+from chat.logic.chat_generate import media_processor
 from chat.logic.message_preprocess.file_type_checker import get_file_type
 from chat.type.model_message import claude_message
 from chat.type.model_message.claude_message import ClaudeMessage
@@ -21,7 +21,7 @@ async def convert_message_to_claude(message: Message) -> ClaudeMessage:
 
     for file_url in file_urls:
         if get_file_type(file_url) == "image":
-            image_contents = await image_processor.get_claude_image_content_from_url(file_url)
+            image_contents = await media_processor.get_claude_image_content_from_url(file_url)
             content.append(image_contents)
 
     return ClaudeMessage(role=role, content=content)
