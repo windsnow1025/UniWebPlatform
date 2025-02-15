@@ -94,10 +94,13 @@ function SettingsDiv({
             >
               {models.map(model => {
                 const apiModel = apiModels.find(apiModel => apiModel.model === model);
-                const price = `Price: Input ${apiModel.input}, Output ${apiModel.output}`;
+                const price = `Price: Input ${apiModel.input}, Output: ${apiModel.output}`;
                 return (
-                  <MenuItem key={model} value={model} title={price}>
-                    {model}
+                  <MenuItem key={model} value={model}>
+                    <div>
+                      <Typography variant="body2">{model}</Typography>
+                      <Typography variant="caption" color="textSecondary">{price}</Typography>
+                    </div>
                   </MenuItem>
                 );
               })}
