@@ -1,3 +1,5 @@
+llm_bridge
+
 # FastAPI and related libraries
 fastapi # fastapi
 pydantic # pydantic
@@ -8,7 +10,6 @@ asyncmy
 sqlmodel # sqlmodel
 SQLAlchemy # sqlalchemy
 
-
 # HTTP client
 httpx # httpx
 
@@ -18,20 +19,8 @@ python-dotenv # dotenv
 # JWT and cryptography
 python-jose[cryptography] # jose
 
-# SDK
-openai # openai
-google-genai # google.genai
-anthropic # anthropic
-
 # Tokenization for OpenAI
 tiktoken # tiktoken
-
-# File processing
-pillow # PIL
-PyMuPDF # fitz
-python-docx # docx
-openpyxl # openpyxl
-python-pptx # pptx
 
 # Testing
 pytest # pytest
