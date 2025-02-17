@@ -21,7 +21,7 @@ export default () => {
       useSSL: false,
       accessKey: process.env.MINIO_ACCESS_KEY,
       secretKey: process.env.MINIO_SECRET_KEY,
-      bucketName: 'uploads',
+      bucketName: process.env.MINIO_BUCKET_NAME,
     },
     minioBaseUrl: isProduction ? '/minio' : '',
   };
