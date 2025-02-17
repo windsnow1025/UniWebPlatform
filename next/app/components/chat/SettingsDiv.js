@@ -30,7 +30,7 @@ function SettingsDiv({
   const chatLogic = new ChatLogic();
 
   const [models, setModels] = useState([]);
-  const [apiModels, setApiModels] = useState([]);
+  const [apiTypeModels, setApiTypeModels] = useState([]);
   const [apiTypes, setApiTypes] = useState([]);
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -38,9 +38,9 @@ function SettingsDiv({
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   useEffect(() => {
-    const fetchApiModels = async () => {
+    const fetchApiTypeModels = async () => {
       try {
-        setApiModels(await chatLogic.fetchApiModels());
+        setApiTypeModels(await chatLogic.fetchApiTypeModels());
       } catch (e) {
         setAlertMessage(e.message);
         setAlertSeverity('error');
@@ -48,17 +48,17 @@ function SettingsDiv({
       }
     };
 
-    fetchApiModels();
+    fetchApiTypeModels();
   }, []);
 
   useEffect(() => {
-    setApiTypes(chatLogic.getAllApiTypes(apiModels));
-    setApiType(chatLogic.getDefaultApiType(apiModels));
-  }, [apiModels]);
+    setApiTypes(chatLogic.getAllApiTypes(apiTypeModels));
+    setApiType(chatLogic.getDefaultApiType(apiTypeModels));
+  }, [apiTypeModels]);
 
   useEffect(() => {
-    setModels(chatLogic.filterModelsByApiType(apiModels, apiType));
-    setModel(chatLogic.filterDefaultModelByApiType(apiModels, apiType));
+    setModels(chatLogic.filterModelsByApiType(apiTypeModels, apiType));
+    setModel(chatLogic.filterDefaultModelByApiType(apiTypeModels, apiType));
   }, [apiType]);
 
   return (
@@ -91,10 +91,10 @@ function SettingsDiv({
               label="Model"
               variant="outlined"
               onChange={e => setModel(e.target.value)}
+              renderValue={(selected) => selected}
             >
               {models.map(model => {
-                const apiModel = apiModels.find(apiModel => apiModel.model === model);
-                const price = `Price: Input ${apiModel.input}, Output: ${apiModel.output}`;
+                const apiTypeModel = apiTypeModels.find(apiModel => apiModel.model === model);                const price = `Price: Input ${apiTypeModel.input}, Output: ${apiTypeModel.output}`;
                 return (
                   <MenuItem key={model} value={model}>
                     <div>

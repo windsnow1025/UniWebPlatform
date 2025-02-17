@@ -73,7 +73,7 @@ export default class ChatLogic {
     return newMessages;
   }
 
-  async fetchApiModels(): Promise<ApiTypeModel[]> {
+  async fetchApiTypeModels(): Promise<ApiTypeModel[]> {
     try {
       return await this.chatService.fetchApiModels();
     } catch (err) {
