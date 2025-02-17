@@ -10,8 +10,7 @@ from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
 from app.logic.chat.util import model_pricing
 from app.repository import user_dao
-from chat import create_chat_client, preprocess_messages
-from chat.type.chat_response import ChatResponse
+from chat import *
 
 
 async def handle_chat_interaction(
