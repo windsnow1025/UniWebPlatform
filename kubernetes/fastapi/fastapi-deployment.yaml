@@ -23,18 +23,13 @@ spec:
             - name: ENV
               valueFrom:
                 configMapKeyRef:
-                  name: fastapi-configmap
+                  name: app-configmap
                   key: ENV
             - name: MYSQL_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: fastapi-configmap
+                  name: app-configmap
                   key: MYSQL_HOST
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: JWT_SECRET
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
@@ -53,13 +48,18 @@ spec:
             - name: MINIO_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: fastapi-configmap
+                  name: app-configmap
                   key: MINIO_HOST
             - name: MINIO_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
                   name: app-secret
                   key: MINIO_BUCKET_NAME
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
