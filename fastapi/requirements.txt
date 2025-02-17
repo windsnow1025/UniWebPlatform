@@ -1,9 +1,13 @@
 # FastAPI and related libraries
 fastapi # fastapi
 pydantic # pydantic
-sqlmodel # sqlmodel
-asyncmy
 uvicorn
+
+# SQL
+asyncmy
+sqlmodel # sqlmodel
+SQLAlchemy # sqlalchemy
+
 
 # HTTP client
 httpx # httpx
@@ -28,7 +32,6 @@ PyMuPDF # fitz
 python-docx # docx
 openpyxl # openpyxl
 python-pptx # pptx
-SQLAlchemy # sqlalchemy
 
 # Testing
 pytest # pytest
