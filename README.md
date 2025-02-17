@@ -72,6 +72,8 @@ Log in as root user
    ```bash
    apt update
    apt install unzip
+   ```
+   ```bash
    cd /root/kubernetes
    unzip kubernetes.zip
    rm kubernetes.zip
