@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from chat import *
+from llm_bridge import *
 
 messages_convert_router = APIRouter()
 

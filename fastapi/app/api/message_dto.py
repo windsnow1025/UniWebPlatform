@@ -2,7 +2,7 @@ import os
 import re
 from dataclasses import dataclass
 
-from chat import Role, Message
+from llm_bridge import Role, Message
 
 
 @dataclass
