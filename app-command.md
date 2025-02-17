@@ -3,7 +3,8 @@
 ## Apply
 
 ```bash
-# Secret
+# App
+kubectl apply -f ./app-configmap.yaml
 kubectl apply -f ./app-secret.yaml
 
 # MySQL
@@ -18,12 +19,10 @@ kubectl apply -f ./minio/minio-deployment.yaml
 kubectl apply -f ./minio/minio-service.yaml
 
 # Nest.js
-kubectl apply -f ./nest/nest-configmap.yaml
 kubectl apply -f ./nest/nest-deployment.yaml
 kubectl apply -f ./nest/nest-service.yaml
 
 # FastAPI
-kubectl apply -f ./fastapi/fastapi-configmap.yaml
 kubectl apply -f ./fastapi/fastapi-deployment.yaml
 kubectl apply -f ./fastapi/fastapi-service.yaml
 
