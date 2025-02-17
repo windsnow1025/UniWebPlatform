@@ -1,5 +1,5 @@
 export interface ApiTypeModel {
-  api_type: string;
+  apiType: string;
   model: string;
   input: number;
   output: number;

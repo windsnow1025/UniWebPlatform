@@ -29,7 +29,7 @@ function SettingsDiv({
 
   const chatLogic = new ChatLogic();
 
-  const [models, setModels] = useState([]);
+  const [filteredApiTypeModels, setFilteredApiTypeModels] = useState([]);
   const [apiTypeModels, setApiTypeModels] = useState([]);
   const [apiTypes, setApiTypes] = useState([]);
 
@@ -57,7 +57,7 @@ function SettingsDiv({
   }, [apiTypeModels]);
 
   useEffect(() => {
-    setModels(chatLogic.filterModelsByApiType(apiTypeModels, apiType));
+    setFilteredApiTypeModels(chatLogic.filterApiTypeModelsByApiType(apiTypeModels, apiType));
     setModel(chatLogic.filterDefaultModelByApiType(apiTypeModels, apiType));
   }, [apiType]);
 
@@ -87,18 +87,18 @@ function SettingsDiv({
             <Select
               labelId="model-select-label"
               id="model-select"
-              value={model ? model : ''}
+              value={model || ''}
               label="Model"
               variant="outlined"
               onChange={e => setModel(e.target.value)}
               renderValue={(selected) => selected}
             >
-              {models.map(model => {
-                const apiTypeModel = apiTypeModels.find(apiModel => apiModel.model === model);                const price = `Price: Input ${apiTypeModel.input}, Output: ${apiTypeModel.output}`;
+              {filteredApiTypeModels.map(apiTypeModel => {
+                const price = `Price: Input ${apiTypeModel.input}, Output: ${apiTypeModel.output}`;
                 return (
-                  <MenuItem key={model} value={model}>
+                  <MenuItem key={apiTypeModel.model} value={apiTypeModel.model}>
                     <div>
-                      <Typography variant="body2">{model}</Typography>
+                      <Typography variant="body2">{apiTypeModel.model}</Typography>
                       <Typography variant="caption" color="textSecondary">{price}</Typography>
                     </div>
                   </MenuItem>
