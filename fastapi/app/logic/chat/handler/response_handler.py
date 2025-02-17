@@ -6,8 +6,7 @@ from typing import Callable, Awaitable
 from fastapi.responses import StreamingResponse
 
 from app.logic.chat.util.token_counter import num_tokens_from_text
-from chat.type.chat_response import ChatResponse
-from chat.type.serializer import serialize
+from chat import *
 
 ChunkGenerator = AsyncGenerator[ChatResponse, None]
 ReduceCredit = Callable[[int], Awaitable[float]]
