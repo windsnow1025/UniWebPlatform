@@ -78,12 +78,13 @@ export class FilesService {
     const originalName = Buffer.from(file.originalname, 'latin1').toString(
       'utf8',
     );
-    const fileName = `${userId}/${Date.now()}-${originalName}`;
+    const filename = `${Date.now()}-${originalName}`;
+    const fullFilename = `${userId}/${filename}`;
     const fileStream = Readable.from(file.buffer);
 
     await this.minioClient.putObject(
       this.bucketName,
-      fileName,
+      fullFilename,
       fileStream,
       file.size,
       {
@@ -91,7 +92,7 @@ export class FilesService {
       },
     );
 
-    return fileName;
+    return fullFilename;
   }
 
   async findAll(userId: number): Promise<string[]> {
@@ -101,9 +102,10 @@ export class FilesService {
     return objects.map((object) => object.name);
   }
 
-  async deleteFiles(fileNames: string[]): Promise<void> {
+  async deleteFiles(userId: number, fileNames: string[]): Promise<void> {
+    const fullFileNames = fileNames.map((fileName) => `${userId}/${fileName}`);
     await Promise.all(
-      fileNames.map(async (fileName) => {
+      fullFileNames.map(async (fileName) => {
         await this.minioClient.removeObject(this.bucketName, fileName);
       }),
     );

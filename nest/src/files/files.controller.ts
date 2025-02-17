@@ -31,8 +31,8 @@ export class FilesController {
     const protocol = forwardedProto || req.protocol;
     const host = forwardedHost || req.get('host')!;
 
-    const fileName = await this.minioService.create(userId, file);
-    const fileUrl = this.minioService.getFileUrl(protocol, host, fileName);
+    const fullFilename = await this.minioService.create(userId, file);
+    const fileUrl = this.minioService.getFileUrl(protocol, host, fullFilename);
 
     return { url: fileUrl };
   }
@@ -61,9 +61,6 @@ export class FilesController {
     @Body() deleteFilesReqDto: FilesReqDto,
   ): Promise<void> {
     const userId = req.user.sub;
-    const filenames = deleteFilesReqDto.filenames.map(
-      (filename) => `${userId}/${filename}`,
-    );
-    await this.minioService.deleteFiles(filenames);
+    await this.minioService.deleteFiles(userId, deleteFilesReqDto.filenames);
   }
 }
