@@ -36,3 +36,4 @@ python-pptx # pptx
 # Testing
 pytest # pytest
 pytest-asyncio
+protobuf
