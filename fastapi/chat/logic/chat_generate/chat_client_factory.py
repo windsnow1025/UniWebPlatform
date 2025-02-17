@@ -1,3 +1,4 @@
+from chat.client.chat_client import ChatClient
 from chat.logic.chat_generate.model_client_factory.claude_client_factory import create_claude_client
 from chat.logic.chat_generate.model_client_factory.gemini_client_factory import create_gemini_client
 from chat.logic.chat_generate.model_client_factory.gpt_client_factory import create_gpt_client
@@ -11,7 +12,7 @@ async def create_chat_client(
         temperature: float,
         stream: bool,
         api_keys: dict
-):
+) -> ChatClient:
     if api_type == 'OpenAI':
         return await create_gpt_client(
             messages=messages,
@@ -58,3 +59,5 @@ async def create_chat_client(
             stream=stream,
             api_key=api_keys["ANTHROPIC_API_KEY"]
         )
+    else:
+        return ChatClient()
