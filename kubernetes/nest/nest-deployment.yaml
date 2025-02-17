@@ -65,4 +65,9 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: MINIO_SECRET_KEY
+            - name: MINIO_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_BUCKET_NAME
   revisionHistoryLimit: 0

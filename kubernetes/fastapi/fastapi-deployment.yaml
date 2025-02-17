@@ -55,6 +55,11 @@ spec:
                 configMapKeyRef:
                   name: fastapi-configmap
                   key: MINIO_HOST
+            - name: MINIO_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_BUCKET_NAME
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
