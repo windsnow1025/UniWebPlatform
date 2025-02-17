@@ -18,7 +18,7 @@ def sample_messages():
 @pytest.mark.asyncio
 async def test_create_gpt_client_openai():
     messages = [Message(role=Role.User, text="Hello", file_urls=[])]
-    model = "gpt-4"
+    model = "gpt-4o"
     api_type = "OpenAI"
     temperature = 0
     stream = False
