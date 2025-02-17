@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   Headers,
   Post,
@@ -16,8 +17,7 @@ import { FilesReqDto } from './dto/files.req.dto';
 
 @Controller('files')
 export class FilesController {
-  constructor(private readonly minioService: FilesService) {
-  }
+  constructor(private readonly minioService: FilesService) {}
 
   @Post('file')
   @UseInterceptors(FileInterceptor('file'))
