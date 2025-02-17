@@ -9,7 +9,7 @@ export default class ChatLogic {
   public initMessages: Message[];
   public emptyUserMessage: Message;
   public emptyAssistantMessage: Message;
-  public defaultApiModels: ApiTypeModel[];
+  public defaultApiTypeModels: ApiTypeModel[];
 
   constructor() {
 
@@ -46,8 +46,8 @@ export default class ChatLogic {
       display: "",
     };
 
-    this.defaultApiModels = [
-      {api_type: "", model: "", input: 0, output: 0},
+    this.defaultApiTypeModels = [
+      {apiType: "", model: "", input: 0, output: 0},
     ]
   }
 
@@ -82,7 +82,7 @@ export default class ChatLogic {
   }
 
   getAllApiTypes(apiModels: ApiTypeModel[]): string[] {
-    const apiTypes = apiModels.map(model => model.api_type);
+    const apiTypes = apiModels.map(model => model.apiType);
     return Array.from(new Set(apiTypes));
   }
 
@@ -90,17 +90,16 @@ export default class ChatLogic {
     return this.getAllApiTypes(apiModels)[0];
   }
 
-  filterModelsByApiType(apiModels: ApiTypeModel[], apiType: string): string[] {
-    if (!Array.isArray(apiModels)) {
-      apiModels = this.defaultApiModels;
+  filterApiTypeModelsByApiType(apiTypeModels: ApiTypeModel[], apiType: string): ApiTypeModel[] {
+    if (!Array.isArray(apiTypeModels) || !apiTypeModels.length) {
+      return this.defaultApiTypeModels;
     }
-    return apiModels
-      .filter(apiModel => apiModel.api_type === apiType)
-      .map(apiModel => apiModel.model);
+    return apiTypeModels
+      .filter(apiModel => apiModel.apiType === apiType)
   }
 
-  filterDefaultModelByApiType(apiModels: ApiTypeModel[], apiType: string): string {
-    return this.filterModelsByApiType(apiModels, apiType)[0];
+  filterDefaultModelByApiType(apiTypeModels: ApiTypeModel[], apiType: string): string {
+    return this.filterApiTypeModelsByApiType(apiTypeModels, apiType)[0].model;
   }
 
   async nonStreamGenerate(

@@ -1,90 +1,90 @@
 [
   {
-    "api_type": "OpenAI",
+    "apiType": "OpenAI",
     "model": "chatgpt-4o-latest",
     "input": 2.5,
     "output": 10
   },
   {
-    "api_type": "OpenAI",
+    "apiType": "OpenAI",
     "model": "gpt-4o",
     "input": 5,
     "output": 15
   },
   {
-    "api_type": "OpenAI",
+    "apiType": "OpenAI",
     "model": "gpt-4o-mini",
     "input": 0.15,
     "output": 0.6
   },
   {
-    "api_type": "OpenAI",
+    "apiType": "OpenAI",
     "model": "o1",
     "input": 15,
     "output": 60
   },
   {
-    "api_type": "OpenAI",
+    "apiType": "OpenAI",
     "model": "o1-mini",
     "input": 3,
     "output": 12
   },
   {
-    "api_type": "OpenAI",
+    "apiType": "OpenAI",
     "model": "o3-mini",
     "input": 1.1,
     "output": 4.4
   },
   {
-    "api_type": "OpenAI-Azure",
+    "apiType": "OpenAI-Azure",
     "model": "gpt-4o",
     "input": 2.5,
     "output": 10
   },
   {
-    "api_type": "OpenAI-GitHub",
+    "apiType": "OpenAI-GitHub",
     "model": "gpt-4o",
     "input": 2.5,
     "output": 10
   },
   {
-    "api_type": "Gemini",
+    "apiType": "Gemini",
     "model": "gemini-2.0-pro-exp-02-05",
     "input": 0,
     "output": 0
   },
   {
-    "api_type": "Gemini",
+    "apiType": "Gemini",
     "model": "gemini-2.0-flash-thinking-exp-01-21",
     "input": 0,
     "output": 0
   },
   {
-    "api_type": "Gemini",
+    "apiType": "Gemini",
     "model": "gemini-2.0-flash-exp",
     "input": 0,
     "output": 0
   },
   {
-    "api_type": "Gemini",
+    "apiType": "Gemini",
     "model": "gemini-2.0-flash-001",
     "input": 0.7,
     "output": 0.4
   },
   {
-    "api_type": "Gemini",
+    "apiType": "Gemini",
     "model": "gemini-2.0-flash-lite-preview-02-05",
     "input": 0.0075,
     "output": 0.3
   },
   {
-    "api_type": "Claude",
+    "apiType": "Claude",
     "model": "claude-3-5-sonnet-latest",
     "input": 3,
     "output": 15
   },
   {
-    "api_type": "Claude",
+    "apiType": "Claude",
     "model": "claude-3-5-haiku-latest",
     "input": 0.8,
     "output": 4
