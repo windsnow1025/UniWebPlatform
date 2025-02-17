@@ -23,5 +23,5 @@ class GeminiClient(ChatClient):
         self.client = client
         self.config = config
 
-    def generate_response(self) -> ChatResponse | AsyncGenerator[ChatResponse, None]:
+    async def generate_response(self) -> ChatResponse | AsyncGenerator[ChatResponse, None]:
         raise NotImplementedError
