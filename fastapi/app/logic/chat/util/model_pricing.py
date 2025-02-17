@@ -5,7 +5,7 @@ from fastapi import HTTPException
 
 
 class ModelPrice(TypedDict):
-    api_type: str
+    apiType: str
     model: str
     input: float
     output: float
@@ -20,7 +20,7 @@ def load_model_prices() -> list[ModelPrice]:
 def find_model_prices(api_type: str, model: str) -> ModelPrice | None:
     chat_prices = load_model_prices()
     for chat_price in chat_prices:
-        if chat_price['api_type'] == api_type and chat_price['model'] == model:
+        if chat_price['apiType'] == api_type and chat_price['model'] == model:
             return chat_price
     return None
 
