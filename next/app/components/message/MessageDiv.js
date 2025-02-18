@@ -76,7 +76,7 @@ function MessageDiv({
       case MessageRole.Assistant:
         return { justifyContent: 'flex-start' };
       case MessageRole.System:
-        return {};
+        return { justifyContent: 'center' };
       default:
         return {};
     }
