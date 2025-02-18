@@ -59,9 +59,9 @@ function MessageDiv({
   const getRoleBorderStyles = (role) => {
     switch (role) {
       case MessageRole.User:
-        return { border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`, maxWidth: "95%" };
+        return { border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`};
       case MessageRole.Assistant:
-        return { border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`, maxWidth: "95%"};
+        return { border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`};
       case MessageRole.System:
         return { border: `1px solid ${lighten(theme.palette.warning.main, 0.5)}` };
       default:
@@ -92,6 +92,7 @@ function MessageDiv({
         style={{
           ...getRoleBorderStyles(message.role),
           minWidth: "75%",
+          maxWidth: "95%",
         }}
       >
         <div className="flex">
