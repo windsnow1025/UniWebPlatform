@@ -55,6 +55,7 @@ async def handle_chat_interaction(
         "GITHUB_API_KEY": os.environ.get("GITHUB_API_KEY"),
         "GOOGLE_AI_STUDIO_API_KEY": os.environ.get("GOOGLE_AI_STUDIO_API_KEY"),
         "ANTHROPIC_API_KEY": os.environ.get("ANTHROPIC_API_KEY"),
+        "XAI_API_KEY": os.environ.get("XAI_API_KEY"),
     }
 
     chat_client = await create_chat_client(
