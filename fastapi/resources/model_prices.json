@@ -88,5 +88,11 @@
     "model": "claude-3-5-haiku-latest",
     "input": 0.8,
     "output": 4
+  },
+  {
+    "apiType": "Grok",
+    "model": "grok-2-vision-latest",
+    "input": 2,
+    "output": 10
   }
 ]
