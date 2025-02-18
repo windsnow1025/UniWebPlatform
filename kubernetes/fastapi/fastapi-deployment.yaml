@@ -90,4 +90,9 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: GITHUB_API_KEY
+            - name: XAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: XAI_API_KEY
   revisionHistoryLimit: 0
