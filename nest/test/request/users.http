@@ -54,3 +54,8 @@ Content-Type: application/json
 
 DELETE {{baseUrl}}/users/user
 Authorization: Bearer {{token}}
+
+### Delete User
+
+DELETE {{baseUrl}}/users/user/2
+Authorization: Bearer {{token}}

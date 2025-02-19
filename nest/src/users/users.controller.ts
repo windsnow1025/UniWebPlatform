@@ -3,7 +3,7 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
+  NotFoundException, Param,
   Post,
   Put,
   Request,
@@ -81,6 +81,12 @@ export class UsersController {
   @Delete('/user')
   delete(@Request() req: RequestWithUser) {
     const id = req.user.sub;
+    return this.usersService.remove(id);
+  }
+
+  @Delete('/user/:id')
+  @Roles(Role.Admin)
+  deleteById(@Param('id') id: number) {
     return this.usersService.remove(id);
   }
 }
