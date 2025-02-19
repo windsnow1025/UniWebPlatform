@@ -60,6 +60,15 @@ const AdminSetting = () => {
     }
   };
 
+  const deleteRow = async (id) => {
+    try {
+      await userLogic.deleteUserById(id);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw error;
+    }
+  }
+
   return (
     <div>
       <h2>Admin Settings</h2>
@@ -93,7 +102,7 @@ const AdminSetting = () => {
         columns={columns}
         fetchData={fetchData}
         updateRow={updateRow}
-        deleteRow={() => {}}
+        deleteRow={deleteRow}
       />
     </div>
   );

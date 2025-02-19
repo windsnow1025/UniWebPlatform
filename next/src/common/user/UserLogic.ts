@@ -172,6 +172,23 @@ export default class UserLogic {
     }
   }
 
+  async deleteUserById(id: number) {
+    try {
+      await this.userService.deleteUserById(id);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Forbidden');
+        }
+      }
+      console.error(error);
+      throw new Error('Failed to delete user');
+    }
+  }
+
   validateInput(input: string) {
     const asciiRegex = /^[\x21-\x7E]{4,32}$/;
     return asciiRegex.test(input);

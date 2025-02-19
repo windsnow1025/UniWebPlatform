@@ -60,4 +60,11 @@ export default class UserClient {
       headers: {Authorization: `Bearer ${token}`}
     });
   }
+
+  async deleteUserById(id: number) {
+    const token = localStorage.getItem('token');
+    const res = await getNestAxiosInstance().delete(`/users/user/${id}`, {
+      headers: {Authorization: `Bearer ${token}`}
+    });
+  }
 }
