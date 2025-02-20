@@ -37,9 +37,10 @@ const AdminSetting = () => {
 
   // User management columns
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.2 },
+    { field: "id", headerName: "ID", flex: 0.1 },
     { field: "username", headerName: "Username", flex: 0.3 },
-    { field: "credit", headerName: "Credit", type: "number", flex: 0.3, editable: true },
+    { field: "roles", headerName: "Roles", flex: 0.2 },
+    { field: "credit", headerName: "Credit", type: "number", flex: 0.2, editable: true },
   ];
 
   const fetchData = async () => {
