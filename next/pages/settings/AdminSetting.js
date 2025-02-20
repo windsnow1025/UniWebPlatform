@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import UserLogic from "../../src/common/user/UserLogic";
 import AnnouncementLogic from "../../src/announcement/AnnouncementLogic";
 import CustomDataGrid from "../../app/components/common/CustomDataGrid";
-import { TextField, Button, Snackbar, Alert } from "@mui/material";
+import {TextField, Button, Snackbar, Alert} from "@mui/material";
 
 const AdminSetting = () => {
   const userLogic = new UserLogic();
@@ -37,10 +37,17 @@ const AdminSetting = () => {
 
   // User management columns
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.1 },
-    { field: "username", headerName: "Username", flex: 0.3 },
-    { field: "roles", headerName: "Roles", flex: 0.2 },
-    { field: "credit", headerName: "Credit", type: "number", flex: 0.2, editable: true },
+    {field: "id", headerName: "ID", flex: 0.1},
+    {field: "username", headerName: "Username", flex: 0.3},
+    {
+      field: "roles",
+      headerName: "Roles",
+      flex: 0.2,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['admin', 'user']
+    },
+    {field: "credit", headerName: "Credit", type: "number", flex: 0.2, editable: true},
   ];
 
   const fetchData = async () => {
