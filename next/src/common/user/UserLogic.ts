@@ -152,9 +152,9 @@ export default class UserLogic {
     }
   }
 
-  async updateUserCredit(username: string, credit: number) {
+  async updateUserPrivileges(username: string, roles: Role[], credit: number) {
     try {
-      await this.userService.updateUserCredit(username, credit);
+      await this.userService.updateUserPrivileges(username, roles, credit);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -168,7 +168,7 @@ export default class UserLogic {
         }
       }
       console.error(error);
-      throw new Error('Failed to update credit');
+      throw new Error('Failed to update privileges');
     }
   }
 
