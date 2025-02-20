@@ -1,4 +1,4 @@
-import {User} from "@/src/common/user/User";
+import {Role, User} from "@/src/common/user/User";
 import {getNestAxiosInstance} from "@/src/common/APIConfig";
 
 export default class UserClient {
@@ -44,10 +44,11 @@ export default class UserClient {
     });
   }
 
-  async updateUserCredit(username: string, credit: number) {
+  async updateUserPrivileges(username: string, roles: Role[], credit: number) {
     const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/credit", {
+    await getNestAxiosInstance().put("/users/user/privileges", {
       username: username,
+      roles: roles,
       credit: credit
     }, {
       headers: { Authorization: `Bearer ${token}` }
