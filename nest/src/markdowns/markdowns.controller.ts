@@ -30,19 +30,19 @@ export class MarkdownsController {
   }
 
   @Post('/markdown')
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   create(@Body() markdown: Markdown) {
     return this.markdownsService.create(markdown);
   }
 
   @Put('/markdown')
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   update(@Body() markdown: Markdown) {
     return this.markdownsService.update(markdown);
   }
 
   @Delete('/markdown/:id')
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   delete(@Param('id') id: number) {
     return this.markdownsService.remove(id);
   }

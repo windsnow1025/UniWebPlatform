@@ -24,19 +24,19 @@ export class BookmarksController {
   }
 
   @Post('/bookmark')
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   create(@Body() bookmark: Bookmark) {
     return this.bookmarksService.create(bookmark);
   }
 
   @Put('/bookmark')
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   update(@Body() bookmark: Bookmark) {
     return this.bookmarksService.update(bookmark);
   }
 
   @Delete('/bookmark/:id')
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   delete(@Param('id') id: number) {
     return this.bookmarksService.remove(id);
   }
