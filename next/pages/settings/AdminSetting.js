@@ -40,8 +40,8 @@ const AdminSetting = () => {
     {field: "id", headerName: "ID", flex: 0.1},
     {field: "username", headerName: "Username", flex: 0.3},
     {
-      field: "roles",
-      headerName: "Roles",
+      field: "role",
+      headerName: "Role",
       flex: 0.2,
       editable: true,
       type: 'singleSelect',
@@ -52,7 +52,11 @@ const AdminSetting = () => {
 
   const fetchData = async () => {
     try {
-      return await userLogic.fetchUsers();
+      const users = await userLogic.fetchUsers();
+      return users.map(user => ({
+        ...user,
+        role: user.roles[0]
+      }))
     } catch (error) {
       console.error("Error fetching user data:", error);
       return [];
@@ -61,7 +65,7 @@ const AdminSetting = () => {
 
   const updateRow = async (row) => {
     try {
-      await userLogic.updateUserCredit(row.username, row.credit);
+      await userLogic.updateUserPrivileges(row.username, [row.role], row.credit);
     } catch (error) {
       console.error("Error updating user credit:", error);
       throw error;
