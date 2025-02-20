@@ -47,10 +47,13 @@ export class UsersController {
     return this.usersService.toPrivateUserDto(user);
   }
 
-  @Put('/user')
-  async update(@Request() req: RequestWithUser, @Body() authDto: AuthReqDto) {
+  @Put('/user/credentials')
+  async updateCredentials(
+    @Request() req: RequestWithUser,
+    @Body() authDto: AuthReqDto,
+  ) {
     const currentUsername = req.user.username;
-    const user = await this.usersService.update(
+    const user = await this.usersService.updateCredentials(
       currentUsername,
       authDto.username,
       authDto.password,

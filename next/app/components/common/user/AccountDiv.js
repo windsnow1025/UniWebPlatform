@@ -24,7 +24,7 @@ function AccountCenter() {
     }
 
     try {
-      await userLogic.updateUser(username, password);
+      await userLogic.updateUserCredentials(username, password);
       setAlertMessage("Update success");
       setAlertSeverity('success');
       setAlertOpen(true);

@@ -25,9 +25,9 @@ export default class UserClient {
     });
   }
 
-  async updateUser(username: string, password: string) {
+  async updateUserCredentials(username: string, password: string) {
     const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user", {
+    await getNestAxiosInstance().put("/users/user/credentials", {
       username: username,
       password: password
     }, {

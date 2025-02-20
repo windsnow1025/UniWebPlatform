@@ -67,7 +67,7 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async update(currentUsername: string, newUsername: string, password: string) {
+  async updateCredentials(currentUsername: string, newUsername: string, password: string) {
     const user = await this.findOneByUsername(currentUsername);
     if (!user) {
       throw new NotFoundException('User not found');

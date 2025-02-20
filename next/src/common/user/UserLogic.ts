@@ -119,9 +119,9 @@ export default class UserLogic {
     }
   }
 
-  async updateUser(username: string, password: string) {
+  async updateUserCredentials(username: string, password: string) {
     try {
-      await this.userService.updateUser(username, password);
+      await this.userService.updateUserCredentials(username, password);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
