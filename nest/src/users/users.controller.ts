@@ -13,7 +13,7 @@ import { RequestWithUser } from '../auth/interfaces/request-with-user.interface'
 import { AuthReqDto } from '../auth/dto/auth.req.dto';
 import { UsersService } from './users.service';
 import { UserPinReqDto } from './dto/user.pin.req.dto';
-import { UserPrivilegesReqDto } from './dto/userPrivilegesReqDto';
+import { UserPrivilegesReqDto } from './dto/user.privileges.req.dto';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/enums/role.enum';
 
