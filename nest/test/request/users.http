@@ -1,0 +1,62 @@
+### Get Users
+
+GET {{baseUrl}}/users
+Authorization: Bearer {{token}}
+
+### Get User
+
+GET {{baseUrl}}/users/user
+Authorization: Bearer {{token}}
+
+### Sign Up
+
+POST {{baseUrl}}/users/user
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+
+### Update User Credentials
+
+PUT {{baseUrl}}/users/user/credentials
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+
+### Update User Pin
+
+PUT {{baseUrl}}/users/user/pin
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "pin": 12345678
+}
+
+### Update User Privileges
+
+PUT {{baseUrl}}/users/user/privileges
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "test",
+  "roles": ["admin"],
+  "credit": 100
+}
+
+### Delete User
+
+DELETE {{baseUrl}}/users/user
+Authorization: Bearer {{token}}
+
+### Delete User
+
+DELETE {{baseUrl}}/users/user/2
+Authorization: Bearer {{token}}
