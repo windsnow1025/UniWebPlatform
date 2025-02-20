@@ -69,7 +69,7 @@ export class UsersController {
   }
 
   @Put('/user/credit')
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   async updateCredit(@Body() userCreditReqDto: UserCreditReqDto) {
     const user = await this.usersService.updateCredit(
       userCreditReqDto.username,
@@ -85,7 +85,7 @@ export class UsersController {
   }
 
   @Delete('/user/:id')
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   deleteById(@Param('id') id: number) {
     return this.usersService.remove(id);
   }

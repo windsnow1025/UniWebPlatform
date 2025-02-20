@@ -16,7 +16,7 @@ export class AnnouncementController {
   }
 
   @Put()
-  @Roles(Role.Admin)
+  @Roles([Role.Admin])
   async update(@Body() announcement: Announcement): Promise<Announcement> {
     return this.announcementService.update(announcement.content);
   }
