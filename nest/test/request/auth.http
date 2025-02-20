@@ -4,6 +4,6 @@ POST {{baseUrl}}/auth/token
 Content-Type: application/json
 
 {
-  "username": "test1",
+  "username": "test",
   "password": "test"
 }
