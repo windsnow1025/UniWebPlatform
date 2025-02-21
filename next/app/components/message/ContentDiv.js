@@ -73,6 +73,10 @@ function ContentDiv({
   };
 
   const handlePaste = async (event) => {
+    if (!setFiles) {
+      return;
+    }
+
     const items = event.clipboardData.items;
     const fileLogic = new FileLogic();
     const uploadPromises = [];
