@@ -13,6 +13,12 @@
   },
   {
     "apiType": "OpenAI",
+    "model": "gpt-4o-audio-preview",
+    "input": 5,
+    "output": 15
+  },
+  {
+    "apiType": "OpenAI",
     "model": "gpt-4o-mini",
     "input": 0.15,
     "output": 0.6
