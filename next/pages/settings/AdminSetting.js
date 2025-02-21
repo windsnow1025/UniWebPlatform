@@ -3,6 +3,8 @@ import UserLogic from "../../src/common/user/UserLogic";
 import AnnouncementLogic from "../../src/announcement/AnnouncementLogic";
 import CustomDataGrid from "../../app/components/common/CustomDataGrid";
 import {TextField, Button, Snackbar, Alert} from "@mui/material";
+import {RawEditableState} from "../../src/conversation/chat/Message";
+import ContentDiv from "../../app/components/message/ContentDiv";
 
 const AdminSetting = () => {
   const userLogic = new UserLogic();
@@ -88,13 +90,10 @@ const AdminSetting = () => {
       {/* Announcement Editing Section */}
       <div>
         <h3>Edit Announcement</h3>
-        <TextField
-          label="Announcement"
-          variant="outlined"
-          fullWidth
-          value={announcement}
-          onChange={(e) => setAnnouncement(e.target.value)}
-          disabled={loading}
+        <ContentDiv
+          content={announcement}
+          setContent={setAnnouncement}
+          rawEditableState={RawEditableState.InteractionBased}
         />
         <div className="my-2">
           <Button
