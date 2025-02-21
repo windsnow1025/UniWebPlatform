@@ -7,6 +7,7 @@ import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileUpload from './FileUpload';
+import AudioRecord from './AudioRecord';
 import {convertToRawEditableState, RoleEditableState, MessageRole} from "../../../src/conversation/chat/Message";
 import SortableFileDivs from './SortableFileDivs';
 import DisplayDiv from "./DisplayDiv";
@@ -59,11 +60,11 @@ function MessageDiv({
   const getRoleBorderStyles = (role) => {
     switch (role) {
       case MessageRole.User:
-        return { border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`};
+        return {border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`};
       case MessageRole.Assistant:
-        return { border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`};
+        return {border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`};
       case MessageRole.System:
-        return { border: `1px solid ${lighten(theme.palette.warning.main, 0.5)}` };
+        return {border: `1px solid ${lighten(theme.palette.warning.main, 0.5)}`};
       default:
         return {};
     }
@@ -72,11 +73,11 @@ function MessageDiv({
   const getMessageContainerStyles = (role) => {
     switch (role) {
       case MessageRole.User:
-        return { justifyContent: 'flex-end' };
+        return {justifyContent: 'flex-end'};
       case MessageRole.Assistant:
-        return { justifyContent: 'flex-start' };
+        return {justifyContent: 'flex-start'};
       case MessageRole.System:
-        return { justifyContent: 'center' };
+        return {justifyContent: 'center'};
       default:
         return {};
     }
@@ -102,6 +103,11 @@ function MessageDiv({
             <RoleDiv role={message.role} setRole={handleRoleChange}/>
           )}
           <div className="inflex-fill"></div>
+          <AudioRecord
+            files={message.files}
+            setFiles={handleFileChange}
+            setUploadProgress={setUploadProgress}
+          />
           <FileUpload
             files={message.files}
             setFiles={handleFileChange}
