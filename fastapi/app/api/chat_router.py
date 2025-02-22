@@ -6,15 +6,15 @@ from pydantic import BaseModel
 import app.logic.auth as auth
 import app.logic.chat.util.model_pricing as pricing
 import app.repository.user_dao as user_dao
-from app.api.message_dto import MessageDto
 from app.logic.chat.chat_service import handle_chat_interaction
 from app.repository.db_connection import SessionDep
+from llm_bridge import Message
 
 chat_router = APIRouter()
 
 
 class ChatRequest(BaseModel):
-    messages: list[MessageDto]
+    messages: list[Message]
     model: str
     api_type: str
     temperature: float
