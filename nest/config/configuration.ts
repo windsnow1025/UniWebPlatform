@@ -22,7 +22,7 @@ export default () => {
       accessKey: process.env.MINIO_ACCESS_KEY,
       secretKey: process.env.MINIO_SECRET_KEY,
       bucketName: process.env.MINIO_BUCKET_NAME,
+      webUrl: process.env.MINIO_WEB_URL,
     },
-    minioBaseUrl: isProduction ? '/minio' : '',
   };
 };
