@@ -58,20 +58,9 @@ export class FilesService {
     console.log(`Bucket policy for "${this.bucketName}" set to public.`);
   }
 
-  getFileUrl(protocol: string, host: string, fileName: string): string {
-    const minioBaseUrl = this.configService.get<string>('minioBaseUrl')!;
-    const url = new URL(`${protocol}://${host}`);
-    const hostname = url.hostname;
-
-    let minioHost: string;
-    if (minioBaseUrl === '') {
-      const minioPort = this.configService.get<number>('minio.port');
-      minioHost = `${hostname}:${minioPort}`;
-    } else {
-      minioHost = host;
-    }
-
-    return `${protocol}://${minioHost}${minioBaseUrl}/${this.bucketName}/${fileName}`;
+  getFileUrl(fileName: string): string {
+    const minioWebUrl = this.configService.get<string>('minio.webUrl')!;
+    return `${minioWebUrl}/${this.bucketName}/${fileName}`;
   }
 
   async create(userId: number, file: Express.Multer.File): Promise<string> {

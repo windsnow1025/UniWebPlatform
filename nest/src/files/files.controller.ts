@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Headers,
   Post,
   Req,
   UploadedFile,
@@ -22,34 +21,24 @@ export class FilesController {
   @Post('file')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
-    @Headers('x-forwarded-proto') forwardedProto: string,
-    @Headers('host') forwardedHost: string,
     @Req() req: RequestWithUser,
     @UploadedFile() file: Express.Multer.File,
   ) {
     const userId = req.user.sub;
-    const protocol = forwardedProto || req.protocol;
-    const host = forwardedHost || req.get('host')!;
 
     const fullFilename = await this.minioService.create(userId, file);
-    const fileUrl = this.minioService.getFileUrl(protocol, host, fullFilename);
+    const fileUrl = this.minioService.getFileUrl(fullFilename);
 
     return { url: fileUrl };
   }
 
   @Get()
-  async getFiles(
-    @Headers('x-forwarded-proto') forwardedProto: string,
-    @Headers('host') forwardedHost: string,
-    @Req() req: RequestWithUser,
-  ): Promise<FilesResDto> {
+  async getFiles(@Req() req: RequestWithUser): Promise<FilesResDto> {
     const userId = req.user.sub;
-    const protocol = forwardedProto || req.protocol;
-    const host = forwardedHost || req.get('host')!;
 
     const files = await this.minioService.findAll(userId);
     const fileUrls = files.map((fileName) =>
-      this.minioService.getFileUrl(protocol, host, fileName),
+      this.minioService.getFileUrl(fileName),
     );
 
     return { urls: fileUrls };

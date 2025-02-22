@@ -27,11 +27,11 @@ def convert_message_dtos_to_messages(message_dtos: list[MessageDto]) -> list[Mes
 
 
 def get_internal_url(external_url: str) -> str:
-    minio_host = os.environ.get("MINIO_HOST")
+    minio_web_url = os.environ.get("MINIO_WEB_URL")
     minio_bucket_name = os.environ.get("MINIO_BUCKET_NAME")
 
     return re.sub(
         r'https?://[^/]+/(?:minio/)?' + re.escape(minio_bucket_name) + r'/uploads/(\S+)',
-        rf'http://{minio_host}:9000/{minio_bucket_name}/uploads/\1',
+        rf'{minio_web_url}/{minio_bucket_name}/uploads/\1',
         external_url
     )

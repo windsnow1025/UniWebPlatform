@@ -45,16 +45,16 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: MYSQL_DATABASE
-            - name: MINIO_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: app-configmap
-                  key: MINIO_HOST
             - name: MINIO_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
                   name: app-secret
                   key: MINIO_BUCKET_NAME
+            - name: MINIO_WEB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_WEB_URL
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
