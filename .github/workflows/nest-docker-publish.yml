@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "main"
+      - "test"
     paths:
       - 'nest/**'
 
@@ -30,4 +31,4 @@ jobs:
           context: ./nest
           file: ./nest/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest:${{ github.ref == 'refs/heads/test' && 'test' || 'latest' }}
