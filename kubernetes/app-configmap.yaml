@@ -4,6 +4,5 @@ metadata:
   name: app-configmap
 data:
   ENV: "production"
-  IMAGE_TAG: "latest" # "latest" or "test"
   MYSQL_HOST: "mysql-service"
   MINIO_HOST: "minio-service"
