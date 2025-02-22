@@ -5,7 +5,7 @@ name: Nest test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "test" ]
     paths:
       - 'nest/**'
   pull_request:

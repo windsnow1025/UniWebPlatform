@@ -2,7 +2,7 @@ name: FastAPI test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "test" ]
     paths:
       - 'fastapi/**'
   pull_request:
