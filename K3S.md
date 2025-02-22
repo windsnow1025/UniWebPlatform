@@ -64,7 +64,7 @@
    ```bash
    kubectl apply -f ./dashboard/dashboard-serviceaccount.yaml
    kubectl apply -f ./dashboard/dashboard-clusterrolebinding.yaml
-   kubectl apply -f ./dashboard/dashboard-secret.yaml
+   kubectl apply -f ./dashboard/dashboard-secret-public.yaml
    ```
 
 6. Get a long-lived Bearer Token

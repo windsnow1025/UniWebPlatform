@@ -54,7 +54,6 @@ DevOps
 ### Prepare Environment
 
 1. Copy `./app-secret.example.yaml` to `./app-secret.example.yaml`, modify value for each key.
-2. Copy `./dashboard/dashboard-secret.copy.yaml` to `./dashboard/dashboard-secret.yaml`.
 
 ### Debian Production
 
