@@ -33,7 +33,7 @@ async def generate(chat_request: ChatRequest, request: Request, session: Session
         return await handle_chat_interaction(
             session=session,
             username=username,
-            message_dtos=chat_request.messages,
+            messages=chat_request.messages,
             model=chat_request.model,
             api_type=chat_request.api_type,
             temperature=chat_request.temperature,
