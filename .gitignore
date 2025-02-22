@@ -1,3 +1,4 @@
 env
 *secret.yaml
+*secret-test.yaml
 .idea/workspace.xml
