@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "main"
+      - "test"
     paths:
       - 'fastapi/**'
 
@@ -30,4 +31,4 @@ jobs:
           context: ./fastapi
           file: ./fastapi/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fastapi:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fastapi:${{ github.ref == 'refs/heads/test' && 'test' || 'latest' }}
