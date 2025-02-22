@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-deployment
+  labels:
+    app: fastapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi
+  template:
+    metadata:
+      labels:
+        app: fastapi
+    spec:
+      containers:
+        - name: fastapi
+          image: windsnow1025/fastapi:test
+          ports:
+            - containerPort: 80
+          env:
+            - name: ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: ENV
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: MYSQL_HOST
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MYSQL_DATABASE
+            - name: MINIO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: MINIO_HOST
+            - name: MINIO_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_BUCKET_NAME
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: OPENAI_API_KEY
+            - name: GOOGLE_AI_STUDIO_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: GOOGLE_AI_STUDIO_API_KEY
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: ANTHROPIC_API_KEY
+            - name: AZURE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AZURE_API_KEY
+            - name: AZURE_API_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AZURE_API_BASE
+            - name: GITHUB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: GITHUB_API_KEY
+            - name: XAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: XAI_API_KEY
+  revisionHistoryLimit: 0

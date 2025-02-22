@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nest-deployment
+  labels:
+    app: nest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nest
+  template:
+    metadata:
+      labels:
+        app: nest
+    spec:
+      containers:
+        - name: nest
+          image: windsnow1025/nest:test
+          ports:
+            - containerPort: 3000
+          env:
+            - name: ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: ENV
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: MYSQL_HOST
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MYSQL_DATABASE
+            - name: MINIO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: MINIO_HOST
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_ACCESS_KEY
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_SECRET_KEY
+            - name: MINIO_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_BUCKET_NAME
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
+  revisionHistoryLimit: 0
