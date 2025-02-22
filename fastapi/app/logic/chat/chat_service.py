@@ -5,7 +5,6 @@ from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import StreamingResponse
 
-from app.api.message_dto import MessageDto, convert_message_dtos_to_messages
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
 from app.logic.chat.util import model_pricing
@@ -16,15 +15,13 @@ from llm_bridge import *
 async def handle_chat_interaction(
         session: AsyncSession,
         username: str,
-        message_dtos: list[MessageDto],
+        messages: list[Message],
         model: str,
         api_type: str,
         temperature: float,
         stream: bool
 ):
     logging.info(f"username: {username}, model: {model}")
-
-    messages = convert_message_dtos_to_messages(message_dtos)
 
     await preprocess_messages(messages)
 
