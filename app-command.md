@@ -5,7 +5,6 @@
 ```bash
 # App
 kubectl apply -f ./app-configmap.yaml
-kubectl apply -f ./app-secret.yaml
 
 # MySQL
 kubectl apply -f ./mysql/mysql-pvc.yaml
@@ -36,6 +35,9 @@ kubectl apply -f ./nginx/nginx-service.yaml
 ### Main
 
 ```bash
+# App
+kubectl apply -f ./app-secret.yaml
+
 # Nest
 kubectl apply -f ./nest/nest-deployment.yaml
 
@@ -49,6 +51,9 @@ kubectl apply -f ./next/next-deployment.yaml
 ### Test
 
 ```bash
+# App
+kubectl apply -f ./app-secret-test.yaml
+
 # Nest
 kubectl apply -f ./nest/nest-deployment-test.yaml
 
