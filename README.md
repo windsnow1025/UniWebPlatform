@@ -53,7 +53,7 @@ DevOps
 
 ### Prepare Environment
 
-1. Copy `./app-secret.example.yaml` to `./app-secret.example.yaml`, modify value for each key.
+1. Copy `./app-secret.example.yaml` to `./app-secret.yaml`, modify value for each key.
 
 ### Debian Production
 
@@ -66,12 +66,13 @@ Log in as root user
    ```bash
    mkdir /root/kubernetes
    ```
-3. Upload `./kubernetes.zip` to `/root/kubernetes/`
-4. Run
+3. Install Dependencies
    ```bash
    apt update
    apt install unzip
    ```
+4. Upload `./kubernetes.zip` to `/root/kubernetes/`
+5. Create Configs
    ```bash
    cd /root/kubernetes
    unzip kubernetes.zip
@@ -152,31 +153,8 @@ stream {
 
 #### Windows Develop Environment
 
-1. Setup and run MySQL and MinIO natively / by Docker / by K3S.
+1. Setup and run MySQL and MinIO by K3S in Test Server.
 2. Setup and run Next, Nest, FastAPI separately by JetBrains IDE according to their documentations.
-
-#### Windows Production Environment
-
-1. Install WSL2 Debian
-2. Enable systemd
-   1. Edit config
-      ```bash
-       vi /etc/wsl.conf
-      ```
-   2. Add
-      ```conf
-      [boot]
-      systemd=true
-      ```
-   3. Restart WSL2
-      ```bash
-      wsl --shutdown
-      ```
-   4. *Check WSL2 IP
-      ```bash
-      ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
-      ```
-3. Follow the Debian Production steps
 
 #### CI/CD
 
