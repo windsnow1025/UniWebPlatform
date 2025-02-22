@@ -9,7 +9,7 @@ async def handle_request(
         reduce_credit: Callable[[int], Awaitable[float]]
 ) -> float:
     text = ''.join(message.text for message in messages)
-    file_length = sum(len(message.file_urls) for message in messages)
+    file_length = sum(len(message.files) for message in messages)
     prompt_tokens = num_tokens_from_text(text) + file_length * 1000
     cost = await reduce_credit(prompt_tokens)
     return cost

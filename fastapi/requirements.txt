@@ -1,4 +1,4 @@
-llm_bridge==0.2.3
+llm_bridge==0.3.0
 
 # FastAPI and related libraries
 fastapi # fastapi
