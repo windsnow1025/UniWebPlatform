@@ -2,48 +2,20 @@
 
 ## Introduction
 
-A full stack web application for my personal website containing:
+A full-stack web application for my personal website, featuring:
 1. AI Chat
-2. Markdown Blogs
-3. Editable Bookmark
+2. Markdown-based Blogs
+3. Editable Bookmarks
 4. Password Generator
-5. Image Generator
+5. AI Image Generator
 
 ## Tech Stack
 
-```yaml
-Front End
-  - Node.JS
-    - React.JS
-      - Next.JS
-      - Tailwind CSS
-      - MUI
-```
-
-```yaml
-Back End
-  - Node.JS
-    - Nest.JS
-  - Python
-    - FastAPI
-```
-
-```yaml
-Storage
-  - MySQL
-  - MinIO
-```
-
-```yaml
-Infrastructure
-  - Linux (Debian 12)
-    - Kubernetes (K3S)
-```
-
-```yaml
-DevOps
-  - GitHub Actions
-```
+- **Front End**: Node.js, React.js, Next.js, Tailwind CSS, MUI
+- **Back End**: Node.js (Nest.js), Python (FastAPI)
+- **Storage**: MySQL, MinIO
+- **Infrastructure**: Linux (Debian 12), Kubernetes (K3S)
+- **DevOps**: GitHub Actions
 
 ## Live Demo
 
@@ -53,7 +25,7 @@ DevOps
 
 ### Prepare Environment
 
-1. Copy `./app-secret.example.yaml` to `./app-secret.example.yaml`, modify value for each key.
+1. Copy `./app-secret.example.yaml` to `./app-secret.yaml`, modify value for each key.
 
 ### Debian Production
 
@@ -66,12 +38,13 @@ Log in as root user
    ```bash
    mkdir /root/kubernetes
    ```
-3. Upload `./kubernetes.zip` to `/root/kubernetes/`
-4. Run
+3. Install Dependencies
    ```bash
    apt update
    apt install unzip
    ```
+4. Upload `./kubernetes.zip` to `/root/kubernetes/`
+5. Create Configs
    ```bash
    cd /root/kubernetes
    unzip kubernetes.zip
@@ -152,31 +125,8 @@ stream {
 
 #### Windows Develop Environment
 
-1. Setup and run MySQL and MinIO natively / by Docker / by K3S.
+1. Setup and run MySQL and MinIO by K3S in Test Server.
 2. Setup and run Next, Nest, FastAPI separately by JetBrains IDE according to their documentations.
-
-#### Windows Production Environment
-
-1. Install WSL2 Debian
-2. Enable systemd
-   1. Edit config
-      ```bash
-       vi /etc/wsl.conf
-      ```
-   2. Add
-      ```conf
-      [boot]
-      systemd=true
-      ```
-   3. Restart WSL2
-      ```bash
-      wsl --shutdown
-      ```
-   4. *Check WSL2 IP
-      ```bash
-      ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
-      ```
-3. Follow the Debian Production steps
 
 #### CI/CD
 
@@ -187,10 +137,15 @@ GitHub >> Repository >> Settings >> Security >> Secrets and variables >> Actions
 
 ## Make Contributions
 
-Step 1,2,3 should be done by contributors; Step 4,5 should be done by repo owner.
+We welcome contributions! Please follow these steps:
 
-1. Create a new branch based on `main`
-2. Commit to the new branch
-3. Open a pull request from the new branch
-4. Merge the pull request, wait for automatic test to pass and docker push to finish
-5. Restart Deployment in Kubernetes Dashboard
+### Contributor Workflow:
+1. **Create a Branch**: Create a new branch based on `main` (e.g., `feat/xxx`).
+2. **Commit Changes**: Develop your feature and commit changes to the new branch.
+3. **Open a Pull Request (PR)**: Submit a PR targeting the `test` branch and wait for review.
+
+### Repository Owner Workflow:
+1. **Deploy to Test Environment**: The repository owner will deploy the changes to the test server via the Kubernetes Dashboard.
+2. **Verify in Test Environment**: The repository owner will test the changes in the test environment.
+3. **Merge to Production**: If everything works as expected, the repository owner will merge `test` into `main`.
+4. **Deploy to Production**: The repository owner will manually restart the deployment in the production server via the Kubernetes Dashboard.

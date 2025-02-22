@@ -5,8 +5,8 @@ from llm_bridge import *
 @pytest.fixture
 def sample_messages():
     return [
-        Message(role=Role.System, text="You are a helpful assistant.", file_urls=[]),
-        Message(role=Role.User, text="Hello", file_urls=[])
+        Message(role=Role.System, text="You are a helpful assistant.", files=[]),
+        Message(role=Role.User, text="Hello", files=[])
     ]
 
 
