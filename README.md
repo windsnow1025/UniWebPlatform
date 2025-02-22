@@ -25,7 +25,7 @@ A full-stack web application for my personal website, featuring:
 
 ### Prepare Environment
 
-1. Copy `./app-secret.example.yaml` to `./app-secret.yaml`, modify value for each key.
+1. Copy `./app-secret.example.yaml` to `./app-secret.yaml` and `./app-secret-test.yaml`, modify value for each key.
 
 ### Debian Production
 
