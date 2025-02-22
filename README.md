@@ -92,6 +92,7 @@ Log in as root user
    ```bash
    /usr/local/bin/k3s-uninstall.sh
    ```
+
 2. Install K3S
    ```bash
    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--service-node-port-range=30000-39001 --disable=traefik" sh -
@@ -200,6 +201,7 @@ server {
 ```
 
 Stream Block:
+
 ```
 stream {
     server {
@@ -239,7 +241,7 @@ stream {
       ```bash
       wsl --shutdown
       ```
-   4. Check WSL2 IP
+   4. *Check WSL2 IP
       ```bash
       ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
       ```
@@ -260,4 +262,4 @@ Step 1,2,3 should be done by contributors; Step 4,5 should be done by repo owner
 2. Commit to the new branch
 3. Open a pull request from the new branch
 4. Merge the pull request, wait for automatic test to pass and docker push to finish
-5. Dispatch workflow for automatic deployment
+5. Restart Deployment in Kubernetes Dashboard
