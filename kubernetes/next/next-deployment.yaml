@@ -16,7 +16,13 @@ spec:
     spec:
       containers:
         - name: next
-          image: windsnow1025/next
+          image: windsnow1025/next:${IMAGE_TAG}
           ports:
             - containerPort: 3000
+          env:
+            - name: IMAGE_TAG
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: IMAGE_TAG
   revisionHistoryLimit: 0
