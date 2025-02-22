@@ -16,15 +16,10 @@ spec:
     spec:
       containers:
         - name: nest
-          image: windsnow1025/nest:${IMAGE_TAG}
+          image: windsnow1025/nest
           ports:
             - containerPort: 3000
           env:
-            - name: IMAGE_TAG
-              valueFrom:
-                configMapKeyRef:
-                  name: app-configmap
-                  key: IMAGE_TAG
             - name: ENV
               valueFrom:
                 configMapKeyRef:
