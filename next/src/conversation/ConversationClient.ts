@@ -26,11 +26,12 @@ export default class ConversationClient {
     return res.data;
   }
 
-  async updateConversation(conversation: Conversation) {
+  async updateConversation(conversation: Conversation): Promise<Conversation> {
     const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put('/conversations/conversation', conversation, {
+    const res = await getNestAxiosInstance().put('/conversations/conversation', conversation, {
       headers: {Authorization: `Bearer ${token}`}
     });
+    return res.data;
   }
 
   async updateConversationName(id: number, name: string): Promise<Conversation> {

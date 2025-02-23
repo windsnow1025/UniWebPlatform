@@ -11,39 +11,9 @@ export default class ConversationLogic {
     this.conversationService = new ConversationClient();
   }
 
-  // Should be removed after all data synced
-  private async ensureMessageIdsAndSync(conversations: Conversation[]): Promise<Conversation[]> {
-    const updatedConversations = conversations.map((conversation) => {
-      const updatedMessages: Message[] = [];
-
-      conversation.messages.forEach((message) => {
-        if (!message.id) {
-          updatedMessages.unshift({...message, id: uuidv4()});
-        } else {
-          updatedMessages.push(message);
-        }
-      });
-
-      return {...conversation, messages: updatedMessages};
-    });
-
-    for (const conversation of updatedConversations) {
-      try {
-        await this.updateConversation(conversation);
-      } catch (error) {
-        console.error(`Failed to sync conversation ${conversation.id}:`, error);
-      }
-    }
-
-    return updatedConversations;
-  }
-
   async fetchConversations() {
     try {
-      const conversations = await this.conversationService.fetchConversations();
-      return this.ensureMessageIdsAndSync(conversations);
-
-      // return await this.conversationService.fetchConversations();
+      return await this.conversationService.fetchConversations();
     } catch (error) {
       console.error(error);
       throw error;
@@ -84,9 +54,9 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversation(conversation: Conversation) {
+  async updateConversation(conversation: Conversation): Promise<Conversation> {
     try {
-      await this.conversationService.updateConversation(conversation);
+      return await this.conversationService.updateConversation(conversation);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
