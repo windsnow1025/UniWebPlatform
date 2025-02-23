@@ -119,7 +119,7 @@ function ConversationSidebar({
     try {
       const newConversation = await conversationLogic.addConversation({
         name: newConversationName,
-        messages: JSON.stringify(messages)
+        messages: messages
       });
       await fetchConversations();
 
@@ -146,11 +146,17 @@ function ConversationSidebar({
   }
 
   const handleUpdateConversation = async (index, isManualUpdate = false) => {
+    console.log("update conversation")
     try {
-      await conversationLogic.updateConversation({
+      const updatedConversation = await conversationLogic.updateConversation({
         id: conversations[index].id,
         name: conversations[index].name,
-        messages: JSON.stringify(messages)
+        messages: messages
+      });
+      setConversations((prevConversations) => {
+        const newConversations = [...prevConversations];
+        newConversations[index] = updatedConversation;
+        return newConversations;
       });
       fetchConversations();
 
