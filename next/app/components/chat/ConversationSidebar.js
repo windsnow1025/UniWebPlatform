@@ -146,7 +146,7 @@ function ConversationSidebar({
   }
 
   const handleUpdateConversation = async (index, isManualUpdate = false) => {
-    console.log("update conversation")
+    setSelectedConversationId(conversations[index].id);
     try {
       const updatedConversation = await conversationLogic.updateConversation({
         id: conversations[index].id,
