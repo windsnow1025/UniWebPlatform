@@ -35,15 +35,6 @@ export default class UserClient {
     });
   }
 
-  async updateUserPin(pin: number) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/pin", {
-      pin: pin
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
-  }
-
   async updateUserPrivileges(username: string, roles: Role[], credit: number) {
     const token = localStorage.getItem('token');
     await getNestAxiosInstance().put("/users/user/privileges", {

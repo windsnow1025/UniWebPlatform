@@ -34,7 +34,6 @@ export class UsersService {
       username: user.username,
       roles: user.roles,
       credit: user.credit,
-      pin: user.pin,
     };
     return privateUserDto;
   }
@@ -67,7 +66,11 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async updateCredentials(currentUsername: string, newUsername: string, password: string) {
+  async updateCredentials(
+    currentUsername: string,
+    newUsername: string,
+    password: string,
+  ) {
     const user = await this.findOneByUsername(currentUsername);
     if (!user) {
       throw new NotFoundException('User not found');
@@ -84,17 +87,6 @@ export class UsersService {
     const hash = await bcrypt.hash(password, salt);
 
     user.password = hash;
-
-    return await this.usersRepository.save(user);
-  }
-
-  async updatePin(username: string, pin: number) {
-    const user = await this.findOneByUsername(username);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    user.pin = pin;
 
     return await this.usersRepository.save(user);
   }

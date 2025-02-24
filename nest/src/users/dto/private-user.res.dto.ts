@@ -5,5 +5,4 @@ export class PrivateUserResDto {
   username: string;
   roles: Role[];
   credit: number;
-  pin: number;
 }

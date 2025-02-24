@@ -29,16 +29,6 @@ Content-Type: application/json
   "password": "test"
 }
 
-### Update User Pin
-
-PUT {{baseUrl}}/users/user/pin
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "pin": 12345678
-}
-
 ### Update User Privileges
 
 PUT {{baseUrl}}/users/user/privileges
