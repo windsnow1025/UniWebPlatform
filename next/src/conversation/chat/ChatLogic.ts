@@ -158,15 +158,17 @@ export default class ChatLogic {
           throw new Error(chunk.error);
         }
 
+        let sanitizedChunkText;
         if (chunk.text) {
-          text += chunk.text;
+          sanitizedChunkText = sanitize(chunk.text);
+          text += sanitizedChunkText;
         }
         if (chunk.citations) {
           citations = citations.concat(chunk.citations);
         }
 
         yield {
-          text: chunk.text ? sanitize(chunk.text) : undefined,
+          text: sanitizedChunkText,
           display: chunk.display,
         }
       }
