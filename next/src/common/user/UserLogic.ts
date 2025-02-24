@@ -71,15 +71,6 @@ export default class UserLogic {
     }
   }
 
-  async fetchPin() {
-    try {
-      const user = await this.userService.fetchUser();
-      return user.pin;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   async isAdmin(): Promise<boolean> {
     try {
       const user = await this.userService.fetchUser();
@@ -130,25 +121,6 @@ export default class UserLogic {
       }
       console.error(error);
       throw new Error('Update user failed');
-    }
-  }
-
-  async updateUserPin(pin: number) {
-    try {
-      await this.userService.updateUserPin(pin);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (axios.isAxiosError(error)) {
-          if (error.response?.status === 401) {
-            throw new Error('Unauthorized');
-          }
-          if (error.response?.status === 403) {
-            throw new Error('Forbidden');
-          }
-        }
-        console.error(error);
-        throw new Error('Failed to update pin');
-      }
     }
   }
 
