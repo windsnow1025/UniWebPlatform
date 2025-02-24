@@ -9,5 +9,4 @@ export interface User {
   password: string;
   roles: Role[];
   credit: number;
-  pin: number;
 }

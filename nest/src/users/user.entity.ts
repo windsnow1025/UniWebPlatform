@@ -28,7 +28,4 @@ export class User extends BaseEntity {
 
   @Column({ type: 'float', default: 0 })
   credit: number;
-
-  @Column({ type: 'int', default: 0 })
-  pin: number;
 }
