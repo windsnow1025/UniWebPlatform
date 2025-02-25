@@ -78,9 +78,9 @@ function PasswordGenerator() {
   const [alertSeverity, setAlertSeverity] = useState('success');
 
   return (
-    <Box className="flex justify-center items-center p-4">
+    <div className="flex-center p-4">
       <Paper elevation={3} className="p-6 max-w-md space-y-4">
-        <Typography variant="h5" className="text-center mb-6">
+        <Typography variant="h5" className="text-center" gutterBottom>
           Password Generator
         </Typography>
 
@@ -207,7 +207,7 @@ function PasswordGenerator() {
           {alertMessage}
         </Alert>
       </Snackbar>
-    </Box>
+    </div>
   );
 }
 
