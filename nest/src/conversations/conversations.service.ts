@@ -22,7 +22,7 @@ export class ConversationsService {
       id: conversation.id,
       name: conversation.name,
       messages: conversation.messages,
-      publicUsers: conversation.users.map(this.usersService.toPublicUserDto),
+      users: conversation.users.map(this.usersService.toUserDto),
     };
     return conversationDto;
   }
