@@ -8,8 +8,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
-import { PublicUserResDto } from './dto/public-user.res.dto';
-import { PrivateUserResDto } from './dto/private-user.res.dto';
+import { UserResDto } from './dto/user.res.dto';
 
 @Injectable()
 export class UsersService {
@@ -18,24 +17,22 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  public toPublicUserDto(user: User) {
-    const userDto: PublicUserResDto = {
+  public toUserDto(user: User) {
+    const userDto: UserResDto = {
       id: user.id,
       username: user.username,
+      email: user.email,
+      emailVerified: user.emailVerified,
       roles: user.roles,
       credit: user.credit,
     };
     return userDto;
   }
 
-  public toPrivateUserDto(user: User) {
-    const privateUserDto: PrivateUserResDto = {
-      id: user.id,
-      username: user.username,
-      roles: user.roles,
-      credit: user.credit,
-    };
-    return privateUserDto;
+  private async hashPassword(password: string) {
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(password, salt);
+    return hash;
   }
 
   find() {
@@ -50,43 +47,53 @@ export class UsersService {
     return this.usersRepository.findOneBy({ username });
   }
 
-  async create(username: string, password: string) {
-    if (await this.findOneByUsername(username)) {
+  findOneByEmail(email: string) {
+    return this.usersRepository.findOneBy({ email });
+  }
+
+  async create(username: string, email: string, password: string) {
+    if (
+      (await this.findOneByUsername(username)) ||
+      (await this.findOneByEmail(email))
+    ) {
       throw new ConflictException();
     }
 
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(password, salt);
-
     const user = new User();
     user.username = username;
-    user.password = hash;
+    user.email = email;
+    user.password = await this.hashPassword(password);
     user.roles = [Role.User];
 
     return await this.usersRepository.save(user);
   }
 
-  async updateCredentials(
-    currentUsername: string,
-    newUsername: string,
-    password: string,
-  ) {
-    const user = await this.findOneByUsername(currentUsername);
+  async updateUsername(id: number, username: string) {
+    const user = await this.findOneById(id);
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    if (currentUsername !== newUsername) {
-      if (await this.findOneByUsername(newUsername)) {
-        throw new ConflictException();
-      }
-      user.username = newUsername;
+    if (user.username === username) {
+      return user;
     }
 
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(password, salt);
+    if (await this.findOneByUsername(username)) {
+      throw new ConflictException();
+    }
 
-    user.password = hash;
+    user.username = username;
+
+    return await this.usersRepository.save(user);
+  }
+
+  async updatePassword(id: number, password: string) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.password = await this.hashPassword(password);
 
     return await this.usersRepository.save(user);
   }

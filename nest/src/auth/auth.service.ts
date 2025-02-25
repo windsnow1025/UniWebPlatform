@@ -11,8 +11,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async getToken(username: string, password: string) {
-    const user = await this.usersService.findOneByUsername(username);
+  async getToken(email: string, password: string) {
+    const user = await this.usersService.findOneByEmail(email);
 
     if (!user) {
       throw new UnauthorizedException();
@@ -27,6 +27,7 @@ export class AuthService {
     const payload: JwtPayload = {
       sub: user.id.toString(),
       username: user.username,
+      emailVerified: user.emailVerified,
       roles: user.roles,
     };
     return {

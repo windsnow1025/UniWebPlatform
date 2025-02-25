@@ -11,11 +11,15 @@ import {
 } from '@nestjs/common';
 import { Public } from '../common/decorators/public.decorator';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
-import { AuthReqDto } from '../auth/dto/auth.req.dto';
 import { UsersService } from './users.service';
 import { UserPrivilegesReqDto } from './dto/user.privileges.req.dto';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/enums/role.enum';
+import {
+  UserPasswordReqDto,
+  UserReqDto,
+  UserUsernameReqDto,
+} from './dto/user.req.dto';
 
 @Controller('users')
 export class UsersController {
@@ -24,7 +28,7 @@ export class UsersController {
   @Get()
   async find() {
     const users = await this.usersService.find();
-    return users.map((user) => this.usersService.toPublicUserDto(user));
+    return users.map((user) => this.usersService.toUserDto(user));
   }
 
   @Get('/user')
@@ -34,31 +38,38 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return this.usersService.toPrivateUserDto(user);
+    return this.usersService.toUserDto(user);
   }
 
   @Public()
   @Post('/user')
-  async create(@Body() authDto: AuthReqDto) {
+  async create(@Body() authDto: UserReqDto) {
     const user = await this.usersService.create(
       authDto.username,
+      authDto.email,
       authDto.password,
     );
-    return this.usersService.toPrivateUserDto(user);
+    return this.usersService.toUserDto(user);
   }
 
-  @Put('/user/credentials')
-  async updateCredentials(
+  @Put('/user/username')
+  async updateUsername(
     @Request() req: RequestWithUser,
-    @Body() authDto: AuthReqDto,
+    @Body() authDto: UserUsernameReqDto,
   ) {
-    const currentUsername = req.user.username;
-    const user = await this.usersService.updateCredentials(
-      currentUsername,
-      authDto.username,
-      authDto.password,
-    );
-    return this.usersService.toPrivateUserDto(user);
+    const id = req.user.sub;
+    const user = await this.usersService.updateUsername(id, authDto.username);
+    return this.usersService.toUserDto(user);
+  }
+
+  @Put('/user/password')
+  async updatePassword(
+    @Request() req: RequestWithUser,
+    @Body() authDto: UserPasswordReqDto,
+  ) {
+    const id = req.user.sub;
+    const user = await this.usersService.updatePassword(id, authDto.password);
+    return this.usersService.toUserDto(user);
   }
 
   @Put('/user/privileges')
@@ -69,7 +80,7 @@ export class UsersController {
       userPrivilegesReqDto.roles,
       userPrivilegesReqDto.credit,
     );
-    return this.usersService.toPrivateUserDto(user);
+    return this.usersService.toUserDto(user);
   }
 
   @Delete('/user')
