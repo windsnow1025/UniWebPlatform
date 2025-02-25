@@ -96,13 +96,13 @@ export default class UserLogic {
     }
   }
 
-  async signUp(username: string, password: string) {
+  async signUp(username: string, email: string, password: string) {
     try {
-      await this.userService.createUser(username, password);
+      await this.userService.createUser(username, email, password);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
-          throw new Error('Username already exists');
+          throw new Error('Username or Password already exists');
         }
       }
       console.error(error);
@@ -110,9 +110,9 @@ export default class UserLogic {
     }
   }
 
-  async updateUserCredentials(username: string, password: string) {
+  async updateUsername(username: string) {
     try {
-      await this.userService.updateUserCredentials(username, password);
+      await this.userService.updateUsername(username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
@@ -120,7 +120,16 @@ export default class UserLogic {
         }
       }
       console.error(error);
-      throw new Error('Update user failed');
+      throw new Error('Update username failed');
+    }
+  }
+
+  async updatePassword(password: string) {
+    try {
+      await this.userService.updatePassword(password);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Update password failed');
     }
   }
 

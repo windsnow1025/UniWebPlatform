@@ -18,17 +18,26 @@ export default class UserClient {
     return res.data;
   }
 
-  async createUser(username: string, password: string) {
+  async createUser(username: string, email: string, password: string) {
     await getNestAxiosInstance().post("/users/user", {
       username: username,
+      email: email,
       password: password
     });
   }
 
-  async updateUserCredentials(username: string, password: string) {
+  async updateUsername(username: string) {
     const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/credentials", {
+    await getNestAxiosInstance().put("/users/user/username", {
       username: username,
+    }, {
+      headers: {Authorization: `Bearer ${token}`}
+    });
+  }
+
+  async updatePassword(password: string) {
+    const token = localStorage.getItem('token');
+    await getNestAxiosInstance().put("/users/user/password", {
       password: password
     }, {
       headers: {Authorization: `Bearer ${token}`}

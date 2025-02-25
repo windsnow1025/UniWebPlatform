@@ -22,9 +22,16 @@ function SignIn() {
 
   const handleSignIn = async () => {
     try {
-      await userLogic.signIn(username, password)
+      await userLogic.signIn(username, password);
+
+      setAlertMessage("Signed in success");
+      setAlertSeverity('success');
+      setAlertOpen(true);
+
       const prevUrl = localStorage.getItem('prevUrl') || "/";
-      router.push(prevUrl);
+      setTimeout(() => {
+        router.push(prevUrl);
+      }, 2000);
     } catch (e) {
       setAlertMessage(e.message);
       setAlertSeverity('error');
