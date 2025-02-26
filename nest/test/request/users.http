@@ -40,16 +40,6 @@ Content-Type: application/json
   "password": "test"
 }
 
-### Update Username
-
-PUT {{baseUrl}}/users/user/username
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "username": "test"
-}
-
 ### Update Email
 
 PUT {{baseUrl}}/users/user/email
@@ -59,6 +49,16 @@ Content-Type: application/json
   "username": "test",
   "email": "test@test.com",
   "password": "test"
+}
+
+### Update Username
+
+PUT {{baseUrl}}/users/user/username
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "test"
 }
 
 ### Update Password
