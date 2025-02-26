@@ -8,6 +8,8 @@ function AccountDiv() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
   const userLogic = new UserLogic();
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -29,6 +31,15 @@ function AccountDiv() {
 
     fetchUserData();
   }, []);
+
+  // Check if passwords match whenever either password field changes
+  useEffect(() => {
+    if (confirmPassword === '' || password === '') {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(password === confirmPassword);
+    }
+  }, [password, confirmPassword]);
 
   const showAlert = (message, severity) => {
     setAlertMessage(message);
@@ -70,10 +81,16 @@ function AccountDiv() {
       return;
     }
 
+    if (password !== confirmPassword) {
+      showAlert("Passwords do not match.", 'warning');
+      return;
+    }
+
     try {
       await userLogic.updatePassword(password);
       showAlert("Password updated successfully", 'success');
       setPassword('');
+      setConfirmPassword('');
     } catch (e) {
       showAlert(e.message, 'error');
     }
@@ -145,11 +162,22 @@ function AccountDiv() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <TextField
+            label="Confirm Password"
+            variant="outlined"
+            type="password"
+            fullWidth
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            error={!passwordsMatch}
+            helperText={!passwordsMatch ? "Passwords don't match" : ""}
+          />
           <Button
             variant="contained"
             color="primary"
             onClick={handleUpdatePassword}
             fullWidth
+            disabled={!passwordsMatch}
           >
             Update Password
           </Button>
