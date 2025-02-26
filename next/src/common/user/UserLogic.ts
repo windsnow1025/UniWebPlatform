@@ -31,13 +31,12 @@ export default class UserLogic {
     }
   }
 
-  async fetchId() {
+  async fetchUser() {
     if (!localStorage.getItem('token')) {
       return null;
     }
     try {
-      const user = await this.userService.fetchUser();
-      return user.id;
+      return await this.userService.fetchUser();
     } catch (err) {
       localStorage.removeItem('token');
       return null;
@@ -124,6 +123,20 @@ export default class UserLogic {
     }
   }
 
+  async updateEmail(email: string) {
+    try {
+      await this.userService.updateEmail(email);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 409) {
+          throw new Error('Email already exists');
+        }
+      }
+      console.error(error);
+      throw new Error('Update email failed');
+    }
+  }
+
   async updatePassword(password: string) {
     try {
       await this.userService.updatePassword(password);
@@ -170,8 +183,13 @@ export default class UserLogic {
     }
   }
 
-  validateInput(input: string) {
+  validateUsernameOrPassword(input: string) {
     const asciiRegex = /^[\x21-\x7E]{4,32}$/;
     return asciiRegex.test(input);
+  }
+
+  validateEmail(email: string) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 }
