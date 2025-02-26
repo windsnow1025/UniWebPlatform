@@ -2,7 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Alert, Button, CssBaseline, Paper, Snackbar, Typography} from "@mui/material";
+import {
+  Alert,
+  Button,
+  CssBaseline,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Paper,
+  Snackbar,
+  Typography
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
@@ -16,6 +27,12 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
+  // Email verification states
+  const [verificationCode, setVerificationCode] = useState('');
+  const [userEnteredCode, setUserEnteredCode] = useState('');
+  const [verificationDialogOpen, setVerificationDialogOpen] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+
   const router = useRouter();
   const userLogic = new UserLogic();
 
@@ -24,14 +41,21 @@ function SignUp() {
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   useEffect(() => {
-    if (confirmPassword === '' || password === '') {
-      setPasswordsMatch(true);
-    } else {
-      setPasswordsMatch(password === confirmPassword);
-    }
+    setPasswordsMatch(password === confirmPassword);
   }, [password, confirmPassword]);
 
-  const handleSignUp = async () => {
+  const generateVerificationCode = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
+
+  const sendVerificationEmail = async (email, code) => {
+    setAlertMessage(`For demo purposes: Your verification code is ${code}`);
+    setAlertSeverity('info');
+    setAlertOpen(true);
+    return true;
+  };
+
+  const handleInitiateSignUp = async () => {
     if (!userLogic.validateUsernameOrPassword(username)) {
       setAlertMessage("Username invalid. Must be 4-32 ASCII characters.");
       setAlertSeverity('warning');
@@ -60,19 +84,54 @@ function SignUp() {
       return;
     }
 
+    const code = generateVerificationCode();
+    setVerificationCode(code);
+
     try {
-      await userLogic.signUp(username, email, password);
-      setAlertMessage("Sign up successful! Please sign in.");
-      setAlertSeverity('success');
-      setAlertOpen(true);
-      setTimeout(() => {
-        router.push("/user/state/signin");
-      }, 2000);
+      setIsVerifying(true);
+      const emailSent = await sendVerificationEmail(email, code);
+
+      if (emailSent) {
+        setVerificationDialogOpen(true);
+      } else {
+        throw new Error("Failed to send verification email");
+      }
     } catch (e) {
       setAlertMessage(e.message);
       setAlertSeverity('error');
       setAlertOpen(true);
+      setIsVerifying(false);
     }
+  };
+
+  const handleVerifyCode = async () => {
+    if (userEnteredCode === verificationCode) {
+      try {
+        await userLogic.signUp(username, email, password);
+        setVerificationDialogOpen(false);
+        setIsVerifying(false);
+        setAlertMessage("Sign up successful! Please sign in.");
+        setAlertSeverity('success');
+        setAlertOpen(true);
+        setTimeout(() => {
+          router.push("/user/state/signin");
+        }, 2000);
+      } catch (e) {
+        setAlertMessage(e.message);
+        setAlertSeverity('error');
+        setAlertOpen(true);
+      }
+    } else {
+      setAlertMessage("Incorrect verification code. Please try again.");
+      setAlertSeverity('error');
+      setAlertOpen(true);
+    }
+  };
+
+  const handleResendCode = () => {
+    const code = generateVerificationCode();
+    setVerificationCode(code);
+    sendVerificationEmail(email, code);
   };
 
   return (
@@ -94,6 +153,7 @@ function SignUp() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              disabled={isVerifying}
             />
 
             <TextField
@@ -104,6 +164,7 @@ function SignUp() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isVerifying}
             />
 
             <TextField
@@ -114,6 +175,7 @@ function SignUp() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isVerifying}
             />
 
             <TextField
@@ -126,16 +188,17 @@ function SignUp() {
               required
               error={!passwordsMatch}
               helperText={!passwordsMatch ? "Passwords don't match" : ""}
+              disabled={isVerifying}
             />
 
             <Button
               variant="contained"
-              onClick={handleSignUp}
+              onClick={handleInitiateSignUp}
               size="large"
               fullWidth
-              disabled={!passwordsMatch}
+              disabled={!passwordsMatch || isVerifying}
             >
-              Sign Up
+              {isVerifying ? "Verifying Email..." : "Sign Up"}
             </Button>
 
             <Typography variant="body2" sx={{mt: 2}}>
@@ -144,6 +207,7 @@ function SignUp() {
                 color="primary"
                 onClick={() => router.push("/user/state/signin")}
                 sx={{p: 0, minWidth: 'auto'}}
+                disabled={isVerifying}
               >
                 Sign In
               </Button>
@@ -151,11 +215,45 @@ function SignUp() {
           </Paper>
         </div>
       </div>
+
+      {/* Email Verification Dialog */}
+      <Dialog
+        open={verificationDialogOpen}
+        onClose={() => {
+          setVerificationDialogOpen(false);
+          setIsVerifying(false);
+        }}
+      >
+        <DialogTitle>Verify Your Email</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" gutterBottom>
+            Verification code to {email}.
+          </Typography>
+          <TextField
+            label="Verification Code"
+            variant="outlined"
+            fullWidth
+            type="text"
+            value={userEnteredCode}
+            onChange={(e) => setUserEnteredCode(e.target.value)}
+            margin="normal"
+            inputProps={{maxLength: 6}}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleResendCode} color="primary">
+            Resend Code
+          </Button>
+          <Button onClick={handleVerifyCode} color="primary" variant="contained">
+            Verify
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Snackbar
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
       >
         <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
