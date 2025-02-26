@@ -50,6 +50,17 @@ Content-Type: application/json
   "username": "test"
 }
 
+### Update Email
+
+PUT {{baseUrl}}/users/user/email
+Content-Type: application/json
+
+{
+  "username": "test",
+  "email": "test@test.com",
+  "password": "test"
+}
+
 ### Update Password
 
 PUT {{baseUrl}}/users/user/password
