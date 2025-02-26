@@ -8,9 +8,9 @@ import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
 function SignIn() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {muiTheme} = useThemeHandler();
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const router = useRouter();
@@ -22,7 +22,7 @@ function SignIn() {
 
   const handleSignIn = async () => {
     try {
-      await userLogic.signIn(username, password);
+      await userLogic.signIn(email, password);
 
       setAlertMessage("Signed in success");
       setAlertSeverity('success');
@@ -48,11 +48,11 @@ function SignIn() {
           <div className="text-center">
             <div className="m-2">
               <TextField
-                label="Username"
+                label="Email"
                 variant="outlined"
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mt-2"
               />
             </div>
