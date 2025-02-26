@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -9,12 +10,14 @@ import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
 import { UserResDto } from './dto/user.res.dto';
+import { FirebaseService } from './firebase.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private readonly firebaseService: FirebaseService,
   ) {}
 
   public toUserDto(user: User) {
@@ -22,6 +25,7 @@ export class UsersService {
       id: user.id,
       username: user.username,
       email: user.email,
+      emailVerified: user.emailVerified,
       roles: user.roles,
       credit: user.credit,
     };
@@ -63,6 +67,27 @@ export class UsersService {
     user.email = email;
     user.password = await this.hashPassword(password);
     user.roles = [Role.User];
+
+    const result = await this.usersRepository.save(user);
+
+    // Email Verification
+    await this.firebaseService.createFirebaseUser(email, password);
+    await this.firebaseService.sendFirebaseEmailVerification(email, password);
+
+    return result;
+  }
+
+  async updateEmailVerified(username: string, email: string, password: string) {
+    if (!(await this.firebaseService.checkEmailVerified(email, password))) {
+      throw new UnauthorizedException('Email not verified');
+    }
+
+    const user = await this.findOneByUsername(username);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.emailVerified = true;
 
     return await this.usersRepository.save(user);
   }
