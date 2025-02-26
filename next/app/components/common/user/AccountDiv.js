@@ -9,7 +9,7 @@ function AccountDiv() {
   const [newUsername, setNewUsername] = useState('');
 
   // email
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [emailVerificationPassword, setEmailVerificationPassword] = useState('');
   const [emailVerificationSent, setEmailVerificationSent] = useState(false);
@@ -31,8 +31,8 @@ function AccountDiv() {
       try {
         const userData = await userLogic.fetchUser();
         if (userData) {
-          setUsername(userData.username);
           setNewUsername(userData.username);
+          setEmail(userData.email)
           setNewEmail(userData.email);
         }
       } catch (error) {
@@ -83,7 +83,7 @@ function AccountDiv() {
     try {
       setIsProcessing(true);
 
-      await userLogic.updateEmail(username, newEmail, emailVerificationPassword);
+      await userLogic.updateEmail(newEmail);
       await userLogic.sendEmailVerification(newEmail, emailVerificationPassword);
 
       setEmailVerificationSent(true);
@@ -232,8 +232,7 @@ function AccountDiv() {
                 color="primary"
                 onClick={handleUpdateEmail}
                 fullWidth
-                disabled={isProcessing || !emailVerificationPassword}
-              >
+                disabled={isProcessing || !emailVerificationPassword || newEmail === email}              >
                 {isProcessing ? "Processing..." : "Update Email"}
               </Button>
             </>

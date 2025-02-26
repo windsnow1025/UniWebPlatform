@@ -19,6 +19,11 @@ export class UserEmailVerificationReqDto {
   password: string;
 }
 
+export class UserEmailReqDto {
+  @IsString()
+  email: string;
+}
+
 export class UserUsernameReqDto {
   @IsString()
   username: string;
@@ -27,7 +32,4 @@ export class UserUsernameReqDto {
 export class UserPasswordReqDto {
   @IsString()
   password: string;
-}
-
-export class UserEmailReqDto {
 }

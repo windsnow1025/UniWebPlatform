@@ -98,13 +98,18 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async updateEmail(username: string, email: string, password: string) {
-    const user = await this.findOneByUsername(username);
+  async updateEmail(id: number, email: string) {
+    const user = await this.findOneById(id);
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    if (!(await this.verifyPassword(user, password))) {
-      throw new UnauthorizedException('Incorrect password');
+
+    if (user.email === email) {
+      return user;
+    }
+
+    if (await this.findOneByEmail(email)) {
+      throw new ConflictException();
     }
 
     user.email = email;

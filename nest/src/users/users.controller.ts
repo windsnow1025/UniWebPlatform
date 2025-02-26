@@ -14,14 +14,15 @@ import { RequestWithUser } from '../auth/interfaces/request-with-user.interface'
 import { UsersService } from './users.service';
 import { UserPrivilegesReqDto } from './dto/user.privileges.req.dto';
 import { Roles } from '../common/decorators/roles.decorator';
+import { AllowUnverifiedEmail } from '../common/decorators/allow-unverified-email.decorator';
 import { Role } from '../common/enums/role.enum';
 import {
+  UserEmailReqDto,
   UserEmailVerificationReqDto,
   UserPasswordReqDto,
   UserReqDto,
   UserUsernameReqDto,
 } from './dto/user.req.dto';
-import { AllowUnverifiedEmail } from '../common/decorators/allow-unverified-email.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -77,14 +78,14 @@ export class UsersController {
     return this.usersService.toUserDto(user);
   }
 
-  @Public()
+  @AllowUnverifiedEmail()
   @Put('/user/email')
-  async updateEmail(@Body() userReqDto: UserReqDto) {
-    const user = await this.usersService.updateEmail(
-      userReqDto.username,
-      userReqDto.email,
-      userReqDto.password,
-    );
+  async updateEmail(
+    @Request() req: RequestWithUser,
+    @Body() userEmailReqDto: UserEmailReqDto,
+  ) {
+    const id = req.user.sub;
+    const user = await this.usersService.updateEmail(id, userEmailReqDto.email);
     return this.usersService.toUserDto(user);
   }
 
