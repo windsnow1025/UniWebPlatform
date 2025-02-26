@@ -16,6 +16,7 @@ import { UserPrivilegesReqDto } from './dto/user.privileges.req.dto';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/enums/role.enum';
 import {
+  UserEmailReqDto,
   UserPasswordReqDto,
   UserReqDto,
   UserUsernameReqDto,
@@ -44,6 +45,7 @@ export class UsersController {
   @Public()
   @Post('/user')
   async create(@Body() authDto: UserReqDto) {
+    // TODO: verify email
     const user = await this.usersService.create(
       authDto.username,
       authDto.email,
@@ -55,20 +57,37 @@ export class UsersController {
   @Put('/user/username')
   async updateUsername(
     @Request() req: RequestWithUser,
-    @Body() authDto: UserUsernameReqDto,
+    @Body() userUsernameReqDto: UserUsernameReqDto,
   ) {
     const id = req.user.sub;
-    const user = await this.usersService.updateUsername(id, authDto.username);
+    const user = await this.usersService.updateUsername(
+      id,
+      userUsernameReqDto.username,
+    );
+    return this.usersService.toUserDto(user);
+  }
+
+  @Put('/user/email')
+  async updateEmail(
+    @Request() req: RequestWithUser,
+    @Body() userEmailReqDto: UserEmailReqDto,
+  ) {
+    // TODO: verify email
+    const id = req.user.sub;
+    const user = await this.usersService.updateEmail(id, userEmailReqDto.email);
     return this.usersService.toUserDto(user);
   }
 
   @Put('/user/password')
   async updatePassword(
     @Request() req: RequestWithUser,
-    @Body() authDto: UserPasswordReqDto,
+    @Body() userPasswordReqDto: UserPasswordReqDto,
   ) {
     const id = req.user.sub;
-    const user = await this.usersService.updatePassword(id, authDto.password);
+    const user = await this.usersService.updatePassword(
+      id,
+      userPasswordReqDto.password,
+    );
     return this.usersService.toUserDto(user);
   }
 
