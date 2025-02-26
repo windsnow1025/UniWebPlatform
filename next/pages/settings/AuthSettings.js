@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Alert, Button, CircularProgress, Divider, Snackbar, Typography} from "@mui/material";
+import {Alert, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
 import UserLogic from "../../src/common/user/UserLogic";
 import AccountDiv from "../../app/components/common/user/AccountDiv";
 import SignDiv from "../../app/components/common/user/SignDiv";
-import CreditDiv from "../../app/components/common/user/CreditDiv";
+import ConfirmDialog from "../../app/components/common/ConfirmDialog";
 
 const AuthSettings = () => {
   const userLogic = new UserLogic();
@@ -13,6 +13,8 @@ const AuthSettings = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
+
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -33,6 +35,28 @@ const AuthSettings = () => {
     setAlertOpen(true);
   };
 
+  const handleDeleteAccount = async (confirmed) => {
+    setConfirmDialogOpen(false);
+
+    if (confirmed) {
+      try {
+        setLoading(true);
+        await userLogic.deleteUser();
+        localStorage.removeItem("token");
+        setUsername("");
+        setAlertMessage("Account deleted successfully.");
+        setAlertSeverity("success");
+        setAlertOpen(true);
+      } catch (error) {
+        setAlertMessage(error.message || "Failed to delete account.");
+        setAlertSeverity("error");
+        setAlertOpen(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   return (
     <div>
       {loading ? (
@@ -40,12 +64,25 @@ const AuthSettings = () => {
       ) : username ? (
         <div>
           <AccountDiv/>
-          <div className="flex m-2">
-            <div className="inflex-fill"></div>
+          <div className="flex m-2 gap-2 justify-end">
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => setConfirmDialogOpen(true)}
+            >
+              Delete Account
+            </Button>
             <Button variant="contained" color="secondary" onClick={handleSignOut}>
               Sign Out
             </Button>
           </div>
+
+          <ConfirmDialog
+            open={confirmDialogOpen}
+            onClose={handleDeleteAccount}
+            title="Delete Account"
+            content="Are you sure you want to delete your account? This action cannot be undone."
+          />
         </div>
       ) : (
         <div>
