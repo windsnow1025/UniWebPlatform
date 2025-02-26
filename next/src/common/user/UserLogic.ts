@@ -109,6 +109,20 @@ export default class UserLogic {
     }
   }
 
+  async updateEmailVerification(username: string, email: string, password: string) {
+    try {
+      await this.userService.updateEmailVerified(username, email, password);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Email not verified');
+        }
+      }
+      console.error(error);
+      throw new Error('Update email verification failed');
+    }
+  }
+
   async updateUsername(username: string) {
     try {
       await this.userService.updateUsername(username);
