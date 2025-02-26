@@ -24,12 +24,10 @@ export class UserUsernameReqDto {
   username: string;
 }
 
-export class UserEmailReqDto {
-  @IsString()
-  email: string;
-}
-
 export class UserPasswordReqDto {
   @IsString()
   password: string;
+}
+
+export class UserEmailReqDto {
 }

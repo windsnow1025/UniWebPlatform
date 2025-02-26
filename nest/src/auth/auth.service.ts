@@ -18,9 +18,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const hash = user.password;
-    const isMatch = await bcrypt.compare(password, hash);
-    if (!isMatch) {
+    if (!(await this.usersService.verifyPassword(user, password))) {
       throw new UnauthorizedException();
     }
 

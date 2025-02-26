@@ -5,15 +5,20 @@ import { Alert, Button, Divider, Paper, Snackbar, Typography } from "@mui/materi
 import CreditDiv from "./CreditDiv";
 
 function AccountDiv() {
+  // username
+  const [newUsername, setNewUsername] = useState('');
+
+  // email
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const [emailVerificationSent, setEmailVerificationSent] = useState(false);
   const [emailVerificationPassword, setEmailVerificationPassword] = useState('');
+  const [emailVerificationSent, setEmailVerificationSent] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // password
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const userLogic = new UserLogic();
 
@@ -27,7 +32,7 @@ function AccountDiv() {
         const userData = await userLogic.fetchUser();
         if (userData) {
           setUsername(userData.username);
-          setEmail(userData.email);
+          setNewUsername(userData.username);
           setNewEmail(userData.email);
         }
       } catch (error) {
@@ -39,12 +44,12 @@ function AccountDiv() {
   }, []);
 
   useEffect(() => {
-    if (confirmPassword === '' || password === '') {
+    if (confirmNewPassword === '' || newPassword === '') {
       setPasswordsMatch(true);
     } else {
-      setPasswordsMatch(password === confirmPassword);
+      setPasswordsMatch(newPassword === confirmNewPassword);
     }
-  }, [password, confirmPassword]);
+  }, [newPassword, confirmNewPassword]);
 
   const showAlert = (message, severity) => {
     setAlertMessage(message);
@@ -53,14 +58,14 @@ function AccountDiv() {
   };
 
   const handleUpdateUsername = async () => {
-    if (!userLogic.validateUsernameOrPassword(username)) {
+    if (!userLogic.validateUsernameOrPassword(newUsername)) {
       showAlert("Username invalid. Must be 4-32 ASCII characters.", 'warning');
       return;
     }
 
     try {
       setIsProcessing(true);
-      await userLogic.updateUsername(username);
+      await userLogic.updateUsername(newUsername);
       showAlert("Username updated successfully", 'success');
     } catch (e) {
       showAlert(e.message, 'error');
@@ -75,17 +80,10 @@ function AccountDiv() {
       return;
     }
 
-    if (newEmail === email) {
-      showAlert("New email is the same as current email.", 'warning');
-      return;
-    }
-
     try {
       setIsProcessing(true);
-      // First, update the email in the system
-      await userLogic.updateEmail(newEmail);
 
-      // Then send verification email
+      await userLogic.updateEmail(username, newEmail, emailVerificationPassword);
       await userLogic.sendEmailVerification(newEmail, emailVerificationPassword);
 
       setEmailVerificationSent(true);
@@ -112,9 +110,8 @@ function AccountDiv() {
   const handleCheckVerification = async () => {
     try {
       setIsProcessing(true);
-      await userLogic.updateEmailVerification(username, newEmail, emailVerificationPassword);
+      await userLogic.updateEmailVerification(newUsername, newEmail, emailVerificationPassword);
       setEmailVerificationSent(false);
-      setEmail(newEmail);
       showAlert("Email updated and verified successfully!", 'success');
     } catch (e) {
       showAlert(e.message, 'error');
@@ -123,29 +120,23 @@ function AccountDiv() {
     }
   };
 
-  const handleCancelEmailUpdate = () => {
-    setEmailVerificationSent(false);
-    setNewEmail(email);
-    setEmailVerificationPassword('');
-  };
-
   const handleUpdatePassword = async () => {
-    if (!userLogic.validateUsernameOrPassword(password)) {
+    if (!userLogic.validateUsernameOrPassword(newPassword)) {
       showAlert("Password invalid. Must be 4-32 ASCII characters.", 'warning');
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmNewPassword) {
       showAlert("Passwords do not match.", 'warning');
       return;
     }
 
     try {
       setIsProcessing(true);
-      await userLogic.updatePassword(password);
+      await userLogic.updatePassword(newPassword);
       showAlert("Password updated successfully", 'success');
-      setPassword('');
-      setConfirmPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
     } catch (e) {
       showAlert(e.message, 'error');
     } finally {
@@ -166,11 +157,11 @@ function AccountDiv() {
       <div className="mb-6">
         <div className="flex flex-col gap-2">
           <TextField
-            label="Username"
+            label="New Username"
             variant="outlined"
             fullWidth
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
             disabled={isProcessing}
           />
           <Button
@@ -197,15 +188,6 @@ function AccountDiv() {
               <Typography variant="body2" align="center" gutterBottom>
                 Please check your inbox and verify your email to complete the update.
               </Typography>
-              <TextField
-                label="Password (for verification)"
-                variant="outlined"
-                type="password"
-                fullWidth
-                value={emailVerificationPassword}
-                onChange={(e) => setEmailVerificationPassword(e.target.value)}
-                disabled={isProcessing}
-              />
               <Button
                 variant="contained"
                 onClick={handleCheckVerification}
@@ -224,26 +206,9 @@ function AccountDiv() {
               >
                 Resend Verification Email
               </Button>
-              <Button
-                variant="text"
-                onClick={handleCancelEmailUpdate}
-                size="medium"
-                fullWidth
-                disabled={isProcessing}
-              >
-                Cancel Email Update
-              </Button>
             </>
           ) : (
             <>
-              <TextField
-                label="Current Email"
-                variant="outlined"
-                type="email"
-                fullWidth
-                value={email}
-                disabled={true}
-              />
               <TextField
                 label="New Email"
                 variant="outlined"
@@ -254,7 +219,7 @@ function AccountDiv() {
                 disabled={isProcessing}
               />
               <TextField
-                label="Password (for verification)"
+                label="Password"
                 variant="outlined"
                 type="password"
                 fullWidth
@@ -267,7 +232,7 @@ function AccountDiv() {
                 color="primary"
                 onClick={handleUpdateEmail}
                 fullWidth
-                disabled={isProcessing || !emailVerificationPassword || newEmail === email}
+                disabled={isProcessing || !emailVerificationPassword}
               >
                 {isProcessing ? "Processing..." : "Update Email"}
               </Button>
@@ -285,8 +250,8 @@ function AccountDiv() {
             variant="outlined"
             type="password"
             fullWidth
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
             disabled={isProcessing}
           />
           <TextField
@@ -294,8 +259,8 @@ function AccountDiv() {
             variant="outlined"
             type="password"
             fullWidth
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewPassword(e.target.value)}
             error={!passwordsMatch}
             helperText={!passwordsMatch ? "Passwords don't match" : ""}
             disabled={isProcessing}

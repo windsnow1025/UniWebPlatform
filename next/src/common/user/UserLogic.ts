@@ -146,11 +146,14 @@ export default class UserLogic {
     }
   }
 
-  async updateEmail(email: string) {
+  async updateEmail(username: string, email: string, password: string) {
     try {
-      await this.userService.updateEmail(email);
+      await this.userService.updateEmail(username, email, password);
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Incorrect password');
+        }
         if (error.response?.status === 409) {
           throw new Error('Email already exists');
         }
