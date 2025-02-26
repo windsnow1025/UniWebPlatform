@@ -29,23 +29,11 @@ const AuthSettings = () => {
 
   return (
     <div>
-      <h2>Authentication Settings</h2>
       {loading ? (
         <CircularProgress/>
       ) : username ? (
         <div>
-          <div>
-            <div className="m-2">
-              <Typography variant="h6">Signed in as: {username}</Typography>
-              <CreditDiv/>
-            </div>
-            <Divider/>
-            <div className="m-2">
-              <Typography variant="h6">Update username and password:</Typography>
-              <AccountDiv/>
-            </div>
-          </div>
-          <Divider/>
+          <AccountDiv/>
           <div className="flex m-2">
             <div className="inflex-fill"></div>
             <Button variant="contained" color="secondary" onClick={handleSignOut}>
