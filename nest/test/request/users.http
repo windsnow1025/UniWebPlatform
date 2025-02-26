@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### Update Email Verified
 
-PUT {{baseUrl}}/users/email-verified
+PUT {{baseUrl}}/users/user/email-verified
 Content-Type: application/json
 
 {
