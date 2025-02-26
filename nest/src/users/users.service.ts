@@ -72,7 +72,9 @@ export class UsersService {
   }
 
   async sendEmailVerification(email: string, password: string) {
-    await this.firebaseService.createFirebaseUser(email, password);
+    try {
+      await this.firebaseService.createFirebaseUser(email, password);
+    } catch {}
     await this.firebaseService.sendFirebaseEmailVerification(email, password);
   }
 

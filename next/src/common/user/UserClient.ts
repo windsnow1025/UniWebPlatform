@@ -26,6 +26,13 @@ export default class UserClient {
     });
   }
 
+  async sendEmailVerification(email: string, password: string) {
+    await getNestAxiosInstance().post("/users/user/email-verification", {
+      email: email,
+      password: password
+    });
+  }
+
   async updateEmailVerified(username: string, email: string, password: string) {
     await getNestAxiosInstance().put("/users/user/email-verified", {
       username: username,

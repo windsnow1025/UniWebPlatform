@@ -109,6 +109,15 @@ export default class UserLogic {
     }
   }
 
+  async sendEmailVerification(email: string, password: string) {
+    try {
+      await this.userService.sendEmailVerification(email, password);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Send email verification failed');
+    }
+  }
+
   async updateEmailVerification(username: string, email: string, password: string) {
     try {
       await this.userService.updateEmailVerified(username, email, password);
