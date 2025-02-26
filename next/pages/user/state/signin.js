@@ -7,6 +7,7 @@ import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { SignInPage } from '@toolpad/core/SignInPage';
+import {wait} from "../../../app/utils/Wait";
 
 function SignIn() {
   const { muiTheme } = useThemeHandler();
@@ -31,14 +32,14 @@ function SignIn() {
 
       await userLogic.signIn(email, password);
 
-      setAlertMessage("Signed in success. Redirect in 2 seconds.");
+      setAlertMessage("Signed in success. Redirecting...");
       setAlertSeverity('success');
       setAlertOpen(true);
 
       const prevUrl = localStorage.getItem('prevUrl') || "/";
-      setTimeout(() => {
-        router.push(prevUrl);
-      }, 2000);
+
+      await wait(1);
+      router.push(prevUrl);
     } catch (e) {
       setAlertMessage(e.message);
       setAlertSeverity('error');
