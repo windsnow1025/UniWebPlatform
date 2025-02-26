@@ -1,5 +1,5 @@
 import React from "react";
-import ThemeToggle from "../../app/components/common/ThemeToggle";
+import ThemeToggle from "../ThemeToggle";
 
 const PersonalizationSettings = ({ systemTheme, setSystemTheme }) => {
   return (

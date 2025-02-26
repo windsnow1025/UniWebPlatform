@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import UserLogic from "../../src/common/user/UserLogic";
-import AnnouncementLogic from "../../src/announcement/AnnouncementLogic";
-import CustomDataGrid from "../../app/components/common/CustomDataGrid";
+import UserLogic from "../../../../src/common/user/UserLogic";
+import AnnouncementLogic from "../../../../src/announcement/AnnouncementLogic";
+import CustomDataGrid from "../CustomDataGrid";
 import {TextField, Button, Snackbar, Alert} from "@mui/material";
-import {RawEditableState} from "../../src/conversation/chat/Message";
-import ContentDiv from "../../app/components/message/ContentDiv";
+import {RawEditableState} from "../../../../src/conversation/chat/Message";
+import ContentDiv from "../../message/ContentDiv";
 
 const AdminSetting = () => {
   const userLogic = new UserLogic();
@@ -40,16 +40,17 @@ const AdminSetting = () => {
   // User management columns
   const columns = [
     {field: "id", headerName: "ID", flex: 0.1},
-    {field: "username", headerName: "Username", flex: 0.3},
+    {field: "username", headerName: "Username", flex: 0.2},
+    {field: "email", headerName: "Email", flex: 0.3},
     {
       field: "role",
       headerName: "Role",
-      flex: 0.2,
+      flex: 0.1,
       editable: true,
       type: 'singleSelect',
       valueOptions: ['admin', 'user']
     },
-    {field: "credit", headerName: "Credit", type: "number", flex: 0.2, editable: true},
+    {field: "credit", headerName: "Credit", type: "number", flex: 0.1, editable: true},
   ];
 
   const fetchData = async () => {
