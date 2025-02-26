@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useRouter } from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
 import { ThemeProvider } from "@mui/material/styles";
@@ -10,6 +10,11 @@ import { SignInPage } from '@toolpad/core/SignInPage';
 
 function SignIn() {
   const { muiTheme } = useThemeHandler();
+
+  useEffect(() => {
+    document.title = "Sign Up";
+  }, []);
+
   const router = useRouter();
   const userLogic = new UserLogic();
 
