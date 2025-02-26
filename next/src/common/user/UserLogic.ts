@@ -38,36 +38,38 @@ export default class UserLogic {
     try {
       return await this.userService.fetchUser();
     } catch (err) {
+      if (axios.isAxiosError(err)) {
+        if (err.response && err.response.status !== 500) {
+          localStorage.removeItem('token');
+        }
+      }
       localStorage.removeItem('token');
       return null;
     }
   }
 
   async fetchUsername() {
-    if (!localStorage.getItem('token')) {
+    const user = await this.fetchUser();
+    if (!user) {
       return null;
     }
-    try {
-      const user = await this.userService.fetchUser();
-      return user.username;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response && error.response.status !== 0) {
-          localStorage.removeItem('token');
-        }
-      }
-      console.error(error);
+    return user.username;
+  }
+
+  async fetchEmailVerified() {
+    const user = await this.fetchUser();
+    if (!user) {
       return null;
     }
+    return user.emailVerified;
   }
 
   async fetchCredit() {
-    try {
-      const user = await this.userService.fetchUser();
-      return user.credit;
-    } catch (err) {
-      console.error(err);
+    const user = await this.fetchUser();
+    if (!user) {
+      return null;
     }
+    return user.credit;
   }
 
   async isAdmin(): Promise<boolean> {

@@ -5,7 +5,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import {CssBaseline, Link} from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import useThemeHandler from "../app/hooks/useThemeHandler";
-import HeaderAppBar from "../app/components/common/HeaderAppBar";
+import HeaderAppBar from "../app/components/common/header/HeaderAppBar";
 
 function Index() {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
