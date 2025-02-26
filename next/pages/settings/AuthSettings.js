@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, CircularProgress, Divider, Typography} from "@mui/material";
+import {Alert, Button, CircularProgress, Divider, Snackbar, Typography} from "@mui/material";
 import UserLogic from "../../src/common/user/UserLogic";
 import AccountDiv from "../../app/components/common/user/AccountDiv";
 import SignDiv from "../../app/components/common/user/SignDiv";
@@ -9,6 +9,10 @@ const AuthSettings = () => {
   const userLogic = new UserLogic();
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -24,7 +28,9 @@ const AuthSettings = () => {
   const handleSignOut = () => {
     localStorage.removeItem("token");
     setUsername("");
-    alert("You have been signed out.");
+    setAlertMessage("Signed out successfully.");
+    setAlertSeverity("success");
+    setAlertOpen(true);
   };
 
   return (
@@ -47,6 +53,15 @@ const AuthSettings = () => {
           <SignDiv/>
         </div>
       )}
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
