@@ -32,6 +32,11 @@ export class UsersService {
     return userDto;
   }
 
+  public async verifyPassword(user: User, password: string) {
+    const hash = user.password;
+    return await bcrypt.compare(password, hash);
+  }
+
   private async hashPassword(password: string) {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(password, salt);
@@ -112,10 +117,13 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async updateEmail(id: number, email: string) {
-    const user = await this.findOneById(id);
+  async updateEmail(username: string, email: string, password: string) {
+    const user = await this.findOneByUsername(username);
     if (!user) {
       throw new NotFoundException('User not found');
+    }
+    if (!(await this.verifyPassword(user, password))) {
+      throw new UnauthorizedException('Incorrect password');
     }
 
     user.email = email;
