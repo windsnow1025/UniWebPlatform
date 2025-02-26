@@ -13,7 +13,7 @@ import {
 import TextField from "@mui/material/TextField";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import { auth } from "../../../src/common/firebase/FirebaseConfig";
+import {auth} from "../../../src/common/firebase/FirebaseConfig";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -107,19 +107,10 @@ function SignUp() {
 
   const handleResendVerification = async () => {
     try {
-      if (auth.currentUser) {
-        await sendEmailVerification(auth.currentUser);
-        setAlertMessage("Verification email resent. Please check your inbox.");
-        setAlertSeverity('info');
-        setAlertOpen(true);
-      } else if (tempFirebaseUser) {
-        // Try to sign in first to send verification
-        await signInWithEmailAndPassword(auth, email, password);
-        await sendEmailVerification(auth.currentUser);
-        setAlertMessage("Verification email resent. Please check your inbox.");
-        setAlertSeverity('info');
-        setAlertOpen(true);
-      }
+      await sendEmailVerification(auth.currentUser);
+      setAlertMessage("Verification email resent. Please check your inbox.");
+      setAlertSeverity('info');
+      setAlertOpen(true);
     } catch (error) {
       setAlertMessage("Error sending verification email: " + error.message);
       setAlertSeverity('error');
