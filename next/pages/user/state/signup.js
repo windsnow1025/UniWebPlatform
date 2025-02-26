@@ -23,21 +23,21 @@ function SignUp() {
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   const handleSignUp = async () => {
-    if (!userLogic.validateInput(username)) {
+    if (!userLogic.validateUsernameOrPassword(username)) {
       setAlertMessage("Username invalid. Must be 4-32 ASCII characters.");
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
 
-    if (!email || !email.includes('@')) {
+    if (!userLogic.validateEmail(email)) {
       setAlertMessage("Please enter a valid email address.");
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
 
-    if (!userLogic.validateInput(password)) {
+    if (!userLogic.validateUsernameOrPassword(password)) {
       setAlertMessage("Password invalid. Must be 4-32 ASCII characters.");
       setAlertSeverity('warning');
       setAlertOpen(true);
