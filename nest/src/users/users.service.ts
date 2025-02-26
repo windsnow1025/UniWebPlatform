@@ -98,6 +98,21 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
+  async updateEmail(username: string, email: string, password: string) {
+    const user = await this.findOneByUsername(username);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    if (!(await this.verifyPassword(user, password))) {
+      throw new UnauthorizedException('Incorrect password');
+    }
+
+    user.email = email;
+    user.emailVerified = false;
+
+    return await this.usersRepository.save(user);
+  }
+
   async updateUsername(id: number, username: string) {
     const user = await this.findOneById(id);
     if (!user) {
@@ -113,21 +128,6 @@ export class UsersService {
     }
 
     user.username = username;
-
-    return await this.usersRepository.save(user);
-  }
-
-  async updateEmail(username: string, email: string, password: string) {
-    const user = await this.findOneByUsername(username);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    if (!(await this.verifyPassword(user, password))) {
-      throw new UnauthorizedException('Incorrect password');
-    }
-
-    user.email = email;
-    user.emailVerified = false;
 
     return await this.usersRepository.save(user);
   }
