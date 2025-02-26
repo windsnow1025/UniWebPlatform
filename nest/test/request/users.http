@@ -19,6 +19,17 @@ Content-Type: application/json
   "password": "test"
 }
 
+### Update Email Verified
+
+PUT {{baseUrl}}/users/email-verified
+Content-Type: application/json
+
+{
+  "username": "test",
+  "email": "test@test.com",
+  "password": "test"
+}
+
 ### Update Username
 
 PUT {{baseUrl}}/users/user/username
