@@ -74,6 +74,7 @@ function SignUp() {
       setIsSendingVerification(true);
 
       await userLogic.signUp(username, email, password);
+      await userLogic.sendEmailVerification(email, password);
 
       setEmailSent(true);
 
@@ -91,7 +92,7 @@ function SignUp() {
 
   const handleResendVerification = async () => {
     try {
-      await sendEmailVerification(auth.currentUser);
+      await userLogic.sendEmailVerification(email, password);
       setAlertMessage("Verification email resent. Please check your inbox.");
       setAlertSeverity('info');
       setAlertOpen(true);
@@ -143,9 +144,6 @@ function SignUp() {
                 </Typography>
                 <Typography variant="body2" align="center" gutterBottom>
                   Please check your inbox and verify your email to complete registration.
-                </Typography>
-                <Typography variant="body2" align="center" gutterBottom>
-                  After clicking the verification link in your email, click the button below.
                 </Typography>
                 <Button
                   variant="contained"
