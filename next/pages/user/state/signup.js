@@ -36,7 +36,6 @@ function SignUp() {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isVerifying, setIsVerifying] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  const [tempFirebaseUser, setTempFirebaseUser] = useState(null);
 
   const router = useRouter();
   const userLogic = new UserLogic();
@@ -84,9 +83,6 @@ function SignUp() {
       // Create user in Firebase (only for email verification)
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Store the Firebase user temporarily
-      setTempFirebaseUser(user);
 
       // Send verification email
       await sendEmailVerification(user);
