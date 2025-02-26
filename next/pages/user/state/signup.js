@@ -13,14 +13,7 @@ import {
 import TextField from "@mui/material/TextField";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import {auth} from "../../../src/common/firebase/FirebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-  signOut,
-  deleteUser
-} from "firebase/auth";
+import {wait} from "../../../app/utils/Wait";
 
 function SignUp() {
   const {muiTheme} = useThemeHandler();
@@ -34,7 +27,7 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const [isVerifying, setIsVerifying] = useState(false);
+  const [isSendingVerification, setIsSendingVerification] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
   const router = useRouter();
@@ -78,26 +71,21 @@ function SignUp() {
     }
 
     try {
-      setIsVerifying(true);
+      setIsSendingVerification(true);
 
-      // Create user in Firebase (only for email verification)
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      await userLogic.signUp(username, email, password);
 
-      // Send verification email
-      await sendEmailVerification(user);
       setEmailSent(true);
 
       setAlertMessage("Verification email sent! Please check your inbox and verify your email to complete registration.");
       setAlertSeverity('info');
       setAlertOpen(true);
-      setIsVerifying(false);
     } catch (error) {
-      setIsVerifying(false);
-
       setAlertMessage("Error during sign up: " + error.message);
       setAlertSeverity('error');
       setAlertOpen(true);
+    } finally {
+      setIsSendingVerification(false);
     }
   };
 
@@ -116,36 +104,21 @@ function SignUp() {
 
   const handleCheckVerification = async () => {
     try {
-      setIsVerifying(true);
+      setIsSendingVerification(true);
 
-      // Sign in to check if email is verified
-      await signInWithEmailAndPassword(auth, email, password);
-      const user = auth.currentUser;
+      await userLogic.updateEmailVerification(username, email, password);
 
-      if (user.emailVerified) {
-        await userLogic.signUp(username, email, password);
+      setIsSendingVerification(false);
+      setEmailSent(false);
 
-        await signOut(auth);
-        await deleteUser(user);
+      setAlertMessage("Sign up successful! Redirecting to sign in page...");
+      setAlertSeverity('success');
+      setAlertOpen(true);
 
-        setIsVerifying(false);
-        setEmailSent(false);
-
-        setAlertMessage("Sign up successful! Redirecting to sign in page...");
-        setAlertSeverity('success');
-        setAlertOpen(true);
-
-        setTimeout(() => {
-          router.push("/user/state/signin");
-        }, 1000);
-      } else {
-        setIsVerifying(false);
-        setAlertMessage("Email not yet verified. Please check your inbox and click the verification link.");
-        setAlertSeverity('warning');
-        setAlertOpen(true);
-      }
+      await wait(1);
+      router.push("/user/state/signin");
     } catch (error) {
-      setIsVerifying(false);
+      setIsSendingVerification(false);
       setAlertMessage("Error checking verification: " + error.message);
       setAlertSeverity('error');
       setAlertOpen(true);
@@ -179,16 +152,16 @@ function SignUp() {
                   onClick={handleCheckVerification}
                   size="medium"
                   fullWidth
-                  disabled={isVerifying}
+                  disabled={isSendingVerification}
                 >
-                  {isVerifying ? "Checking..." : "I've Verified My Email"}
+                  {isSendingVerification ? "Checking..." : "I've Verified My Email"}
                 </Button>
                 <Button
                   variant="outlined"
                   onClick={handleResendVerification}
                   size="medium"
                   fullWidth
-                  disabled={isVerifying}
+                  disabled={isSendingVerification}
                 >
                   Resend Verification Email
                 </Button>
@@ -203,7 +176,7 @@ function SignUp() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
-                  disabled={isVerifying}
+                  disabled={isSendingVerification}
                 />
 
                 <TextField
@@ -214,7 +187,7 @@ function SignUp() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  disabled={isVerifying}
+                  disabled={isSendingVerification}
                 />
 
                 <TextField
@@ -225,7 +198,7 @@ function SignUp() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  disabled={isVerifying}
+                  disabled={isSendingVerification}
                 />
 
                 <TextField
@@ -238,7 +211,7 @@ function SignUp() {
                   required
                   error={!passwordsMatch}
                   helperText={!passwordsMatch ? "Passwords don't match" : ""}
-                  disabled={isVerifying}
+                  disabled={isSendingVerification}
                 />
 
                 <Button
@@ -246,9 +219,9 @@ function SignUp() {
                   onClick={handleSignUp}
                   size="large"
                   fullWidth
-                  disabled={!passwordsMatch || isVerifying}
+                  disabled={!passwordsMatch || isSendingVerification}
                 >
-                  {isVerifying ? "Processing..." : "Sign Up"}
+                  {isSendingVerification ? "Processing..." : "Sign Up"}
                 </Button>
 
                 <Typography variant="body2" sx={{mt: 2}}>
@@ -257,7 +230,7 @@ function SignUp() {
                     color="primary"
                     onClick={() => router.push("/user/state/signin")}
                     sx={{p: 0, minWidth: 'auto'}}
-                    disabled={isVerifying}
+                    disabled={isSendingVerification}
                   >
                     Sign In
                   </Button>

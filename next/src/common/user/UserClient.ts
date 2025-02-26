@@ -26,6 +26,14 @@ export default class UserClient {
     });
   }
 
+  async updateEmailVerified(username: string, email: string, password: string) {
+    await getNestAxiosInstance().put("/users/user/email-verified", {
+      username: username,
+      email: email,
+      password: password
+    });
+  }
+
   async updateUsername(username: string) {
     const token = localStorage.getItem('token');
     await getNestAxiosInstance().put("/users/user/username", {
