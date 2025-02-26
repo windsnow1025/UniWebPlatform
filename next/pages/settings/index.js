@@ -41,7 +41,6 @@ const Settings = () => {
           onChange={handleTabChange}
           variant="scrollable"
           scrollButtons="auto"
-          centered
         >
           <Tab label="Auth"/>
           <Tab label="Storage"/>
