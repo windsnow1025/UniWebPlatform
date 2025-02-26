@@ -1,19 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Alert, Button, CssBaseline, Snackbar, Box, Typography, Paper} from "@mui/material";
+import {Alert, Button, CssBaseline, Paper, Snackbar, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 
 function SignUp() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {muiTheme} = useThemeHandler();
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const router = useRouter();
   const userLogic = new UserLogic();
@@ -21,6 +22,14 @@ function SignUp() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
+
+  useEffect(() => {
+    if (confirmPassword === '' || password === '') {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(password === confirmPassword);
+    }
+  }, [password, confirmPassword]);
 
   const handleSignUp = async () => {
     if (!userLogic.validateUsernameOrPassword(username)) {
@@ -115,6 +124,8 @@ function SignUp() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              error={!passwordsMatch}
+              helperText={!passwordsMatch ? "Passwords don't match" : ""}
             />
 
             <Button
@@ -122,6 +133,7 @@ function SignUp() {
               onClick={handleSignUp}
               size="large"
               fullWidth
+              disabled={!passwordsMatch}
             >
               Sign Up
             </Button>
