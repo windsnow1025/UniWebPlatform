@@ -75,6 +75,17 @@ export class UsersController {
     return this.usersService.toUserDto(user);
   }
 
+  @Public()
+  @Put('/user/email')
+  async updateEmail(@Body() userReqDto: UserReqDto) {
+    const user = await this.usersService.updateEmail(
+      userReqDto.username,
+      userReqDto.email,
+      userReqDto.password,
+    );
+    return this.usersService.toUserDto(user);
+  }
+
   @Put('/user/username')
   async updateUsername(
     @Request() req: RequestWithUser,
@@ -84,17 +95,6 @@ export class UsersController {
     const user = await this.usersService.updateUsername(
       id,
       userUsernameReqDto.username,
-    );
-    return this.usersService.toUserDto(user);
-  }
-
-  @Public()
-  @Put('/user/email')
-  async updateEmail(@Body() userReqDto: UserReqDto) {
-    const user = await this.usersService.updateEmail(
-      userReqDto.username,
-      userReqDto.email,
-      userReqDto.password,
     );
     return this.usersService.toUserDto(user);
   }

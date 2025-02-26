@@ -132,20 +132,6 @@ export default class UserLogic {
     }
   }
 
-  async updateUsername(username: string) {
-    try {
-      await this.userService.updateUsername(username);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 409) {
-          throw new Error('Username already exists');
-        }
-      }
-      console.error(error);
-      throw new Error('Update username failed');
-    }
-  }
-
   async updateEmail(username: string, email: string, password: string) {
     try {
       await this.userService.updateEmail(username, email, password);
@@ -160,6 +146,20 @@ export default class UserLogic {
       }
       console.error(error);
       throw new Error('Update email failed');
+    }
+  }
+
+  async updateUsername(username: string) {
+    try {
+      await this.userService.updateUsername(username);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 409) {
+          throw new Error('Username already exists');
+        }
+      }
+      console.error(error);
+      throw new Error('Update username failed');
     }
   }
 

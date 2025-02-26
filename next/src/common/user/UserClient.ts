@@ -41,21 +41,18 @@ export default class UserClient {
     });
   }
 
-  async updateUsername(username: string) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/username", {
-      username: username,
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
-  }
-
   async updateEmail(username: string, email: string, password: string) {
-    const token = localStorage.getItem('token');
     await getNestAxiosInstance().put("/users/user/email", {
       username: username,
       email: email,
       password: password,
+    });
+  }
+
+  async updateUsername(username: string) {
+    const token = localStorage.getItem('token');
+    await getNestAxiosInstance().put("/users/user/username", {
+      username: username,
     }, {
       headers: {Authorization: `Bearer ${token}`}
     });
