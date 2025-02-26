@@ -16,7 +16,7 @@ import { UserPrivilegesReqDto } from './dto/user.privileges.req.dto';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/enums/role.enum';
 import {
-  UserEmailReqDto,
+  UserEmailReqDto, UserEmailVerificationReqDto,
   UserPasswordReqDto,
   UserReqDto,
   UserUsernameReqDto,
@@ -44,13 +44,24 @@ export class UsersController {
 
   @Public()
   @Post('/user')
-  async create(@Body() authDto: UserReqDto) {
+  async create(@Body() userReqDto: UserReqDto) {
     const user = await this.usersService.create(
-      authDto.username,
-      authDto.email,
-      authDto.password,
+      userReqDto.username,
+      userReqDto.email,
+      userReqDto.password,
     );
     return this.usersService.toUserDto(user);
+  }
+
+  @Public()
+  @Post('/user/email-verification')
+  async sendEmailVerification(
+    @Body() userEmailReqDto: UserEmailVerificationReqDto,
+  ) {
+    await this.usersService.sendEmailVerification(
+      userEmailReqDto.email,
+      userEmailReqDto.password,
+    );
   }
 
   @Public()
@@ -82,7 +93,6 @@ export class UsersController {
     @Request() req: RequestWithUser,
     @Body() userEmailReqDto: UserEmailReqDto,
   ) {
-    // TODO: verify email
     const id = req.user.sub;
     const user = await this.usersService.updateEmail(id, userEmailReqDto.email);
     return this.usersService.toUserDto(user);

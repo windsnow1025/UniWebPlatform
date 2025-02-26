@@ -19,6 +19,16 @@ Content-Type: application/json
   "password": "test"
 }
 
+### Send Email Verification
+
+POST {{baseUrl}}/users/user/email-verification
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "test"
+}
+
 ### Update Email Verified
 
 PUT {{baseUrl}}/users/user/email-verified
