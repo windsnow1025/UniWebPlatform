@@ -68,13 +68,12 @@ export class UsersService {
     user.password = await this.hashPassword(password);
     user.roles = [Role.User];
 
-    const result = await this.usersRepository.save(user);
+    return await this.usersRepository.save(user);
+  }
 
-    // Email Verification
+  async sendEmailVerification(email: string, password: string) {
     await this.firebaseService.createFirebaseUser(email, password);
     await this.firebaseService.sendFirebaseEmailVerification(email, password);
-
-    return result;
   }
 
   async updateEmailVerified(username: string, email: string, password: string) {
@@ -118,6 +117,7 @@ export class UsersService {
     }
 
     user.email = email;
+    user.emailVerified = false;
 
     return await this.usersRepository.save(user);
   }
