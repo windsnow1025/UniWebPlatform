@@ -166,6 +166,20 @@ export default class UserLogic {
     }
   }
 
+  async deleteUser() {
+    try {
+      await this.userService.deleteUser();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+      }
+      console.error(error);
+      throw new Error('Failed to delete user');
+    }
+  }
+
   async deleteUserById(id: number) {
     try {
       await this.userService.deleteUserById(id);
