@@ -22,7 +22,6 @@ export class UsersService {
       id: user.id,
       username: user.username,
       email: user.email,
-      emailVerified: user.emailVerified,
       roles: user.roles,
       credit: user.credit,
     };
@@ -83,6 +82,17 @@ export class UsersService {
     }
 
     user.username = username;
+
+    return await this.usersRepository.save(user);
+  }
+
+  async updateEmail(id: number, email: string) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.email = email;
 
     return await this.usersRepository.save(user);
   }
