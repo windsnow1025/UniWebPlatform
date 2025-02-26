@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Tabs, Tab, CssBaseline} from "@mui/material";
-import AuthSettings from "../../app/components/common/settings/auth/AuthSettings";
+import AuthSettings from "../../app/components/common/settings/AuthSettings";
 import PersonalizationSettings from "../../app/components/common/settings/PersonalizationSettings";
 import DeveloperSettings from "../../app/components/common/settings/DeveloperSettings";
 import AdminSetting from "../../app/components/common/settings/AdminSetting";
