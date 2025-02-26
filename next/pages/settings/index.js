@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Tabs, Tab, CssBaseline} from "@mui/material";
-import AuthSettings from "./AuthSettings";
-import PersonalizationSettings from "./PersonalizationSettings";
-import DeveloperSettings from "./DeveloperSettings";
-import AdminSetting from "./AdminSetting";
+import AuthSettings from "../../app/components/common/settings/AuthSettings";
+import PersonalizationSettings from "../../app/components/common/settings/PersonalizationSettings";
+import DeveloperSettings from "../../app/components/common/settings/DeveloperSettings";
+import AdminSetting from "../../app/components/common/settings/AdminSetting";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 import {ThemeProvider} from "@mui/material/styles";
 import UserLogic from "../../src/common/user/UserLogic";
-import StorageSettings from "./StorageSettings";
+import StorageSettings from "../../app/components/common/settings/StorageSettings";
 
 const Settings = () => {
   const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
