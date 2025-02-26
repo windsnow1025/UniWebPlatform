@@ -6,10 +6,6 @@ import {
   Alert,
   Button,
   CssBaseline,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Paper,
   Snackbar,
   Typography
@@ -17,6 +13,14 @@ import {
 import TextField from "@mui/material/TextField";
 import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
+import { auth } from "../../../src/common/firebase/FirebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  signOut,
+  deleteUser
+} from "firebase/auth";
 
 function SignUp() {
   const {muiTheme} = useThemeHandler();
@@ -30,12 +34,9 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-
-  // Email verification states
-  const [verificationCode, setVerificationCode] = useState('');
-  const [userEnteredCode, setUserEnteredCode] = useState('');
-  const [verificationDialogOpen, setVerificationDialogOpen] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [tempFirebaseUser, setTempFirebaseUser] = useState(null);
 
   const router = useRouter();
   const userLogic = new UserLogic();
@@ -47,17 +48,6 @@ function SignUp() {
   useEffect(() => {
     setPasswordsMatch(password === confirmPassword);
   }, [password, confirmPassword]);
-
-  const generateVerificationCode = () => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-  };
-
-  const sendVerificationEmail = async (email, code) => {
-    setAlertMessage(`For demo purposes: Your verification code is ${code}`);
-    setAlertSeverity('info');
-    setAlertOpen(true);
-    return true;
-  };
 
   const handleSignUp = async () => {
     if (!userLogic.validateUsernameOrPassword(username)) {
@@ -88,54 +78,91 @@ function SignUp() {
       return;
     }
 
-    const code = generateVerificationCode();
-    setVerificationCode(code);
-
     try {
       setIsVerifying(true);
-      const emailSent = await sendVerificationEmail(email, code);
 
-      if (emailSent) {
-        setVerificationDialogOpen(true);
-      } else {
-        throw new Error("Failed to send verification email");
-      }
-    } catch (e) {
-      setAlertMessage(e.message);
-      setAlertSeverity('error');
+      // Create user in Firebase (only for email verification)
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Store the Firebase user temporarily
+      setTempFirebaseUser(user);
+
+      // Send verification email
+      await sendEmailVerification(user);
+      setEmailSent(true);
+
+      setAlertMessage("Verification email sent! Please check your inbox and verify your email to complete registration.");
+      setAlertSeverity('info');
       setAlertOpen(true);
       setIsVerifying(false);
+    } catch (error) {
+      setIsVerifying(false);
+
+      setAlertMessage("Error during sign up: " + error.message);
+      setAlertSeverity('error');
+      setAlertOpen(true);
     }
   };
 
-  const handleVerifyCode = async () => {
-    if (userEnteredCode === verificationCode) {
-      try {
+  const handleResendVerification = async () => {
+    try {
+      if (auth.currentUser) {
+        await sendEmailVerification(auth.currentUser);
+        setAlertMessage("Verification email resent. Please check your inbox.");
+        setAlertSeverity('info');
+        setAlertOpen(true);
+      } else if (tempFirebaseUser) {
+        // Try to sign in first to send verification
+        await signInWithEmailAndPassword(auth, email, password);
+        await sendEmailVerification(auth.currentUser);
+        setAlertMessage("Verification email resent. Please check your inbox.");
+        setAlertSeverity('info');
+        setAlertOpen(true);
+      }
+    } catch (error) {
+      setAlertMessage("Error sending verification email: " + error.message);
+      setAlertSeverity('error');
+      setAlertOpen(true);
+    }
+  };
+
+  const handleCheckVerification = async () => {
+    try {
+      setIsVerifying(true);
+
+      // Sign in to check if email is verified
+      await signInWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+
+      if (user.emailVerified) {
         await userLogic.signUp(username, email, password);
-        setVerificationDialogOpen(false);
+
+        await signOut(auth);
+        await deleteUser(user);
+
         setIsVerifying(false);
+        setEmailSent(false);
+
         setAlertMessage("Sign up successful! Please sign in.");
         setAlertSeverity('success');
         setAlertOpen(true);
+
         setTimeout(() => {
           router.push("/user/state/signin");
         }, 2000);
-      } catch (e) {
-        setAlertMessage(e.message);
-        setAlertSeverity('error');
+      } else {
+        setIsVerifying(false);
+        setAlertMessage("Email not yet verified. Please check your inbox and click the verification link.");
+        setAlertSeverity('warning');
         setAlertOpen(true);
       }
-    } else {
-      setAlertMessage("Incorrect verification code. Please try again.");
+    } catch (error) {
+      setIsVerifying(false);
+      setAlertMessage("Error checking verification: " + error.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }
-  };
-
-  const handleResendCode = () => {
-    const code = generateVerificationCode();
-    setVerificationCode(code);
-    sendVerificationEmail(email, code);
   };
 
   return (
@@ -149,110 +176,119 @@ function SignUp() {
               Create an Account
             </Typography>
 
-            <TextField
-              label="Username"
-              variant="outlined"
-              fullWidth
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              disabled={isVerifying}
-            />
+            {emailSent ? (
+              <>
+                <Typography variant="body1" align="center" gutterBottom>
+                  Verification email sent to {email}
+                </Typography>
+                <Typography variant="body2" align="center" gutterBottom>
+                  Please check your inbox and verify your email to complete registration.
+                </Typography>
+                <Typography variant="body2" align="center" gutterBottom>
+                  After clicking the verification link in your email, click the button below.
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={handleCheckVerification}
+                  size="medium"
+                  fullWidth
+                  disabled={isVerifying}
+                >
+                  {isVerifying ? "Checking..." : "I've Verified My Email"}
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleResendVerification}
+                  size="medium"
+                  fullWidth
+                  disabled={isVerifying}
+                >
+                  Resend Verification Email
+                </Button>
+                <Button
+                  variant="text"
+                  onClick={() => router.push("/user/state/signin")}
+                  size="medium"
+                  fullWidth
+                  disabled={isVerifying}
+                >
+                  Go to Sign In
+                </Button>
+              </>
+            ) : (
+              <>
+                <TextField
+                  label="Username"
+                  variant="outlined"
+                  fullWidth
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  disabled={isVerifying}
+                />
 
-            <TextField
-              label="Email"
-              variant="outlined"
-              fullWidth
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={isVerifying}
-            />
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isVerifying}
+                />
 
-            <TextField
-              label="Password"
-              variant="outlined"
-              fullWidth
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={isVerifying}
-            />
+                <TextField
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isVerifying}
+                />
 
-            <TextField
-              label="Confirm Password"
-              variant="outlined"
-              fullWidth
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              error={!passwordsMatch}
-              helperText={!passwordsMatch ? "Passwords don't match" : ""}
-              disabled={isVerifying}
-            />
+                <TextField
+                  label="Confirm Password"
+                  variant="outlined"
+                  fullWidth
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  error={!passwordsMatch}
+                  helperText={!passwordsMatch ? "Passwords don't match" : ""}
+                  disabled={isVerifying}
+                />
 
-            <Button
-              variant="contained"
-              onClick={handleSignUp}
-              size="large"
-              fullWidth
-              disabled={!passwordsMatch || isVerifying}
-            >
-              {isVerifying ? "Verifying Email..." : "Sign Up"}
-            </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleSignUp}
+                  size="large"
+                  fullWidth
+                  disabled={!passwordsMatch || isVerifying}
+                >
+                  {isVerifying ? "Processing..." : "Sign Up"}
+                </Button>
 
-            <Typography variant="body2" sx={{mt: 2}}>
-              Already have an account?{' '}
-              <Button
-                color="primary"
-                onClick={() => router.push("/user/state/signin")}
-                sx={{p: 0, minWidth: 'auto'}}
-                disabled={isVerifying}
-              >
-                Sign In
-              </Button>
-            </Typography>
+                <Typography variant="body2" sx={{mt: 2}}>
+                  Already have an account?{' '}
+                  <Button
+                    color="primary"
+                    onClick={() => router.push("/user/state/signin")}
+                    sx={{p: 0, minWidth: 'auto'}}
+                    disabled={isVerifying}
+                  >
+                    Sign In
+                  </Button>
+                </Typography>
+              </>
+            )}
           </Paper>
         </div>
       </div>
-
-      {/* Email Verification Dialog */}
-      <Dialog
-        open={verificationDialogOpen}
-        onClose={() => {
-          setVerificationDialogOpen(false);
-          setIsVerifying(false);
-        }}
-      >
-        <DialogTitle>Verify Your Email</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" gutterBottom>
-            Verification code to {email}.
-          </Typography>
-          <TextField
-            label="Verification Code"
-            variant="outlined"
-            fullWidth
-            type="text"
-            value={userEnteredCode}
-            onChange={(e) => setUserEnteredCode(e.target.value)}
-            margin="normal"
-            inputProps={{maxLength: 6}}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleResendCode} color="primary">
-            Resend Code
-          </Button>
-          <Button onClick={handleVerifyCode} color="primary" variant="contained">
-            Verify
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       <Snackbar
         open={alertOpen}
