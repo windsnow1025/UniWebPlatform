@@ -38,7 +38,11 @@ function SignUp() {
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   useEffect(() => {
-    setPasswordsMatch(password === confirmPassword);
+    if (confirmPassword === '' || password === '') {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(password === confirmPassword);
+    }
   }, [password, confirmPassword]);
 
   const handleSignUp = async () => {
