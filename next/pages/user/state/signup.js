@@ -21,6 +21,10 @@ import useThemeHandler from "../../../app/hooks/useThemeHandler";
 function SignUp() {
   const {muiTheme} = useThemeHandler();
 
+  useEffect(() => {
+    document.title = "Sign Up";
+  }, []);
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,7 +59,7 @@ function SignUp() {
     return true;
   };
 
-  const handleInitiateSignUp = async () => {
+  const handleSignUp = async () => {
     if (!userLogic.validateUsernameOrPassword(username)) {
       setAlertMessage("Username invalid. Must be 4-32 ASCII characters.");
       setAlertSeverity('warning');
@@ -193,7 +197,7 @@ function SignUp() {
 
             <Button
               variant="contained"
-              onClick={handleInitiateSignUp}
+              onClick={handleSignUp}
               size="large"
               fullWidth
               disabled={!passwordsMatch || isVerifying}
