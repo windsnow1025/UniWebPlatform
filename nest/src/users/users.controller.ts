@@ -45,11 +45,21 @@ export class UsersController {
   @Public()
   @Post('/user')
   async create(@Body() authDto: UserReqDto) {
-    // TODO: verify email
     const user = await this.usersService.create(
       authDto.username,
       authDto.email,
       authDto.password,
+    );
+    return this.usersService.toUserDto(user);
+  }
+
+  @Public()
+  @Put('/email-verified')
+  async updateEmailVerified(@Body() userReqDto: UserReqDto) {
+    const user = await this.usersService.updateEmailVerified(
+      userReqDto.username,
+      userReqDto.email,
+      userReqDto.password,
     );
     return this.usersService.toUserDto(user);
   }

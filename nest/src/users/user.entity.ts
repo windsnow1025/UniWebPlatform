@@ -22,6 +22,12 @@ export class User extends BaseEntity {
   email: string;
 
   @Column({
+    type: 'boolean',
+    default: false,
+  })
+  emailVerified: boolean;
+
+  @Column({
     type: 'varchar',
     length: 255,
   })
