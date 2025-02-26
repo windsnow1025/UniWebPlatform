@@ -11,7 +11,7 @@ import {
   Typography
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {wait} from "../../../app/utils/Wait";
 

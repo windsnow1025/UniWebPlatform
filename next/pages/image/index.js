@@ -14,7 +14,7 @@ import {
   Slider,
   Snackbar
 } from "@mui/material";
-import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
 import ContentDiv from "../../app/components/message/ContentDiv";
 import ImageClient from "../../src/image/ImageClient";
 
