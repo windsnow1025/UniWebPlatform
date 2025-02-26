@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
-import UserLogic from "../../src/common/user/UserLogic";
-import AccountDiv from "../../app/components/common/user/AccountDiv";
-import SignDiv from "../../app/components/common/user/SignDiv";
-import ConfirmDialog from "../../app/components/common/ConfirmDialog";
+import UserLogic from "../../../../src/common/user/UserLogic";
+import AccountDiv from "../user/AccountDiv";
+import SignDiv from "../user/SignDiv";
+import ConfirmDialog from "../ConfirmDialog";
 
 const AuthSettings = () => {
   const userLogic = new UserLogic();
