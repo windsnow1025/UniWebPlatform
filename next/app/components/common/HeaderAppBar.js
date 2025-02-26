@@ -6,7 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Link from 'next/link';
 import useScreenSize from "../../hooks/useScreenSize";
 import UserLogic from "../../../src/common/user/UserLogic";
-import SignDiv from "./user/SignDiv";
+import SignDiv from "./settings/auth/signed-out/SignDiv";
 import AnnouncementSnackbar from "./AnnouncementSnackbar";
 
 const HeaderAppBar = ({
