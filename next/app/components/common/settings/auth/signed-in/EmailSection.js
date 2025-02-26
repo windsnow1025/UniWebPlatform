@@ -5,6 +5,7 @@ import { Alert, Button, Snackbar, Typography } from "@mui/material";
 
 function EmailSection() {
   const [email, setEmail] = useState('');
+  const [emailVerified, setEmailVerified] = useState(false);
   const [newEmail, setNewEmail] = useState('');
   const [emailVerificationPassword, setEmailVerificationPassword] = useState('');
   const [emailVerificationSent, setEmailVerificationSent] = useState(false);
@@ -19,10 +20,11 @@ function EmailSection() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userData = await userLogic.fetchUser();
-        if (userData) {
-          setEmail(userData.email);
-          setNewEmail(userData.email);
+        const user = await userLogic.fetchUser();
+        if (user) {
+          setEmail(user.email);
+          setEmailVerified(user.emailVerified);
+          setNewEmail(user.email);
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -139,9 +141,9 @@ function EmailSection() {
             color="primary"
             onClick={handleUpdateEmail}
             fullWidth
-            disabled={isProcessing || !emailVerificationPassword || newEmail === email}
+            disabled={isProcessing || (email === newEmail && emailVerified)}
           >
-            {isProcessing ? "Processing..." : "Update Email"}
+            {emailVerified ? "Update Email" : "Verify Email"}
           </Button>
         </>
       )}
