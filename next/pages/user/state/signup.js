@@ -144,13 +144,13 @@ function SignUp() {
         setIsVerifying(false);
         setEmailSent(false);
 
-        setAlertMessage("Sign up successful! Please sign in.");
+        setAlertMessage("Sign up successful! Redirecting to sign in page...");
         setAlertSeverity('success');
         setAlertOpen(true);
 
         setTimeout(() => {
           router.push("/user/state/signin");
-        }, 2000);
+        }, 1000);
       } else {
         setIsVerifying(false);
         setAlertMessage("Email not yet verified. Please check your inbox and click the verification link.");
@@ -204,15 +204,6 @@ function SignUp() {
                   disabled={isVerifying}
                 >
                   Resend Verification Email
-                </Button>
-                <Button
-                  variant="text"
-                  onClick={() => router.push("/user/state/signin")}
-                  size="medium"
-                  fullWidth
-                  disabled={isVerifying}
-                >
-                  Go to Sign In
                 </Button>
               </>
             ) : (
