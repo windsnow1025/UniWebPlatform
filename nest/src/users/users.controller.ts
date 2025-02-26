@@ -21,6 +21,7 @@ import {
   UserReqDto,
   UserUsernameReqDto,
 } from './dto/user.req.dto';
+import { AllowUnverifiedEmail } from '../common/decorators/allow-unverified-email.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -32,6 +33,7 @@ export class UsersController {
     return users.map((user) => this.usersService.toUserDto(user));
   }
 
+  @AllowUnverifiedEmail()
   @Get('/user')
   async findOne(@Request() req: RequestWithUser) {
     const id = req.user.sub;
