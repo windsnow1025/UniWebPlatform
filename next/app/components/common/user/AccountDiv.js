@@ -32,7 +32,6 @@ function AccountDiv() {
     fetchUserData();
   }, []);
 
-  // Check if passwords match whenever either password field changes
   useEffect(() => {
     if (confirmPassword === '' || password === '') {
       setPasswordsMatch(true);
@@ -188,14 +187,8 @@ function AccountDiv() {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert
-          onClose={() => setAlertOpen(false)}
-          severity={alertSeverity}
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>
