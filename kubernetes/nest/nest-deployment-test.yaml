@@ -17,6 +17,7 @@ spec:
       containers:
         - name: nest
           image: windsnow1025/nest:test
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
