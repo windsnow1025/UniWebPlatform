@@ -69,9 +69,8 @@ export class UsersController {
 
   @Public()
   @Put('/user/email-verified')
-  async updateEmailVerified(@Body() userReqDto: UserReqDto) {
+  async updateEmailVerified(@Body() userReqDto: UserEmailVerificationReqDto) {
     const user = await this.usersService.updateEmailVerified(
-      userReqDto.username,
       userReqDto.email,
       userReqDto.password,
     );
