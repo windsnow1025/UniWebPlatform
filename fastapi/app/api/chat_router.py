@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 import app.logic.auth as auth
 import app.logic.chat.util.model_pricing as pricing
-import app.repository.user_dao as user_dao
+import app.repository.user_repository as user_dao
 from app.logic.chat.chat_service import handle_chat_interaction
 from app.repository.db_connection import SessionDep
 from llm_bridge import Message
@@ -27,7 +27,10 @@ async def generate(chat_request: ChatRequest, request: Request, session: Session
         authorization_header = request.headers.get("Authorization")
         username = auth.get_username_from_token(authorization_header)
 
-        if await user_dao.select_credit(username, session) <= 0:
+        user = await user_dao.select_user(username, session)
+        if not user.email_verified:
+            raise HTTPException(status_code=401)
+        if user.credit <= 0:
             raise HTTPException(status_code=402)
 
         return await handle_chat_interaction(
