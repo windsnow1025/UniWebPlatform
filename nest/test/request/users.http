@@ -15,21 +15,61 @@ Content-Type: application/json
 
 {
   "username": "test",
+  "email": "test@test.com",
   "password": "test"
 }
 
-### Update User Credentials
+### Send Email Verification
 
-PUT {{baseUrl}}/users/user/credentials
+POST {{baseUrl}}/users/user/email-verification
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "test"
+}
+
+### Update Email Verified
+
+PUT {{baseUrl}}/users/user/email-verified
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "test"
+}
+
+### Update Email
+
+PUT {{baseUrl}}/users/user/email
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "username": "test",
+  "email": "test@test.com"
+}
+
+### Update Username
+
+PUT {{baseUrl}}/users/user/username
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "test"
+}
+
+### Update Password
+
+PUT {{baseUrl}}/users/user/password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
   "password": "test"
 }
 
-### Update User Privileges
+### Admin: Update User Privileges
 
 PUT {{baseUrl}}/users/user/privileges
 Authorization: Bearer {{token}}
@@ -46,7 +86,7 @@ Content-Type: application/json
 DELETE {{baseUrl}}/users/user
 Authorization: Bearer {{token}}
 
-### Delete User
+### Admin: Delete User
 
 DELETE {{baseUrl}}/users/user/2
 Authorization: Bearer {{token}}
