@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {TextField, Button} from "@mui/material";
-import {defaultAPIBaseURLs} from "../../src/common/APIConfig";
+import {defaultAPIBaseURLs} from "../../../../src/common/APIConfig";
 
 const DeveloperSettings = () => {
   const [apiBaseURLs, setApiBaseURLs] = useState(defaultAPIBaseURLs);

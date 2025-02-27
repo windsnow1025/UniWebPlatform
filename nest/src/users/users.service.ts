@@ -2,40 +2,45 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
-import { PublicUserResDto } from './dto/public-user.res.dto';
-import { PrivateUserResDto } from './dto/private-user.res.dto';
+import { UserResDto } from './dto/user.res.dto';
+import { FirebaseService } from './firebase.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private readonly firebaseService: FirebaseService,
   ) {}
 
-  public toPublicUserDto(user: User) {
-    const userDto: PublicUserResDto = {
+  public toUserDto(user: User) {
+    const userDto: UserResDto = {
       id: user.id,
       username: user.username,
+      email: user.email,
+      emailVerified: user.emailVerified,
       roles: user.roles,
       credit: user.credit,
     };
     return userDto;
   }
 
-  public toPrivateUserDto(user: User) {
-    const privateUserDto: PrivateUserResDto = {
-      id: user.id,
-      username: user.username,
-      roles: user.roles,
-      credit: user.credit,
-    };
-    return privateUserDto;
+  public async verifyPassword(user: User, password: string) {
+    const hash = user.password;
+    return await bcrypt.compare(password, hash);
+  }
+
+  private async hashPassword(password: string) {
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(password, salt);
+    return hash;
   }
 
   find() {
@@ -50,43 +55,95 @@ export class UsersService {
     return this.usersRepository.findOneBy({ username });
   }
 
-  async create(username: string, password: string) {
-    if (await this.findOneByUsername(username)) {
+  findOneByEmail(email: string) {
+    return this.usersRepository.findOneBy({ email });
+  }
+
+  async create(username: string, email: string, password: string) {
+    if (
+      (await this.findOneByUsername(username)) ||
+      (await this.findOneByEmail(email))
+    ) {
       throw new ConflictException();
     }
 
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(password, salt);
-
     const user = new User();
     user.username = username;
-    user.password = hash;
+    user.email = email;
+    user.password = await this.hashPassword(password);
     user.roles = [Role.User];
 
     return await this.usersRepository.save(user);
   }
 
-  async updateCredentials(
-    currentUsername: string,
-    newUsername: string,
-    password: string,
-  ) {
-    const user = await this.findOneByUsername(currentUsername);
+  async sendEmailVerification(email: string, password: string) {
+    try {
+      await this.firebaseService.createFirebaseUser(email, password);
+    } catch {}
+    await this.firebaseService.sendFirebaseEmailVerification(email, password);
+  }
+
+  async updateEmailVerified(email: string, password: string) {
+    if (!(await this.firebaseService.checkEmailVerified(email, password))) {
+      throw new UnauthorizedException('Email not verified');
+    }
+
+    const user = await this.findOneByEmail(email);
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    if (currentUsername !== newUsername) {
-      if (await this.findOneByUsername(newUsername)) {
-        throw new ConflictException();
-      }
-      user.username = newUsername;
+    user.emailVerified = true;
+
+    return await this.usersRepository.save(user);
+  }
+
+  async updateEmail(id: number, email: string) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
 
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(password, salt);
+    if (user.email === email) {
+      return user;
+    }
 
-    user.password = hash;
+    if (await this.findOneByEmail(email)) {
+      throw new ConflictException();
+    }
+
+    user.email = email;
+    user.emailVerified = false;
+
+    return await this.usersRepository.save(user);
+  }
+
+  async updateUsername(id: number, username: string) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (user.username === username) {
+      return user;
+    }
+
+    if (await this.findOneByUsername(username)) {
+      throw new ConflictException();
+    }
+
+    user.username = username;
+
+    return await this.usersRepository.save(user);
+  }
+
+  async updatePassword(id: number, password: string) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.password = await this.hashPassword(password);
 
     return await this.usersRepository.save(user);
   }
