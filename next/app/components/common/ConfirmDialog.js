@@ -10,7 +10,7 @@ export default function ConfirmDialog({open, onClose, title, content}) {
   return (
     <Dialog
       open={open}
-      onClose={() => onClose(false)}
+      // onClose={() => onClose(false)}
       aria-labelledby="confirm-dialog-title"
       aria-describedby="confirm-dialog-description"
     >
