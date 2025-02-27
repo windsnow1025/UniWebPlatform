@@ -9,7 +9,8 @@ function EmailSection() {
   const [newEmail, setNewEmail] = useState('');
   const [emailVerificationPassword, setEmailVerificationPassword] = useState('');
   const [emailVerificationSent, setEmailVerificationSent] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isSendingVerification, setIsSendingVerification] = useState(false);
+  const [isCheckingVerification, setIsCheckingVerification] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -58,7 +59,7 @@ function EmailSection() {
     }
 
     try {
-      setIsProcessing(true);
+      setIsSendingVerification(true);
 
       await userLogic.updateEmail(newEmail);
       await userLogic.sendEmailVerification(newEmail, emailVerificationPassword);
@@ -69,7 +70,7 @@ function EmailSection() {
     } catch (e) {
       showAlert(e.message, 'error');
     } finally {
-      setIsProcessing(false);
+      setIsSendingVerification(false);
     }
   };
 
@@ -80,20 +81,20 @@ function EmailSection() {
     }
 
     try {
-      setIsProcessing(true);
+      setIsSendingVerification(true);
       await userLogic.sendEmailVerification(newEmail, emailVerificationPassword);
       setResendCooldown(60);
       showAlert("Verification email resent. Please check your inbox.", 'info');
     } catch (e) {
       showAlert(e.message, 'error');
     } finally {
-      setIsProcessing(false);
+      setIsSendingVerification(false);
     }
   };
 
   const handleCheckVerification = async () => {
     try {
-      setIsProcessing(true);
+      setIsCheckingVerification(true);
       await userLogic.updateEmailVerification(newEmail, emailVerificationPassword);
       fetchUserData();
       setEmailVerificationSent(false);
@@ -101,9 +102,11 @@ function EmailSection() {
     } catch (e) {
       showAlert(e.message, 'error');
     } finally {
-      setIsProcessing(false);
+      setIsCheckingVerification(false);
     }
   };
+
+  const isProcessing = isSendingVerification || isCheckingVerification;
 
   return (
     <div className="flex flex-col gap-2">
@@ -122,7 +125,7 @@ function EmailSection() {
             fullWidth
             disabled={isProcessing || !emailVerificationPassword}
           >
-            {isProcessing ? "Checking..." : "I've Verified My Email"}
+            {isCheckingVerification ? "Checking..." : "I've Verified My Email"}
           </Button>
           <Button
             variant="outlined"
@@ -163,7 +166,7 @@ function EmailSection() {
             fullWidth
             disabled={isProcessing || (email === newEmail && emailVerified)}
           >
-            {emailVerified ? "Update Email" : "Verify Email"}
+            {isSendingVerification ? "Sending Verification..." : (emailVerified ? "Update Email" : "Verify Email")}
           </Button>
         </>
       )}
