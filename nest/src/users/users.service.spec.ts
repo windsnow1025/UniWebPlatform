@@ -4,15 +4,23 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Role } from '../common/enums/role.enum';
+import { FirebaseService } from './firebase.service';
 
 describe('UsersService', () => {
   let usersService: UsersService;
   let mockRepository: Partial<Repository<User>>;
+  let mockFirebaseService: Partial<FirebaseService>;
 
   beforeEach(async () => {
     mockRepository = {
       findOneBy: jest.fn(),
       save: jest.fn(),
+    };
+
+    mockFirebaseService = {
+      createFirebaseUser: jest.fn(),
+      sendFirebaseEmailVerification: jest.fn(),
+      checkEmailVerified: jest.fn(),
     };
 
     const moduleRef = await Test.createTestingModule({
@@ -21,6 +29,10 @@ describe('UsersService', () => {
         {
           provide: getRepositoryToken(User),
           useValue: mockRepository,
+        },
+        {
+          provide: FirebaseService,
+          useValue: mockFirebaseService,
         },
       ],
     }).compile();
@@ -36,14 +48,15 @@ describe('UsersService', () => {
         return Object.assign(new User(), user);
       });
 
-      const username = 'test-user';
-      const password = 'test-password';
+      const username = 'test';
+      const email = 'test@test.com';
+      const password = 'test';
 
-      const user = await usersService.create(username, password);
+      const user = await usersService.create(username, email, password);
 
       expect(user).toEqual(
         expect.objectContaining({
-          username: 'test-user',
+          username: 'test',
           roles: [Role.User],
         }),
       );
