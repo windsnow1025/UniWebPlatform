@@ -15,7 +15,9 @@ const AnnouncementSnackbar = () => {
     const fetchAnnouncement = async () => {
       try {
         const announcement = await announcementLogic.fetchAnnouncement();
-        if (announcement.content) {
+
+        if (announcement.content !== "" && announcement.content !== "\n") {
+          console.log(announcement.content)
           setAlertMessage(announcement.content);
           setAlertOpen(true);
         }
