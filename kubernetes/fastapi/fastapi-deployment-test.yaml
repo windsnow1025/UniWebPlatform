@@ -17,6 +17,7 @@ spec:
       containers:
         - name: fastapi
           image: windsnow1025/fastapi:test
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
