@@ -21,7 +21,7 @@ async def generate(chat_request: ImageGenRequest, request: Request, session: Ses
     authorization_header = request.headers.get("Authorization")
     username = auth.get_username_from_token(authorization_header)
 
-    if await user_dao.select_credit(username, session) <= 0:
+    if await user_repository.select_credit(username, session) <= 0:
         raise HTTPException(status_code=402)
 
     return await handle_image_gen_interaction(

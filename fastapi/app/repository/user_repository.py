@@ -2,16 +2,16 @@ from fastapi import HTTPException
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.repository.user import User
+from app.repository.user_entity import User
 
 
-async def select_credit(username: str, session: AsyncSession) -> float:
+async def select_user(username: str, session: AsyncSession) -> User:
     statement = select(User).where(User.username == username)
     result = await session.exec(statement)
     user = result.first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    return user.credit
+    return user
 
 async def reduce_credit(username: str, cost: float, session: AsyncSession) -> float:
     statement = select(User).where(User.username == username)
