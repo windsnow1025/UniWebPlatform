@@ -29,6 +29,7 @@ function SignUp() {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isSendingVerification, setIsSendingVerification] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   const router = useRouter();
   const userLogic = new UserLogic();
@@ -44,6 +45,17 @@ function SignUp() {
       setPasswordsMatch(password === confirmPassword);
     }
   }, [password, confirmPassword]);
+
+  // Countdown timer for resend cooldown
+  useEffect(() => {
+    let timer;
+    if (resendCooldown > 0) {
+      timer = setTimeout(() => {
+        setResendCooldown(resendCooldown - 1);
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [resendCooldown]);
 
   const handleSignUp = async () => {
     if (!userLogic.validateUsernameOrPassword(username)) {
@@ -81,6 +93,7 @@ function SignUp() {
       await userLogic.sendEmailVerification(email, password);
 
       setEmailSent(true);
+      setResendCooldown(60);
 
       setAlertMessage("Verification email sent! Please check your inbox and verify your email to complete registration.");
       setAlertSeverity('info');
@@ -95,8 +108,17 @@ function SignUp() {
   };
 
   const handleResendVerification = async () => {
+    if (resendCooldown > 0) {
+      setAlertMessage(`Please wait ${resendCooldown} seconds before requesting another email.`);
+      setAlertSeverity('warning');
+      setAlertOpen(true);
+      return;
+    }
+
     try {
+      setIsSendingVerification(true);
       await userLogic.sendEmailVerification(email, password);
+      setResendCooldown(60);
       setAlertMessage("Verification email resent. Please check your inbox.");
       setAlertSeverity('info');
       setAlertOpen(true);
@@ -104,6 +126,8 @@ function SignUp() {
       setAlertMessage("Error sending verification email: " + error.message);
       setAlertSeverity('error');
       setAlertOpen(true);
+    } finally {
+      setIsSendingVerification(false);
     }
   };
 
@@ -163,9 +187,11 @@ function SignUp() {
                   onClick={handleResendVerification}
                   size="medium"
                   fullWidth
-                  disabled={isSendingVerification}
+                  disabled={isSendingVerification || resendCooldown > 0}
                 >
-                  Resend Verification Email
+                  {resendCooldown > 0
+                    ? `Resend Available in ${resendCooldown}s`
+                    : "Resend Verification Email"}
                 </Button>
               </>
             ) : (
