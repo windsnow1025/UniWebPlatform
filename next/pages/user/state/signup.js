@@ -28,6 +28,7 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isSendingVerification, setIsSendingVerification] = useState(false);
+  const [isCheckingVerification, setIsCheckingVerification] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
 
@@ -133,11 +134,10 @@ function SignUp() {
 
   const handleCheckVerification = async () => {
     try {
-      setIsSendingVerification(true);
+      setIsCheckingVerification(true);
 
       await userLogic.updateEmailVerification(email, password);
 
-      setIsSendingVerification(false);
       setEmailSent(false);
 
       setAlertMessage("Sign up successful! Redirecting to sign in page...");
@@ -147,12 +147,15 @@ function SignUp() {
       await wait(1);
       router.push("/user/state/signin");
     } catch (error) {
-      setIsSendingVerification(false);
       setAlertMessage("Error checking verification: " + error.message);
       setAlertSeverity('error');
       setAlertOpen(true);
+    } finally {
+      setIsCheckingVerification(false);
     }
   };
+
+  const isProcessing = isSendingVerification || isCheckingVerification;
 
   return (
     <ThemeProvider theme={muiTheme}>
@@ -178,16 +181,16 @@ function SignUp() {
                   onClick={handleCheckVerification}
                   size="medium"
                   fullWidth
-                  disabled={isSendingVerification}
+                  disabled={isProcessing}
                 >
-                  {isSendingVerification ? "Checking..." : "I've Verified My Email"}
+                  {isCheckingVerification ? "Checking..." : "I've Verified My Email"}
                 </Button>
                 <Button
                   variant="outlined"
                   onClick={handleResendVerification}
                   size="medium"
                   fullWidth
-                  disabled={isSendingVerification || resendCooldown > 0}
+                  disabled={isProcessing || resendCooldown > 0}
                 >
                   {resendCooldown > 0
                     ? `Resend Available in ${resendCooldown}s`
@@ -204,7 +207,7 @@ function SignUp() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
-                  disabled={isSendingVerification}
+                  disabled={isProcessing}
                 />
 
                 <TextField
@@ -215,7 +218,7 @@ function SignUp() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  disabled={isSendingVerification}
+                  disabled={isProcessing}
                 />
 
                 <TextField
@@ -226,7 +229,7 @@ function SignUp() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  disabled={isSendingVerification}
+                  disabled={isProcessing}
                 />
 
                 <TextField
@@ -239,7 +242,7 @@ function SignUp() {
                   required
                   error={!passwordsMatch}
                   helperText={!passwordsMatch ? "Passwords don't match" : ""}
-                  disabled={isSendingVerification}
+                  disabled={isProcessing}
                 />
 
                 <Button
@@ -247,7 +250,7 @@ function SignUp() {
                   onClick={handleSignUp}
                   size="large"
                   fullWidth
-                  disabled={!passwordsMatch || isSendingVerification}
+                  disabled={!passwordsMatch || isProcessing}
                 >
                   {isSendingVerification ? "Processing..." : "Sign Up"}
                 </Button>
@@ -258,7 +261,7 @@ function SignUp() {
                     color="primary"
                     onClick={() => router.push("/user/state/signin")}
                     sx={{p: 0, minWidth: 'auto'}}
-                    disabled={isSendingVerification}
+                    disabled={isProcessing}
                   >
                     Sign In
                   </Button>
