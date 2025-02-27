@@ -75,4 +75,40 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: JWT_SECRET
+            - name: FIREBASE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FIREBASE_API_KEY
+            - name: FIREBASE_AUTH_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FIREBASE_AUTH_DOMAIN
+            - name: FIREBASE_PROJECT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FIREBASE_PROJECT_ID
+            - name: FIREBASE_STORAGE_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FIREBASE_STORAGE_BUCKET
+            - name: FIREBASE_MESSAGING_SENDER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FIREBASE_MESSAGING_SENDER_ID
+            - name: FIREBASE_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FIREBASE_APP_ID
+            - name: FIREBASE_MEASUREMENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FIREBASE_MEASUREMENT_ID
+
   revisionHistoryLimit: 0
