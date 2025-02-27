@@ -111,7 +111,7 @@ function SignUp() {
     try {
       setIsSendingVerification(true);
 
-      await userLogic.updateEmailVerification(username, email, password);
+      await userLogic.updateEmailVerification(email, password);
 
       setIsSendingVerification(false);
       setEmailSent(false);

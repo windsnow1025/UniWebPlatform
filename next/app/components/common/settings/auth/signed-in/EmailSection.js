@@ -17,20 +17,20 @@ function EmailSection() {
 
   const userLogic = new UserLogic();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const user = await userLogic.fetchUser();
-        if (user) {
-          setEmail(user.email);
-          setEmailVerified(user.emailVerified);
-          setNewEmail(user.email);
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
+  const fetchUserData = async () => {
+    try {
+      const user = await userLogic.fetchUser();
+      if (user) {
+        setEmail(user.email);
+        setEmailVerified(user.emailVerified);
+        setNewEmail(user.email);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchUserData();
   }, []);
 
@@ -76,8 +76,8 @@ function EmailSection() {
   const handleCheckVerification = async () => {
     try {
       setIsProcessing(true);
-      const userData = await userLogic.fetchUser();
-      await userLogic.updateEmailVerification(userData.username, newEmail, emailVerificationPassword);
+      await userLogic.updateEmailVerification(newEmail, emailVerificationPassword);
+      fetchUserData();
       setEmailVerificationSent(false);
       showAlert("Email updated and verified successfully!", 'success');
     } catch (e) {
