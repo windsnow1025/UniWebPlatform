@@ -1,29 +1,44 @@
-import React, {useState} from 'react';
-import {useRouter} from "next/router";
+import React, {useEffect} from 'react';
+import { useRouter } from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
-import {ThemeProvider} from "@mui/material/styles";
-import {Alert, Button, CssBaseline, Snackbar} from "@mui/material";
-import TextField from "@mui/material/TextField";
-import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline, Snackbar, Alert } from "@mui/material";
+import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
+import { AppProvider } from '@toolpad/core/AppProvider';
+import { SignInPage } from '@toolpad/core/SignInPage';
+import {wait} from "../../../app/utils/Wait";
 
 function SignIn() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const { muiTheme } = useThemeHandler();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  useEffect(() => {
+    document.title = "Sign Up";
+  }, []);
 
   const router = useRouter();
   const userLogic = new UserLogic();
 
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('info');
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertSeverity, setAlertSeverity] = React.useState('info');
 
-  const handleSignIn = async () => {
+  const providers = [{ id: 'credentials', name: 'Email and Password' }];
+
+  const handleSignIn = async (provider, formData) => {
     try {
-      await userLogic.signIn(username, password)
+      const email = formData.get('email');
+      const password = formData.get('password');
+
+      await userLogic.signIn(email, password);
+
+      setAlertMessage("Signed in success. Redirecting...");
+      setAlertSeverity('success');
+      setAlertOpen(true);
+
       const prevUrl = localStorage.getItem('prevUrl') || "/";
+
+      await wait(1);
       router.push(prevUrl);
     } catch (e) {
       setAlertMessage(e.message);
@@ -34,35 +49,19 @@ function SignIn() {
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
+      <CssBaseline enableColorScheme />
       <div className="local-scroll-root">
-        <HeaderAppBar title={"Sign In"} useSignDiv={false}/>
-        <div className="local-scroll-scrollable flex-center">
-          <div className="text-center">
-            <div className="m-2">
-              <TextField
-                label="Username"
-                variant="outlined"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="mt-2"
-              />
-            </div>
-            <div className="m-2">
-              <TextField
-                label="Password"
-                variant="outlined"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-2"
-              />
-            </div>
-            <div className="m-2">
-              <Button variant="contained" onClick={handleSignIn}>Sign In</Button>
-            </div>
-          </div>
+        <HeaderAppBar title={"Sign In"} useSignDiv={false} />
+        <div className="local-scroll-scrollable">
+          <AppProvider theme={muiTheme}>
+            <SignInPage
+              signIn={handleSignIn}
+              providers={providers}
+              slotProps={{
+                emailField: { autoFocus: false },
+              }}
+            />
+          </AppProvider>
         </div>
       </div>
       <Snackbar
@@ -70,7 +69,7 @@ function SignIn() {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
           {alertMessage}
         </Alert>
       </Snackbar>

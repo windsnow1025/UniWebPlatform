@@ -31,44 +31,45 @@ export default class UserLogic {
     }
   }
 
-  async fetchId() {
+  async fetchUser() {
     if (!localStorage.getItem('token')) {
       return null;
     }
     try {
-      const user = await this.userService.fetchUser();
-      return user.id;
+      return await this.userService.fetchUser();
     } catch (err) {
+      if (axios.isAxiosError(err)) {
+        if (err.response && err.response.status !== 500) {
+          localStorage.removeItem('token');
+        }
+      }
       localStorage.removeItem('token');
       return null;
     }
   }
 
   async fetchUsername() {
-    if (!localStorage.getItem('token')) {
+    const user = await this.fetchUser();
+    if (!user) {
       return null;
     }
-    try {
-      const user = await this.userService.fetchUser();
-      return user.username;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response && error.response.status !== 0) {
-          localStorage.removeItem('token');
-        }
-      }
-      console.error(error);
+    return user.username;
+  }
+
+  async fetchEmailVerified() {
+    const user = await this.fetchUser();
+    if (!user) {
       return null;
     }
+    return user.emailVerified;
   }
 
   async fetchCredit() {
-    try {
-      const user = await this.userService.fetchUser();
-      return user.credit;
-    } catch (err) {
-      console.error(err);
+    const user = await this.fetchUser();
+    if (!user) {
+      return null;
     }
+    return user.credit;
   }
 
   async isAdmin(): Promise<boolean> {
@@ -96,13 +97,13 @@ export default class UserLogic {
     }
   }
 
-  async signUp(username: string, password: string) {
+  async signUp(username: string, email: string, password: string) {
     try {
-      await this.userService.createUser(username, password);
+      await this.userService.createUser(username, email, password);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
-          throw new Error('Username already exists');
+          throw new Error('Username or Password already exists');
         }
       }
       console.error(error);
@@ -110,9 +111,46 @@ export default class UserLogic {
     }
   }
 
-  async updateUserCredentials(username: string, password: string) {
+  async sendEmailVerification(email: string, password: string) {
     try {
-      await this.userService.updateUserCredentials(username, password);
+      await this.userService.sendEmailVerification(email, password);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Send email verification failed');
+    }
+  }
+
+  async updateEmailVerification(email: string, password: string) {
+    try {
+      await this.userService.updateEmailVerified(email, password);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Email not verified');
+        }
+      }
+      console.error(error);
+      throw new Error('Update email verification failed');
+    }
+  }
+
+  async updateEmail(email: string) {
+    try {
+      await this.userService.updateEmail(email);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 409) {
+          throw new Error('Email already exists');
+        }
+      }
+      console.error(error);
+      throw new Error('Update email failed');
+    }
+  }
+
+  async updateUsername(username: string) {
+    try {
+      await this.userService.updateUsername(username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
@@ -120,7 +158,16 @@ export default class UserLogic {
         }
       }
       console.error(error);
-      throw new Error('Update user failed');
+      throw new Error('Update username failed');
+    }
+  }
+
+  async updatePassword(password: string) {
+    try {
+      await this.userService.updatePassword(password);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Update password failed');
     }
   }
 
@@ -144,6 +191,20 @@ export default class UserLogic {
     }
   }
 
+  async deleteUser() {
+    try {
+      await this.userService.deleteUser();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+      }
+      console.error(error);
+      throw new Error('Failed to delete user');
+    }
+  }
+
   async deleteUserById(id: number) {
     try {
       await this.userService.deleteUserById(id);
@@ -161,8 +222,13 @@ export default class UserLogic {
     }
   }
 
-  validateInput(input: string) {
+  validateUsernameOrPassword(input: string) {
     const asciiRegex = /^[\x21-\x7E]{4,32}$/;
     return asciiRegex.test(input);
+  }
+
+  validateEmail(email: string) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 }

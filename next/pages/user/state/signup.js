@@ -1,18 +1,34 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {Alert, Button, CssBaseline, Snackbar} from "@mui/material";
+import {
+  Alert,
+  Button,
+  CssBaseline,
+  Paper,
+  Snackbar,
+  Typography
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
+import {wait} from "../../../app/utils/Wait";
 
 function SignUp() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {muiTheme} = useThemeHandler();
+
+  useEffect(() => {
+    document.title = "Sign Up";
+  }, []);
 
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [isSendingVerification, setIsSendingVerification] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   const router = useRouter();
   const userLogic = new UserLogic();
@@ -21,36 +37,94 @@ function SignUp() {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
+  useEffect(() => {
+    if (confirmPassword === '' || password === '') {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(password === confirmPassword);
+    }
+  }, [password, confirmPassword]);
+
   const handleSignUp = async () => {
-    if (!userLogic.validateInput(username)) {
-      setAlertMessage("Username invalid.");
+    if (!userLogic.validateUsernameOrPassword(username)) {
+      setAlertMessage("Username invalid. Must be 4-32 ASCII characters.");
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
 
-    if (!userLogic.validateInput(password)) {
-      setAlertMessage("Password invalid.");
+    if (!userLogic.validateEmail(email)) {
+      setAlertMessage("Please enter a valid email address.");
+      setAlertSeverity('warning');
+      setAlertOpen(true);
+      return;
+    }
+
+    if (!userLogic.validateUsernameOrPassword(password)) {
+      setAlertMessage("Password invalid. Must be 4-32 ASCII characters.");
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
 
     if (password !== confirmPassword) {
-      setAlertMessage("Confirm Passwords do not match.");
+      setAlertMessage("Passwords do not match.");
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
 
     try {
-      await userLogic.signUp(username, password);
-      setAlertMessage("Sign up success");
+      setIsSendingVerification(true);
+
+      await userLogic.signUp(username, email, password);
+      await userLogic.sendEmailVerification(email, password);
+
+      setEmailSent(true);
+
+      setAlertMessage("Verification email sent! Please check your inbox and verify your email to complete registration.");
+      setAlertSeverity('info');
+      setAlertOpen(true);
+    } catch (error) {
+      setAlertMessage("Error during sign up: " + error.message);
+      setAlertSeverity('error');
+      setAlertOpen(true);
+    } finally {
+      setIsSendingVerification(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    try {
+      await userLogic.sendEmailVerification(email, password);
+      setAlertMessage("Verification email resent. Please check your inbox.");
+      setAlertSeverity('info');
+      setAlertOpen(true);
+    } catch (error) {
+      setAlertMessage("Error sending verification email: " + error.message);
+      setAlertSeverity('error');
+      setAlertOpen(true);
+    }
+  };
+
+  const handleCheckVerification = async () => {
+    try {
+      setIsSendingVerification(true);
+
+      await userLogic.updateEmailVerification(email, password);
+
+      setIsSendingVerification(false);
+      setEmailSent(false);
+
+      setAlertMessage("Sign up successful! Redirecting to sign in page...");
       setAlertSeverity('success');
       setAlertOpen(true);
+
+      await wait(1);
       router.push("/user/state/signin");
-    } catch (e) {
-      setAlertMessage(e.message);
+    } catch (error) {
+      setIsSendingVerification(false);
+      setAlertMessage("Error checking verification: " + error.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }
@@ -62,43 +136,113 @@ function SignUp() {
       <div className="local-scroll-root">
         <HeaderAppBar title="Sign Up" useSignDiv={false}/>
         <div className="local-scroll-scrollable flex-center">
-          <div className="text-center">
-            <div className="m-2">
-              <TextField
-                label="Username"
-                variant="outlined"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="mt-2"
-              />
-            </div>
-            <div className="m-2">
-              <TextField
-                label="Password"
-                variant="outlined"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-2"
-              />
-            </div>
-            <div className="m-2">
-              <TextField
-                label="ConfirmPassword"
-                variant="outlined"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-2"
-              />
-            </div>
-            <div className="m-2">
-              <Button variant="contained" onClick={handleSignUp}>Sign Up</Button>
-            </div>
-          </div>
+          <Paper elevation={3} className="flex-center p-6 max-w-md space-y-4">
+            <Typography variant="h5" align="center" gutterBottom>
+              Create an Account
+            </Typography>
+
+            {emailSent ? (
+              <>
+                <Typography variant="body1" align="center" gutterBottom>
+                  Verification email sent to {email}
+                </Typography>
+                <Typography variant="body2" align="center" gutterBottom>
+                  Please check your inbox and verify your email to complete registration.
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={handleCheckVerification}
+                  size="medium"
+                  fullWidth
+                  disabled={isSendingVerification}
+                >
+                  {isSendingVerification ? "Checking..." : "I've Verified My Email"}
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleResendVerification}
+                  size="medium"
+                  fullWidth
+                  disabled={isSendingVerification}
+                >
+                  Resend Verification Email
+                </Button>
+              </>
+            ) : (
+              <>
+                <TextField
+                  label="Username"
+                  variant="outlined"
+                  fullWidth
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  disabled={isSendingVerification}
+                />
+
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isSendingVerification}
+                />
+
+                <TextField
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isSendingVerification}
+                />
+
+                <TextField
+                  label="Confirm Password"
+                  variant="outlined"
+                  fullWidth
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  error={!passwordsMatch}
+                  helperText={!passwordsMatch ? "Passwords don't match" : ""}
+                  disabled={isSendingVerification}
+                />
+
+                <Button
+                  variant="contained"
+                  onClick={handleSignUp}
+                  size="large"
+                  fullWidth
+                  disabled={!passwordsMatch || isSendingVerification}
+                >
+                  {isSendingVerification ? "Processing..." : "Sign Up"}
+                </Button>
+
+                <Typography variant="body2" sx={{mt: 2}}>
+                  Already have an account?{' '}
+                  <Button
+                    color="primary"
+                    onClick={() => router.push("/user/state/signin")}
+                    sx={{p: 0, minWidth: 'auto'}}
+                    disabled={isSendingVerification}
+                  >
+                    Sign In
+                  </Button>
+                </Typography>
+              </>
+            )}
+          </Paper>
         </div>
       </div>
+
       <Snackbar
         open={alertOpen}
         autoHideDuration={6000}

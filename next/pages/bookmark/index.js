@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {ThemeProvider} from '@mui/material/styles';
-import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
 import BookmarkDataGrid from "../../app/components/bookmark/BookmarkDataGrid";
 import {CssBaseline} from "@mui/material";
 import useThemeHandler from "../../app/hooks/useThemeHandler";

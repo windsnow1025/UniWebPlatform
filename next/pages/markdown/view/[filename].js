@@ -4,7 +4,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
 
 import PublicClient from "../../../src/common/public/PublicClient";
-import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 

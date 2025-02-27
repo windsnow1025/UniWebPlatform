@@ -18,17 +18,49 @@ export default class UserClient {
     return res.data;
   }
 
-  async createUser(username: string, password: string) {
+  async createUser(username: string, email: string, password: string) {
     await getNestAxiosInstance().post("/users/user", {
       username: username,
+      email: email,
       password: password
     });
   }
 
-  async updateUserCredentials(username: string, password: string) {
+  async sendEmailVerification(email: string, password: string) {
+    await getNestAxiosInstance().post("/users/user/email-verification", {
+      email: email,
+      password: password
+    });
+  }
+
+  async updateEmailVerified(email: string, password: string) {
+    await getNestAxiosInstance().put("/users/user/email-verified", {
+      email: email,
+      password: password
+    });
+  }
+
+  async updateEmail(email: string) {
     const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/credentials", {
+    await getNestAxiosInstance().put("/users/user/email", {
+      email: email,
+    }, {
+      headers: {Authorization: `Bearer ${token}`}
+    });
+  }
+
+  async updateUsername(username: string) {
+    const token = localStorage.getItem('token');
+    await getNestAxiosInstance().put("/users/user/username", {
       username: username,
+    }, {
+      headers: {Authorization: `Bearer ${token}`}
+    });
+  }
+
+  async updatePassword(password: string) {
+    const token = localStorage.getItem('token');
+    await getNestAxiosInstance().put("/users/user/password", {
       password: password
     }, {
       headers: {Authorization: `Bearer ${token}`}

@@ -4,10 +4,11 @@ import InfoIcon from '@mui/icons-material/Info';
 import MenuIcon from '@mui/icons-material/Menu';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Link from 'next/link';
-import useScreenSize from "../../hooks/useScreenSize";
-import UserLogic from "../../../src/common/user/UserLogic";
-import SignDiv from "./user/SignDiv";
-import AnnouncementSnackbar from "./AnnouncementSnackbar";
+import useScreenSize from "../../../hooks/useScreenSize";
+import UserLogic from "../../../../src/common/user/UserLogic";
+import SignDiv from "../settings/auth/signed-out/SignDiv";
+import AnnouncementSnackbar from "../AnnouncementSnackbar";
+import EmailVerificationDialog from "./EmailVerificationDialog";
 
 const HeaderAppBar = ({
                         title,
@@ -104,6 +105,7 @@ const HeaderAppBar = ({
         </Tooltip>
       </div>
       <AnnouncementSnackbar/>
+      <EmailVerificationDialog/>
     </AppBar>
   );
 };

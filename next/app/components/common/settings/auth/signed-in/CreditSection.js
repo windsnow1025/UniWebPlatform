@@ -1,8 +1,8 @@
 import React, {memo, useEffect, useState} from 'react';
 import {CircularProgress, Typography} from "@mui/material";
-import UserLogic from "../../../../src/common/user/UserLogic";
+import UserLogic from "../../../../../../src/common/user/UserLogic";
 
-function CreditDiv() {
+function CreditSection() {
   const userLogic = new UserLogic();
 
   const [credit, setCredit] = useState(null);
@@ -32,4 +32,4 @@ function CreditDiv() {
   );
 }
 
-export default memo(CreditDiv);
+export default memo(CreditSection);

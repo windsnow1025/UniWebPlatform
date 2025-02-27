@@ -3,7 +3,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import {Collapse, CssBaseline, Paper} from "@mui/material";
 
 import ChatLogic from "../../src/conversation/chat/ChatLogic";
-import HeaderAppBar from "../../app/components/common/HeaderAppBar";
+import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
 import SettingsDiv from "../../app/components/chat/SettingsDiv";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 import SendButton from "../../app/components/chat/SendButton";

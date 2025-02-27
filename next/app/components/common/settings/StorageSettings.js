@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {CircularProgress, Typography, Snackbar, Alert, IconButton, Paper, Tooltip} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FileLogic from "../../src/common/file/FileLogic";
-import FileDiv from "../../app/components/message/FileDiv";
+import FileLogic from "../../../../src/common/file/FileLogic";
+import FileDiv from "../../message/FileDiv";
 
 const StorageSettings = () => {
   const fileLogic = new FileLogic();
