@@ -10,6 +10,7 @@ function EmailSection() {
   const [emailVerificationPassword, setEmailVerificationPassword] = useState('');
   const [emailVerificationSent, setEmailVerificationSent] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -34,6 +35,16 @@ function EmailSection() {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    let timer;
+    if (resendCooldown > 0) {
+      timer = setTimeout(() => {
+        setResendCooldown(resendCooldown - 1);
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [resendCooldown]);
+
   const showAlert = (message, severity) => {
     setAlertMessage(message);
     setAlertSeverity(severity);
@@ -53,6 +64,7 @@ function EmailSection() {
       await userLogic.sendEmailVerification(newEmail, emailVerificationPassword);
 
       setEmailVerificationSent(true);
+      setResendCooldown(60);
       showAlert("Verification email sent to " + newEmail + ". Please verify your email to complete the update.", 'info');
     } catch (e) {
       showAlert(e.message, 'error');
@@ -62,9 +74,15 @@ function EmailSection() {
   };
 
   const handleResendVerification = async () => {
+    if (resendCooldown > 0) {
+      showAlert(`Please wait ${resendCooldown} seconds before requesting another email.`, 'warning');
+      return;
+    }
+
     try {
       setIsProcessing(true);
       await userLogic.sendEmailVerification(newEmail, emailVerificationPassword);
+      setResendCooldown(60);
       showAlert("Verification email resent. Please check your inbox.", 'info');
     } catch (e) {
       showAlert(e.message, 'error');
@@ -111,9 +129,11 @@ function EmailSection() {
             onClick={handleResendVerification}
             size="medium"
             fullWidth
-            disabled={isProcessing || !emailVerificationPassword}
+            disabled={isProcessing || !emailVerificationPassword || resendCooldown > 0}
           >
-            Resend Verification Email
+            {resendCooldown > 0
+              ? `Resend Available in ${resendCooldown}s`
+              : "Resend Verification Email"}
           </Button>
         </>
       ) : (
