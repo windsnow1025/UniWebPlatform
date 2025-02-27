@@ -35,7 +35,6 @@ PUT {{baseUrl}}/users/user/email-verified
 Content-Type: application/json
 
 {
-  "username": "test",
   "email": "test@test.com",
   "password": "test"
 }
@@ -43,12 +42,11 @@ Content-Type: application/json
 ### Update Email
 
 PUT {{baseUrl}}/users/user/email
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "username": "test",
-  "email": "test@test.com",
-  "password": "test"
+  "email": "test@test.com"
 }
 
 ### Update Username

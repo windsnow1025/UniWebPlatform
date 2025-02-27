@@ -83,12 +83,12 @@ export class UsersService {
     await this.firebaseService.sendFirebaseEmailVerification(email, password);
   }
 
-  async updateEmailVerified(username: string, email: string, password: string) {
+  async updateEmailVerified(email: string, password: string) {
     if (!(await this.firebaseService.checkEmailVerified(email, password))) {
       throw new UnauthorizedException('Email not verified');
     }
 
-    const user = await this.findOneByUsername(username);
+    const user = await this.findOneByEmail(email);
     if (!user) {
       throw new NotFoundException('User not found');
     }
