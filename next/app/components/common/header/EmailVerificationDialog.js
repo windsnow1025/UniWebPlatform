@@ -31,7 +31,7 @@ const EmailVerificationDialog = () => {
   const handleDialogClose = (confirmed) => {
     setOpenDialog(false);
     if (confirmed) {
-      router.push('/settings');
+      window.open('/settings', '_blank');
     }
   };
 
