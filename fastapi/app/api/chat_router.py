@@ -29,9 +29,9 @@ async def generate(chat_request: ChatRequest, request: Request, session: Session
 
         user = await user_dao.select_user(username, session)
         if not user.email_verified:
-            raise HTTPException(status_code=401)
+            raise HTTPException(status_code=401, detail="Email not verified")
         if user.credit <= 0:
-            raise HTTPException(status_code=402)
+            raise HTTPException(status_code=402, detail="Insufficient credit")
 
         return await handle_chat_interaction(
             session=session,
