@@ -3,7 +3,7 @@ import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
 import {ThemeProvider} from "@mui/material/styles";
 import {Alert, Button, CssBaseline, Snackbar} from "@mui/material";
 import {useRouter} from "next/router";
-import HeaderAppBar from "../../../app/components/common/HeaderAppBar";
+import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 
