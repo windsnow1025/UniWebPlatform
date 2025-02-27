@@ -17,6 +17,7 @@ spec:
       containers:
         - name: next
           image: windsnow1025/next:test
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
   revisionHistoryLimit: 0
