@@ -43,6 +43,13 @@ const AdminSetting = () => {
     {field: "username", headerName: "Username", flex: 0.2},
     {field: "email", headerName: "Email", flex: 0.3},
     {
+      field: "emailVerified",
+      headerName: "Email Verified",
+      type: "boolean",
+      flex: 0.1,
+      editable: true
+    },
+    {
       field: "role",
       headerName: "Role",
       flex: 0.1,
@@ -50,7 +57,13 @@ const AdminSetting = () => {
       type: 'singleSelect',
       valueOptions: ['admin', 'user']
     },
-    {field: "credit", headerName: "Credit", type: "number", flex: 0.1, editable: true},
+    {
+      field: "credit",
+      headerName: "Credit",
+      type: "number",
+      flex: 0.1,
+      editable: true
+    },
   ];
 
   const fetchData = async () => {
@@ -68,7 +81,12 @@ const AdminSetting = () => {
 
   const updateRow = async (row) => {
     try {
-      await userLogic.updateUserPrivileges(row.username, [row.role], row.credit);
+      await userLogic.updateUserPrivileges(
+        row.username,
+        row.emailVerified,
+        [row.role],
+        row.credit
+      );
     } catch (error) {
       console.error("Error updating user credit:", error);
       throw error;

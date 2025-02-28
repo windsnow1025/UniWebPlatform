@@ -186,9 +186,9 @@ export default class UserLogic {
     }
   }
 
-  async updateUserPrivileges(username: string, roles: Role[], credit: number) {
+  async updateUserPrivileges(username: string, emailVerified: boolean, roles: Role[], credit: number) {
     try {
-      await this.userService.updateUserPrivileges(username, roles, credit);
+      await this.userService.updateUserPrivileges(username, emailVerified, roles, credit);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {

@@ -119,6 +119,7 @@ export class UsersController {
   async updatePrivileges(@Body() userPrivilegesReqDto: UserPrivilegesReqDto) {
     const user = await this.usersService.updatePrivileges(
       userPrivilegesReqDto.username,
+      userPrivilegesReqDto.emailVerified,
       userPrivilegesReqDto.roles,
       userPrivilegesReqDto.credit,
     );

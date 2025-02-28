@@ -67,10 +67,16 @@ export default class UserClient {
     });
   }
 
-  async updateUserPrivileges(username: string, roles: Role[], credit: number) {
+  async updateUserPrivileges(
+    username: string,
+    emailVerified: boolean,
+    roles: Role[],
+    credit: number
+  ) {
     const token = localStorage.getItem('token');
     await getNestAxiosInstance().put("/users/user/privileges", {
       username: username,
+      emailVerified: emailVerified,
       roles: roles,
       credit: credit
     }, {
