@@ -1,10 +1,19 @@
-### Sign In
+### Sign In by Email
 
-POST {{baseUrl}}/auth/token
+POST {{baseUrl}}/auth/token/email
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "test"
+}
+
+### Sign In by Username
+
+POST {{baseUrl}}/auth/token/username
 Content-Type: application/json
 
 {
   "username": "test",
-  "email": "test@test.com",
   "password": "test"
 }
