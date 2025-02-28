@@ -7,6 +7,12 @@
   },
   {
     "apiType": "OpenAI",
+    "model": "gpt-4.5-preview",
+    "input": 75.00,
+    "output": 150.00
+  },
+  {
+    "apiType": "OpenAI",
     "model": "gpt-4o",
     "input": 5,
     "output": 15
