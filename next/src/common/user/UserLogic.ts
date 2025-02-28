@@ -82,9 +82,24 @@ export default class UserLogic {
     }
   }
 
-  async signIn(username: string, password: string) {
+  async signInByEmail(email: string, password: string) {
     try {
-      const token = await this.authService.fetchToken(username, password);
+      const token = await this.authService.createTokenByEmail(email, password);
+      localStorage.setItem('token', token);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Incorrect Email or Password');
+        }
+      }
+      console.error(error);
+      throw new Error('Sign in failed');
+    }
+  }
+
+  async signInByUsername(username: string, password: string) {
+    try {
+      const token = await this.authService.createTokenByUsername(username, password);
       localStorage.setItem('token', token);
     } catch (error) {
       if (axios.isAxiosError(error)) {
