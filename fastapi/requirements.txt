@@ -10,9 +10,6 @@ asyncmy
 sqlmodel # sqlmodel
 SQLAlchemy # sqlalchemy
 
-# HTTP client
-httpx # httpx
-
 # Environment variables
 python-dotenv # dotenv
 
