@@ -16,7 +16,7 @@ async def handle_image_gen_interaction(
         n: int,
 ) -> list[str]:
     cost = calculate_image_gen_cost(model, quality, size, n)
-    await user_dao.reduce_credit(username, cost, session)
+    await user_repository.reduce_credit(username, cost, session)
 
     return image_gen_client.generate_image(
         prompt=prompt,

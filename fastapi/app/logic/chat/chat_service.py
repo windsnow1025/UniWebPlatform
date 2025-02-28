@@ -32,7 +32,7 @@ async def handle_chat_interaction(
             prompt_tokens=prompt_tokens,
             completion_tokens=completion_tokens
         )
-        await user_dao.reduce_credit(username, cost, session)
+        await user_repository.reduce_credit(username, cost, session)
         return cost
 
     async def reduce_prompt_credit(prompt_tokens: int) -> float:
