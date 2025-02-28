@@ -5,7 +5,6 @@ import ConfirmDialog from '../ConfirmDialog';
 
 const EmailVerificationDialog = () => {
   const [openDialog, setOpenDialog] = useState(false);
-  const router = useRouter();
   const userLogic = new UserLogic();
 
   useEffect(() => {
