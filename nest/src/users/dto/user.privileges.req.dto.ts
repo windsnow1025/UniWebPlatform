@@ -1,9 +1,18 @@
-import { IsArray, IsEnum, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 import { Role } from '../../common/enums/role.enum';
 
 export class UserPrivilegesReqDto {
   @IsString()
   username: string;
+
+  @IsBoolean()
+  emailVerified: boolean;
 
   @IsArray()
   @IsEnum(Role, { each: true })

@@ -148,12 +148,18 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async updatePrivileges(username: string, roles: Role[], credit: number) {
+  async updatePrivileges(
+    username: string,
+    emailVerified: boolean,
+    roles: Role[],
+    credit: number,
+  ) {
     const user = await this.findOneByUsername(username);
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
+    user.emailVerified = emailVerified;
     user.roles = roles;
     user.credit = credit;
 
