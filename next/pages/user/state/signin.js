@@ -8,9 +8,9 @@ import {
   Alert,
   Tabs,
   Tab,
-  Box
+  Box,
+  TextField
 } from "@mui/material";
-import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {AppProvider} from '@toolpad/core/AppProvider';
 import {SignInPage} from '@toolpad/core/SignInPage';
@@ -45,7 +45,7 @@ function SignIn() {
         await userLogic.signInByEmail(email, password);
       } else {
         // Username sign in
-        const username = formData.get('username');
+        const username = formData.get('username') || formData.get('email');
         const password = formData.get('password');
         await userLogic.signInByUsername(username, password);
       }
@@ -62,6 +62,17 @@ function SignIn() {
       setAlertSeverity('error');
       setAlertOpen(true);
     }
+  };
+
+  const UsernameField = () => {
+    return (
+      <TextField
+        required
+        label="Username"
+        placeholder="Enter your username"
+        fullWidth
+      />
+    );
   };
 
   return (
@@ -91,13 +102,8 @@ function SignIn() {
             <SignInPage
               signIn={handleSignIn}
               providers={providers}
-              slotProps={{
-                emailField: {
-                  autoFocus: false,
-                  label: "Username",
-                  name: "username",
-                  placeholder: "Enter your username"
-                },
+              slots={{
+                emailField: UsernameField
               }}
             />
           )}
