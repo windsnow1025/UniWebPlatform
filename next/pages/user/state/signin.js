@@ -9,7 +9,7 @@ import {
   Tabs,
   Tab,
   Box,
-  TextField
+  TextField, useTheme
 } from "@mui/material";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {AppProvider} from '@toolpad/core/AppProvider';
@@ -64,13 +64,38 @@ function SignIn() {
     }
   };
 
-  const UsernameField = () => {
+  const UsernameField = (props) => {
+    // See SignInPage.js - getCommonTextFieldProps
+    const theme = useTheme();
+
     return (
       <TextField
         required
+        fullWidth
+        id="username"
+        name="username"
         label="Username"
         placeholder="Enter your username"
-        fullWidth
+        autoComplete="username"
+        sx={{
+          mt: theme.spacing(1),
+          mb: theme.spacing(1)
+        }}
+        slotProps={{
+          htmlInput: {
+            sx: {
+              paddingTop: theme.spacing(1),
+              paddingBottom: theme.spacing(1)
+            }
+          },
+          inputLabel: {
+            sx: {
+              lineHeight: theme.typography.pxToRem(12),
+              fontSize: theme.typography.pxToRem(14)
+            }
+          }
+        }}
+        {...props}
       />
     );
   };
