@@ -6,7 +6,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 
 function Index() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {themeType, setThemeType, muiTheme} = useThemeHandler();
 
   const title = "Markdown Blogs"
   useEffect(() => {

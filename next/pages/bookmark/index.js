@@ -6,7 +6,7 @@ import {CssBaseline} from "@mui/material";
 import useThemeHandler from "../../app/hooks/useThemeHandler";
 
 function Index() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {themeType, setThemeType, muiTheme} = useThemeHandler();
 
   useEffect(() => {
     document.title = "Bookmark";
