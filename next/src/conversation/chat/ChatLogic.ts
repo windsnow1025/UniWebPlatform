@@ -91,7 +91,7 @@ export default class ChatLogic {
   }
 
   filterApiTypeModelsByApiType(apiTypeModels: ApiTypeModel[], apiType: string): ApiTypeModel[] {
-    if (!Array.isArray(apiTypeModels) || !apiTypeModels.length) {
+    if (!Array.isArray(apiTypeModels) || !apiTypeModels.length || !apiType) {
       return this.defaultApiTypeModels;
     }
     return apiTypeModels
