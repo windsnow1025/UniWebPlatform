@@ -7,7 +7,7 @@ import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 
 function MarkdownAdd() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {themeType, setThemeType, muiTheme} = useThemeHandler();
 
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);

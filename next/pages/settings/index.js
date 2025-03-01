@@ -10,7 +10,7 @@ import UserLogic from "../../src/common/user/UserLogic";
 import StorageSettings from "../../app/components/common/settings/StorageSettings";
 
 const Settings = () => {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {themeType, setThemeType, muiTheme} = useThemeHandler();
   const title = "Settings";
   const userLogic = new UserLogic();
 
@@ -53,8 +53,8 @@ const Settings = () => {
           {activeTab === 1 && <StorageSettings/>}
           {activeTab === 2 && (
             <PersonalizationSettings
-              systemTheme={systemTheme}
-              setSystemTheme={setSystemTheme}
+              systemTheme={themeType}
+              setSystemTheme={setThemeType}
             />
           )}
           {activeTab === 3 && <DeveloperSettings/>}

@@ -8,7 +8,7 @@ import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 
 function MarkdownUpdate() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {themeType, setThemeType, muiTheme} = useThemeHandler();
 
   const router = useRouter();
   const {id} = router.query;
