@@ -19,7 +19,7 @@ import ContentDiv from "../../app/components/message/ContentDiv";
 import ImageClient from "../../src/image/ImageClient";
 
 function ImageGenerate() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {themeType, setThemeType, muiTheme} = useThemeHandler();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');

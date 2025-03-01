@@ -8,7 +8,7 @@ import useThemeHandler from "../app/hooks/useThemeHandler";
 import HeaderAppBar from "../app/components/common/header/HeaderAppBar";
 
 function Index() {
-  const {systemTheme, setSystemTheme, muiTheme} = useThemeHandler();
+  const {themeType, setThemeType, muiTheme} = useThemeHandler();
 
   useEffect(() => {
     document.title = "Windsnow1025";

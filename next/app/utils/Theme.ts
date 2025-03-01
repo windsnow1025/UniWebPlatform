@@ -6,7 +6,9 @@ export enum ThemeType {
   Dark = "dark",
 }
 
-const convertTheme = (systemTheme: string, prefersDarkMode: boolean) => {
+function convertTheme(
+  systemTheme: ThemeType, prefersDarkMode: boolean
+): ThemeType.Light | ThemeType.Dark {
   if (systemTheme === ThemeType.Light || systemTheme === ThemeType.Dark) {
     return systemTheme;
   } else {
@@ -14,28 +16,13 @@ const convertTheme = (systemTheme: string, prefersDarkMode: boolean) => {
   }
 }
 
-export function applyTheme(systemTheme: string, prefersDarkMode: boolean) {
+export function applyTheme(systemTheme: ThemeType, prefersDarkMode: boolean) {
   const theme = convertTheme(systemTheme, prefersDarkMode);
-  applyMainTheme(theme);
   applyMarkdownTheme(theme);
   applyHighlightTheme(theme);
 }
 
-function applyMainTheme(theme: string) {
-  const body = document.body;
-
-  // Remove all theme classes
-  body.classList.remove("light-theme");
-  body.classList.remove("dark-theme");
-
-  if (theme === ThemeType.Light) {
-    body.classList.add("light-theme");
-  } else if (theme === ThemeType.Dark) {
-    body.classList.add("dark-theme");
-  }
-}
-
-function applyMarkdownTheme(theme: string) {
+function applyMarkdownTheme(theme: ThemeType.Light | ThemeType.Dark) {
   // Get all link elements
   const links = document.getElementsByTagName('link');
 
@@ -93,7 +80,7 @@ function applyHighlightTheme(theme: string) {
   }
 }
 
-export function createMUITheme(systemTheme: string, prefersDarkMode: boolean) {
+export function createMUITheme(systemTheme: ThemeType, prefersDarkMode: boolean) {
   const theme = convertTheme(systemTheme, prefersDarkMode);
   return createTheme({
     palette: {
