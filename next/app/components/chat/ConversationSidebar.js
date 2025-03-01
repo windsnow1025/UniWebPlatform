@@ -79,8 +79,8 @@ function ConversationSidebar({
       if (conversationToUpdate) {
         handleUpdateConversation(conversations.indexOf(conversationToUpdate), false);
       }
-      setConversationUpdateTrigger(false);
     }
+    setConversationUpdateTrigger(false);
   }, [conversationUpdateTrigger]);
 
   const fetchConversations = async () => {
