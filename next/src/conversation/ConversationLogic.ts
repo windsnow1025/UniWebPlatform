@@ -1,8 +1,6 @@
 import axios from "axios";
-import {v4 as uuidv4} from 'uuid';
 import ConversationClient from "./ConversationClient";
 import {Conversation} from "./Conversation";
-import {Message} from "./chat/Message";
 
 export default class ConversationLogic {
   private conversationService: ConversationClient;

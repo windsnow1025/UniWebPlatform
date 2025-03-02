@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import UserLogic from "../../../../../../src/common/user/UserLogic";
 import TextField from "@mui/material/TextField";
-import { Alert, Button, Snackbar, Typography } from "@mui/material";
+import {Alert, Button, Snackbar, Typography} from "@mui/material";
 
 function EmailSection() {
   const [email, setEmail] = useState('');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton, Tooltip } from "@mui/material";
+import {IconButton, Tooltip} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 function DisplayDiv({ message, setMessage }) {

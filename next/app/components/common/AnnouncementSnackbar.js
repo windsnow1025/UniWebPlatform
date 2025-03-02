@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Snackbar, Alert } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Alert, Snackbar} from '@mui/material';
 import AnnouncementLogic from '../../../src/announcement/AnnouncementLogic';
 import ContentDiv from "../message/ContentDiv";
 import {RawEditableState} from "../../../src/conversation/chat/Message";

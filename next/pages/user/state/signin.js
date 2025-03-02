@@ -2,17 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
 import {ThemeProvider} from "@mui/material/styles";
-import {
-  CssBaseline,
-  Snackbar,
-  Alert,
-  Tabs,
-  Tab,
-  Box,
-  TextField, useTheme
-} from "@mui/material";
+import {Alert, CssBaseline, Snackbar, Tab, Tabs, TextField, useTheme} from "@mui/material";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
-import {AppProvider} from '@toolpad/core/AppProvider';
 import {SignInPage} from '@toolpad/core/SignInPage';
 import {wait} from "../../../app/utils/Wait";
 
