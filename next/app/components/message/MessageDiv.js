@@ -8,7 +8,7 @@ import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileUpload from './FileUpload';
 import AudioRecord from './AudioRecord';
-import {convertToRawEditableState, RoleEditableState, MessageRole} from "../../../src/conversation/chat/Message";
+import {convertToRawEditableState, MessageRole, RoleEditableState} from "../../../src/conversation/chat/Message";
 import SortableFileDivs from './SortableFileDivs';
 import DisplayDiv from "./DisplayDiv";
 
