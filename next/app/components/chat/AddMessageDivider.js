@@ -1,6 +1,6 @@
-import { Divider, IconButton, Tooltip, Box } from "@mui/material";
+import {Divider, IconButton, Tooltip} from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import ChatLogic from "../../../src/conversation/chat/ChatLogic";
 
 function AddMessageDivider({

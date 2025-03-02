@@ -1,5 +1,5 @@
 import React from 'react';
-import {Paper, Typography, Divider} from "@mui/material";
+import {Divider, Typography} from "@mui/material";
 import CreditDiv from "./CreditSection";
 import UsernameSection from "./UsernameSection";
 import EmailSection from "./EmailSection";
