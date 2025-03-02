@@ -8,17 +8,18 @@ import useThemeHandler from "../app/hooks/useThemeHandler";
 import HeaderAppBar from "../app/components/common/header/HeaderAppBar";
 
 function Index() {
-  const {themeType, setThemeType, muiTheme} = useThemeHandler();
+  const {muiTheme} = useThemeHandler();
 
+  const title = "Home Page";
   useEffect(() => {
-    document.title = "Windsnow1025";
+    document.title = title;
   }, []);
 
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme/>
       <div className="local-scroll-root">
-        <HeaderAppBar title="Windsnow1025"/>
+        <HeaderAppBar title="Home Page"/>
         <div className="local-scroll-scrollable flex-around m-2">
           <span>My Email: windsnow1024@gmail.com</span>
           <Link
