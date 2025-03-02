@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {CircularProgress, Typography, Snackbar, Alert, IconButton, Paper, Tooltip} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Alert, CircularProgress, IconButton, Snackbar, Tooltip, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileLogic from "../../../../src/common/file/FileLogic";
 import FileDiv from "../../message/FileDiv";

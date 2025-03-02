@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {
+  Alert,
   Box,
   Button,
-  Typography,
+  FormControl,
   IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Paper,
   Slider,
-  InputAdornment,
-  FormControl,
-  InputLabel,
-  OutlinedInput, Snackbar, Alert,
+  Snackbar,
+  Typography,
 } from "@mui/material";
 import {
   ContentCopy as ContentCopyIcon,
+  Key as KeyIcon,
+  Numbers as NumbersIcon,
+  Person as PersonIcon,
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
-  Key as KeyIcon,
-  Person as PersonIcon,
-  Numbers as NumbersIcon,
 } from "@mui/icons-material";
 import {generatePassword} from "../../../src/password/PasswordLogic";
 

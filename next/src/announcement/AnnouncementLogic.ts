@@ -1,6 +1,6 @@
 import AnnouncementClient from "./AnnouncementClient";
 import axios from "axios";
-import { Announcement } from "./Announcement";
+import {Announcement} from "./Announcement";
 
 export default class AnnouncementLogic {
   private announcementService: AnnouncementClient;
