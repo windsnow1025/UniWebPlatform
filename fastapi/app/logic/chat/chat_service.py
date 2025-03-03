@@ -64,9 +64,8 @@ async def handle_chat_interaction(
         api_keys=api_keys,
     )
 
-    response = await chat_client.generate_response()
-
     if stream:
+        response = chat_client.generate_stream_response()
         async def final_response_handler(
                 generator: AsyncGenerator[ChatResponse, None]
         ) -> StreamingResponse:
@@ -74,6 +73,7 @@ async def handle_chat_interaction(
                 generator, reduce_prompt_credit
             )
     else:
+        response = await chat_client.generate_non_stream_response()
         async def final_response_handler(
                 content: ChatResponse
         ) -> ChatResponse:
