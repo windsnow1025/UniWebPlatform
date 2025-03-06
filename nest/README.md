@@ -1,24 +1,12 @@
 # UniWebPlatform - Nest.js
 
-## Nest.js init
-
-```bash
-npm i -g @nestjs/cli
-```
-
-```bash
-nest new <project-name>
-```
-
-## Run a single typescript file
-
-```bash
-npx ts-node <filepath>
-```
-
 ## Setup
 
 Copy `./env.example` and rename it to `.env`, then fill in the environment variables.
+
+## OpenAPI
+
+Visit `/api` and `/api-json`
 
 ## Run
 
@@ -44,6 +32,22 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+```
+
+## Nest.js init
+
+```bash
+npm i -g @nestjs/cli
+```
+
+```bash
+nest new <project-name>
+```
+
+## Run a single typescript file
+
+```bash
+npx ts-node <filepath>
 ```
 
 ## Configuration changes made after `nest new nest`
