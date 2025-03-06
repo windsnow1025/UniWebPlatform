@@ -11,49 +11,56 @@ Content-Type: application/json
 
 {
   "name": "Test",
-  "messages": "[{\"role\":\"system\",\"text\":\"You are a helpful assistant.\",\"files\":[]},{\"role\":\"user\",\"text\":\"Hello\",\"files\":[]},{\"role\":\"assistant\",\"text\":\"Hi there! How can I assist you today?\",\"files\":[]},{\"role\":\"user\",\"text\":\"\",\"files\":[]}]"
+  "messages": [
+    {"role":"system","text":"You are a helpful assistant.","files":[]},
+    {"role":"user","text":"Hello","files":[]},
+    {"role":"assistant","text":"Hi there! How can I assist you today?","files":[]},
+    {"role":"user","text":"","files":[]}
+  ]
 }
 
 ### Create Conversation for User
 
-POST {{baseUrl}}/conversations/conversation/1/user
+POST {{baseUrl}}/conversations/conversation/1/clone
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "username": "test1"
-}
-
-### Update Conversation
-
-PUT {{baseUrl}}/conversations/conversation
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "id": 1,
-  "name": "Test",
-  "messages": "[{\"role\":\"system\",\"text\":\"You are a helpful assistant.\",\"files\":[]},{\"role\":\"user\",\"text\":\"Hello\",\"files\":[]}]"
-}
-
-### Patch Conversation
-
-PATCH {{baseUrl}}/conversations/conversation/1/name
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "name": "Test1"
+  "username": "test"
 }
 
 ### Add User to Conversation Users
 
-PATCH {{baseUrl}}/conversations/conversation/1/users
+POST {{baseUrl}}/conversations/conversation/1/users
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "username": "test1"
+  "username": "test"
+}
+
+### Update Conversation
+
+PUT {{baseUrl}}/conversations/conversation/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "messages": [
+    {"role":"system","text":"You are a helpful assistant.","files":[]},
+    {"role":"user","text":"Hello","files":[]}
+  ]
+}
+
+### Update Conversation Name
+
+PUT {{baseUrl}}/conversations/conversation/1/name
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Test"
 }
 
 ### Delete Conversation
