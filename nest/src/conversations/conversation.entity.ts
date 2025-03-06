@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { BaseEntity } from '../common/entities/base.entity';
 import { User } from '../users/user.entity';
-import { Message } from './interfaces/message.interface';
+import { Message } from './message.entity';
 
 @Entity()
 export class Conversation extends BaseEntity {
