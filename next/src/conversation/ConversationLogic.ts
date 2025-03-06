@@ -37,7 +37,7 @@ export default class ConversationLogic {
 
   async addConversationForUser(id: number, username: string): Promise<Conversation> {
     try {
-      return await this.conversationService.addConversationForUser(id, username);
+      return await this.conversationService.cloneConversationForUser(id, username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -52,9 +52,9 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversation(conversation: Conversation): Promise<Conversation> {
+  async updateConversation(id: number,conversation: Conversation): Promise<Conversation> {
     try {
-      return await this.conversationService.updateConversation(conversation);
+      return await this.conversationService.updateConversation(id, conversation);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
