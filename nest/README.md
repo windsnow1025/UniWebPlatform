@@ -6,7 +6,36 @@ Copy `./env.example` and rename it to `.env`, then fill in the environment varia
 
 ## OpenAPI
 
-Visit `/api` and `/api-json`
+Docs: `/api`
+
+### Client Package
+
+1. Install OpenAPI Generator
+    ```bash
+    npm install -g @openapitools/openapi-generator-cli
+    ```
+
+2. Download OpenAPI JSON
+    ```bash
+    curl -o openapi.json http://localhost:3001/api-json
+    ```
+
+3. Generate the Client SDK
+
+   - For Angular:
+       ```sh
+       openapi-generator-cli generate -i openapi.json -g typescript-angular -o client
+       ```
+
+   - For Axios:
+       ```sh
+       openapi-generator-cli generate -i openapi.json -g typescript-axios -o client
+       ```
+
+   - For Fetch API:
+       ```sh
+       openapi-generator-cli generate -i openapi.json -g typescript-fetch -o client
+       ```
 
 ## Run
 
