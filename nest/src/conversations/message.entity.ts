@@ -1,4 +1,4 @@
-export interface Message {
+export class Message {
   id: string; // uuid
   role: MessageRole;
   text: string;
@@ -6,7 +6,7 @@ export interface Message {
   display: string;
 }
 
-enum MessageRole {
+export enum MessageRole {
   User = 'user',
   Assistant = 'assistant',
   System = 'system',

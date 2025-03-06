@@ -1,5 +1,5 @@
 import { IsArray, IsString } from 'class-validator';
-import { Message } from '../interfaces/message.interface';
+import { Message } from '../message.entity';
 
 export class ConversationReqDto {
   @IsString()

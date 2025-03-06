@@ -8,7 +8,7 @@ import { In, Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
 import { UsersService } from '../users/users.service';
 import { ConversationResDto } from './dto/conversation.res.dto';
-import { Message } from './interfaces/message.interface';
+import { Message } from './message.entity';
 
 @Injectable()
 export class ConversationsService {
