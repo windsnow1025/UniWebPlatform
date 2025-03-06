@@ -33,9 +33,9 @@ export default class ChatLogic {
     ];
     this.emptyUserMessage = {
       id: uuidv4(),
-      "role": MessageRole.User,
-      "text": "",
-      "files": [],
+      role: MessageRole.User,
+      text: "",
+      files: [],
       display: "",
     };
     this.emptyAssistantMessage = {

@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { BaseEntity } from '../common/entities/base.entity';
 import { User } from '../users/user.entity';
-import { ConversationMessage } from './interfaces/conversation-message.interface';
+import { Message } from './interfaces/message.interface';
 
 @Entity()
 export class Conversation extends BaseEntity {
@@ -23,7 +23,7 @@ export class Conversation extends BaseEntity {
   @Column({
     type: 'json',
   })
-  messages: ConversationMessage[];
+  messages: Message[];
 
   @ManyToMany(() => User)
   @JoinTable()

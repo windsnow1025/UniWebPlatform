@@ -1,9 +1,9 @@
 export interface Message {
-  id: string
-  role: MessageRole
-  text: string
-  files: string[]
-  display: string
+  id: string; // uuid
+  role: MessageRole;
+  text: string;
+  files: string[];
+  display: string;
 }
 
 export enum MessageRole {

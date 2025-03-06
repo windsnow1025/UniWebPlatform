@@ -8,6 +8,7 @@ import { In, Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
 import { UsersService } from '../users/users.service';
 import { ConversationResDto } from './dto/conversation.res.dto';
+import { Message } from './interfaces/message.interface';
 
 @Injectable()
 export class ConversationsService {
@@ -67,17 +68,28 @@ export class ConversationsService {
     return conversation;
   }
 
-  async create(userId: number, conversation: Conversation) {
+  async create(
+    userId: number,
+    name: string,
+    messages: Message[],
+  ): Promise<Conversation> {
     const user = await this.usersService.findOneById(userId);
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
+    const conversation = new Conversation();
+    conversation.name = name;
+    conversation.messages = messages;
     conversation.users = [user];
     return await this.conversationsRepository.save(conversation);
   }
 
-  async createForUser(userId: number, id: number, username: string) {
+  async cloneForSpecificUser(
+    userId: number,
+    id: number,
+    username: string,
+  ): Promise<Conversation> {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
@@ -88,21 +100,46 @@ export class ConversationsService {
       throw new NotFoundException('User not found');
     }
 
-    return await this.conversationsRepository.save({
-      name: conversation.name,
-      messages: conversation.messages,
-      users: [targetUser],
-    });
+    const newConversation = new Conversation();
+    newConversation.name = conversation.name;
+    newConversation.messages = conversation.messages;
+    newConversation.users = [targetUser];
+
+    return await this.conversationsRepository.save(newConversation);
   }
 
-  async update(userId: number, newConversation: Conversation) {
-    const conversation = await this.findOne(userId, newConversation.id);
+  async addUserForUsers(
+    userId: number,
+    conversationId: number,
+    username: string,
+  ) {
+    const conversation = await this.findOne(userId, conversationId);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
 
-    conversation.name = newConversation.name;
-    conversation.messages = newConversation.messages;
+    const userToAdd = await this.usersService.findOneByUsername(username);
+    if (!userToAdd) {
+      throw new NotFoundException('User not found');
+    }
+
+    conversation.users.push(userToAdd);
+    return await this.conversationsRepository.save(conversation);
+  }
+
+  async update(
+    userId: number,
+    id: number,
+    name: string,
+    messages: Message[],
+  ) {
+    const conversation = await this.findOne(userId, id);
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    conversation.name = name;
+    conversation.messages = messages;
 
     return await this.conversationsRepository.save(conversation);
   }
@@ -115,21 +152,6 @@ export class ConversationsService {
 
     conversation.name = name;
 
-    return await this.conversationsRepository.save(conversation);
-  }
-
-  async updateUsers(userId: number, conversationId: number, username: string) {
-    const conversation = await this.findOne(userId, conversationId);
-    if (!conversation) {
-      throw new NotFoundException('Conversation not found');
-    }
-
-    const userToAdd = await this.usersService.findOneByUsername(username);
-    if (!userToAdd) {
-      throw new NotFoundException('User not found');
-    }
-
-    conversation.users.push(userToAdd);
     return await this.conversationsRepository.save(conversation);
   }
 

@@ -4,106 +4,110 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
   Put,
   Request,
 } from '@nestjs/common';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
-import { Conversation } from './conversation.entity';
 import { ConversationsService } from './conversations.service';
+import {
+  ConversationNameReqDto,
+  ConversationReqDto,
+} from './dto/conversation.req.dto';
+import { UserUsernameReqDto } from '../users/dto/user.req.dto';
 
 @Controller('conversations')
 export class ConversationsController {
-  constructor(private readonly conversationsService: ConversationsService) {}
+  constructor(private readonly service: ConversationsService) {}
 
   @Get()
   async find(@Request() req: RequestWithUser) {
     const userId = req.user.sub;
-    const conversations = await this.conversationsService.find(userId);
+    const conversations = await this.service.find(userId);
     return conversations.map((conversation) =>
-      this.conversationsService.toConversationDto(conversation),
+      this.service.toConversationDto(conversation),
     );
   }
 
   @Post('/conversation')
   async create(
     @Request() req: RequestWithUser,
-    @Body() conversation: Conversation,
+    @Body() reqDto: ConversationReqDto,
   ) {
     const userId = req.user.sub;
-    const savedConversation = await this.conversationsService.create(
+    const conversation = await this.service.create(
       userId,
-      conversation,
+      reqDto.name,
+      reqDto.messages,
     );
-    return this.conversationsService.toConversationDto(savedConversation);
+    return this.service.toConversationDto(conversation);
   }
 
-  @Post('/conversation/:id/user')
-  async createForUser(
+  @Post('/conversation/:id/clone')
+  async cloneForSpecificUser(
     @Request() req: RequestWithUser,
     @Param('id') id: number,
-    @Body('username') username: string,
+    @Body() reqDto: UserUsernameReqDto,
   ) {
     const userId = req.user.sub;
-    const savedConversation = await this.conversationsService.createForUser(
+    const conversation = await this.service.cloneForSpecificUser(
       userId,
       id,
-      username,
+      reqDto.username,
     );
-    return this.conversationsService.toConversationDto(savedConversation);
+    return this.service.toConversationDto(conversation);
   }
 
-  @Put('/conversation')
-  async update(
+  @Post('/conversation/:id/users')
+  async addUserForUsers(
     @Request() req: RequestWithUser,
-    @Body() conversation: Conversation,
+    @Param('id') id: number,
+    @Body() reqDto: UserUsernameReqDto,
   ) {
     const userId = req.user.sub;
-    const updatedConversation = await this.conversationsService.update(
+    const conversation = await this.service.addUserForUsers(
       userId,
-      conversation,
+      id,
+      reqDto.username,
     );
-    return this.conversationsService.toConversationDto(updatedConversation);
+    return this.service.toConversationDto(conversation);
   }
 
-  @Patch('/conversation/:id/name')
+  @Put('/conversation/:id')
+  async update(
+    @Request() req: RequestWithUser,
+    @Param('id') id: number,
+    @Body() reqDto: ConversationReqDto,
+  ) {
+    const userId = req.user.sub;
+    const conversation = await this.service.update(
+      userId,
+      id,
+      reqDto.name,
+      reqDto.messages,
+    );
+    return this.service.toConversationDto(conversation);
+  }
+
+  @Put('/conversation/:id/name')
   async updateName(
     @Request() req: RequestWithUser,
     @Param('id') id: number,
-    @Body('name') name: string,
+    @Body() reqDto: ConversationNameReqDto,
   ) {
     const userId = req.user.sub;
-    const updatedConversation = await this.conversationsService.updateName(
+    const updatedConversation = await this.service.updateName(
       userId,
       id,
-      name,
+      reqDto.name,
     );
-    return this.conversationsService.toConversationDto(updatedConversation);
-  }
-
-  @Patch('/conversation/:id/users')
-  async updateUsers(
-    @Request() req: RequestWithUser,
-    @Param('id') id: number,
-    @Body('username') username: string,
-  ) {
-    const userId = req.user.sub;
-    const updatedConversation = await this.conversationsService.updateUsers(
-      userId,
-      id,
-      username,
-    );
-    return this.conversationsService.toConversationDto(updatedConversation);
+    return this.service.toConversationDto(updatedConversation);
   }
 
   @Delete('/conversation/:id')
   async delete(@Request() req: RequestWithUser, @Param('id') id: number) {
     const userId = req.user.sub;
-    const deletedConversation = await this.conversationsService.remove(
-      userId,
-      id,
-    );
-    return this.conversationsService.toConversationDto(deletedConversation);
+    const deletedConversation = await this.service.remove(userId, id);
+    return this.service.toConversationDto(deletedConversation);
   }
 }
