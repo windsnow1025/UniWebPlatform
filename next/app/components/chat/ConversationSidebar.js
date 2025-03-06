@@ -148,11 +148,13 @@ function ConversationSidebar({
   const handleUpdateConversation = async (index, isManualUpdate = false) => {
     setSelectedConversationId(conversations[index].id);
     try {
-      const updatedConversation = await conversationLogic.updateConversation({
-        id: conversations[index].id,
-        name: conversations[index].name,
-        messages: messages
-      });
+      const updatedConversation = await conversationLogic.updateConversation(
+        conversations[index].id,
+        {
+          name: conversations[index].name,
+          messages: messages
+        }
+      );
       setConversations((prevConversations) => {
         const newConversations = [...prevConversations];
         newConversations[index] = updatedConversation;
