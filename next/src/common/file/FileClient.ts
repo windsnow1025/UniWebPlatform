@@ -2,13 +2,15 @@ import {AxiosProgressEvent} from 'axios';
 import {getNestAxiosInstance} from "@/src/common/APIConfig";
 
 export default class FileClient {
-  async upload(file: File, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<string> {
+  async uploadFiles(files: File[], onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<string[]> {
     const token = localStorage.getItem('token');
 
     const formData = new FormData();
-    formData.append('file', file);
+    files.forEach(file => {
+      formData.append('files', file);
+    });
 
-    const response = await getNestAxiosInstance().post("/files/file", formData, {
+    const response = await getNestAxiosInstance().post("/files", formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
@@ -16,7 +18,7 @@ export default class FileClient {
       onUploadProgress: onProgress,
     });
 
-    return response.data.url;
+    return response.data.urls;
   }
 
   async fetchFiles(): Promise<string[]> {
