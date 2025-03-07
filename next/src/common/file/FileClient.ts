@@ -1,5 +1,6 @@
 import {AxiosProgressEvent} from 'axios';
-import {getNestAxiosInstance} from "@/src/common/APIConfig";
+import {getNestAxiosInstance, getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {FilesApi} from "@/client";
 
 export default class FileClient {
   async uploadFiles(files: File[], onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<string[]> {
@@ -22,27 +23,15 @@ export default class FileClient {
   }
 
   async fetchFiles(): Promise<string[]> {
-    const token = localStorage.getItem('token');
-
-    const response = await getNestAxiosInstance().get("/files", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+    const api = new FilesApi(getOpenAPIConfiguration());
+    const response = await api.filesControllerGetFiles();
     return response.data.urls;
   }
 
   async deleteFiles(filenames: string[]): Promise<void> {
-    const token = localStorage.getItem('token');
-
-    await getNestAxiosInstance().delete("/files", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      data: {
-        filenames: filenames,
-      },
+    const api = new FilesApi(getOpenAPIConfiguration());
+    await api.filesControllerDeleteFiles({
+      filenames: filenames
     });
   }
 }
