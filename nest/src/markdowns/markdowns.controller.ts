@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -10,40 +11,55 @@ import {
 import { Public } from '../common/decorators/public.decorator';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/enums/role.enum';
-import { Markdown } from './markdown.entity';
 import { MarkdownsService } from './markdowns.service';
+import { MarkdownReqDto } from './dto/markdown.req.dto';
+import { MarkdownResDto } from './dto/markdown.res.dto';
 
 @Controller('markdowns')
 export class MarkdownsController {
-  constructor(private readonly markdownsService: MarkdownsService) {}
+  constructor(private readonly service: MarkdownsService) {}
 
   @Public()
   @Get()
-  findAll() {
-    return this.markdownsService.findAll();
+  async findAll(): Promise<MarkdownResDto[]> {
+    const markdowns = await this.service.findAll();
+    return markdowns.map((markdown) => this.service.toMarkdownDto(markdown));
   }
 
   @Public()
   @Get('/markdown/:id')
-  findOne(@Param('id') id: number) {
-    return this.markdownsService.findOne(id);
+  async findOne(@Param('id') id: number): Promise<MarkdownResDto> {
+    const markdown = await this.service.findOne(id);
+    if (!markdown) {
+      throw new NotFoundException('Markdown not found');
+    }
+    return this.service.toMarkdownDto(markdown);
   }
 
   @Post('/markdown')
   @Roles([Role.Admin])
-  create(@Body() markdown: Markdown) {
-    return this.markdownsService.create(markdown);
+  async create(@Body() reqDto: MarkdownReqDto): Promise<MarkdownResDto> {
+    const markdown = await this.service.create(reqDto.title, reqDto.content);
+    return this.service.toMarkdownDto(markdown);
   }
 
-  @Put('/markdown')
+  @Put('/markdown/:id')
   @Roles([Role.Admin])
-  update(@Body() markdown: Markdown) {
-    return this.markdownsService.update(markdown);
+  async update(
+    @Param('id') id: number,
+    @Body() reqDto: MarkdownReqDto,
+  ): Promise<MarkdownResDto> {
+    const markdown = await this.service.update(
+      id,
+      reqDto.title,
+      reqDto.content,
+    );
+    return this.service.toMarkdownDto(markdown);
   }
 
   @Delete('/markdown/:id')
   @Roles([Role.Admin])
   delete(@Param('id') id: number) {
-    return this.markdownsService.remove(id);
+    return this.service.remove(id);
   }
 }
