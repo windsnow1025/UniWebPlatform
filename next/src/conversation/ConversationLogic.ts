@@ -1,6 +1,6 @@
 import axios from "axios";
 import ConversationClient from "./ConversationClient";
-import {Conversation} from "./Conversation";
+import {ConversationReqDto, ConversationResDto} from "@/client";
 
 export default class ConversationLogic {
   private conversationService: ConversationClient;
@@ -9,7 +9,7 @@ export default class ConversationLogic {
     this.conversationService = new ConversationClient();
   }
 
-  async fetchConversations() {
+  async fetchConversations(): Promise<ConversationResDto[]> {
     try {
       return await this.conversationService.fetchConversations();
     } catch (error) {
@@ -18,7 +18,7 @@ export default class ConversationLogic {
     }
   }
 
-  async addConversation(conversation: Conversation): Promise<Conversation> {
+  async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
     try {
       return await this.conversationService.addConversation(conversation);
     } catch (error) {
@@ -35,7 +35,9 @@ export default class ConversationLogic {
     }
   }
 
-  async addConversationForUser(id: number, username: string): Promise<Conversation> {
+  async addConversationForUser(
+    id: number, username: string
+  ): Promise<ConversationResDto> {
     try {
       return await this.conversationService.cloneConversationForUser(id, username);
     } catch (error) {
@@ -52,7 +54,9 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversation(id: number,conversation: Conversation): Promise<Conversation> {
+  async updateConversation(
+    id: number, conversation: ConversationReqDto
+  ): Promise<ConversationResDto> {
     try {
       return await this.conversationService.updateConversation(id, conversation);
     } catch (error) {
@@ -69,7 +73,7 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversationName(id: number, name: string) {
+  async updateConversationName(id: number, name: string): Promise<ConversationResDto> {
     try {
       return this.conversationService.updateConversationName(id, name);
     } catch (error) {
