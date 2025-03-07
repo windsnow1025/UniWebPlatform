@@ -58,6 +58,57 @@ export interface AnnouncementResDto {
 /**
  * 
  * @export
+ * @interface AuthTokenEmailReqDto
+ */
+export interface AuthTokenEmailReqDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthTokenEmailReqDto
+     */
+    'email': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthTokenEmailReqDto
+     */
+    'password': string;
+}
+/**
+ * 
+ * @export
+ * @interface AuthTokenResDto
+ */
+export interface AuthTokenResDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthTokenResDto
+     */
+    'accessToken': string;
+}
+/**
+ * 
+ * @export
+ * @interface AuthTokenUsernameReqDto
+ */
+export interface AuthTokenUsernameReqDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthTokenUsernameReqDto
+     */
+    'username': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthTokenUsernameReqDto
+     */
+    'password': string;
+}
+/**
+ * 
+ * @export
  * @interface Bookmark
  */
 export interface Bookmark {
@@ -300,44 +351,6 @@ export const MessageRoleEnum = {
 
 export type MessageRoleEnum = typeof MessageRoleEnum[keyof typeof MessageRoleEnum];
 
-/**
- * 
- * @export
- * @interface TokenEmailReqDto
- */
-export interface TokenEmailReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof TokenEmailReqDto
-     */
-    'email': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TokenEmailReqDto
-     */
-    'password': string;
-}
-/**
- * 
- * @export
- * @interface TokenUsernameReqDto
- */
-export interface TokenUsernameReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof TokenUsernameReqDto
-     */
-    'username': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TokenUsernameReqDto
-     */
-    'password': string;
-}
 /**
  * 
  * @export
@@ -793,13 +806,13 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
     return {
         /**
          * 
-         * @param {TokenEmailReqDto} tokenEmailReqDto 
+         * @param {AuthTokenEmailReqDto} authTokenEmailReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authControllerCreateTokenByEmail: async (tokenEmailReqDto: TokenEmailReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'tokenEmailReqDto' is not null or undefined
-            assertParamExists('authControllerCreateTokenByEmail', 'tokenEmailReqDto', tokenEmailReqDto)
+        authControllerCreateTokenByEmail: async (authTokenEmailReqDto: AuthTokenEmailReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authTokenEmailReqDto' is not null or undefined
+            assertParamExists('authControllerCreateTokenByEmail', 'authTokenEmailReqDto', authTokenEmailReqDto)
             const localVarPath = `/auth/token/email`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -823,7 +836,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(tokenEmailReqDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(authTokenEmailReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -832,13 +845,13 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @param {TokenUsernameReqDto} tokenUsernameReqDto 
+         * @param {AuthTokenUsernameReqDto} authTokenUsernameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authControllerCreateTokenByUsername: async (tokenUsernameReqDto: TokenUsernameReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'tokenUsernameReqDto' is not null or undefined
-            assertParamExists('authControllerCreateTokenByUsername', 'tokenUsernameReqDto', tokenUsernameReqDto)
+        authControllerCreateTokenByUsername: async (authTokenUsernameReqDto: AuthTokenUsernameReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authTokenUsernameReqDto' is not null or undefined
+            assertParamExists('authControllerCreateTokenByUsername', 'authTokenUsernameReqDto', authTokenUsernameReqDto)
             const localVarPath = `/auth/token/username`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -862,7 +875,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(tokenUsernameReqDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(authTokenUsernameReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -881,24 +894,24 @@ export const AuthApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {TokenEmailReqDto} tokenEmailReqDto 
+         * @param {AuthTokenEmailReqDto} authTokenEmailReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authControllerCreateTokenByEmail(tokenEmailReqDto: TokenEmailReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerCreateTokenByEmail(tokenEmailReqDto, options);
+        async authControllerCreateTokenByEmail(authTokenEmailReqDto: AuthTokenEmailReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthTokenResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerCreateTokenByEmail(authTokenEmailReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AuthApi.authControllerCreateTokenByEmail']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {TokenUsernameReqDto} tokenUsernameReqDto 
+         * @param {AuthTokenUsernameReqDto} authTokenUsernameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authControllerCreateTokenByUsername(tokenUsernameReqDto: TokenUsernameReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerCreateTokenByUsername(tokenUsernameReqDto, options);
+        async authControllerCreateTokenByUsername(authTokenUsernameReqDto: AuthTokenUsernameReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthTokenResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerCreateTokenByUsername(authTokenUsernameReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AuthApi.authControllerCreateTokenByUsername']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -915,21 +928,21 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
     return {
         /**
          * 
-         * @param {TokenEmailReqDto} tokenEmailReqDto 
+         * @param {AuthTokenEmailReqDto} authTokenEmailReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authControllerCreateTokenByEmail(tokenEmailReqDto: TokenEmailReqDto, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.authControllerCreateTokenByEmail(tokenEmailReqDto, options).then((request) => request(axios, basePath));
+        authControllerCreateTokenByEmail(authTokenEmailReqDto: AuthTokenEmailReqDto, options?: RawAxiosRequestConfig): AxiosPromise<AuthTokenResDto> {
+            return localVarFp.authControllerCreateTokenByEmail(authTokenEmailReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {TokenUsernameReqDto} tokenUsernameReqDto 
+         * @param {AuthTokenUsernameReqDto} authTokenUsernameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authControllerCreateTokenByUsername(tokenUsernameReqDto: TokenUsernameReqDto, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.authControllerCreateTokenByUsername(tokenUsernameReqDto, options).then((request) => request(axios, basePath));
+        authControllerCreateTokenByUsername(authTokenUsernameReqDto: AuthTokenUsernameReqDto, options?: RawAxiosRequestConfig): AxiosPromise<AuthTokenResDto> {
+            return localVarFp.authControllerCreateTokenByUsername(authTokenUsernameReqDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -943,24 +956,24 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
 export class AuthApi extends BaseAPI {
     /**
      * 
-     * @param {TokenEmailReqDto} tokenEmailReqDto 
+     * @param {AuthTokenEmailReqDto} authTokenEmailReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApi
      */
-    public authControllerCreateTokenByEmail(tokenEmailReqDto: TokenEmailReqDto, options?: RawAxiosRequestConfig) {
-        return AuthApiFp(this.configuration).authControllerCreateTokenByEmail(tokenEmailReqDto, options).then((request) => request(this.axios, this.basePath));
+    public authControllerCreateTokenByEmail(authTokenEmailReqDto: AuthTokenEmailReqDto, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authControllerCreateTokenByEmail(authTokenEmailReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {TokenUsernameReqDto} tokenUsernameReqDto 
+     * @param {AuthTokenUsernameReqDto} authTokenUsernameReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApi
      */
-    public authControllerCreateTokenByUsername(tokenUsernameReqDto: TokenUsernameReqDto, options?: RawAxiosRequestConfig) {
-        return AuthApiFp(this.configuration).authControllerCreateTokenByUsername(tokenUsernameReqDto, options).then((request) => request(this.axios, this.basePath));
+    public authControllerCreateTokenByUsername(authTokenUsernameReqDto: AuthTokenUsernameReqDto, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authControllerCreateTokenByUsername(authTokenUsernameReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

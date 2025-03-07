@@ -1,19 +1,22 @@
-import {getNestAxiosInstance} from "@/src/common/APIConfig";
+import {getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {AuthApi} from "@/client";
 
 export default class AuthClient {
   async createTokenByEmail(email: string, password: string): Promise<string> {
-    const res = await getNestAxiosInstance().post("/auth/token/email", {
+    const api = new AuthApi(getOpenAPIConfiguration());
+    const res = await api.authControllerCreateTokenByEmail({
       email: email,
       password: password
     });
-    return res.data.access_token;
+    return res.data.accessToken;
   }
 
   async createTokenByUsername(username: string, password: string): Promise<string> {
-    const res = await getNestAxiosInstance().post("/auth/token/username", {
+    const api = new AuthApi(getOpenAPIConfiguration());
+    const res = await api.authControllerCreateTokenByUsername({
       username: username,
       password: password
     });
-    return res.data.access_token;
+    return res.data.accessToken;
   }
-}
+};
