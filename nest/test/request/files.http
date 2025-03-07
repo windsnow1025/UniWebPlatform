@@ -1,12 +1,17 @@
-### Upload File
+### Upload Files
 
-POST {{baseUrl}}/files/file
+POST {{baseUrl}}/files
 Authorization: Bearer {{token}}
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Type: multipart/form-data; boundary=boundary
 
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="example.txt"
+--boundary
+Content-Disposition: form-data; filename="example1.txt"
 Content-Type: text/plain
 
-This is the content of the file.
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
+This is the content of the first file.
+--boundary
+Content-Disposition: form-data; filename="example2.txt"
+Content-Type: text/plain
+
+This is the content of the second file.
+--boundary--
