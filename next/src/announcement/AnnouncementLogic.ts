@@ -1,6 +1,6 @@
 import AnnouncementClient from "./AnnouncementClient";
 import axios from "axios";
-import {Announcement} from "./Announcement";
+import {AnnouncementResDto} from "@/client";
 
 export default class AnnouncementLogic {
   private announcementService: AnnouncementClient;
@@ -9,7 +9,7 @@ export default class AnnouncementLogic {
     this.announcementService = new AnnouncementClient();
   }
 
-  async fetchAnnouncement(): Promise<Announcement> {
+  async fetchAnnouncement(): Promise<AnnouncementResDto> {
     try {
       return await this.announcementService.fetchAnnouncement();
     } catch (error) {
@@ -18,7 +18,7 @@ export default class AnnouncementLogic {
     }
   }
 
-  async updateAnnouncement(content: string): Promise<Announcement> {
+  async updateAnnouncement(content: string): Promise<AnnouncementResDto> {
     try {
       return await this.announcementService.updateAnnouncement(content);
     } catch (error) {
