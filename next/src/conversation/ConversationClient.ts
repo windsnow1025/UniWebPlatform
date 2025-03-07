@@ -1,72 +1,59 @@
-import {Conversation} from './Conversation';
-import {getNestAxiosInstance} from "@/src/common/APIConfig";
+import {getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {
+  ConversationReqDto,
+  ConversationResDto,
+  ConversationsApi
+} from "@/client";
 
 export default class ConversationClient {
-  async fetchConversations(): Promise<Conversation[]> {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().get('/conversations', {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async fetchConversations(): Promise<ConversationResDto[]> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerFind();
     return res.data;
   }
 
-  async addConversation(conversation: Conversation): Promise<Conversation> {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().post("/conversations/conversation", conversation, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
-    return res.data;
-  }
-
-  async cloneConversationForUser(id: number, username: string): Promise<Conversation> {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().post(`/conversations/conversation/${id}/clone`, {
-      username: username
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
-    return res.data;
-  }
-
-  async addUserToConversation(id: number, username: string): Promise<Conversation> {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().post(
-      `/conversations/conversation/${id}/users`,
-      {
-        username: username
-      }, {
-        headers: {Authorization: `Bearer ${token}`}
-      }
+  async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerCreate(
+      conversation
     );
     return res.data;
   }
 
-  async updateConversation(id: number, conversation: Conversation): Promise<Conversation> {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().put(
-      `/conversations/conversation/${id}`,
-      conversation,
-      {
-        headers: {Authorization: `Bearer ${token}`}
-      }
+  async cloneConversationForUser(id: number, username: string): Promise<ConversationResDto> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerCloneForSpecificUser(
+      id, {username}
     );
     return res.data;
   }
 
-  async updateConversationName(id: number, name: string): Promise<Conversation> {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().put(`/conversations/conversation/${id}/name`, {
-      name: name
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async addUserToConversation(id: number, username: string): Promise<ConversationResDto> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerAddUserForUsers(
+      id, {username}
+    );
     return res.data;
   }
 
-  async deleteConversation(id: number) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().delete(`/conversations/conversation/${id}`, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async updateConversation(id: number, conversation: ConversationReqDto): Promise<ConversationResDto> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerUpdate(
+      id, conversation
+    );
+    return res.data;
+  }
+
+  async updateConversationName(id: number, name: string): Promise<ConversationResDto> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerUpdateName(
+      id, {name},
+    );
+    return res.data;
+  }
+
+  async deleteConversation(id: number): Promise<void> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    await api.conversationsControllerDelete(id);
   }
 }
