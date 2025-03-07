@@ -1,100 +1,71 @@
-import {Role, User} from "@/src/common/user/User";
-import {getNestAxiosInstance} from "@/src/common/APIConfig";
+import {getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {UserResDto, UsersApi, UserResDtoRolesEnum} from "@/client";
 
 export default class UserClient {
-  async fetchUsers(): Promise<User[]> {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().get("/users", {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async fetchUsers(): Promise<UserResDto[]> {
+    const api = new UsersApi(getOpenAPIConfiguration());
+    const res = await api.usersControllerFind();
     return res.data;
   }
 
-  async fetchUser(): Promise<User> {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().get("/users/user", {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async fetchUser(): Promise<UserResDto> {
+    const api = new UsersApi(getOpenAPIConfiguration());
+    const res = await api.usersControllerFindOne();
     return res.data;
   }
 
   async createUser(username: string, email: string, password: string) {
-    await getNestAxiosInstance().post("/users/user", {
-      username: username,
-      email: email,
-      password: password
-    });
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerCreate({ username, email, password });
   }
 
   async sendEmailVerification(email: string, password: string) {
-    await getNestAxiosInstance().post("/users/user/email-verification", {
-      email: email,
-      password: password
-    });
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerSendEmailVerification({ email, password });
   }
 
   async updateEmailVerified(email: string, password: string) {
-    await getNestAxiosInstance().put("/users/user/email-verified", {
-      email: email,
-      password: password
-    });
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerUpdateEmailVerified({ email, password });
   }
 
   async updateEmail(email: string) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/email", {
-      email: email,
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerUpdateEmail({ email });
   }
 
   async updateUsername(username: string) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/username", {
-      username: username,
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerUpdateUsername({ username });
   }
 
   async updatePassword(password: string) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/password", {
-      password: password
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerUpdatePassword({ password });
   }
 
   async updateUserPrivileges(
     username: string,
     emailVerified: boolean,
-    roles: Role[],
+    roles: UserResDtoRolesEnum[],
     credit: number
   ) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put("/users/user/privileges", {
-      username: username,
-      emailVerified: emailVerified,
-      roles: roles,
-      credit: credit
-    }, {
-      headers: { Authorization: `Bearer ${token}` }
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerUpdatePrivileges({
+      username,
+      emailVerified,
+      roles,
+      credit,
     });
   }
 
   async deleteUser() {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().delete("/users/user", {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerDelete();
   }
 
   async deleteUserById(id: number) {
-    const token = localStorage.getItem('token');
-    const res = await getNestAxiosInstance().delete(`/users/user/${id}`, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+    const api = new UsersApi(getOpenAPIConfiguration());
+    await api.usersControllerDeleteById(id);
   }
 }
