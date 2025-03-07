@@ -26,45 +26,34 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
- * @interface Announcement
+ * @interface AnnouncementReqDto
  */
-export interface Announcement {
+export interface AnnouncementReqDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AnnouncementReqDto
+     */
+    'content': string;
+}
+/**
+ * 
+ * @export
+ * @interface AnnouncementResDto
+ */
+export interface AnnouncementResDto {
     /**
      * 
      * @type {number}
-     * @memberof Announcement
+     * @memberof AnnouncementResDto
      */
     'id': number;
     /**
      * 
      * @type {string}
-     * @memberof Announcement
+     * @memberof AnnouncementResDto
      */
     'content': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Announcement
-     */
-    'createdAt': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Announcement
-     */
-    'updatedAt': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Announcement
-     */
-    'deletedAt': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Announcement
-     */
-    'version': number;
 }
 /**
  * 
@@ -564,13 +553,13 @@ export const AnnouncementApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
-         * @param {Announcement} announcement 
+         * @param {AnnouncementReqDto} announcementReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        announcementControllerUpdate: async (announcement: Announcement, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'announcement' is not null or undefined
-            assertParamExists('announcementControllerUpdate', 'announcement', announcement)
+        announcementControllerUpdate: async (announcementReqDto: AnnouncementReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'announcementReqDto' is not null or undefined
+            assertParamExists('announcementControllerUpdate', 'announcementReqDto', announcementReqDto)
             const localVarPath = `/announcement`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -594,7 +583,7 @@ export const AnnouncementApiAxiosParamCreator = function (configuration?: Config
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(announcement, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(announcementReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -616,7 +605,7 @@ export const AnnouncementApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async announcementControllerFind(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Announcement>> {
+        async announcementControllerFind(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnouncementResDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.announcementControllerFind(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AnnouncementApi.announcementControllerFind']?.[localVarOperationServerIndex]?.url;
@@ -624,12 +613,12 @@ export const AnnouncementApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {Announcement} announcement 
+         * @param {AnnouncementReqDto} announcementReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async announcementControllerUpdate(announcement: Announcement, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Announcement>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.announcementControllerUpdate(announcement, options);
+        async announcementControllerUpdate(announcementReqDto: AnnouncementReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnouncementResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.announcementControllerUpdate(announcementReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AnnouncementApi.announcementControllerUpdate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -649,17 +638,17 @@ export const AnnouncementApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        announcementControllerFind(options?: RawAxiosRequestConfig): AxiosPromise<Announcement> {
+        announcementControllerFind(options?: RawAxiosRequestConfig): AxiosPromise<AnnouncementResDto> {
             return localVarFp.announcementControllerFind(options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {Announcement} announcement 
+         * @param {AnnouncementReqDto} announcementReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        announcementControllerUpdate(announcement: Announcement, options?: RawAxiosRequestConfig): AxiosPromise<Announcement> {
-            return localVarFp.announcementControllerUpdate(announcement, options).then((request) => request(axios, basePath));
+        announcementControllerUpdate(announcementReqDto: AnnouncementReqDto, options?: RawAxiosRequestConfig): AxiosPromise<AnnouncementResDto> {
+            return localVarFp.announcementControllerUpdate(announcementReqDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -683,13 +672,13 @@ export class AnnouncementApi extends BaseAPI {
 
     /**
      * 
-     * @param {Announcement} announcement 
+     * @param {AnnouncementReqDto} announcementReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnouncementApi
      */
-    public announcementControllerUpdate(announcement: Announcement, options?: RawAxiosRequestConfig) {
-        return AnnouncementApiFp(this.configuration).announcementControllerUpdate(announcement, options).then((request) => request(this.axios, this.basePath));
+    public announcementControllerUpdate(announcementReqDto: AnnouncementReqDto, options?: RawAxiosRequestConfig) {
+        return AnnouncementApiFp(this.configuration).announcementControllerUpdate(announcementReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

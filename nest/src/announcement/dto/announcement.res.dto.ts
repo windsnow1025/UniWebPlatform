@@ -1,4 +1,4 @@
-export interface Announcement {
+export class AnnouncementResDto {
   id: number;
   content: string;
 }
