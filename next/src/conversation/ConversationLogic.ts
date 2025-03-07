@@ -14,7 +14,7 @@ export default class ConversationLogic {
       return await this.conversationService.fetchConversations();
     } catch (error) {
       console.error(error);
-      throw error;
+      throw new Error('Failed to fetch conversations');
     }
   }
 

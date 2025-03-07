@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Markdown } from './markdown.entity';
+import { MarkdownResDto } from './dto/markdown.res.dto';
 
 @Injectable()
 export class MarkdownsService {
@@ -9,6 +10,14 @@ export class MarkdownsService {
     @InjectRepository(Markdown)
     private markdownsRepository: Repository<Markdown>,
   ) {}
+
+  public toMarkdownDto(markdown: Markdown): MarkdownResDto {
+    return {
+      id: markdown.id,
+      title: markdown.title,
+      content: markdown.content,
+    };
+  }
 
   findAll() {
     return this.markdownsRepository.find();
@@ -18,23 +27,28 @@ export class MarkdownsService {
     return this.markdownsRepository.findOneBy({ id });
   }
 
-  create(markdown: Markdown) {
+  create(title: string, content: string): Promise<Markdown> {
+    const markdown = new Markdown();
+
+    markdown.title = title;
+    markdown.content = content;
+
     return this.markdownsRepository.save(markdown);
   }
 
-  async update(newMarkdown: Markdown) {
-    const markdown = await this.findOne(newMarkdown.id);
+  async update(id: number, title: string, content: string): Promise<Markdown> {
+    const markdown = await this.findOne(id);
     if (!markdown) {
       throw new NotFoundException('Markdown not found');
     }
 
-    markdown.title = newMarkdown.title;
-    markdown.content = newMarkdown.content;
+    markdown.title = title;
+    markdown.content = content;
 
     return this.markdownsRepository.save(markdown);
   }
 
-  async remove(id: number) {
-    return await this.markdownsRepository.delete(id);
+  remove(id: number) {
+    return this.markdownsRepository.delete(id);
   }
 }
