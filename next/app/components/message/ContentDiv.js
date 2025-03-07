@@ -79,48 +79,43 @@ function ContentDiv({
 
     const items = event.clipboardData.items;
     const fileLogic = new FileLogic();
-    const uploadPromises = [];
-    let totalProgress = 0;
-    let filePasted = false;
+    const filesToUpload = [];
 
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       if (item.kind === 'file') {
-        filePasted = true;
         const file = item.getAsFile();
         if (file) {
-          const uploadPromise = fileLogic.upload(file, (progressEvent) => {
-            const progress = (progressEvent.loaded / progressEvent.total);
-            totalProgress += progress / items.length;
-            setUploadProgress(totalProgress);
-          }).then(url => url);
-          uploadPromises.push(uploadPromise);
+          filesToUpload.push(file);
         }
       }
     }
 
-    if (filePasted) {
-      event.preventDefault();
+    if (filesToUpload.length === 0) {
+      return;
     }
 
+    event.preventDefault();
+
+    setUploadProgress(0);
     try {
-      const urls = await Promise.all(uploadPromises);
+      const urls = await fileLogic.uploadFiles(filesToUpload, (progressEvent) => {
+        const progress = progressEvent.loaded / progressEvent.total;
+        setUploadProgress(progress);
+      });
 
       setFiles([...files, ...urls]);
-      if (urls.length > 0) {
-        setAlertMessage("Files uploaded successfully");
-        setAlertSeverity('success');
-        setAlertOpen(true);
-        setUploadProgress(0);
-      }
+      setAlertMessage("Files uploaded successfully");
+      setAlertSeverity('success');
+      setAlertOpen(true);
     } catch (error) {
       console.error("File upload failed:", error);
-      setAlertMessage(error.message || "Failed to upload file");
+      setAlertMessage(error.message || "Failed to upload files");
       setAlertSeverity('error');
       setAlertOpen(true);
+    } finally {
       setUploadProgress(0);
     }
-
   };
 
   return (
