@@ -109,63 +109,70 @@ export interface AuthTokenUsernameReqDto {
 /**
  * 
  * @export
- * @interface Bookmark
+ * @interface BookmarkReqDto
  */
-export interface Bookmark {
-    /**
-     * 
-     * @type {number}
-     * @memberof Bookmark
-     */
-    'id': number;
+export interface BookmarkReqDto {
     /**
      * 
      * @type {string}
-     * @memberof Bookmark
+     * @memberof BookmarkReqDto
      */
     'firstTitle': string;
     /**
      * 
      * @type {string}
-     * @memberof Bookmark
+     * @memberof BookmarkReqDto
      */
     'secondTitle': string;
     /**
      * 
      * @type {string}
-     * @memberof Bookmark
+     * @memberof BookmarkReqDto
      */
     'url': string;
     /**
      * 
      * @type {string}
-     * @memberof Bookmark
+     * @memberof BookmarkReqDto
      */
     'comment': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Bookmark
-     */
-    'createdAt': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Bookmark
-     */
-    'updatedAt': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Bookmark
-     */
-    'deletedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface BookmarkResDto
+ */
+export interface BookmarkResDto {
     /**
      * 
      * @type {number}
-     * @memberof Bookmark
+     * @memberof BookmarkResDto
      */
-    'version': number;
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BookmarkResDto
+     */
+    'firstTitle': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BookmarkResDto
+     */
+    'secondTitle': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BookmarkResDto
+     */
+    'url': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BookmarkResDto
+     */
+    'comment': string;
 }
 /**
  * 
@@ -987,13 +994,13 @@ export const BookmarksApiAxiosParamCreator = function (configuration?: Configura
     return {
         /**
          * 
-         * @param {Bookmark} bookmark 
+         * @param {BookmarkReqDto} bookmarkReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bookmarksControllerCreate: async (bookmark: Bookmark, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'bookmark' is not null or undefined
-            assertParamExists('bookmarksControllerCreate', 'bookmark', bookmark)
+        bookmarksControllerCreate: async (bookmarkReqDto: BookmarkReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bookmarkReqDto' is not null or undefined
+            assertParamExists('bookmarksControllerCreate', 'bookmarkReqDto', bookmarkReqDto)
             const localVarPath = `/bookmarks/bookmark`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1017,7 +1024,7 @@ export const BookmarksApiAxiosParamCreator = function (configuration?: Configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(bookmark, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(bookmarkReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1096,14 +1103,18 @@ export const BookmarksApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @param {Bookmark} bookmark 
+         * @param {number} id 
+         * @param {BookmarkReqDto} bookmarkReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bookmarksControllerUpdate: async (bookmark: Bookmark, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'bookmark' is not null or undefined
-            assertParamExists('bookmarksControllerUpdate', 'bookmark', bookmark)
-            const localVarPath = `/bookmarks/bookmark`;
+        bookmarksControllerUpdate: async (id: number, bookmarkReqDto: BookmarkReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('bookmarksControllerUpdate', 'id', id)
+            // verify required parameter 'bookmarkReqDto' is not null or undefined
+            assertParamExists('bookmarksControllerUpdate', 'bookmarkReqDto', bookmarkReqDto)
+            const localVarPath = `/bookmarks/bookmark/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1126,7 +1137,7 @@ export const BookmarksApiAxiosParamCreator = function (configuration?: Configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(bookmark, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(bookmarkReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1145,12 +1156,12 @@ export const BookmarksApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {Bookmark} bookmark 
+         * @param {BookmarkReqDto} bookmarkReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async bookmarksControllerCreate(bookmark: Bookmark, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Bookmark>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.bookmarksControllerCreate(bookmark, options);
+        async bookmarksControllerCreate(bookmarkReqDto: BookmarkReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BookmarkResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.bookmarksControllerCreate(bookmarkReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BookmarksApi.bookmarksControllerCreate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1172,7 +1183,7 @@ export const BookmarksApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async bookmarksControllerFindAll(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Bookmark>>> {
+        async bookmarksControllerFindAll(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BookmarkResDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.bookmarksControllerFindAll(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BookmarksApi.bookmarksControllerFindAll']?.[localVarOperationServerIndex]?.url;
@@ -1180,12 +1191,13 @@ export const BookmarksApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {Bookmark} bookmark 
+         * @param {number} id 
+         * @param {BookmarkReqDto} bookmarkReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async bookmarksControllerUpdate(bookmark: Bookmark, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Bookmark>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.bookmarksControllerUpdate(bookmark, options);
+        async bookmarksControllerUpdate(id: number, bookmarkReqDto: BookmarkReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BookmarkResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.bookmarksControllerUpdate(id, bookmarkReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BookmarksApi.bookmarksControllerUpdate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1202,12 +1214,12 @@ export const BookmarksApiFactory = function (configuration?: Configuration, base
     return {
         /**
          * 
-         * @param {Bookmark} bookmark 
+         * @param {BookmarkReqDto} bookmarkReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bookmarksControllerCreate(bookmark: Bookmark, options?: RawAxiosRequestConfig): AxiosPromise<Bookmark> {
-            return localVarFp.bookmarksControllerCreate(bookmark, options).then((request) => request(axios, basePath));
+        bookmarksControllerCreate(bookmarkReqDto: BookmarkReqDto, options?: RawAxiosRequestConfig): AxiosPromise<BookmarkResDto> {
+            return localVarFp.bookmarksControllerCreate(bookmarkReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1223,17 +1235,18 @@ export const BookmarksApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bookmarksControllerFindAll(options?: RawAxiosRequestConfig): AxiosPromise<Array<Bookmark>> {
+        bookmarksControllerFindAll(options?: RawAxiosRequestConfig): AxiosPromise<Array<BookmarkResDto>> {
             return localVarFp.bookmarksControllerFindAll(options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {Bookmark} bookmark 
+         * @param {number} id 
+         * @param {BookmarkReqDto} bookmarkReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        bookmarksControllerUpdate(bookmark: Bookmark, options?: RawAxiosRequestConfig): AxiosPromise<Bookmark> {
-            return localVarFp.bookmarksControllerUpdate(bookmark, options).then((request) => request(axios, basePath));
+        bookmarksControllerUpdate(id: number, bookmarkReqDto: BookmarkReqDto, options?: RawAxiosRequestConfig): AxiosPromise<BookmarkResDto> {
+            return localVarFp.bookmarksControllerUpdate(id, bookmarkReqDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1247,13 +1260,13 @@ export const BookmarksApiFactory = function (configuration?: Configuration, base
 export class BookmarksApi extends BaseAPI {
     /**
      * 
-     * @param {Bookmark} bookmark 
+     * @param {BookmarkReqDto} bookmarkReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BookmarksApi
      */
-    public bookmarksControllerCreate(bookmark: Bookmark, options?: RawAxiosRequestConfig) {
-        return BookmarksApiFp(this.configuration).bookmarksControllerCreate(bookmark, options).then((request) => request(this.axios, this.basePath));
+    public bookmarksControllerCreate(bookmarkReqDto: BookmarkReqDto, options?: RawAxiosRequestConfig) {
+        return BookmarksApiFp(this.configuration).bookmarksControllerCreate(bookmarkReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1279,13 +1292,14 @@ export class BookmarksApi extends BaseAPI {
 
     /**
      * 
-     * @param {Bookmark} bookmark 
+     * @param {number} id 
+     * @param {BookmarkReqDto} bookmarkReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BookmarksApi
      */
-    public bookmarksControllerUpdate(bookmark: Bookmark, options?: RawAxiosRequestConfig) {
-        return BookmarksApiFp(this.configuration).bookmarksControllerUpdate(bookmark, options).then((request) => request(this.axios, this.basePath));
+    public bookmarksControllerUpdate(id: number, bookmarkReqDto: BookmarkReqDto, options?: RawAxiosRequestConfig) {
+        return BookmarksApiFp(this.configuration).bookmarksControllerUpdate(id, bookmarkReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

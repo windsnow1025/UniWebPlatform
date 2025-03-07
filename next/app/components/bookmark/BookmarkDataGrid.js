@@ -43,7 +43,15 @@ function BookmarkDataGrid() {
 
   const updateRow = async (row) => {
     try {
-      await bookmarkLogic.updateBookmark(row);
+      await bookmarkLogic.updateBookmark(
+        row.id,
+        {
+          firstTitle: row.firstTitle,
+          secondTitle: row.secondTitle,
+          url: row.url,
+          comment: row.comment,
+        },
+      );
     } catch (error) {
       console.error('Error updating bookmark:', error);
       throw error;

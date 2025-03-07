@@ -1,31 +1,27 @@
-import {Bookmark} from './Bookmark';
-import {getNestAxiosInstance} from "@/src/common/APIConfig";
+import {getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {BookmarkReqDto, BookmarkResDto, BookmarksApi} from "@/client";
 
 export default class BookmarkClient {
-
-  async fetchBookmarks() {
-    const res = await getNestAxiosInstance().get('/bookmarks');
+  async fetchBookmarks(): Promise<BookmarkResDto[]> {
+    const api = new BookmarksApi(getOpenAPIConfiguration());
+    const res = await api.bookmarksControllerFindAll();
     return res.data;
   }
 
-  async addBookmark(newBookmark: Bookmark) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().post('/bookmarks/bookmark', newBookmark, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async addBookmark(bookmark: BookmarkReqDto): Promise<BookmarkResDto> {
+    const api = new BookmarksApi(getOpenAPIConfiguration());
+    const res = await api.bookmarksControllerCreate(bookmark);
+    return res.data;
   }
 
-  async updateBookmark(bookmark: Bookmark) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put('/bookmarks/bookmark', bookmark, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async updateBookmark(id: number, bookmark: BookmarkReqDto): Promise<BookmarkResDto> {
+    const api = new BookmarksApi(getOpenAPIConfiguration());
+    const res = await api.bookmarksControllerUpdate(id, bookmark);
+    return res.data;
   }
 
-  async deleteBookmark(id: number) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().delete(`/bookmarks/bookmark/${id}`, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async deleteBookmark(id: number): Promise<void> {
+    const api = new BookmarksApi(getOpenAPIConfiguration());
+    await api.bookmarksControllerDelete(id);
   }
 }

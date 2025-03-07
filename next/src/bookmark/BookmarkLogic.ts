@@ -1,6 +1,7 @@
 import BookmarkClient from "./BookmarkClient";
 import {Bookmark} from "./Bookmark";
 import axios from "axios";
+import {BookmarkReqDto, BookmarkResDto} from "@/client";
 
 export default class BookmarkLogic {
   private bookmarkService: BookmarkClient;
@@ -9,17 +10,18 @@ export default class BookmarkLogic {
     this.bookmarkService = new BookmarkClient();
   }
 
-  async fetchBookmarks() {
+  async fetchBookmarks(): Promise<BookmarkResDto[]> {
     try {
       return await this.bookmarkService.fetchBookmarks();
     } catch (error) {
       console.error(error);
+      throw new Error('Failed to fetch bookmarks');
     }
   }
 
-  async addBookmark(bookmark: Bookmark) {
+  async addBookmark(bookmark: BookmarkReqDto): Promise<BookmarkResDto> {
     try {
-      await this.bookmarkService.addBookmark(bookmark);
+      return await this.bookmarkService.addBookmark(bookmark);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -34,9 +36,9 @@ export default class BookmarkLogic {
     }
   }
 
-  async updateBookmark(bookmark: Bookmark) {
+  async updateBookmark(id: number, bookmark: BookmarkReqDto): Promise<BookmarkResDto> {
     try {
-      await this.bookmarkService.updateBookmark(bookmark);
+      return await this.bookmarkService.updateBookmark(id, bookmark);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -51,7 +53,7 @@ export default class BookmarkLogic {
     }
   }
 
-  async deleteBookmark(id: number) {
+  async deleteBookmark(id: number): Promise<void> {
     try {
       await this.bookmarkService.deleteBookmark(id);
     } catch (error) {
