@@ -45,10 +45,6 @@ export function getOpenAPIConfiguration(): Configuration {
   const token = localStorage.getItem("token");
   return new Configuration({
     basePath: getAPIBaseURLs().nest,
-    baseOptions: {
-      headers: {
-        Authorization: token ? `Bearer ${token}` : "",
-      },
-    },
+    accessToken: token || undefined,
   });
 }
