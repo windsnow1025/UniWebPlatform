@@ -58,7 +58,7 @@ See `./K3S.md`
 
 #### Apply Custom Configs
 
-See `./app-command.md`
+See `./KubernetesCommand.md`
 
 #### Nginx (Optional)
 
