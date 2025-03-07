@@ -31,24 +31,16 @@ function FileUpload({files, setFiles, setUploadProgress}) {
       setIsUploading(true);
       setUploadProgress(0);
       try {
-        const totalFiles = fileList.length;
-        let uploadedFiles = 0;
+        const filesArray = Array.from(fileList);
 
-        const uploadPromises = Array.from(fileList).map(file => {
-          return fileLogic.upload(file, (progressEvent) => {
-            const progress = (progressEvent.loaded / progressEvent.total) * (1 / totalFiles);
-            setUploadProgress(prevProgress => prevProgress + progress);
-          }).then(url => {
-            uploadedFiles += 1;
-            setUploadProgress(uploadedFiles / totalFiles);
-            return url;
-          });
+        const uploadedFileUrls = await fileLogic.uploadFiles(filesArray, (progressEvent) => {
+          const progress = progressEvent.loaded / progressEvent.total;
+          setUploadProgress(progress);
         });
 
-        const uploadedFileUrls = await Promise.all(uploadPromises);
         const newFiles = files.concat(uploadedFileUrls);
-
         setFiles(newFiles);
+
         setAlertMessage("Files uploaded successfully");
         setAlertSeverity('success');
         setAlertOpen(true);
