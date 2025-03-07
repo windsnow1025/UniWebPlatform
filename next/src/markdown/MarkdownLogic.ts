@@ -1,5 +1,6 @@
 import MarkdownClient from "./MarkdownClient";
 import axios from "axios";
+import {MarkdownResDto} from "@/client";
 
 export default class MarkdownLogic {
   private markdownService: MarkdownClient;
@@ -8,25 +9,31 @@ export default class MarkdownLogic {
     this.markdownService = new MarkdownClient();
   }
 
-  async fetchMarkdowns() {
+  getTitleFromContent(content: string) {
+    return content.split('\n')[0].replace('# ', '');
+  }
+
+  async fetchMarkdowns(): Promise<MarkdownResDto[]> {
     try {
       return await this.markdownService.fetchMarkdowns();
     } catch (error) {
       console.error(error);
+      throw new Error('Failed to fetch markdowns');
     }
   }
 
-  async fetchMarkdown(id: number) {
+  async fetchMarkdown(id: number): Promise<MarkdownResDto> {
     try {
       return await this.markdownService.fetchMarkdown(id);
     } catch (error) {
       console.error(error);
+      throw new Error('Failed to fetch markdown');
     }
   }
 
-  async addMarkdown(title: string, content: string) {
+  async addMarkdown(title: string, content: string): Promise<MarkdownResDto> {
     try {
-      await this.markdownService.addMarkdown({title, content});
+      return await this.markdownService.addMarkdown({title, content});
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -41,9 +48,9 @@ export default class MarkdownLogic {
     }
   }
 
-  async updateMarkdown(id: number, title: string, content: string) {
+  async updateMarkdown(id: number, title: string, content: string): Promise<MarkdownResDto> {
     try {
-      await this.markdownService.updateMarkdown(id, {title, content});
+      return await this.markdownService.updateMarkdown(id, {title, content});
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -73,9 +80,5 @@ export default class MarkdownLogic {
       console.error(error);
       throw new Error('Failed to delete markdown');
     }
-  }
-
-  getTitleFromContent(content: string) {
-    return content.split('\n')[0].replace('# ', '');
   }
 }

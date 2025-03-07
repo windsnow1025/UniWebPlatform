@@ -1,39 +1,33 @@
-import {Markdown} from "@/src/markdown/Markdown";
-import {getNestAxiosInstance} from "@/src/common/APIConfig";
+import {getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {MarkdownReqDto, MarkdownResDto, MarkdownsApi} from "@/client";
 
 export default class MarkdownClient {
-  async fetchMarkdowns(): Promise<Markdown[]> {
-    const res = await getNestAxiosInstance().get('/markdowns');
+  async fetchMarkdowns(): Promise<MarkdownResDto[]> {
+    const api = new MarkdownsApi(getOpenAPIConfiguration());
+    const res = await api.markdownsControllerFindAll();
     return res.data;
   }
 
-  async fetchMarkdown(id: number): Promise<Markdown> {
-    const res = await getNestAxiosInstance().get('/markdowns/markdown/' + id);
+  async fetchMarkdown(id: number): Promise<MarkdownResDto> {
+    const api = new MarkdownsApi(getOpenAPIConfiguration());
+    const res = await api.markdownsControllerFindOne(id);
     return res.data;
   }
 
-  async addMarkdown(markdown: Markdown) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().post('/markdowns/markdown', markdown, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async addMarkdown(markdown: MarkdownReqDto): Promise<MarkdownResDto> {
+    const api = new MarkdownsApi(getOpenAPIConfiguration());
+    const res = await api.markdownsControllerCreate(markdown);
+    return res.data;
   }
 
-  async updateMarkdown(id: number, markdown: Markdown) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().put('/markdowns/markdown', {
-      id: id,
-      title: markdown.title,
-      content: markdown.content
-    }, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async updateMarkdown(id: number, markdown: MarkdownReqDto): Promise<MarkdownResDto> {
+    const api = new MarkdownsApi(getOpenAPIConfiguration());
+    const res = await api.markdownsControllerUpdate(id, markdown);
+    return res.data;
   }
 
-  async deleteMarkdown(id: number) {
-    const token = localStorage.getItem('token');
-    await getNestAxiosInstance().delete(`/markdowns/markdown/${id}`, {
-      headers: {Authorization: `Bearer ${token}`}
-    });
+  async deleteMarkdown(id: number): Promise<void> {
+    const api = new MarkdownsApi(getOpenAPIConfiguration());
+    await api.markdownsControllerDelete(id);
   }
 }
