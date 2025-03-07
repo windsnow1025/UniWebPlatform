@@ -5,10 +5,10 @@ import {
   Get,
   Post,
   Req,
-  UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { FilesResDto } from './dto/files.res.dto';
@@ -18,18 +18,24 @@ import { FilesReqDto } from './dto/files.req.dto';
 export class FilesController {
   constructor(private readonly minioService: FilesService) {}
 
-  @Post('file')
-  @UseInterceptors(FileInterceptor('file'))
+  @Post()
+  @UseInterceptors(AnyFilesInterceptor())
   async uploadFile(
     @Req() req: RequestWithUser,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
     const userId = req.user.sub;
 
-    const fullFilename = await this.minioService.create(userId, file);
-    const fileUrl = this.minioService.getFileUrl(fullFilename);
+    console.log(files.length);
 
-    return { url: fileUrl };
+    const fileUrls = await Promise.all(
+      files.map(async (file) => {
+        const fullFilename = await this.minioService.create(userId, file);
+        return this.minioService.getFileUrl(fullFilename);
+      }),
+    );
+
+    return { urls: fileUrls };
   }
 
   @Get()

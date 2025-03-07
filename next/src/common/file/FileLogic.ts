@@ -8,9 +8,9 @@ export default class FileLogic {
     this.fileService = new FileClient();
   }
 
-  async upload(file: File, onProgress?: (progressEvent: AxiosProgressEvent) => void) {
+  async uploadFiles(files: File[], onProgress?: (progressEvent: AxiosProgressEvent) => void) {
     try {
-      return await this.fileService.upload(file, onProgress);
+      return await this.fileService.uploadFiles(files, onProgress);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {

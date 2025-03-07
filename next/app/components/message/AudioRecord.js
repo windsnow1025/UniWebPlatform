@@ -55,12 +55,13 @@ function AudioRecord({ files, setFiles, setUploadProgress }) {
     setUploadProgress(0);
 
     try {
-      const uploadedUrl = await fileLogic.upload(audioFile, (progressEvent) => {
+      const uploadedUrls = await fileLogic.uploadFiles([audioFile], (progressEvent) => {
         const progress = progressEvent.loaded / progressEvent.total;
         setUploadProgress(progress);
       });
 
-      setFiles([...files, uploadedUrl]);
+      setFiles([...files, uploadedUrls[0]]);
+
       setAlertMessage("Audio uploaded successfully");
       setAlertSeverity('success');
       setAlertOpen(true);
