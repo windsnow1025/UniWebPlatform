@@ -10,20 +10,3 @@ Content-Type: text/plain
 
 This is the content of the file.
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
-
-### Get Files
-
-GET {{baseUrl}}/files
-Authorization: Bearer {{token}}
-
-### Delete Files
-
-DELETE {{baseUrl}}/files
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "filenames": [
-    "timestamp-example.txt"
-  ]
-}
