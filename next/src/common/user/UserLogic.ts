@@ -1,20 +1,38 @@
 import UserClient from "./UserClient";
 import AuthClient from "@/src/common/user/AuthClient";
 import axios from "axios";
-import {Role, User} from "@/src/common/user/User";
+import {UserResDto, UserResDtoRolesEnum} from "@/client";
 
 export default class UserLogic {
   private authService: AuthClient;
-  private userService: UserClient;
+  private userClient: UserClient;
 
   constructor() {
     this.authService = new AuthClient();
-    this.userService = new UserClient();
+    this.userClient = new UserClient();
   }
 
-  async fetchUsers(): Promise<User[]> {
+  isTokenExpired(token: string | null): boolean {
+    if (!token) return true;
+
     try {
-      return await this.userService.fetchUsers();
+      const payloadBase64 = token.split('.')[1];
+      const payloadJson = atob(payloadBase64);
+      const payload = JSON.parse(payloadJson);
+
+      const exp = payload.exp;
+      const now = Math.floor(Date.now() / 1000);
+
+      return exp < now;
+    } catch (error) {
+      console.error("Invalid token format:", error);
+      return true;
+    }
+  }
+
+  async fetchUsers(): Promise<UserResDto[]> {
+    try {
+      return await this.userClient.fetchUsers();
     } catch (error) {
       console.error(error);
       throw new Error("Failed to fetch users.");
@@ -23,7 +41,7 @@ export default class UserLogic {
 
   async fetchUsernames(): Promise<string[]> {
     try {
-      const users = await this.userService.fetchUsers();
+      const users = await this.userClient.fetchUsers();
       return users.map(user => user.username);
     } catch (err) {
       console.error(err);
@@ -32,18 +50,19 @@ export default class UserLogic {
   }
 
   async fetchUser() {
-    if (!localStorage.getItem('token')) {
+    const token = localStorage.getItem('token')
+    if (this.isTokenExpired(token)) {
+      localStorage.removeItem('token');
       return null;
     }
     try {
-      return await this.userService.fetchUser();
+      return await this.userClient.fetchUser();
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        if (err.response && err.response.status !== 500) {
+        if (err.response && err.response.status === 401) {
           localStorage.removeItem('token');
         }
       }
-      localStorage.removeItem('token');
       return null;
     }
   }
@@ -74,8 +93,8 @@ export default class UserLogic {
 
   async isAdmin(): Promise<boolean> {
     try {
-      const user = await this.userService.fetchUser();
-      return user.roles.includes(Role.Admin);
+      const user = await this.userClient.fetchUser();
+      return user.roles.includes(UserResDtoRolesEnum.Admin);
     } catch (error) {
       console.error(error);
       return false;
@@ -114,7 +133,7 @@ export default class UserLogic {
 
   async signUp(username: string, email: string, password: string) {
     try {
-      await this.userService.createUser(username, email, password);
+      await this.userClient.createUser(username, email, password);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
@@ -128,7 +147,7 @@ export default class UserLogic {
 
   async sendEmailVerification(email: string, password: string) {
     try {
-      await this.userService.sendEmailVerification(email, password);
+      await this.userClient.sendEmailVerification(email, password);
     } catch (error) {
       console.error(error);
       throw new Error('Send email verification failed');
@@ -137,7 +156,7 @@ export default class UserLogic {
 
   async updateEmailVerification(email: string, password: string) {
     try {
-      await this.userService.updateEmailVerified(email, password);
+      await this.userClient.updateEmailVerified(email, password);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -151,7 +170,7 @@ export default class UserLogic {
 
   async updateEmail(email: string) {
     try {
-      await this.userService.updateEmail(email);
+      await this.userClient.updateEmail(email);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
@@ -165,7 +184,7 @@ export default class UserLogic {
 
   async updateUsername(username: string) {
     try {
-      await this.userService.updateUsername(username);
+      await this.userClient.updateUsername(username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
@@ -179,16 +198,16 @@ export default class UserLogic {
 
   async updatePassword(password: string) {
     try {
-      await this.userService.updatePassword(password);
+      await this.userClient.updatePassword(password);
     } catch (error) {
       console.error(error);
       throw new Error('Update password failed');
     }
   }
 
-  async updateUserPrivileges(username: string, emailVerified: boolean, roles: Role[], credit: number) {
+  async updateUserPrivileges(username: string, emailVerified: boolean, roles: UserResDtoRolesEnum[], credit: number) {
     try {
-      await this.userService.updateUserPrivileges(username, emailVerified, roles, credit);
+      await this.userClient.updateUserPrivileges(username, emailVerified, roles, credit);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -208,7 +227,7 @@ export default class UserLogic {
 
   async deleteUser() {
     try {
-      await this.userService.deleteUser();
+      await this.userClient.deleteUser();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
@@ -222,7 +241,7 @@ export default class UserLogic {
 
   async deleteUserById(id: number) {
     try {
-      await this.userService.deleteUserById(id);
+      await this.userClient.deleteUserById(id);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
