@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class TokenEmailReqDto {
+export class AuthTokenEmailReqDto {
   @IsString()
   email: string;
 
@@ -8,7 +8,7 @@ export class TokenEmailReqDto {
   password: string;
 }
 
-export class TokenUsernameReqDto {
+export class AuthTokenUsernameReqDto {
   @IsString()
   username: string;
 
