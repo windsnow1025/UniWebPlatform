@@ -1,18 +1,8 @@
 @tailwind utilities;
 
-/* Next.JS */
-nextjs-portal {
-    display: none;
-}
-
 /* Global */
 html {
     overflow: hidden;
-}
-
-/* Markdown */
-.markdown-body table {
-    display: table !important;
 }
 
 /* Customize */
