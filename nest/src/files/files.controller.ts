@@ -26,8 +26,6 @@ export class FilesController {
   ) {
     const userId = req.user.sub;
 
-    console.log(files.length);
-
     const fileUrls = await Promise.all(
       files.map(async (file) => {
         const fullFilename = await this.minioService.create(userId, file);
