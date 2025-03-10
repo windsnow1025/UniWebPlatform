@@ -1,6 +1,4 @@
-import useThemeHandler from "../../app/hooks/useThemeHandler";
 import React, {useEffect, useState} from "react";
-import {ThemeProvider} from "@mui/material/styles";
 import {
   Alert,
   Button,

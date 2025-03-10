@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {CssBaseline, Tab, Tabs} from "@mui/material";
+import {Tab, Tabs} from "@mui/material";
 import AuthSettings from "../../app/components/common/settings/auth/AuthSettings";
 import PersonalizationSettings from "../../app/components/common/settings/PersonalizationSettings";
 import DeveloperSettings from "../../app/components/common/settings/DeveloperSettings";
 import AdminSetting from "../../app/components/common/settings/AdminSetting";
-import useThemeHandler from "../../app/hooks/useThemeHandler";
-import {ThemeProvider} from "@mui/material/styles";
 import UserLogic from "../../src/common/user/UserLogic";
 import StorageSettings from "../../app/components/common/settings/StorageSettings";
 
 const Settings = () => {
-  const {themeType, setThemeType, muiTheme} = useThemeHandler();
   const title = "Settings";
   const userLogic = new UserLogic();
 
@@ -50,10 +47,7 @@ const Settings = () => {
         {activeTab === 0 && <AuthSettings/>}
         {activeTab === 1 && <StorageSettings/>}
         {activeTab === 2 && (
-          <PersonalizationSettings
-            systemTheme={themeType}
-            setSystemTheme={setThemeType}
-          />
+          <PersonalizationSettings/>
         )}
         {activeTab === 3 && <DeveloperSettings/>}
         {isAdmin && activeTab === 4 && <AdminSetting/>}

@@ -6,7 +6,7 @@ export enum ThemeType {
   Dark = "dark",
 }
 
-function convertTheme(
+export function convertTheme(
   systemTheme: ThemeType, prefersDarkMode: boolean
 ): ThemeType.Light | ThemeType.Dark {
   if (systemTheme === ThemeType.Light || systemTheme === ThemeType.Dark) {
@@ -16,11 +16,10 @@ function convertTheme(
   }
 }
 
-export function createMUITheme(systemTheme: ThemeType, prefersDarkMode: boolean) {
-  const theme = convertTheme(systemTheme, prefersDarkMode);
+export function createMUITheme(rawTheme: ThemeType) {
   return createTheme({
     palette: {
-      mode: theme as ThemeType.Light | ThemeType.Dark,
+      mode: rawTheme as ThemeType.Light | ThemeType.Dark,
     }
   });
 }

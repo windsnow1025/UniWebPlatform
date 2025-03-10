@@ -5,16 +5,19 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import useScreenSize from "../../hooks/useScreenSize";
 import {ThemeType} from "../../utils/Theme";
+import {useAppTheme} from "../../contexts/ThemeContext";
 
-const ThemeToggle = ({systemTheme, setSystemTheme}) => {
+const ThemeToggle = () => {
   const screenSize = useScreenSize();
   const smallMediumIconSize = screenSize === 'xs' || screenSize === 'sm' ? 'small' : 'medium';
 
+  const { theme, setTheme } = useAppTheme();
+
   return (
     <ToggleButtonGroup
-      value={systemTheme || 'system'}
+      value={theme || 'system'}
       exclusive
-      onChange={(event, newTheme) => setSystemTheme(newTheme)}
+      onChange={(event, newTheme) => setTheme(newTheme)}
       size={smallMediumIconSize}
     >
       <Tooltip title="System">
