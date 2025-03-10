@@ -1,11 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {ThemeProvider} from "@mui/material/styles";
 import {Collapse, Paper} from "@mui/material";
 
 import ChatLogic from "../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
 import SettingsDiv from "../../app/components/chat/SettingsDiv";
-import useThemeHandler from "../../app/hooks/useThemeHandler";
 import SendButton from "../../app/components/chat/SendButton";
 import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";
 import StatesDiv from "../../app/components/chat/StatesDiv";

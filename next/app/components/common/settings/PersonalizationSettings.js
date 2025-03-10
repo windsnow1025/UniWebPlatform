@@ -1,11 +1,12 @@
 import React from "react";
 import ThemeToggle from "../ThemeToggle";
 
-const PersonalizationSettings = ({ systemTheme, setSystemTheme }) => {
+const PersonalizationSettings = () => {
+
   return (
     <div>
       <h2>Personalization Settings</h2>
-      <ThemeToggle systemTheme={systemTheme} setSystemTheme={setSystemTheme} />
+      <ThemeToggle/>
     </div>
   );
 };
