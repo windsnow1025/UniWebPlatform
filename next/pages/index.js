@@ -1,15 +1,7 @@
 'use client';
 
 import React, {useEffect} from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Link,
-  Typography,
-  useTheme
-} from "@mui/material";
+import {Box, Card, CardContent, Container, Link, Typography, useTheme} from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
@@ -18,7 +10,6 @@ import BookIcon from "@mui/icons-material/Book";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import PasswordIcon from "@mui/icons-material/Password";
 import ImageIcon from "@mui/icons-material/Image";
-import useThemeHandler from "../app/hooks/useThemeHandler";
 import HeaderAppBar from "../app/components/common/header/HeaderAppBar";
 
 function FeatureCard({title, description, icon}) {
