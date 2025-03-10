@@ -1,13 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
-import {Alert, Button, CssBaseline, Snackbar} from "@mui/material";
+import {Alert, Button, Snackbar} from "@mui/material";
 import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 
 function MarkdownAdd() {
-  const {themeType, setThemeType, muiTheme} = useThemeHandler();
 
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -51,25 +50,22 @@ function MarkdownAdd() {
   };
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <HeaderAppBar title="Markdown Add"/>
-        <div className="local-scroll-scrollable m-2">
-          <div
-            className="markdown-body p-2 min-h-16"
-            ref={markdownRef}
-            contentEditable={isEditing ? "plaintext-only" : "false"}
-          />
-        </div>
-        <div className="flex-center">
-          {!isEditing &&
-            <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
-          {isEditing &&
-            <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button>
-            </div>}
-          <div className="m-1"><Button variant="contained" color="secondary" onClick={handleAdd}>Add</Button></div>
-        </div>
+    <div className="local-scroll-root">
+      <HeaderAppBar title="Markdown Add"/>
+      <div className="local-scroll-scrollable m-2">
+        <div
+          className="markdown-body p-2 min-h-16"
+          ref={markdownRef}
+          contentEditable={isEditing ? "plaintext-only" : "false"}
+        />
+      </div>
+      <div className="flex-center">
+        {!isEditing &&
+          <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
+        {isEditing &&
+          <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button>
+          </div>}
+        <div className="m-1"><Button variant="contained" color="secondary" onClick={handleAdd}>Add</Button></div>
       </div>
       <Snackbar
         open={alertOpen}
@@ -81,7 +77,7 @@ function MarkdownAdd() {
           {alertMessage}
         </Alert>
       </Snackbar>
-    </ThemeProvider>
+    </div>
   );
 }
 

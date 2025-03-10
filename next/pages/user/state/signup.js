@@ -9,8 +9,6 @@ import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {wait} from "../../../app/utils/Wait";
 
 function SignUp() {
-  const {muiTheme} = useThemeHandler();
-
   useEffect(() => {
     document.title = "Sign Up";
   }, []);
@@ -151,120 +149,116 @@ function SignUp() {
   const isProcessing = isSendingVerification || isCheckingVerification;
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <HeaderAppBar title="Sign Up" useSignDiv={false}/>
-        <div className="local-scroll-scrollable flex-center">
-          <Paper elevation={3} className="flex-center p-6 max-w-md space-y-4">
-            <Typography variant="h5" align="center" gutterBottom>
-              Create an Account
-            </Typography>
+    <div className="local-scroll-root">
+      <HeaderAppBar title="Sign Up" useSignDiv={false}/>
+      <div className="local-scroll-scrollable flex-center">
+        <Paper elevation={3} className="flex-center p-6 max-w-md space-y-4">
+          <Typography variant="h5" align="center" gutterBottom>
+            Create an Account
+          </Typography>
 
-            {emailSent ? (
-              <>
-                <Typography variant="body1" align="center" gutterBottom>
-                  Verification email sent to {email}
-                </Typography>
-                <Typography variant="body2" align="center" gutterBottom>
-                  Please check your inbox and verify your email to complete registration.
-                </Typography>
+          {emailSent ? (
+            <>
+              <Typography variant="body1" align="center" gutterBottom>
+                Verification email sent to {email}
+              </Typography>
+              <Typography variant="body2" align="center" gutterBottom>
+                Please check your inbox and verify your email to complete registration.
+              </Typography>
+              <Button
+                variant="contained"
+                onClick={handleCheckVerification}
+                size="medium"
+                fullWidth
+                disabled={isProcessing}
+              >
+                {isCheckingVerification ? "Checking..." : "I've Verified My Email"}
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={handleResendVerification}
+                size="medium"
+                fullWidth
+                disabled={isProcessing || resendCooldown > 0}
+              >
+                {resendCooldown > 0
+                  ? `Resend Available in ${resendCooldown}s`
+                  : "Resend Verification Email"}
+              </Button>
+            </>
+          ) : (
+            <>
+              <TextField
+                label="Username"
+                variant="outlined"
+                fullWidth
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                disabled={isProcessing}
+              />
+
+              <TextField
+                label="Email"
+                variant="outlined"
+                fullWidth
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isProcessing}
+              />
+
+              <TextField
+                label="Password"
+                variant="outlined"
+                fullWidth
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={isProcessing}
+              />
+
+              <TextField
+                label="Confirm Password"
+                variant="outlined"
+                fullWidth
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                error={!passwordsMatch}
+                helperText={!passwordsMatch ? "Passwords don't match" : ""}
+                disabled={isProcessing}
+              />
+
+              <Button
+                variant="contained"
+                onClick={handleSignUp}
+                size="large"
+                fullWidth
+                disabled={!passwordsMatch || isProcessing}
+              >
+                {isSendingVerification ? "Processing..." : "Sign Up"}
+              </Button>
+
+              <Typography variant="body2" sx={{mt: 2}}>
+                Already have an account?{' '}
                 <Button
-                  variant="contained"
-                  onClick={handleCheckVerification}
-                  size="medium"
-                  fullWidth
+                  color="primary"
+                  onClick={() => router.push("/user/state/signin")}
+                  sx={{p: 0, minWidth: 'auto'}}
                   disabled={isProcessing}
                 >
-                  {isCheckingVerification ? "Checking..." : "I've Verified My Email"}
+                  Sign In
                 </Button>
-                <Button
-                  variant="outlined"
-                  onClick={handleResendVerification}
-                  size="medium"
-                  fullWidth
-                  disabled={isProcessing || resendCooldown > 0}
-                >
-                  {resendCooldown > 0
-                    ? `Resend Available in ${resendCooldown}s`
-                    : "Resend Verification Email"}
-                </Button>
-              </>
-            ) : (
-              <>
-                <TextField
-                  label="Username"
-                  variant="outlined"
-                  fullWidth
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                  disabled={isProcessing}
-                />
-
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={isProcessing}
-                />
-
-                <TextField
-                  label="Password"
-                  variant="outlined"
-                  fullWidth
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={isProcessing}
-                />
-
-                <TextField
-                  label="Confirm Password"
-                  variant="outlined"
-                  fullWidth
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  error={!passwordsMatch}
-                  helperText={!passwordsMatch ? "Passwords don't match" : ""}
-                  disabled={isProcessing}
-                />
-
-                <Button
-                  variant="contained"
-                  onClick={handleSignUp}
-                  size="large"
-                  fullWidth
-                  disabled={!passwordsMatch || isProcessing}
-                >
-                  {isSendingVerification ? "Processing..." : "Sign Up"}
-                </Button>
-
-                <Typography variant="body2" sx={{mt: 2}}>
-                  Already have an account?{' '}
-                  <Button
-                    color="primary"
-                    onClick={() => router.push("/user/state/signin")}
-                    sx={{p: 0, minWidth: 'auto'}}
-                    disabled={isProcessing}
-                  >
-                    Sign In
-                  </Button>
-                </Typography>
-              </>
-            )}
-          </Paper>
-        </div>
+              </Typography>
+            </>
+          )}
+        </Paper>
       </div>
-
       <Snackbar
         open={alertOpen}
         autoHideDuration={6000}
@@ -274,7 +268,7 @@ function SignUp() {
           {alertMessage}
         </Alert>
       </Snackbar>
-    </ThemeProvider>
+    </div>
   );
 }
 
