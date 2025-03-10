@@ -8,7 +8,6 @@ import {SignInPage} from '@toolpad/core/SignInPage';
 import {wait} from "../../../app/utils/Wait";
 
 function SignIn() {
-  const {muiTheme} = useThemeHandler();
   const router = useRouter();
   const userLogic = new UserLogic();
 
@@ -92,38 +91,35 @@ function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <div className="local-scroll-scrollable">
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            centered
-            sx={{borderBottom: 1, borderColor: 'divider'}}
-          >
-            <Tab label="Sign in with Email"/>
-            <Tab label="Sign in with Username"/>
-          </Tabs>
+    <div className="local-scroll-root">
+      <div className="local-scroll-scrollable">
+        <Tabs
+          value={tabValue}
+          onChange={handleTabChange}
+          centered
+          sx={{borderBottom: 1, borderColor: 'divider'}}
+        >
+          <Tab label="Sign in with Email"/>
+          <Tab label="Sign in with Username"/>
+        </Tabs>
 
-          {tabValue === 0 ? (
-            <SignInPage
-              signIn={handleSignIn}
-              providers={providers}
-              slotProps={{
-                emailField: {autoFocus: false},
-              }}
-            />
-          ) : (
-            <SignInPage
-              signIn={handleSignIn}
-              providers={providers}
-              slots={{
-                emailField: UsernameField
-              }}
-            />
-          )}
-        </div>
+        {tabValue === 0 ? (
+          <SignInPage
+            signIn={handleSignIn}
+            providers={providers}
+            slotProps={{
+              emailField: {autoFocus: false},
+            }}
+          />
+        ) : (
+          <SignInPage
+            signIn={handleSignIn}
+            providers={providers}
+            slots={{
+              emailField: UsernameField
+            }}
+          />
+        )}
       </div>
       <Snackbar
         open={alertOpen}
@@ -134,7 +130,7 @@ function SignIn() {
           {alertMessage}
         </Alert>
       </Snackbar>
-    </ThemeProvider>
+    </div>
   );
 }
 

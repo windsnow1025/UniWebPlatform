@@ -8,7 +8,6 @@ import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 
 function MarkdownUpdate() {
-  const {themeType, setThemeType, muiTheme} = useThemeHandler();
 
   const router = useRouter();
   const {id} = router.query;
@@ -78,27 +77,24 @@ function MarkdownUpdate() {
   };
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <HeaderAppBar title="Markdown Update"/>
-        <div className="local-scroll-scrollable m-2">
-          <div
-            className="markdown-body p-2 min-h-16"
-            ref={markdownRef}
-            contentEditable={isEditing ? "plaintext-only" : "false"}
-          />
+    <div className="local-scroll-root">
+      <HeaderAppBar title="Markdown Update"/>
+      <div className="local-scroll-scrollable m-2">
+        <div
+          className="markdown-body p-2 min-h-16"
+          ref={markdownRef}
+          contentEditable={isEditing ? "plaintext-only" : "false"}
+        />
+      </div>
+      <div className="flex-center">
+        {!isEditing &&
+          <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
+        {isEditing &&
+          <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button>
+          </div>}
+        <div className="m-1"><Button variant="contained" color="secondary" onClick={handleUpdate}>Update</Button>
         </div>
-        <div className="flex-center">
-          {!isEditing &&
-            <div className="m-1"><Button variant="contained" color="primary" onClick={handleEdit}>Edit</Button></div>}
-          {isEditing &&
-            <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button>
-            </div>}
-          <div className="m-1"><Button variant="contained" color="secondary" onClick={handleUpdate}>Update</Button>
-          </div>
-          <div className="m-1"><Button variant="outlined" onClick={handleDelete}>Delete</Button></div>
-        </div>
+        <div className="m-1"><Button variant="outlined" onClick={handleDelete}>Delete</Button></div>
       </div>
       <Snackbar
         open={alertOpen}
@@ -110,7 +106,7 @@ function MarkdownUpdate() {
           {alertMessage}
         </Alert>
       </Snackbar>
-    </ThemeProvider>
+    </div>
   );
 }
 
