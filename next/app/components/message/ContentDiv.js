@@ -3,6 +3,8 @@ import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
 import {ContentEditable, RawEditableState} from "../../../src/conversation/chat/Message";
 import {Alert, Snackbar} from "@mui/material";
+import useThemeHandler from "../../hooks/useThemeHandler";
+import {ThemeType} from "../../utils/Theme";
 
 function ContentDiv({
                       content,
@@ -13,6 +15,9 @@ function ContentDiv({
                       setFiles,
                       setUploadProgress,
                     }) {
+  // const {themeType} = useThemeHandler();
+  const themeType = ThemeType.Dark;
+
   const [contentEditable, setContentEditable] = useState("plaintext-only");
   const [editing, setEditing] = useState(false);
   const contentRef = useRef(null);
@@ -22,7 +27,8 @@ function ContentDiv({
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   const parse = (content, shouldSanitize) => {
-    parseMarkdownLaTeX(contentRef.current, content, shouldSanitize);
+    const darkMode = themeType === ThemeType.Dark;
+    parseMarkdownLaTeX(contentRef.current, content, darkMode, shouldSanitize);
   }
   const unparse = (content) => {
     contentRef.current.innerHTML = content;
