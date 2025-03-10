@@ -9,7 +9,6 @@ import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 
 function MarkdownViewer() {
-  const {themeType, setThemeType, muiTheme} = useThemeHandler();
 
   const router = useRouter();
   const {filename} = router.query;
@@ -31,18 +30,15 @@ function MarkdownViewer() {
   }, [filename]);
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <HeaderAppBar title="Markdown View"/>
-        <div className="local-scroll-scrollable m-2">
-          <div
-            className="markdown-body p-2 min-h-16"
-            ref={markdownRef}
-          />
-        </div>
+    <div className="local-scroll-root">
+      <HeaderAppBar title="Markdown View"/>
+      <div className="local-scroll-scrollable m-2">
+        <div
+          className="markdown-body p-2 min-h-16"
+          ref={markdownRef}
+        />
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
 

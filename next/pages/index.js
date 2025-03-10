@@ -1,13 +1,11 @@
 'use client';
 
 import React, {useEffect} from "react";
-import {ThemeProvider} from "@mui/material/styles";
 import {
   Box,
   Card,
   CardContent,
   Container,
-  CssBaseline,
   Link,
   Typography,
   useTheme
@@ -50,7 +48,6 @@ function FeatureCard({title, description, icon}) {
 }
 
 function Index() {
-  const {muiTheme} = useThemeHandler();
   const features = [
     {
       title: "AI Chat",
@@ -84,65 +81,62 @@ function Index() {
   }, []);
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <HeaderAppBar title="Home Page"/>
-        <div className="local-scroll-scrollable flex-around m-2">
-          <Container maxWidth="xl" className="py-4">
-            {/* Hero Section */}
-            <Box className="text-center mb-8">
-              <Typography
-                variant="h2"
-                color="primary"
-                gutterBottom
+    <div className="local-scroll-root">
+      <HeaderAppBar title="Home Page"/>
+      <div className="local-scroll-scrollable flex-around m-2">
+        <Container maxWidth="xl" className="py-4">
+          {/* Hero Section */}
+          <Box className="text-center mb-8">
+            <Typography
+              variant="h2"
+              color="primary"
+              gutterBottom
+            >
+              UniWebPlatform
+            </Typography>
+            <Typography variant="h5" color="textSecondary">
+              A modern full-stack web platform featuring AI-powered tools and utilities
+            </Typography>
+          </Box>
+
+          {/* Features Grid */}
+          <Grid container spacing={4} className="mb-8">
+            {features.map((feature, index) => (
+              <Grid xs={12} sm={6} md={4} key={index}>
+                <FeatureCard {...feature} />
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Contact Section */}
+          <Box className="text-center mt-8">
+            <Typography variant="h4" gutterBottom color="primary">
+              Connect With Me
+            </Typography>
+            <Box className="flex justify-center space-x-6 mt-4">
+              <Link
+                href="mailto:windsnow1024@gmail.com"
+                className="flex items-center space-x-2 hover:opacity-80"
+                color="inherit"
               >
-                UniWebPlatform
-              </Typography>
-              <Typography variant="h5" color="textSecondary">
-                A modern full-stack web platform featuring AI-powered tools and utilities
-              </Typography>
+                <EmailIcon/>
+                <Typography>Email</Typography>
+              </Link>
+              <Link
+                href="https://github.com/windsnow1025/UniWebPlatform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 hover:opacity-80"
+                color="inherit"
+              >
+                <GitHubIcon/>
+                <Typography>GitHub</Typography>
+              </Link>
             </Box>
-
-            {/* Features Grid */}
-            <Grid container spacing={4} className="mb-8">
-              {features.map((feature, index) => (
-                <Grid xs={12} sm={6} md={4} key={index}>
-                  <FeatureCard {...feature} />
-                </Grid>
-              ))}
-            </Grid>
-
-            {/* Contact Section */}
-            <Box className="text-center mt-8">
-              <Typography variant="h4" gutterBottom color="primary">
-                Connect With Me
-              </Typography>
-              <Box className="flex justify-center space-x-6 mt-4">
-                <Link
-                  href="mailto:windsnow1024@gmail.com"
-                  className="flex items-center space-x-2 hover:opacity-80"
-                  color="inherit"
-                >
-                  <EmailIcon/>
-                  <Typography>Email</Typography>
-                </Link>
-                <Link
-                  href="https://github.com/windsnow1025/UniWebPlatform"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 hover:opacity-80"
-                  color="inherit"
-                >
-                  <GitHubIcon/>
-                  <Typography>GitHub</Typography>
-                </Link>
-              </Box>
-            </Box>
-          </Container>
-        </div>
+          </Box>
+        </Container>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
 
