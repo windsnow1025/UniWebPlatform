@@ -14,7 +14,7 @@ const useThemeHandler = () => {
 
   useEffect(() => {
     localStorage.setItem("theme", themeType);
-    console.log(themeType)
+    console.log(themeType);
     setMuiTheme(createMUITheme(themeType, prefersDarkMode));
   }, [prefersDarkMode, themeType]);
 

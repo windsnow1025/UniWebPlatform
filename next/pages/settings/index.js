@@ -33,35 +33,32 @@ const Settings = () => {
   };
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab label="Auth"/>
-          <Tab label="Storage"/>
-          <Tab label="Personalization"/>
-          <Tab label="Developer"/>
-          {isAdmin && <Tab label="Admin"/>}
-        </Tabs>
-        <div className="local-scroll-scrollable p-4">
-          {activeTab === 0 && <AuthSettings/>}
-          {activeTab === 1 && <StorageSettings/>}
-          {activeTab === 2 && (
-            <PersonalizationSettings
-              systemTheme={themeType}
-              setSystemTheme={setThemeType}
-            />
-          )}
-          {activeTab === 3 && <DeveloperSettings/>}
-          {isAdmin && activeTab === 4 && <AdminSetting/>}
-        </div>
+    <div className="local-scroll-root">
+      <Tabs
+        value={activeTab}
+        onChange={handleTabChange}
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        <Tab label="Auth"/>
+        <Tab label="Storage"/>
+        <Tab label="Personalization"/>
+        <Tab label="Developer"/>
+        {isAdmin && <Tab label="Admin"/>}
+      </Tabs>
+      <div className="local-scroll-scrollable p-4">
+        {activeTab === 0 && <AuthSettings/>}
+        {activeTab === 1 && <StorageSettings/>}
+        {activeTab === 2 && (
+          <PersonalizationSettings
+            systemTheme={themeType}
+            setSystemTheme={setThemeType}
+          />
+        )}
+        {activeTab === 3 && <DeveloperSettings/>}
+        {isAdmin && activeTab === 4 && <AdminSetting/>}
       </div>
-    </ThemeProvider>
+    </div>
   );
 };
 

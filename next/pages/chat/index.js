@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
-import {Collapse, CssBaseline, Paper} from "@mui/material";
+import {Collapse, Paper} from "@mui/material";
 
 import ChatLogic from "../../src/conversation/chat/ChatLogic";
 import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
@@ -16,7 +16,6 @@ import {RoleEditableState} from "../../src/conversation/chat/Message";
 import useScreenSize from '../../app/hooks/useScreenSize';
 
 function AIChat() {
-  const {muiTheme} = useThemeHandler();
   const screenSize = useScreenSize();
   const [drawerOpen, setDrawerOpen] = useState();
   const title = "Windsnow AI Chat";
@@ -51,87 +50,84 @@ function AIChat() {
   const [conversationUpdateTrigger, setConversationUpdateTrigger] = useState(false);
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <HeaderAppBar title={title} infoUrl={"/markdown/view/chat-doc.md"}/>
-        <div className="local-scroll-unscrollable-x">
-          <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
-            <Collapse orientation="horizontal" in={drawerOpen}>
-              <ConversationSidebar
+    <div className="local-scroll-root">
+      <HeaderAppBar title={title} infoUrl={"/markdown/view/chat-doc.md"}/>
+      <div className="local-scroll-unscrollable-x">
+        <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
+          <Collapse orientation="horizontal" in={drawerOpen}>
+            <ConversationSidebar
+              messages={messages}
+              setMessages={setMessages}
+              selectedConversationId={selectedConversationId}
+              setSelectedConversationId={setSelectedConversationId}
+              conversationUpdateTrigger={conversationUpdateTrigger}
+              setConversationUpdateTrigger={setConversationUpdateTrigger}
+            />
+          </Collapse>
+        </Paper>
+        <div className="local-scroll-unscrollable-y">
+          <div className="flex">
+            <ToggleConversationButton
+              drawerOpen={drawerOpen}
+              setDrawerOpen={setDrawerOpen}
+            />
+            <div className="grow">
+              <SettingsDiv
+                apiType={apiType}
+                setApiType={setApiType}
+                model={model}
+                setModel={setModel}
+                temperature={temperature}
+                setTemperature={setTemperature}
+                stream={stream}
+                setStream={setStream}
+              />
+            </div>
+          </div>
+          <Paper elevation={0} className="rounded-lg local-scroll-unscrollable-y">
+            <div className="local-scroll-scrollable mx-2">
+              <ChatMessagesDiv
                 messages={messages}
                 setMessages={setMessages}
-                selectedConversationId={selectedConversationId}
-                setSelectedConversationId={setSelectedConversationId}
-                conversationUpdateTrigger={conversationUpdateTrigger}
+                shouldSanitize={shouldSanitize}
+                roleEditableState={roleEditableState}
+                setIsGenerating={setIsGenerating}
+                isGeneratingRef={isGeneratingRef}
                 setConversationUpdateTrigger={setConversationUpdateTrigger}
               />
-            </Collapse>
-          </Paper>
-          <div className="local-scroll-unscrollable-y">
-            <div className="flex">
-              <ToggleConversationButton
-                drawerOpen={drawerOpen}
-                setDrawerOpen={setDrawerOpen}
-              />
-              <div className="grow">
-                <SettingsDiv
-                  apiType={apiType}
-                  setApiType={setApiType}
-                  model={model}
-                  setModel={setModel}
-                  temperature={temperature}
-                  setTemperature={setTemperature}
-                  stream={stream}
-                  setStream={setStream}
-                />
-              </div>
             </div>
-            <Paper elevation={0} className="rounded-lg local-scroll-unscrollable-y">
-              <div className="local-scroll-scrollable mx-2">
-                <ChatMessagesDiv
-                  messages={messages}
-                  setMessages={setMessages}
-                  shouldSanitize={shouldSanitize}
-                  roleEditableState={roleEditableState}
-                  setIsGenerating={setIsGenerating}
-                  isGeneratingRef={isGeneratingRef}
-                  setConversationUpdateTrigger={setConversationUpdateTrigger}
-                />
-              </div>
-            </Paper>
-            <div className="flex-around m-1">
-              <StatesDiv
-                roleEditableState={roleEditableState}
-                setRoleEditableState={setRoleEditableState}
-                shouldSanitize={shouldSanitize}
-                setShouldSanitize={setShouldSanitize}
+          </Paper>
+          <div className="flex-around m-1">
+            <StatesDiv
+              roleEditableState={roleEditableState}
+              setRoleEditableState={setRoleEditableState}
+              shouldSanitize={shouldSanitize}
+              setShouldSanitize={setShouldSanitize}
+            />
+            <div className="flex-center">
+              <SendButton
+                isGenerating={isGenerating}
+                setIsGenerating={setIsGenerating}
+                isGeneratingRef={isGeneratingRef}
+                setConversationUpdateTrigger={setConversationUpdateTrigger}
+                messages={messages}
+                setMessages={setMessages}
+                apiType={apiType}
+                model={model}
+                temperature={temperature}
+                stream={stream}
               />
-              <div className="flex-center">
-                <SendButton
-                  isGenerating={isGenerating}
-                  setIsGenerating={setIsGenerating}
-                  isGeneratingRef={isGeneratingRef}
-                  setConversationUpdateTrigger={setConversationUpdateTrigger}
-                  messages={messages}
-                  setMessages={setMessages}
-                  apiType={apiType}
-                  model={model}
-                  temperature={temperature}
-                  stream={stream}
-                />
-                <ClearButton
-                  setMessages={setMessages}
-                  setIsGenerating={setIsGenerating}
-                  isGeneratingRef={isGeneratingRef}
-                  setSelectedConversationId={setSelectedConversationId}
-                />
-              </div>
+              <ClearButton
+                setMessages={setMessages}
+                setIsGenerating={setIsGenerating}
+                isGeneratingRef={isGeneratingRef}
+                setSelectedConversationId={setSelectedConversationId}
+              />
             </div>
           </div>
         </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
 

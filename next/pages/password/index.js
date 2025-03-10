@@ -6,22 +6,18 @@ import useThemeHandler from "../../app/hooks/useThemeHandler";
 import PasswordGenerator from "../../app/components/password/PasswordGenerator";
 
 function PasswordGeneratorIndex() {
-  const {muiTheme} = useThemeHandler();
 
   useEffect(() => {
     document.title = "Password Generator";
   }, []);
 
   return (
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline enableColorScheme/>
-      <div className="local-scroll-root">
-        <HeaderAppBar title="Password Generator"/>
-        <div className="local-scroll-scrollable">
-          <PasswordGenerator/>
-        </div>
+    <div className="local-scroll-root">
+      <HeaderAppBar title="Password Generator"/>
+      <div className="local-scroll-scrollable">
+        <PasswordGenerator/>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
 
