@@ -16,7 +16,7 @@ import {RoleEditableState} from "../../src/conversation/chat/Message";
 import useScreenSize from '../../app/hooks/useScreenSize';
 
 function AIChat() {
-  const {themeType, setThemeType, muiTheme} = useThemeHandler();
+  const {muiTheme} = useThemeHandler();
   const screenSize = useScreenSize();
   const [drawerOpen, setDrawerOpen] = useState();
   const title = "Windsnow AI Chat";
