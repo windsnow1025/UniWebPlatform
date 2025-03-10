@@ -1,15 +1,23 @@
 import '../src/global.css';
-import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
-import useThemeHandler from "../app/hooks/useThemeHandler";
+import {ThemeProvider as MUIThemeProvider} from "@mui/material/styles";
+import {CssBaseline} from "@mui/material";
+import {AppThemeProvider, useAppTheme} from "../app/contexts/ThemeContext";
 
-export default function App({Component, pageProps}) {
-  const { muiTheme } = useThemeHandler();
+function ThemedApp({ Component, pageProps }) {
+  const { muiTheme } = useAppTheme();
 
   return (
-    <ThemeProvider theme={muiTheme}>
+    <MUIThemeProvider theme={muiTheme}>
       <CssBaseline enableColorScheme />
       <Component {...pageProps} />
-    </ThemeProvider>
+    </MUIThemeProvider>
+  );
+}
+
+export default function App(props) {
+  return (
+    <AppThemeProvider>
+      <ThemedApp {...props} />
+    </AppThemeProvider>
   );
 }

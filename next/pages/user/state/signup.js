@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
-import {ThemeProvider} from "@mui/material/styles";
-import {Alert, Button, CssBaseline, Paper, Snackbar, Typography} from "@mui/material";
+import {Alert, Button, Paper, Snackbar, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
-import useThemeHandler from "../../../app/hooks/useThemeHandler";
 import {wait} from "../../../app/utils/Wait";
 
 function SignUp() {
