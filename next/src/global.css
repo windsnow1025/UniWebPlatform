@@ -5,6 +5,11 @@ html {
     overflow: hidden;
 }
 
+/* Next.JS */
+nextjs-portal {
+    display: none;
+}
+
 /* Customize */
 .flex-center {
     display: flex;
