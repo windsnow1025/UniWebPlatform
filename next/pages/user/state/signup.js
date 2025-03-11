@@ -146,7 +146,7 @@ function SignUp() {
   const isProcessing = isSendingVerification || isCheckingVerification;
 
   return (
-    <div className="local-scroll-root">
+    <div className="local-scroll-container">
       
       <div className="local-scroll-scrollable flex-center">
         <Paper elevation={3} className="flex-center p-6 max-w-md space-y-4">
