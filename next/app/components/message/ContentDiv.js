@@ -38,8 +38,6 @@ function ContentDiv({
       return;
     }
 
-    console.log(mode)
-
     // Always False -> Parse and not allow edit
     if (editableState === RawEditableState.AlwaysFalse) {
       await parse(content, shouldSanitize);
