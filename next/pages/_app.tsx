@@ -32,6 +32,9 @@ const NAVIGATION: Navigation = [
     icon: <SettingsIcon />,
   },
   {
+    kind: 'divider',
+  },
+  {
     segment: 'chat',
     title: 'AI Chat',
     icon: <ChatIcon />,
@@ -70,9 +73,9 @@ export default function App({ Component }: { Component: React.ElementType }) {
       </Head>
       <NextAppProvider navigation={NAVIGATION} branding={BRANDING}>
         <DashboardLayout>
-        <PageContainer>
+        {/*<PageContainer>*/}
           <Component />
-        </PageContainer>
+        {/*</PageContainer>*/}
         </DashboardLayout>
       </NextAppProvider>
     </AppCacheProvider>
