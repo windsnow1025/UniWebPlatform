@@ -42,9 +42,13 @@ function SignIn() {
       setAlertSeverity('success');
       setAlertOpen(true);
 
-      const prevUrl = localStorage.getItem('prevUrl') || "/";
+      let redirectUrl = router.query.redirect;
+      if (!redirectUrl || redirectUrl === '/settings') {
+        redirectUrl = '/';
+      }
+
       await wait(1);
-      router.push(prevUrl);
+      router.push(redirectUrl);
     } catch (e) {
       setAlertMessage(e.message);
       setAlertSeverity('error');
