@@ -3,7 +3,6 @@ import {useRouter} from "next/router";
 import UserLogic from "../../../src/common/user/UserLogic";
 import {Alert, Button, Paper, Snackbar, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import {wait} from "../../../app/utils/Wait";
 
 function SignUp() {
@@ -148,7 +147,7 @@ function SignUp() {
 
   return (
     <div className="local-scroll-root">
-      <HeaderAppBar title="Sign Up" useSignDiv={false}/>
+      
       <div className="local-scroll-scrollable flex-center">
         <Paper elevation={3} className="flex-center p-6 max-w-md space-y-4">
           <Typography variant="h5" align="center" gutterBottom>

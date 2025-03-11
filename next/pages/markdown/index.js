@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import MarkdownLogic from "../../src/markdown/MarkdownLogic";
 import {Button, Divider, Link, List, ListItem, ListItemText, Paper} from "@mui/material";
-import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
 
 function Index() {
 
@@ -26,7 +25,7 @@ function Index() {
 
   return (
     <div className="local-scroll-root">
-      <HeaderAppBar title={title}/>
+      
       <div className="local-scroll-scrollable">
         <Paper elevation={4} className="m-8 p-8">
           <div className="flex-between">
