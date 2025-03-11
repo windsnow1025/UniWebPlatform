@@ -1,5 +1,3 @@
-'use client';
-
 import React, {useEffect} from "react";
 import {Box, Card, CardContent, Container, Link, Typography, useTheme} from "@mui/material";
 import Grid from '@mui/material/Grid2';
