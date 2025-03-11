@@ -3,7 +3,7 @@ import {parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
 import {ContentEditable, RawEditableState} from "../../../src/conversation/chat/Message";
 import {Alert, Snackbar} from "@mui/material";
-import {convertTheme, ThemeType} from "../../utils/Theme";
+import {ThemeType} from "../../utils/Theme";
 import {useAppTheme} from "../../contexts/ThemeContext";
 
 function ContentDiv({
