@@ -3,13 +3,14 @@ import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
 import {Alert, Button, Snackbar} from "@mui/material";
 import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
+import {useAppTheme} from "../../../app/contexts/ThemeContext";
+import {ThemeType} from "../../../app/utils/Theme";
 
 function MarkdownAdd() {
-
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const markdownRef = useRef(null);
-  const markdownLogic = new MarkdownLogic();
+  const { rawTheme } = useAppTheme();
 
   useEffect(() => {
     document.title = "Markdown Add";
@@ -24,7 +25,8 @@ function MarkdownAdd() {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setContent(content);
-      parseMarkdownLaTeX(markdownRef.current, content);
+      const darkMode = rawTheme === ThemeType.Dark;
+      parseMarkdownLaTeX(markdownRef.current, content, darkMode);
     }
     setIsEditing(false);
   };
@@ -34,6 +36,7 @@ function MarkdownAdd() {
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   const handleAdd = async () => {
+    const markdownLogic = new MarkdownLogic();
     const title = markdownLogic.getTitleFromContent(content);
     try {
       await markdownLogic.addMarkdown(title, content);

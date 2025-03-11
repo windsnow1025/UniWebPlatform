@@ -4,22 +4,25 @@ import {Alert, Button, Snackbar} from "@mui/material";
 import {useRouter} from "next/router";
 import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
+import {ThemeType} from "../../../app/utils/Theme";
+import {useAppTheme} from "../../../app/contexts/ThemeContext";
 
 function MarkdownUpdate() {
-
   const router = useRouter();
   const {id} = router.query;
   const [markdown, setMarkdown] = useState({title: '', content: ''});
   const [isEditing, setIsEditing] = useState(false);
   const markdownRef = useRef(null);
   const markdownLogic = new MarkdownLogic();
+  const { rawTheme } = useAppTheme();
 
   const fetchMarkdown = async () => {
     const markdown = await markdownLogic.fetchMarkdown(id);
     setMarkdown(markdown);
 
     document.title = markdown.title;
-    parseMarkdownLaTeX(markdownRef.current, markdown.content);
+    const darkMode = rawTheme === ThemeType.Dark;
+    parseMarkdownLaTeX(markdownRef.current, markdown.content, darkMode);
   };
 
   useEffect(() => {
@@ -37,7 +40,8 @@ function MarkdownUpdate() {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setMarkdown(prev => ({...prev, content: content}));
-      parseMarkdownLaTeX(markdownRef.current, content);
+      const darkMode = rawTheme === ThemeType.Dark;
+      parseMarkdownLaTeX(markdownRef.current, content, darkMode);
     }
     setIsEditing(false);
   };
