@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Collapse, Paper} from "@mui/material";
 
 import ChatLogic from "../../src/conversation/chat/ChatLogic";
-import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
 import SettingsDiv from "../../app/components/chat/SettingsDiv";
 import SendButton from "../../app/components/chat/SendButton";
 import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";
@@ -49,7 +48,7 @@ function AIChat() {
 
   return (
     <div className="local-scroll-root">
-      <HeaderAppBar title={title} infoUrl={"/markdown/view/chat-doc.md"}/>
+      
       <div className="local-scroll-unscrollable-x">
         <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
           <Collapse orientation="horizontal" in={drawerOpen}>

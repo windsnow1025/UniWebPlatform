@@ -1,10 +1,8 @@
 import {useEffect, useRef, useState} from "react";
-import {parseMarkdownLaTeX} from "markdown-latex-renderer";
+import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
 import FileLogic from "../../../src/common/file/FileLogic";
 import {ContentEditable, RawEditableState} from "../../../src/conversation/chat/Message";
-import {Alert, Snackbar} from "@mui/material";
-import {ThemeType} from "../../utils/Theme";
-import {useAppTheme} from "../../contexts/ThemeContext";
+import {Alert, Snackbar, useTheme} from "@mui/material";
 
 function ContentDiv({
                       content,
@@ -15,7 +13,8 @@ function ContentDiv({
                       setFiles,
                       setUploadProgress,
                     }) {
-  const {rawTheme} = useAppTheme();
+  const theme = useTheme();
+  const mode = theme.palette.mode;
 
   const [contentEditable, setContentEditable] = useState("plaintext-only");
   const [editing, setEditing] = useState(false);
@@ -26,17 +25,20 @@ function ContentDiv({
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   const parse = (content, shouldSanitize) => {
-    const darkMode = rawTheme === ThemeType.Dark;
-    parseMarkdownLaTeX(contentRef.current, content, darkMode, shouldSanitize);
+    parseMarkdownLaTeX(contentRef.current, content, shouldSanitize);
   }
   const unparse = (content) => {
     contentRef.current.innerHTML = content;
   }
 
   const processMarkdown = async (content, editing, shouldSanitize, editableState) => {
+    applyTheme(mode);
+
     if (!contentRef.current) {
       return;
     }
+
+    console.log(mode)
 
     // Always False -> Parse and not allow edit
     if (editableState === RawEditableState.AlwaysFalse) {
@@ -62,7 +64,7 @@ function ContentDiv({
 
   useEffect(() => {
     processMarkdown(content, editing, shouldSanitize, rawEditableState);
-  }, [content, editing, shouldSanitize, rawEditableState]);
+  }, [content, editing, shouldSanitize, rawEditableState, mode]);
 
   const handleContentBlur = () => {
     const newContent = contentRef.current.innerHTML;

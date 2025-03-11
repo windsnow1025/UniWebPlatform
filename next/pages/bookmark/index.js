@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
 import BookmarkDataGrid from "../../app/components/bookmark/BookmarkDataGrid";
 
 function Index() {
@@ -9,7 +8,7 @@ function Index() {
 
   return (
     <div className="local-scroll-root">
-      <HeaderAppBar title="Bookmarks"/>
+      
       <div className="local-scroll-scrollable">
         <BookmarkDataGrid/>
       </div>
