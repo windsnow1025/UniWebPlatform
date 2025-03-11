@@ -51,7 +51,7 @@ function ImageGenerate() {
   }
 
   return (
-    <div className="local-scroll-root">
+    <div className="local-scroll-container">
       
       <div className="local-scroll-scrollable">
         <div className="flex-around m-2">

@@ -24,7 +24,7 @@ function Index() {
   }, []);
 
   return (
-    <div className="local-scroll-root">
+    <div className="local-scroll-container">
       
       <div className="local-scroll-scrollable">
         <Paper elevation={4} className="m-8 p-8">

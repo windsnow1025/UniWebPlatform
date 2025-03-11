@@ -47,8 +47,7 @@ function AIChat() {
   const [conversationUpdateTrigger, setConversationUpdateTrigger] = useState(false);
 
   return (
-    <div className="local-scroll-root">
-      
+    <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-x">
         <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
           <Collapse orientation="horizontal" in={drawerOpen}>
