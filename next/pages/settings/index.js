@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Tab, Tabs} from "@mui/material";
 import AuthSettings from "../../app/components/common/settings/auth/AuthSettings";
-import PersonalizationSettings from "../../app/components/common/settings/PersonalizationSettings";
 import DeveloperSettings from "../../app/components/common/settings/DeveloperSettings";
 import AdminSetting from "../../app/components/common/settings/AdminSetting";
 import UserLogic from "../../src/common/user/UserLogic";
@@ -39,18 +38,14 @@ const Settings = () => {
       >
         <Tab label="Auth"/>
         <Tab label="Storage"/>
-        <Tab label="Personalization"/>
         <Tab label="Developer"/>
         {isAdmin && <Tab label="Admin"/>}
       </Tabs>
       <div className="local-scroll-scrollable p-4">
         {activeTab === 0 && <AuthSettings/>}
         {activeTab === 1 && <StorageSettings/>}
-        {activeTab === 2 && (
-          <PersonalizationSettings/>
-        )}
-        {activeTab === 3 && <DeveloperSettings/>}
-        {isAdmin && activeTab === 4 && <AdminSetting/>}
+        {activeTab === 2 && <DeveloperSettings/>}
+        {isAdmin && activeTab === 3 && <AdminSetting/>}
       </div>
     </div>
   );
