@@ -11,7 +11,6 @@ import {
   Slider,
   Snackbar
 } from "@mui/material";
-import HeaderAppBar from "../../app/components/common/header/HeaderAppBar";
 import ContentDiv from "../../app/components/message/ContentDiv";
 import ImageClient from "../../src/image/ImageClient";
 
@@ -53,7 +52,7 @@ function ImageGenerate() {
 
   return (
     <div className="local-scroll-root">
-      <HeaderAppBar title={title}/>
+      
       <div className="local-scroll-scrollable">
         <div className="flex-around m-2">
           <div className="m-1">

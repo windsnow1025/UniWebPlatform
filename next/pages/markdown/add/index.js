@@ -1,16 +1,15 @@
 import React, {useEffect, useRef, useState} from 'react';
 import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
-import {Alert, Button, Snackbar} from "@mui/material";
-import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
-import {parseMarkdownLaTeX} from "markdown-latex-renderer";
-import {useAppTheme} from "../../../app/contexts/ThemeContext";
-import {ThemeType} from "../../../app/utils/Theme";
+import {Alert, Button, Snackbar, useTheme} from "@mui/material";
+import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
 
 function MarkdownAdd() {
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const markdownRef = useRef(null);
-  const { rawTheme } = useAppTheme();
+
+  const theme = useTheme();
+  const mode = theme.palette.mode;
 
   useEffect(() => {
     document.title = "Markdown Add";
@@ -25,11 +24,15 @@ function MarkdownAdd() {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setContent(content);
-      const darkMode = rawTheme === ThemeType.Dark;
-      parseMarkdownLaTeX(markdownRef.current, content, darkMode);
+
+      parseMarkdownLaTeX(markdownRef.current, content);
     }
     setIsEditing(false);
   };
+
+  useEffect(() => {
+    applyTheme(mode);
+  }, [mode]);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -52,7 +55,7 @@ function MarkdownAdd() {
 
   return (
     <div className="local-scroll-root">
-      <HeaderAppBar title="Markdown Add"/>
+      
       <div className="local-scroll-scrollable m-2">
         <div
           className="markdown-body p-2 min-h-16"

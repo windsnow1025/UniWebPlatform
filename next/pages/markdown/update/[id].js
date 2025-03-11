@@ -1,11 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
-import {Alert, Button, Snackbar} from "@mui/material";
+import {Alert, Button, Snackbar, useTheme} from "@mui/material";
 import {useRouter} from "next/router";
-import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
-import {parseMarkdownLaTeX} from "markdown-latex-renderer";
+import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
 import {ThemeType} from "../../../app/utils/Theme";
-import {useAppTheme} from "../../../app/contexts/ThemeContext";
 
 function MarkdownUpdate() {
   const router = useRouter();
@@ -14,15 +12,17 @@ function MarkdownUpdate() {
   const [isEditing, setIsEditing] = useState(false);
   const markdownRef = useRef(null);
   const markdownLogic = new MarkdownLogic();
-  const { rawTheme } = useAppTheme();
+
+  const theme = useTheme();
+  const mode = theme.palette.mode;
 
   const fetchMarkdown = async () => {
     const markdown = await markdownLogic.fetchMarkdown(id);
     setMarkdown(markdown);
 
     document.title = markdown.title;
-    const darkMode = rawTheme === ThemeType.Dark;
-    parseMarkdownLaTeX(markdownRef.current, markdown.content, darkMode);
+
+    parseMarkdownLaTeX(markdownRef.current, markdown.content);
   };
 
   useEffect(() => {
@@ -30,6 +30,10 @@ function MarkdownUpdate() {
       fetchMarkdown();
     }
   }, [id]);
+
+  useEffect(() => {
+    applyTheme(mode);
+  }, [mode]);
 
   const handleEdit = () => {
     markdownRef.current.innerHTML = markdown.content;
@@ -80,7 +84,7 @@ function MarkdownUpdate() {
 
   return (
     <div className="local-scroll-root">
-      <HeaderAppBar title="Markdown Update"/>
+      
       <div className="local-scroll-scrollable m-2">
         <div
           className="markdown-body p-2 min-h-16"

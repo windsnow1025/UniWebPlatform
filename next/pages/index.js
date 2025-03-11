@@ -1,5 +1,3 @@
-'use client';
-
 import React, {useEffect} from "react";
 import {Box, Card, CardContent, Container, Link, Typography, useTheme} from "@mui/material";
 import Grid from '@mui/material/Grid2';
@@ -10,7 +8,6 @@ import BookIcon from "@mui/icons-material/Book";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import PasswordIcon from "@mui/icons-material/Password";
 import ImageIcon from "@mui/icons-material/Image";
-import HeaderAppBar from "../app/components/common/header/HeaderAppBar";
 
 function FeatureCard({title, description, icon}) {
   const theme = useTheme();
@@ -73,7 +70,7 @@ function Index() {
 
   return (
     <div className="local-scroll-root">
-      <HeaderAppBar title="Home Page"/>
+      
       <div className="local-scroll-scrollable flex-around m-2">
         <Container maxWidth="xl" className="py-4">
           {/* Hero Section */}
