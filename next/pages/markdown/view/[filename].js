@@ -4,18 +4,21 @@ import {useRouter} from 'next/router';
 import PublicClient from "../../../src/common/public/PublicClient";
 import HeaderAppBar from "../../../app/components/common/header/HeaderAppBar";
 import {parseMarkdownLaTeX} from "markdown-latex-renderer";
+import {useAppTheme} from "../../../app/contexts/ThemeContext";
+import {ThemeType} from "../../../app/utils/Theme";
 
 function MarkdownViewer() {
-
   const router = useRouter();
   const {filename} = router.query;
   const markdownRef = useRef(null);
-  const publicService = new PublicClient();
+  const { rawTheme } = useAppTheme();
 
   const fetchMarkdown = async () => {
+    const publicService = new PublicClient();
     const markdown = await publicService.fetchMarkdown(filename);
     if (markdownRef.current) {
-      parseMarkdownLaTeX(markdownRef.current, markdown);
+      const darkMode = rawTheme === ThemeType.Dark;
+      parseMarkdownLaTeX(markdownRef.current, markdown, darkMode);
     }
   };
 
