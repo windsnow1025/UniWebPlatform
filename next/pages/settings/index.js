@@ -29,7 +29,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="local-scroll-root">
+    <div className="local-scroll-container">
       <Tabs
         value={activeTab}
         onChange={handleTabChange}
