@@ -16,11 +16,11 @@ import { FilesReqDto } from './dto/files.req.dto';
 
 @Controller('files')
 export class FilesController {
-  constructor(private readonly minioService: FilesService) {}
+  constructor(private readonly filesService: FilesService) {}
 
   @Post()
   @UseInterceptors(AnyFilesInterceptor())
-  async uploadFile(
+  async uploadFiles(
     @Req() req: RequestWithUser,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
@@ -28,8 +28,8 @@ export class FilesController {
 
     const fileUrls = await Promise.all(
       files.map(async (file) => {
-        const fullFilename = await this.minioService.create(userId, file);
-        return this.minioService.getFileUrl(fullFilename);
+        const fullFilename = await this.filesService.create(userId, file);
+        return this.filesService.getFileUrl(fullFilename);
       }),
     );
 
@@ -40,9 +40,9 @@ export class FilesController {
   async getFiles(@Req() req: RequestWithUser): Promise<FilesResDto> {
     const userId = req.user.sub;
 
-    const files = await this.minioService.findAll(userId);
+    const files = await this.filesService.findAll(userId);
     const fileUrls = files.map((fileName) =>
-      this.minioService.getFileUrl(fileName),
+      this.filesService.getFileUrl(fileName),
     );
 
     return { urls: fileUrls };
@@ -54,6 +54,6 @@ export class FilesController {
     @Body() deleteFilesReqDto: FilesReqDto,
   ): Promise<void> {
     const userId = req.user.sub;
-    await this.minioService.deleteFiles(userId, deleteFilesReqDto.filenames);
+    await this.filesService.deleteFiles(userId, deleteFilesReqDto.filenames);
   }
 }
