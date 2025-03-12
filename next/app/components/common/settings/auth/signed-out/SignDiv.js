@@ -7,12 +7,10 @@ function SignDiv() {
   const pathname = usePathname();
 
   const handleSignInRouter = () => {
-    localStorage.setItem('prevUrl', pathname);
     router.push(`/user/state/signin?redirect=${encodeURIComponent(pathname)}`);
   };
 
   const handleSignUpRouter = () => {
-    localStorage.setItem('prevUrl', pathname);
     router.push(`/user/state/signup?redirect=${encodeURIComponent(pathname)}`);
   };
 
