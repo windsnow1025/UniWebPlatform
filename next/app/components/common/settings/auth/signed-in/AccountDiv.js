@@ -39,7 +39,6 @@ function TabPanel(props) {
 function AccountDiv() {
   const [tabValue, setTabValue] = useState(0);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
