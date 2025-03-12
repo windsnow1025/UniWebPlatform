@@ -123,11 +123,13 @@ export default function App({ Component }: { Component: React.ElementType }) {
         branding={BRANDING}
       >
         <EmailVerificationDialog/>
+        <div className="local-scroll-root">
         <DashboardLayout>
         {/*<PageContainer>*/}
           <Component />
         {/*</PageContainer>*/}
         </DashboardLayout>
+        </div>
       </NextAppProvider>
     </AppCacheProvider>
   );
