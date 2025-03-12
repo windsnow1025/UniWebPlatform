@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import UserLogic from "../../../../../../src/common/user/UserLogic";
 import TextField from "@mui/material/TextField";
 import {Alert, Button, Snackbar, Typography} from "@mui/material";
+import {wait} from "../../../../../utils/Wait";
+import {useRouter} from "next/router";
 
 function EmailSection() {
   const [email, setEmail] = useState('');
@@ -19,20 +21,19 @@ function EmailSection() {
 
   const userLogic = new UserLogic();
 
-  const fetchUserData = async () => {
-    try {
-      const user = await userLogic.fetchUser();
-      if (user) {
-        setEmail(user.email);
-        setEmailVerified(user.emailVerified);
-        setNewEmail(user.email);
-      }
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = await userLogic.fetchUser();
+        if (user) {
+          setEmail(user.email);
+          setEmailVerified(user.emailVerified);
+          setNewEmail(user.email);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
     fetchUserData();
   }, []);
 
@@ -92,13 +93,22 @@ function EmailSection() {
     }
   };
 
+  const router = useRouter();
+
   const handleCheckVerification = async () => {
     try {
       setIsCheckingVerification(true);
       await userLogic.updateEmailVerification(newEmail, emailVerificationPassword);
-      fetchUserData();
       setEmailVerificationSent(false);
-      showAlert("Email updated and verified successfully!", 'success');
+      showAlert("Email verification success. Redirecting...", 'success');
+
+      // Redirect
+      let redirectUrl = router.query.redirect;
+      await wait(1);
+      if (!redirectUrl) {
+        redirectUrl = '/';
+      }
+      router.push(redirectUrl);
     } catch (e) {
       showAlert(e.message, 'error');
     } finally {

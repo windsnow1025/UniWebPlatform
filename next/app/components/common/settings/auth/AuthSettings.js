@@ -27,14 +27,6 @@ const AuthSettings = () => {
     fetchUsername();
   }, []);
 
-  const handleSignOut = () => {
-    localStorage.removeItem("token");
-    setUsername("");
-    setAlertMessage("Signed out successfully.");
-    setAlertSeverity("success");
-    setAlertOpen(true);
-  };
-
   const handleDeleteAccount = async (confirmed) => {
     setConfirmDialogOpen(false);
 
@@ -71,9 +63,6 @@ const AuthSettings = () => {
               onClick={() => setConfirmDialogOpen(true)}
             >
               Delete Account
-            </Button>
-            <Button variant="contained" color="secondary" onClick={handleSignOut}>
-              Sign Out
             </Button>
           </div>
 
