@@ -125,8 +125,8 @@ function AvatarSection() {
 
   return (
     <div className="flex flex-col items-center gap-4 mb-6">
-      <Typography variant="h6" gutterBottom>
-        Profile Avatar
+      <Typography variant="h6">
+        {username}
       </Typography>
 
       <Avatar
