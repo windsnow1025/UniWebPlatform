@@ -4,6 +4,7 @@ import CreditDiv from "./CreditSection";
 import UsernameSection from "./UsernameSection";
 import EmailSection from "./EmailSection";
 import PasswordSection from "./PasswordSection";
+import AvatarSection from "./AvatarSection";
 
 function AccountDiv() {
   return (
@@ -14,6 +15,12 @@ function AccountDiv() {
 
       <div className="flex-center m-2">
         <CreditDiv/>
+      </div>
+
+      <AvatarSection />
+
+      <div className="my-4">
+        <Divider/>
       </div>
 
       <div className="mb-6">
