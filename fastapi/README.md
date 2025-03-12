@@ -1,4 +1,4 @@
-# UniWebPlatform - FastAPI
+# FastAPI
 
 ## Setup
 
