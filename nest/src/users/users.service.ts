@@ -27,6 +27,7 @@ export class UsersService {
       email: user.email,
       emailVerified: user.emailVerified,
       roles: user.roles,
+      avatar: user.avatar,
       credit: user.credit,
     };
     return userDto;
@@ -145,6 +146,16 @@ export class UsersService {
 
     user.password = await this.hashPassword(password);
 
+    return await this.usersRepository.save(user);
+  }
+
+  async updateAvatar(id: number, avatarUrl: string) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.avatar = avatarUrl;
     return await this.usersRepository.save(user);
   }
 
