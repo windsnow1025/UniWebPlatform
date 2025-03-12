@@ -17,6 +17,7 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { AllowUnverifiedEmail } from '../common/decorators/allow-unverified-email.decorator';
 import { Role } from '../common/enums/role.enum';
 import {
+  UserAvatarReqDto,
   UserEmailReqDto,
   UserEmailVerificationReqDto,
   UserPasswordReqDto,
@@ -110,6 +111,19 @@ export class UsersController {
     const user = await this.usersService.updatePassword(
       id,
       userPasswordReqDto.password,
+    );
+    return this.usersService.toUserDto(user);
+  }
+
+  @Put('/user/avatar')
+  async updateAvatar(
+    @Request() req: RequestWithUser,
+    @Body() userAvatarReqDto: UserAvatarReqDto,
+  ) {
+    const id = req.user.sub;
+    const user = await this.usersService.updateAvatar(
+      id,
+      userAvatarReqDto.avatar,
     );
     return this.usersService.toUserDto(user);
   }
