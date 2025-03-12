@@ -3,7 +3,6 @@ import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
 import {Alert, Button, Snackbar, useTheme} from "@mui/material";
 import {useRouter} from "next/router";
 import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
-import {ThemeType} from "../../../app/utils/Theme";
 
 function MarkdownUpdate() {
   const router = useRouter();
@@ -44,8 +43,7 @@ function MarkdownUpdate() {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setMarkdown(prev => ({...prev, content: content}));
-      const darkMode = rawTheme === ThemeType.Dark;
-      parseMarkdownLaTeX(markdownRef.current, content, darkMode);
+      parseMarkdownLaTeX(markdownRef.current, content);
     }
     setIsEditing(false);
   };
