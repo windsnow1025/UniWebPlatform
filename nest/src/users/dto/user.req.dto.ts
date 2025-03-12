@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, IsUrl } from 'class-validator';
 
 export class UserReqDto {
   @IsString()
@@ -32,4 +32,10 @@ export class UserUsernameReqDto {
 export class UserPasswordReqDto {
   @IsString()
   password: string;
+}
+
+export class UserAvatarReqDto {
+  @IsString()
+  @IsUrl()
+  avatar: string;
 }

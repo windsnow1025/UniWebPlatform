@@ -41,6 +41,16 @@ export class User extends BaseEntity {
   })
   roles: Role[];
 
-  @Column({ type: 'float', default: 0 })
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  avatar: string;
+
+  @Column({
+    type: 'float',
+    default: 0,
+  })
   credit: number;
 }
