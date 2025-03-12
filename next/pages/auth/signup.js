@@ -147,7 +147,6 @@ function SignUp() {
 
   return (
     <div className="local-scroll-container">
-      
       <div className="local-scroll-scrollable flex-center">
         <Paper elevation={3} className="flex-center p-6 max-w-md space-y-4">
           <Typography variant="h5" align="center" gutterBottom>
@@ -244,7 +243,6 @@ function SignUp() {
               <Typography variant="body2" sx={{mt: 2}}>
                 Already have an account?{' '}
                 <Button
-                  color="primary"
                   onClick={() => router.push("/auth/signin")}
                   sx={{p: 0, minWidth: 'auto'}}
                   disabled={isProcessing}
