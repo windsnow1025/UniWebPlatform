@@ -91,6 +91,14 @@ export default class UserLogic {
     return user.credit;
   }
 
+  async fetchAvatar() {
+    const user = await this.fetchUser();
+    if (!user) {
+      return null;
+    }
+    return user.avatar;
+  }
+
   async isAdmin(): Promise<boolean> {
     try {
       const user = await this.userClient.fetchUser();
@@ -202,6 +210,23 @@ export default class UserLogic {
     } catch (error) {
       console.error(error);
       throw new Error('Update password failed');
+    }
+  }
+
+  async updateAvatar(avatar: string) {
+    try {
+      return await this.userClient.updateAvatar(avatar);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        if (error.response?.status === 413) {
+          throw new Error('Avatar image is too large');
+        }
+      }
+      console.error(error);
+      throw new Error('Failed to update avatar');
     }
   }
 

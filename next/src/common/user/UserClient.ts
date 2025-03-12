@@ -44,6 +44,12 @@ export default class UserClient {
     await api.usersControllerUpdatePassword({ password });
   }
 
+  async updateAvatar(avatar: string) {
+    const api = new UsersApi(getOpenAPIConfiguration());
+    const res = await api.usersControllerUpdateAvatar({ avatar });
+    return res.data;
+  }
+
   async updateUserPrivileges(
     username: string,
     emailVerified: boolean,
