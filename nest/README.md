@@ -1,8 +1,14 @@
-# UniWebPlatform - Nest.js
+# Nest.js
 
 ## Setup
 
 Copy `./env.example` and rename it to `.env`, then fill in the environment variables.
+
+## Requirements
+
+```bash
+  npm i -g @nestjs/cli @openapitools/openapi-generator-cli
+```
 
 ## OpenAPI
 
@@ -10,32 +16,27 @@ Docs: `/api`
 
 ### Client Package
 
-1. Install OpenAPI Generator
-    ```bash
-    npm install -g @openapitools/openapi-generator-cli
-    ```
-
-2. Download OpenAPI JSON
+1. Download OpenAPI JSON
     ```bash
     curl -o openapi.json http://localhost:3001/api-json
     ```
 
-3. Generate the Client SDK
+2. Generate the Client SDK
 
-   - For Angular:
-       ```sh
-       openapi-generator-cli generate -i openapi.json -g typescript-angular -o client
-       ```
+    - For Axios:
+        ```sh
+        openapi-generator-cli generate -i openapi.json -g typescript-axios -o client
+        ```
 
-   - For Axios:
-       ```sh
-       openapi-generator-cli generate -i openapi.json -g typescript-axios -o client
-       ```
+    - For Fetch API:
+        ```sh
+        openapi-generator-cli generate -i openapi.json -g typescript-fetch -o client
+        ```
 
-   - For Fetch API:
-       ```sh
-       openapi-generator-cli generate -i openapi.json -g typescript-fetch -o client
-       ```
+    - For Angular:
+        ```sh
+        openapi-generator-cli generate -i openapi.json -g typescript-angular -o client
+        ```
 
 ## Run
 
@@ -66,20 +67,10 @@ $ npm run test:cov
 ## Nest.js init
 
 ```bash
-npm i -g @nestjs/cli
-```
-
-```bash
 nest new <project-name>
 ```
 
-## Run a single typescript file
-
-```bash
-npx ts-node <filepath>
-```
-
-## Configuration changes made after `nest new nest`
+## Configuration changes made after `nest new <project-name>`
 
 ### package.json
 
@@ -148,4 +139,10 @@ To:
     "noFallthroughCasesInSwitch": true
   }
 }
+```
+
+## Run a single typescript file
+
+```bash
+npx ts-node <filepath>
 ```
