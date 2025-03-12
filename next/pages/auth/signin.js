@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
-import UserLogic from "../../../src/common/user/UserLogic";
+import UserLogic from "../../src/common/user/UserLogic";
 import {Alert, Snackbar, Tab, Tabs, TextField, useTheme} from "@mui/material";
 import {SignInPage} from '@toolpad/core/SignInPage';
-import {wait} from "../../../app/utils/Wait";
+import {wait} from "../../app/utils/Wait";
 
 function SignIn() {
   const userLogic = new UserLogic();

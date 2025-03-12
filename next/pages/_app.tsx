@@ -22,7 +22,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import UserLogic from "@/src/common/user/UserLogic";
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
-import EmailVerificationDialog from "@/app/components/common/header/EmailVerificationDialog";
+import EmailVerificationDialog from "@/app/components/common/EmailVerificationDialog";
 
 const NAVIGATION: Navigation = [
   {
@@ -101,12 +101,12 @@ export default function App({ Component }: { Component: React.ElementType }) {
   const authentication = React.useMemo(() => {
     return {
       signIn: () => {
-        router.push(`/user/state/signin?redirect=${encodeURIComponent(pathname!)}`);
+        router.push(`/auth/signin?redirect=${encodeURIComponent(pathname!)}`);
       },
       signOut: () => {
         setSession(null);
         localStorage.removeItem("token");
-        router.push(`/user/state/signin?redirect=${encodeURIComponent(pathname!)}`);
+        router.push(`/auth/signin?redirect=${encodeURIComponent(pathname!)}`);
       },
     };
   }, []);
