@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import UserLogic from '../../../../src/common/user/UserLogic';
 import ConfirmDialog from '../ConfirmDialog';
+import {useRouter} from "next/router";
+import {usePathname} from "next/navigation";
 
 const EmailVerificationDialog = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -11,12 +13,14 @@ const EmailVerificationDialog = () => {
       try {
         const username = await userLogic.fetchUsername();
 
-        if (username) {
-          const isVerified = await userLogic.fetchEmailVerified();
+        if (!username) {
+          return;
+        }
 
-          if (isVerified === false) {
-            setOpenDialog(true);
-          }
+        const isVerified = await userLogic.fetchEmailVerified();
+
+        if (!isVerified) {
+          setOpenDialog(true);
         }
       } catch (error) {
         console.error('Error checking email verification:', error);
@@ -26,10 +30,13 @@ const EmailVerificationDialog = () => {
     checkEmailVerification();
   }, []);
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   const handleDialogClose = (confirmed) => {
     setOpenDialog(false);
     if (confirmed) {
-      window.open('/settings', '_blank');
+      router.push(`/settings?redirect=${encodeURIComponent(pathname)}`);
     }
   };
 

@@ -6,7 +6,6 @@ import {SignInPage} from '@toolpad/core/SignInPage';
 import {wait} from "../../../app/utils/Wait";
 
 function SignIn() {
-  const router = useRouter();
   const userLogic = new UserLogic();
 
   const [tabValue, setTabValue] = useState(0);
@@ -24,6 +23,8 @@ function SignIn() {
 
   const providers = [{id: 'credentials', name: 'Credentials'}];
 
+  const router = useRouter();
+
   const handleSignIn = async (provider, formData) => {
     try {
       if (tabValue === 0) {
@@ -38,16 +39,16 @@ function SignIn() {
         await userLogic.signInByUsername(username, password);
       }
 
-      setAlertMessage("Signed in successfully. Redirecting...");
+      setAlertMessage("Sign in success. Redirecting...");
       setAlertSeverity('success');
       setAlertOpen(true);
 
+      // Redirect
       let redirectUrl = router.query.redirect;
-      if (!redirectUrl || redirectUrl === '/settings') {
+      await wait(1);
+      if (!redirectUrl) {
         redirectUrl = '/';
       }
-
-      await wait(1);
       router.push(redirectUrl);
     } catch (e) {
       setAlertMessage(e.message);
