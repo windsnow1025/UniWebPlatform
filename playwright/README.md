@@ -1,4 +1,4 @@
-# UniWebPlatform - Playwright
+# Playwright
 
 ## Config
 
