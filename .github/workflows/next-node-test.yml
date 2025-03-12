@@ -35,5 +35,5 @@ jobs:
       working-directory: ./next
     - run: npm run build --if-present
       working-directory: ./next
-    - run: npm test --passWithNoTests
+    - run: npm test
       working-directory: ./next
