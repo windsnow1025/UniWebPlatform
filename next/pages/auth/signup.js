@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
-import UserLogic from "../../../src/common/user/UserLogic";
+import UserLogic from "../../src/common/user/UserLogic";
 import {Alert, Button, Paper, Snackbar, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import {wait} from "../../../app/utils/Wait";
+import {wait} from "../../app/utils/Wait";
 
 function SignUp() {
   useEffect(() => {
@@ -133,7 +133,7 @@ function SignUp() {
       setAlertOpen(true);
 
       await wait(1);
-      router.push("/user/state/signin");
+      router.push("/auth/signin");
     } catch (error) {
       setAlertMessage("Error checking verification: " + error.message);
       setAlertSeverity('error');
@@ -245,7 +245,7 @@ function SignUp() {
                 Already have an account?{' '}
                 <Button
                   color="primary"
-                  onClick={() => router.push("/user/state/signin")}
+                  onClick={() => router.push("/auth/signin")}
                   sx={{p: 0, minWidth: 'auto'}}
                   disabled={isProcessing}
                 >

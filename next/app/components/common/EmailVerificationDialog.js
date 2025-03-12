@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import UserLogic from '../../../../src/common/user/UserLogic';
-import ConfirmDialog from '../ConfirmDialog';
+import UserLogic from '../../../src/common/user/UserLogic';
+import ConfirmDialog from './ConfirmDialog';
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
 
