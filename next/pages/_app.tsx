@@ -124,11 +124,11 @@ export default function App({ Component }: { Component: React.ElementType }) {
       >
         <EmailVerificationDialog/>
         <div className="local-scroll-root">
-        <DashboardLayout>
-        {/*<PageContainer>*/}
-          <Component />
-        {/*</PageContainer>*/}
-        </DashboardLayout>
+          <DashboardLayout>
+          {/*<PageContainer>*/}
+            <Component />
+          {/*</PageContainer>*/}
+          </DashboardLayout>
         </div>
       </NextAppProvider>
     </AppCacheProvider>
