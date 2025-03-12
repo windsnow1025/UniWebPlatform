@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../src/common/user/UserLogic";
-import {Alert, Snackbar, Tab, Tabs, TextField, useTheme} from "@mui/material";
+import {Alert, Box, Button, Snackbar, Tab, Tabs, TextField, Typography, useTheme} from "@mui/material";
 import {SignInPage} from '@toolpad/core/SignInPage';
 import {wait} from "../../app/utils/Wait";
 
 function SignIn() {
   const userLogic = new UserLogic();
+  const router = useRouter();
 
   const [tabValue, setTabValue] = useState(0);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -22,8 +23,6 @@ function SignIn() {
   };
 
   const providers = [{id: 'credentials', name: 'Credentials'}];
-
-  const router = useRouter();
 
   const handleSignIn = async (provider, formData) => {
     try {
@@ -105,6 +104,17 @@ function SignIn() {
           <Tab label="Sign in with Email"/>
           <Tab label="Sign in with Username"/>
         </Tabs>
+        <Box sx={{ textAlign: 'center', mt: 2 }}>
+          <Typography variant="body2">
+            Do not have an account?{' '}
+            <Button
+              onClick={() => router.push("/auth/signup")}
+              sx={{p: 0, minWidth: 'auto'}}
+            >
+              Sign Up
+            </Button>
+          </Typography>
+        </Box>
 
         {tabValue === 0 ? (
           <SignInPage
