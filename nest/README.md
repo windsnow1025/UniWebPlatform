@@ -7,7 +7,7 @@ Copy `./env.example` and rename it to `.env`, then fill in the environment varia
 ## Requirements
 
 ```bash
-  npm i -g @nestjs/cli @openapitools/openapi-generator-cli
+npm i -g @nestjs/cli @openapitools/openapi-generator-cli
 ```
 
 ## OpenAPI
