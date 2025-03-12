@@ -6,5 +6,6 @@ export class UserResDto {
   email: string;
   emailVerified: boolean;
   roles: Role[];
+  avatar?: string;
   credit: number;
 }
