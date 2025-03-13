@@ -2,7 +2,7 @@ import openai
 from fastapi import HTTPException
 from openai import OpenAI
 
-from logic.image_gen.image_gen_parameter import Size, Quality
+from app.logic.image_gen.image_gen_parameter import Size, Quality
 
 
 def generate_image(
