@@ -12,7 +12,7 @@ class ModelPrice(TypedDict):
 
 
 def load_model_prices() -> list[ModelPrice]:
-    file_path = 'resources/model_prices.json'
+    file_path = 'app/resources/model_prices.json'
     with open(file_path, 'r') as file:
         return json.load(file)
 
