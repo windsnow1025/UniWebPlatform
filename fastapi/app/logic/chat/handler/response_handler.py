@@ -5,7 +5,7 @@ from typing import Callable, Awaitable
 
 from fastapi.responses import StreamingResponse
 
-from app.logic.chat.util.token_counter import num_tokens_from_text
+from logic.chat.util.token_counter import num_tokens_from_text
 from llm_bridge import *
 
 ChunkGenerator = AsyncGenerator[ChatResponse, None]
