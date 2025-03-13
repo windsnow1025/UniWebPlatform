@@ -7,4 +7,13 @@
 
 ## Run
 
-Pycharm Professional: Add new configuration -> FastAPI
+### Requirements
+
+Pycharm Professional
+
+### Steps
+
+1. Add new configuration -> FastAPI
+2. Set Application file to `<root>\fastapi\app\main.py`
+3. Set Working directory to `<root>\fastapi\app`
+4. Right click `app` folder >> Mark Directory as >> Sources Root

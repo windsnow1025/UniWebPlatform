@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.repository.user_entity import User
+from repository.user_entity import User
 
 
 async def select_user(username: str, session: AsyncSession) -> User:
