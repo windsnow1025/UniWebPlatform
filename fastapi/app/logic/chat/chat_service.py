@@ -5,10 +5,10 @@ from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import StreamingResponse
 
-from app.logic.chat.handler import request_handler
-from app.logic.chat.handler import response_handler
-from app.logic.chat.util import model_pricing
-from app.repository import user_repository
+from logic.chat.handler import request_handler
+from logic.chat.handler import response_handler
+from logic.chat.util import model_pricing
+from repository import user_repository
 from llm_bridge import *
 
 

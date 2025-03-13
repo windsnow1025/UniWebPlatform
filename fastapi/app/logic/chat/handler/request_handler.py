@@ -1,6 +1,6 @@
 from typing import Callable, Awaitable
 
-from app.logic.chat.util.token_counter import num_tokens_from_text
+from logic.chat.util.token_counter import num_tokens_from_text
 from llm_bridge import Message
 
 
