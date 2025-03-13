@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Request, HTTPException
 from pydantic import BaseModel
 
-import logic.auth as auth
-from logic.image_gen.image_gen_service import *
-from repository.db_connection import SessionDep
+import app.logic.auth as auth
+from app.logic.image_gen.image_gen_service import *
+from app.repository.db_connection import SessionDep
 
 image_gen_router = APIRouter()
 
