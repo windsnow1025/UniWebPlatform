@@ -1,6 +1,5 @@
-.idea
-.run
-dist
 node_modules
-test
-.env
+dist
+*.log
+*.md
+.git
