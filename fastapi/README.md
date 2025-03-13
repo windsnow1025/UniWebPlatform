@@ -7,4 +7,11 @@
 
 ## Run
 
-Pycharm Professional: Add new configuration -> FastAPI
+### Requirements
+
+Pycharm Professional
+
+### Steps
+
+1. Add new configuration -> FastAPI
+2. Set Application file to `<root>\fastapi\app\main.py`
