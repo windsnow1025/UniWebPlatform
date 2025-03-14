@@ -1,8 +1,8 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
-import {Message, MessageRole} from "./Message"
 import {ApiTypeModel, ChatResponse, Citation} from "@/src/conversation/chat/Chat";
 import {desanitize, sanitize} from "markdown-latex-renderer";
+import {ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
 
 export default class ChatLogic {
   private chatService: ChatClient;
@@ -12,37 +12,37 @@ export default class ChatLogic {
   public defaultApiTypeModels: ApiTypeModel[];
 
   constructor() {
-
     this.chatService = new ChatClient();
 
     this.initMessages = [
       {
         id: uuidv4(),
-        role: MessageRole.System,
-        text: "You are a helpful assistant.",
-        files: [],
+        role: MessageRoleEnum.System,
+        contents: [
+          {
+            type: ContentTypeEnum.Text,
+            data: "You are a helpful assistant."
+          }
+        ],
         display: "",
       },
       {
         id: uuidv4(),
-        role: MessageRole.User,
-        text: "",
-        files: [],
+        role: MessageRoleEnum.User,
+        contents: [],
         display: "",
       }
     ];
     this.emptyUserMessage = {
       id: uuidv4(),
-      role: MessageRole.User,
-      text: "",
-      files: [],
+      role: MessageRoleEnum.User,
+      contents: [],
       display: "",
     };
     this.emptyAssistantMessage = {
       id: uuidv4(),
-      role: MessageRole.Assistant,
-      text: "",
-      files: [],
+      role: MessageRoleEnum.Assistant,
+      contents: [],
       display: "",
     };
 
@@ -54,21 +54,76 @@ export default class ChatLogic {
   createAssistantMessage(text: string, display: string): Message {
     return {
       id: uuidv4(),
-      role: MessageRole.Assistant,
-      text: text,
-      files: [],
+      role: MessageRoleEnum.Assistant,
+      contents: [
+        {
+          type: ContentTypeEnum.Text,
+          data: text
+        }
+      ],
       display: display,
     };
   }
 
   appendToMessage(messages: Message[], index: number, chunk: ChatResponse): Message[] {
     const newMessages = [...messages];
+    const currentMessage = newMessages[index];
 
+    // Find text content or create one if it doesn't exist
+    let textContentIndex = currentMessage.contents.findIndex(
+      content => content.type === ContentTypeEnum.Text
+    );
+
+    if (textContentIndex === -1) {
+      // No text content exists, create one
+      currentMessage.contents.push({
+        type: ContentTypeEnum.Text,
+        data: chunk.text || ''
+      });
+    } else {
+      // Update existing text content
+      currentMessage.contents[textContentIndex] = {
+        ...currentMessage.contents[textContentIndex],
+        data: currentMessage.contents[textContentIndex].data + (chunk.text || '')
+      };
+    }
+
+    // Update display property
     newMessages[index] = {
-      ...newMessages[index],
-      text: (newMessages[index].text || '') + (chunk.text || ''),
-      display: (newMessages[index].display || '') + (chunk.display || ''),
+      ...currentMessage,
+      display: (currentMessage.display || '') + (chunk.display || ''),
     };
+
+    return newMessages;
+  }
+
+  replaceMessageText(messages: Message[], index: number, text: string): Message[] {
+    const newMessages = [...messages];
+
+    if (index < 0 || index >= newMessages.length) {
+      return newMessages; // Index out of bounds, return unchanged
+    }
+
+    const message = newMessages[index];
+
+    // Find text content index
+    const textContentIndex = message.contents.findIndex(
+      content => content.type === ContentTypeEnum.Text
+    );
+
+    if (textContentIndex === -1) {
+      // No text content exists, create one
+      message.contents.push({
+        type: ContentTypeEnum.Text,
+        data: text
+      });
+    } else {
+      // Replace existing text content
+      message.contents[textContentIndex] = {
+        ...message.contents[textContentIndex],
+        data: text
+      };
+    }
 
     return newMessages;
   }
@@ -105,10 +160,23 @@ export default class ChatLogic {
   async nonStreamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
   ): Promise<ChatResponse> {
-    const desanitizedMessages = messages.map(message => ({
-      ...message,
-      text: desanitize(message.text)
-    }));
+    const desanitizedMessages = messages.map(message => {
+      // Create a deep copy of the message
+      const messageCopy = {...message};
+
+      // Find and desanitize text content
+      messageCopy.contents = message.contents.map(content => {
+        if (content.type === ContentTypeEnum.Text) {
+          return {
+            ...content,
+            data: desanitize(content.data)
+          };
+        }
+        return content;
+      });
+
+      return messageCopy;
+    });
 
     try {
       const content = await this.chatService.nonStreamGenerate(
@@ -140,10 +208,23 @@ export default class ChatLogic {
   async* streamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
   ): AsyncGenerator<ChatResponse | string, void, unknown> {
-    const desanitizedMessages = messages.map(message => ({
-      ...message,
-      text: desanitize(message.text)
-    }));
+    const desanitizedMessages = messages.map(message => {
+      // Create a deep copy of the message
+      const messageCopy = {...message};
+
+      // Find and desanitize text content
+      messageCopy.contents = message.contents.map(content => {
+        if (content.type === ContentTypeEnum.Text) {
+          return {
+            ...content,
+            data: desanitize(content.data)
+          };
+        }
+        return content;
+      });
+
+      return messageCopy;
+    });
 
     try {
       const response = this.chatService.streamGenerate(
@@ -180,7 +261,7 @@ export default class ChatLogic {
     }
   }
 
-  addCitations(text: string, citations: Citation[]): string {
+  private addCitations(text: string, citations: Citation[]): string {
     for (const citation of citations) {
       const citationText = citation.text;
       const citationIndices = citation.indices;

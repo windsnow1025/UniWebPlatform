@@ -78,14 +78,12 @@ function SendButton({
       for await (const chunk of generator) {
         // Final text for citations
         if (typeof chunk === "string") {
-          setMessages(prevMessages => {
-            const updatedMessages = [...prevMessages];
-            updatedMessages[updatedMessages.length - 1].text = chunk;
-            return updatedMessages;
-          });
+          setMessages(prevMessages =>
+            chatLogic.replaceMessageText(prevMessages, prevMessages.length - 1, chunk)
+          );
           break;
         }
-
+        
         if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
           return;
         }

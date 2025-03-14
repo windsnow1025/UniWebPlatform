@@ -8,9 +8,10 @@ import RoleSelect from './RoleSelect';
 import ContentDiv from './ContentDiv';
 import FileUpload from './FileUpload';
 import AudioRecord from './AudioRecord';
-import {convertToRawEditableState, MessageRole, RoleEditableState} from "../../../src/conversation/chat/Message";
+import {convertToRawEditableState, RoleEditableState} from "../../../src/conversation/chat/Message";
 import SortableFileDivs from './SortableFileDivs';
 import DisplayDiv from "./DisplayDiv";
+import {MessageRoleEnum} from "../../../client";
 
 function MessageDiv({
                       message,
@@ -59,11 +60,11 @@ function MessageDiv({
 
   const getRoleBorderStyles = (role) => {
     switch (role) {
-      case MessageRole.User:
+      case MessageRoleEnum.User:
         return {border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`};
-      case MessageRole.Assistant:
+      case MessageRoleEnum.Assistant:
         return {border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`};
-      case MessageRole.System:
+      case MessageRoleEnum.System:
         return {border: `1px solid ${lighten(theme.palette.warning.main, 0.5)}`};
       default:
         return {};
@@ -72,11 +73,11 @@ function MessageDiv({
 
   const getMessageContainerStyles = (role) => {
     switch (role) {
-      case MessageRole.User:
+      case MessageRoleEnum.User:
         return {justifyContent: 'flex-end'};
-      case MessageRole.Assistant:
+      case MessageRoleEnum.Assistant:
         return {justifyContent: 'flex-start'};
-      case MessageRole.System:
+      case MessageRoleEnum.System:
         return {justifyContent: 'center'};
       default:
         return {};

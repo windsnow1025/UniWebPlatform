@@ -177,6 +177,33 @@ export interface BookmarkResDto {
 /**
  * 
  * @export
+ * @interface Content
+ */
+export interface Content {
+    /**
+     * 
+     * @type {string}
+     * @memberof Content
+     */
+    'type': ContentTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof Content
+     */
+    'data': string;
+}
+
+export const ContentTypeEnum = {
+    Text: 'text',
+    File: 'file'
+} as const;
+
+export type ContentTypeEnum = typeof ContentTypeEnum[keyof typeof ContentTypeEnum];
+
+/**
+ * 
+ * @export
  * @interface ConversationNameReqDto
  */
 export interface ConversationNameReqDto {
@@ -327,16 +354,10 @@ export interface Message {
     'role': MessageRoleEnum;
     /**
      * 
-     * @type {string}
+     * @type {Array<Content>}
      * @memberof Message
      */
-    'text': string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Message
-     */
-    'files': Array<string>;
+    'contents': Array<Content>;
     /**
      * 
      * @type {string}
