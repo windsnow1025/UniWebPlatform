@@ -11,16 +11,12 @@ export const defaultAPIBaseURLs: APIBaseURLs = {
   fastAPI: process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL!,
 };
 
-let apiBaseURLs: APIBaseURLs;
 let nestAxiosInstance: AxiosInstance;
 let fastAPIAxiosInstance: AxiosInstance;
 
 export function getAPIBaseURLs(): APIBaseURLs {
-  if (!apiBaseURLs) {
-    const storedValue = localStorage.getItem("apiBaseURLs");
-    apiBaseURLs = storedValue ? JSON.parse(storedValue) : defaultAPIBaseURLs;
-  }
-  return apiBaseURLs;
+  const storedValue = localStorage.getItem("apiBaseURLs");
+  return storedValue ? JSON.parse(storedValue) : defaultAPIBaseURLs;
 }
 
 export function getNestAxiosInstance(): AxiosInstance {
