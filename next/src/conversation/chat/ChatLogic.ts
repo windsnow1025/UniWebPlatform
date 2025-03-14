@@ -29,7 +29,12 @@ export default class ChatLogic {
       {
         id: uuidv4(),
         role: MessageRoleEnum.User,
-        contents: [],
+        contents: [
+          {
+            type: ContentTypeEnum.Text,
+            data: ""
+          }
+        ],
         display: "",
       }
     ];
