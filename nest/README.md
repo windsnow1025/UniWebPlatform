@@ -14,29 +14,22 @@ npm i -g @nestjs/cli @openapitools/openapi-generator-cli
 
 Docs: `/api`
 
-### Client Package
+### Generate Client Package
 
-1. Download OpenAPI JSON
-    ```bash
-    curl -o openapi.json http://localhost:3001/api-json
+- For Axios:
+    ```sh
+    openapi-generator-cli generate -i http://localhost:3001/api-json -g typescript-axios -o client
     ```
 
-2. Generate the Client SDK
+- For Fetch API:
+    ```sh
+    openapi-generator-cli generate -i http://localhost:3001/api-json -g typescript-fetch -o client
+    ```
 
-    - For Axios:
-        ```sh
-        openapi-generator-cli generate -i openapi.json -g typescript-axios -o client
-        ```
-
-    - For Fetch API:
-        ```sh
-        openapi-generator-cli generate -i openapi.json -g typescript-fetch -o client
-        ```
-
-    - For Angular:
-        ```sh
-        openapi-generator-cli generate -i openapi.json -g typescript-angular -o client
-        ```
+- For Angular:
+    ```sh
+    openapi-generator-cli generate -i http://localhost:3001/api-json -g typescript-angular -o client
+    ```
 
 ## Run
 
