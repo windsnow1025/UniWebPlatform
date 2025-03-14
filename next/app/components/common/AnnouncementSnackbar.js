@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Snackbar} from '@mui/material';
 import AnnouncementLogic from '../../../src/announcement/AnnouncementLogic';
-import ContentDiv from "../message/ContentDiv";
+import TextContentDiv from "../message/TextContentDiv";
 import {RawEditableState} from "../../../src/conversation/chat/Message";
 
 const AnnouncementSnackbar = () => {
@@ -36,7 +36,7 @@ const AnnouncementSnackbar = () => {
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
       <Alert variant="filled" onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
-        <ContentDiv
+        <TextContentDiv
           content={alertMessage}
           rawEditableState={RawEditableState.AlwaysFalse}
         />
