@@ -29,7 +29,12 @@ export default class ChatLogic {
       {
         id: uuidv4(),
         role: MessageRoleEnum.User,
-        contents: [],
+        contents: [
+          {
+            type: ContentTypeEnum.Text,
+            data: ""
+          }
+        ],
         display: "",
       }
     ];
@@ -270,5 +275,62 @@ export default class ChatLogic {
       text = text.slice(0, index) + citationStr + text.slice(index);
     }
     return text;
+  }
+
+  getMessageAllText(message: Message): string {
+    return message.contents
+      .filter(content => content.type === ContentTypeEnum.Text)
+      .map(content => content.data)
+      .join('\n\n');
+  }
+
+// Get all file paths from a message
+  getMessageAllFiles(message: Message): string[] {
+    return message.contents
+      .filter(content => content.type === ContentTypeEnum.File)
+      .map(content => content.data);
+  }
+
+// Add a new text content to a message
+  addTextContent(message: Message, text: string): Message {
+    return {
+      ...message,
+      contents: [
+        ...message.contents,
+        {
+          type: ContentTypeEnum.Text,
+          data: text
+        }
+      ]
+    };
+  }
+
+// Add a new file content to a message
+  addFileContent(message: Message, filePath: string): Message {
+    return {
+      ...message,
+      contents: [
+        ...message.contents,
+        {
+          type: ContentTypeEnum.File,
+          data: filePath
+        }
+      ]
+    };
+  }
+
+// Create an empty message with initial content structure
+  createEmptyMessage(role: MessageRoleEnum): Message {
+    return {
+      id: uuidv4(),
+      role: role,
+      contents: [
+        {
+          type: ContentTypeEnum.Text,
+          data: ""
+        }
+      ],
+      display: ""
+    };
   }
 }
