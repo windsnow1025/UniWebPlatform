@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {Message} from './Message'
 import {ApiTypeModel, ChatResponse} from "./Chat";
 import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/src/common/APIConfig";
 import {fetchEventSource} from '@microsoft/fetch-event-source';
+import {Message} from "@/client";
 
 export default class ChatClient {
   async nonStreamGenerate(
