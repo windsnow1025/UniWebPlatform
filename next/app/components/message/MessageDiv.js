@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
-import {useTheme} from '@mui/material/styles';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import React, { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {Alert, IconButton, lighten, LinearProgress, Paper, Snackbar, Tooltip} from "@mui/material";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { Button, IconButton, lighten, LinearProgress, Tooltip, Menu, MenuItem } from "@mui/material";
 import RoleDiv from './RoleDiv';
 import RoleSelect from './RoleSelect';
-import ContentDiv from './ContentDiv';
-import FileUpload from './FileUpload';
-import AudioRecord from './AudioRecord';
-import {convertToRawEditableState, RoleEditableState} from "../../../src/conversation/chat/Message";
-import SortableFileDivs from './SortableFileDivs';
+import ContentItemDiv from './ContentItemDiv';
 import DisplayDiv from "./DisplayDiv";
-import {MessageRoleEnum} from "../../../client";
+import { MessageRoleEnum, ContentTypeEnum } from "../../../client";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
+import {RoleEditableState} from "../../../src/conversation/chat/Message";
 
 function MessageDiv({
                       message,
@@ -21,10 +20,17 @@ function MessageDiv({
                       shouldSanitize = true,
                       roleEditableState = RoleEditableState.RoleBased,
                     }) {
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('info');
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [addMenuAnchorEl, setAddMenuAnchorEl] = useState(null);
+  const [addMenuPosition, setAddMenuPosition] = useState(null);
+
+  const theme = useTheme();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    })
+  );
 
   const handleRoleChange = (newRole) => {
     setMessage({
@@ -33,30 +39,73 @@ function MessageDiv({
     });
   };
 
-  const handleContentChange = (newContent) => {
+  const handleContentChange = (index, newData) => {
+    const newContents = [...message.contents];
+    newContents[index] = {
+      ...newContents[index],
+      data: newData
+    };
+
     setMessage({
       ...message,
-      text: newContent
+      contents: newContents
     });
   };
 
-  const handleFileChange = (fileUrls) => {
+  const handleContentDelete = (index) => {
+    const newContents = [...message.contents];
+    newContents.splice(index, 1);
+
     setMessage({
       ...message,
-      files: fileUrls
+      contents: newContents
     });
   };
 
-  const rawEditableState = convertToRawEditableState(roleEditableState, message.role);
-
-  const handleContentCopy = () => {
-    navigator.clipboard.writeText(message.text);
-    setAlertMessage("Content copied to clipboard");
-    setAlertSeverity('success');
-    setAlertOpen(true);
+  const handleAddMenuOpen = (event, position) => {
+    setAddMenuAnchorEl(event.currentTarget);
+    setAddMenuPosition(position);
   };
 
-  const theme = useTheme();
+  const handleAddMenuClose = () => {
+    setAddMenuAnchorEl(null);
+    setAddMenuPosition(null);
+  };
+
+  const handleAddContent = (type) => {
+    const newContents = [...message.contents];
+    const newContent = {
+      type,
+      data: type === ContentTypeEnum.Text ? '' : ''
+    };
+
+    if (addMenuPosition === null || addMenuPosition >= newContents.length) {
+      newContents.push(newContent);
+    } else {
+      newContents.splice(addMenuPosition, 0, newContent);
+    }
+
+    setMessage({
+      ...message,
+      contents: newContents
+    });
+
+    handleAddMenuClose();
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = parseInt(active.id.split('-')[1]);
+      const newIndex = parseInt(over.id.split('-')[1]);
+
+      setMessage({
+        ...message,
+        contents: arrayMove(message.contents, oldIndex, newIndex)
+      });
+    }
+  };
 
   const getRoleBorderStyles = (role) => {
     switch (role) {
@@ -84,6 +133,9 @@ function MessageDiv({
     }
   };
 
+  // Generate sortable IDs for each content item
+  const sortableIds = message.contents.map((_, index) => `content-${index}`);
+
   return (
     <div style={{
       ...getMessageContainerStyles(message.role),
@@ -104,49 +156,84 @@ function MessageDiv({
             <RoleDiv role={message.role} setRole={handleRoleChange}/>
           )}
           <div className="inflex-fill"></div>
-          <AudioRecord
-            files={message.files}
-            setFiles={handleFileChange}
-            setUploadProgress={setUploadProgress}
-          />
-          <FileUpload
-            files={message.files}
-            setFiles={handleFileChange}
-            setUploadProgress={setUploadProgress}
-          />
-          <Tooltip title="Copy">
-            <IconButton aria-label="copy" onClick={handleContentCopy}>
-              <ContentCopyIcon fontSize="small"/>
-            </IconButton>
-          </Tooltip>
           {onMessageDelete && (
-            <Tooltip title="Delete">
+            <Tooltip title="Delete Message">
               <IconButton aria-label="delete" onClick={onMessageDelete}>
                 <RemoveCircleOutlineIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
           )}
         </div>
-        <Paper elevation={4} className="inflex-fill p-1">
-          <ContentDiv
-            content={message.text}
-            setContent={handleContentChange}
-            shouldSanitize={shouldSanitize}
-            rawEditableState={rawEditableState}
-            files={message.files}
-            setFiles={handleFileChange}
-            setUploadProgress={setUploadProgress}
-          />
-        </Paper>
-        <DisplayDiv message={message} setMessage={setMessage}/>
+
+        {/* Add content button at the top */}
+        <div className="flex justify-center my-2">
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<AddCircleOutlineIcon />}
+            onClick={(e) => handleAddMenuOpen(e, 0)}
+          >
+            Add Content
+          </Button>
+        </div>
+
+        {/* Content items */}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
+            {message.contents.length === 0 ? (
+              <div className="text-center text-gray-500 my-4">
+                No content. Add text or files using the button above.
+              </div>
+            ) : (
+              message.contents.map((content, index) => (
+                <React.Fragment key={`content-${index}`}>
+                  <ContentItemDiv
+                    id={`content-${index}`}
+                    content={content}
+                    onChange={(newData) => handleContentChange(index, newData)}
+                    onDelete={() => handleContentDelete(index)}
+                    shouldSanitize={shouldSanitize}
+                    rawEditableState={roleEditableState}
+                    setUploadProgress={setUploadProgress}
+                  />
+
+                  {/* Add content button between items */}
+                  <div className="flex justify-center my-2">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<AddCircleOutlineIcon />}
+                      onClick={(e) => handleAddMenuOpen(e, index + 1)}
+                    >
+                      Add Content
+                    </Button>
+                  </div>
+                </React.Fragment>
+              ))
+            )}
+          </SortableContext>
+        </DndContext>
+
         {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress * 100}/>}
-        <SortableFileDivs files={message.files} setFiles={handleFileChange}/>
+
+        {/* Display div at the bottom */}
+        <DisplayDiv message={message} setMessage={setMessage}/>
       </div>
-      <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
-          {alertMessage}
-        </Alert>
-      </Snackbar>
+
+      {/* Add Content Menu */}
+      <Menu
+        anchorEl={addMenuAnchorEl}
+        open={Boolean(addMenuAnchorEl)}
+        onClose={handleAddMenuClose}
+      >
+        <MenuItem onClick={() => handleAddContent(ContentTypeEnum.Text)}>Add Text</MenuItem>
+        <MenuItem onClick={() => handleAddContent(ContentTypeEnum.File)}>Add File</MenuItem>
+      </Menu>
+
     </div>
   );
 }
