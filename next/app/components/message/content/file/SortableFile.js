@@ -4,7 +4,7 @@ import {CSS} from "@dnd-kit/utilities";
 import FileDiv from './FileDiv';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
-const SortableFileDiv = ({fileUrl, files, setFiles}) => {
+const SortableFile = ({fileUrl, files, setFiles}) => {
   const {
     attributes,
     listeners,
@@ -31,4 +31,4 @@ const SortableFileDiv = ({fileUrl, files, setFiles}) => {
   );
 };
 
-export default SortableFileDiv;
+export default SortableFile;

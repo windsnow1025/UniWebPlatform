@@ -7,7 +7,7 @@ import {Button, IconButton, lighten, LinearProgress, Tooltip} from "@mui/materia
 import RoleDiv from './role/RoleDiv';
 import RoleSelect from './role/RoleSelect';
 import DisplayDiv from "./content/DisplayDiv";
-import ContentItems from './content/ContentItems';
+import SortableContents from './content/SortableContents';
 import {MessageRoleEnum, ContentTypeEnum} from "../../../client";
 import {RoleEditableState} from "../../../src/conversation/chat/Message";
 
@@ -85,7 +85,7 @@ function MessageDiv({
           )}
         </div>
 
-        <ContentItems
+        <SortableContents
           contents={message.contents}
           setContents={(newContents) => setMessage({...message, contents: newContents})}
           shouldSanitize={shouldSanitize}

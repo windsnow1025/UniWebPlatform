@@ -1,9 +1,9 @@
 import React from 'react';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
-import ContentItem from './ContentItem';
+import SortableContent from './SortableContent';
 
-function ContentItems({ contents, setContents, shouldSanitize, rawEditableState, setUploadProgress }) {
+function SortableContents({ contents, setContents, shouldSanitize, rawEditableState, setUploadProgress }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
@@ -41,7 +41,7 @@ function ContentItems({ contents, setContents, shouldSanitize, rawEditableState,
           </div>
         ) : (
           contents.map((content, index) => (
-            <ContentItem
+            <SortableContent
               key={`content-${index}`}
               id={`content-${index}`}
               content={content}
@@ -58,4 +58,4 @@ function ContentItems({ contents, setContents, shouldSanitize, rawEditableState,
   );
 }
 
-export default ContentItems;
+export default SortableContents;
