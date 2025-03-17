@@ -4,7 +4,7 @@ import MicIcon from '@mui/icons-material/Mic';
 import StopIcon from '@mui/icons-material/Stop';
 import FileLogic from "../../../../../src/common/file/FileLogic";
 
-function AudioRecord({ files, setFiles, setUploadProgress }) {
+function AudioRecord({files, setFiles, setUploadProgress}) {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -16,7 +16,7 @@ function AudioRecord({ files, setFiles, setUploadProgress }) {
 
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({audio: true});
       const recorder = new MediaRecorder(stream);
       let chunks = [];
 
@@ -25,8 +25,8 @@ function AudioRecord({ files, setFiles, setUploadProgress }) {
       };
 
       recorder.onstop = async () => {
-        const audioBlob = new Blob(chunks, { type: 'audio/webm' });
-        const audioFile = new File([audioBlob], `recording-${Date.now()}.webm`, { type: 'audio/webm' });
+        const audioBlob = new Blob(chunks, {type: 'audio/webm'});
+        const audioFile = new File([audioBlob], `recording-${Date.now()}.webm`, {type: 'audio/webm'});
 
         await uploadAudio(audioFile);
       };
@@ -77,12 +77,21 @@ function AudioRecord({ files, setFiles, setUploadProgress }) {
 
   return (
     <>
-      <Tooltip title={isRecording ? "Stop Recording" : "Start Recording"}>
-        <IconButton aria-label="record-audio" onClick={isRecording ? stopRecording : startRecording}>
-          {isRecording ? <StopIcon color="error" /> : <MicIcon />}
-        </IconButton>
+      <Tooltip title={isRecording ? "Stop Recording" : (isUploading ? "Uploading..." : "Start Recording")}>
+        <span>
+          <IconButton
+            size="small"
+            onClick={isRecording ? stopRecording : startRecording}
+            disabled={isUploading}
+          >
+            {isUploading ? (
+              <CircularProgress size={20}/>
+            ) : (
+              isRecording ? <StopIcon color="error" fontSize="small"/> : <MicIcon fontSize="small"/>
+            )}
+          </IconButton>
+        </span>
       </Tooltip>
-      {isUploading && <CircularProgress size={24} />}
       <Snackbar
         open={alertOpen}
         autoHideDuration={6000}
