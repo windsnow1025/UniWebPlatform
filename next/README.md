@@ -28,35 +28,3 @@ const nextConfig = {
   transpilePackages: ['<package_name>'],
 };
 ```
-
-## Update public resources
-
-1.
-    Download
-
-    `node_modules/highlight.js/styles/github.css`
-
-    `node_modules/highlight.js/styles/github-dark.css`
-    
-    to
-    
-    `public/css/highlight/github.css`
-
-    `public/css/highlight/github-dark.css`
-
-2.
-    Download
-
-    `node_modules/github-markdown-css/github-markdown.css`
-
-    `node_modules/github-markdown-css/github-markdown-light.css`
-
-    `node_modules/github-markdown-css/github-markdown-dark.css`
-    
-    to
-    
-    `public/css/markdown/github-markdown.css`
-
-    `public/css/markdown/github-markdown-light.css`
-
-    `public/css/markdown/github-markdown-dark.css`
