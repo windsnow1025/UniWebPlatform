@@ -8,16 +8,17 @@ import FileContent from './file/FileContent';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TextContentDiv from "./TextContentDiv";
+import AudioRecord from './file/AudioRecord';
 
 function ContentItem({
-                          id,
-                          content,
-                          onChange,
-                          onDelete,
-                          shouldSanitize,
-                          rawEditableState,
-                          setUploadProgress
-                        }) {
+                       id,
+                       content,
+                       onChange,
+                       onDelete,
+                       shouldSanitize,
+                       rawEditableState,
+                       setUploadProgress
+                     }) {
   const {
     attributes,
     listeners,
@@ -33,6 +34,23 @@ function ContentItem({
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content.data);
+  };
+
+  // Get all files for AudioRecord when content is a file
+  const getFiles = () => {
+    if (content.type === ContentTypeEnum.File) {
+      return content.data ? [content.data] : [];
+    }
+    return [];
+  };
+
+  // Update files from AudioRecord component
+  const updateFiles = (files) => {
+    if (files && files.length > 0) {
+      onChange(files[0]);
+    } else {
+      onChange('');
+    }
   };
 
   return (
@@ -53,6 +71,14 @@ function ContentItem({
                 <ContentCopyIcon fontSize="small" />
               </IconButton>
             </Tooltip>
+          )}
+
+          {content.type === ContentTypeEnum.File && (
+            <AudioRecord
+              files={getFiles()}
+              setFiles={updateFiles}
+              setUploadProgress={setUploadProgress}
+            />
           )}
 
           <Tooltip title="Delete">
