@@ -54,11 +54,11 @@ function ContentItem({
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="mb-3">
+    <div ref={setNodeRef} style={style} className="my-1">
       <Paper elevation={3} className="p-2">
         <div className="flex items-center mb-2">
-          <div {...attributes} {...listeners} className="cursor-move mr-2">
-            <DragIndicatorIcon />
+          <div {...attributes} {...listeners} className="cursor-move mr-2 flex">
+            <DragIndicatorIcon fontSize="small"/>
           </div>
 
           <div className="flex-grow font-semibold">
