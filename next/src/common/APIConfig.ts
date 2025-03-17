@@ -11,30 +11,21 @@ export const defaultAPIBaseURLs: APIBaseURLs = {
   fastAPI: process.env.NEXT_PUBLIC_FASTAPI_API_BASE_URL!,
 };
 
-let nestAxiosInstance: AxiosInstance;
-let fastAPIAxiosInstance: AxiosInstance;
-
 export function getAPIBaseURLs(): APIBaseURLs {
   const storedValue = localStorage.getItem("apiBaseURLs");
   return storedValue ? JSON.parse(storedValue) : defaultAPIBaseURLs;
 }
 
 export function getNestAxiosInstance(): AxiosInstance {
-  if (!nestAxiosInstance) {
-    nestAxiosInstance = axios.create({
-      baseURL: getAPIBaseURLs().nest
-    });
-  }
-  return nestAxiosInstance;
+  return axios.create({
+    baseURL: getAPIBaseURLs().nest
+  });
 }
 
 export function getFastAPIAxiosInstance(): AxiosInstance {
-  if (!fastAPIAxiosInstance) {
-    fastAPIAxiosInstance = axios.create({
-      baseURL: getAPIBaseURLs().fastAPI
-    });
-  }
-  return fastAPIAxiosInstance;
+  return axios.create({
+    baseURL: getAPIBaseURLs().fastAPI
+  });
 }
 
 export function getOpenAPIConfiguration(): Configuration {
