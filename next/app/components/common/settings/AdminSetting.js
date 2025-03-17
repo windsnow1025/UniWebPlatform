@@ -4,7 +4,7 @@ import AnnouncementLogic from "../../../../src/announcement/AnnouncementLogic";
 import CustomDataGrid from "../CustomDataGrid";
 import {Button} from "@mui/material";
 import {RawEditableState} from "../../../../src/conversation/chat/Message";
-import TextContentDiv from "../../message/content/TextContentDiv";
+import TextContent from "../../message/content/text/TextContent";
 
 const AdminSetting = () => {
   const userLogic = new UserLogic();
@@ -109,7 +109,7 @@ const AdminSetting = () => {
       {/* Announcement Editing Section */}
       <div>
         <h3>Edit Announcement</h3>
-        <TextContentDiv
+        <TextContent
           content={announcement}
           setContent={setAnnouncement}
           rawEditableState={RawEditableState.InteractionBased}

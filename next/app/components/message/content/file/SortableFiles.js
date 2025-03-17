@@ -31,7 +31,10 @@ const SortableFiles = ({ files, setFiles }) => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={files} strategy={rectSortingStrategy}>
+      <SortableContext
+        items={files}
+        strategy={rectSortingStrategy}
+      >
         <div className="flex-start-start">
           {files.map((file) => (
             <SortableFile

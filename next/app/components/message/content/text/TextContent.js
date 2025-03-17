@@ -1,9 +1,9 @@
 import {useEffect, useRef, useState} from "react";
 import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
-import {ContentEditable, RawEditableState} from "../../../../src/conversation/chat/Message";
+import {ContentEditable, RawEditableState} from "../../../../../src/conversation/chat/Message";
 import {useTheme} from "@mui/material";
 
-function TextContentDiv({
+function TextContent({
                       content,
                       setContent,
                       shouldSanitize = true,
@@ -82,4 +82,4 @@ function TextContentDiv({
   );
 }
 
-export default TextContentDiv;
+export default TextContent;

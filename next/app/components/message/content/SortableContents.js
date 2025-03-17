@@ -2,6 +2,7 @@ import React from 'react';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
+import {Typography} from "@mui/material";
 
 function SortableContents({ contents, setContents, shouldSanitize, rawEditableState, setUploadProgress }) {
   const sensors = useSensors(
@@ -26,24 +27,31 @@ function SortableContents({ contents, setContents, shouldSanitize, rawEditableSt
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    const oldIndex = parseInt(active.id.split('-')[1]);
-    const newIndex = parseInt(over.id.split('-')[1]);
+    const oldIndex = parseInt(active.id, 10);
+    const newIndex = parseInt(over.id, 10);
 
     setContents(arrayMove(contents, oldIndex, newIndex));
   };
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={contents.map((_, index) => `content-${index}`)} strategy={verticalListSortingStrategy}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={contents.map((_, index) => index.toString())}
+        strategy={verticalListSortingStrategy}
+      >
         {contents.length === 0 ? (
-          <div className="text-center text-gray-500 my-4">
+          <Typography variant="body2" color="textSecondary" align="center" sx={{ my: 2 }}>
             No content. Add text or files using the buttons below.
-          </div>
+          </Typography>
         ) : (
           contents.map((content, index) => (
             <SortableContent
-              key={`content-${index}`}
-              id={`content-${index}`}
+              key={index}
+              id={index.toString()}
               content={content}
               onChange={(newData) => handleContentChange(index, newData)}
               onDelete={() => handleContentDelete(index)}
