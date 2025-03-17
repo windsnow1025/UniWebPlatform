@@ -3,13 +3,13 @@ import { Paper, IconButton, Tooltip } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { ContentTypeEnum } from "../../../client";
-import FileContentDiv from './FileContentDiv';
+import { ContentTypeEnum } from "../../../../client";
+import FileContent from './file/FileContent';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TextContentDiv from "./TextContentDiv";
 
-function ContentItemDiv({
+function ContentItem({
                           id,
                           content,
                           onChange,
@@ -70,9 +70,9 @@ function ContentItemDiv({
             rawEditableState={rawEditableState}
           />
         ) : (
-          <FileContentDiv
-            fileUrl={content.data}
-            setFileUrl={onChange}
+          <FileContent
+            file={content.data}
+            setFile={onChange}
             setUploadProgress={setUploadProgress}
           />
         )}
@@ -81,4 +81,4 @@ function ContentItemDiv({
   );
 }
 
-export default ContentItemDiv;
+export default ContentItem;

@@ -4,9 +4,9 @@ import MicIcon from '@mui/icons-material/Mic';
 import StopIcon from '@mui/icons-material/Stop';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FolderIcon from '@mui/icons-material/Folder';
-import FileLogic from "../../../src/common/file/FileLogic";
+import FileLogic from "../../../../../src/common/file/FileLogic";
 
-function FileContentDiv({ fileUrl, setFileUrl, setUploadProgress }) {
+function FileContent({ file, setFile, setUploadProgress }) {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -67,7 +67,7 @@ function FileContentDiv({ fileUrl, setFileUrl, setUploadProgress }) {
         setUploadProgress(progress);
       });
 
-      setFileUrl(uploadedUrls[0]);
+      setFile(uploadedUrls[0]);
 
       setAlertMessage("File uploaded successfully");
       setAlertSeverity('success');
@@ -120,29 +120,29 @@ function FileContentDiv({ fileUrl, setFileUrl, setUploadProgress }) {
 
   // Render file preview or upload controls
   const renderFileContent = () => {
-    if (fileUrl) {
+    if (file) {
       // Display file preview based on file type
-      const fileExtension = fileUrl.split('.').pop().toLowerCase();
+      const fileExtension = file.split('.').pop().toLowerCase();
 
       if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension)) {
         return (
           <div className="file-preview">
-            <img src={fileUrl} alt="File preview" className="max-w-full h-auto" />
-            <div className="mt-2 text-sm text-gray-500 break-all">{fileUrl}</div>
+            <img src={file} alt="File preview" className="max-w-full h-auto" />
+            <div className="mt-2 text-sm text-gray-500 break-all">{file}</div>
           </div>
         );
       } else if (['mp3', 'wav', 'ogg', 'webm'].includes(fileExtension)) {
         return (
           <div className="file-preview">
-            <audio controls src={fileUrl} className="w-full" />
-            <div className="mt-2 text-sm text-gray-500 break-all">{fileUrl}</div>
+            <audio controls src={file} className="w-full" />
+            <div className="mt-2 text-sm text-gray-500 break-all">{file}</div>
           </div>
         );
       } else if (['mp4', 'webm', 'ogg'].includes(fileExtension)) {
         return (
           <div className="file-preview">
-            <video controls src={fileUrl} className="max-w-full h-auto" />
-            <div className="mt-2 text-sm text-gray-500 break-all">{fileUrl}</div>
+            <video controls src={file} className="max-w-full h-auto" />
+            <div className="mt-2 text-sm text-gray-500 break-all">{file}</div>
           </div>
         );
       } else {
@@ -151,9 +151,9 @@ function FileContentDiv({ fileUrl, setFileUrl, setUploadProgress }) {
           <div className="file-preview p-3 border rounded">
             <div className="flex items-center">
               <UploadFileIcon className="mr-2" />
-              <span className="break-all">{fileUrl.split('/').pop()}</span>
+              <span className="break-all">{file.split('/').pop()}</span>
             </div>
-            <div className="mt-2 text-sm text-gray-500 break-all">{fileUrl}</div>
+            <div className="mt-2 text-sm text-gray-500 break-all">{file}</div>
           </div>
         );
       }
@@ -237,4 +237,4 @@ function FileContentDiv({ fileUrl, setFileUrl, setUploadProgress }) {
   );
 }
 
-export default FileContentDiv;
+export default FileContent;

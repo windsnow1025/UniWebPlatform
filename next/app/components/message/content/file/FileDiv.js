@@ -4,7 +4,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import mime from 'mime';
-import {codeFileExtensions} from "../../../src/conversation/chat/CodeFileExtensions";
+import {codeFileExtensions} from "../../../../../src/conversation/chat/CodeFileExtensions";
 
 const FileDiv = ({fileUrl, files, setFiles}) => {
   const mimeType = mime.getType(fileUrl);
