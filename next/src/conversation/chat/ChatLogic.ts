@@ -41,13 +41,23 @@ export default class ChatLogic {
     this.emptyUserMessage = {
       id: uuidv4(),
       role: MessageRoleEnum.User,
-      contents: [],
+      contents: [
+        {
+          type: ContentTypeEnum.Text,
+          data: ""
+        }
+      ],
       display: "",
     };
     this.emptyAssistantMessage = {
       id: uuidv4(),
       role: MessageRoleEnum.Assistant,
-      contents: [],
+      contents: [
+        {
+          type: ContentTypeEnum.Text,
+          data: ""
+        }
+      ],
       display: "",
     };
 
