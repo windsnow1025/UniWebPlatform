@@ -11,7 +11,7 @@ import {
   Slider,
   Snackbar
 } from "@mui/material";
-import TextContentDiv from "../../app/components/message/content/TextContentDiv";
+import TextContent from "../../app/components/message/content/text/TextContent";
 import ImageClient from "../../src/image/ImageClient";
 
 function ImageGenerate() {
@@ -115,7 +115,7 @@ function ImageGenerate() {
           </div>
         </div>
         <Paper elevation={1} className="m-2 p-4 rounded-lg">
-          <TextContentDiv
+          <TextContent
             content={prompt}
             setContent={setPrompt}
           />

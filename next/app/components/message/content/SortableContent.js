@@ -7,7 +7,7 @@ import { ContentTypeEnum } from "../../../../client";
 import FileContent from './file/FileContent';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import TextContentDiv from "./TextContentDiv";
+import TextContent from "./text/TextContent";
 import AudioRecord from './file/AudioRecord';
 
 function SortableContent({
@@ -69,7 +69,7 @@ function SortableContent({
         </div>
 
         {content.type === ContentTypeEnum.Text ? (
-          <TextContentDiv
+          <TextContent
             content={content.data}
             setContent={onChange}
             shouldSanitize={shouldSanitize}
