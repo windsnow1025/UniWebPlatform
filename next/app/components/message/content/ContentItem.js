@@ -36,23 +36,6 @@ function ContentItem({
     navigator.clipboard.writeText(content.data);
   };
 
-  // Get all files for AudioRecord when content is a file
-  const getFiles = () => {
-    if (content.type === ContentTypeEnum.File) {
-      return content.data ? [content.data] : [];
-    }
-    return [];
-  };
-
-  // Update files from AudioRecord component
-  const updateFiles = (files) => {
-    if (files && files.length > 0) {
-      onChange(files[0]);
-    } else {
-      onChange('');
-    }
-  };
-
   return (
     <div ref={setNodeRef} style={style} className="my-1">
       <Paper elevation={3} className="p-2">
@@ -74,11 +57,7 @@ function ContentItem({
           )}
 
           {content.type === ContentTypeEnum.File && (
-            <AudioRecord
-              files={getFiles()}
-              setFiles={updateFiles}
-              setUploadProgress={setUploadProgress}
-            />
+            <AudioRecord setFile={onChange} />
           )}
 
           <Tooltip title="Delete">
