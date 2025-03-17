@@ -4,7 +4,7 @@ import MicIcon from '@mui/icons-material/Mic';
 import StopIcon from '@mui/icons-material/Stop';
 import FileLogic from "../../../../../src/common/file/FileLogic";
 
-function AudioRecord({files, setFiles, setUploadProgress}) {
+function AudioRecord({setFile}) {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -52,15 +52,10 @@ function AudioRecord({files, setFiles, setUploadProgress}) {
 
   const uploadAudio = async (audioFile) => {
     setIsUploading(true);
-    setUploadProgress(0);
 
     try {
-      const uploadedUrls = await fileLogic.uploadFiles([audioFile], (progressEvent) => {
-        const progress = progressEvent.loaded / progressEvent.total;
-        setUploadProgress(progress);
-      });
-
-      setFiles([...files, uploadedUrls[0]]);
+      const uploadedUrls = await fileLogic.uploadFiles([audioFile]);
+      setFile(uploadedUrls[0]);
 
       setAlertMessage("Audio uploaded successfully");
       setAlertSeverity('success');
@@ -71,7 +66,6 @@ function AudioRecord({files, setFiles, setUploadProgress}) {
       setAlertOpen(true);
     } finally {
       setIsUploading(false);
-      setUploadProgress(0);
     }
   };
 
