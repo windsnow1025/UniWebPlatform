@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import { useTheme } from '@mui/material/styles';
+import React, {useState} from 'react';
+import {useTheme} from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import { Button, IconButton, lighten, LinearProgress, Tooltip } from "@mui/material";
+import {Button, IconButton, lighten, LinearProgress, Tooltip} from "@mui/material";
 import RoleDiv from './role/RoleDiv';
 import RoleSelect from './role/RoleSelect';
-import ContentItem from './content/ContentItem';
 import DisplayDiv from "./content/DisplayDiv";
-import { MessageRoleEnum, ContentTypeEnum } from "../../../client";
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
+import ContentItems from './content/ContentItems';
+import {MessageRoleEnum, ContentTypeEnum} from "../../../client";
 import {RoleEditableState} from "../../../src/conversation/chat/Message";
 
 function MessageDiv({
@@ -24,71 +22,15 @@ function MessageDiv({
   const [uploadProgress, setUploadProgress] = useState(0);
   const theme = useTheme();
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 5,
-      },
-    })
-  );
-
   const handleRoleChange = (newRole) => {
-    setMessage({
-      ...message,
-      role: newRole
-    });
-  };
-
-  const handleContentChange = (index, newData) => {
-    const newContents = [...message.contents];
-    newContents[index] = {
-      ...newContents[index],
-      data: newData
-    };
-
-    setMessage({
-      ...message,
-      contents: newContents
-    });
-  };
-
-  const handleContentDelete = (index) => {
-    const newContents = [...message.contents];
-    newContents.splice(index, 1);
-
-    setMessage({
-      ...message,
-      contents: newContents
-    });
+    setMessage({...message, role: newRole});
   };
 
   const handleAddContent = (type) => {
-    const newContents = [...message.contents];
-    const newContent = {
-      type,
-      data: ''
-    };
-
-    newContents.push(newContent);
-
     setMessage({
       ...message,
-      contents: newContents
+      contents: [...message.contents, {type, data: ''}]
     });
-  };
-
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-
-    if (active.id !== over.id) {
-      const oldIndex = parseInt(active.id.split('-')[1]);
-      const newIndex = parseInt(over.id.split('-')[1]);
-
-      setMessage({
-        ...message,
-        contents: arrayMove(message.contents, oldIndex, newIndex)
-      });
-    }
   };
 
   const getRoleBorderStyles = (role) => {
@@ -117,14 +59,8 @@ function MessageDiv({
     }
   };
 
-  // Generate sortable IDs for each content item
-  const sortableIds = message.contents.map((_, index) => `content-${index}`);
-
   return (
-    <div style={{
-      ...getMessageContainerStyles(message.role),
-      display: 'flex',
-    }}>
+    <div style={{...getMessageContainerStyles(message.role), display: 'flex'}}>
       <div
         className="px-2 py-3 rounded-lg"
         style={{
@@ -149,40 +85,18 @@ function MessageDiv({
           )}
         </div>
 
-        {/* Content items */}
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
-            {message.contents.length === 0 ? (
-              <div className="text-center text-gray-500 my-4">
-                No content. Add text or files using the buttons below.
-              </div>
-            ) : (
-              message.contents.map((content, index) => (
-                <ContentItem
-                  key={`content-${index}`}
-                  id={`content-${index}`}
-                  content={content}
-                  onChange={(newData) => handleContentChange(index, newData)}
-                  onDelete={() => handleContentDelete(index)}
-                  shouldSanitize={shouldSanitize}
-                  rawEditableState={roleEditableState}
-                  setUploadProgress={setUploadProgress}
-                />
-              ))
-            )}
-          </SortableContext>
-        </DndContext>
+        <ContentItems
+          contents={message.contents}
+          setContents={(newContents) => setMessage({...message, contents: newContents})}
+          shouldSanitize={shouldSanitize}
+          rawEditableState={roleEditableState}
+          setUploadProgress={setUploadProgress}
+        />
 
         {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress * 100}/>}
 
-        {/* Display div in the middle */}
         <DisplayDiv message={message} setMessage={setMessage}/>
 
-        {/* Add content buttons at the bottom */}
         <div className="flex justify-center gap-3 mt-4">
           <Button
             variant="outlined"
