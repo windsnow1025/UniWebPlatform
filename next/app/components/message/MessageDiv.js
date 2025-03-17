@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Button, IconButton, lighten, LinearProgress, Tooltip, Menu, MenuItem } from "@mui/material";
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { Button, IconButton, lighten, LinearProgress, Tooltip } from "@mui/material";
 import RoleDiv from './role/RoleDiv';
 import RoleSelect from './role/RoleSelect';
 import ContentItem from './content/ContentItem';
@@ -21,9 +22,6 @@ function MessageDiv({
                       roleEditableState = RoleEditableState.RoleBased,
                     }) {
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [addMenuAnchorEl, setAddMenuAnchorEl] = useState(null);
-  const [addMenuPosition, setAddMenuPosition] = useState(null);
-
   const theme = useTheme();
 
   const sensors = useSensors(
@@ -62,35 +60,19 @@ function MessageDiv({
     });
   };
 
-  const handleAddMenuOpen = (event, position) => {
-    setAddMenuAnchorEl(event.currentTarget);
-    setAddMenuPosition(position);
-  };
-
-  const handleAddMenuClose = () => {
-    setAddMenuAnchorEl(null);
-    setAddMenuPosition(null);
-  };
-
   const handleAddContent = (type) => {
     const newContents = [...message.contents];
     const newContent = {
       type,
-      data: type === ContentTypeEnum.Text ? '' : ''
+      data: ''
     };
 
-    if (addMenuPosition === null || addMenuPosition >= newContents.length) {
-      newContents.push(newContent);
-    } else {
-      newContents.splice(addMenuPosition, 0, newContent);
-    }
+    newContents.push(newContent);
 
     setMessage({
       ...message,
       contents: newContents
     });
-
-    handleAddMenuClose();
   };
 
   const handleDragEnd = (event) => {
@@ -165,18 +147,6 @@ function MessageDiv({
           )}
         </div>
 
-        {/* Add content button at the top */}
-        <div className="flex justify-center my-2">
-          <Button
-            variant="outlined"
-            size="small"
-            startIcon={<AddCircleOutlineIcon />}
-            onClick={(e) => handleAddMenuOpen(e, 0)}
-          >
-            Add Content
-          </Button>
-        </div>
-
         {/* Content items */}
         <DndContext
           sensors={sensors}
@@ -186,33 +156,20 @@ function MessageDiv({
           <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
             {message.contents.length === 0 ? (
               <div className="text-center text-gray-500 my-4">
-                No content. Add text or files using the button above.
+                No content. Add text or files using the buttons below.
               </div>
             ) : (
               message.contents.map((content, index) => (
-                <React.Fragment key={`content-${index}`}>
-                  <ContentItem
-                    id={`content-${index}`}
-                    content={content}
-                    onChange={(newData) => handleContentChange(index, newData)}
-                    onDelete={() => handleContentDelete(index)}
-                    shouldSanitize={shouldSanitize}
-                    rawEditableState={roleEditableState}
-                    setUploadProgress={setUploadProgress}
-                  />
-
-                  {/* Add content button between items */}
-                  <div className="flex justify-center my-2">
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<AddCircleOutlineIcon />}
-                      onClick={(e) => handleAddMenuOpen(e, index + 1)}
-                    >
-                      Add Content
-                    </Button>
-                  </div>
-                </React.Fragment>
+                <ContentItem
+                  key={`content-${index}`}
+                  id={`content-${index}`}
+                  content={content}
+                  onChange={(newData) => handleContentChange(index, newData)}
+                  onDelete={() => handleContentDelete(index)}
+                  shouldSanitize={shouldSanitize}
+                  rawEditableState={roleEditableState}
+                  setUploadProgress={setUploadProgress}
+                />
               ))
             )}
           </SortableContext>
@@ -220,20 +177,29 @@ function MessageDiv({
 
         {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress * 100}/>}
 
-        {/* Display div at the bottom */}
+        {/* Display div in the middle */}
         <DisplayDiv message={message} setMessage={setMessage}/>
+
+        {/* Add content buttons at the bottom */}
+        <div className="flex justify-center gap-3 mt-4">
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<TextSnippetIcon />}
+            onClick={() => handleAddContent(ContentTypeEnum.Text)}
+          >
+            Add Text Content
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<AttachFileIcon />}
+            onClick={() => handleAddContent(ContentTypeEnum.File)}
+          >
+            Add File Content
+          </Button>
+        </div>
       </div>
-
-      {/* Add Content Menu */}
-      <Menu
-        anchorEl={addMenuAnchorEl}
-        open={Boolean(addMenuAnchorEl)}
-        onClose={handleAddMenuClose}
-      >
-        <MenuItem onClick={() => handleAddContent(ContentTypeEnum.Text)}>Add Text</MenuItem>
-        <MenuItem onClick={() => handleAddContent(ContentTypeEnum.File)}>Add File</MenuItem>
-      </Menu>
-
     </div>
   );
 }
