@@ -4,7 +4,7 @@ import AnnouncementLogic from "../../../../src/announcement/AnnouncementLogic";
 import CustomDataGrid from "../CustomDataGrid";
 import {Button} from "@mui/material";
 import {RawEditableState} from "../../../../src/conversation/chat/Message";
-import TextContentDiv from "../../message/TextContentDiv";
+import TextContentDiv from "../../message/content/TextContentDiv";
 
 const AdminSetting = () => {
   const userLogic = new UserLogic();

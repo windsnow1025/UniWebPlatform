@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Snackbar} from '@mui/material';
 import AnnouncementLogic from '../../../src/announcement/AnnouncementLogic';
-import TextContentDiv from "../message/TextContentDiv";
+import TextContentDiv from "../message/content/TextContentDiv";
 import {RawEditableState} from "../../../src/conversation/chat/Message";
 
 const AnnouncementSnackbar = () => {
