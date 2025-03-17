@@ -10,7 +10,7 @@ import { CSS } from '@dnd-kit/utilities';
 import TextContentDiv from "./TextContentDiv";
 import AudioRecord from './file/AudioRecord';
 
-function ContentItem({
+function SortableContent({
                        id,
                        content,
                        onChange,
@@ -87,4 +87,4 @@ function ContentItem({
   );
 }
 
-export default ContentItem;
+export default SortableContent;
