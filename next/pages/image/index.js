@@ -11,7 +11,7 @@ import {
   Slider,
   Snackbar
 } from "@mui/material";
-import TextContentDiv from "../../app/components/message/TextContentDiv";
+import TextContentDiv from "../../app/components/message/content/TextContentDiv";
 import ImageClient from "../../src/image/ImageClient";
 
 function ImageGenerate() {

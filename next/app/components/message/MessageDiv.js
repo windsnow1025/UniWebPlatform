@@ -3,10 +3,10 @@ import { useTheme } from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Button, IconButton, lighten, LinearProgress, Tooltip, Menu, MenuItem } from "@mui/material";
-import RoleDiv from './RoleDiv';
-import RoleSelect from './RoleSelect';
-import ContentItemDiv from './ContentItemDiv';
-import DisplayDiv from "./DisplayDiv";
+import RoleDiv from './role/RoleDiv';
+import RoleSelect from './role/RoleSelect';
+import ContentItem from './content/ContentItem';
+import DisplayDiv from "./content/DisplayDiv";
 import { MessageRoleEnum, ContentTypeEnum } from "../../../client";
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
@@ -191,7 +191,7 @@ function MessageDiv({
             ) : (
               message.contents.map((content, index) => (
                 <React.Fragment key={`content-${index}`}>
-                  <ContentItemDiv
+                  <ContentItem
                     id={`content-${index}`}
                     content={content}
                     onChange={(newData) => handleContentChange(index, newData)}
