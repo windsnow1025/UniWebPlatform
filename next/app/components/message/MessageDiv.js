@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import {Button, IconButton, lighten, LinearProgress, Tooltip} from "@mui/material";
+import {IconButton, lighten, LinearProgress, Tooltip} from "@mui/material";
 import RoleDiv from './role/RoleDiv';
 import RoleSelect from './role/RoleSelect';
 import DisplayDiv from "./content/DisplayDiv";
 import SortableContents from './content/SortableContents';
-import {MessageRoleEnum, ContentTypeEnum} from "../../../client";
+import {MessageRoleEnum} from "../../../client";
 import {RoleEditableState} from "../../../src/conversation/chat/Message";
+import AddContentButtons from "./AddContentButton";
 
 function MessageDiv({
                       message,
@@ -24,13 +23,6 @@ function MessageDiv({
 
   const handleRoleChange = (newRole) => {
     setMessage({...message, role: newRole});
-  };
-
-  const handleAddContent = (type) => {
-    setMessage({
-      ...message,
-      contents: [...message.contents, {type, data: ''}]
-    });
   };
 
   const getRoleBorderStyles = (role) => {
@@ -97,24 +89,7 @@ function MessageDiv({
 
         <DisplayDiv message={message} setMessage={setMessage}/>
 
-        <div className="flex justify-center gap-3 mt-4">
-          <Button
-            variant="outlined"
-            size="small"
-            startIcon={<TextSnippetIcon />}
-            onClick={() => handleAddContent(ContentTypeEnum.Text)}
-          >
-            Add Text Content
-          </Button>
-          <Button
-            variant="outlined"
-            size="small"
-            startIcon={<AttachFileIcon />}
-            onClick={() => handleAddContent(ContentTypeEnum.File)}
-          >
-            Add File Content
-          </Button>
-        </div>
+        <AddContentButtons message={message} setMessage={setMessage} />
       </div>
     </div>
   );
