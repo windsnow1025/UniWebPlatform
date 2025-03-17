@@ -29,7 +29,8 @@ function ContentItem({
 
   const style = {
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    touchAction: 'none',
   };
 
   const handleCopy = () => {
