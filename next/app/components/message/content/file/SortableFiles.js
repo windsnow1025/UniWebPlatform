@@ -1,9 +1,9 @@
 import React from 'react';
 import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {rectSortingStrategy, SortableContext} from "@dnd-kit/sortable";
-import SortableFileDiv from './SortableFileDiv';
+import SortableFile from './SortableFile';
 
-const SortableFileDivs = ({ files, setFiles }) => {
+const SortableFiles = ({ files, setFiles }) => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -34,7 +34,7 @@ const SortableFileDivs = ({ files, setFiles }) => {
       <SortableContext items={files} strategy={rectSortingStrategy}>
         <div className="flex-start-start">
           {files.map((file) => (
-            <SortableFileDiv
+            <SortableFile
               key={file}
               fileUrl={file}
               files={files}
@@ -47,4 +47,4 @@ const SortableFileDivs = ({ files, setFiles }) => {
   );
 };
 
-export default SortableFileDivs;
+export default SortableFiles;
