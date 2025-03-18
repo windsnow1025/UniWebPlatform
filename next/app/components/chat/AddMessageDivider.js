@@ -29,25 +29,28 @@ function AddMessageDivider({
 
   return (
     <div
-      className="flex-center-nowrap h-4"
-      style={{
-        cursor: "pointer",
-      }}
+      className="flex items-center my-1 group relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Divider sx={{ flexGrow: 1 }} />
-      {isHovered && (
-        <Tooltip title="Add Message">
+      <Divider
+        sx={{
+          flexGrow: 1,
+          opacity: isHovered ? 1 : 0.5,
+          transition: 'opacity 0.2s ease-in-out'
+        }}
+      />
+      <div
+        className={`absolute left-1/2 transform -translate-x-1/2 ${isHovered ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
+        <Tooltip title="Add Message" placement="top">
           <IconButton
-            aria-label="add"
+            size="small"
             onClick={() => handleMessageAdd(index)}
           >
-            <AddCircleIcon fontSize="small" />
+            <AddCircleIcon fontSize="small"/>
           </IconButton>
         </Tooltip>
-      )}
-      <Divider sx={{ flexGrow: 1 }} />
+      </div>
     </div>
   );
 }
