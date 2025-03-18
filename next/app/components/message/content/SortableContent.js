@@ -17,7 +17,6 @@ function SortableContent({
                        onDelete,
                        shouldSanitize,
                        rawEditableState,
-                       setUploadProgress
                      }) {
   const {
     attributes,
@@ -79,7 +78,6 @@ function SortableContent({
           <FileContent
             file={content.data}
             setFile={onChange}
-            setUploadProgress={setUploadProgress}
           />
         )}
       </Paper>

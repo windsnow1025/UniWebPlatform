@@ -1,9 +1,8 @@
-import {AxiosProgressEvent} from 'axios';
 import {getNestAxiosInstance, getOpenAPIConfiguration} from "@/src/common/APIConfig";
 import {FilesApi} from "@/client";
 
 export default class FileClient {
-  async uploadFiles(files: File[], onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<string[]> {
+  async uploadFiles(files: File[]): Promise<string[]> {
     const token = localStorage.getItem('token');
 
     const formData = new FormData();
@@ -16,7 +15,6 @@ export default class FileClient {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
-      onUploadProgress: onProgress,
     });
 
     return response.data.urls;

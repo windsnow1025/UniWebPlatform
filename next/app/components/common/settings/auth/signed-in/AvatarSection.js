@@ -7,7 +7,6 @@ function AvatarSection() {
   const [avatar, setAvatar] = useState(null);
   const [username, setUsername] = useState('');
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [isUpdating, setIsUpdating] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
 
@@ -75,12 +74,8 @@ function AvatarSection() {
 
     try {
       setIsUploading(true);
-      setUploadProgress(0);
 
-      const urls = await fileLogic.uploadFiles([file], (progressEvent) => {
-        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        setUploadProgress(progress);
-      });
+      const urls = await fileLogic.uploadFiles([file]);
 
       if (urls && urls.length > 0) {
         showAlert('Image uploaded successfully. Click Update to set as avatar.', 'success');
@@ -166,7 +161,6 @@ function AvatarSection() {
           {isUploading ? (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <CircularProgress size={24} sx={{ mr: 1 }} />
-              {uploadProgress}%
             </Box>
           ) : (
             'Upload Image'

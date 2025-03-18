@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {IconButton, lighten, LinearProgress, Tooltip} from "@mui/material";
+import {IconButton, lighten, Tooltip} from "@mui/material";
 import RoleDiv from './role/RoleDiv';
 import RoleSelect from './role/RoleSelect';
 import DisplayDiv from "./content/DisplayDiv";
@@ -18,7 +18,6 @@ function MessageDiv({
                       shouldSanitize = true,
                       roleEditableState = RoleEditableState.RoleBased,
                     }) {
-  const [uploadProgress, setUploadProgress] = useState(0);
   const theme = useTheme();
 
   const handleRoleChange = (newRole) => {
@@ -82,10 +81,7 @@ function MessageDiv({
           setContents={(newContents) => setMessage({...message, contents: newContents})}
           shouldSanitize={shouldSanitize}
           rawEditableState={roleEditableState}
-          setUploadProgress={setUploadProgress}
         />
-
-        {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress * 100}/>}
 
         <DisplayDiv message={message} setMessage={setMessage}/>
 
