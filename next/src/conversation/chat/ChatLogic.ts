@@ -82,7 +82,12 @@ export default class ChatLogic {
 
   appendToMessage(messages: Message[], index: number, chunk: ChatResponse): Message[] {
     const newMessages = [...messages];
-    const currentMessage = newMessages[index];
+
+    // Create a deep copy of the message to modify
+    const currentMessage = {...newMessages[index]};
+
+    // Create a deep copy of the contents array
+    currentMessage.contents = [...currentMessage.contents];
 
     // Find text content or create one if it doesn't exist
     let textContentIndex = currentMessage.contents.findIndex(
@@ -96,7 +101,7 @@ export default class ChatLogic {
         data: chunk.text || ''
       });
     } else {
-      // Update existing text content
+      // Update existing text content (creating a new object)
       currentMessage.contents[textContentIndex] = {
         ...currentMessage.contents[textContentIndex],
         data: currentMessage.contents[textContentIndex].data + (chunk.text || '')
@@ -104,10 +109,10 @@ export default class ChatLogic {
     }
 
     // Update display property
-    newMessages[index] = {
-      ...currentMessage,
-      display: (currentMessage.display || '') + (chunk.display || ''),
-    };
+    currentMessage.display = (currentMessage.display || '') + (chunk.display || '');
+
+    // Replace the message in the array with the updated one
+    newMessages[index] = currentMessage;
 
     return newMessages;
   }
