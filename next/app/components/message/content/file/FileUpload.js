@@ -75,13 +75,13 @@ function FileUpload({files, setFiles}) {
         webkitdirectory="true"
       />
       <Tooltip title="Upload File">
-        <IconButton onClick={triggerFileInput} size="small">
-          {isUploading ? <CircularProgress size={20}/> : <AttachFileIcon fontSize="small"/>}
+        <IconButton onClick={triggerFileInput}>
+          {isUploading ? <CircularProgress size={24}/> : <AttachFileIcon/>}
         </IconButton>
       </Tooltip>
       <Tooltip title="Upload Folder">
-        <IconButton onClick={triggerFolderInput} size="small">
-          {isUploading ? <CircularProgress size={20}/> : <FolderOpenIcon fontSize="small"/>}
+        <IconButton onClick={triggerFolderInput}>
+          {isUploading ? <CircularProgress size={24}/> : <FolderOpenIcon/>}
         </IconButton>
       </Tooltip>
       <Snackbar

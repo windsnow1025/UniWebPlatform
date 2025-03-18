@@ -38,9 +38,9 @@ function FileDropZone({ setFile }) {
       try {
         const filesArray = Array.from(files);
         const uploadedUrls = await fileLogic.uploadFiles(filesArray);
-        setFile(uploadedUrls[0]); // Use the first file
+        setFile(uploadedUrls); // Pass all uploaded URLs
 
-        setAlertMessage("File uploaded successfully");
+        setAlertMessage("Files uploaded successfully");
         setAlertSeverity('success');
         setAlertOpen(true);
       } catch (error) {
@@ -53,23 +53,27 @@ function FileDropZone({ setFile }) {
 
   const handlePaste = useCallback(async (e) => {
     const items = (e.clipboardData || window.clipboardData).items;
+    const filesToUpload = [];
 
     for (let i = 0; i < items.length; i++) {
       if (items[i].kind === 'file') {
         const file = items[i].getAsFile();
-        try {
-          const uploadedUrls = await fileLogic.uploadFiles([file]);
-          setFile(uploadedUrls[0]);
+        filesToUpload.push(file);
+      }
+    }
 
-          setAlertMessage("File pasted and uploaded successfully");
-          setAlertSeverity('success');
-          setAlertOpen(true);
-          break;
-        } catch (error) {
-          setAlertMessage(error.message);
-          setAlertSeverity('error');
-          setAlertOpen(true);
-        }
+    if (filesToUpload.length > 0) {
+      try {
+        const uploadedUrls = await fileLogic.uploadFiles(filesToUpload);
+        setFile(uploadedUrls);
+
+        setAlertMessage("Files pasted and uploaded successfully");
+        setAlertSeverity('success');
+        setAlertOpen(true);
+      } catch (error) {
+        setAlertMessage(error.message);
+        setAlertSeverity('error');
+        setAlertOpen(true);
       }
     }
   }, [setFile, fileLogic]);
