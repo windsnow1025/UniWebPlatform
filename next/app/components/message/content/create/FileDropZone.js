@@ -9,6 +9,7 @@ function FileDropZone({ setFiles }) {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
   const dragCounter = useRef(0);
+  const dropzoneRef = useRef(null);
   const fileLogic = useMemo(() => new FileLogic(), []);
 
   const handleDragEnter = useCallback((e) => {
@@ -58,6 +59,11 @@ function FileDropZone({ setFiles }) {
   }, [setFiles, fileLogic]);
 
   const handlePaste = useCallback(async (e) => {
+    if (!dropzoneRef.current.contains(document.activeElement) &&
+      !dropzoneRef.current.contains(e.target)) {
+      return;
+    }
+
     const items = (e.clipboardData || window.clipboardData).items;
     const filesToUpload = [];
 
@@ -100,6 +106,7 @@ function FileDropZone({ setFiles }) {
   return (
     <>
       <Paper
+        ref={dropzoneRef}
         elevation={isDragging ? 3 : 1}
         sx={{
           p: 1,
@@ -128,7 +135,7 @@ function FileDropZone({ setFiles }) {
           variant="caption"
           color={isDragging ? "primary" : "textSecondary"}
         >
-          Drag & Drop files Paste Files from clipboard
+          Drag & Drop Files or Paste Files from clipboard
         </Typography>
       </Paper>
       <Snackbar
