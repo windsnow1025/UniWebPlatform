@@ -1,43 +1,50 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, {useCallback, useState, useEffect, useRef, useMemo} from 'react';
 import { Alert, Paper, Snackbar, Typography, useTheme } from '@mui/material';
 import FileLogic from "../../../../../src/common/file/FileLogic";
 
-function FileDropZone({ setFile }) {
+function FileDropZone({ setFiles }) {
   const theme = useTheme();
   const [isDragging, setIsDragging] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
-  const fileLogic = new FileLogic();
+  const dragCounter = useRef(0);
+  const fileLogic = useMemo(() => new FileLogic(), []);
 
   const handleDragEnter = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
+    dragCounter.current += 1;
     setIsDragging(true);
   }, []);
 
   const handleDragLeave = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(false);
+    dragCounter.current -= 1;
+    if (dragCounter.current === 0) {
+      setIsDragging(false);
+    }
   }, []);
 
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-  }, []);
+    if (!isDragging) setIsDragging(true);
+  }, [isDragging]);
 
   const handleDrop = useCallback(async (e) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
+    dragCounter.current = 0;
 
     const files = e.dataTransfer.files;
     if (files.length > 0) {
       try {
         const filesArray = Array.from(files);
         const uploadedUrls = await fileLogic.uploadFiles(filesArray);
-        setFile(uploadedUrls); // Pass all uploaded URLs
+        setFiles(uploadedUrls);
 
         setAlertMessage("Files uploaded successfully");
         setAlertSeverity('success');
@@ -48,7 +55,7 @@ function FileDropZone({ setFile }) {
         setAlertOpen(true);
       }
     }
-  }, [setFile, fileLogic]);
+  }, [setFiles, fileLogic]);
 
   const handlePaste = useCallback(async (e) => {
     const items = (e.clipboardData || window.clipboardData).items;
@@ -64,7 +71,7 @@ function FileDropZone({ setFile }) {
     if (filesToUpload.length > 0) {
       try {
         const uploadedUrls = await fileLogic.uploadFiles(filesToUpload);
-        setFile(uploadedUrls);
+        setFiles(uploadedUrls);
 
         setAlertMessage("Files pasted and uploaded successfully");
         setAlertSeverity('success');
@@ -75,9 +82,14 @@ function FileDropZone({ setFile }) {
         setAlertOpen(true);
       }
     }
-  }, [setFile, fileLogic]);
+  }, [setFiles, fileLogic]);
 
-  // Add paste event listener to the document
+  useEffect(() => {
+    return () => {
+      dragCounter.current = 0;
+    };
+  }, []);
+
   useEffect(() => {
     document.addEventListener('paste', handlePaste);
     return () => {
@@ -92,10 +104,10 @@ function FileDropZone({ setFile }) {
         sx={{
           p: 1,
           border: isDragging
-            ? `2px dashed ${theme.palette.primary.main}`
+            ? `1px dashed ${theme.palette.primary.main}`
             : `1px dashed ${theme.palette.divider}`,
           backgroundColor: isDragging
-            ? theme.palette.primary.light + '20' // 20 is for 12% opacity in hex
+            ? `${theme.palette.primary.light}20`
             : theme.palette.background.paper,
           textAlign: 'center',
           cursor: 'pointer',
@@ -103,9 +115,7 @@ function FileDropZone({ setFile }) {
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          transition: theme.transitions.create(['border', 'background-color'], {
-            duration: theme.transitions.duration.standard,
-          }),
+          transition: 'border 0.2s ease, background-color 0.2s ease',
         }}
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
