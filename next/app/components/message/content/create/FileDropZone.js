@@ -1,5 +1,5 @@
-import React, {useCallback, useState, useEffect, useRef, useMemo} from 'react';
-import { Alert, Paper, Snackbar, Typography, useTheme } from '@mui/material';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Alert, Paper, Snackbar, Typography, useTheme} from '@mui/material';
 import FileLogic from "../../../../../src/common/file/FileLogic";
 
 function FileDropZone({ setFiles }) {
