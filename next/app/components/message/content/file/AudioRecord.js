@@ -79,9 +79,9 @@ function AudioRecord({setFile}) {
             disabled={isUploading}
           >
             {isUploading ? (
-              <CircularProgress size={24}/>
+              <CircularProgress size={20}/>
             ) : (
-              isRecording ? <StopIcon color="error"/> : <MicIcon/>
+              isRecording ? <StopIcon color="error" fontSize="small"/> : <MicIcon fontSize="small"/>
             )}
           </IconButton>
         </span>
