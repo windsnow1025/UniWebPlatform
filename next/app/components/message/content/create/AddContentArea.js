@@ -62,7 +62,7 @@ function AddContentArea({message, setMessage}) {
 
         <AudioRecord setFile={(fileUrl) => handleAddFiles([fileUrl])}/>
 
-        <div className="flex-1">
+        <div className="flex-1 ml-1">
           <FileDropZone setFiles={handleAddFiles}/>
         </div>
       </Box>
