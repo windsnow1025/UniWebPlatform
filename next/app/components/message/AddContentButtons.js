@@ -19,10 +19,17 @@ function AddContentButtons({ message, setMessage }) {
     setFileDialogOpen(true);
   };
 
-  const handleFileSelected = (fileUrl) => {
+  const handleFileSelected = (fileUrls) => {
+    // Add each file URL as a separate content item
+    const newContents = [...message.contents];
+
+    fileUrls.forEach(fileUrl => {
+      newContents.push({ type: ContentTypeEnum.File, data: fileUrl });
+    });
+
     setMessage({
       ...message,
-      contents: [...message.contents, { type: ContentTypeEnum.File, data: fileUrl }]
+      contents: newContents
     });
   };
 

@@ -8,7 +8,7 @@ import DisplayDiv from "./content/DisplayDiv";
 import SortableContents from './content/SortableContents';
 import {MessageRoleEnum} from "../../../client";
 import {RoleEditableState} from "../../../src/conversation/chat/Message";
-import AddContentButtons from "./AddContentButton";
+import AddContentButtons from "./AddContentButtons";
 
 function MessageDiv({
                       message,
