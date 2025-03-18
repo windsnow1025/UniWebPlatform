@@ -4,7 +4,12 @@ import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-ki
 import SortableContent from './SortableContent';
 import {Typography} from "@mui/material";
 
-function SortableContents({ contents, setContents, shouldSanitize, rawEditableState, setUploadProgress }) {
+function SortableContents({
+                            contents,
+                            setContents,
+                            shouldSanitize,
+                            rawEditableState,
+}) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
@@ -57,7 +62,6 @@ function SortableContents({ contents, setContents, shouldSanitize, rawEditableSt
               onDelete={() => handleContentDelete(index)}
               shouldSanitize={shouldSanitize}
               rawEditableState={rawEditableState}
-              setUploadProgress={setUploadProgress}
             />
           ))
         )}
