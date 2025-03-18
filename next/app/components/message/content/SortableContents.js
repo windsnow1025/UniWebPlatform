@@ -4,12 +4,13 @@ import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import SortableContent from './SortableContent';
 import { Typography } from "@mui/material";
 import {ContentTypeEnum} from "../../../../client";
+import {convertToRawEditableState} from "../../../../src/conversation/chat/Message";
 
 function SortableContents({
                             message,
                             setMessage,
                             shouldSanitize,
-                            roleEditableState,
+                            rawEditableState,
                           }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -220,8 +221,7 @@ function SortableContents({
                   onChange={(newData) => handleContentChange(item.id, newData)}
                   onDelete={() => handleContentDelete(item.id)}
                   shouldSanitize={shouldSanitize}
-                  roleEditableState={roleEditableState}
-                  role={message.role}
+                  rawEditableState={rawEditableState}
                 />
               );
             } else {
@@ -235,8 +235,7 @@ function SortableContents({
                   files={fileUrls}
                   onChange={(newFiles) => handleContentChange(item.id, newFiles)}
                   onDelete={() => handleContentDelete(item.id)}
-                  roleEditableState={roleEditableState}
-                  role={message.role}
+                  rawEditableState={rawEditableState}
                 />
               );
             }

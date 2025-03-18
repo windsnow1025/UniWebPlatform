@@ -17,8 +17,7 @@ function SortableContent({
                            onChange,
                            onDelete,
                            shouldSanitize,
-                           roleEditableState,
-                           role,
+                           rawEditableState,
                          }) {
   const {
     attributes,
@@ -39,8 +38,6 @@ function SortableContent({
       navigator.clipboard.writeText(content);
     }
   };
-
-  const rawEditableState = convertToRawEditableState(roleEditableState, role);
 
   return (
     <div ref={setNodeRef} style={style} className="my-1">
