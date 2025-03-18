@@ -150,6 +150,7 @@ function SortableContents({
     // Create a new contents array to manipulate
     let newContents = [...message.contents];
     const activeItem = groupedItems[activeItemIndex];
+    const overItem = groupedItems[overItemIndex];
 
     // Items to move and their indices
     let itemsToMove = [];
@@ -159,29 +160,32 @@ function SortableContents({
       itemsToMove = [newContents[activeItem.index]];
       indicesToRemove = [activeItem.index];
     } else {
+      // Get all file items in this group
       itemsToMove = activeItem.fileItems.map(fi => newContents[fi.index]);
-      indicesToRemove = activeItem.fileItems.map(fi => fi.index);
+      indicesToRemove = activeItem.fileItems.map(fi => fi.index).sort((a, b) => a - b);
     }
 
     // Find insertion point
     let insertAtIndex;
-    const overItem = groupedItems[overItemIndex];
 
     if (overItem.type === 'text') {
-      insertAtIndex = overItem.index;
+      // If target is text, insert before or after based on position
+      insertAtIndex = activeItemIndex < overItemIndex ?
+        overItem.index + 1 : overItem.index;
     } else {
-      // Insert before the first file in the group
-      insertAtIndex = overItem.fileItems[0].index;
-    }
-
-    // Adjust insertion index if moving from before to after
-    if (Math.min(...indicesToRemove) < insertAtIndex) {
-      insertAtIndex -= indicesToRemove.length;
+      // If target is files group, get the first file's index
+      const targetFileIndices = overItem.fileItems.map(fi => fi.index).sort((a, b) => a - b);
+      insertAtIndex = activeItemIndex < overItemIndex ?
+        targetFileIndices[targetFileIndices.length - 1] + 1 : targetFileIndices[0];
     }
 
     // Remove items in reverse order to maintain correct indices
+    // Sort indices in descending order to prevent shifting problems
     [...indicesToRemove].sort((a, b) => b - a).forEach(index => {
       newContents.splice(index, 1);
+      if (index < insertAtIndex) {
+        insertAtIndex--;
+      }
     });
 
     // Insert items at new position
