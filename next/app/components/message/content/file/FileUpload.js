@@ -80,13 +80,13 @@ function FileUpload({files, setFiles, setUploadProgress}) {
         webkitdirectory="true"
       />
       <Tooltip title="Upload File">
-        <IconButton aria-label="upload-file" onClick={triggerFileInput}>
-          {isUploading ? <CircularProgress size={24}/> : <AttachFileIcon/>}
+        <IconButton onClick={triggerFileInput} size="small">
+          {isUploading ? <CircularProgress size={20}/> : <AttachFileIcon fontSize="small"/>}
         </IconButton>
       </Tooltip>
       <Tooltip title="Upload Folder">
-        <IconButton aria-label="upload-folder" onClick={triggerFolderInput}>
-          {isUploading ? <CircularProgress size={24}/> : <FolderOpenIcon/>}
+        <IconButton onClick={triggerFolderInput} size="small">
+          {isUploading ? <CircularProgress size={20}/> : <FolderOpenIcon fontSize="small"/>}
         </IconButton>
       </Tooltip>
       <Snackbar
