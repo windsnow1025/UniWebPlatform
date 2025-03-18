@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {useTheme} from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {IconButton, lighten, Tooltip} from "@mui/material";
@@ -6,9 +6,9 @@ import RoleDiv from './role/RoleDiv';
 import RoleSelect from './role/RoleSelect';
 import DisplayDiv from "./content/DisplayDiv";
 import SortableContents from './content/SortableContents';
+import AddContentButtons from "./AddContentButtons";
 import {MessageRoleEnum} from "../../../client";
 import {RoleEditableState} from "../../../src/conversation/chat/Message";
-import AddContentButtons from "./AddContentButtons";
 
 function MessageDiv({
                       message,
@@ -19,6 +19,10 @@ function MessageDiv({
                       roleEditableState = RoleEditableState.RoleBased,
                     }) {
   const theme = useTheme();
+
+  useEffect(() => {
+    console.log(message)
+  }, [message]);
 
   const handleRoleChange = (newRole) => {
     setMessage({...message, role: newRole});
@@ -77,10 +81,10 @@ function MessageDiv({
         </div>
 
         <SortableContents
-          contents={message.contents}
-          setContents={(newContents) => setMessage({...message, contents: newContents})}
+          message={message}
+          setMessage={setMessage}
           shouldSanitize={shouldSanitize}
-          rawEditableState={roleEditableState}
+          roleEditableState={roleEditableState}
         />
 
         <DisplayDiv message={message} setMessage={setMessage}/>

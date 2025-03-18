@@ -3,21 +3,22 @@ import { Paper, IconButton, Tooltip } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { ContentTypeEnum } from "../../../../client";
-import FileContent from './file/FileContent';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
-import AudioRecord from './file/AudioRecord';
-import FileUpload from './file/FileUpload';
+import {convertToRawEditableState} from "../../../../src/conversation/chat/Message";
+import SortableFiles from "./file/SortableFiles";
 
 function SortableContent({
                            id,
+                           type,
                            content,
+                           files,
                            onChange,
                            onDelete,
                            shouldSanitize,
-                           rawEditableState,
+                           roleEditableState,
+                           role,
                          }) {
   const {
     attributes,
@@ -34,8 +35,12 @@ function SortableContent({
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(content.data);
+    if (type === 'text') {
+      navigator.clipboard.writeText(content);
+    }
   };
+
+  const rawEditableState = convertToRawEditableState(roleEditableState, role);
 
   return (
     <div ref={setNodeRef} style={style} className="my-1">
@@ -46,10 +51,10 @@ function SortableContent({
           </div>
 
           <div className="flex-grow font-semibold">
-            {content.type === ContentTypeEnum.Text ? 'Text Content' : 'File Content'}
+            {type === 'text' ? 'Text Content' : 'Grouped File Content'}
           </div>
 
-          {content.type === ContentTypeEnum.Text && (
+          {type === 'text' && (
             <Tooltip title="Copy">
               <IconButton size="small" onClick={handleCopy}>
                 <ContentCopyIcon fontSize="small" />
@@ -64,16 +69,17 @@ function SortableContent({
           </Tooltip>
         </div>
 
-        {content.type === ContentTypeEnum.Text ? (
+        {type === 'text' ? (
           <TextContent
-            content={content.data}
+            content={content}
             setContent={onChange}
             shouldSanitize={shouldSanitize}
             rawEditableState={rawEditableState}
           />
         ) : (
-          <FileContent
-            file={content.data}
+          <SortableFiles
+            files={files}
+            setFiles={onChange}
           />
         )}
       </Paper>
