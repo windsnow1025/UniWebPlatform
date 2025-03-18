@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Box} from "@mui/material";
+import {Button, Box, Divider} from "@mui/material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import FileUpload from './FileUpload';
 import AudioRecord from './AudioRecord';
@@ -34,12 +34,11 @@ function AddContentArea({message, setMessage}) {
 
   return (
     <Box sx={{mt: 2}}>
+      <Divider/>
 
       <Box sx={{
         display: 'flex',
         alignItems: 'center',
-        border: '1px dashed #ccc',
-        borderRadius: '4px',
         p: 1,
       }}>
         <Button
