@@ -6,7 +6,7 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
-import {convertToRawEditableState} from "../../../../src/conversation/chat/Message";
+import {RawEditableState} from "../../../../src/conversation/chat/Message";
 import SortableFiles from "./file/SortableFiles";
 
 function SortableContent({
@@ -38,6 +38,28 @@ function SortableContent({
       navigator.clipboard.writeText(content);
     }
   };
+
+  if (rawEditableState === RawEditableState.AlwaysFalse && type === 'text') {
+    return (
+      <div ref={setNodeRef} style={style} className="my-1">
+        <Paper elevation={3} className="p-2">
+          {type === 'text' ? (
+            <TextContent
+              content={content}
+              setContent={onChange}
+              shouldSanitize={shouldSanitize}
+              rawEditableState={rawEditableState}
+            />
+          ) : (
+            <SortableFiles
+              files={files}
+              setFiles={onChange}
+            />
+          )}
+        </Paper>
+      </div>
+    );
+  }
 
   return (
     <div ref={setNodeRef} style={style} className="my-1">
