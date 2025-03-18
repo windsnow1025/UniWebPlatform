@@ -23,7 +23,7 @@ const SortableFile = ({fileUrl, files, setFiles}) => {
     <div ref={setNodeRef} style={style}>
       <div className="flex-center">
         <div {...attributes} {...listeners} style={{cursor: 'grab'}}>
-          <DragIndicatorIcon/>
+          <DragIndicatorIcon fontSize="small"/>
         </div>
         <FileDiv fileUrl={fileUrl} files={files} setFiles={setFiles}/>
       </div>
