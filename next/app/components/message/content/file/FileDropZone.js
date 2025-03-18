@@ -1,6 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Alert, Paper, Snackbar, Typography, useTheme } from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileLogic from "../../../../../src/common/file/FileLogic";
 
 function FileDropZone({ setFile }) {
@@ -91,23 +90,22 @@ function FileDropZone({ setFile }) {
       <Paper
         elevation={isDragging ? 3 : 1}
         sx={{
-          p: 3,
+          p: 1,
           border: isDragging
             ? `2px dashed ${theme.palette.primary.main}`
-            : `2px dashed ${theme.palette.divider}`,
+            : `1px dashed ${theme.palette.divider}`,
           backgroundColor: isDragging
             ? theme.palette.primary.light + '20' // 20 is for 12% opacity in hex
             : theme.palette.background.paper,
           textAlign: 'center',
           cursor: 'pointer',
-          minHeight: '120px',
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
           transition: theme.transitions.create(['border', 'background-color'], {
             duration: theme.transitions.duration.standard,
-          })
+          }),
         }}
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
@@ -116,20 +114,11 @@ function FileDropZone({ setFile }) {
         tabIndex={0}
         className="focus:outline-none focus:ring-2 focus:ring-primary-500"
       >
-        <CloudUploadIcon
-          sx={{
-            fontSize: 40,
-            color: isDragging
-              ? theme.palette.primary.main
-              : theme.palette.text.secondary,
-            mb: 1
-          }}
-        />
         <Typography
-          variant="body1"
+          variant="caption"
           color={isDragging ? "primary" : "textSecondary"}
         >
-          Drag & drop files here or paste from clipboard (Ctrl+V)
+          Drag & Drop files Paste Files from clipboard
         </Typography>
       </Paper>
       <Snackbar

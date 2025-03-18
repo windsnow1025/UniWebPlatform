@@ -1,22 +1,17 @@
-import React, { useState } from 'react';
-import { Button } from "@mui/material";
+import React, {useState} from 'react';
+import {Button, Box} from "@mui/material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import FileContentDialog from './content/file/FileContentDialog';
+import FileUpload from './content/file/FileUpload';
+import AudioRecord from './content/file/AudioRecord';
+import FileDropZone from './content/file/FileDropZone';
 import {ContentTypeEnum} from "../../../client";
 
-function AddContentButtons({ message, setMessage }) {
-  const [fileDialogOpen, setFileDialogOpen] = useState(false);
-
+function AddContentButtons({message, setMessage}) {
   const handleAddTextContent = () => {
     setMessage({
       ...message,
-      contents: [...message.contents, { type: ContentTypeEnum.Text, data: '' }]
+      contents: [...message.contents, {type: ContentTypeEnum.Text, data: ''}]
     });
-  };
-
-  const handleAddFileContent = () => {
-    setFileDialogOpen(true);
   };
 
   const handleFileSelected = (fileUrls) => {
@@ -35,33 +30,43 @@ function AddContentButtons({ message, setMessage }) {
     });
   };
 
-  return (
-    <>
-      <div className="flex justify-center gap-3 mt-4">
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<TextSnippetIcon />}
-          onClick={handleAddTextContent}
-        >
-          Add Text Content
-        </Button>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<AttachFileIcon />}
-          onClick={handleAddFileContent}
-        >
-          Add File Content
-        </Button>
-      </div>
+  const [files, setFiles] = useState([]);
 
-      <FileContentDialog
-        open={fileDialogOpen}
-        onClose={() => setFileDialogOpen(false)}
-        onFileSelected={handleFileSelected}
-      />
-    </>
+  return (
+    <Box sx={{mt: 2}}>
+
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        border: '1px dashed #ccc',
+        borderRadius: '4px',
+        p: 1,
+      }}>
+        <Button
+          variant="outlined"
+          size="small"
+          startIcon={<TextSnippetIcon/>}
+          onClick={handleAddTextContent}
+          sx={{mr: 1}}
+        >
+          Add Text
+        </Button>
+
+        <FileUpload
+          files={files}
+          setFiles={(newFiles) => {
+            setFiles(newFiles);
+            handleFileSelected(newFiles.slice(files.length));
+          }}
+        />
+
+        <AudioRecord setFile={(fileUrl) => handleFileSelected([fileUrl])}/>
+
+        <div className="flex-1">
+          <FileDropZone setFile={handleFileSelected}/>
+        </div>
+      </Box>
+    </Box>
   );
 }
 
