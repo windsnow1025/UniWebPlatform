@@ -6,7 +6,7 @@ function DisplayDiv({ message, setMessage }) {
   if (!message.display) return null;
 
   return (
-    <div className="flex">
+    <div className="flex local-scroll-scrollable">
       <div
         dangerouslySetInnerHTML={{ __html: message.display }}
         className="flex-1"
