@@ -1,5 +1,5 @@
 import React from 'react';
-import {DndContext, closestCenter, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
+import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
 import {ContentTypeEnum} from "../../../../client";

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Paper, IconButton, Tooltip } from '@mui/material';
+import {IconButton, Paper, Tooltip} from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import {useSortable} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
 import {RawEditableState} from "../../../../src/conversation/chat/Message";
 import SortableFiles from "./file/SortableFiles";

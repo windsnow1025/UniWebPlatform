@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Box, Divider} from "@mui/material";
+import {Box, Button, Divider} from "@mui/material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import FileUpload from './FileUpload';
 import AudioRecord from './AudioRecord';
