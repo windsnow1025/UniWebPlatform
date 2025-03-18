@@ -8,7 +8,7 @@ import DisplayDiv from "./content/display/DisplayDiv";
 import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
 import {MessageRoleEnum} from "../../../client";
-import {RoleEditableState} from "../../../src/conversation/chat/Message";
+import {convertToRawEditableState, RawEditableState, RoleEditableState} from "../../../src/conversation/chat/Message";
 
 function MessageDiv({
                       message,
@@ -54,6 +54,8 @@ function MessageDiv({
     }
   };
 
+  const rawEditableState = convertToRawEditableState(roleEditableState, message.role)
+
   return (
     <div style={{...getMessageContainerStyles(message.role), display: 'flex'}}>
       <div
@@ -84,12 +86,14 @@ function MessageDiv({
           message={message}
           setMessage={setMessage}
           shouldSanitize={shouldSanitize}
-          roleEditableState={roleEditableState}
+          rawEditableState={rawEditableState}
         />
 
         <DisplayDiv message={message} setMessage={setMessage}/>
 
-        <AddContentArea message={message} setMessage={setMessage} />
+        {rawEditableState === RawEditableState.AlwaysTrue && (
+          <AddContentArea message={message} setMessage={setMessage} />
+        )}
       </div>
     </div>
   );
