@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button } from "@mui/material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import { ContentTypeEnum } from "../../../client";
 import FileContentDialog from './content/file/FileContentDialog';
+import {ContentTypeEnum} from "../../../client";
 
 function AddContentButtons({ message, setMessage }) {
   const [fileDialogOpen, setFileDialogOpen] = useState(false);
@@ -20,11 +20,13 @@ function AddContentButtons({ message, setMessage }) {
   };
 
   const handleFileSelected = (fileUrls) => {
-    // Add each file URL as a separate content item
     const newContents = [...message.contents];
 
     fileUrls.forEach(fileUrl => {
-      newContents.push({ type: ContentTypeEnum.File, data: fileUrl });
+      newContents.push({
+        type: ContentTypeEnum.File,
+        data: fileUrl
+      });
     });
 
     setMessage({
