@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import APIRouter, HTTPException, Request
+from llm_bridge import Message
 from pydantic import BaseModel
 
 import app.logic.auth as auth
@@ -8,7 +9,6 @@ import app.logic.chat.util.model_pricing as pricing
 from app.logic.chat.chat_service import handle_chat_interaction
 from app.repository import user_repository
 from app.repository.db_connection import SessionDep
-from llm_bridge import Message
 
 chat_router = APIRouter()
 
