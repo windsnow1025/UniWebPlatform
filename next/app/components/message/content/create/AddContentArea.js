@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {Button, Box} from "@mui/material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import FileUpload from './content/file/FileUpload';
-import AudioRecord from './content/file/AudioRecord';
-import FileDropZone from './content/file/FileDropZone';
-import {ContentTypeEnum} from "../../../client";
+import FileUpload from './FileUpload';
+import AudioRecord from './AudioRecord';
+import FileDropZone from './FileDropZone';
+import {ContentTypeEnum} from "../../../../../client";
 
-function AddContentButtons({message, setMessage}) {
+function AddContentArea({message, setMessage}) {
   const handleAddTextContent = () => {
     setMessage({
       ...message,
@@ -70,4 +70,4 @@ function AddContentButtons({message, setMessage}) {
   );
 }
 
-export default AddContentButtons;
+export default AddContentArea;

@@ -4,9 +4,9 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {IconButton, lighten, Tooltip} from "@mui/material";
 import RoleDiv from './role/RoleDiv';
 import RoleSelect from './role/RoleSelect';
-import DisplayDiv from "./content/DisplayDiv";
+import DisplayDiv from "./content/display/DisplayDiv";
 import SortableContents from './content/SortableContents';
-import AddContentButtons from "./AddContentButtons";
+import AddContentArea from "./content/create/AddContentArea";
 import {MessageRoleEnum} from "../../../client";
 import {RoleEditableState} from "../../../src/conversation/chat/Message";
 
@@ -89,7 +89,7 @@ function MessageDiv({
 
         <DisplayDiv message={message} setMessage={setMessage}/>
 
-        <AddContentButtons message={message} setMessage={setMessage} />
+        <AddContentArea message={message} setMessage={setMessage} />
       </div>
     </div>
   );
