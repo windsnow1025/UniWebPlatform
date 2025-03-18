@@ -1,10 +1,8 @@
 import React from 'react';
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {DndContext, closestCenter, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
+import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
-import { Typography } from "@mui/material";
 import {ContentTypeEnum} from "../../../../client";
-import {convertToRawEditableState} from "../../../../src/conversation/chat/Message";
 
 function SortableContents({
                             message,
@@ -14,7 +12,7 @@ function SortableContents({
                           }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { distance: 5 },
+      activationConstraint: {distance: 5},
     })
   );
 
@@ -25,7 +23,7 @@ function SortableContents({
 
     message.contents.forEach((content, index) => {
       if (content.type === ContentTypeEnum.File) {
-        currentFileGroup.push({ index, content });
+        currentFileGroup.push({index, content});
       } else {
         if (currentFileGroup.length > 0) {
           // Add the file group as one sortable item
@@ -140,7 +138,7 @@ function SortableContents({
   };
 
   const handleDragEnd = (event) => {
-    const { active, over } = event;
+    const {active, over} = event;
     if (!over || active.id === over.id) return;
 
     const activeItemIndex = groupedItems.findIndex(item => item.id === active.id);
@@ -205,42 +203,36 @@ function SortableContents({
         items={groupedItems.map(item => item.id)}
         strategy={verticalListSortingStrategy}
       >
-        {groupedItems.length === 0 ? (
-          <Typography variant="body2" color="textSecondary" align="center" sx={{ my: 2 }}>
-            No content. Add text or files using the buttons below.
-          </Typography>
-        ) : (
-          groupedItems.map((item) => {
-            if (item.type === 'text') {
-              return (
-                <SortableContent
-                  key={item.id}
-                  id={item.id}
-                  type="text"
-                  content={item.content.data}
-                  onChange={(newData) => handleContentChange(item.id, newData)}
-                  onDelete={() => handleContentDelete(item.id)}
-                  shouldSanitize={shouldSanitize}
-                  rawEditableState={rawEditableState}
-                />
-              );
-            } else {
-              // Get file URLs from the file items
-              const fileUrls = item.fileItems.map(fi => fi.content.data);
-              return (
-                <SortableContent
-                  key={item.id}
-                  id={item.id}
-                  type="files"
-                  files={fileUrls}
-                  onChange={(newFiles) => handleContentChange(item.id, newFiles)}
-                  onDelete={() => handleContentDelete(item.id)}
-                  rawEditableState={rawEditableState}
-                />
-              );
-            }
-          })
-        )}
+        {groupedItems.length !== 0 && groupedItems.map((item) => {
+          if (item.type === 'text') {
+            return (
+              <SortableContent
+                key={item.id}
+                id={item.id}
+                type="text"
+                content={item.content.data}
+                onChange={(newData) => handleContentChange(item.id, newData)}
+                onDelete={() => handleContentDelete(item.id)}
+                shouldSanitize={shouldSanitize}
+                rawEditableState={rawEditableState}
+              />
+            );
+          } else {
+            const fileUrls = item.fileItems.map(fi => fi.content.data);
+            return (
+              <SortableContent
+                key={item.id}
+                id={item.id}
+                type="files"
+                files={fileUrls}
+                onChange={(newFiles) => handleContentChange(item.id, newFiles)}
+                onDelete={() => handleContentDelete(item.id)}
+                rawEditableState={rawEditableState}
+              />
+            );
+          }
+        })
+        }
       </SortableContext>
     </DndContext>
   );
