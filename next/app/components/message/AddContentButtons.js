@@ -14,7 +14,7 @@ function AddContentButtons({message, setMessage}) {
     });
   };
 
-  const handleFileSelected = (fileUrls) => {
+  const handleAddFiles = (fileUrls) => {
     const newContents = [...message.contents];
 
     fileUrls.forEach(fileUrl => {
@@ -56,14 +56,14 @@ function AddContentButtons({message, setMessage}) {
           files={files}
           setFiles={(newFiles) => {
             setFiles(newFiles);
-            handleFileSelected(newFiles.slice(files.length));
+            handleAddFiles(newFiles.slice(files.length));
           }}
         />
 
-        <AudioRecord setFile={(fileUrl) => handleFileSelected([fileUrl])}/>
+        <AudioRecord setFile={(fileUrl) => handleAddFiles([fileUrl])}/>
 
         <div className="flex-1">
-          <FileDropZone setFile={handleFileSelected}/>
+          <FileDropZone setFiles={handleAddFiles}/>
         </div>
       </Box>
     </Box>
