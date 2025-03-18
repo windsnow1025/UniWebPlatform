@@ -1,5 +1,5 @@
 import FileClient from "./FileClient";
-import axios, {AxiosProgressEvent} from "axios";
+import axios from "axios";
 
 export default class FileLogic {
   private fileService: FileClient;
