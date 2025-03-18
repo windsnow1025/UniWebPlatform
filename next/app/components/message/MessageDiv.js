@@ -9,6 +9,7 @@ import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
 import {MessageRoleEnum} from "../../../client";
 import {convertToRawEditableState, RawEditableState, RoleEditableState} from "../../../src/conversation/chat/Message";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 function MessageDiv({
                       message,
@@ -54,6 +55,15 @@ function MessageDiv({
     }
   };
 
+  const handleCopyMessage = () => {
+    const textToCopy = message.contents
+      .filter(content => content.type !== 'File')
+      .map(content => content.data)
+      .join('\n');
+
+    navigator.clipboard.writeText(textToCopy);
+  };
+
   const rawEditableState = convertToRawEditableState(roleEditableState, message.role)
 
   return (
@@ -73,6 +83,13 @@ function MessageDiv({
             <RoleDiv role={message.role} setRole={handleRoleChange}/>
           )}
           <div className="inflex-fill"></div>
+          {rawEditableState === RawEditableState.AlwaysFalse && (
+            <Tooltip title="Copy Message">
+              <IconButton aria-label="copy" onClick={handleCopyMessage}>
+                <ContentCopyIcon fontSize="small"/>
+              </IconButton>
+            </Tooltip>
+          )}
           {onMessageDelete && (
             <Tooltip title="Delete Message">
               <IconButton aria-label="delete" onClick={onMessageDelete}>
@@ -91,7 +108,7 @@ function MessageDiv({
 
         <DisplayDiv message={message} setMessage={setMessage}/>
 
-        {rawEditableState === RawEditableState.AlwaysTrue && (
+        {rawEditableState !== RawEditableState.AlwaysFalse && (
           <AddContentArea message={message} setMessage={setMessage} />
         )}
       </div>
