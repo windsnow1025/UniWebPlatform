@@ -9,15 +9,16 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
 import AudioRecord from './file/AudioRecord';
+import FileUpload from './file/FileUpload';
 
 function SortableContent({
-                       id,
-                       content,
-                       onChange,
-                       onDelete,
-                       shouldSanitize,
-                       rawEditableState,
-                     }) {
+                           id,
+                           content,
+                           onChange,
+                           onDelete,
+                           shouldSanitize,
+                           rawEditableState,
+                         }) {
   const {
     attributes,
     listeners,
@@ -56,10 +57,6 @@ function SortableContent({
             </Tooltip>
           )}
 
-          {content.type === ContentTypeEnum.File && (
-            <AudioRecord setFile={onChange} />
-          )}
-
           <Tooltip title="Delete">
             <IconButton size="small" onClick={onDelete}>
               <DeleteIcon fontSize="small" />
@@ -77,7 +74,6 @@ function SortableContent({
         ) : (
           <FileContent
             file={content.data}
-            setFile={onChange}
           />
         )}
       </Paper>

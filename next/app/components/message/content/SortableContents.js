@@ -9,7 +9,7 @@ function SortableContents({
                             setContents,
                             shouldSanitize,
                             rawEditableState,
-}) {
+                          }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
