@@ -12,139 +12,16 @@ Authorization: {{token}}
   "messages": [
     {
       "role": "user",
-      "text": "Say this is a test.",
-      "files": []
-    }
-  ],
-  "model": "gpt-4o",
-  "api_type": "OpenAI",
-  "temperature": 0,
-  "stream": true
-}
-
-### Post OpenAI Stream Image
-
-POST {{baseUrl}}/chat
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-  "messages": [
-    {
-      "role": "user",
-      "text": "What's in this image?",
-      "files": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
+      "contents": [
+        {
+          "type": "text",
+          "data": "Generate a random paragraph."
+        }
       ]
     }
   ],
-  "model": "gpt-4o",
-  "api_type": "OpenAI",
-  "temperature": 0,
-  "stream": true
-}
-
-### Post Gemini Stream Text
-
-POST {{baseUrl}}/chat
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-  "messages": [
-    {
-      "role": "user",
-      "text": "Say this is a test.",
-      "files": []
-    }
-  ],
-  "model": "gemini-2.0-flash-001",
+  "model": "gemini-2.0-flash-exp",
   "api_type": "Gemini",
-  "temperature": 0,
-  "stream": true
-}
-
-
-### Post Gemini Stream Image
-
-POST {{baseUrl}}/chat
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-  "messages": [
-    {
-      "role": "user",
-      "text": "What's in this image?",
-      "files": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
-      ]
-    }
-  ],
-  "model": "gemini-2.0-flash-001",
-  "api_type": "Gemini",
-  "temperature": 0,
-  "stream": true
-}
-
-### Post Gemini Stream Search
-
-POST {{baseUrl}}/chat
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-  "messages": [
-    {
-      "role": "user",
-      "text": "What's today's news?",
-      "files": []
-    }
-  ],
-  "model": "gemini-2.0-flash-001",
-  "api_type": "Gemini",
-  "temperature": 0,
-  "stream": true
-}
-
-### Post Claude Stream Text
-
-POST {{baseUrl}}/chat
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-  "messages": [
-    {
-      "role": "user",
-      "text": "Say this is a test.",
-      "files": []
-    }
-  ],
-  "model": "claude-3-5-sonnet-latest",
-  "api_type": "Claude",
-  "temperature": 0,
-  "stream": true
-}
-
-### Post Claude Stream Image
-
-POST {{baseUrl}}/chat
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-  "messages": [
-    {
-      "role": "user",
-      "text": "What's in this image?",
-      "files": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
-      ]
-    }
-  ],
-  "model": "claude-3-5-sonnet-latest",
-  "api_type": "Claude",
   "temperature": 0,
   "stream": true
 }
