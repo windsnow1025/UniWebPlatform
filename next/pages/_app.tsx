@@ -23,6 +23,7 @@ import UserLogic from "@/src/common/user/UserLogic";
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
 import EmailVerificationDialog from "@/app/components/common/EmailVerificationDialog";
+import AnnouncementSnackbar from "@/app/components/common/AnnouncementSnackbar";
 
 const NAVIGATION: Navigation = [
   {
@@ -123,6 +124,7 @@ export default function App({ Component }: { Component: React.ElementType }) {
         branding={BRANDING}
       >
         <EmailVerificationDialog/>
+        <AnnouncementSnackbar/>
         <div className="local-scroll-root">
           <DashboardLayout>
           {/*<PageContainer>*/}
