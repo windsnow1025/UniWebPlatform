@@ -1,9 +1,13 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Alert, Paper, Snackbar, Typography, useTheme} from '@mui/material';
 import FileLogic from "../../../../../src/common/file/FileLogic";
+import useScreenSize from "../../../../hooks/useScreenSize";
 
 function FileDropZone({ setFiles }) {
   const theme = useTheme();
+  const screenSize = useScreenSize();
+  const smallScreen = screenSize === 'xs';
+
   const [isDragging, setIsDragging] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -135,7 +139,7 @@ function FileDropZone({ setFiles }) {
           variant="caption"
           color={isDragging ? "primary" : "textSecondary"}
         >
-          Drag & Drop Files or Paste Files from clipboard
+          {smallScreen ? "Drop / Paste" : "Drag & Drop Files or Paste Files from clipboard"}
         </Typography>
       </Paper>
       <Snackbar
