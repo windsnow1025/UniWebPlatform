@@ -5,20 +5,20 @@ fastapi[standard]>=0.113.0,<0.114.0 # fastapi
 pydantic>=2.7.0,<3.0.0 # pydantic
 
 # SQL
-asyncmy
-sqlmodel # sqlmodel
-SQLAlchemy # sqlalchemy
+asyncmy==0.2.10
+sqlmodel==0.0.24 # sqlmodel
+SQLAlchemy==2.0.39 # sqlalchemy
 
 # Environment variables
-python-dotenv # dotenv
+python-dotenv==1.0.1 # dotenv
 
 # JWT and cryptography
-python-jose[cryptography] # jose
+python-jose[cryptography]==3.4.0 # jose
 
 # Tokenization for OpenAI
-tiktoken # tiktoken
+tiktoken==0.9.0 # tiktoken
 
 # Testing
-pytest # pytest
-pytest-asyncio
-protobuf
+pytest==8.3.5 # pytest
+pytest-asyncio==0.25.3
+protobuf==6.30.1
