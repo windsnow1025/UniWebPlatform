@@ -30,28 +30,31 @@ async def stream_handler(
         generator: ChunkGenerator,
         reduce_credit: ReduceCredit
 ) -> StreamingResponse:
-
     async def wrapper_generator() -> AsyncGenerator[str, None]:
         text = ""
         display = ""
         citations = []
 
-        async for chunk in generator:
-            if chunk.text:
-                text += chunk.text
-            if chunk.display:
-                display += chunk.display
-            if chunk.citations:
-                citations += chunk.citations
-            yield f"data: {json.dumps(serialize(chunk))}\n\n"
+        try:
+            async for chunk in generator:
+                if chunk.text:
+                    text += chunk.text
+                if chunk.display:
+                    display += chunk.display
+                if chunk.citations:
+                    citations += chunk.citations
+                yield f"data: {json.dumps(serialize(chunk))}\n\n"
 
-        # Credit
-        completion_tokens = num_tokens_from_text(text)
-        await reduce_credit(completion_tokens)
+            # Credit
+            completion_tokens = num_tokens_from_text(text)
+            await reduce_credit(completion_tokens)
 
-        # Logging
-        chat_response = ChatResponse(text=text, display=display, citations=citations)
-        logging.info(f"content: {str(chat_response)}")
+            # Logging
+            chat_response = ChatResponse(text=text, display=display, citations=citations)
+            logging.info(f"content: {str(chat_response)}")
 
-    response = StreamingResponse(wrapper_generator(), media_type='text/event-stream')
-    return response
+        except Exception as e:
+            logging.exception("Error in stream_handler")
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+
+    return StreamingResponse(wrapper_generator(), media_type='text/event-stream')
