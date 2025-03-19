@@ -56,7 +56,7 @@ const FileDiv = ({fileUrl, files, setFiles}) => {
             </a>
           </Typography>
           <Tooltip title={showPreview ? "Turn on preview" : "Turn off preview"}>
-            <IconButton onClick={togglePreview}>
+            <IconButton onClick={togglePreview} size="small">
               {showPreview ? <VisibilityOffIcon fontSize="small"/> : <VisibilityIcon fontSize="small"/>}
             </IconButton>
           </Tooltip>
@@ -96,7 +96,7 @@ const FileDiv = ({fileUrl, files, setFiles}) => {
       </div>
       {setFiles && (
         <div className="self-end">
-          <IconButton aria-label="delete-file" onClick={handleFileDelete}>
+          <IconButton onClick={handleFileDelete} size="small">
             <RemoveCircleOutlineIcon fontSize="small"/>
           </IconButton>
         </div>
