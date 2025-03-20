@@ -70,15 +70,20 @@ export class MinioService implements OnModuleInit {
     mimetype: string,
   ): Promise<void> {
     const fileStream = Readable.from(buffer);
-    await this.minioClient.putObject(
-      this.bucketName,
-      fullFilename,
-      fileStream,
-      size,
-      {
-        'Content-Type': mimetype,
-      },
-    );
+    try {
+      await this.minioClient.putObject(
+        this.bucketName,
+        fullFilename,
+        fileStream,
+        size,
+        {
+          'Content-Type': mimetype,
+        },
+      );
+    } catch (error) {
+      console.error('Error uploading file:', error.message);
+      throw error;
+    }
   }
 
   async listObjects(prefix: string): Promise<string[]> {
