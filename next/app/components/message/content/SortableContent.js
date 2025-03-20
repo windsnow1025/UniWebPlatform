@@ -70,29 +70,32 @@ function SortableContent({
           backgroundColor: `${theme.palette.primary.main}20`
         }}
       >
-        <div className="flex items-center">
-          <div {...attributes} {...listeners} className="cursor-move mr-2 flex">
-            <DragIndicatorIcon fontSize="small" style={{touchAction: 'none'}}/>
-          </div>
+        {rawEditableState === RawEditableState.AlwaysFalse &&
+          <div className="flex items-center">
+            <div {...attributes} {...listeners} className="cursor-move mr-2 flex">
+              <DragIndicatorIcon fontSize="small" style={{touchAction: 'none'}}/>
+            </div>
 
-          <div className="flex-grow font-semibold">
-            {type === 'text' ? 'Text Content' : 'Grouped File Content'}
-          </div>
+            <div className="flex-grow font-semibold">
+              {type === 'text' ? 'Text Content' : 'Grouped File Content'}
+            </div>
 
-          {type === 'text' && (
-            <Tooltip title="Copy">
-              <IconButton size="small" onClick={handleCopy}>
-                <ContentCopyIcon fontSize="small" />
+            {type === 'text' && (
+              <Tooltip title="Copy">
+                <IconButton size="small" onClick={handleCopy}>
+                  <ContentCopyIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            )}
+
+            <Tooltip title="Delete">
+              <IconButton size="small" onClick={onDelete}>
+                <DeleteIcon fontSize="small" />
               </IconButton>
             </Tooltip>
-          )}
+          </div>
+        }
 
-          <Tooltip title="Delete">
-            <IconButton size="small" onClick={onDelete}>
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </div>
 
         <div className="m-1">
           {type === 'text' ? (
