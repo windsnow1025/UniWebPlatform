@@ -1,5 +1,5 @@
 import React from 'react';
-import {IconButton, Paper, Tooltip} from '@mui/material';
+import {IconButton, Paper, Tooltip, useTheme} from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
@@ -38,6 +38,8 @@ function SortableContent({
     }
   };
 
+  const theme = useTheme();
+
   if (rawEditableState === RawEditableState.AlwaysFalse && type === 'text') {
     return (
       <div ref={setNodeRef} style={style} className="my-1">
@@ -61,9 +63,14 @@ function SortableContent({
   }
 
   return (
-    <div ref={setNodeRef} style={style} className="my-1">
-      <Paper elevation={3} className="p-2">
-        <div className="flex items-center mb-2">
+    <div ref={setNodeRef} style={style} className="my-2">
+      <div
+        className="p-1 rounded-md"
+        style={{
+          backgroundColor: `${theme.palette.primary.main}20`
+        }}
+      >
+        <div className="flex items-center">
           <div {...attributes} {...listeners} className="cursor-move mr-2 flex">
             <DragIndicatorIcon fontSize="small" style={{touchAction: 'none'}}/>
           </div>
@@ -87,20 +94,22 @@ function SortableContent({
           </Tooltip>
         </div>
 
-        {type === 'text' ? (
-          <TextContent
-            content={content}
-            setContent={onChange}
-            shouldSanitize={shouldSanitize}
-            rawEditableState={rawEditableState}
-          />
-        ) : (
-          <SortableFiles
-            files={files}
-            setFiles={onChange}
-          />
-        )}
-      </Paper>
+        <div className="m-1">
+          {type === 'text' ? (
+            <TextContent
+              content={content}
+              setContent={onChange}
+              shouldSanitize={shouldSanitize}
+              rawEditableState={rawEditableState}
+            />
+          ) : (
+            <SortableFiles
+              files={files}
+              setFiles={onChange}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
