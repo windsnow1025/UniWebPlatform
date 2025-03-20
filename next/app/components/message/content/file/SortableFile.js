@@ -17,7 +17,6 @@ const SortableFile = ({fileUrl, files, setFiles}) => {
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
-    touchAction: 'none',
   };
 
   const theme = useTheme();
@@ -26,7 +25,7 @@ const SortableFile = ({fileUrl, files, setFiles}) => {
     <div ref={setNodeRef} style={style}>
       <div className="flex-center-nowrap">
         <div {...attributes} {...listeners} style={{cursor: 'grab', color: theme.palette.text.secondary}}>
-          <DragIndicatorIcon fontSize="small"/>
+          <DragIndicatorIcon fontSize="small" style={{touchAction: 'none',}}/>
         </div>
         <FileDiv fileUrl={fileUrl} files={files} setFiles={setFiles}/>
       </div>

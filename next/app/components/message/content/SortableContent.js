@@ -30,7 +30,6 @@ function SortableContent({
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
-    touchAction: 'none',
   };
 
   const handleCopy = () => {
@@ -66,7 +65,7 @@ function SortableContent({
       <Paper elevation={3} className="p-2">
         <div className="flex items-center mb-2">
           <div {...attributes} {...listeners} className="cursor-move mr-2 flex">
-            <DragIndicatorIcon fontSize="small"/>
+            <DragIndicatorIcon fontSize="small" style={{touchAction: 'none'}}/>
           </div>
 
           <div className="flex-grow font-semibold">
