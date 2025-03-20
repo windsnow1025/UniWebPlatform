@@ -40,28 +40,6 @@ function SortableContent({
 
   const theme = useTheme();
 
-  if (rawEditableState === RawEditableState.AlwaysFalse && type === 'text') {
-    return (
-      <div ref={setNodeRef} style={style} className="my-1">
-        <Paper elevation={3} className="p-2">
-          {type === 'text' ? (
-            <TextContent
-              content={content}
-              setContent={onChange}
-              shouldSanitize={shouldSanitize}
-              rawEditableState={rawEditableState}
-            />
-          ) : (
-            <SortableFiles
-              files={files}
-              setFiles={onChange}
-            />
-          )}
-        </Paper>
-      </div>
-    );
-  }
-
   return (
     <div ref={setNodeRef} style={style} className="my-2">
       <div
@@ -70,7 +48,7 @@ function SortableContent({
           backgroundColor: `${theme.palette.primary.main}20`
         }}
       >
-        {rawEditableState === RawEditableState.AlwaysFalse &&
+        {rawEditableState !== RawEditableState.AlwaysFalse &&
           <div className="flex items-center">
             <div {...attributes} {...listeners} className="cursor-move mr-2 flex">
               <DragIndicatorIcon fontSize="small" style={{touchAction: 'none'}}/>
