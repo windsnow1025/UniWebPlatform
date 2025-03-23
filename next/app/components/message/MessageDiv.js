@@ -8,7 +8,7 @@ import DisplayDiv from "./content/display/DisplayDiv";
 import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
 import {MessageRoleEnum} from "../../../client";
-import {convertToRawEditableState, RawEditableState, RoleEditableState} from "../../../src/conversation/chat/Message";
+import {convertToRawEditableState, RawEditableState, RoleEditableState} from "../../../src/common/message/EditableState";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 function MessageDiv({
