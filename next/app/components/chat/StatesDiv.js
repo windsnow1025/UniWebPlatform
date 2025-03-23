@@ -1,6 +1,6 @@
 import {Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select} from "@mui/material";
 import React from "react";
-import {RoleEditableState} from "../../../src/conversation/chat/Message";
+import {RoleEditableState} from "../../../src/common/message/EditableState";
 
 function StatesDiv({
                      roleEditableState,

@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
-import {ApiTypeModel, ChatResponse, Citation} from "@/src/conversation/chat/Chat";
+import {ApiTypeModel, ChatResponse, Citation} from "@/src/chat/ChatResponse";
 import {desanitize, sanitize} from "markdown-latex-renderer";
 import {ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
 

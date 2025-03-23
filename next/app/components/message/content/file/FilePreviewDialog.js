@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import mime from 'mime';
-import { codeFileExtensions } from "../../../../../src/conversation/chat/CodeFileExtensions";
+import { codeFileExtensions } from "../../../../../src/common/message/CodeFileExtensions";
 
 const FilePreviewDialog = ({ fileUrl, fileName, open, onClose }) => {
   const mimeType = mime.getType(fileUrl);
