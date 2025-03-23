@@ -3,7 +3,7 @@ import UserLogic from "../../../../src/common/user/UserLogic";
 import AnnouncementLogic from "../../../../src/announcement/AnnouncementLogic";
 import CustomDataGrid from "../CustomDataGrid";
 import {Button} from "@mui/material";
-import {RawEditableState} from "../../../../src/conversation/chat/Message";
+import {RawEditableState} from "../../../../src/common/message/EditableState";
 import TextContent from "../../message/content/text/TextContent";
 
 const AdminSetting = () => {

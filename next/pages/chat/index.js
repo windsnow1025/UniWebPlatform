@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Collapse, Paper} from "@mui/material";
 
-import ChatLogic from "../../src/conversation/chat/ChatLogic";
+import ChatLogic from "../../src/chat/ChatLogic";
 import SettingsDiv from "../../app/components/chat/SettingsDiv";
 import SendButton from "../../app/components/chat/SendButton";
 import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";
@@ -9,7 +9,7 @@ import StatesDiv from "../../app/components/chat/StatesDiv";
 import ClearButton from "../../app/components/chat/ClearButton";
 import ConversationSidebar from "../../app/components/chat/ConversationSidebar";
 import ToggleConversationButton from "../../app/components/chat/ToggleConversationButton";
-import {RoleEditableState} from "../../src/conversation/chat/Message";
+import {RoleEditableState} from "../../src/common/message/EditableState";
 import useScreenSize from '../../app/hooks/useScreenSize';
 
 function AIChat() {
