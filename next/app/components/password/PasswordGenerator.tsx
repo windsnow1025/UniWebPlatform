@@ -88,7 +88,7 @@ const PasswordGenerator = () => {
 
   return (
     <div className="flex-center p-4">
-      <Paper elevation={3} className="p-6 max-w-md space-y-4">
+      <Paper elevation={3} className="p-6 max-w-md" sx={{ '& > *': { mb: 2 } }}>
         <Typography variant="h5" className="text-center" gutterBottom>
           Password Generator
         </Typography>
@@ -158,7 +158,7 @@ const PasswordGenerator = () => {
           <Typography>Password Length: {length}</Typography>
           <Slider
             value={length}
-            onChange={(_, newValue: number | number[]) => setLength(typeof newValue === 'number' ? newValue : newValue[0])}
+            onChange={(_, newValue) => setLength(typeof newValue === 'number' ? newValue : newValue[0])}
             min={8}
             max={32}
             marks
