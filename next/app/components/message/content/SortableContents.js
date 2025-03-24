@@ -3,6 +3,7 @@ import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
 import {ContentTypeEnum} from "../../../../client";
+import {createSortableContents, SortableContentType} from "../../../../src/common/message/SortableContent";
 
 function SortableContents({
                             message,
@@ -16,45 +17,8 @@ function SortableContents({
     })
   );
 
-  // Process contents to group consecutive file content items
   const groupedItems = React.useMemo(() => {
-    const items = [];
-    let currentFileGroup = [];
-
-    message.contents.forEach((content, index) => {
-      if (content.type === ContentTypeEnum.File) {
-        currentFileGroup.push({index, content});
-      } else {
-        if (currentFileGroup.length > 0) {
-          // Add the file group as one sortable item
-          items.push({
-            id: `file-group-${currentFileGroup[0].index}`,
-            type: 'files',
-            fileItems: currentFileGroup
-          });
-          currentFileGroup = [];
-        }
-
-        // Add text content as individual item
-        items.push({
-          id: `text-${index}`,
-          type: 'text',
-          index,
-          content
-        });
-      }
-    });
-
-    // Add any remaining file group
-    if (currentFileGroup.length > 0) {
-      items.push({
-        id: `file-group-${currentFileGroup[0].index}`,
-        type: 'files',
-        fileItems: currentFileGroup
-      });
-    }
-
-    return items;
+    return createSortableContents(message.contents);
   }, [message.contents]);
 
   const handleContentChange = (itemId, newValue) => {
@@ -63,15 +27,15 @@ function SortableContents({
 
     const newContents = [...message.contents];
 
-    if (item.type === 'text') {
+    if (item.type === SortableContentType.Text) {
       // Update text content
       newContents[item.index] = {
         ...newContents[item.index],
         data: newValue
       };
-    } else if (item.type === 'files') {
+    } else if (item.type === SortableContentType.Files) {
       // Handle file updates
-      const fileIndices = item.fileItems.map(fi => fi.index);
+      const fileIndices = item.getIndices();
 
       // If new value is empty array, remove all files in this group
       if (newValue.length === 0) {
@@ -123,12 +87,12 @@ function SortableContents({
 
     const newContents = [...message.contents];
 
-    if (item.type === 'text') {
+    if (item.type === SortableContentType.Text) {
       // Delete single text content
       newContents.splice(item.index, 1);
-    } else if (item.type === 'files') {
+    } else if (item.type === SortableContentType.Files) {
       // Delete all files in group in reverse order
-      const indicesToRemove = item.fileItems.map(fi => fi.index);
+      const indicesToRemove = item.getIndices();
       [...indicesToRemove].sort((a, b) => b - a).forEach(index => {
         newContents.splice(index, 1);
       });
@@ -155,25 +119,26 @@ function SortableContents({
     let itemsToMove = [];
     let indicesToRemove = [];
 
-    if (activeItem.type === 'text') {
+    if (activeItem.type === SortableContentType.Text) {
       itemsToMove = [newContents[activeItem.index]];
       indicesToRemove = [activeItem.index];
     } else {
       // Get all file items in this group
-      itemsToMove = activeItem.fileItems.map(fi => newContents[fi.index]);
-      indicesToRemove = activeItem.fileItems.map(fi => fi.index).sort((a, b) => a - b);
+      const fileIndices = activeItem.getIndices();
+      itemsToMove = fileIndices.map(index => newContents[index]);
+      indicesToRemove = fileIndices.sort((a, b) => a - b);
     }
 
     // Find insertion point
     let insertAtIndex;
 
-    if (overItem.type === 'text') {
+    if (overItem.type === SortableContentType.Text) {
       // If target is text, insert before or after based on position
       insertAtIndex = activeItemIndex < overItemIndex ?
         overItem.index + 1 : overItem.index;
     } else {
       // If target is files group, get the first file's index
-      const targetFileIndices = overItem.fileItems.map(fi => fi.index).sort((a, b) => a - b);
+      const targetFileIndices = overItem.getIndices().sort((a, b) => a - b);
       insertAtIndex = activeItemIndex < overItemIndex ?
         targetFileIndices[targetFileIndices.length - 1] + 1 : targetFileIndices[0];
     }
@@ -204,13 +169,13 @@ function SortableContents({
         strategy={verticalListSortingStrategy}
       >
         {groupedItems.length !== 0 && groupedItems.map((item) => {
-          if (item.type === 'text') {
+          if (item.type === SortableContentType.Text) {
             return (
               <SortableContent
                 key={item.id}
                 id={item.id}
                 type="text"
-                content={item.content.data}
+                content={item.getData()}
                 onChange={(newData) => handleContentChange(item.id, newData)}
                 onDelete={() => handleContentDelete(item.id)}
                 shouldSanitize={shouldSanitize}
@@ -218,13 +183,12 @@ function SortableContents({
               />
             );
           } else {
-            const fileUrls = item.fileItems.map(fi => fi.content.data);
             return (
               <SortableContent
                 key={item.id}
                 id={item.id}
                 type="files"
-                files={fileUrls}
+                files={item.getData()}
                 onChange={(newFiles) => handleContentChange(item.id, newFiles)}
                 onDelete={() => handleContentDelete(item.id)}
                 rawEditableState={rawEditableState}
