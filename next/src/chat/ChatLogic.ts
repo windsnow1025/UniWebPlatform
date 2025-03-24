@@ -2,7 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
 import {ApiTypeModel, ChatResponse, Citation} from "@/src/chat/ChatResponse";
 import {desanitize, sanitize} from "markdown-latex-renderer";
-import {ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
+import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
 
 export default class ChatLogic {
   private chatService: ChatClient;
@@ -24,7 +24,6 @@ export default class ChatLogic {
             data: "You are a helpful assistant."
           }
         ],
-        display: "",
       },
       {
         id: uuidv4(),
@@ -35,7 +34,6 @@ export default class ChatLogic {
             data: ""
           }
         ],
-        display: "",
       }
     ];
     this.emptyUserMessage = {
@@ -47,7 +45,6 @@ export default class ChatLogic {
           data: ""
         }
       ],
-      display: "",
     };
     this.emptyAssistantMessage = {
       id: uuidv4(),
@@ -58,7 +55,6 @@ export default class ChatLogic {
           data: ""
         }
       ],
-      display: "",
     };
 
     this.defaultApiTypeModels = [
@@ -66,50 +62,78 @@ export default class ChatLogic {
     ]
   }
 
-  createAssistantMessage(text: string, display: string): Message {
+  createAssistantMessage(text: string, display: string, fileUrl: string): Message {
+    const contents: Content[] = [
+      {
+        type: ContentTypeEnum.Text,
+        data: text
+      }
+    ];
+
+    if (fileUrl) {
+      contents.push({
+        type: ContentTypeEnum.File,
+        data: fileUrl
+      });
+    }
+
     return {
       id: uuidv4(),
       role: MessageRoleEnum.Assistant,
-      contents: [
-        {
-          type: ContentTypeEnum.Text,
-          data: text
-        }
-      ],
+      contents: contents,
       display: display,
     };
   }
 
-  appendToMessage(messages: Message[], index: number, chunk: ChatResponse): Message[] {
+  updateMessage(
+    messages: Message[],
+    index: number,
+    chunk?: ChatResponse,
+    fileUrl?: string
+  ): Message[] {
     const newMessages = [...messages];
 
+    if (index < 0 || index >= newMessages.length) {
+      return newMessages;
+    }
+
     // Create a deep copy of the message to modify
-    const currentMessage = {...newMessages[index]};
+    const currentMessage = { ...newMessages[index] };
 
     // Create a deep copy of the contents array
     currentMessage.contents = [...currentMessage.contents];
 
-    // Find text content or create one if it doesn't exist
-    let textContentIndex = currentMessage.contents.findIndex(
-      content => content.type === ContentTypeEnum.Text
-    );
+    // Append text if provided
+    if (chunk?.text) {
+      let textContentIndex = currentMessage.contents.findIndex(
+        content => content.type === ContentTypeEnum.Text
+      );
 
-    if (textContentIndex === -1) {
-      // No text content exists, create one
-      currentMessage.contents.push({
-        type: ContentTypeEnum.Text,
-        data: chunk.text || ''
-      });
-    } else {
-      // Update existing text content (creating a new object)
-      currentMessage.contents[textContentIndex] = {
-        ...currentMessage.contents[textContentIndex],
-        data: currentMessage.contents[textContentIndex].data + (chunk.text || '')
-      };
+      if (textContentIndex === -1) {
+        currentMessage.contents.push({
+          type: ContentTypeEnum.Text,
+          data: chunk.text
+        });
+      } else {
+        currentMessage.contents[textContentIndex] = {
+          ...currentMessage.contents[textContentIndex],
+          data: currentMessage.contents[textContentIndex].data + chunk.text
+        };
+      }
     }
 
-    // Update display property
-    currentMessage.display = (currentMessage.display || '') + (chunk.display || '');
+    // Append file if provided
+    if (fileUrl) {
+      currentMessage.contents.push({
+        type: ContentTypeEnum.File,
+        data: fileUrl
+      });
+    }
+
+    // Update display property if chunk has display text
+    if (chunk?.display) {
+      currentMessage.display = (currentMessage.display || '') + chunk.display;
+    }
 
     // Replace the message in the array with the updated one
     newMessages[index] = currentMessage;
@@ -217,6 +241,7 @@ export default class ChatLogic {
 
       return {
         text: text,
+        image: content.image,
         display: content.display,
       };
     } catch (err) {
@@ -227,7 +252,7 @@ export default class ChatLogic {
 
   async* streamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
-  ): AsyncGenerator<ChatResponse | string, void, unknown> {
+  ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final citation text
     const desanitizedMessages = messages.map(message => {
       // Create a deep copy of the message
       const messageCopy = {...message};
@@ -270,6 +295,7 @@ export default class ChatLogic {
 
         yield {
           text: sanitizedChunkText,
+          image: chunk.image,
           display: chunk.display,
         }
       }

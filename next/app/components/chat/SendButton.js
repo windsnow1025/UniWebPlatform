@@ -3,6 +3,7 @@ import {Alert, Button, Snackbar, Tooltip} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import ChatLogic from "../../../src/chat/ChatLogic";
+import FileLogic from "../../../src/common/file/FileLogic";
 
 function SendButton({
                       isGenerating,
@@ -17,6 +18,7 @@ function SendButton({
                       stream,
                     }) {
   const chatLogic = new ChatLogic();
+  const fileLogic = new FileLogic();
 
   const currentRequestIndex = useRef(0);
 
@@ -38,6 +40,16 @@ function SendButton({
     }
   }, [messages]);
 
+  const base64ToFile = (base64String, filename) => {
+    const byteCharacters = atob(base64String);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new File([byteArray], filename, {type: "image/png"});
+  };
+
   const startGenerate = async () => {
     if (!localStorage.getItem('token')) {
       setAlertMessage('Please sign in first.');
@@ -54,36 +66,40 @@ function SendButton({
     const scrollableContainer = document.querySelector('.local-scroll-scrollable');
 
     if (!stream) {
-
       const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature);
 
       if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
-        // console.log(`previous index ${thisRequestIndex}, current index ${currentRequestIndex.current}, is generating ${isGeneratingRef.current}`);
         return;
       }
 
-      const text = content.text ? content.text : '';
+      let text = content.text ? content.text : '';
+
+      let imageUrl = null;
+      if (content.image) {
+        const file = base64ToFile(content.image, "generated_image.png");
+        const uploadedFiles = await fileLogic.uploadFiles([file]);
+        imageUrl = uploadedFiles[0];
+      }
 
       setMessages(prevMessages => [
         ...prevMessages,
-        chatLogic.createAssistantMessage(text, content.display),
+        chatLogic.createAssistantMessage(text, content.display, imageUrl),
         chatLogic.emptyUserMessage,
       ]);
 
     } else {
-
       let isFirstChunk = true;
       const generator = chatLogic.streamGenerate(messages, apiType, model, temperature);
 
       for await (const chunk of generator) {
-        // Final text for citations
+        // Final citation text
         if (typeof chunk === "string") {
           setMessages(prevMessages =>
             chatLogic.replaceMessageText(prevMessages, prevMessages.length - 1, chunk)
           );
           break;
         }
-        
+
         if (!(thisRequestIndex === currentRequestIndex.current && isGeneratingRef.current)) {
           return;
         }
@@ -95,21 +111,26 @@ function SendButton({
           isFirstChunk = false;
         }
 
-        setMessages(prevMessages => chatLogic.appendToMessage(
-          prevMessages, prevMessages.length - 1, chunk
+        let imageUrl = null;
+        if (chunk.image) {
+          const file = base64ToFile(chunk.image, "generated_image.png");
+          const uploadedFiles = await fileLogic.uploadFiles([file]);
+          imageUrl = uploadedFiles[0];
+        }
+
+        setMessages(prevMessages => chatLogic.updateMessage(
+          prevMessages, prevMessages.length - 1, chunk, imageUrl
         ));
 
         if (isAtBottom) scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
       }
 
       setMessages(prevMessages => [...prevMessages, chatLogic.emptyUserMessage]);
-
     }
 
     switchStatus(false);
-
     setConversationUpdateTrigger(true);
-  }
+  };
 
   const switchStatus = (status) => {
     isGeneratingRef.current = status;
