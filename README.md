@@ -7,7 +7,6 @@ A full-stack web application for my personal website, featuring:
 2. Markdown-based Blogs
 3. Editable Bookmarks
 4. Password Generator
-5. AI Image Generator
 
 ## Tech Stack
 
