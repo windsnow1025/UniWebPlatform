@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Alert,
   Box,
@@ -21,18 +21,19 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
-import {generatePassword} from "../../../src/password/PasswordLogic";
+import {generatePassword} from "@/src/password/PasswordLogic";
+import {AlertColor} from "@mui/material/Alert/Alert";
 
-function PasswordGenerator() {
+const PasswordGenerator = () => {
   useEffect(() => {
     const savedKey = localStorage.getItem('secretKey');
     if (savedKey) setKey(parseInt(savedKey));
 
-    const handleKeyDown = async (e) => {
+    const handleKeyDown = async (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === 'Enter') {
-        document.activeElement.blur();
+        (document.activeElement as HTMLElement)?.blur();
         const generateButton = document.getElementById('generate');
-        setTimeout(() => generateButton.click(), 0);
+        if (generateButton) setTimeout(() => generateButton.click(), 0);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -41,21 +42,27 @@ function PasswordGenerator() {
     };
   }, []);
 
-  const [key, setKey] = useState();
-  const [name, setName] = useState('');
-  const [no, setNo] = useState(0);
-  const [length, setLength] = useState(16);
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showKey, setShowKey] = useState(false);
+  const [key, setKey] = useState<number>(0);
+  const [name, setName] = useState<string>('');
+  const [no, setNo] = useState<number>(0);
+  const [length, setLength] = useState<number>(16);
+  const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showKey, setShowKey] = useState<boolean>(false);
 
   const handleGeneratePassword = () => {
-    const password = generatePassword(key, name, no, length);
-    setPassword(password);
-    handleContentCopy(password);
+    if (key === 0) {
+      setAlertMessage('Please set your Secret Key');
+      setAlertSeverity('warning');
+      setAlertOpen(true);
+      return;
+    }
+    const generatedPassword = generatePassword(key, name, no, length);
+    setPassword(generatedPassword);
+    handleContentCopy(generatedPassword);
   };
 
-  const handleContentCopy = (text) => {
+  const handleContentCopy = (text: string) => {
     navigator.clipboard.writeText(text)
       .then(() => {
         setAlertMessage('Text copied to clipboard');
@@ -69,15 +76,15 @@ function PasswordGenerator() {
       });
   };
 
-  const handleKeyChange = (e) => {
+  const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newKey = parseInt(e.target.value);
     setKey(newKey);
     localStorage.setItem('secretKey', newKey.toString());
   };
 
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('success');
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [alertSeverity, setAlertSeverity] = useState<AlertColor>('success');
 
   return (
     <div className="flex-center p-4">
@@ -92,7 +99,7 @@ function PasswordGenerator() {
           <OutlinedInput
             id="secret-key"
             type={showKey ? 'number' : 'password'}
-            value={key}
+            value={key ?? ''}
             onChange={handleKeyChange}
             startAdornment={
               <InputAdornment position="start">
@@ -136,7 +143,7 @@ function PasswordGenerator() {
             id="number"
             type="number"
             value={no}
-            onChange={(e) => setNo(parseInt(e.target.value))}
+            onChange={(e) => setNo(parseInt(e.target.value) || 0)}
             startAdornment={
               <InputAdornment position="start">
                 <NumbersIcon />
@@ -151,7 +158,7 @@ function PasswordGenerator() {
           <Typography>Password Length: {length}</Typography>
           <Slider
             value={length}
-            onChange={(_, newValue) => setLength(newValue)}
+            onChange={(_, newValue: number | number[]) => setLength(typeof newValue === 'number' ? newValue : newValue[0])}
             min={8}
             max={32}
             marks
@@ -213,4 +220,4 @@ function PasswordGenerator() {
   );
 }
 
-export default PasswordGenerator;
+export default PasswordGenerator; 
