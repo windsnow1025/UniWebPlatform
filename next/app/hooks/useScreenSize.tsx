@@ -1,6 +1,8 @@
 import {useMediaQuery, useTheme} from '@mui/material';
 
-const useScreenSize = () => {
+type ScreenSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'unknown';
+
+const useScreenSize = (): ScreenSize => {
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
   const isSm = useMediaQuery(theme.breakpoints.only('sm'));
@@ -17,4 +19,4 @@ const useScreenSize = () => {
   return 'unknown';
 };
 
-export default useScreenSize;
+export default useScreenSize; 
