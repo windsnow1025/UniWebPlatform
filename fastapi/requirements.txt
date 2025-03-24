@@ -1,7 +1,8 @@
 llm_bridge==1.0.8-alpha # llm_bridge
 
 # FastAPI and related libraries
-fastapi[standard]==0.115.12 # fastapi
+fastapi==0.115.12 # fastapi
+uvicorn==0.34.0
 pydantic==2.10.6 # pydantic
 
 # SQL
