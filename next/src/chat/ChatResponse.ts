@@ -12,6 +12,7 @@ export interface Citation {
 
 export interface ChatResponse {
   text?: string;
+  image?: string;
   display?: string;
   citations?: Citation[];
   error?: string;

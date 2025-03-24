@@ -363,7 +363,13 @@ export interface Message {
      * @type {string}
      * @memberof Message
      */
-    'display': string;
+    'image'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Message
+     */
+    'display'?: string;
 }
 
 export const MessageRoleEnum = {
