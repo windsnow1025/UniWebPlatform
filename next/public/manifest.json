@@ -1,0 +1,16 @@
+{
+  "name": "UniWebPlatform",
+  "short_name": "UniWebPlatform",
+  "description": "A unified web platform by Windsnow1025",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
