@@ -1,5 +1,5 @@
 import React from 'react';
-import {IconButton, Paper, Tooltip, useTheme} from '@mui/material';
+import {IconButton, Tooltip, useTheme} from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
@@ -8,12 +8,12 @@ import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
 import {RawEditableState} from "../../../../src/common/message/EditableState";
 import SortableFiles from "./file/SortableFiles";
+import {SortableContentType} from "../../../../src/common/message/SortableContent";
 
 function SortableContent({
                            id,
                            type,
                            content,
-                           files,
                            onChange,
                            onDelete,
                            shouldSanitize,
@@ -25,7 +25,7 @@ function SortableContent({
     setNodeRef,
     transform,
     transition
-  } = useSortable({ id });
+  } = useSortable({id});
 
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -33,7 +33,7 @@ function SortableContent({
   };
 
   const handleCopy = () => {
-    if (type === 'text') {
+    if (type === SortableContentType.Text) {
       navigator.clipboard.writeText(content);
     }
   };
@@ -48,35 +48,34 @@ function SortableContent({
           backgroundColor: `${theme.palette.primary.main}20`
         }}
       >
-        {rawEditableState !== RawEditableState.AlwaysFalse &&
+        {rawEditableState !== RawEditableState.AlwaysFalse && (
           <div className="flex items-center">
             <div {...attributes} {...listeners} className="cursor-move mr-2 flex">
               <DragIndicatorIcon fontSize="small" style={{touchAction: 'none'}}/>
             </div>
 
             <div className="flex-grow font-semibold">
-              {type === 'text' ? 'Text Content' : 'Grouped File Content'}
+              {type === SortableContentType.Text ? 'Text Content' : 'Grouped File Content'}
             </div>
 
-            {type === 'text' && (
+            {type === SortableContentType.Text && (
               <Tooltip title="Copy">
                 <IconButton size="small" onClick={handleCopy}>
-                  <ContentCopyIcon fontSize="small" />
+                  <ContentCopyIcon fontSize="small"/>
                 </IconButton>
               </Tooltip>
             )}
 
             <Tooltip title="Delete">
               <IconButton size="small" onClick={onDelete}>
-                <DeleteIcon fontSize="small" />
+                <DeleteIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
           </div>
-        }
-
+        )}
 
         <div className="m-1">
-          {type === 'text' ? (
+          {type === SortableContentType.Text ? (
             <TextContent
               content={content}
               setContent={onChange}
@@ -85,7 +84,7 @@ function SortableContent({
             />
           ) : (
             <SortableFiles
-              files={files}
+              files={content}
               setFiles={onChange}
             />
           )}
