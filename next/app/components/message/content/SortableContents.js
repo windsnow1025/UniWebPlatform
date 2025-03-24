@@ -3,8 +3,12 @@ import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
 import {
-  createSortableContents, deleteContent, reorderContents, SortableContentType,
-  updateContent, updateFileContent, updateTextContent
+  createSortableContents,
+  deleteContent,
+  reorderContents,
+  SortableContentType,
+  updateFileContent,
+  updateTextContent
 } from "../../../../src/common/message/SortableContent";
 
 function SortableContents({
