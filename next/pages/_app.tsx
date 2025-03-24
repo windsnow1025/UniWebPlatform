@@ -2,7 +2,6 @@ import '../src/global.css';
 
 import * as React from 'react';
 import {NextAppProvider} from '@toolpad/core/nextjs';
-import {PageContainer} from '@toolpad/core/PageContainer';
 import {DashboardLayout} from '@toolpad/core/DashboardLayout';
 import Head from 'next/head';
 import {AppCacheProvider} from '@mui/material-nextjs/v14-pagesRouter';
@@ -14,7 +13,6 @@ import {
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChatIcon from '@mui/icons-material/Chat';
-import ImageIcon from '@mui/icons-material/Image';
 import PasswordIcon from '@mui/icons-material/Password';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
@@ -47,11 +45,6 @@ const NAVIGATION: Navigation = [
     segment: 'chat',
     title: 'AI Chat',
     icon: <ChatIcon />,
-  },
-  {
-    segment: 'image',
-    title: 'AI Image',
-    icon: <ImageIcon />,
   },
   {
     segment: 'password',
