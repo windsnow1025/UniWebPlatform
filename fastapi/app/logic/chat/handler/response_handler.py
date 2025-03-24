@@ -32,6 +32,7 @@ async def stream_handler(
 ) -> StreamingResponse:
     async def wrapper_generator() -> AsyncGenerator[str, None]:
         text = ""
+        image = ""
         display = ""
         citations = []
 
@@ -39,6 +40,8 @@ async def stream_handler(
             async for chunk in generator:
                 if chunk.text:
                     text += chunk.text
+                if chunk.image:
+                    image += chunk.image
                 if chunk.display:
                     display += chunk.display
                 if chunk.citations:
@@ -50,7 +53,7 @@ async def stream_handler(
             await reduce_credit(completion_tokens)
 
             # Logging
-            chat_response = ChatResponse(text=text, display=display, citations=citations)
+            chat_response = ChatResponse(text=text, image=image, display=display, citations=citations)
             logging.info(f"content: {str(chat_response)}")
 
         except Exception as e:
