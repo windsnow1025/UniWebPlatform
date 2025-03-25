@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -28,7 +29,9 @@ export class MarkdownsController {
 
   @Public()
   @Get('/markdown/:id')
-  async findOne(@Param('id') id: number): Promise<MarkdownResDto> {
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<MarkdownResDto> {
     const markdown = await this.service.findOne(id);
     if (!markdown) {
       throw new NotFoundException('Markdown not found');
@@ -46,7 +49,7 @@ export class MarkdownsController {
   @Put('/markdown/:id')
   @Roles([Role.Admin])
   async update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: MarkdownReqDto,
   ): Promise<MarkdownResDto> {
     const markdown = await this.service.update(
@@ -59,7 +62,7 @@ export class MarkdownsController {
 
   @Delete('/markdown/:id')
   @Roles([Role.Admin])
-  delete(@Param('id') id: number) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     return this.service.remove(id);
   }
 }

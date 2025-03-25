@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Request,
@@ -148,7 +149,7 @@ export class UsersController {
 
   @Delete('/user/:id')
   @Roles([Role.Admin])
-  deleteById(@Param('id') id: number) {
+  deleteById(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
   }
 }

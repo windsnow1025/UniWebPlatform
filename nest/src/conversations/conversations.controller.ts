@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Request,
@@ -46,7 +47,7 @@ export class ConversationsController {
   @Post('/conversation/:id/clone')
   async cloneForSpecificUser(
     @Request() req: RequestWithUser,
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: UserUsernameReqDto,
   ) {
     const userId = req.user.sub;
@@ -61,7 +62,7 @@ export class ConversationsController {
   @Post('/conversation/:id/users')
   async addUserForUsers(
     @Request() req: RequestWithUser,
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: UserUsernameReqDto,
   ) {
     const userId = req.user.sub;
@@ -76,7 +77,7 @@ export class ConversationsController {
   @Put('/conversation/:id')
   async update(
     @Request() req: RequestWithUser,
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationReqDto,
   ) {
     const userId = req.user.sub;
@@ -92,7 +93,7 @@ export class ConversationsController {
   @Put('/conversation/:id/name')
   async updateName(
     @Request() req: RequestWithUser,
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationNameReqDto,
   ) {
     const userId = req.user.sub;
@@ -105,7 +106,10 @@ export class ConversationsController {
   }
 
   @Delete('/conversation/:id')
-  async delete(@Request() req: RequestWithUser, @Param('id') id: number) {
+  async delete(
+    @Request() req: RequestWithUser,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
     const userId = req.user.sub;
     const deletedConversation = await this.service.remove(userId, id);
     return this.service.toConversationDto(deletedConversation);
