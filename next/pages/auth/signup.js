@@ -148,7 +148,7 @@ function SignUp() {
   return (
     <div className="local-scroll-container">
       <div className="local-scroll-scrollable flex-center">
-        <Paper elevation={3} className="flex-center p-6 max-w-md space-y-4">
+        <Paper elevation={3} className="flex-center p-6 max-w-md gap-y-4">
           <Typography variant="h5" align="center" gutterBottom>
             Create an Account
           </Typography>
