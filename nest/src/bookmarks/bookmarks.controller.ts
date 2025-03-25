@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -40,7 +41,7 @@ export class BookmarksController {
   @Put('/bookmark/:id')
   @Roles([Role.Admin])
   async update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: BookmarkReqDto,
   ): Promise<BookmarkResDto> {
     const bookmark = await this.service.update(
@@ -55,7 +56,7 @@ export class BookmarksController {
 
   @Delete('/bookmark/:id')
   @Roles([Role.Admin])
-  delete(@Param('id') id: number) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     return this.service.remove(id);
   }
 }
