@@ -363,12 +363,6 @@ export interface Message {
      * @type {string}
      * @memberof Message
      */
-    'image'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Message
-     */
     'display'?: string;
 }
 
