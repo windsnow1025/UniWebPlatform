@@ -88,7 +88,7 @@ const PasswordGenerator = () => {
 
   return (
     <div className="flex-center p-4">
-      <Paper elevation={3} className="p-6 max-w-md" sx={{ '& > *': { mb: 2 } }}>
+      <Paper elevation={3} className="flex-center p-6 max-w-md gap-y-4">
         <Typography variant="h5" className="text-center" gutterBottom>
           Password Generator
         </Typography>
@@ -154,7 +154,7 @@ const PasswordGenerator = () => {
         </FormControl>
 
         {/* Length Slider */}
-        <Box className="space-y-2">
+        <Box className="w-full gap-y-2">
           <Typography>Password Length: {length}</Typography>
           <Slider
             value={length}
