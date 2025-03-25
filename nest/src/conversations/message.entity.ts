@@ -18,8 +18,5 @@ export class Message {
   id: string; // uuid
   role: MessageRole;
   contents: Content[];
-
-  // Only for Response
-  image?: string;
-  display?: string;
+  display?: string; // only for display
 }
