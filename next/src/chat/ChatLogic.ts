@@ -3,6 +3,7 @@ import ChatClient from "./ChatClient";
 import {ApiTypeModel, ChatResponse, Citation} from "@/src/chat/ChatResponse";
 import {desanitize, sanitize} from "markdown-latex-renderer";
 import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
+import FileLogic from "@/src/common/file/FileLogic";
 
 export default class ChatLogic {
   private chatService: ChatClient;
@@ -62,11 +63,31 @@ export default class ChatLogic {
     ]
   }
 
+  async getImageUrl(image: string) {
+    const base64ToFile = (base64String: string, filename: string) => {
+      const byteCharacters = atob(base64String);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      return new File([byteArray], filename, {type: "image/png"});
+    };
+    let imageUrl = null;
+    if (image) {
+      const file = base64ToFile(image, "generated_image.png");
+      const fileLogic = new FileLogic();
+      const uploadedFiles = await fileLogic.uploadFiles([file]);
+      imageUrl = uploadedFiles[0];
+    }
+    return imageUrl;
+  }
+
   createAssistantMessage(text: string, display: string, fileUrl: string): Message {
     const contents: Content[] = [
       {
         type: ContentTypeEnum.Text,
-        data: text
+        data: text || ''
       }
     ];
 
@@ -88,8 +109,8 @@ export default class ChatLogic {
   updateMessage(
     messages: Message[],
     index: number,
-    chunk?: ChatResponse,
-    fileUrl?: string
+    chunk: ChatResponse,
+    fileUrl: string
   ): Message[] {
     const newMessages = [...messages];
 
@@ -104,7 +125,7 @@ export default class ChatLogic {
     currentMessage.contents = [...currentMessage.contents];
 
     // Append text if provided
-    if (chunk?.text) {
+    if (chunk.text) {
       let textContentIndex = currentMessage.contents.findIndex(
         content => content.type === ContentTypeEnum.Text
       );
@@ -131,7 +152,7 @@ export default class ChatLogic {
     }
 
     // Update display property if chunk has display text
-    if (chunk?.display) {
+    if (chunk.display) {
       currentMessage.display = (currentMessage.display || '') + chunk.display;
     }
 
