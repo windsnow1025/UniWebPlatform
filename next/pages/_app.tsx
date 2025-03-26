@@ -12,7 +12,7 @@ import {
 } from '@toolpad/core/AppProvider';
 
 import SettingsIcon from '@mui/icons-material/Settings';
-import ChatIcon from '@mui/icons-material/Chat';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PasswordIcon from '@mui/icons-material/Password';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
@@ -42,9 +42,9 @@ const NAVIGATION: Navigation = [
     kind: 'divider',
   },
   {
-    segment: 'chat',
-    title: 'AI Chat',
-    icon: <ChatIcon />,
+    segment: 'ai',
+    title: 'AI Studio',
+    icon: <AutoAwesomeIcon />,
   },
   {
     segment: 'password',
