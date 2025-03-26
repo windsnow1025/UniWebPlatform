@@ -1,11 +1,10 @@
 import logging
 
 from fastapi import APIRouter, HTTPException, Request
-from llm_bridge import Message
+from llm_bridge import Message, get_model_prices
 from pydantic import BaseModel
 
 import app.logic.auth as auth
-import app.logic.chat.util.model_pricing as pricing
 from app.logic.chat.chat_service import handle_chat_interaction
 from app.repository import user_repository
 from app.repository.db_connection import SessionDep
@@ -51,4 +50,4 @@ async def generate(chat_request: ChatRequest, request: Request, session: Session
 
 @chat_router.get("/model")
 async def get_models() -> list[dict]:
-    return pricing.load_model_prices()
+    return get_model_prices()
