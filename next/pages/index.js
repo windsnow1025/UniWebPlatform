@@ -38,8 +38,8 @@ function FeatureCard({title, description, icon}) {
 function Index() {
   const features = [
     {
-      title: "AI Chat",
-      description: "Engage in intelligent conversations with our advanced AI chatbot",
+      title: "AI Studio",
+      description: "Engage in intelligent conversations with our advanced AI Studio",
       icon: <ChatIcon/>
     },
     {
@@ -57,11 +57,6 @@ function Index() {
       description: "Generate secure and customizable passwords",
       icon: <PasswordIcon/>
     },
-    {
-      title: "AI Image Generator",
-      description: "Create unique images using artificial intelligence",
-      icon: <ImageIcon/>
-    }
   ];
 
   useEffect(() => {
