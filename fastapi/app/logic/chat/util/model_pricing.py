@@ -1,24 +1,9 @@
-import json
-from typing import TypedDict
-
 from fastapi import HTTPException
-
-
-class ModelPrice(TypedDict):
-    apiType: str
-    model: str
-    input: float
-    output: float
-
-
-def load_model_prices() -> list[ModelPrice]:
-    file_path = 'app/resources/model_prices.json'
-    with open(file_path, 'r') as file:
-        return json.load(file)
+from llm_bridge import get_model_prices, ModelPrice
 
 
 def find_model_prices(api_type: str, model: str) -> ModelPrice | None:
-    chat_prices = load_model_prices()
+    chat_prices = get_model_prices()
     for chat_price in chat_prices:
         if chat_price['apiType'] == api_type and chat_price['model'] == model:
             return chat_price
