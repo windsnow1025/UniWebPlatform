@@ -110,10 +110,27 @@ function CustomDataGrid({
 
   const handleAddRow = () => {
     const id = Math.max(0, ...rows.map((row) => row.id)) + 1;
+
+    const newRowDefaults = columns.reduce((acc, col) => {
+      let defaultValue = '';
+      if (col.type === 'number') {
+        defaultValue = 0;
+      } else if (col.type === 'boolean') {
+        defaultValue = false;
+      }
+      acc[col.field] = defaultValue;
+      return acc;
+    }, {});
+
     setRows((prevRows) => [
-      {id, isNew: true, ...columns.reduce((acc, col) => ({...acc, [col.field]: ''}), {})},
+      {
+        ...newRowDefaults,
+        id: id,
+        isNew: true,
+      },
       ...prevRows,
     ]);
+
     setRowModesModel((prevModel) => ({
       ...prevModel,
       [id]: {mode: GridRowModes.Edit, fieldToFocus: columns[0]?.field},
