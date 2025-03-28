@@ -1,14 +1,14 @@
 import React from 'react';
-import {IconButton, Tooltip, useTheme} from '@mui/material';
+import {IconButton, Tooltip, Typography, useTheme} from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import {useSortable} from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
-import {RawEditableState} from "../../../../src/common/message/EditableState";
+import { RawEditableState } from "../../../../src/common/message/EditableState";
 import SortableFiles from "./file/SortableFiles";
-import {SortableContentType} from "../../../../src/common/message/SortableContent";
+import { SortableContentType } from "../../../../src/common/message/SortableContent";
 
 function SortableContent({
                            id,
@@ -23,12 +23,14 @@ function SortableContent({
     listeners,
     setNodeRef,
     transform,
-    transition
+    transition,
+    isDragging
   } = useSortable({id});
 
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
+    opacity: isDragging ? 0.5 : 1,
   };
 
   const handleCopy = () => {
@@ -40,22 +42,26 @@ function SortableContent({
   const theme = useTheme();
 
   return (
-    <div ref={setNodeRef} style={style} className="my-2">
+    <div ref={setNodeRef} style={style} {...attributes}>
       <div
-        className="p-1 rounded-md"
+        className="p-1 rounded-md my-2"
         style={{
           backgroundColor: `${theme.palette.primary.main}20`
         }}
       >
         {rawEditableState !== RawEditableState.AlwaysFalse && (
           <div className="flex items-center">
-            <div {...attributes} {...listeners} className="cursor-move mr-2 flex">
-              <DragIndicatorIcon fontSize="small" style={{touchAction: 'none'}}/>
+            <div
+              {...listeners}
+              className="cursor-move mr-2 flex"
+              style={{touchAction: 'none'}}
+            >
+              <DragIndicatorIcon fontSize="small"/>
             </div>
 
-            <div className="flex-grow font-semibold">
+            <Typography variant="subtitle2" className="flex-grow">
               {type === SortableContentType.Text ? 'Text Content' : 'Grouped File Content'}
-            </div>
+            </Typography>
 
             {type === SortableContentType.Text && (
               <Tooltip title="Copy">
@@ -66,7 +72,7 @@ function SortableContent({
             )}
 
             <Tooltip title="Delete">
-              <IconButton size="small" onClick={onDelete}>
+              <IconButton size="small" onClick={onDelete} color="error">
                 <DeleteIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
@@ -84,6 +90,7 @@ function SortableContent({
             <SortableFiles
               files={content}
               setFiles={onChange}
+              rawEditableState={rawEditableState}
             />
           )}
         </div>
