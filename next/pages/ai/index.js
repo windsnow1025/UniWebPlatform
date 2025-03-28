@@ -36,7 +36,6 @@ function AIChat() {
 
   // States
   const [roleEditableState, setRoleEditableState] = useState(RoleEditableState.RoleBased);
-  const [shouldSanitize, setShouldSanitize] = useState(true);
 
   // Generation Control
   const [isGenerating, setIsGenerating] = useState(false);
@@ -85,7 +84,6 @@ function AIChat() {
               <ChatMessagesDiv
                 messages={messages}
                 setMessages={setMessages}
-                shouldSanitize={shouldSanitize}
                 roleEditableState={roleEditableState}
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
@@ -97,8 +95,6 @@ function AIChat() {
             <StatesDiv
               roleEditableState={roleEditableState}
               setRoleEditableState={setRoleEditableState}
-              shouldSanitize={shouldSanitize}
-              setShouldSanitize={setShouldSanitize}
             />
             <div className="flex-center">
               <SendButton
