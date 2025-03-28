@@ -5,8 +5,6 @@ import {RoleEditableState} from "../../../src/common/message/EditableState";
 function StatesDiv({
                      roleEditableState,
                      setRoleEditableState,
-                     shouldSanitize,
-                     setShouldSanitize
 }) {
   return (
     <div className="flex-around">
@@ -27,14 +25,6 @@ function StatesDiv({
             <MenuItem value={RoleEditableState.AlwaysFalse}>Always False</MenuItem>
           </Select>
         </FormControl>
-      </div>
-      <div className="mx-1">
-        <FormControlLabel control={
-          <Checkbox
-            id="sanitize-check-box"
-            checked={shouldSanitize}
-            onChange={e => setShouldSanitize(e.target.checked)}/>
-        } label="Sanitize"/>
       </div>
     </div>
   )

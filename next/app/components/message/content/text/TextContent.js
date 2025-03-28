@@ -6,7 +6,6 @@ import {useTheme} from "@mui/material";
 function TextContent({
                       content,
                       setContent,
-                      shouldSanitize = true,
                       rawEditableState = RawEditableState.InteractionBased,
                     }) {
   const theme = useTheme();
@@ -16,14 +15,14 @@ function TextContent({
   const [editing, setEditing] = useState(false);
   const contentRef = useRef(null);
 
-  const parse = (content, shouldSanitize) => {
-    parseMarkdownLaTeX(contentRef.current, content, shouldSanitize);
+  const parse = (content) => {
+    parseMarkdownLaTeX(contentRef.current, content, true);
   }
   const unparse = (content) => {
     contentRef.current.innerHTML = content;
   }
 
-  const processMarkdown = async (content, editing, shouldSanitize, editableState) => {
+  const processMarkdown = async (content, editing, editableState) => {
     applyTheme(mode);
 
     if (!contentRef.current) {
@@ -32,7 +31,7 @@ function TextContent({
 
     // Always False -> Parse and not allow edit
     if (editableState === RawEditableState.AlwaysFalse) {
-      await parse(content, shouldSanitize);
+      parse(content);
       setContentEditable(ContentEditable.False);
       return;
     }
@@ -46,15 +45,15 @@ function TextContent({
 
     // Blur -> Parse and allow edit
     if (!editing) {
-      await parse(content, shouldSanitize);
+      parse(content);
       setContentEditable(ContentEditable.True); // "plaintext-only" will lead to inconsistent display behavior with "false"
       return;
     }
   }
 
   useEffect(() => {
-    processMarkdown(content, editing, shouldSanitize, rawEditableState);
-  }, [content, editing, shouldSanitize, rawEditableState, mode]);
+    processMarkdown(content, editing, rawEditableState);
+  }, [content, editing, rawEditableState, mode]);
 
   const handleContentBlur = () => {
     const newContent = contentRef.current.innerHTML;

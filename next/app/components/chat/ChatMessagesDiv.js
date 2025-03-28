@@ -5,7 +5,6 @@ import AddMessageDivider from "./AddMessageDivider";
 function ChatMessagesDiv({
                            messages,
                            setMessages,
-                           shouldSanitize,
                            roleEditableState,
                            setIsGenerating,
                            isGeneratingRef,
@@ -45,7 +44,6 @@ function ChatMessagesDiv({
             setMessage={(updatedMessage) => handleMessageUpdate(message.id, updatedMessage)}
             useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(message.id)}
-            shouldSanitize={shouldSanitize}
             roleEditableState={roleEditableState}
           />
           <AddMessageDivider

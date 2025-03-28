@@ -14,7 +14,6 @@ import {
 function SortableContents({
                             message,
                             setMessage,
-                            shouldSanitize,
                             rawEditableState,
                           }) {
   const sensors = useSensors(

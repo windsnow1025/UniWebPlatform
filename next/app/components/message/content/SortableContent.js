@@ -16,7 +16,6 @@ function SortableContent({
                            content,
                            onChange,
                            onDelete,
-                           shouldSanitize,
                            rawEditableState,
                          }) {
   const {
@@ -79,7 +78,6 @@ function SortableContent({
             <TextContent
               content={content}
               setContent={onChange}
-              shouldSanitize={shouldSanitize}
               rawEditableState={rawEditableState}
             />
           ) : (
