@@ -28,6 +28,14 @@ function MessageDiv({
     setMessage({...message, role: newRole});
   };
 
+  const handleContentsChange = (newContents) => {
+    setMessage({...message, contents: newContents});
+  };
+
+  const handleDisplayChange = (newDisplay) => {
+    setMessage({...message, display: newDisplay});
+  };
+
   const getRoleBorderStyles = (role) => {
     switch (role) {
       case MessageRoleEnum.User:
@@ -99,15 +107,21 @@ function MessageDiv({
         </div>
 
         <SortableContents
-          message={message}
-          setMessage={setMessage}
+          contents={message.contents}
+          setContents={handleContentsChange}
           rawEditableState={rawEditableState}
         />
 
-        <DisplayDiv message={message} setMessage={setMessage}/>
+        <DisplayDiv
+          display={message.display}
+          setDisplay={handleDisplayChange}
+        />
 
         {rawEditableState !== RawEditableState.AlwaysFalse && (
-          <AddContentArea message={message} setMessage={setMessage} />
+          <AddContentArea
+            contents={message.contents}
+            setContents={handleContentsChange}
+          />
         )}
       </div>
     </div>

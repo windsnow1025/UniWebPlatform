@@ -12,8 +12,8 @@ import {
 } from "../../../../src/common/message/SortableContent";
 
 function SortableContents({
-                            message,
-                            setMessage,
+                            contents,
+                            setContents,
                             rawEditableState,
                           }) {
   const sensors = useSensors(
@@ -23,8 +23,8 @@ function SortableContents({
   );
 
   const groupedItems = React.useMemo(() => {
-    return createSortableContents(message.contents);
-  }, [message.contents]);
+    return createSortableContents(contents);
+  }, [contents]);
 
   const handleContentChange = (itemId, newValue) => {
     const item = groupedItems.find(item => item.id === itemId);
@@ -32,24 +32,24 @@ function SortableContents({
 
     let updatedContents;
     if (item.type === SortableContentType.Text) {
-      updatedContents = updateTextContent(message.contents, item, newValue);
+      updatedContents = updateTextContent(contents, item, newValue);
     } else {
-      updatedContents = updateFileContent(message.contents, item, newValue);
+      updatedContents = updateFileContent(contents, item, newValue);
     }
 
-    setMessage({ ...message, contents: updatedContents });
+    setContents(updatedContents);
   };
 
   const handleContentDelete = (itemId) => {
     const item = groupedItems.find(item => item.id === itemId);
     if (!item) return;
-    setMessage({ ...message, contents: deleteContent(message.contents, item) });
+    setContents(deleteContent(contents, item));
   };
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    setMessage({ ...message, contents: reorderContents(message.contents, groupedItems, active.id, over.id) });
+    setContents(reorderContents(contents, groupedItems, active.id, over.id));
   };
 
   return (
