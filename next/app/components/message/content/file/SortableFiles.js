@@ -3,7 +3,7 @@ import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@
 import {rectSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 import SortableFile from './SortableFile';
 
-const SortableFiles = ({ files, setFiles }) => {
+const SortableFiles = ({ files, setFiles, rawEditableState }) => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -42,6 +42,7 @@ const SortableFiles = ({ files, setFiles }) => {
               fileUrl={file}
               files={files}
               setFiles={setFiles}
+              rawEditableState={rawEditableState}
             />
           ))}
         </div>
