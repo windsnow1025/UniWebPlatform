@@ -6,16 +6,17 @@ import AudioRecord from './AudioRecord';
 import FileDropZone from './FileDropZone';
 import {ContentTypeEnum} from "../../../../../client";
 
-function AddContentArea({message, setMessage}) {
+function AddContentArea({contents, setContents}) {
+
   const handleAddTextContent = () => {
-    setMessage({
-      ...message,
-      contents: [...message.contents, {type: ContentTypeEnum.Text, data: ''}]
-    });
+    setContents([
+      ...contents,
+      {type: ContentTypeEnum.Text, data: ''}
+    ]);
   };
 
   const handleAddFiles = (fileUrls) => {
-    const newContents = [...message.contents];
+    const newContents = [...contents];
 
     fileUrls.forEach(fileUrl => {
       newContents.push({
@@ -24,10 +25,7 @@ function AddContentArea({message, setMessage}) {
       });
     });
 
-    setMessage({
-      ...message,
-      contents: newContents
-    });
+    setContents(newContents);
   };
 
   const [files, setFiles] = useState([]);
@@ -55,7 +53,10 @@ function AddContentArea({message, setMessage}) {
           files={files}
           setFiles={(newFiles) => {
             setFiles(newFiles);
-            handleAddFiles(newFiles.slice(files.length));
+            const addedFiles = newFiles.slice(files.length);
+            if (addedFiles.length > 0) {
+              handleAddFiles(addedFiles);
+            }
           }}
         />
 
