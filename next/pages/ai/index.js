@@ -15,7 +15,7 @@ import useScreenSize from '../../app/hooks/useScreenSize';
 function AIChat() {
   const screenSize = useScreenSize();
   const [drawerOpen, setDrawerOpen] = useState();
-  const title = "Windsnow AI Chat";
+  const title = "AI Studio";
 
   useEffect(() => {
     document.title = title;
