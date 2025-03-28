@@ -2,19 +2,20 @@ import React from 'react';
 import {IconButton, Tooltip} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
-function DisplayDiv({ message, setMessage }) {
-  if (!message.display) return null;
+function DisplayDiv({ display, setDisplay }) {
+
+  if (!display) return null;
 
   return (
     <div className="flex local-scroll-scrollable">
       <div
-        dangerouslySetInnerHTML={{ __html: message.display }}
+        dangerouslySetInnerHTML={{ __html: display }}
         className="flex-1"
       />
       <Tooltip title="Remove Display" className="self-start">
         <IconButton
           aria-label="remove-display"
-          onClick={() => setMessage({...message, display: null})}
+          onClick={() => setDisplay(null)}
         >
           <CloseIcon fontSize="small" />
         </IconButton>
