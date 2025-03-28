@@ -16,7 +16,6 @@ function MessageDiv({
                       setMessage,
                       useRoleSelect = false,
                       onMessageDelete = null,
-                      shouldSanitize = true,
                       roleEditableState = RoleEditableState.RoleBased,
                     }) {
   const theme = useTheme();
@@ -102,7 +101,6 @@ function MessageDiv({
         <SortableContents
           message={message}
           setMessage={setMessage}
-          shouldSanitize={shouldSanitize}
           rawEditableState={rawEditableState}
         />
 
