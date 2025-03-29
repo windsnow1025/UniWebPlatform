@@ -3,7 +3,7 @@ import {Alert, Paper, Snackbar, Typography, useTheme} from '@mui/material';
 import FileLogic from "../../../../../src/common/file/FileLogic";
 import useScreenSize from "../../../../hooks/useScreenSize";
 
-function FileDropZone({ setFiles }) {
+function FileDropZone({ setFiles, isUploading, setIsUploading }) {
   const theme = useTheme();
   const screenSize = useScreenSize();
   const smallScreen = screenSize === 'xs';
@@ -17,11 +17,12 @@ function FileDropZone({ setFiles }) {
   const fileLogic = useMemo(() => new FileLogic(), []);
 
   const handleDragEnter = useCallback((e) => {
+    if (isUploading) return;
     e.preventDefault();
     e.stopPropagation();
     dragCounter.current += 1;
     setIsDragging(true);
-  }, []);
+  }, [isUploading]);
 
   const handleDragLeave = useCallback((e) => {
     e.preventDefault();
@@ -33,10 +34,11 @@ function FileDropZone({ setFiles }) {
   }, []);
 
   const handleDragOver = useCallback((e) => {
+    if (isUploading) return;
     e.preventDefault();
     e.stopPropagation();
     if (!isDragging) setIsDragging(true);
-  }, [isDragging]);
+  }, [isDragging, isUploading]);
 
   const handleDrop = useCallback(async (e) => {
     e.preventDefault();
@@ -44,8 +46,11 @@ function FileDropZone({ setFiles }) {
     setIsDragging(false);
     dragCounter.current = 0;
 
+    if (isUploading) return;
+
     const files = e.dataTransfer.files;
     if (files.length > 0) {
+      setIsUploading(true);
       try {
         const filesArray = Array.from(files);
         const uploadedUrls = await fileLogic.uploadFiles(filesArray);
@@ -58,11 +63,15 @@ function FileDropZone({ setFiles }) {
         setAlertMessage(error.message);
         setAlertSeverity('error');
         setAlertOpen(true);
+      } finally {
+        setIsUploading(false);
       }
     }
-  }, [setFiles, fileLogic]);
+  }, [setFiles, fileLogic, isUploading, setIsUploading]);
 
   const handlePaste = useCallback(async (e) => {
+    if (isUploading) return;
+
     if (!dropzoneRef.current.contains(document.activeElement) &&
       !dropzoneRef.current.contains(e.target)) {
       return;
@@ -79,6 +88,7 @@ function FileDropZone({ setFiles }) {
     }
 
     if (filesToUpload.length > 0) {
+      setIsUploading(true);
       try {
         const uploadedUrls = await fileLogic.uploadFiles(filesToUpload);
         setFiles(uploadedUrls);
@@ -90,9 +100,11 @@ function FileDropZone({ setFiles }) {
         setAlertMessage(error.message);
         setAlertSeverity('error');
         setAlertOpen(true);
+      } finally {
+        setIsUploading(false);
       }
     }
-  }, [setFiles, fileLogic]);
+  }, [setFiles, fileLogic, isUploading, setIsUploading]);
 
   useEffect(() => {
     return () => {
@@ -119,14 +131,17 @@ function FileDropZone({ setFiles }) {
             : `1px dashed ${theme.palette.divider}`,
           backgroundColor: isDragging
             ? `${theme.palette.primary.light}20`
-            : theme.palette.background.paper,
+            : isUploading
+              ? `${theme.palette.action.disabledBackground}`
+              : theme.palette.background.paper,
           textAlign: 'center',
-          cursor: 'pointer',
+          cursor: isUploading ? 'not-allowed' : 'pointer',
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
           transition: 'border 0.2s ease, background-color 0.2s ease',
+          opacity: isUploading ? 0.7 : 1,
         }}
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
@@ -137,9 +152,11 @@ function FileDropZone({ setFiles }) {
       >
         <Typography
           variant="caption"
-          color={isDragging ? "primary" : "textSecondary"}
+          color={isDragging ? "primary" : isUploading ? "textSecondary" : "textSecondary"}
         >
-          {smallScreen ? "Drop / Paste" : "Drag & Drop Files or Paste Files from clipboard"}
+          {isUploading
+            ? "Uploading..."
+            : (smallScreen ? "Drop / Paste" : "Drag & Drop Files or Paste Files from clipboard")}
         </Typography>
       </Paper>
       <Snackbar

@@ -4,10 +4,9 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileLogic from "../../../../../src/common/file/FileLogic";
 
-function FileUpload({files, setFiles}) {
+function FileUpload({files, setFiles, isUploading, setIsUploading}) {
   const fileInputRef = useRef(null);
   const folderInputRef = useRef(null);
-  const [isUploading, setIsUploading] = useState(false);
   const fileLogic = new FileLogic();
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -66,6 +65,7 @@ function FileUpload({files, setFiles}) {
         onChange={handleFileUpload}
         hidden
         multiple
+        disabled={isUploading}
       />
       <input
         type="file"
@@ -73,16 +73,21 @@ function FileUpload({files, setFiles}) {
         onChange={handleFolderUpload}
         hidden
         webkitdirectory="true"
+        disabled={isUploading}
       />
-      <Tooltip title="Upload File">
-        <IconButton onClick={triggerFileInput} size="small">
-          {isUploading ? <CircularProgress size={20}/> : <AttachFileIcon fontSize="small"/>}
-        </IconButton>
+      <Tooltip title={isUploading ? "Uploading..." : "Upload File"}>
+        <span>
+          <IconButton onClick={triggerFileInput} size="small" disabled={isUploading}>
+            {isUploading ? <CircularProgress size={20}/> : <AttachFileIcon fontSize="small"/>}
+          </IconButton>
+        </span>
       </Tooltip>
-      <Tooltip title="Upload Folder">
-        <IconButton onClick={triggerFolderInput} size="small">
-          {isUploading ? <CircularProgress size={20}/> : <FolderOpenIcon fontSize="small"/>}
-        </IconButton>
+      <Tooltip title={isUploading ? "Uploading..." : "Upload Folder"}>
+        <span>
+          <IconButton onClick={triggerFolderInput} size="small" disabled={isUploading}>
+            {isUploading ? <CircularProgress size={20}/> : <FolderOpenIcon fontSize="small"/>}
+          </IconButton>
+        </span>
       </Tooltip>
       <Snackbar
         open={alertOpen}

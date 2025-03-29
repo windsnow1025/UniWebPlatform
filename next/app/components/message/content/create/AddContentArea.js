@@ -7,6 +7,8 @@ import FileDropZone from './FileDropZone';
 import {ContentTypeEnum} from "../../../../../client";
 
 function AddContentArea({contents, setContents}) {
+  const [files, setFiles] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleAddTextContent = () => {
     setContents([
@@ -28,8 +30,6 @@ function AddContentArea({contents, setContents}) {
     setContents(newContents);
   };
 
-  const [files, setFiles] = useState([]);
-
   return (
     <Box sx={{mt: 2}}>
       <Divider/>
@@ -45,6 +45,7 @@ function AddContentArea({contents, setContents}) {
           startIcon={<TextSnippetIcon/>}
           onClick={handleAddTextContent}
           sx={{mr: 1}}
+          disabled={isUploading}
         >
           Add Text
         </Button>
@@ -58,12 +59,22 @@ function AddContentArea({contents, setContents}) {
               handleAddFiles(addedFiles);
             }
           }}
+          isUploading={isUploading}
+          setIsUploading={setIsUploading}
         />
 
-        <AudioRecord setFile={(fileUrl) => handleAddFiles([fileUrl])}/>
+        <AudioRecord
+          setFile={(fileUrl) => handleAddFiles([fileUrl])}
+          isUploading={isUploading}
+          setIsUploading={setIsUploading}
+        />
 
         <div className="flex-1 ml-1">
-          <FileDropZone setFiles={handleAddFiles}/>
+          <FileDropZone
+            setFiles={handleAddFiles}
+            isUploading={isUploading}
+            setIsUploading={setIsUploading}
+          />
         </div>
       </Box>
     </Box>

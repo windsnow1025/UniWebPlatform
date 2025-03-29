@@ -4,10 +4,9 @@ import MicIcon from '@mui/icons-material/Mic';
 import StopIcon from '@mui/icons-material/Stop';
 import FileLogic from "../../../../../src/common/file/FileLogic";
 
-function AudioRecord({setFile}) {
+function AudioRecord({setFile, isUploading, setIsUploading}) {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
   const fileLogic = new FileLogic();
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -76,9 +75,9 @@ function AudioRecord({setFile}) {
           <IconButton
             size="small"
             onClick={isRecording ? stopRecording : startRecording}
-            disabled={isUploading}
+            disabled={isUploading && !isRecording}
           >
-            {isUploading ? (
+            {isUploading && !isRecording ? (
               <CircularProgress size={20}/>
             ) : (
               isRecording ? <StopIcon color="error" fontSize="small"/> : <MicIcon fontSize="small"/>
