@@ -1,12 +1,12 @@
 # Guidelines
 
-Update the 5 documents in this directory after every AI request, if necessary.
+Update documents in this directory after every AI request, if necessary.
 
 At the beginning of a project, these documents may be empty. As the user interacts with the AI and provides more details, the AI should extract relevant information from each request and update the appropriate document(s) accordingly.
 
-Each AI request may also introduce changes to the app’s architecture or scope. If so, the AI must reflect those changes in the corresponding documents to ensure they always represent the current state of the project.
+Each AI request may also introduce changes to the app's architecture or scope. If so, the AI must reflect those changes in the corresponding documents to ensure they always represent the current state of the project.
 
-Also update the `./directory-structure.md` if changes are made.
+Update the `./directory-structure.md` only if directory structure is changed.
 
 1. PRD (Project Requirements Doc)
 
@@ -19,7 +19,7 @@ Include:
 • Core features
 • In-scope vs out-of-scope items
 
-This gives the AI a solid high-level understanding of what you’re building.
+This gives the AI a solid high-level understanding of what you're building.
 
 2. App Flow Doc
 
