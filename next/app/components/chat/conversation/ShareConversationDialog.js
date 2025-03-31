@@ -12,8 +12,8 @@ import {
   Snackbar,
   TextField,
 } from '@mui/material';
-import UserLogic from "../../../src/common/user/UserLogic";
-import ConversationLogic from "../../../src/conversation/ConversationLogic";
+import UserLogic from "../../../../src/common/user/UserLogic";
+import ConversationLogic from "../../../../src/conversation/ConversationLogic";
 
 function ShareConversationDialog({open, onClose, conversationId}) {
   const [usernames, setUsernames] = useState([]);
