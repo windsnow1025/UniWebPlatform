@@ -41,13 +41,19 @@ function AddMessageDivider({
         }}
       />
       <div
-        className={`absolute left-1/2 transform -translate-x-1/2 ${isHovered ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200`}>
+        className={`absolute left-1/2 transform -translate-x-1/2`}>
         <Tooltip title="Add Message" placement="top">
           <IconButton
             size="small"
             onClick={() => handleMessageAdd(index)}
+            sx={{
+              opacity: isHovered ? 1 : 0.2,
+              transition: 'opacity 0.2s ease-in-out'
+            }}
           >
-            <AddCircleIcon fontSize="small"/>
+            <AddCircleIcon
+              fontSize="small"
+            />
           </IconButton>
         </Tooltip>
       </div>
