@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {IconButton, lighten, Tooltip} from "@mui/material";
@@ -8,17 +8,19 @@ import DisplayDiv from "./content/display/DisplayDiv";
 import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
 import {MessageRoleEnum} from "../../../client";
-import {convertToRawEditableState, RawEditableState, RoleEditableState} from "../../../src/common/message/EditableState";
+import {RawEditableState} from "../../../src/common/message/EditableState";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function MessageDiv({
                       message,
                       setMessage,
                       useRoleSelect = false,
                       onMessageDelete = null,
-                      roleEditableState = RoleEditableState.RoleBased,
                     }) {
   const theme = useTheme();
+  const [showPreview, setShowPreview] = useState(message.role === MessageRoleEnum.Assistant);
 
   useEffect(() => {
     console.log(message)
@@ -26,6 +28,7 @@ function MessageDiv({
 
   const handleRoleChange = (newRole) => {
     setMessage({...message, role: newRole});
+    setShowPreview(newRole === MessageRoleEnum.Assistant);
   };
 
   const handleContentsChange = (newContents) => {
@@ -34,6 +37,10 @@ function MessageDiv({
 
   const handleDisplayChange = (newDisplay) => {
     setMessage({...message, display: newDisplay});
+  };
+
+  const togglePreview = () => {
+    setShowPreview(!showPreview);
   };
 
   const getRoleBorderStyles = (role) => {
@@ -71,7 +78,7 @@ function MessageDiv({
     navigator.clipboard.writeText(textToCopy);
   };
 
-  const rawEditableState = convertToRawEditableState(roleEditableState, message.role)
+  const rawEditableState = showPreview ? RawEditableState.AlwaysFalse : RawEditableState.AlwaysTrue;
 
   return (
     <div style={{...getMessageContainerStyles(message.role), display: 'flex'}}>
@@ -90,6 +97,13 @@ function MessageDiv({
             <RoleDiv role={message.role} setRole={handleRoleChange}/>
           )}
           <div className="inflex-fill"></div>
+
+          <Tooltip title={showPreview ? "Edit Mode" : "Preview Mode"}>
+            <IconButton aria-label="toggle-preview" onClick={togglePreview}>
+              {showPreview ? <VisibilityOffIcon fontSize="small"/> : <VisibilityIcon fontSize="small"/>}
+            </IconButton>
+          </Tooltip>
+          
           {rawEditableState === RawEditableState.AlwaysFalse && (
             <Tooltip title="Copy Message">
               <IconButton aria-label="copy" onClick={handleCopyMessage}>

@@ -5,11 +5,9 @@ import ChatLogic from "../../src/chat/ChatLogic";
 import SettingsDiv from "../../app/components/chat/SettingsDiv";
 import SendButton from "../../app/components/chat/SendButton";
 import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";
-import StatesDiv from "../../app/components/chat/StatesDiv";
 import ClearButton from "../../app/components/chat/ClearButton";
 import ConversationSidebar from "../../app/components/chat/conversation/ConversationSidebar";
 import ToggleConversationButton from "../../app/components/chat/conversation/ToggleConversationButton";
-import {RoleEditableState} from "../../src/common/message/EditableState";
 import useScreenSize from '../../app/hooks/useScreenSize';
 
 function AIChat() {
@@ -33,9 +31,6 @@ function AIChat() {
   const [model, setModel] = useState(chatLogic.defaultApiTypeModels[0].model);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
-
-  // States
-  const [roleEditableState, setRoleEditableState] = useState(RoleEditableState.RoleBased);
 
   // Generation Control
   const [isGenerating, setIsGenerating] = useState(false);
@@ -84,38 +79,31 @@ function AIChat() {
               <ChatMessagesDiv
                 messages={messages}
                 setMessages={setMessages}
-                roleEditableState={roleEditableState}
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
                 setConversationUpdateTrigger={setConversationUpdateTrigger}
               />
             </div>
           </Paper>
-          <div className="flex-around m-1">
-            <StatesDiv
-              roleEditableState={roleEditableState}
-              setRoleEditableState={setRoleEditableState}
+          <div className="flex-around">
+            <SendButton
+              isGenerating={isGenerating}
+              setIsGenerating={setIsGenerating}
+              isGeneratingRef={isGeneratingRef}
+              setConversationUpdateTrigger={setConversationUpdateTrigger}
+              messages={messages}
+              setMessages={setMessages}
+              apiType={apiType}
+              model={model}
+              temperature={temperature}
+              stream={stream}
             />
-            <div className="flex-center">
-              <SendButton
-                isGenerating={isGenerating}
-                setIsGenerating={setIsGenerating}
-                isGeneratingRef={isGeneratingRef}
-                setConversationUpdateTrigger={setConversationUpdateTrigger}
-                messages={messages}
-                setMessages={setMessages}
-                apiType={apiType}
-                model={model}
-                temperature={temperature}
-                stream={stream}
-              />
-              <ClearButton
-                setMessages={setMessages}
-                setIsGenerating={setIsGenerating}
-                isGeneratingRef={isGeneratingRef}
-                setSelectedConversationId={setSelectedConversationId}
-              />
-            </div>
+            <ClearButton
+              setMessages={setMessages}
+              setIsGenerating={setIsGenerating}
+              isGeneratingRef={isGeneratingRef}
+              setSelectedConversationId={setSelectedConversationId}
+            />
           </div>
         </div>
       </div>
