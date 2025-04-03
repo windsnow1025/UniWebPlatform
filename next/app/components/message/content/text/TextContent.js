@@ -6,7 +6,7 @@ import {useTheme} from "@mui/material";
 function TextContent({
                       content,
                       setContent,
-                      rawEditableState = RawEditableState.InteractionBased,
+                      rawEditableState,
                     }) {
   const theme = useTheme();
   const mode = theme.palette.mode;

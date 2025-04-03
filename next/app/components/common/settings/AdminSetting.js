@@ -2,9 +2,11 @@ import React, {useEffect, useState} from "react";
 import UserLogic from "../../../../src/common/user/UserLogic";
 import AnnouncementLogic from "../../../../src/announcement/AnnouncementLogic";
 import CustomDataGrid from "../CustomDataGrid";
-import {Button} from "@mui/material";
+import {Button, IconButton, Tooltip} from "@mui/material";
 import {RawEditableState} from "../../../../src/common/message/EditableState";
 import TextContent from "../../message/content/text/TextContent";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const AdminSetting = () => {
   const userLogic = new UserLogic();
@@ -12,6 +14,7 @@ const AdminSetting = () => {
 
   const [announcement, setAnnouncement] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
@@ -25,6 +28,10 @@ const AdminSetting = () => {
 
     fetchAnnouncement();
   }, []);
+
+  const togglePreview = () => {
+    setShowPreview(!showPreview);
+  };
 
   const handleUpdateAnnouncement = async () => {
     setLoading(true);
@@ -108,11 +115,18 @@ const AdminSetting = () => {
 
       {/* Announcement Editing Section */}
       <div>
-        <h3>Edit Announcement</h3>
+        <div className="flex items-center">
+          <h3 className="mr-2">Edit Announcement</h3>
+          <Tooltip title={showPreview ? "Edit Mode" : "Preview Mode"}>
+            <IconButton aria-label="toggle-preview" onClick={togglePreview} size="small">
+              {showPreview ? <VisibilityOffIcon fontSize="small"/> : <VisibilityIcon fontSize="small"/>}
+            </IconButton>
+          </Tooltip>
+        </div>
         <TextContent
           content={announcement}
           setContent={setAnnouncement}
-          rawEditableState={RawEditableState.InteractionBased}
+          rawEditableState={showPreview ? RawEditableState.AlwaysFalse : RawEditableState.AlwaysTrue}
         />
         <div className="my-2">
           <Button
