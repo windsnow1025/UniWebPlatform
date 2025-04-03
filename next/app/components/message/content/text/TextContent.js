@@ -11,8 +11,7 @@ function TextContent({
   const theme = useTheme();
   const mode = theme.palette.mode;
 
-  const [contentEditable, setContentEditable] = useState("plaintext-only");
-  const [editing, setEditing] = useState(false);
+  const [contentEditable, setContentEditable] = useState(ContentEditable.PlainTextOnly);
   const contentRef = useRef(null);
 
   const parse = (content) => {
@@ -22,7 +21,7 @@ function TextContent({
     contentRef.current.innerHTML = content;
   }
 
-  const processMarkdown = async (content, editing, editableState) => {
+  const processMarkdown = async (content, editableState) => {
     applyTheme(mode);
 
     if (!contentRef.current) {
@@ -36,36 +35,21 @@ function TextContent({
       return;
     }
 
-    // Focus or Always True -> Unparse and allow edit
-    if (editing || editableState === RawEditableState.AlwaysTrue) {
+    // Always True -> Unparse and allow edit
+    if (editableState === RawEditableState.AlwaysTrue) {
       unparse(content);
       setContentEditable(ContentEditable.PlainTextOnly);
-      return;
-    }
-
-    // Blur -> Parse and allow edit
-    if (!editing) {
-      parse(content);
-      setContentEditable(ContentEditable.True); // "plaintext-only" will lead to inconsistent display behavior with "false"
       return;
     }
   }
 
   useEffect(() => {
-    processMarkdown(content, editing, rawEditableState);
-  }, [content, editing, rawEditableState, mode]);
+    processMarkdown(content, rawEditableState);
+  }, [content, rawEditableState, mode]);
 
-  const handleContentBlur = () => {
+  const handleBlur = () => {
     const newContent = contentRef.current.innerHTML;
     setContent(newContent);
-    setEditing(false);
-  };
-
-  const handleFocus = () => {
-    if (rawEditableState === RawEditableState.AlwaysFalse) { // to avoid default behavior being interrupted
-      return;
-    }
-    setEditing(true);
   };
 
   return (
@@ -74,8 +58,7 @@ function TextContent({
         className="markdown-body p-4 h-full rounded min-h-16"
         contentEditable={contentEditable}
         ref={contentRef}
-        onFocus={handleFocus}
-        onBlur={handleContentBlur}
+        onBlur={handleBlur}
       />
     </>
   );
