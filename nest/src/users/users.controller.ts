@@ -24,6 +24,7 @@ import {
   UserPasswordReqDto,
   UserReqDto,
   UserUsernameReqDto,
+  ReduceCreditReqDto,
 } from './dto/user.req.dto';
 
 @Controller('users')
@@ -137,6 +138,19 @@ export class UsersController {
       userPrivilegesReqDto.emailVerified,
       userPrivilegesReqDto.roles,
       userPrivilegesReqDto.credit,
+    );
+    return this.usersService.toUserDto(user);
+  }
+
+  @Put('/user/reduce-credit')
+  async reduceCredit(
+    @Request() req: RequestWithUser,
+    @Body() reduceCreditReqDto: ReduceCreditReqDto,
+  ) {
+    const id = req.user.sub;
+    const user = await this.usersService.reduceCredit(
+      id,
+      reduceCreditReqDto.amount,
     );
     return this.usersService.toUserDto(user);
   }

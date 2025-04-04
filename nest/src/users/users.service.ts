@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -174,6 +175,20 @@ export class UsersService {
     user.roles = roles;
     user.credit = credit;
 
+    return await this.usersRepository.save(user);
+  }
+
+  async reduceCredit(id: number, amount: number) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (user.credit < amount) {
+      throw new BadRequestException('Insufficient credit');
+    }
+
+    user.credit -= amount;
     return await this.usersRepository.save(user);
   }
 
