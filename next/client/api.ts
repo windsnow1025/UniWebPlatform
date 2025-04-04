@@ -377,6 +377,19 @@ export type MessageRoleEnum = typeof MessageRoleEnum[keyof typeof MessageRoleEnu
 /**
  * 
  * @export
+ * @interface ReduceCreditReqDto
+ */
+export interface ReduceCreditReqDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof ReduceCreditReqDto
+     */
+    'amount': number;
+}
+/**
+ * 
+ * @export
  * @interface UserAvatarReqDto
  */
 export interface UserAvatarReqDto {
@@ -2698,6 +2711,45 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
+         * @param {ReduceCreditReqDto} reduceCreditReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersControllerReduceCredit: async (reduceCreditReqDto: ReduceCreditReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'reduceCreditReqDto' is not null or undefined
+            assertParamExists('usersControllerReduceCredit', 'reduceCreditReqDto', reduceCreditReqDto)
+            const localVarPath = `/users/user/reduce-credit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(reduceCreditReqDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {UserEmailVerificationReqDto} userEmailVerificationReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3038,6 +3090,18 @@ export const UsersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {ReduceCreditReqDto} reduceCreditReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersControllerReduceCredit(reduceCreditReqDto: ReduceCreditReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersControllerReduceCredit(reduceCreditReqDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.usersControllerReduceCredit']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {UserEmailVerificationReqDto} userEmailVerificationReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3174,6 +3238,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
+         * @param {ReduceCreditReqDto} reduceCreditReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersControllerReduceCredit(reduceCreditReqDto: ReduceCreditReqDto, options?: RawAxiosRequestConfig): AxiosPromise<UserResDto> {
+            return localVarFp.usersControllerReduceCredit(reduceCreditReqDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {UserEmailVerificationReqDto} userEmailVerificationReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3295,6 +3368,17 @@ export class UsersApi extends BaseAPI {
      */
     public usersControllerFindOne(options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerFindOne(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ReduceCreditReqDto} reduceCreditReqDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public usersControllerReduceCredit(reduceCreditReqDto: ReduceCreditReqDto, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersControllerReduceCredit(reduceCreditReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
