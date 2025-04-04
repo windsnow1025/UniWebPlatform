@@ -25,31 +25,16 @@ spec:
                 configMapKeyRef:
                   name: app-configmap
                   key: ENV
-            - name: MYSQL_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: app-configmap
-                  key: MYSQL_HOST
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MYSQL_USER
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MYSQL_PASSWORD
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MYSQL_DATABASE
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: app-secret
                   key: JWT_SECRET
+            - name: NEST_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: NEST_HOST
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:

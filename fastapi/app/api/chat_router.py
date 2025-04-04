@@ -6,8 +6,7 @@ from pydantic import BaseModel
 
 import app.logic.auth as auth
 from app.logic.chat.chat_service import handle_chat_interaction
-from app.repository import user_repository
-from app.repository.db_connection import SessionDep
+from app.client import user_logic
 
 chat_router = APIRouter()
 
@@ -21,19 +20,20 @@ class ChatRequest(BaseModel):
 
 
 @chat_router.post("/chat")
-async def generate(chat_request: ChatRequest, request: Request, session: SessionDep):
+async def generate(chat_request: ChatRequest, request: Request):
     try:
         authorization_header = request.headers.get("Authorization")
         username = auth.get_username_from_token(authorization_header)
+        token = authorization_header.replace("Bearer ", "")
 
-        user = await user_repository.select_user(username, session)
+        user = await user_logic.select_user(token)
         if not user.email_verified:
             raise HTTPException(status_code=401, detail="Email not verified")
         if user.credit <= 0:
             raise HTTPException(status_code=402, detail="Insufficient credit")
 
         return await handle_chat_interaction(
-            session=session,
+            token=token,
             username=username,
             messages=chat_request.messages,
             model=chat_request.model,
