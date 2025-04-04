@@ -1,4 +1,4 @@
-import { IsString, IsUrl } from 'class-validator';
+import { IsString, IsUrl, IsNumber, Min } from 'class-validator';
 
 export class UserReqDto {
   @IsString()
@@ -38,4 +38,10 @@ export class UserAvatarReqDto {
   @IsString()
   @IsUrl()
   avatar: string;
+}
+
+export class ReduceCreditReqDto {
+  @IsNumber()
+  @Min(0)
+  amount: number;
 }
