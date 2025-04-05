@@ -6,4 +6,5 @@ export class ConversationResDto {
   name: string;
   messages: Message[];
   users: UserResDto[];
+  updatedAt: Date;
 }

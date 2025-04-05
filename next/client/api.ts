@@ -263,6 +263,12 @@ export interface ConversationResDto {
      * @memberof ConversationResDto
      */
     'users': Array<UserResDto>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConversationResDto
+     */
+    'updatedAt': string;
 }
 /**
  * 
