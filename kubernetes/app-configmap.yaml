@@ -4,5 +4,6 @@ metadata:
   name: app-configmap
 data:
   ENV: "production"
+  NEST_HOST: "nest-service"
   MYSQL_HOST: "mysql-service"
   MINIO_HOST: "minio-service"
