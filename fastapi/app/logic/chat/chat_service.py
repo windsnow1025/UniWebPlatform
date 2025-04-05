@@ -3,23 +3,22 @@ import os
 from typing import AsyncGenerator
 
 from llm_bridge import *
-from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import StreamingResponse
 
 from app.logic.chat.handler import request_handler
 from app.logic.chat.handler import response_handler
 from app.logic.chat.util import model_pricing
-from app.repository import user_repository
+from app.client import user_logic
 
 
 async def handle_chat_interaction(
-        session: AsyncSession,
+        token: str,
         username: str,
         messages: list[Message],
         model: str,
         api_type: str,
         temperature: float,
-        stream: bool
+        stream: bool,
 ):
     logging.info(f"username: {username}, model: {model}")
 
@@ -32,7 +31,7 @@ async def handle_chat_interaction(
             prompt_tokens=prompt_tokens,
             completion_tokens=completion_tokens
         )
-        await user_repository.reduce_credit(username, cost, session)
+        await user_logic.reduce_credit(cost, token)
         return cost
 
     async def reduce_prompt_credit(prompt_tokens: int) -> float:
