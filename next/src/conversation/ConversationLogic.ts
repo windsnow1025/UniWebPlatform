@@ -11,7 +11,10 @@ export default class ConversationLogic {
 
   async fetchConversations(): Promise<ConversationResDto[]> {
     try {
-      return await this.conversationService.fetchConversations();
+      const conversations = await this.conversationService.fetchConversations();
+      return conversations.sort((a, b) => 
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      );
     } catch (error) {
       console.error(error);
       throw new Error('Failed to fetch conversations');

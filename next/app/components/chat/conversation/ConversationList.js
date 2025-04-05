@@ -12,6 +12,7 @@ import {
   Snackbar,
   TextField,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import {
   DeleteOutlined as DeleteOutlinedIcon,
@@ -23,6 +24,30 @@ import {
 } from '@mui/icons-material';
 import ShareConversationDialog from './ShareConversationDialog';
 import ConversationLogic from "../../../../src/conversation/ConversationLogic";
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  
+  const diffMs = Math.max(0, now - date);
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMins < 60) {
+    return diffMins <= 0 ? 'Just now' : `${diffMins} min${diffMins !== 1 ? 's' : ''} ago`;
+  } else if (diffHours < 24) {
+    return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+  } else if (diffDays < 7) {
+    return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+  } else {
+    return date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  }
+};
 
 function ConversationList({
                             conversations,
@@ -199,7 +224,19 @@ function ConversationList({
                   onClick={(e) => e.stopPropagation()}
                 />
               ) : (
-                <ListItemText primary={conversation.name} />
+                <div style={{ width: '100%' }}>
+                  <ListItemText 
+                    primary={conversation.name} 
+                    secondary={(
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                      >
+                        {formatDate(conversation.updatedAt)}
+                      </Typography>
+                    )}
+                  />
+                </div>
               )}
               {editingIndex === index ? (
                 <Tooltip title="Save">

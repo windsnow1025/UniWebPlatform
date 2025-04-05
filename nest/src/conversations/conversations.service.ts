@@ -24,6 +24,7 @@ export class ConversationsService {
       name: conversation.name,
       messages: conversation.messages,
       users: conversation.users.map(this.usersService.toUserDto),
+      updatedAt: conversation.updatedAt,
     };
     return conversationDto;
   }
