@@ -63,7 +63,7 @@ function SendButton({
         return;
       }
 
-      const scrollableContainer = document.querySelector('.local-scroll-scrollable');
+      const scrollableContainer = document.querySelector('#chat-messages');
       const isAtBottom = (scrollableContainer.scrollHeight - scrollableContainer.scrollTop) <= (scrollableContainer.clientHeight + 50);
 
       // Create Empty Assistant Message on First Chunk
