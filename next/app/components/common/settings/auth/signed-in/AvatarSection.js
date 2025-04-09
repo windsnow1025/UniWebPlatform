@@ -157,6 +157,7 @@ function AvatarSection() {
           onClick={handleClickSelectFile}
           disabled={isUploading || isUpdating}
           fullWidth
+          sx={{ whiteSpace: 'nowrap' }}
         >
           {isUploading ? (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -173,6 +174,7 @@ function AvatarSection() {
           onClick={handleUpdateAvatar}
           disabled={!previewUrl || isUploading || isUpdating}
           fullWidth
+          sx={{ whiteSpace: 'nowrap' }}
         >
           {isUpdating ? <CircularProgress size={24} /> : 'Set as Avatar'}
         </Button>
