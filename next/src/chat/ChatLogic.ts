@@ -119,7 +119,7 @@ export default class ChatLogic {
     }
 
     // Create a deep copy of the message to modify
-    const currentMessage = { ...newMessages[index] };
+    const currentMessage = {...newMessages[index]};
 
     // Create a deep copy of the contents array
     currentMessage.contents = [...currentMessage.contents];
@@ -162,35 +162,27 @@ export default class ChatLogic {
     return newMessages;
   }
 
-  replaceMessageText(messages: Message[], index: number, text: string): Message[] {
-    const newMessages = [...messages];
+  replaceMessageText(
+    messages: Message[], messageIndex: number, contentIndex: number, text: string
+  ): Message[] {
+    return messages.map((message, index) => {
+      if (index !== messageIndex) {
+        return message;
+      }
 
-    if (index < 0 || index >= newMessages.length) {
-      return newMessages; // Index out of bounds, return unchanged
-    }
-
-    const message = newMessages[index];
-
-    // Find text content index
-    const textContentIndex = message.contents.findIndex(
-      content => content.type === ContentTypeEnum.Text
-    );
-
-    if (textContentIndex === -1) {
-      // No text content exists, create one
-      message.contents.push({
-        type: ContentTypeEnum.Text,
-        data: text
-      });
-    } else {
-      // Replace existing text content
-      message.contents[textContentIndex] = {
-        ...message.contents[textContentIndex],
-        data: text
+      return {
+        ...message,
+        contents: message.contents.map((content, cIndex) => {
+          if (cIndex !== contentIndex) {
+            return content;
+          }
+          return {
+            ...content,
+            data: text
+          };
+        })
       };
-    }
-
-    return newMessages;
+    });
   }
 
   async fetchApiTypeModels(): Promise<ApiTypeModel[]> {

@@ -75,7 +75,7 @@ function SendButton({
       // Final citation text
       if (typeof chunk === "string") {
         setMessages(prevMessages =>
-          chatLogic.replaceMessageText(prevMessages, prevMessages.length - 1, chunk)
+          chatLogic.replaceMessageText(prevMessages, prevMessages.length - 1, 0, chunk)
         );
         break;
       }
