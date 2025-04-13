@@ -14,6 +14,11 @@ export default class BookmarkLogic {
     try {
       return await this.bookmarkService.fetchBookmarks();
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          throw new Error('Unauthorized');
+        }
+      }
       console.error(error);
       throw new Error('Failed to fetch bookmarks');
     }
