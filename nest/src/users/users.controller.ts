@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   ParseIntPipe,
   Post,
@@ -26,6 +25,7 @@ import {
   UserUsernameReqDto,
   ReduceCreditReqDto,
 } from './dto/user.req.dto';
+import { UserResDto } from './dto/user.res.dto';
 
 @Controller('users')
 export class UsersController {
@@ -39,13 +39,8 @@ export class UsersController {
 
   @AllowUnverifiedEmail()
   @Get('/user')
-  async findOne(@Request() req: RequestWithUser) {
-    const id = req.user.sub;
-    const user = await this.usersService.findOneById(id);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    return this.usersService.toUserDto(user);
+  async findOne(@Request() req: RequestWithUser): Promise<UserResDto> {
+    return req.user;
   }
 
   @Public()
@@ -85,8 +80,8 @@ export class UsersController {
   async updateEmail(
     @Request() req: RequestWithUser,
     @Body() userEmailReqDto: UserEmailReqDto,
-  ) {
-    const id = req.user.sub;
+  ): Promise<UserResDto> {
+    const id = req.user.id;
     const user = await this.usersService.updateEmail(id, userEmailReqDto.email);
     return this.usersService.toUserDto(user);
   }
@@ -95,8 +90,8 @@ export class UsersController {
   async updateUsername(
     @Request() req: RequestWithUser,
     @Body() userUsernameReqDto: UserUsernameReqDto,
-  ) {
-    const id = req.user.sub;
+  ): Promise<UserResDto> {
+    const id = req.user.id;
     const user = await this.usersService.updateUsername(
       id,
       userUsernameReqDto.username,
@@ -109,7 +104,7 @@ export class UsersController {
     @Request() req: RequestWithUser,
     @Body() userPasswordReqDto: UserPasswordReqDto,
   ) {
-    const id = req.user.sub;
+    const id = req.user.id;
     const user = await this.usersService.updatePassword(
       id,
       userPasswordReqDto.password,
@@ -122,7 +117,7 @@ export class UsersController {
     @Request() req: RequestWithUser,
     @Body() userAvatarReqDto: UserAvatarReqDto,
   ) {
-    const id = req.user.sub;
+    const id = req.user.id;
     const user = await this.usersService.updateAvatar(
       id,
       userAvatarReqDto.avatar,
@@ -147,7 +142,7 @@ export class UsersController {
     @Request() req: RequestWithUser,
     @Body() reduceCreditReqDto: ReduceCreditReqDto,
   ) {
-    const id = req.user.sub;
+    const id = req.user.id;
     const user = await this.usersService.reduceCredit(
       id,
       reduceCreditReqDto.amount,
@@ -157,7 +152,7 @@ export class UsersController {
 
   @Delete('/user')
   delete(@Request() req: RequestWithUser) {
-    const id = req.user.sub;
+    const id = req.user.id;
     return this.usersService.remove(id);
   }
 
