@@ -5,6 +5,7 @@
 Copy `./.env.example` and rename it to `.env`, then fill in the Env variables.
 
 Copy `./firebaseConfig.example.json` and rename it to `./firebaseConfig.json`, then fill in the Env variables.
+Copy `./serviceAccountKey.example.json` and rename it to `./serviceAccountKey.json`, then fill in the Env variables.
 
 ## Requirements
 

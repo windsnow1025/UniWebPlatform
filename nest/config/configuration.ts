@@ -2,16 +2,26 @@ import * as process from 'node:process';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 
+const loadJsonConfigFile = (filename: string, isProduction: boolean): any => {
+  const baseDirectory = isProduction ? '/app/config' : process.cwd();
+
+  const filePath = path.resolve(baseDirectory, filename);
+
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  return JSON.parse(fileContent);
+};
+
 export default () => {
   const isProduction = process.env.ENV !== 'development';
   console.log(`Using ${isProduction ? 'production' : 'development'} setting.`);
 
-  const firebaseConfigPath = isProduction
-    ? path.resolve('/app/config', 'firebaseConfig.json')
-    : path.resolve(process.cwd(), 'firebaseConfig.json');
-
-  const firebaseConfig = JSON.parse(
-    fs.readFileSync(firebaseConfigPath, 'utf8'),
+  const firebaseConfig = loadJsonConfigFile(
+    'firebaseConfig.json',
+    isProduction,
+  );
+  const serviceAccountKey = loadJsonConfigFile(
+    'serviceAccountKey.json',
+    isProduction,
   );
 
   return {
@@ -34,5 +44,6 @@ export default () => {
       webUrl: process.env.MINIO_WEB_URL,
     },
     firebaseConfig: firebaseConfig,
+    serviceAccountKey: serviceAccountKey,
   };
 };

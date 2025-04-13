@@ -12,6 +12,7 @@ import { User } from './user.entity';
 import { Role } from '../common/enums/role.enum';
 import { UserResDto } from './dto/user.res.dto';
 import { FirebaseService } from './firebase.service';
+import { FirebaseAdminService } from './firebase-admin.service';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +20,7 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private readonly firebaseService: FirebaseService,
+    private readonly firebaseAdminService: FirebaseAdminService,
   ) {}
 
   public toUserDto(user: User) {
@@ -79,9 +81,8 @@ export class UsersService {
   }
 
   async sendEmailVerification(email: string, password: string) {
-    try {
-      await this.firebaseService.createFirebaseUser(email, password);
-    } catch {}
+    await this.firebaseAdminService.deleteAllUsers();
+    await this.firebaseService.createFirebaseUser(email, password);
     await this.firebaseService.sendFirebaseEmailVerification(email, password);
   }
 
