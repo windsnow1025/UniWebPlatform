@@ -3,6 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ALLOW_UNVERIFIED_EMAIL_KEY } from '../decorators/allow-unverified-email.decorator';
@@ -29,7 +30,7 @@ export class EmailVerificationGuard implements CanActivate {
     }
 
     if (!user.emailVerified) {
-      throw new UnauthorizedException('Email not verified');
+      throw new ForbiddenException('Email not verified');
     }
 
     return true;
