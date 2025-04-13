@@ -23,12 +23,7 @@ export default class AnnouncementLogic {
       return await this.announcementService.updateAnnouncement(content);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error("Unauthorized");
-        }
-        if (error.response?.status === 403) {
-          throw new Error("Forbidden");
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error("Failed to update announcement");

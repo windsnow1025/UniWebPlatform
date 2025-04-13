@@ -59,9 +59,7 @@ export default class UserLogic {
       return await this.userClient.fetchUser();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          localStorage.removeItem('token');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       return null;
     }
@@ -115,9 +113,7 @@ export default class UserLogic {
       localStorage.setItem('token', token);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Incorrect Email or Password');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Sign in failed');
@@ -130,9 +126,7 @@ export default class UserLogic {
       localStorage.setItem('token', token);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Incorrect Username or Password');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Sign in failed');
@@ -144,9 +138,7 @@ export default class UserLogic {
       await this.userClient.createUser(username, email, password);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 409) {
-          throw new Error('Username or Password already exists');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Sign up failed');
@@ -167,9 +159,7 @@ export default class UserLogic {
       await this.userClient.updateEmailVerified(email, password);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Email not verified');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Update email verification failed');
@@ -181,9 +171,7 @@ export default class UserLogic {
       await this.userClient.updateEmail(email);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 409) {
-          throw new Error('Email already exists');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Update email failed');
@@ -195,9 +183,7 @@ export default class UserLogic {
       await this.userClient.updateUsername(username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 409) {
-          throw new Error('Username already exists');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Update username failed');
@@ -218,12 +204,7 @@ export default class UserLogic {
       return await this.userClient.updateAvatar(avatar);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 413) {
-          throw new Error('Avatar image is too large');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to update avatar');
@@ -235,15 +216,7 @@ export default class UserLogic {
       await this.userClient.updateUserPrivileges(username, emailVerified, roles, credit);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
-        if (error.response?.status === 404) {
-          throw new Error('User not found');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to update privileges');
@@ -255,9 +228,7 @@ export default class UserLogic {
       await this.userClient.deleteUser();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to delete user');
@@ -269,12 +240,7 @@ export default class UserLogic {
       await this.userClient.deleteUserById(id);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to delete user');

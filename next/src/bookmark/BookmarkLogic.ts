@@ -15,9 +15,7 @@ export default class BookmarkLogic {
       return await this.bookmarkService.fetchBookmarks();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to fetch bookmarks');
@@ -29,12 +27,7 @@ export default class BookmarkLogic {
       return await this.bookmarkService.addBookmark(bookmark);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to add bookmark');
@@ -46,12 +39,7 @@ export default class BookmarkLogic {
       return await this.bookmarkService.updateBookmark(id, bookmark);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to update bookmark');
@@ -63,12 +51,7 @@ export default class BookmarkLogic {
       await this.bookmarkService.deleteBookmark(id);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to delete bookmark');
