@@ -54,7 +54,7 @@ function SaveConversation({
       setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage('Error adding conversation');
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
     } finally {

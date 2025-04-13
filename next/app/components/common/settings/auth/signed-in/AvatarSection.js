@@ -84,7 +84,7 @@ function AvatarSection() {
         throw new Error('Failed to upload image');
       }
     } catch (error) {
-      showAlert(error.message || 'Failed to upload image', 'error');
+      showAlert(error.message, 'error');
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) {
@@ -106,7 +106,7 @@ function AvatarSection() {
       showAlert('Avatar updated successfully', 'success');
       setPreviewUrl(null);
     } catch (error) {
-      showAlert(error.message || 'Failed to update avatar', 'error');
+      showAlert(error.message, 'error');
     } finally {
       setIsUpdating(false);
     }

@@ -25,7 +25,7 @@ const StorageSettings = () => {
       setFiles(fetchedFiles);
     } catch (error) {
       console.error("Error fetching files:", error);
-      setAlertMessage("Failed to fetch files");
+      setAlertMessage(error.message);
       setAlertSeverity("error");
       setAlertOpen(true);
     } finally {
@@ -43,7 +43,7 @@ const StorageSettings = () => {
       setAlertSeverity("success");
     } catch (error) {
       console.error("Error deleting file:", error);
-      setAlertMessage("Failed to delete file");
+      setAlertMessage(error.message);
       setAlertSeverity("error");
     } finally {
       setDeleting(false);
