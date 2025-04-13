@@ -20,6 +20,7 @@ import { Markdown } from './markdowns/markdown.entity';
 import { MarkdownsModule } from './markdowns/markdowns.module';
 import { Announcement } from './announcement/announcement.entity';
 import { AnnouncementModule } from './announcement/announcement.module';
+import { EmailVerificationGuard } from './common/guards/email-verification.guard';
 
 @Module({
   imports: [
@@ -56,6 +57,10 @@ import { AnnouncementModule } from './announcement/announcement.module';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: EmailVerificationGuard,
     },
     {
       provide: APP_GUARD,
