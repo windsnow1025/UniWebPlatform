@@ -23,7 +23,7 @@ export class ConversationsController {
 
   @Get()
   async find(@Request() req: RequestWithUser) {
-    const userId = req.user.sub;
+    const userId = req.user.id;
     const conversations = await this.service.find(userId);
     return conversations.map((conversation) =>
       this.service.toConversationDto(conversation),
@@ -35,7 +35,7 @@ export class ConversationsController {
     @Request() req: RequestWithUser,
     @Body() reqDto: ConversationReqDto,
   ) {
-    const userId = req.user.sub;
+    const userId = req.user.id;
     const conversation = await this.service.create(
       userId,
       reqDto.name,
@@ -50,7 +50,7 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: UserUsernameReqDto,
   ) {
-    const userId = req.user.sub;
+    const userId = req.user.id;
     const conversation = await this.service.cloneForSpecificUser(
       userId,
       id,
@@ -65,7 +65,7 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: UserUsernameReqDto,
   ) {
-    const userId = req.user.sub;
+    const userId = req.user.id;
     const conversation = await this.service.addUserForUsers(
       userId,
       id,
@@ -80,7 +80,7 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationReqDto,
   ) {
-    const userId = req.user.sub;
+    const userId = req.user.id;
     const conversation = await this.service.update(
       userId,
       id,
@@ -96,7 +96,7 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationNameReqDto,
   ) {
-    const userId = req.user.sub;
+    const userId = req.user.id;
     const updatedConversation = await this.service.updateName(
       userId,
       id,
@@ -110,7 +110,7 @@ export class ConversationsController {
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    const userId = req.user.sub;
+    const userId = req.user.id;
     const deletedConversation = await this.service.remove(userId, id);
     return this.service.toConversationDto(deletedConversation);
   }
