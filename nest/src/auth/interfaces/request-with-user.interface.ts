@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { JwtPayload } from './jwt-payload.interface';
+import { UserResDto } from '../../users/dto/user.res.dto';
 
 export interface RequestWithUser extends Request {
-  user: JwtPayload & { sub: number };
+  user: UserResDto;
 }

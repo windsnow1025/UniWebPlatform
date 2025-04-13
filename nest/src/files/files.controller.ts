@@ -24,7 +24,7 @@ export class FilesController {
     @Req() req: RequestWithUser,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    const userId = req.user.sub;
+    const userId = req.user.id;
 
     const fileUrls = await Promise.all(
       files.map(async (file) => {
@@ -38,7 +38,7 @@ export class FilesController {
 
   @Get()
   async getFiles(@Req() req: RequestWithUser): Promise<FilesResDto> {
-    const userId = req.user.sub;
+    const userId = req.user.id;
 
     const files = await this.filesService.findAll(userId);
     const fileUrls = files.map((fileName) =>
@@ -53,7 +53,7 @@ export class FilesController {
     @Req() req: RequestWithUser,
     @Body() deleteFilesReqDto: FilesReqDto,
   ): Promise<void> {
-    const userId = req.user.sub;
+    const userId = req.user.id;
     await this.filesService.deleteFiles(userId, deleteFilesReqDto.filenames);
   }
 }
