@@ -36,12 +36,7 @@ export default class MarkdownLogic {
       return await this.markdownService.addMarkdown({title, content});
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to add markdown');
@@ -53,12 +48,7 @@ export default class MarkdownLogic {
       return await this.markdownService.updateMarkdown(id, {title, content});
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to update markdown');
@@ -70,12 +60,7 @@ export default class MarkdownLogic {
       await this.markdownService.deleteMarkdown(id);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to delete markdown');

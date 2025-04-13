@@ -13,12 +13,7 @@ export default class FileLogic {
       return await this.fileService.uploadFiles(files);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 413) {
-          throw new Error('File is too large');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to upload file');
@@ -30,9 +25,7 @@ export default class FileLogic {
       return await this.fileService.fetchFiles();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to fetch files');
@@ -44,12 +37,7 @@ export default class FileLogic {
       await this.fileService.deleteFiles(filenames);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 404) {
-          throw new Error('Files not found');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to delete files');

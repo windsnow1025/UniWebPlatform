@@ -26,12 +26,7 @@ export default class ConversationLogic {
       return await this.conversationService.addConversation(conversation);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to add conversation');
@@ -45,12 +40,7 @@ export default class ConversationLogic {
       return await this.conversationService.cloneConversationForUser(id, username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to add conversation for user');
@@ -64,12 +54,7 @@ export default class ConversationLogic {
       return await this.conversationService.updateConversation(id, conversation);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to update conversation');
@@ -81,12 +66,7 @@ export default class ConversationLogic {
       return this.conversationService.updateConversationName(id, name);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to update conversation name');
@@ -98,12 +78,7 @@ export default class ConversationLogic {
       await this.conversationService.addUserToConversation(id, username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to share conversation');
@@ -115,12 +90,7 @@ export default class ConversationLogic {
       await this.conversationService.deleteConversation(id);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Forbidden');
-        }
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
       throw new Error('Failed to delete conversation');
