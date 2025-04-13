@@ -87,7 +87,7 @@ function ConversationList({
       setConversations(newConversations);
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage('Error fetching conversations');
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
     } finally {
@@ -140,7 +140,7 @@ function ConversationList({
       }
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage(`Error updating conversation: ${err.message}`);
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
     }
@@ -160,7 +160,7 @@ function ConversationList({
       setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage('Error updating conversation name');
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
     }
@@ -175,21 +175,7 @@ function ConversationList({
       setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage('Error deleting conversation');
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
-  const handleRefresh = async () => {
-    try {
-      await loadConversations();
-      setAlertOpen(true);
-      setAlertMessage('Conversations refreshed successfully');
-      setAlertSeverity('success');
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage('Error refreshing conversations');
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
     }

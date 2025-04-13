@@ -34,10 +34,10 @@ function AudioRecord({setFile, isUploading, setIsUploading}) {
       setMediaRecorder(recorder);
       setIsRecording(true);
     } catch (error) {
-      console.error("Error starting recording:", error);
-      setAlertMessage("Failed to start recording");
+      setAlertMessage(error.message);
       setAlertSeverity('error');
       setAlertOpen(true);
+      console.error("Error starting recording:", error);
     }
   };
 

@@ -8,7 +8,6 @@ function Index() {
 
   return (
     <div className="local-scroll-container">
-      
       <div className="local-scroll-scrollable">
         <BookmarkDataGrid/>
       </div>

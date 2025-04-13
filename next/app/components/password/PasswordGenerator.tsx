@@ -69,8 +69,8 @@ const PasswordGenerator = () => {
         setAlertSeverity('success');
         setAlertOpen(true);
       })
-      .catch(() => {
-        setAlertMessage('Failed to copy to clipboard');
+      .catch((err) => {
+        setAlertMessage(err.message);
         setAlertSeverity('error');
         setAlertOpen(true);
       });

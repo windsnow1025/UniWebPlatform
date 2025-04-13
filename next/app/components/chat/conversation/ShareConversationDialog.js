@@ -54,7 +54,7 @@ function ShareConversationDialog({open, onClose, conversationId}) {
       setSelectedUsername('');
       onClose();
     } catch (err) {
-      setAlertMessage('Error sharing conversation');
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
       console.error(err);

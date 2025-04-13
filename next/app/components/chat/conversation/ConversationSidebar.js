@@ -53,7 +53,7 @@ function ConversationSidebar({
       return newConversations;
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage('Error fetching conversations');
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
       return [];
@@ -84,7 +84,7 @@ function ConversationSidebar({
       }
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage(`Error updating conversation: ${err.message}`);
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
     }
@@ -102,7 +102,7 @@ function ConversationSidebar({
       setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
-      setAlertMessage('Error refreshing conversations');
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
     }

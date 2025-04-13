@@ -69,7 +69,7 @@ function SignUp() {
       await wait(1);
       router.push("/auth/signin");
     } catch (error) {
-      setAlertMessage("Error during sign up: " + error.message);
+      setAlertMessage(error.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }

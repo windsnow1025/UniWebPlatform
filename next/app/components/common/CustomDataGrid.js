@@ -76,7 +76,7 @@ function CustomDataGrid({
       }
       setAlertSeverity('success');
     } catch (error) {
-      setAlertMessage(error.message || 'Error updating record');
+      setAlertMessage(error.message);
       setAlertSeverity('error');
     } finally {
       setAlertOpen(true);
@@ -92,7 +92,7 @@ function CustomDataGrid({
       setAlertSeverity('success');
       await loadData();
     } catch (error) {
-      setAlertMessage(error.message || 'Error deleting record');
+      setAlertMessage(error.message);
       setAlertSeverity('error');
     } finally {
       setAlertOpen(true);
