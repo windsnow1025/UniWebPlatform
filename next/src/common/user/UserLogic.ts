@@ -43,8 +43,8 @@ export default class UserLogic {
     try {
       const users = await this.userClient.fetchUsers();
       return users.map(user => user.username);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       throw new Error("Failed to fetch usernames.");
     }
   }
@@ -57,9 +57,9 @@ export default class UserLogic {
     }
     try {
       return await this.userClient.fetchUser();
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        if (err.response && err.response.status === 401) {
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
           localStorage.removeItem('token');
         }
       }

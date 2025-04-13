@@ -188,7 +188,7 @@ export default class ChatLogic {
   async fetchApiTypeModels(): Promise<ApiTypeModel[]> {
     try {
       return await this.chatService.fetchApiModels();
-    } catch (err) {
+    } catch (error) {
       throw new Error("Failed to fetch API Models");
     }
   }
@@ -257,9 +257,9 @@ export default class ChatLogic {
         image: content.image,
         display: content.display,
       };
-    } catch (err) {
-      console.error("Error in POST /:", err);
-      throw err;
+    } catch (error) {
+      console.error("Error in POST /:", error);
+      throw error;
     }
   }
 
@@ -314,9 +314,9 @@ export default class ChatLogic {
       }
 
       yield this.addCitations(text, citations);
-    } catch (err) {
-      console.error("Error in POST /:", err);
-      throw err;
+    } catch (error) {
+      console.error("Error in POST /:", error);
+      throw error;
     }
   }
 
