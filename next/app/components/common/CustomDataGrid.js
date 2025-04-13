@@ -52,6 +52,9 @@ function CustomDataGrid({
       const data = await fetchData();
       setRows(data);
     } catch (error) {
+      setAlertOpen(true);
+      setAlertMessage(error.message);
+      setAlertSeverity('error');
       console.error('Error loading data:', error);
     } finally {
       setLoading(false);
