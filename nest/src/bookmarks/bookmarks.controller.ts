@@ -19,7 +19,6 @@ import { BookmarkResDto } from './dto/bookmark.res.dto';
 export class BookmarksController {
   constructor(private readonly service: BookmarksService) {}
 
-  @Public()
   @Get()
   async findAll(): Promise<BookmarkResDto[]> {
     const bookmarks = await this.service.findAll();
