@@ -74,39 +74,24 @@ const AdminSetting = () => {
   ];
 
   const fetchData = async () => {
-    try {
-      const users = await userLogic.fetchUsers();
-      return users.map(user => ({
-        ...user,
-        role: user.roles[0]
-      }))
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      return [];
-    }
+    const users = await userLogic.fetchUsers();
+    return users.map(user => ({
+      ...user,
+      role: user.roles[0]
+    }))
   };
 
   const updateRow = async (row) => {
-    try {
-      await userLogic.updateUserPrivileges(
-        row.username,
-        row.emailVerified,
-        [row.role],
-        row.credit
-      );
-    } catch (error) {
-      console.error("Error updating user credit:", error);
-      throw error;
-    }
+    await userLogic.updateUserPrivileges(
+      row.username,
+      row.emailVerified,
+      [row.role],
+      row.credit
+    );
   };
 
   const deleteRow = async (id) => {
-    try {
-      await userLogic.deleteUserById(id);
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      throw error;
-    }
+    await userLogic.deleteUserById(id);
   }
 
   return (
