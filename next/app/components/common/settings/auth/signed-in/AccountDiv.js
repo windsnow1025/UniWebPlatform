@@ -71,26 +71,25 @@ function AccountDiv() {
             variant="scrollable"
             value={tabValue}
             onChange={handleTabChange}
-            className="border-r border-divider"
           >
-            <Tab label="Username" className="text-left pl-6 items-start"/>
-            <Tab label="Email" className="text-left pl-6 items-start"/>
-            <Tab label="Password" className="text-left pl-6 items-start"/>
+            <Tab label="Email"/>
+            <Tab label="Username"/>
+            <Tab label="Password"/>
           </Tabs>
         </Grid>
 
         <Grid item>
           <TabPanel value={tabValue} index={0}>
             <Typography variant="h6" gutterBottom>
-              Update Username
-            </Typography>
-            <UsernameSection/>
-          </TabPanel>
-          <TabPanel value={tabValue} index={1}>
-            <Typography variant="h6" gutterBottom>
               Email Settings
             </Typography>
             <EmailSection/>
+          </TabPanel>
+          <TabPanel value={tabValue} index={1}>
+            <Typography variant="h6" gutterBottom>
+              Update Username
+            </Typography>
+            <UsernameSection/>
           </TabPanel>
           <TabPanel value={tabValue} index={2}>
             <Typography variant="h6" gutterBottom>
