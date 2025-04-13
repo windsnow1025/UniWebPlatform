@@ -23,48 +23,28 @@ function BookmarkDataGrid() {
   ];
 
   const fetchData = async () => {
-    try {
-      const bookmarks = await bookmarkLogic.fetchBookmarks();
-      return bookmarks || [];
-    } catch (error) {
-      console.error('Error fetching bookmarks:', error);
-      return [];
-    }
+    const bookmarks = await bookmarkLogic.fetchBookmarks();
+    return bookmarks || [];
   };
 
   const addRow = async (row) => {
-    try {
-      await bookmarkLogic.addBookmark(row);
-    } catch (error) {
-      console.error('Error adding bookmark:', error);
-      throw error;
-    }
+    await bookmarkLogic.addBookmark(row);
   };
 
   const updateRow = async (row) => {
-    try {
-      await bookmarkLogic.updateBookmark(
-        row.id,
-        {
-          firstTitle: row.firstTitle,
-          secondTitle: row.secondTitle,
-          url: row.url,
-          comment: row.comment,
-        },
-      );
-    } catch (error) {
-      console.error('Error updating bookmark:', error);
-      throw error;
-    }
+    await bookmarkLogic.updateBookmark(
+      row.id,
+      {
+        firstTitle: row.firstTitle,
+        secondTitle: row.secondTitle,
+        url: row.url,
+        comment: row.comment,
+      },
+    );
   };
 
   const deleteRow = async (id) => {
-    try {
-      await bookmarkLogic.deleteBookmark(id);
-    } catch (error) {
-      console.error('Error deleting bookmark:', error);
-      throw error;
-    }
+    await bookmarkLogic.deleteBookmark(id);
   };
 
   return (
