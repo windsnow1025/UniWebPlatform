@@ -44,10 +44,13 @@ function SignIn() {
 
       // Redirect
       let redirectUrl = router.query.redirect;
-      await wait(1);
       if (!redirectUrl) {
         redirectUrl = '/';
       }
+      if (!(await userLogic.fetchEmailVerified())) {
+        redirectUrl = '/settings';
+      }
+      await wait(1);
       router.push(redirectUrl);
     } catch (e) {
       setAlertMessage(e.message);
