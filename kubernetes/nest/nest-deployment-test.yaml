@@ -21,7 +21,7 @@ spec:
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: firebase-config-volume
+            - name: config-volume
               mountPath: /app/config
               readOnly: true
           env:
@@ -81,10 +81,12 @@ spec:
                   name: app-secret
                   key: JWT_SECRET
       volumes:
-        - name: firebase-config-volume
+        - name: config-volume
           secret:
             secretName: app-secret
             items:
               - key: FIREBASE_CONFIG
                 path: firebaseConfig.json
+              - key: SERVICE_ACCOUNT_KEY
+                path: serviceAccountKey.json
   revisionHistoryLimit: 0
