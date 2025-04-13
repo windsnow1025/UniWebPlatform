@@ -19,6 +19,10 @@ spec:
           image: windsnow1025/nest
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: firebase-config-volume
+              mountPath: /app/config
+              readOnly: true
           env:
             - name: ENV
               valueFrom:
@@ -75,39 +79,11 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: JWT_SECRET
-            - name: FIREBASE_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: FIREBASE_API_KEY
-            - name: FIREBASE_AUTH_DOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: FIREBASE_AUTH_DOMAIN
-            - name: FIREBASE_PROJECT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: FIREBASE_PROJECT_ID
-            - name: FIREBASE_STORAGE_BUCKET
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: FIREBASE_STORAGE_BUCKET
-            - name: FIREBASE_MESSAGING_SENDER_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: FIREBASE_MESSAGING_SENDER_ID
-            - name: FIREBASE_APP_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: FIREBASE_APP_ID
-            - name: FIREBASE_MEASUREMENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: FIREBASE_MEASUREMENT_ID
+      volumes:
+        - name: firebase-config-volume
+          secret:
+            secretName: app-secret
+            items:
+              - key: FIREBASE_CONFIG
+                path: firebaseConfig.json
   revisionHistoryLimit: 0
