@@ -40,7 +40,7 @@ const AuthSettings = () => {
         setAlertSeverity("success");
         setAlertOpen(true);
       } catch (error) {
-        setAlertMessage(error.message || "Failed to delete account.");
+        setAlertMessage(error.message);
         setAlertSeverity("error");
         setAlertOpen(true);
       } finally {
