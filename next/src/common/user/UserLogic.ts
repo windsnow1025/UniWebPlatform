@@ -149,8 +149,20 @@ export default class UserLogic {
     try {
       await this.userClient.sendEmailVerification(email);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
       console.error(error);
       throw new Error('Send email verification failed');
+    }
+  }
+
+  async sendPasswordResetEmail(email: string) {
+    try {
+      await this.userClient.sendPasswordResetEmail(email);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to send password reset email');
     }
   }
 
@@ -163,6 +175,18 @@ export default class UserLogic {
       }
       console.error(error);
       throw new Error('Update email verification failed');
+    }
+  }
+
+  async updateResetPassword(email: string, password: string) {
+    try {
+      await this.userClient.updateResetPassword(email, password);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
+      console.error(error);
+      throw new Error('Failed to update reset password');
     }
   }
 
