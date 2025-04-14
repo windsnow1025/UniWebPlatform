@@ -117,9 +117,7 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    try {
-      await this.firebaseService.signInFirebaseUser(email, password);
-    } catch {
+    if (!(await this.firebaseService.verifyFirebaseUser(email, password))) {
       throw new UnauthorizedException('Invalid password');
     }
 
