@@ -54,7 +54,7 @@ export class UsersController {
     return this.usersService.toUserDto(user);
   }
 
-  @Public()
+  @AllowUnverifiedEmail()
   @Post('/user/email-verification')
   async sendEmailVerification(
     @Body() userEmailReqDto: UserEmailVerificationReqDto,
@@ -65,7 +65,7 @@ export class UsersController {
     );
   }
 
-  @Public()
+  @AllowUnverifiedEmail()
   @Put('/user/email-verified')
   async updateEmailVerified(@Body() userReqDto: UserEmailVerificationReqDto) {
     const user = await this.usersService.updateEmailVerified(
