@@ -21,12 +21,8 @@ export class FirebaseService {
     this.auth = getAuth(app);
   }
 
-  private async signInFirebaseUser(email: string) {
-    await signInWithEmailAndPassword(
-      this.auth,
-      email,
-      this.firebaseUserPassword,
-    );
+  async signInFirebaseUser(email: string, password: string) {
+    await signInWithEmailAndPassword(this.auth, email, password);
     return this.auth.currentUser!;
   }
 
@@ -40,12 +36,18 @@ export class FirebaseService {
   }
 
   async sendFirebaseEmailVerification(email: string) {
-    const user = await this.signInFirebaseUser(email);
+    const user = await this.signInFirebaseUser(
+      email,
+      this.firebaseUserPassword,
+    );
     await sendEmailVerification(user);
   }
 
   async checkEmailVerified(email: string): Promise<boolean> {
-    const user = await this.signInFirebaseUser(email);
+    const user = await this.signInFirebaseUser(
+      email,
+      this.firebaseUserPassword,
+    );
     if (!user.emailVerified) {
       return false;
     }
