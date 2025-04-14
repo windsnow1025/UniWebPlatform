@@ -12,6 +12,7 @@ import {
 @Injectable()
 export class FirebaseService {
   private readonly auth: Auth;
+  private readonly firebaseUserPassword = 'FirebaseUserPassword';
 
   constructor(private readonly configService: ConfigService) {
     const firebaseConfig =
@@ -20,27 +21,31 @@ export class FirebaseService {
     this.auth = getAuth(app);
   }
 
-  private async signInFirebaseUser(email: string, password: string) {
-    await signInWithEmailAndPassword(this.auth, email, password);
+  private async signInFirebaseUser(email: string) {
+    await signInWithEmailAndPassword(
+      this.auth,
+      email,
+      this.firebaseUserPassword,
+    );
     return this.auth.currentUser!;
   }
 
-  async createFirebaseUser(email: string, password: string) {
+  async createFirebaseUser(email: string) {
     const userCredential = await createUserWithEmailAndPassword(
       this.auth,
       email,
-      password,
+      this.firebaseUserPassword,
     );
     return userCredential.user;
   }
 
-  async sendFirebaseEmailVerification(email: string, password: string) {
-    const user = await this.signInFirebaseUser(email, password);
+  async sendFirebaseEmailVerification(email: string) {
+    const user = await this.signInFirebaseUser(email);
     await sendEmailVerification(user);
   }
 
-  async checkEmailVerified(email: string, password: string): Promise<boolean> {
-    const user = await this.signInFirebaseUser(email, password);
+  async checkEmailVerified(email: string): Promise<boolean> {
+    const user = await this.signInFirebaseUser(email);
     if (!user.emailVerified) {
       return false;
     }
