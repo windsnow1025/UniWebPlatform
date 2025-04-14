@@ -59,6 +59,12 @@ export class UsersController {
     await this.usersService.sendEmailVerification(userEmailReqDto.email);
   }
 
+  @Public()
+  @Post('/user/password-reset-email')
+  async sendPasswordResetEmail(@Body() userEmailReqDto: UserEmailReqDto) {
+    await this.usersService.sendPasswordResetEmail(userEmailReqDto.email);
+  }
+
   @AllowUnverifiedEmail()
   @Put('/user/email-verified')
   async updateEmailVerified(@Request() req: RequestWithUser) {

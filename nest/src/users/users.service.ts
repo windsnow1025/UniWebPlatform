@@ -87,6 +87,13 @@ export class UsersService {
     await this.firebaseService.sendFirebaseEmailVerification(email);
   }
 
+  async sendPasswordResetEmail(email: string) {
+    try {
+      await this.firebaseService.createFirebaseUser(email);
+    } catch {}
+    await this.firebaseService.sendFirebasePasswordResetEmail(email);
+  }
+
   async updateEmailVerified(email: string) {
     if (!(await this.firebaseService.checkEmailVerified(email))) {
       throw new UnauthorizedException('Email not verified');

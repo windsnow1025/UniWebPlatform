@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FirebaseOptions, initializeApp } from 'firebase/app';
-import { Auth, getAuth } from 'firebase/auth';
+import { Auth, getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -51,5 +51,9 @@ export class FirebaseService {
     }
     await deleteUser(user);
     return true;
+  }
+
+  async sendFirebasePasswordResetEmail(email: string) {
+    await sendPasswordResetEmail(this.auth, email);
   }
 }
