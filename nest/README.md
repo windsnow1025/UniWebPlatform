@@ -19,20 +19,9 @@ Docs: `/api`
 
 ### Generate Client Package
 
-- For Axios:
-    ```sh
-    openapi-generator-cli generate -i http://localhost:3001/api-json -g typescript-axios -o client
-    ```
-
-- For Fetch API:
-    ```sh
-    openapi-generator-cli generate -i http://localhost:3001/api-json -g typescript-fetch -o client
-    ```
-
-- For Angular:
-    ```sh
-    openapi-generator-cli generate -i http://localhost:3001/api-json -g typescript-angular -o client
-    ```
+```sh
+openapi-generator-cli generate -i http://localhost:3001/api-json -g typescript-axios -o ../next/client
+```
 
 ## Run
 
