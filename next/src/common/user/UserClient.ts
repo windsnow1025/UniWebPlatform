@@ -19,14 +19,14 @@ export default class UserClient {
     await api.usersControllerCreate({ username, email, password });
   }
 
-  async sendEmailVerification(email: string, password: string) {
+  async sendEmailVerification(email: string) {
     const api = new UsersApi(getOpenAPIConfiguration());
-    await api.usersControllerSendEmailVerification({ email, password });
+    await api.usersControllerSendEmailVerification({ email });
   }
 
-  async updateEmailVerified(email: string, password: string) {
+  async updateEmailVerified() {
     const api = new UsersApi(getOpenAPIConfiguration());
-    await api.usersControllerUpdateEmailVerified({ email, password });
+    await api.usersControllerUpdateEmailVerified();
   }
 
   async updateEmail(email: string) {
