@@ -1,7 +1,7 @@
 import admin, { ServiceAccount } from 'firebase-admin';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Auth } from 'firebase-admin/auth';
+import { Auth, UserRecord } from 'firebase-admin/auth';
 
 @Injectable()
 export class FirebaseAdminService {
@@ -16,20 +16,23 @@ export class FirebaseAdminService {
     this.auth = app.auth();
   }
 
-  async listAllUserUids() {
-    const userUids: string[] = [];
+  async listAllUsers(): Promise<UserRecord[]> {
+    const users: UserRecord[] = [];
     let nextPageToken;
 
     do {
       const listUsersResult = await this.auth.listUsers(1000, nextPageToken);
-      listUsersResult.users.forEach((userRecord) => {
-        userUids.push(userRecord.uid);
-      });
+      users.push(...listUsersResult.users);
 
       nextPageToken = listUsersResult.pageToken;
     } while (nextPageToken);
 
-    return userUids;
+    return users;
+  }
+
+  async deleteUserByEmail(email: string) {
+    const userRecord = await this.auth.getUserByEmail(email);
+    await this.auth.deleteUser(userRecord.uid);
   }
 
   async deleteMultipleUsers(uids: string[]) {
@@ -41,7 +44,8 @@ export class FirebaseAdminService {
   }
 
   async deleteAllUsers() {
-    const userUids = await this.listAllUserUids();
+    const users = await this.listAllUsers();
+    const userUids = users.map((user) => user.uid);
     await this.deleteMultipleUsers(userUids);
   }
 }
