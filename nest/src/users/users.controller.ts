@@ -152,4 +152,10 @@ export class UsersController {
   deleteById(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
   }
+
+  @Delete('/user/firebase')
+  @Roles([Role.Admin])
+  deleteAllFirebaseUsers() {
+    return this.usersService.deleteAllFirebaseUsers();
+  }
 }

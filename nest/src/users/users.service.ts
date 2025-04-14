@@ -81,8 +81,9 @@ export class UsersService {
   }
 
   async sendEmailVerification(email: string) {
-    await this.firebaseAdminService.deleteAllUsers();
-    await this.firebaseService.createFirebaseUser(email);
+    try {
+      await this.firebaseService.createFirebaseUser(email);
+    } catch {}
     await this.firebaseService.sendFirebaseEmailVerification(email);
   }
 
@@ -99,6 +100,10 @@ export class UsersService {
     user.emailVerified = true;
 
     return await this.usersRepository.save(user);
+  }
+
+  async deleteAllFirebaseUsers() {
+    await this.firebaseAdminService.deleteAllUsers();
   }
 
   async updateEmail(id: number, email: string) {
