@@ -145,18 +145,18 @@ export default class UserLogic {
     }
   }
 
-  async sendEmailVerification(email: string, password: string) {
+  async sendEmailVerification(email: string) {
     try {
-      await this.userClient.sendEmailVerification(email, password);
+      await this.userClient.sendEmailVerification(email);
     } catch (error) {
       console.error(error);
       throw new Error('Send email verification failed');
     }
   }
 
-  async updateEmailVerification(email: string, password: string) {
+  async updateEmailVerification() {
     try {
-      await this.userClient.updateEmailVerified(email, password);
+      await this.userClient.updateEmailVerified();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);

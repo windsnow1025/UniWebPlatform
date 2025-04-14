@@ -9,7 +9,6 @@ function EmailSection() {
   const [email, setEmail] = useState('');
   const [emailVerified, setEmailVerified] = useState(false);
   const [newEmail, setNewEmail] = useState('');
-  const [emailVerificationPassword, setEmailVerificationPassword] = useState('');
   const [emailVerificationSent, setEmailVerificationSent] = useState(false);
   const [isSendingVerification, setIsSendingVerification] = useState(false);
   const [isCheckingVerification, setIsCheckingVerification] = useState(false);
@@ -63,7 +62,7 @@ function EmailSection() {
       setIsSendingVerification(true);
 
       await userLogic.updateEmail(newEmail);
-      await userLogic.sendEmailVerification(newEmail, emailVerificationPassword);
+      await userLogic.sendEmailVerification(newEmail);
 
       setEmailVerificationSent(true);
       setResendCooldown(60);
@@ -83,7 +82,7 @@ function EmailSection() {
 
     try {
       setIsSendingVerification(true);
-      await userLogic.sendEmailVerification(newEmail, emailVerificationPassword);
+      await userLogic.sendEmailVerification(newEmail);
       setResendCooldown(60);
       showAlert("Verification email resent. Please check your inbox.", 'info');
     } catch (e) {
@@ -98,7 +97,7 @@ function EmailSection() {
   const handleCheckVerification = async () => {
     try {
       setIsCheckingVerification(true);
-      await userLogic.updateEmailVerification(newEmail, emailVerificationPassword);
+      await userLogic.updateEmailVerification();
       setEmailVerificationSent(false);
       showAlert("Email verification success. Redirecting...", 'success');
 
@@ -133,7 +132,7 @@ function EmailSection() {
             onClick={handleCheckVerification}
             size="medium"
             fullWidth
-            disabled={isProcessing || !emailVerificationPassword}
+            disabled={isProcessing}
           >
             {isCheckingVerification ? "Checking..." : "I've Verified My Email"}
           </Button>
@@ -142,7 +141,7 @@ function EmailSection() {
             onClick={handleResendVerification}
             size="medium"
             fullWidth
-            disabled={isProcessing || !emailVerificationPassword || resendCooldown > 0}
+            disabled={isProcessing || resendCooldown > 0}
           >
             {resendCooldown > 0
               ? `Resend Available in ${resendCooldown}s`
@@ -158,15 +157,6 @@ function EmailSection() {
             fullWidth
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
-            disabled={isProcessing}
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            type="password"
-            fullWidth
-            value={emailVerificationPassword}
-            onChange={(e) => setEmailVerificationPassword(e.target.value)}
             disabled={isProcessing}
           />
           <Button
