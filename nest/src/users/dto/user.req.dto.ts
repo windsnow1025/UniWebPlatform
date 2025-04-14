@@ -11,6 +11,14 @@ export class UserReqDto {
   password: string;
 }
 
+export class UserEmailPasswordReqDto {
+  @IsString()
+  email: string;
+
+  @IsString()
+  password: string;
+}
+
 export class UserEmailReqDto {
   @IsString()
   email: string;

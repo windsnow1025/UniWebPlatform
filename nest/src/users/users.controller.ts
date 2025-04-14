@@ -23,6 +23,7 @@ import {
   UserReqDto,
   UserUsernameReqDto,
   ReduceCreditReqDto,
+  UserEmailPasswordReqDto,
 } from './dto/user.req.dto';
 import { UserResDto } from './dto/user.res.dto';
 
@@ -69,6 +70,16 @@ export class UsersController {
   @Put('/user/email-verified')
   async updateEmailVerified(@Request() req: RequestWithUser) {
     const user = await this.usersService.updateEmailVerified(req.user.email);
+    return this.usersService.toUserDto(user);
+  }
+
+  @Public()
+  @Put('/user/reset-password')
+  async updateResetPassword(@Body() reqDto: UserEmailPasswordReqDto) {
+    const user = await this.usersService.updateResetPassword(
+      reqDto.email,
+      reqDto.password,
+    );
     return this.usersService.toUserDto(user);
   }
 

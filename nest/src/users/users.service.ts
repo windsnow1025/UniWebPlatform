@@ -111,6 +111,23 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
+  async updateResetPassword(email: string, password: string) {
+    const user = await this.findOneByEmail(email);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    try {
+      await this.firebaseService.signInFirebaseUser(email, password);
+    } catch {
+      throw new UnauthorizedException('Invalid password');
+    }
+
+    user.password = await this.hashPassword(password);
+
+    return await this.usersRepository.save(user);
+  }
+
   async deleteAllFirebaseUsers() {
     await this.firebaseAdminService.deleteAllUsers();
   }
