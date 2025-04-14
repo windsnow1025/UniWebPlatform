@@ -107,7 +107,19 @@ function SignIn() {
           <Tab label="Sign in with Email"/>
           <Tab label="Sign in with Username"/>
         </Tabs>
-        <Box sx={{ textAlign: 'center', mt: 2 }}>
+
+        <Box sx={{textAlign: 'center', m: 1}}>
+          <Typography variant="body2">
+            <Button
+              onClick={() => router.push("/auth/password-reset")}
+              sx={{p: 0, minWidth: 'auto', textTransform: 'none'}}
+            >
+              Forgot Password?
+            </Button>
+          </Typography>
+        </Box>
+
+        <Box sx={{textAlign: 'center', m: 1}}>
           <Typography variant="body2">
             Do not have an account?{' '}
             <Button
