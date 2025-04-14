@@ -82,15 +82,17 @@ export class UsersService {
 
   async sendEmailVerification(email: string) {
     try {
-      await this.firebaseService.createFirebaseUser(email);
+      await this.firebaseAdminService.deleteUserByEmail(email);
     } catch {}
+    await this.firebaseService.createFirebaseUser(email);
     await this.firebaseService.sendFirebaseEmailVerification(email);
   }
 
   async sendPasswordResetEmail(email: string) {
     try {
-      await this.firebaseService.createFirebaseUser(email);
+      await this.firebaseAdminService.deleteUserByEmail(email);
     } catch {}
+    await this.firebaseService.createFirebaseUser(email);
     await this.firebaseService.sendFirebasePasswordResetEmail(email);
   }
 
