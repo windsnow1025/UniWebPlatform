@@ -138,7 +138,7 @@ function PasswordReset() {
                 fullWidth
                 disabled={!password}
               >
-                Update Password in System
+                Verify and Update Password
               </Button>
             </>
           )}

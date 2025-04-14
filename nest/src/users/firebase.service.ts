@@ -21,7 +21,7 @@ export class FirebaseService {
     this.auth = getAuth(app);
   }
 
-  async signInFirebaseUser(email: string, password: string) {
+  private async signInFirebaseUser(email: string, password: string) {
     await signInWithEmailAndPassword(this.auth, email, password);
     return this.auth.currentUser!;
   }
@@ -52,6 +52,16 @@ export class FirebaseService {
       return false;
     }
     await deleteUser(user);
+    return true;
+  }
+
+  async verifyFirebaseUser(email: string, password: string) {
+    try {
+      const user = await this.signInFirebaseUser(email, password);
+      await deleteUser(user);
+    } catch {
+      return false;
+    }
     return true;
   }
 
