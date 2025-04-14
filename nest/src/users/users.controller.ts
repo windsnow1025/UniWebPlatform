@@ -19,7 +19,6 @@ import { Role } from '../common/enums/role.enum';
 import {
   UserAvatarReqDto,
   UserEmailReqDto,
-  UserEmailVerificationReqDto,
   UserPasswordReqDto,
   UserReqDto,
   UserUsernameReqDto,
@@ -56,22 +55,14 @@ export class UsersController {
 
   @AllowUnverifiedEmail()
   @Post('/user/email-verification')
-  async sendEmailVerification(
-    @Body() userEmailReqDto: UserEmailVerificationReqDto,
-  ) {
-    await this.usersService.sendEmailVerification(
-      userEmailReqDto.email,
-      userEmailReqDto.password,
-    );
+  async sendEmailVerification(@Body() userEmailReqDto: UserEmailReqDto) {
+    await this.usersService.sendEmailVerification(userEmailReqDto.email);
   }
 
   @AllowUnverifiedEmail()
   @Put('/user/email-verified')
-  async updateEmailVerified(@Body() userReqDto: UserEmailVerificationReqDto) {
-    const user = await this.usersService.updateEmailVerified(
-      userReqDto.email,
-      userReqDto.password,
-    );
+  async updateEmailVerified(@Request() req: RequestWithUser) {
+    const user = await this.usersService.updateEmailVerified(req.user.email);
     return this.usersService.toUserDto(user);
   }
 

@@ -80,14 +80,14 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async sendEmailVerification(email: string, password: string) {
+  async sendEmailVerification(email: string) {
     await this.firebaseAdminService.deleteAllUsers();
-    await this.firebaseService.createFirebaseUser(email, password);
-    await this.firebaseService.sendFirebaseEmailVerification(email, password);
+    await this.firebaseService.createFirebaseUser(email);
+    await this.firebaseService.sendFirebaseEmailVerification(email);
   }
 
-  async updateEmailVerified(email: string, password: string) {
-    if (!(await this.firebaseService.checkEmailVerified(email, password))) {
+  async updateEmailVerified(email: string) {
+    if (!(await this.firebaseService.checkEmailVerified(email))) {
       throw new UnauthorizedException('Email not verified');
     }
 
