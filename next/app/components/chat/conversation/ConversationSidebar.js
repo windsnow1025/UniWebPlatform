@@ -112,24 +112,20 @@ function ConversationSidebar({
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-y">
         <div className="flex-between-nowrap p-4">
-          <div className="flex-center">
-            <ForumIcon/>
-            <Typography variant="subtitle1" sx={{ml: 1}}>
-              Conversation
-            </Typography>
-          </div>
-          <div className="flex-center">
-            <Tooltip title={`${autoUpdate ? 'Disable' : 'Enable'} auto update`}>
-              <IconButton onClick={handleToggleAutoUpdate}>
-                {autoUpdate ? <SyncIcon fontSize="small"/> : <SyncDisabledIcon fontSize="small"/>}
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Refresh conversations">
-              <IconButton onClick={handleRefresh}>
-                <RefreshIcon fontSize="small"/>
-              </IconButton>
-            </Tooltip>
-          </div>
+          <ForumIcon/>
+          <Typography variant="subtitle1" sx={{ml: 1}}>
+            Conversation
+          </Typography>
+          <Tooltip title={`${autoUpdate ? 'Disable' : 'Enable'} auto update`}>
+            <IconButton onClick={handleToggleAutoUpdate}>
+              {autoUpdate ? <SyncIcon fontSize="small"/> : <SyncDisabledIcon fontSize="small"/>}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Refresh conversations">
+            <IconButton onClick={handleRefresh}>
+              <RefreshIcon fontSize="small"/>
+            </IconButton>
+          </Tooltip>
         </div>
         <Divider/>
 
