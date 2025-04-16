@@ -325,7 +325,7 @@ export default class ChatLogic {
       const citationText = citation.text;
       const citationIndices = citation.indices;
       const index = text.indexOf(citationText) + citationText.length;
-      const citationStr = citationIndices.map(i => `[${i}]`).join("");
+      const citationStr = citationIndices.map(i => `$^{[${i}]}$`).join("");
       text = text.slice(0, index) + citationStr + text.slice(index);
     }
     return text;
