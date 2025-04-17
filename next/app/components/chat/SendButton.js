@@ -114,7 +114,7 @@ function SendButton({
         if (stream) {
           await handleStreamGenerate(currentReqIndex);
         } else {
-          await handleNonStreamGenerate();
+          await handleNonStreamGenerate(currentReqIndex);
         }
       } catch (error) {
         setAlertMessage(error.message);
