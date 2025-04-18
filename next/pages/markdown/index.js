@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import MarkdownLogic from "../../src/markdown/MarkdownLogic";
+import MarkdownLogic from "../../lib/markdown/MarkdownLogic";
 import {Button, Divider, Link, List, ListItem, ListItemText, Paper} from "@mui/material";
 
 function Index() {

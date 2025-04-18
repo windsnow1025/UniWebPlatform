@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
-import UserLogic from "../../src/common/user/UserLogic";
+import UserLogic from "../../lib/common/user/UserLogic";
 import {Alert, Box, Button, Snackbar, Tab, Tabs, TextField, Typography, useTheme} from "@mui/material";
 import {SignInPage} from '@toolpad/core/SignInPage';
 import {wait} from "../../app/utils/Wait";

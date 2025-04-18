@@ -1,5 +1,5 @@
 import React from 'react';
-import BookmarkLogic from '../../../src/bookmark/BookmarkLogic';
+import BookmarkLogic from '../../../lib/bookmark/BookmarkLogic';
 import CustomDataGrid from "../common/CustomDataGrid";
 
 function BookmarkDataGrid() {

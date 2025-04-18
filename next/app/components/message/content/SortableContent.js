@@ -6,9 +6,9 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
-import { RawEditableState } from "../../../../src/common/message/EditableState";
+import { RawEditableState } from "../../../../lib/common/message/EditableState";
 import SortableFiles from "./file/SortableFiles";
-import { SortableContentType } from "../../../../src/common/message/SortableContent";
+import { SortableContentType } from "../../../../lib/common/message/SortableContent";
 
 function SortableContent({
                            id,

@@ -1,4 +1,4 @@
-import {getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {MarkdownReqDto, MarkdownResDto, MarkdownsApi} from "@/client";
 
 export default class MarkdownClient {

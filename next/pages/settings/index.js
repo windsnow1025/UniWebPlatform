@@ -3,7 +3,7 @@ import {Tab, Tabs} from "@mui/material";
 import AuthSettings from "../../app/components/common/settings/auth/AuthSettings";
 import DeveloperSettings from "../../app/components/common/settings/DeveloperSettings";
 import AdminSetting from "../../app/components/common/settings/AdminSetting";
-import UserLogic from "../../src/common/user/UserLogic";
+import UserLogic from "../../lib/common/user/UserLogic";
 import StorageSettings from "../../app/components/common/settings/StorageSettings";
 
 const Settings = () => {

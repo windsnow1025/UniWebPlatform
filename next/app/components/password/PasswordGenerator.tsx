@@ -21,7 +21,7 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
-import {generatePassword} from "@/src/password/PasswordLogic";
+import {generatePassword} from "@/lib/password/PasswordLogic";
 import {AlertColor} from "@mui/material/Alert/Alert";
 
 const PasswordGenerator = () => {

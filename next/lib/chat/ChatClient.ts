@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {ApiTypeModel, ChatResponse} from "./ChatResponse";
-import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/src/common/APIConfig";
+import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/lib/common/APIConfig";
 import {fetchEventSource} from '@microsoft/fetch-event-source';
 import {Message} from "@/client";
 

@@ -1,5 +1,5 @@
 import {AnnouncementApi, AnnouncementResDto} from "@/client";
-import {getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
 
 export default class AnnouncementClient {
   async fetchAnnouncement(): Promise<AnnouncementResDto> {
