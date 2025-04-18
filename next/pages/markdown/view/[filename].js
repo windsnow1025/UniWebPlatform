@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {useRouter} from 'next/router';
-import PublicClient from "../../../src/common/public/PublicClient";
+import PublicClient from "../../../lib/common/public/PublicClient";
 import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
 import {useTheme} from "@mui/material";
 

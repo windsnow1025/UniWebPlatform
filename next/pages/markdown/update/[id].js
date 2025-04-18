@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import MarkdownLogic from '../../../src/markdown/MarkdownLogic';
+import MarkdownLogic from '../../../lib/markdown/MarkdownLogic';
 import {Alert, Button, Snackbar, useTheme} from "@mui/material";
 import {useRouter} from "next/router";
 import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
