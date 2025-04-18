@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import PasswordGenerator from "../../app/components/password/PasswordGenerator";
+import PasswordGenerator from "../../components/password/PasswordGenerator";
 
 function PasswordGeneratorIndex() {
 

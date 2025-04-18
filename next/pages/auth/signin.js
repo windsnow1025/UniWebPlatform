@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import UserLogic from "../../lib/common/user/UserLogic";
 import {Alert, Box, Button, Snackbar, Tab, Tabs, TextField, Typography, useTheme} from "@mui/material";
 import {SignInPage} from '@toolpad/core/SignInPage';
-import {wait} from "../../app/utils/Wait";
+import {wait} from "../../components/common/utils/Wait";
 
 function SignIn() {
   const userLogic = new UserLogic();
