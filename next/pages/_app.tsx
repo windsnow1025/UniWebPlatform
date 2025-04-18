@@ -1,4 +1,4 @@
-import '../src/global.css';
+import '../lib/global.css';
 
 import * as React from 'react';
 import {NextAppProvider} from '@toolpad/core/nextjs';
@@ -17,7 +17,7 @@ import PasswordIcon from '@mui/icons-material/Password';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
-import UserLogic from "@/src/common/user/UserLogic";
+import UserLogic from "@/lib/common/user/UserLogic";
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
 import EmailVerificationDialog from "@/app/components/common/EmailVerificationDialog";

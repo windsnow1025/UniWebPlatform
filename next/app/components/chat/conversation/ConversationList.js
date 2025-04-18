@@ -23,7 +23,7 @@ import {
   Share as ShareIcon,
 } from '@mui/icons-material';
 import ShareConversationDialog from './ShareConversationDialog';
-import ConversationLogic from "../../../../src/conversation/ConversationLogic";
+import ConversationLogic from "../../../../lib/conversation/ConversationLogic";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);

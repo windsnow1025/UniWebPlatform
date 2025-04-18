@@ -9,7 +9,7 @@ import {
   SortableContentType,
   updateFileContent,
   updateTextContent
-} from "../../../../src/common/message/SortableContent";
+} from "../../../../lib/common/message/SortableContent";
 
 function SortableContents({
                             contents,

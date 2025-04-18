@@ -1,4 +1,4 @@
-import {getNestAxiosInstance, getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {getNestAxiosInstance, getOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {FilesApi} from "@/client";
 
 export default class FileClient {

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import UserLogic from "../../../../src/common/user/UserLogic";
-import AnnouncementLogic from "../../../../src/announcement/AnnouncementLogic";
+import UserLogic from "../../../../lib/common/user/UserLogic";
+import AnnouncementLogic from "../../../../lib/announcement/AnnouncementLogic";
 import CustomDataGrid from "../CustomDataGrid";
 import {Button, IconButton, Tooltip} from "@mui/material";
-import {RawEditableState} from "../../../../src/common/message/EditableState";
+import {RawEditableState} from "../../../../lib/common/message/EditableState";
 import TextContent from "../../message/content/text/TextContent";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";

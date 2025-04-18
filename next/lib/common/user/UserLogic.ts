@@ -1,5 +1,5 @@
 import UserClient from "./UserClient";
-import AuthClient from "@/src/common/user/AuthClient";
+import AuthClient from "@/lib/common/user/AuthClient";
 import axios from "axios";
 import {UserResDto, UserResDtoRolesEnum} from "@/client";
 

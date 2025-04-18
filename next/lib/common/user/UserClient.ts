@@ -1,4 +1,4 @@
-import {getOpenAPIConfiguration} from "@/src/common/APIConfig";
+import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {UserResDto, UsersApi, UserResDtoRolesEnum} from "@/client";
 
 export default class UserClient {

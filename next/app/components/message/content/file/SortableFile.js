@@ -4,7 +4,7 @@ import {CSS} from "@dnd-kit/utilities";
 import FileDiv from './FileDiv';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import {useTheme} from "@mui/material";
-import {RawEditableState} from "../../../../../src/common/message/EditableState";
+import {RawEditableState} from "../../../../../lib/common/message/EditableState";
 
 const SortableFile = ({ fileUrl, files, setFiles, rawEditableState }) => {
   const {

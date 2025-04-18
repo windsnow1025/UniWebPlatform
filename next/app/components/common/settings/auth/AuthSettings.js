@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
-import UserLogic from "../../../../../src/common/user/UserLogic";
+import UserLogic from "../../../../../lib/common/user/UserLogic";
 import AccountDiv from "./signed-in/AccountDiv";
 import SignDiv from "./signed-out/SignDiv";
 import ConfirmDialog from "../../ConfirmDialog";

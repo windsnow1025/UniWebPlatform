@@ -1,9 +1,9 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
-import {ApiTypeModel, ChatResponse, Citation} from "@/src/chat/ChatResponse";
+import {ApiTypeModel, ChatResponse, Citation} from "@/lib/chat/ChatResponse";
 import {desanitize, sanitize} from "markdown-latex-renderer";
 import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
-import FileLogic from "@/src/common/file/FileLogic";
+import FileLogic from "@/lib/common/file/FileLogic";
 
 export default class ChatLogic {
   private chatService: ChatClient;

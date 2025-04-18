@@ -13,7 +13,7 @@ import {
   Sync as SyncIcon,
   SyncDisabled as SyncDisabledIcon
 } from '@mui/icons-material';
-import ConversationLogic from "../../../../src/conversation/ConversationLogic";
+import ConversationLogic from "../../../../lib/conversation/ConversationLogic";
 import ConversationList from './ConversationList';
 import SaveConversation from './SaveConversation';
 

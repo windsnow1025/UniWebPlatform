@@ -11,7 +11,7 @@ import {
   Switch,
   Typography
 } from "@mui/material";
-import ChatLogic from "../../../src/chat/ChatLogic";
+import ChatLogic from "../../../lib/chat/ChatLogic";
 import useScreenSize from "../../hooks/useScreenSize";
 
 function SettingsDiv({

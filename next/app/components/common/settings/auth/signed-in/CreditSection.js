@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import {CircularProgress, Typography} from "@mui/material";
-import UserLogic from "../../../../../../src/common/user/UserLogic";
+import UserLogic from "../../../../../../lib/common/user/UserLogic";
 
 function CreditSection() {
   const userLogic = new UserLogic();

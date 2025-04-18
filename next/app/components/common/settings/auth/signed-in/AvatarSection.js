@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Avatar, Button, CircularProgress, Alert, Snackbar, Typography, Box } from '@mui/material';
-import UserLogic from '../../../../../../src/common/user/UserLogic';
-import FileLogic from '../../../../../../src/common/file/FileLogic';
+import UserLogic from '../../../../../../lib/common/user/UserLogic';
+import FileLogic from '../../../../../../lib/common/file/FileLogic';
 
 function AvatarSection() {
   const [avatar, setAvatar] = useState(null);
