@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import BookmarkDataGrid from "../../app/components/bookmark/BookmarkDataGrid";
+import BookmarkDataGrid from "../../components/bookmark/BookmarkDataGrid";
 
 function Index() {
   useEffect(() => {
