@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Alert, CircularProgress, IconButton, Snackbar, Tooltip} from "@mui/material";
 import MicIcon from '@mui/icons-material/Mic';
 import StopIcon from '@mui/icons-material/Stop';
-import FileLogic from "../../../../../src/common/file/FileLogic";
+import FileLogic from "../../../../../lib/common/file/FileLogic";
 
 function AudioRecord({setFile, isUploading, setIsUploading}) {
   const [isRecording, setIsRecording] = useState(false);

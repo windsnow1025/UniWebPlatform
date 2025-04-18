@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import UserLogic from "../../../../../../src/common/user/UserLogic";
+import UserLogic from "../../../../../../lib/common/user/UserLogic";
 import TextField from "@mui/material/TextField";
 import {Alert, Button, Snackbar} from "@mui/material";
 

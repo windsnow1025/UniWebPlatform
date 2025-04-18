@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Snackbar} from '@mui/material';
-import AnnouncementLogic from '../../../src/announcement/AnnouncementLogic';
+import AnnouncementLogic from '../../../lib/announcement/AnnouncementLogic';
 import TextContent from "../message/content/text/TextContent";
-import {RawEditableState} from "@/src/common/message/EditableState";
+import {RawEditableState} from "@/lib/common/message/EditableState";
 
 const AnnouncementSnackbar = () => {
   const [alertOpen, setAlertOpen] = useState(false);

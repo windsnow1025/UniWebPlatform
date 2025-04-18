@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Collapse, Paper} from "@mui/material";
 
-import ChatLogic from "../../src/chat/ChatLogic";
+import ChatLogic from "../../lib/chat/ChatLogic";
 import SettingsDiv from "../../app/components/chat/SettingsDiv";
 import SendButton from "../../app/components/chat/SendButton";
 import ChatMessagesDiv from "../../app/components/chat/ChatMessagesDiv";

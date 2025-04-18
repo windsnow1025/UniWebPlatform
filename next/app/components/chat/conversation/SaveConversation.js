@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Button, CircularProgress, Snackbar, TextField } from '@mui/material';
 import { Save as SaveIcon } from '@mui/icons-material';
-import ConversationLogic from "../../../../src/conversation/ConversationLogic";
+import ConversationLogic from "../../../../lib/conversation/ConversationLogic";
 
 function SaveConversation({
                             messages,

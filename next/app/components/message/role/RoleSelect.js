@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Avatar, lighten, Stack, Tooltip, useTheme} from "@mui/material";
-import UserLogic from "../../../../src/common/user/UserLogic";
+import UserLogic from "../../../../lib/common/user/UserLogic";
 import BuildIcon from '@mui/icons-material/Build';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import {MessageRoleEnum} from "../../../../client";
