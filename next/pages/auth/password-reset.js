@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/router";
 import UserLogic from "../../lib/common/user/UserLogic";
 import { Alert, Box, Button, Paper, Snackbar, TextField, Typography } from "@mui/material";
-import { wait } from "../../app/utils/Wait";
+import { wait } from "../../components/common/utils/Wait";
 
 function PasswordReset() {
   useEffect(() => {

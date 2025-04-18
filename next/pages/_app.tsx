@@ -20,8 +20,8 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import UserLogic from "@/lib/common/user/UserLogic";
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
-import EmailVerificationDialog from "@/app/components/common/EmailVerificationDialog";
-import AnnouncementSnackbar from "@/app/components/common/AnnouncementSnackbar";
+import EmailVerificationDialog from "@/components/common/EmailVerificationDialog";
+import AnnouncementSnackbar from "@/components/common/AnnouncementSnackbar";
 
 const NAVIGATION: Navigation = [
   {

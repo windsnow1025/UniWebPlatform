@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Tab, Tabs} from "@mui/material";
-import AuthSettings from "../../app/components/common/settings/auth/AuthSettings";
-import DeveloperSettings from "../../app/components/common/settings/DeveloperSettings";
-import AdminSetting from "../../app/components/common/settings/AdminSetting";
+import AuthSettings from "../../components/common/settings/auth/AuthSettings";
+import DeveloperSettings from "../../components/common/settings/DeveloperSettings";
+import AdminSetting from "../../components/common/settings/AdminSetting";
 import UserLogic from "../../lib/common/user/UserLogic";
-import StorageSettings from "../../app/components/common/settings/StorageSettings";
+import StorageSettings from "../../components/common/settings/StorageSettings";
 
 const Settings = () => {
   const title = "Settings";
