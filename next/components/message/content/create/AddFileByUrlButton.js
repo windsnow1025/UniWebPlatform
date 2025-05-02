@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+import LinkIcon from '@mui/icons-material/Link';
 
 function AddFileByUrlButton({ setUrl, disabled }) {
   const [open, setOpen] = useState(false);
@@ -18,11 +19,12 @@ function AddFileByUrlButton({ setUrl, disabled }) {
       <Button
         variant="outlined"
         size="small"
+        startIcon={<LinkIcon />}
         sx={{ mr: 1 }}
         onClick={() => setOpen(true)}
         disabled={disabled}
       >
-        Add File by URL
+        Add URL
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add File by URL</DialogTitle>
