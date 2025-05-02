@@ -14,7 +14,6 @@ function AddTextButton({ setContent, disabled }) {
       size="small"
       startIcon={<TextSnippetIcon />}
       onClick={handleAddTextContent}
-      sx={{ mr: 1 }}
       disabled={disabled}
     >
       Add Text

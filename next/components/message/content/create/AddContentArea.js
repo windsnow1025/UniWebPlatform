@@ -36,48 +36,50 @@ function AddContentArea({contents, setContents}) {
     <Box sx={{mt: 2}}>
       <Divider/>
 
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        p: 1,
-      }}>
-        <AddTextButton
-          setContent={(content) => setContents([...contents, content])}
-          disabled={isUploading}
-        />
+      <div className="flex">
+        <div className="flex-center mt-1.5">
+          <AddTextButton
+            setContent={(content) => setContents([...contents, content])}
+            disabled={isUploading}
+          />
+        </div>
 
-        <FileUpload
-          files={files}
-          setFiles={(newFiles) => {
-            setFiles(newFiles);
-            const addedFiles = newFiles.slice(files.length);
-            if (addedFiles.length > 0) {
-              handleAddFiles(addedFiles);
-            }
-          }}
-          isUploading={isUploading}
-          setIsUploading={setIsUploading}
-        />
+        <Divider orientation="vertical" flexItem sx={{ ml: 1 }} />
 
-        <AudioRecord
-          setFile={(fileUrl) => handleAddFiles([fileUrl])}
-          isUploading={isUploading}
-          setIsUploading={setIsUploading}
-        />
-
-        <AddFileByUrlButton
-          setUrl={handleAddFileByUrl}
-          disabled={isUploading}
-        />
-
-        <div className="flex-1 ml-1">
-          <FileDropZone
-            setFiles={handleAddFiles}
+        <div className="flex-center mt-1.5 inflex-fill">
+          <FileUpload
+            files={files}
+            setFiles={(newFiles) => {
+              setFiles(newFiles);
+              const addedFiles = newFiles.slice(files.length);
+              if (addedFiles.length > 0) {
+                handleAddFiles(addedFiles);
+              }
+            }}
             isUploading={isUploading}
             setIsUploading={setIsUploading}
           />
+
+          <AudioRecord
+            setFile={(fileUrl) => handleAddFiles([fileUrl])}
+            isUploading={isUploading}
+            setIsUploading={setIsUploading}
+          />
+
+          <AddFileByUrlButton
+            setUrl={handleAddFileByUrl}
+            disabled={isUploading}
+          />
+
+          <div className="flex-1">
+            <FileDropZone
+              setFiles={handleAddFiles}
+              isUploading={isUploading}
+              setIsUploading={setIsUploading}
+            />
+          </div>
         </div>
-      </Box>
+      </div>
     </Box>
   );
 }
