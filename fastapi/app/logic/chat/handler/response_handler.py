@@ -38,6 +38,7 @@ async def stream_handler(
 
         try:
             async for chunk in generator:
+                logging.info(f"chunk: {str(chunk)}")
                 if chunk.text:
                     text += chunk.text
                 if chunk.image:
@@ -48,12 +49,11 @@ async def stream_handler(
                     citations += chunk.citations
                 yield f"data: {json.dumps(serialize(chunk))}\n\n"
 
-            # Credit
-            completion_tokens = num_tokens_from_text(text)
+            chat_response = ChatResponse(text=text, image=image, display=display, citations=citations)
+
+            completion_tokens = calculate_token_count(chat_response)
             await reduce_credit(completion_tokens)
 
-            # Logging
-            chat_response = ChatResponse(text=text, image=image, display=display, citations=citations)
             logging.info(f"content: {str(chat_response)}")
 
         except Exception as e:
@@ -61,3 +61,10 @@ async def stream_handler(
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
 
     return StreamingResponse(wrapper_generator(), media_type='text/event-stream')
+
+
+def calculate_token_count(chat_response: ChatResponse) -> int:
+    text = chat_response.text
+    file_count = 1 if chat_response.image else 0
+
+    return num_tokens_from_text(text) + file_count * 1000
