@@ -148,7 +148,6 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         tabIndex={0}
-        className="focus:outline-none focus:ring-2 focus:ring-primary-500"
       >
         <Typography
           variant="caption"
@@ -156,7 +155,7 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
         >
           {isUploading
             ? "Uploading..."
-            : (smallScreen ? "Drop / Paste" : "Drag & Drop Files or Paste Files from clipboard")}
+            : (smallScreen ? "Drop / Paste" : "Drag & Drop or Paste Files")}
         </Typography>
       </Paper>
       <Snackbar

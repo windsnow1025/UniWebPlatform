@@ -4,6 +4,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import FileUpload from './FileUpload';
 import AudioRecord from './AudioRecord';
 import FileDropZone from './FileDropZone';
+import AddFileByUrlButton from './AddFileByUrlButton';
 import {ContentTypeEnum} from "../../../../client";
 
 function AddContentArea({contents, setContents}) {
@@ -28,6 +29,13 @@ function AddContentArea({contents, setContents}) {
     });
 
     setContents(newContents);
+  };
+
+  const handleAddFileByUrl = (url) => {
+    setContents([
+      ...contents,
+      {type: ContentTypeEnum.File, data: url}
+    ]);
   };
 
   return (
@@ -67,6 +75,11 @@ function AddContentArea({contents, setContents}) {
           setFile={(fileUrl) => handleAddFiles([fileUrl])}
           isUploading={isUploading}
           setIsUploading={setIsUploading}
+        />
+
+        <AddFileByUrlButton
+          setUrl={handleAddFileByUrl}
+          disabled={isUploading}
         />
 
         <div className="flex-1 ml-1">
