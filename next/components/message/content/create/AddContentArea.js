@@ -6,17 +6,11 @@ import AudioRecord from './AudioRecord';
 import FileDropZone from './FileDropZone';
 import AddFileByUrlButton from './AddFileByUrlButton';
 import {ContentTypeEnum} from "../../../../client";
+import AddTextButton from "./AddTextButton";
 
 function AddContentArea({contents, setContents}) {
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-
-  const handleAddTextContent = () => {
-    setContents([
-      ...contents,
-      {type: ContentTypeEnum.Text, data: ''}
-    ]);
-  };
 
   const handleAddFiles = (fileUrls) => {
     const newContents = [...contents];
@@ -47,16 +41,10 @@ function AddContentArea({contents, setContents}) {
         alignItems: 'center',
         p: 1,
       }}>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<TextSnippetIcon/>}
-          onClick={handleAddTextContent}
-          sx={{mr: 1}}
+        <AddTextButton
+          setContent={(content) => setContents([...contents, content])}
           disabled={isUploading}
-        >
-          Add Text
-        </Button>
+        />
 
         <FileUpload
           files={files}
