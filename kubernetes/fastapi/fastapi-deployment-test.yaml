@@ -41,11 +41,16 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: OPENAI_API_KEY
-            - name: GOOGLE_AI_STUDIO_API_KEY
+            - name: GEMINI_FREE_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: app-secret
-                  key: GOOGLE_AI_STUDIO_API_KEY
+                  key: GEMINI_FREE_API_KEY
+            - name: GEMINI_PAID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: GEMINI_PAID_API_KEY
             - name: ANTHROPIC_API_KEY
               valueFrom:
                 secretKeyRef:
