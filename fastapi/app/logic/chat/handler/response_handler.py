@@ -16,11 +16,9 @@ async def non_stream_handler(
         chat_response: ChatResponse,
         reduce_credit: ReduceCredit
 ) -> ChatResponse:
-    # Credit
     completion_tokens = num_tokens_from_text(chat_response.text)
     await reduce_credit(completion_tokens)
 
-    # Logging
     logging.info(f"content: {chat_response}")
 
     return chat_response
