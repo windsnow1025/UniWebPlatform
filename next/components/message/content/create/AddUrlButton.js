@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 
-function AddFileByUrlButton({ setUrl, disabled }) {
+function AddUrlButton({ setUrl, disabled }) {
   const [open, setOpen] = useState(false);
   const [inputUrl, setInputUrl] = useState('');
 
@@ -52,4 +52,4 @@ function AddFileByUrlButton({ setUrl, disabled }) {
   );
 }
 
-export default AddFileByUrlButton;
+export default AddUrlButton;
