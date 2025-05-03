@@ -14,8 +14,7 @@ export default class FileLogic {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (!error.response) {
-          throw new Error('Network error: File in use or connection lost.');
-        }
+          throw new Error("Upload failed: file in use, folder paste not supported, or connection lost.");        }
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
       }
       console.error(error);
