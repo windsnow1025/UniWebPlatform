@@ -71,7 +71,7 @@ function AddContentArea({contents, setContents}) {
             disabled={isUploading}
           />
 
-          <div className="flex-1">
+          <div className="flex-1 m-1">
             <FileDropZone
               setFiles={handleAddFiles}
               isUploading={isUploading}
