@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {Alert, Paper, Snackbar, Typography, useTheme} from '@mui/material';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Paper, Snackbar, Typography, useTheme } from '@mui/material';
 import FileLogic from "../../../../lib/common/file/FileLogic";
 import useScreenSize from "../../../common/hooks/useScreenSize";
 
@@ -15,6 +15,37 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
   const dragCounter = useRef(0);
   const dropzoneRef = useRef(null);
   const fileLogic = useMemo(() => new FileLogic(), []);
+
+  const traverseFileTree = (item, path = "") => {
+    return new Promise((resolve) => {
+      if (item.isFile) {
+        item.file((file) => {
+          file.relativePath = path + file.name;
+          resolve([file]);
+        });
+      } else if (item.isDirectory) {
+        const dirReader = item.createReader();
+        dirReader.readEntries(async (entries) => {
+          let files = [];
+          for (const entry of entries) {
+            files = files.concat(await traverseFileTree(entry, path + item.name + "/"));
+          }
+          resolve(files);
+        });
+      }
+    });
+  };
+
+  const getAllFiles = async (items) => {
+    let files = [];
+    for (let i = 0; i < items.length; i++) {
+      const entry = items[i].webkitGetAsEntry?.();
+      if (entry) {
+        files = files.concat(await traverseFileTree(entry));
+      }
+    }
+    return files;
+  };
 
   const handleDragEnter = useCallback((e) => {
     if (isUploading) return;
@@ -48,12 +79,18 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
 
     if (isUploading) return;
 
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
+    let filesToUpload;
+    const items = e.dataTransfer.items;
+    if (items && items.length && items[0].webkitGetAsEntry) {
+      filesToUpload = await getAllFiles(items);
+    } else {
+      filesToUpload = Array.from(e.dataTransfer.files);
+    }
+
+    if (filesToUpload.length > 0) {
       setIsUploading(true);
       try {
-        const filesArray = Array.from(files);
-        const uploadedUrls = await fileLogic.uploadFiles(filesArray);
+        const uploadedUrls = await fileLogic.uploadFiles(filesToUpload);
         setFiles(uploadedUrls);
 
         setAlertMessage("Files uploaded successfully");
@@ -155,7 +192,7 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
         >
           {isUploading
             ? "Uploading..."
-            : (smallScreen ? "Drop / Paste" : "Drag & Drop or Paste Files")}
+            : (smallScreen ? "Drop / Paste" : "Drop files or folders, Paste files")}
         </Typography>
       </Paper>
       <Snackbar
