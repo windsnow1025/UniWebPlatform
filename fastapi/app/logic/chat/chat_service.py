@@ -5,9 +5,7 @@ from typing import AsyncGenerator
 from llm_bridge import *
 from starlette.responses import StreamingResponse
 
-from app.logic.chat.handler import request_handler
-from app.logic.chat.handler import response_handler
-from app.logic.chat.util import model_pricing
+from app.logic.chat import response_handler, model_pricing
 from app.client import user_logic
 
 
@@ -29,14 +27,10 @@ async def handle_chat_interaction(
             api_type=api_type,
             model=model,
             input_tokens=input_tokens,
-            output_tokens=output_tokens
+            output_tokens=output_tokens,
         )
         await user_logic.reduce_credit(cost, token)
         return cost
-
-    await request_handler.handle_request(
-        messages, reduce_credit
-    )
 
     api_keys = {
         "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY"),
