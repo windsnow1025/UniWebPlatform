@@ -14,9 +14,10 @@ async def non_stream_handler(
         chat_response: ChatResponse,
         reduce_credit: ReduceCredit
 ) -> ChatResponse:
-    await reduce_credit(chat_response.input_tokens, chat_response.output_tokens)
+    cost = await reduce_credit(chat_response.input_tokens, chat_response.output_tokens)
 
     logging.info(f"content: {chat_response}")
+    logging.info(f"cost: {cost}")
 
     return chat_response
 
@@ -59,9 +60,10 @@ async def stream_handler(
                 output_tokens=output_tokens,
             )
 
-            await reduce_credit(input_tokens, output_tokens)
+            cost = await reduce_credit(input_tokens, output_tokens)
 
-            logging.info(f"content: {str(chat_response)}")
+            logging.info(f"content: {chat_response}")
+            logging.info(f"cost: {cost}")
 
         except Exception as e:
             logging.exception("Error in stream_handler")
