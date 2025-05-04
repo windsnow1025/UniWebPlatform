@@ -24,24 +24,18 @@ async def handle_chat_interaction(
 
     await preprocess_messages(messages, api_type)
 
-    async def reduce_credit(prompt_tokens: int, completion_tokens: int) -> float:
+    async def reduce_credit(input_tokens: int, output_tokens: int) -> float:
         cost = model_pricing.calculate_chat_cost(
             api_type=api_type,
             model=model,
-            prompt_tokens=prompt_tokens,
-            completion_tokens=completion_tokens
+            input_tokens=input_tokens,
+            output_tokens=output_tokens
         )
         await user_logic.reduce_credit(cost, token)
         return cost
 
-    async def reduce_prompt_credit(prompt_tokens: int) -> float:
-        return await reduce_credit(prompt_tokens, 0)
-
-    async def reduce_completion_credit(completion_tokens: int) -> float:
-        return await reduce_credit(0, completion_tokens)
-
     await request_handler.handle_request(
-        messages, reduce_prompt_credit
+        messages, reduce_credit
     )
 
     api_keys = {
@@ -70,7 +64,7 @@ async def handle_chat_interaction(
                 generator: AsyncGenerator[ChatResponse, None]
         ) -> StreamingResponse:
             return await response_handler.stream_handler(
-                generator, reduce_prompt_credit
+                generator, reduce_credit
             )
     else:
         response = await chat_client.generate_non_stream_response()
@@ -78,7 +72,7 @@ async def handle_chat_interaction(
                 content: ChatResponse
         ) -> ChatResponse:
             return await response_handler.non_stream_handler(
-                content, reduce_completion_credit
+                content, reduce_credit
             )
 
     return await final_response_handler(response)
