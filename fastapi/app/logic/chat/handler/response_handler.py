@@ -9,15 +9,15 @@ from llm_bridge import *
 from app.logic.chat.util.token_counter import num_tokens_from_text
 
 ChunkGenerator = AsyncGenerator[ChatResponse, None]
-ReduceCredit = Callable[[int], Awaitable[float]]
+ReduceCredit = Callable[[int, int], Awaitable[float]]
 
 
 async def non_stream_handler(
         chat_response: ChatResponse,
         reduce_credit: ReduceCredit
 ) -> ChatResponse:
-    completion_tokens = num_tokens_from_text(chat_response.text)
-    await reduce_credit(completion_tokens)
+    output_tokens = num_tokens_from_text(chat_response.text)
+    await reduce_credit(0, output_tokens)
 
     logging.info(f"content: {chat_response}")
 
@@ -49,8 +49,8 @@ async def stream_handler(
 
             chat_response = ChatResponse(text=text, image=image, display=display, citations=citations)
 
-            completion_tokens = calculate_token_count(chat_response)
-            await reduce_credit(completion_tokens)
+            output_tokens = calculate_token_count(chat_response)
+            await reduce_credit(0, output_tokens)
 
             logging.info(f"content: {str(chat_response)}")
 
