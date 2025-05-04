@@ -6,8 +6,6 @@ from typing import Callable, Awaitable
 from fastapi.responses import StreamingResponse
 from llm_bridge import *
 
-from app.logic.chat.util.token_counter import num_tokens_from_text
-
 ChunkGenerator = AsyncGenerator[ChatResponse, None]
 ReduceCredit = Callable[[int, int], Awaitable[float]]
 
@@ -16,8 +14,7 @@ async def non_stream_handler(
         chat_response: ChatResponse,
         reduce_credit: ReduceCredit
 ) -> ChatResponse:
-    output_tokens = num_tokens_from_text(chat_response.text)
-    await reduce_credit(0, output_tokens)
+    await reduce_credit(chat_response.input_tokens, chat_response.output_tokens)
 
     logging.info(f"content: {chat_response}")
 
@@ -33,6 +30,8 @@ async def stream_handler(
         image = ""
         display = ""
         citations = []
+        input_tokens = 0
+        output_tokens = 0
 
         try:
             async for chunk in generator:
@@ -45,12 +44,22 @@ async def stream_handler(
                     display += chunk.display
                 if chunk.citations:
                     citations += chunk.citations
+                if chunk.input_tokens:
+                    input_tokens = chunk.input_tokens
+                if chunk.output_tokens:
+                    output_tokens += chunk.output_tokens
                 yield f"data: {json.dumps(serialize(chunk))}\n\n"
 
-            chat_response = ChatResponse(text=text, image=image, display=display, citations=citations)
+            chat_response = ChatResponse(
+                text=text,
+                image=image,
+                display=display,
+                citations=citations,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+            )
 
-            output_tokens = calculate_token_count(chat_response)
-            await reduce_credit(0, output_tokens)
+            await reduce_credit(input_tokens, output_tokens)
 
             logging.info(f"content: {str(chat_response)}")
 
@@ -59,10 +68,3 @@ async def stream_handler(
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
 
     return StreamingResponse(wrapper_generator(), media_type='text/event-stream')
-
-
-def calculate_token_count(chat_response: ChatResponse) -> int:
-    text = chat_response.text
-    file_count = 1 if chat_response.image else 0
-
-    return num_tokens_from_text(text) + file_count * 1000

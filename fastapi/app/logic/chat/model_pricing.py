@@ -25,4 +25,4 @@ def calculate_chat_cost(
     output_cost = model_pricing["output"] * (output_tokens / 1_000_000)
     total_cost = input_cost + output_cost
 
-    return total_cost
+    return total_cost * 1.5
