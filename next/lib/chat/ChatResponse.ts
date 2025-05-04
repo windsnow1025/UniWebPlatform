@@ -16,4 +16,6 @@ export interface ChatResponse {
   display?: string;
   citations?: Citation[];
   error?: string;
+  input_tokens?: number;
+  output_tokens?: number;
 }
