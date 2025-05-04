@@ -7,10 +7,10 @@ from app.logic.chat.util.token_counter import num_tokens_from_text
 
 async def handle_request(
         messages: list[Message],
-        reduce_credit: Callable[[int], Awaitable[float]]
+        reduce_credit: Callable[[int, int], Awaitable[float]]
 ) -> float:
-    prompt_tokens = calculate_token_count(messages)
-    return await reduce_credit(prompt_tokens)
+    input_tokens = calculate_token_count(messages)
+    return await reduce_credit(input_tokens, 0)
 
 
 def calculate_token_count(messages: list[Message]) -> int:
