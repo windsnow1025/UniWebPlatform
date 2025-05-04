@@ -5,25 +5,25 @@ from typing import AsyncGenerator
 from llm_bridge import *
 from starlette.responses import StreamingResponse
 
-from app.logic.chat import response_handler, model_pricing
+from app.logic.chat import response_handler
 from app.client import user_logic
 
 
 async def handle_chat_interaction(
         token: str,
-        username: str,
+        user_id: str,
         messages: list[Message],
         model: str,
         api_type: str,
         temperature: float,
         stream: bool,
 ):
-    logging.info(f"username: {username}, model: {model}")
+    logging.info(f"User ID: {user_id}, Model: {model}")
 
     await preprocess_messages(messages, api_type)
 
     async def reduce_credit(input_tokens: int, output_tokens: int) -> float:
-        cost = model_pricing.calculate_chat_cost(
+        cost = calculate_chat_cost(
             api_type=api_type,
             model=model,
             input_tokens=input_tokens,
