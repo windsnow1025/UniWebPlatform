@@ -23,7 +23,7 @@ class ChatRequest(BaseModel):
 async def generate(chat_request: ChatRequest, request: Request):
     try:
         authorization_header = request.headers.get("Authorization")
-        username = auth.get_username_from_token(authorization_header)
+        user_id = auth.get_user_id_from_token(authorization_header)
         token = authorization_header.replace("Bearer ", "")
 
         user = await user_logic.select_user(token)
@@ -34,7 +34,7 @@ async def generate(chat_request: ChatRequest, request: Request):
 
         return await handle_chat_interaction(
             token=token,
-            username=username,
+            user_id=user_id,
             messages=chat_request.messages,
             model=chat_request.model,
             api_type=chat_request.api_type,
