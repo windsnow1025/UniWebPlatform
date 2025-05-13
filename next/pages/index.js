@@ -53,7 +53,7 @@ function Index() {
       icon: <BookmarksIcon/>
     },
     {
-      title: "Password Generator",
+      title: "Password & Encryption Tools",
       description: "Generate secure and customizable passwords",
       icon: <PasswordIcon/>
     },
