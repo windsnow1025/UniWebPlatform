@@ -48,7 +48,7 @@ const NAVIGATION: Navigation = [
   },
   {
     segment: 'password',
-    title: 'Password Generator',
+    title: 'Password & Encryption',
     icon: <PasswordIcon />,
   },
   {
