@@ -10,34 +10,15 @@ import {
   useTheme,
   useMediaQuery
 } from "@mui/material";
+import { TabContext, TabPanel } from "@mui/lab";
 import CreditDiv from "./CreditSection";
 import UsernameSection from "./UsernameSection";
 import EmailSection from "./EmailSection";
 import PasswordSection from "./PasswordSection";
 import AvatarSection from "./AvatarSection";
 
-function TabPanel(props) {
-  const {children, value, index, ...other} = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`account-tabpanel-${index}`}
-      aria-labelledby={`account-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <div className="p-6">
-          {children}
-        </div>
-      )}
-    </div>
-  );
-}
-
 function AccountDiv() {
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState('0');
   const theme = useTheme();
 
   const handleTabChange = (event, newValue) => {
@@ -60,45 +41,47 @@ function AccountDiv() {
         <CreditDiv/>
       </Box>
 
-      <Grid container>
-        <Grid item sx={{ borderRight: 1, borderColor: 'divider' }}>
-          <div className="p-4 flex flex-col items-center">
-            <AvatarSection/>
-          </div>
-          <Divider/>
-          <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={tabValue}
-            onChange={handleTabChange}
-          >
-            <Tab label="Email"/>
-            <Tab label="Username"/>
-            <Tab label="Password"/>
-          </Tabs>
-        </Grid>
+      <TabContext value={tabValue}>
+        <Grid container>
+          <Grid item sx={{ borderRight: 1, borderColor: 'divider' }}>
+            <div className="p-4 flex flex-col items-center">
+              <AvatarSection/>
+            </div>
+            <Divider/>
+            <Tabs
+              orientation="vertical"
+              variant="scrollable"
+              value={tabValue}
+              onChange={handleTabChange}
+            >
+              <Tab label="Email" value="0"/>
+              <Tab label="Username" value="1"/>
+              <Tab label="Password" value="2"/>
+            </Tabs>
+          </Grid>
 
-        <Grid item>
-          <TabPanel value={tabValue} index={0}>
-            <Typography variant="h6" gutterBottom>
-              Email Settings
-            </Typography>
-            <EmailSection/>
-          </TabPanel>
-          <TabPanel value={tabValue} index={1}>
-            <Typography variant="h6" gutterBottom>
-              Update Username
-            </Typography>
-            <UsernameSection/>
-          </TabPanel>
-          <TabPanel value={tabValue} index={2}>
-            <Typography variant="h6" gutterBottom>
-              Change Password
-            </Typography>
-            <PasswordSection/>
-          </TabPanel>
+          <Grid item>
+            <TabPanel value="0">
+              <Typography variant="h6" gutterBottom>
+                Email Settings
+              </Typography>
+              <EmailSection/>
+            </TabPanel>
+            <TabPanel value="1">
+              <Typography variant="h6" gutterBottom>
+                Update Username
+              </Typography>
+              <UsernameSection/>
+            </TabPanel>
+            <TabPanel value="2">
+              <Typography variant="h6" gutterBottom>
+                Change Password
+              </Typography>
+              <PasswordSection/>
+            </TabPanel>
+          </Grid>
         </Grid>
-      </Grid>
+      </TabContext>
     </Paper>
   );
 }
