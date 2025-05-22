@@ -18,7 +18,7 @@ function SendButton({
                     }) {
   const chatLogic = new ChatLogic();
 
-  const currentRequestIndex = useRef(0);
+  const latestRequestIndex = useRef(0);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -41,8 +41,8 @@ function SendButton({
   const handleNonStreamGenerate = async (currentReqIndex) => {
     const content = await chatLogic.nonStreamGenerate(messages, apiType, model, temperature);
 
-    if (currentRequestIndex.current !== currentReqIndex || !isGeneratingRef.current) {
-      return;
+    if (latestRequestIndex.current !== currentReqIndex || !isGeneratingRef.current) {
+      return false;
     }
 
     const imageUrl = await chatLogic.getImageUrl(content.image);
@@ -52,6 +52,8 @@ function SendButton({
       chatLogic.createAssistantMessage(content.text, content.display, imageUrl),
       chatLogic.emptyUserMessage,
     ]);
+
+    return true;
   };
 
   const handleStreamGenerate = async (currentReqIndex) => {
@@ -59,8 +61,8 @@ function SendButton({
     const generator = chatLogic.streamGenerate(messages, apiType, model, temperature);
 
     for await (const chunk of generator) {
-      if (!(currentReqIndex === currentRequestIndex.current && isGeneratingRef.current)) {
-        return;
+      if (!(currentReqIndex === latestRequestIndex.current && isGeneratingRef.current)) {
+        return false;
       }
 
       const scrollableContainer = document.querySelector('#chat-messages');
@@ -90,6 +92,8 @@ function SendButton({
     }
 
     setMessages(prevMessages => [...prevMessages, chatLogic.emptyUserMessage]);
+
+    return true;
   };
 
   const switchStatus = (status) => {
@@ -107,21 +111,24 @@ function SendButton({
 
     if (!isGenerating) {
       switchStatus(true);
-      currentRequestIndex.current += 1;
-      const currentReqIndex = currentRequestIndex.current;
+      latestRequestIndex.current += 1;
+      const currentReqIndex = latestRequestIndex.current;
 
       try {
+        let success;
         if (stream) {
-          await handleStreamGenerate(currentReqIndex);
+          success = await handleStreamGenerate(currentReqIndex);
         } else {
-          await handleNonStreamGenerate(currentReqIndex);
+          success = await handleNonStreamGenerate(currentReqIndex);
+        }
+        if (success) {
+          switchStatus(false);
         }
       } catch (error) {
         setAlertMessage(error.message);
         setAlertSeverity('error');
         setAlertOpen(true);
       } finally {
-        switchStatus(false);
         setConversationUpdateTrigger(true);
       }
     } else {
