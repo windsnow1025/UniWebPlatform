@@ -1,7 +1,7 @@
 import logging
 
 from fastapi import APIRouter, HTTPException, Request
-from llm_bridge import Message, get_model_prices
+from llm_bridge import Message, get_model_prices, ModelPrice, find_model_prices
 from pydantic import BaseModel
 
 import app.logic.auth as auth
@@ -22,6 +22,9 @@ class ChatRequest(BaseModel):
 @chat_router.post("/chat")
 async def generate(chat_request: ChatRequest, request: Request):
     try:
+        if find_model_prices(chat_request.api_type, chat_request.model) is None:
+            raise HTTPException(status_code=400, detail="Invalid API Type and Model combination")
+
         authorization_header = request.headers.get("Authorization")
         user_id = auth.get_user_id_from_token(authorization_header)
         token = authorization_header.replace("Bearer ", "")
@@ -49,5 +52,5 @@ async def generate(chat_request: ChatRequest, request: Request):
 
 
 @chat_router.get("/model")
-async def get_models() -> list[dict]:
+async def get_models() -> list[ModelPrice]:
     return get_model_prices()
