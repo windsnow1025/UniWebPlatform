@@ -16,6 +16,8 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
   const dropzoneRef = useRef(null);
   const fileLogic = useMemo(() => new FileLogic(), []);
 
+  const [isFocused, setIsFocused] = useState(false);
+
   const traverseFileTree = (item, path = "") => {
     return new Promise((resolve) => {
       if (item.isFile) {
@@ -156,17 +158,25 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
     };
   }, [handlePaste]);
 
+  const handleFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
+  const handleBlur = useCallback(() => {
+    setIsFocused(false);
+  }, []);
+
   return (
     <>
       <Paper
         ref={dropzoneRef}
-        elevation={isDragging ? 3 : 1}
+        elevation={isDragging || isFocused ? 3 : 1}
         sx={{
           p: 1,
-          border: isDragging
+          border: isDragging || isFocused
             ? `1px dashed ${theme.palette.primary.main}`
             : `1px dashed ${theme.palette.divider}`,
-          backgroundColor: isDragging
+          backgroundColor: isDragging || isFocused
             ? `${theme.palette.primary.light}20`
             : isUploading
               ? `${theme.palette.action.disabledBackground}`
@@ -184,15 +194,19 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         tabIndex={0}
       >
         <Typography
           variant="caption"
-          color={isDragging ? "primary" : isUploading ? "textSecondary" : "textSecondary"}
+          color={isDragging || isFocused ? "primary" : isUploading ? "textSecondary" : "textSecondary"}
         >
-          {isUploading
-            ? "Uploading..."
-            : (smallScreen ? "Drop / Paste" : "Drop files or folders, Paste files")}
+          {isDragging
+            ? "Release to add files or folders"
+            : isFocused
+              ? "Press Ctrl+V to paste files"
+              : (smallScreen ? "Drop / Paste" : "Drop files or folders, Paste files")}
         </Typography>
       </Paper>
       <Snackbar
