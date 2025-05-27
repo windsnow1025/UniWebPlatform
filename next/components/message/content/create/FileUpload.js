@@ -17,6 +17,7 @@ function FileUpload({files, setFiles, isUploading, setIsUploading}) {
     event.preventDefault();
     const fileList = fileInputRef.current.files;
     await handleUpload(fileList);
+    fileInputRef.current.value = '';
   };
 
   const handleFolderUpload = async (event) => {
