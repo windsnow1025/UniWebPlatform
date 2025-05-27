@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+import React, {useState} from 'react';
+import {
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Tooltip,
+  Button,
+  CircularProgress
+} from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 
-function AddUrlButton({ setUrl, disabled }) {
+function UrlAdd({setUrl, isUploading}) {
   const [open, setOpen] = useState(false);
   const [inputUrl, setInputUrl] = useState('');
 
@@ -16,16 +26,15 @@ function AddUrlButton({ setUrl, disabled }) {
 
   return (
     <>
-      <Button
-        variant="outlined"
-        size="small"
-        startIcon={<LinkIcon />}
-        sx={{ mr: 1 }}
-        onClick={() => setOpen(true)}
-        disabled={disabled}
-      >
-        Add URL
-      </Button>
+      <Tooltip title="Add URL">
+        <IconButton
+          onClick={() => setOpen(true)}
+          disabled={isUploading}
+          size="small"
+        >
+          {isUploading ? <CircularProgress size={20}/> : <LinkIcon fontSize="small"/>}
+        </IconButton>
+      </Tooltip>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add File by URL</DialogTitle>
         <DialogContent>
@@ -52,4 +61,4 @@ function AddUrlButton({ setUrl, disabled }) {
   );
 }
 
-export default AddUrlButton;
+export default UrlAdd;

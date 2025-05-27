@@ -4,7 +4,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import FileUpload from './FileUpload';
 import AudioRecord from './AudioRecord';
 import FileDropZone from './FileDropZone';
-import AddUrlButton from './AddUrlButton';
+import UrlAdd from './UrlAdd';
 import {ContentTypeEnum} from "../../../../client";
 import AddTextButton from "./AddTextButton";
 
@@ -66,9 +66,9 @@ function AddContentArea({contents, setContents}) {
             setIsUploading={setIsUploading}
           />
 
-          <AddUrlButton
+          <UrlAdd
             setUrl={handleAddFileByUrl}
-            disabled={isUploading}
+            isUploading={isUploading}
           />
 
           <div className="flex-1 m-1">
