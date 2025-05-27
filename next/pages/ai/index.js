@@ -75,16 +75,14 @@ function AIChat() {
               />
             </div>
           </div>
-          <Paper elevation={0} className="local-scroll-unscrollable-y">
-            <div className="local-scroll-scrollable px-1" id="chat-messages">
-              <ChatMessagesDiv
-                messages={messages}
-                setMessages={setMessages}
-                setIsGenerating={setIsGenerating}
-                isGeneratingRef={isGeneratingRef}
-                setConversationUpdateTrigger={setConversationUpdateTrigger}
-              />
-            </div>
+          <Paper elevation={0} className="local-scroll-scrollable px-1">
+            <ChatMessagesDiv
+              messages={messages}
+              setMessages={setMessages}
+              setIsGenerating={setIsGenerating}
+              isGeneratingRef={isGeneratingRef}
+              setConversationUpdateTrigger={setConversationUpdateTrigger}
+            />
           </Paper>
           <div className="flex-around">
             <SendButton
