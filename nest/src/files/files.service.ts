@@ -41,4 +41,8 @@ export class FilesService {
       }),
     );
   }
+
+  async getUserTotalSize(userId: number): Promise<number> {
+    return this.minioService.getTotalSize(`uploads/${userId}/`);
+  }
 }
