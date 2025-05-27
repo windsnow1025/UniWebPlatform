@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import GuidedTour from '../GuidedTour';
+import GuidedTour from '../common/GuidedTour';
 import {Button} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
