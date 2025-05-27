@@ -13,13 +13,20 @@ import { FilesService } from './files.service';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { FilesResDto } from './dto/files.res.dto';
 import { FilesReqDto } from './dto/files.req.dto';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+
+const multerOptions: MulterOptions = {
+  limits: {
+    fileSize: 16 * 1024 * 1024, // 16MB
+  },
+};
 
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
   @Post()
-  @UseInterceptors(AnyFilesInterceptor())
+  @UseInterceptors(AnyFilesInterceptor(multerOptions))
   async uploadFiles(
     @Req() req: RequestWithUser,
     @UploadedFiles() files: Array<Express.Multer.File>,
