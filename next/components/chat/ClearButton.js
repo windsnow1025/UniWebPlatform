@@ -21,6 +21,7 @@ function ClearButton({
   return (
     <div className="m-2">
       <Button
+        id="clear-button"
         variant="contained"
         color="secondary"
         onClick={handleClear}

@@ -7,7 +7,10 @@ const ToggleDrawerButton = ({drawerOpen, setDrawerOpen}) => {
   return (
     <div className="m-2">
       <Tooltip title="Conversations">
-        <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
+        <IconButton 
+          id="toggle-conversation-button"
+          onClick={() => setDrawerOpen(!drawerOpen)}
+        >
           {drawerOpen ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
         </IconButton>
       </Tooltip>
