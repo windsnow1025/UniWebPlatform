@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  PayloadTooLargeException,
   Post,
   Req,
   UploadedFiles,
@@ -32,6 +33,16 @@ export class FilesController {
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
     const userId = req.user.id;
+
+    const currentTotalSize = await this.filesService.getUserTotalSize(userId);
+    const newFilesTotalSize = files.reduce((acc, file) => acc + file.size, 0);
+
+    const maxTotalSize = 256 * 1024 * 1024; // 256MB
+    if (currentTotalSize + newFilesTotalSize > maxTotalSize) {
+      throw new PayloadTooLargeException(
+        `Total file size limit exceeded. Max allowed: ${maxTotalSize / (1024 * 1024)}MB`,
+      );
+    }
 
     const fileUrls = await Promise.all(
       files.map(async (file) => {

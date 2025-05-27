@@ -96,4 +96,11 @@ export class MinioService implements OnModuleInit {
   async removeObject(fileName: string): Promise<void> {
     await this.minioClient.removeObject(this.bucketName, fileName);
   }
+
+  async getTotalSize(prefix: string): Promise<number> {
+    const objects = await this.minioClient
+      .listObjects(this.bucketName, prefix, true)
+      .toArray();
+    return objects.reduce((acc, obj) => acc + (obj.size || 0), 0);
+  }
 }
