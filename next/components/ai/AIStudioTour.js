@@ -32,6 +32,11 @@ const steps = [
     placement: 'bottom',
   },
   {
+    target: '.markdown-body',
+    content: 'Type your message here. You can use markdown formatting for rich text.',
+    placement: 'bottom',
+  },
+  {
     target: '#send',
     content: 'Click this button to send your message to the AI.',
     placement: 'top',
