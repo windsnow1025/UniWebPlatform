@@ -9,6 +9,11 @@ const GuidedTour = ({steps, run, callback}) => {
       callback={callback}
       continuous
       disableScrollParentFix={true}
+      styles={{
+        options: {
+          zIndex: 9999
+        }
+      }}
     />
   );
 };
