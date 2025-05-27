@@ -20,15 +20,11 @@ function MessageDiv({
                       onMessageDelete = null,
                     }) {
   const theme = useTheme();
-  const [showPreview, setShowPreview] = useState(message.role === MessageRoleEnum.Assistant);
-
-  useEffect(() => {
-    console.log(message)
-  }, [message]);
+  const [showPreview, setShowPreview] = useState(message.role !== MessageRoleEnum.User);
 
   const handleRoleChange = (newRole) => {
     setMessage({...message, role: newRole});
-    setShowPreview(newRole === MessageRoleEnum.Assistant);
+    setShowPreview(newRole !== MessageRoleEnum.User);
   };
 
   const handleContentsChange = (newContents) => {
@@ -103,7 +99,7 @@ function MessageDiv({
               {showPreview ? <VisibilityOffIcon fontSize="small"/> : <VisibilityIcon fontSize="small"/>}
             </IconButton>
           </Tooltip>
-          
+
           {rawEditableState === RawEditableState.AlwaysFalse && (
             <Tooltip title="Copy Message">
               <IconButton aria-label="copy" onClick={handleCopyMessage}>
