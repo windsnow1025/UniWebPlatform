@@ -9,6 +9,7 @@ import ClearButton from "../../components/chat/ClearButton";
 import ConversationSidebar from "../../components/chat/conversation/ConversationSidebar";
 import ToggleConversationButton from "../../components/chat/conversation/ToggleConversationButton";
 import useScreenSize from '../../components/common/hooks/useScreenSize';
+import AIStudioTour from '../../components/common/tours/AIStudioTour';
 
 function AIChat() {
   const screenSize = useScreenSize();
@@ -107,6 +108,7 @@ function AIChat() {
           </div>
         </div>
       </div>
+      <AIStudioTour />
     </div>
   );
 }
