@@ -12,11 +12,6 @@ const steps = [
     disableBeacon: true,
   },
   {
-    target: '#toggle-conversation-button',
-    content: 'Click here to show or hide the conversation sidebar.',
-    placement: 'bottom',
-  },
-  {
     target: '#api-type-select',
     content: 'Select the API type for your AI model here.',
     placement: 'bottom',
@@ -27,13 +22,28 @@ const steps = [
     placement: 'bottom',
   },
   {
-    target: '#temperature',
-    content: 'Adjust the temperature to control the randomness of the AI responses.',
+    target: 'div[style*="justify-content: center"] .markdown-body',
+    content: 'This is the system message that provides instructions to the AI. It sets the behavior and capabilities of the assistant.',
     placement: 'bottom',
   },
   {
-    target: '.markdown-body',
-    content: 'Type your message here. You can use markdown formatting for rich text.',
+    target: '[aria-label="toggle-preview"]',
+    content: 'Toggle between edit mode and preview mode. Edit mode allows you to modify the message, while preview mode shows how it will be rendered.',
+    placement: 'bottom',
+  },
+  {
+    target: 'div[style*="justify-content: flex-end"] .markdown-body',
+    content: 'Type your question here. You can use markdown formatting for rich text.',
+    placement: 'bottom',
+  },
+  {
+    target: '.flex-center.mt-1\\.5.inflex-fill',
+    content: 'You can upload files to share with the AI. Click the paperclip icon to upload individual files or the folder icon to upload entire folders.',
+    placement: 'bottom',
+  },
+  {
+    target: '.cursor-move',
+    content: 'Use this drag button to reorder your content. For better AI understanding, try to drag your text question after the uploaded files, so the AI can better understand what you want to do with the files.',
     placement: 'bottom',
   },
   {
@@ -45,6 +55,11 @@ const steps = [
     target: '#clear-button',
     content: 'Use this button to clear the current conversation and start fresh.',
     placement: 'top',
+  },
+  {
+    target: '#toggle-conversation-button',
+    content: 'Click this button to toggle the conversation drawer. It allows you to switch between different conversations or start a new one.',
+    placement: 'left',
   },
   {
     target: 'body',
