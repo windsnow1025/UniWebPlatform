@@ -2,14 +2,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Collapse, Paper} from "@mui/material";
 
 import ChatLogic from "../../lib/chat/ChatLogic";
-import SettingsDiv from "../../components/chat/SettingsDiv";
-import SendButton from "../../components/chat/SendButton";
-import ChatMessagesDiv from "../../components/chat/ChatMessagesDiv";
-import ClearButton from "../../components/chat/ClearButton";
-import ConversationSidebar from "../../components/chat/conversation/ConversationSidebar";
-import ToggleConversationButton from "../../components/chat/conversation/ToggleConversationButton";
+import SettingsDiv from "../../components/ai/SettingsDiv";
+import SendButton from "../../components/ai/SendButton";
+import ChatMessagesDiv from "../../components/ai/ChatMessagesDiv";
+import ClearButton from "../../components/ai/ClearButton";
+import ConversationSidebar from "../../components/ai/conversation/ConversationSidebar";
+import ToggleConversationButton from "../../components/ai/conversation/ToggleConversationButton";
 import useScreenSize from '../../components/common/hooks/useScreenSize';
-import AIStudioTour from '../../components/common/tours/AIStudioTour';
+import AIStudioTour from '../../components/ai/AIStudioTour';
 
 function AIChat() {
   const screenSize = useScreenSize();
