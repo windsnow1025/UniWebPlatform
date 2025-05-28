@@ -50,6 +50,7 @@ Log in as root user
    unzip kubernetes.zip
    rm kubernetes.zip
    mv kubernetes UniWebPlatform
+   cd UniWebPlatform/
    ```
 
 #### K3S Installation and Configuration
