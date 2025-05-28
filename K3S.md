@@ -2,28 +2,17 @@
 
 ## Install K3S
 
-1. Prerequisites (WSL2)
-   ```bash
-   apt install curl iptables
-   ```
-   ```bash
-   sudo swapoff -a
-   ```
-   ```bash
-   /usr/local/bin/k3s-uninstall.sh
-   ```
-
-2. Install K3S
+1. Install K3S
    ```bash
    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--service-node-port-range=30000-39001 --disable=traefik" sh -
    ```
 
-3. Verify Installation
+2. Verify Installation
    ```bash
    sudo k3s kubectl get node
    ```
 
-4. Copy Kubernetes Config
+3. Copy Kubernetes Config
    ```bash
    cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
    ```
