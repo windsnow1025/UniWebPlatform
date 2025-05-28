@@ -75,7 +75,7 @@ function AIChat() {
               />
             </div>
           </div>
-          <Paper elevation={0} className="local-scroll-scrollable px-1">
+          <Paper elevation={0} className="local-scroll-scrollable px-1" id="chat-messages">
             <ChatMessagesDiv
               messages={messages}
               setMessages={setMessages}
