@@ -125,6 +125,7 @@ function SendButton({
           switchStatus(false);
         }
       } catch (error) {
+        switchStatus(false);
         setAlertMessage(error.message);
         setAlertSeverity('error');
         setAlertOpen(true);
