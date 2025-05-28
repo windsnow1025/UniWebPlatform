@@ -15,13 +15,13 @@ Authorization: {{token}}
       "contents": [
         {
           "type": "text",
-          "data": "Generate a random paragraph."
+          "data": "Explain the concept of Occam's Razor and provide a simple, everyday example."
         }
       ]
     }
   ],
-  "model": "gemini-2.0-flash-exp",
-  "api_type": "Gemini",
+  "model": "claude-sonnet-4-0",
+  "api_type": "Claude",
   "temperature": 0,
   "stream": true
 }
