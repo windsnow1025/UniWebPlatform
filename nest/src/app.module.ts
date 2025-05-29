@@ -22,8 +22,6 @@ import { Announcement } from './announcement/announcement.entity';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { EmailVerificationGuard } from './common/guards/email-verification.guard';
 import { CacheModule } from '@nestjs/cache-manager';
-import { Keyv } from 'keyv';
-import { CacheableMemory } from 'cacheable';
 import { createKeyv } from '@keyv/redis';
 
 @Module({
@@ -47,6 +45,7 @@ import { createKeyv } from '@keyv/redis';
       }),
     }),
     CacheModule.registerAsync({
+      isGlobal: true,
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
@@ -56,9 +55,6 @@ import { createKeyv } from '@keyv/redis';
 
         return {
           stores: [
-            new Keyv({
-              store: new CacheableMemory({ ttl: 60000, lruSize: 5000 }),
-            }),
             createKeyv(
               `redis://:${encodeURIComponent(redisPassword)}@${redisHost}:${redisPort}`,
             ),
