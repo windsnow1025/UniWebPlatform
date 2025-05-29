@@ -33,7 +33,6 @@ export default () => {
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
     },
-    jwtSecret: process.env.JWT_SECRET,
     minio: {
       endPoint: process.env.MINIO_HOST,
       port: 9000,
@@ -43,6 +42,12 @@ export default () => {
       bucketName: process.env.MINIO_BUCKET_NAME,
       webUrl: process.env.MINIO_WEB_URL,
     },
+    redis: {
+      host: process.env.REDIS_HOST,
+      port: 6379,
+      password: process.env.REDIS_PASSWORD,
+    },
+    jwtSecret: process.env.JWT_SECRET,
     firebaseConfig: firebaseConfig,
     serviceAccountKey: serviceAccountKey,
   };
