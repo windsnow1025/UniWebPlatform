@@ -69,6 +69,16 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: MINIO_BUCKET_NAME
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: REDIS_HOST
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: REDIS_PASSWORD
             - name: MINIO_WEB_URL
               valueFrom:
                 secretKeyRef:

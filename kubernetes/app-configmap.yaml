@@ -7,3 +7,4 @@ data:
   NEST_HOST: "nest-service"
   MYSQL_HOST: "mysql-service"
   MINIO_HOST: "minio-service"
+  REDIS_HOST: "redis-service"
