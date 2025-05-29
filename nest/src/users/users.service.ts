@@ -1,9 +1,10 @@
 import {
+  BadRequestException,
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
-  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,12 +14,15 @@ import { Role } from '../common/enums/role.enum';
 import { UserResDto } from './dto/user.res.dto';
 import { FirebaseService } from './firebase.service';
 import { FirebaseAdminService } from './firebase-admin.service';
+import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @Inject(CACHE_MANAGER)
+    private cacheManager: Cache,
     private readonly firebaseService: FirebaseService,
     private readonly firebaseAdminService: FirebaseAdminService,
   ) {}
@@ -41,6 +45,10 @@ export class UsersService {
     return await bcrypt.compare(password, hash);
   }
 
+  private getUserCacheKey(id: number): string {
+    return `user:${id}`;
+  }
+
   private async hashPassword(password: string) {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(password, salt);
@@ -51,8 +59,18 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOneById(id: number) {
-    return this.usersRepository.findOneBy({ id });
+  async findOneById(id: number) {
+    const cacheKey = this.getUserCacheKey(id);
+    let user = await this.cacheManager.get<User>(cacheKey);
+    if (user) {
+      return user;
+    }
+
+    user = await this.usersRepository.findOneBy({ id });
+    if (user) {
+      await this.cacheManager.set(cacheKey, user, 3600000);
+    }
+    return user;
   }
 
   findOneByUsername(username: string) {
@@ -108,6 +126,7 @@ export class UsersService {
 
     user.emailVerified = true;
 
+    await this.cacheManager.del(this.getUserCacheKey(user.id));
     return await this.usersRepository.save(user);
   }
 
@@ -123,11 +142,8 @@ export class UsersService {
 
     user.password = await this.hashPassword(password);
 
+    await this.cacheManager.del(this.getUserCacheKey(user.id));
     return await this.usersRepository.save(user);
-  }
-
-  async deleteAllFirebaseUsers() {
-    await this.firebaseAdminService.deleteAllUsers();
   }
 
   async updateEmail(id: number, email: string) {
@@ -147,6 +163,7 @@ export class UsersService {
     user.email = email;
     user.emailVerified = false;
 
+    await this.cacheManager.del(this.getUserCacheKey(id));
     return await this.usersRepository.save(user);
   }
 
@@ -166,6 +183,7 @@ export class UsersService {
 
     user.username = username;
 
+    await this.cacheManager.del(this.getUserCacheKey(id));
     return await this.usersRepository.save(user);
   }
 
@@ -177,6 +195,7 @@ export class UsersService {
 
     user.password = await this.hashPassword(password);
 
+    await this.cacheManager.del(this.getUserCacheKey(id));
     return await this.usersRepository.save(user);
   }
 
@@ -187,6 +206,8 @@ export class UsersService {
     }
 
     user.avatar = avatarUrl;
+
+    await this.cacheManager.del(this.getUserCacheKey(id));
     return await this.usersRepository.save(user);
   }
 
@@ -205,6 +226,7 @@ export class UsersService {
     user.roles = roles;
     user.credit = credit;
 
+    await this.cacheManager.del(this.getUserCacheKey(user.id));
     return await this.usersRepository.save(user);
   }
 
@@ -219,10 +241,17 @@ export class UsersService {
     }
 
     user.credit -= amount;
+
+    await this.cacheManager.del(this.getUserCacheKey(id));
     return await this.usersRepository.save(user);
   }
 
-  remove(id: number) {
-    return this.usersRepository.delete(id);
+  async remove(id: number) {
+    await this.cacheManager.del(this.getUserCacheKey(id));
+    return await this.usersRepository.delete(id);
+  }
+
+  async deleteAllFirebaseUsers() {
+    await this.firebaseAdminService.deleteAllUsers();
   }
 }
