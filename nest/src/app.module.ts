@@ -21,6 +21,10 @@ import { MarkdownsModule } from './markdowns/markdowns.module';
 import { Announcement } from './announcement/announcement.entity';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { EmailVerificationGuard } from './common/guards/email-verification.guard';
+import { CacheModule } from '@nestjs/cache-manager';
+import { Keyv } from 'keyv';
+import { CacheableMemory } from 'cacheable';
+import { createKeyv } from '@keyv/redis';
 
 @Module({
   imports: [
@@ -41,6 +45,26 @@ import { EmailVerificationGuard } from './common/guards/email-verification.guard
         entities: [User, Bookmark, Conversation, Markdown, Announcement],
         synchronize: true,
       }),
+    }),
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const redisHost = configService.get<string>('redis.host');
+        const redisPort = configService.get<number>('redis.port');
+        const redisPassword = configService.get<string>('redis.password')!;
+
+        return {
+          stores: [
+            new Keyv({
+              store: new CacheableMemory({ ttl: 60000, lruSize: 5000 }),
+            }),
+            createKeyv(
+              `redis://:${encodeURIComponent(redisPassword)}@${redisHost}:${redisPort}`,
+            ),
+          ],
+        };
+      },
     }),
     JwtModule,
     AuthModule,
