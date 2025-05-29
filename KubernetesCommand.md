@@ -17,6 +17,10 @@ kubectl apply -f ./minio/minio-pvc.yaml
 kubectl apply -f ./minio/minio-deployment.yaml
 kubectl apply -f ./minio/minio-service.yaml
 
+# Redis
+kubectl apply -f ./redis/redis-deployment.yaml
+kubectl apply -f ./redis/redis-service.yaml
+
 # Nest.js
 kubectl apply -f ./nest/nest-service.yaml
 
@@ -32,7 +36,7 @@ kubectl apply -f ./nginx/nginx-deployment.yaml
 kubectl apply -f ./nginx/nginx-service.yaml
 ```
 
-### Main
+### Production
 
 ```bash
 # App
@@ -75,6 +79,9 @@ kubectl rollout restart deployment mysql-deployment
 
 # MinIO
 kubectl rollout restart deployment minio-deployment
+
+# Redis
+kubectl rollout restart deployment redis-deployment
 
 # Nest.js
 kubectl rollout restart deployment nest-deployment
