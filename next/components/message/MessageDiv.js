@@ -95,21 +95,21 @@ function MessageDiv({
           <div className="inflex-fill"></div>
 
           <Tooltip title={showPreview ? "Edit Mode" : "Preview Mode"}>
-            <IconButton aria-label="toggle-preview" onClick={togglePreview}>
+            <IconButton size="small" onClick={togglePreview}>
               {showPreview ? <VisibilityOffIcon fontSize="small"/> : <VisibilityIcon fontSize="small"/>}
             </IconButton>
           </Tooltip>
 
           {rawEditableState === RawEditableState.AlwaysFalse && (
             <Tooltip title="Copy Message">
-              <IconButton aria-label="copy" onClick={handleCopyMessage}>
+              <IconButton size="small" onClick={handleCopyMessage}>
                 <ContentCopyIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
           )}
           {onMessageDelete && (
             <Tooltip title="Delete Message">
-              <IconButton aria-label="delete" onClick={onMessageDelete}>
+              <IconButton size="small" onClick={onMessageDelete}>
                 <RemoveCircleOutlineIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
