@@ -58,15 +58,15 @@ function RoleSelect({role, setRole}) {
             onClick={() => setRole(type)}
             sx={{
               cursor: "pointer",
-              width: 32,
-              height: 32,
+              width: 30,
+              height: 30,
               transition: "border 0.5s ease, background-color 0.5s ease",
               backgroundColor: role === type ? color : theme.palette.text.disabled,
-              border: role !== type || "2px solid transparent",
+              border: role === type ? "2px solid transparent" : "none",
             }}
-            src={avatar && type === MessageRoleEnum.User ? avatar : undefined}
+            src={avatar}
           >
-            {!avatar || type !== MessageRoleEnum.User ? label : null}
+            {label}
           </Avatar>
         </Tooltip>
       ))}
