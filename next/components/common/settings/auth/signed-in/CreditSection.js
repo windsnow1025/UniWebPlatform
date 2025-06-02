@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react';
 import {CircularProgress, Typography} from "@mui/material";
 import UserLogic from "../../../../../lib/common/user/UserLogic";
 
-function CreditSection() {
+function CreditSection({ refreshKey = 0 }) {
   const userLogic = new UserLogic();
 
   const [credit, setCredit] = useState(null);
@@ -19,7 +19,7 @@ function CreditSection() {
     };
 
     fetchCredit();
-  }, []);
+  }, [refreshKey]);
 
   return (
     <>
@@ -32,4 +32,4 @@ function CreditSection() {
   );
 }
 
-export default memo(CreditSection);
+export default CreditSection;
