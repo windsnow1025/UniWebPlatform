@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Collapse, Paper} from "@mui/material";
 
 import ChatLogic from "../../lib/chat/ChatLogic";
-import SettingsDiv from "../../components/ai/SettingsDiv";
+import ConfigDiv from "../../components/ai/ConfigDiv";
 import SendButton from "../../components/ai/SendButton";
 import ChatMessagesDiv from "../../components/ai/ChatMessagesDiv";
 import ClearButton from "../../components/ai/ClearButton";
@@ -62,7 +62,7 @@ function AIChat() {
               setDrawerOpen={setDrawerOpen}
             />
             <div className="grow">
-              <SettingsDiv
+              <ConfigDiv
                 apiType={apiType}
                 setApiType={setApiType}
                 model={model}
