@@ -39,7 +39,7 @@ function AIChat() {
 
   // Conversation
   const [selectedConversationId, setSelectedConversationId] = useState(null);
-  const [conversationUpdateTrigger, setConversationUpdateTrigger] = useState(false);
+  const [conversationUpdateKey, setConversationUpdateKey] = useState(0);
 
   return (
     <div className="local-scroll-container">
@@ -51,8 +51,7 @@ function AIChat() {
               setMessages={setMessages}
               selectedConversationId={selectedConversationId}
               setSelectedConversationId={setSelectedConversationId}
-              conversationUpdateTrigger={conversationUpdateTrigger}
-              setConversationUpdateTrigger={setConversationUpdateTrigger}
+              conversationUpdateKey={conversationUpdateKey}
             />
           </Collapse>
         </Paper>
@@ -81,7 +80,7 @@ function AIChat() {
               setMessages={setMessages}
               setIsGenerating={setIsGenerating}
               isGeneratingRef={isGeneratingRef}
-              setConversationUpdateTrigger={setConversationUpdateTrigger}
+              setConversationUpdateKey={setConversationUpdateKey}
             />
           </Paper>
           <div className="flex-around">
@@ -89,7 +88,7 @@ function AIChat() {
               isGenerating={isGenerating}
               setIsGenerating={setIsGenerating}
               isGeneratingRef={isGeneratingRef}
-              setConversationUpdateTrigger={setConversationUpdateTrigger}
+              setConversationUpdateKey={setConversationUpdateKey}
               messages={messages}
               setMessages={setMessages}
               apiType={apiType}

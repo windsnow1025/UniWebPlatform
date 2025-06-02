@@ -7,7 +7,7 @@ function ChatMessagesDiv({
                            setMessages,
                            setIsGenerating,
                            isGeneratingRef,
-                           setConversationUpdateTrigger
+                           setConversationUpdateKey
                          }) {
   const handleMessageUpdate = (id, updatedMessage) => {
     setMessages((prevMessages) =>
@@ -23,7 +23,7 @@ function ChatMessagesDiv({
 
     setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== id));
 
-    setConversationUpdateTrigger(true);
+    setConversationUpdateKey(prev => prev + 1);
   };
 
   return (
@@ -34,7 +34,7 @@ function ChatMessagesDiv({
         index={-1}
         setIsGenerating={setIsGenerating}
         isGeneratingRef={isGeneratingRef}
-        setConversationUpdateTrigger={setConversationUpdateTrigger}
+        setConversationUpdateKey={setConversationUpdateKey}
       />
       {messages.map((message, index) => (
         <div key={message.id}>
@@ -50,7 +50,7 @@ function ChatMessagesDiv({
             index={index}
             setIsGenerating={setIsGenerating}
             isGeneratingRef={isGeneratingRef}
-            setConversationUpdateTrigger={setConversationUpdateTrigger}
+            setConversationUpdateKey={setConversationUpdateKey}
           />
         </div>
       ))}
