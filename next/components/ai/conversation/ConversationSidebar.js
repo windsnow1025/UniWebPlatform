@@ -22,8 +22,7 @@ function ConversationSidebar({
                                setMessages,
                                selectedConversationId,
                                setSelectedConversationId,
-                               conversationUpdateTrigger,
-                               setConversationUpdateTrigger,
+                               conversationUpdateKey,
                              }) {
   const [conversations, setConversations] = useState([]);
 
@@ -37,14 +36,16 @@ function ConversationSidebar({
   const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
-    if (autoUpdate && selectedConversationId && conversationUpdateTrigger) {
-      const conversationToUpdate = conversations.find(c => c.id === selectedConversationId);
-      if (conversationToUpdate) {
-        handleUpdateConversation(conversations.indexOf(conversationToUpdate), false);
-      }
+    if (!autoUpdate || !selectedConversationId) {
+      return;
     }
-    setConversationUpdateTrigger(false);
-  }, [conversationUpdateTrigger]);
+    const conversationToUpdate = conversations.find(c => c.id === selectedConversationId);
+    if (!conversationToUpdate) {
+      return;
+    }
+    handleUpdateConversation(conversations.indexOf(conversationToUpdate), false);
+
+  }, [conversationUpdateKey]);
 
   const fetchConversations = async () => {
     try {

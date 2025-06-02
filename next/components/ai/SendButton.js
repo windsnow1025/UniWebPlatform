@@ -8,7 +8,7 @@ function SendButton({
                       isGenerating,
                       setIsGenerating,
                       isGeneratingRef,
-                      setConversationUpdateTrigger,
+                      setConversationUpdateKey,
                       messages,
                       setMessages,
                       apiType,
@@ -130,7 +130,7 @@ function SendButton({
         setAlertSeverity('error');
         setAlertOpen(true);
       } finally {
-        setConversationUpdateTrigger(true);
+        setConversationUpdateKey(prev => prev + 1);
       }
     } else {
       switchStatus(false);
