@@ -13,8 +13,9 @@ import {
 } from "@mui/material";
 import ChatLogic from "../../lib/chat/ChatLogic";
 import useScreenSize from "../common/hooks/useScreenSize";
+import CreditSection from "../common/settings/auth/signed-in/CreditSection";
 
-function SettingsDiv({
+function ConfigDiv({
                        apiType,
                        setApiType,
                        model,
@@ -107,9 +108,10 @@ function SettingsDiv({
             </Select>
           </FormControl>
         </div>
+        <CreditSection/>
         {!smallScreen && (
           <>
-            <div className="mx-1">
+            <div>
               <Typography variant="body1">Temperature</Typography>
               <Slider
                 id="temperature"
@@ -123,15 +125,13 @@ function SettingsDiv({
                 size="small"
               />
             </div>
-            <div className="mx-1">
-              <FormControlLabel control={
-                <Switch
-                  checked={stream}
-                  onChange={e => setStream(e.target.checked)}
-                  size="small"
-                />
-              } label="Stream"/>
-            </div>
+            <FormControlLabel control={
+              <Switch
+                checked={stream}
+                onChange={e => setStream(e.target.checked)}
+                size="small"
+              />
+            } label="Stream"/>
           </>
         )}
       </div>
@@ -148,4 +148,4 @@ function SettingsDiv({
   );
 }
 
-export default SettingsDiv;
+export default ConfigDiv;
