@@ -24,6 +24,7 @@ function ConfigDiv({
                        setTemperature,
                        stream,
                        setStream,
+                       refreshKey,
                      }) {
   const screenSize = useScreenSize();
   const smallScreen = screenSize === 'xs';
@@ -108,7 +109,7 @@ function ConfigDiv({
             </Select>
           </FormControl>
         </div>
-        <CreditSection/>
+        <CreditSection refreshKey={refreshKey}/>
         {!smallScreen && (
           <>
             <div>
