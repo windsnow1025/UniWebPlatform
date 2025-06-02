@@ -41,6 +41,9 @@ function AIChat() {
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [conversationUpdateKey, setConversationUpdateKey] = useState(0);
 
+  // Credit refresh
+  const [creditRefreshKey, setCreditRefreshKey] = useState(0);
+
   return (
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-x">
@@ -71,6 +74,7 @@ function AIChat() {
                 setTemperature={setTemperature}
                 stream={stream}
                 setStream={setStream}
+                refreshKey={creditRefreshKey}
               />
             </div>
           </div>
@@ -89,6 +93,7 @@ function AIChat() {
               setIsGenerating={setIsGenerating}
               isGeneratingRef={isGeneratingRef}
               setConversationUpdateKey={setConversationUpdateKey}
+              setCreditRefreshKey={setCreditRefreshKey}
               messages={messages}
               setMessages={setMessages}
               apiType={apiType}

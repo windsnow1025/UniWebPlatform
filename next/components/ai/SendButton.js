@@ -9,6 +9,7 @@ function SendButton({
                       setIsGenerating,
                       isGeneratingRef,
                       setConversationUpdateKey,
+                      setCreditRefreshKey,
                       messages,
                       setMessages,
                       apiType,
@@ -131,6 +132,7 @@ function SendButton({
         setAlertOpen(true);
       } finally {
         setConversationUpdateKey(prev => prev + 1);
+        setCreditRefreshKey(prev => prev + 1);
       }
     } else {
       switchStatus(false);
