@@ -52,6 +52,11 @@ const steps = [
     placement: 'top',
   },
   {
+    target: '.flex-around .MuiTypography-root',
+    content: 'This shows your current credit balance. Credits are consumed when you use AI services, with different models having different costs. Check the price information in the model dropdown to see how many credits will be used for input and output tokens.',
+    placement: 'bottom',
+  },
+  {
     target: '#clear-button',
     content: 'Use this button to clear the current conversation and start fresh.',
     placement: 'top',
