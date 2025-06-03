@@ -5,8 +5,7 @@
 A full-stack web application for my personal website, featuring:
 1. AI Studio
 2. Markdown-based Blogs
-3. Editable Bookmarks
-4. Password Generator & AES Enctyption / Decryption
+3. Password Generator & AES Enctyption / Decryption
 
 ## Tech Stack
 
