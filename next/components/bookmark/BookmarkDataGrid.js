@@ -23,16 +23,15 @@ function BookmarkDataGrid() {
   ];
 
   const fetchData = async () => {
-    const bookmarks = await bookmarkLogic.fetchBookmarks();
-    return bookmarks || [];
+    return await bookmarkLogic.fetchBookmarks();
   };
 
   const addRow = async (row) => {
-    await bookmarkLogic.addBookmark(row);
+    return await bookmarkLogic.addBookmark(row);
   };
 
   const updateRow = async (row) => {
-    await bookmarkLogic.updateBookmark(
+    return await bookmarkLogic.updateBookmark(
       row.id,
       {
         firstTitle: row.firstTitle,
@@ -44,7 +43,7 @@ function BookmarkDataGrid() {
   };
 
   const deleteRow = async (id) => {
-    await bookmarkLogic.deleteBookmark(id);
+    return await bookmarkLogic.deleteBookmark(id);
   };
 
   return (
