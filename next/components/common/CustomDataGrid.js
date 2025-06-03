@@ -21,9 +21,15 @@ function EditToolbar({onAddRow}) {
   return (
     <GridToolbarContainer>
       <GridToolbar/>
-      <Button startIcon={<AddIcon/>} onClick={onAddRow}>
-        Add record
-      </Button>
+      <div className="pt-1">
+        <Button
+          startIcon={<AddIcon/>}
+          onClick={onAddRow}
+          sx={{ px: 0.625, py: 0.5 }}
+        >
+          Add record
+        </Button>
+      </div>
     </GridToolbarContainer>
   );
 }
