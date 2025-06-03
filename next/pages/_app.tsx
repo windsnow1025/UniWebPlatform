@@ -15,7 +15,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PasswordIcon from '@mui/icons-material/Password';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
 import UserLogic from "@/lib/common/user/UserLogic";
 import {useRouter} from "next/router";
@@ -55,11 +54,6 @@ const NAVIGATION: Navigation = [
     segment: 'markdown',
     title: 'Blogs',
     icon: <EditNoteIcon />,
-  },
-  {
-    segment: 'bookmark',
-    title: 'Bookmarks',
-    icon: <BookmarksIcon />,
   },
 ];
 

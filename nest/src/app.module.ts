@@ -12,8 +12,6 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 import { FilesModule } from './files/files.module';
-import { Bookmark } from './bookmarks/bookmark.entity';
-import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { Conversation } from './conversations/conversation.entity';
 import { Markdown } from './markdowns/markdown.entity';
@@ -40,7 +38,7 @@ import { createKeyv } from '@keyv/redis';
         username: configService.get<string>('mysql.user'),
         password: configService.get<string>('mysql.password'),
         database: configService.get<string>('mysql.database'),
-        entities: [User, Bookmark, Conversation, Markdown, Announcement],
+        entities: [User, Conversation, Markdown, Announcement],
         synchronize: true,
       }),
     }),
@@ -66,7 +64,6 @@ import { createKeyv } from '@keyv/redis';
     AuthModule,
     UsersModule,
     FilesModule,
-    BookmarksModule,
     ConversationsModule,
     MarkdownsModule,
     AnnouncementModule,

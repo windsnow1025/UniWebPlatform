@@ -5,9 +5,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 import ChatIcon from "@mui/icons-material/Chat";
 import BookIcon from "@mui/icons-material/Book";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import PasswordIcon from "@mui/icons-material/Password";
-import ImageIcon from "@mui/icons-material/Image";
 
 function FeatureCard({title, description, icon}) {
   const theme = useTheme();
@@ -46,11 +44,6 @@ function Index() {
       title: "Markdown Blogs",
       description: "Create and share your thoughts with our markdown-based blog system",
       icon: <BookIcon/>
-    },
-    {
-      title: "Bookmarks",
-      description: "Organize and manage your favorite web links efficiently",
-      icon: <BookmarksIcon/>
     },
     {
       title: "Password & Encryption Tools",
