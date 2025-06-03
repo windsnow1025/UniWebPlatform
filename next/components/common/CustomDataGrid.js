@@ -49,8 +49,39 @@ function CustomDataGrid({
   const loadData = async () => {
     setLoading(true);
     try {
-      const data = await fetchData();
-      setRows(data);
+      const newData = await fetchData();
+
+      const isRowEqual = (row1, row2) => {
+        const cleanRow1 = { ...row1 };
+        const cleanRow2 = { ...row2 };
+        delete cleanRow1.isNew;
+        delete cleanRow2.isNew;
+
+        return JSON.stringify(cleanRow1) === JSON.stringify(cleanRow2);
+      };
+
+      setRows((prevRows) => {
+        const updatedRows = [...prevRows];
+        const existingRowsMap = new Map(prevRows.map(row => [row.id, row]));
+        const newRowsMap = new Map(newData.map(row => [row.id, row]));
+
+        newData.forEach((newRow) => {
+          const existingRow = existingRowsMap.get(newRow.id);
+          const existingIndex = updatedRows.findIndex(row => row.id === newRow.id);
+
+          if (existingRow) {
+            if (!isRowEqual(existingRow, newRow)) {
+              updatedRows[existingIndex] = { ...newRow, isNew: false };
+            }
+          } else {
+            updatedRows.push({ ...newRow, isNew: false });
+          }
+        });
+
+        return updatedRows.filter(row =>
+          newRowsMap.has(row.id) || row.isNew
+        );
+      });
     } catch (error) {
       setAlertOpen(true);
       setAlertMessage(error.message);
@@ -63,9 +94,6 @@ function CustomDataGrid({
 
   const processRowUpdate = async (newRow) => {
     const updatedRow = {...newRow, isNew: false};
-    setRows((prevRows) =>
-      prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
-    );
     try {
       if (newRow.isNew) {
         await addRow(updatedRow);
@@ -74,13 +102,15 @@ function CustomDataGrid({
         await updateRow(updatedRow);
         setAlertMessage('Record updated');
       }
+      setRows((prevRows) =>
+        prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
+      );
       setAlertSeverity('success');
     } catch (error) {
       setAlertMessage(error.message);
       setAlertSeverity('error');
     } finally {
       setAlertOpen(true);
-      await loadData();
     }
     return updatedRow;
   };
@@ -88,9 +118,9 @@ function CustomDataGrid({
   const handleDeleteClick = async (id) => {
     try {
       await deleteRow(id);
+      setRows((prevRows) => prevRows.filter((row) => row.id !== id));
       setAlertMessage('Record deleted');
       setAlertSeverity('success');
-      await loadData();
     } catch (error) {
       setAlertMessage(error.message);
       setAlertSeverity('error');

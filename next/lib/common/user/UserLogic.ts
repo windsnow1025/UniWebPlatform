@@ -237,7 +237,7 @@ export default class UserLogic {
 
   async updateUserPrivileges(username: string, emailVerified: boolean, roles: UserResDtoRolesEnum[], credit: number) {
     try {
-      await this.userClient.updateUserPrivileges(username, emailVerified, roles, credit);
+      return await this.userClient.updateUserPrivileges(username, emailVerified, roles, credit);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
@@ -261,7 +261,7 @@ export default class UserLogic {
 
   async deleteUserById(id: number) {
     try {
-      await this.userClient.deleteUserById(id);
+      return await this.userClient.deleteUserById(id);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);

@@ -48,7 +48,7 @@ export default class BookmarkLogic {
 
   async deleteBookmark(id: number): Promise<void> {
     try {
-      await this.bookmarkService.deleteBookmark(id);
+      return await this.bookmarkService.deleteBookmark(id);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
