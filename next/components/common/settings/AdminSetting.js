@@ -82,7 +82,7 @@ const AdminSetting = () => {
   };
 
   const updateRow = async (row) => {
-    await userLogic.updateUserPrivileges(
+    return await userLogic.updateUserPrivileges(
       row.username,
       row.emailVerified,
       [row.role],
@@ -91,7 +91,7 @@ const AdminSetting = () => {
   };
 
   const deleteRow = async (id) => {
-    await userLogic.deleteUserById(id);
+    return await userLogic.deleteUserById(id);
   }
 
   return (
