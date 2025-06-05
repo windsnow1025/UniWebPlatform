@@ -35,10 +35,6 @@ function MessageDiv({
     setMessage({...message, display: newDisplay});
   };
 
-  const togglePreview = () => {
-    setShowPreview(!showPreview);
-  };
-
   const getRoleBorderStyles = (role) => {
     switch (role) {
       case MessageRoleEnum.User:
@@ -95,7 +91,7 @@ function MessageDiv({
           <div className="inflex-fill"></div>
 
           <Tooltip title={showPreview ? "Edit Mode" : "Preview Mode"}>
-            <IconButton size="small" onClick={togglePreview}>
+            <IconButton size="small" onClick={() => {setShowPreview(!showPreview)}}>
               {showPreview ? <VisibilityOffIcon fontSize="small"/> : <VisibilityIcon fontSize="small"/>}
             </IconButton>
           </Tooltip>
