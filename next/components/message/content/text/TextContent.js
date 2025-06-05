@@ -15,7 +15,7 @@ function TextContent({
   const contentRef = useRef(null);
 
   const parse = (content) => {
-    parseMarkdownLaTeX(contentRef.current, content, true);
+    parseMarkdownLaTeX(contentRef.current, content);
   }
   const unparse = (content) => {
     contentRef.current.innerHTML = content;

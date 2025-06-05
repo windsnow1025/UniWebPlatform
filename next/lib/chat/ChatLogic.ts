@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
 import {ApiTypeModel, ChatResponse, Citation} from "@/lib/chat/ChatResponse";
-import {desanitize, sanitize} from "markdown-latex-renderer";
+import {desanitizeContent, sanitizeContent} from "markdown-latex-renderer";
 import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
 import FileLogic from "@/lib/common/file/FileLogic";
 
@@ -226,7 +226,7 @@ export default class ChatLogic {
         if (content.type === ContentTypeEnum.Text) {
           return {
             ...content,
-            data: desanitize(content.data)
+            data: desanitizeContent(content.data)
           };
         }
         return content;
@@ -249,7 +249,7 @@ export default class ChatLogic {
         if (citations) {
           text = this.addCitations(text, citations);
         }
-        text = sanitize(text);
+        text = sanitizeContent(text);
       }
 
       return {
@@ -275,7 +275,7 @@ export default class ChatLogic {
         if (content.type === ContentTypeEnum.Text) {
           return {
             ...content,
-            data: desanitize(content.data)
+            data: desanitizeContent(content.data)
           };
         }
         return content;
@@ -299,7 +299,7 @@ export default class ChatLogic {
 
         let sanitizedChunkText;
         if (chunk.text) {
-          sanitizedChunkText = sanitize(chunk.text);
+          sanitizedChunkText = sanitizeContent(chunk.text);
           text += sanitizedChunkText;
         }
         if (chunk.citations) {
