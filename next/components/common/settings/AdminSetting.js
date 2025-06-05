@@ -29,10 +29,6 @@ const AdminSetting = () => {
     fetchAnnouncement();
   }, []);
 
-  const togglePreview = () => {
-    setShowPreview(!showPreview);
-  };
-
   const handleUpdateAnnouncement = async () => {
     setLoading(true);
     try {
@@ -103,7 +99,11 @@ const AdminSetting = () => {
         <div className="flex items-center">
           <h3 className="mr-2">Edit Announcement</h3>
           <Tooltip title={showPreview ? "Edit Mode" : "Preview Mode"}>
-            <IconButton aria-label="toggle-preview" onClick={togglePreview} size="small">
+            <IconButton
+              aria-label="toggle-preview"
+              onClick={() => {setShowPreview(!showPreview)}}
+              size="small"
+            >
               {showPreview ? <VisibilityOffIcon fontSize="small"/> : <VisibilityIcon fontSize="small"/>}
             </IconButton>
           </Tooltip>
