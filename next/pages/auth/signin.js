@@ -44,7 +44,7 @@ function SignIn() {
 
       // Redirect
       let redirectUrl = router.query.redirect;
-      if (!redirectUrl) {
+      if (!redirectUrl || !redirectUrl.startsWith('/')) {
         redirectUrl = '/';
       }
       if (!(await userLogic.fetchEmailVerified())) {
