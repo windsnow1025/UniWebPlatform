@@ -1,5 +1,8 @@
 name: FastAPI publish
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:

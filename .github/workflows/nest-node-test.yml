@@ -3,6 +3,9 @@
 
 name: Nest test
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ "main", "test" ]
