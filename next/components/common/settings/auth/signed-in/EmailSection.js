@@ -104,7 +104,7 @@ function EmailSection() {
       // Redirect
       let redirectUrl = router.query.redirect;
       await wait(1);
-      if (!redirectUrl) {
+      if (!redirectUrl || !redirectUrl.startsWith('/')) {
         redirectUrl = '/';
       }
       router.push(redirectUrl);
