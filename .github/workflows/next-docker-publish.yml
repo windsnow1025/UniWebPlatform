@@ -1,5 +1,8 @@
 name: Next publish
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
