@@ -1,5 +1,8 @@
 name: Nest publish
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
