@@ -22,18 +22,25 @@ import {
   VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
 import {generatePassword} from "@/lib/password/PasswordLogic";
-import {AlertColor} from "@mui/material/Alert/Alert";
 
-const PasswordGenerator = () => {
+function PasswordGenerator({keyValue, setKeyValue}) {
+  const [name, setName] = useState('');
+  const [no, setNo] = useState(0);
+  const [length, setLength] = useState(16);
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showKey, setShowKey] = useState(false);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success');
+
   useEffect(() => {
-    const savedKey = localStorage.getItem('secretKey');
-    if (savedKey) setKey(parseInt(savedKey));
-
-    const handleKeyDown = async (e: KeyboardEvent) => {
+    const handleKeyDown = (e) => {
       if (e.ctrlKey && e.key === 'Enter') {
-        (document.activeElement as HTMLElement)?.blur();
+        document.activeElement.blur();
         const generateButton = document.getElementById('generate');
-        if (generateButton) setTimeout(() => generateButton.click(), 0);
+        setTimeout(() => generateButton.click(), 0);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -42,27 +49,19 @@ const PasswordGenerator = () => {
     };
   }, []);
 
-  const [key, setKey] = useState<number>(0);
-  const [name, setName] = useState<string>('');
-  const [no, setNo] = useState<number>(0);
-  const [length, setLength] = useState<number>(16);
-  const [password, setPassword] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showKey, setShowKey] = useState<boolean>(false);
-
   const handleGeneratePassword = () => {
-    if (key === 0) {
+    if (keyValue === 0) {
       setAlertMessage('Please set your Secret Key');
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
-    const generatedPassword = generatePassword(key, name, no, length);
+    const generatedPassword = generatePassword(keyValue, name, no, length);
     setPassword(generatedPassword);
     handleContentCopy(generatedPassword);
   };
 
-  const handleContentCopy = (text: string) => {
+  const handleContentCopy = (text) => {
     navigator.clipboard.writeText(text)
       .then(() => {
         setAlertMessage('Text copied to clipboard');
@@ -76,15 +75,10 @@ const PasswordGenerator = () => {
       });
   };
 
-  const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleKeyChange = (e) => {
     const newKey = parseInt(e.target.value);
-    setKey(newKey);
-    localStorage.setItem('secretKey', newKey.toString());
+    setKeyValue(newKey);
   };
-
-  const [alertOpen, setAlertOpen] = useState<boolean>(false);
-  const [alertMessage, setAlertMessage] = useState<string>('');
-  const [alertSeverity, setAlertSeverity] = useState<AlertColor>('success');
 
   return (
     <div className="flex-center p-4">
@@ -99,11 +93,11 @@ const PasswordGenerator = () => {
           <OutlinedInput
             id="secret-key"
             type={showKey ? 'number' : 'password'}
-            value={key ?? ''}
+            value={keyValue ?? ''}
             onChange={handleKeyChange}
             startAdornment={
               <InputAdornment position="start">
-                <KeyIcon />
+                <KeyIcon/>
               </InputAdornment>
             }
             endAdornment={
@@ -112,7 +106,7 @@ const PasswordGenerator = () => {
                   onClick={() => setShowKey(!showKey)}
                   edge="end"
                 >
-                  {showKey ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  {showKey ? <VisibilityOffIcon/> : <VisibilityIcon/>}
                 </IconButton>
               </InputAdornment>
             }
@@ -129,7 +123,7 @@ const PasswordGenerator = () => {
             onChange={(e) => setName(e.target.value)}
             startAdornment={
               <InputAdornment position="start">
-                <PersonIcon />
+                <PersonIcon/>
               </InputAdornment>
             }
             label="Site Name"
@@ -146,7 +140,7 @@ const PasswordGenerator = () => {
             onChange={(e) => setNo(parseInt(e.target.value) || 0)}
             startAdornment={
               <InputAdornment position="start">
-                <NumbersIcon />
+                <NumbersIcon/>
               </InputAdornment>
             }
             label="Number"
@@ -192,13 +186,13 @@ const PasswordGenerator = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"
                   >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    {showPassword ? <VisibilityOffIcon/> : <VisibilityIcon/>}
                   </IconButton>
                   <IconButton
                     onClick={() => handleContentCopy(password)}
                     edge="end"
                   >
-                    <ContentCopyIcon />
+                    <ContentCopyIcon/>
                   </IconButton>
                 </InputAdornment>
               }
@@ -220,4 +214,4 @@ const PasswordGenerator = () => {
   );
 }
 
-export default PasswordGenerator; 
+export default PasswordGenerator;

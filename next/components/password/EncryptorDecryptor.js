@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState} from "react";
 import {
   Alert,
   Box,
@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { TabContext, TabPanel } from "@mui/lab";
+import {TabContext, TabPanel} from "@mui/lab";
 import {
   ContentCopy as ContentCopyIcon,
   Key as KeyIcon,
@@ -24,47 +24,38 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
-import { encryptAES, decryptAES } from "@/lib/password/EncryptionLogic";
-import { AlertColor } from "@mui/material/Alert/Alert";
+import {encryptAES, decryptAES} from "../../lib/password/EncryptionLogic";
 
+function EncryptorDecryptor({keyValue, setKeyValue}) {
+  const [showKey, setShowKey] = useState(false);
+  const [tabValue, setTabValue] = useState('0');
+  const [plaintext, setPlaintext] = useState('');
+  const [ciphertext, setCiphertext] = useState('');
+  const [textToDecrypt, setTextToDecrypt] = useState('');
+  const [decryptedText, setDecryptedText] = useState('');
 
-const EncryptorDecryptor = () => {
-  useEffect(() => {
-    const savedKey = localStorage.getItem('secretKey');
-    if (savedKey) setKey(parseInt(savedKey));
-  }, []);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success');
 
-  const [key, setKey] = useState<number>(0);
-  const [showKey, setShowKey] = useState<boolean>(false);
-  const [tabValue, setTabValue] = useState<string>('0');
-  const [plaintext, setPlaintext] = useState<string>('');
-  const [ciphertext, setCiphertext] = useState<string>('');
-  const [textToDecrypt, setTextToDecrypt] = useState<string>('');
-  const [decryptedText, setDecryptedText] = useState<string>('');
-
-  const [alertOpen, setAlertOpen] = useState<boolean>(false);
-  const [alertMessage, setAlertMessage] = useState<string>('');
-  const [alertSeverity, setAlertSeverity] = useState<AlertColor>('success');
-
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (_event, newValue) => {
     setTabValue(newValue);
   };
 
-  const handleKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleKeyChange = (e) => {
     const newKey = parseInt(e.target.value);
-    setKey(newKey);
-    localStorage.setItem('secretKey', newKey.toString());
+    setKeyValue(newKey);
   };
 
   const handleEncrypt = () => {
-    if (key === 0) {
+    if (keyValue === 0) {
       setAlertMessage('Please set your Secret Key');
       setAlertSeverity('warning');
       setAlertOpen(true);
       return;
     }
 
-    const encrypted = encryptAES(plaintext, key);
+    const encrypted = encryptAES(plaintext, keyValue);
     if (!encrypted) {
       setAlertMessage('Encryption failed');
       setAlertSeverity('error');
@@ -76,7 +67,7 @@ const EncryptorDecryptor = () => {
   };
 
   const handleDecrypt = () => {
-    if (key === 0) {
+    if (keyValue === 0) {
       setAlertMessage('Please set your Secret Key');
       setAlertSeverity('warning');
       setAlertOpen(true);
@@ -84,22 +75,21 @@ const EncryptorDecryptor = () => {
     }
 
     try {
-      const decrypted = decryptAES(textToDecrypt, key);
+      const decrypted = decryptAES(textToDecrypt, keyValue);
       if (!decrypted) {
         throw new Error('Decryption failed');
       }
       setDecryptedText(decrypted);
       handleContentCopy(decrypted);
-    } catch (err: any) {
+    } catch (err) {
       setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
       return;
     }
-
   };
 
-  const handleContentCopy = (text: string) => {
+  const handleContentCopy = (text) => {
     navigator.clipboard.writeText(text)
       .then(() => {
         setAlertMessage('Text copied to clipboard');
@@ -126,11 +116,11 @@ const EncryptorDecryptor = () => {
           <OutlinedInput
             id="aes-secret-key"
             type={showKey ? 'number' : 'password'}
-            value={key ?? ''}
+            value={keyValue ?? ''}
             onChange={handleKeyChange}
             startAdornment={
               <InputAdornment position="start">
-                <KeyIcon />
+                <KeyIcon/>
               </InputAdornment>
             }
             endAdornment={
@@ -139,7 +129,7 @@ const EncryptorDecryptor = () => {
                   onClick={() => setShowKey(!showKey)}
                   edge="end"
                 >
-                  {showKey ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  {showKey ? <VisibilityOffIcon/> : <VisibilityIcon/>}
                 </IconButton>
               </InputAdornment>
             }
@@ -147,12 +137,12 @@ const EncryptorDecryptor = () => {
           />
         </FormControl>
 
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{width: '100%'}}>
           <TabContext value={tabValue}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
               <Tabs value={tabValue} onChange={handleTabChange} aria-label="AES operations">
-                <Tab label="Encrypt" value="0" />
-                <Tab label="Decrypt" value="1" />
+                <Tab label="Encrypt" value="0"/>
+                <Tab label="Decrypt" value="1"/>
               </Tabs>
             </Box>
 
@@ -171,7 +161,7 @@ const EncryptorDecryptor = () => {
               <Button
                 fullWidth
                 variant="contained"
-                startIcon={<LockIcon />}
+                startIcon={<LockIcon/>}
                 onClick={handleEncrypt}
                 className="mt-4"
               >
@@ -193,7 +183,7 @@ const EncryptorDecryptor = () => {
                             onClick={() => handleContentCopy(ciphertext)}
                             edge="end"
                           >
-                            <ContentCopyIcon />
+                            <ContentCopyIcon/>
                           </IconButton>
                         </InputAdornment>
                       }
@@ -221,7 +211,7 @@ const EncryptorDecryptor = () => {
               <Button
                 fullWidth
                 variant="contained"
-                startIcon={<LockOpenIcon />}
+                startIcon={<LockOpenIcon/>}
                 onClick={handleDecrypt}
                 className="mt-4"
               >
@@ -242,7 +232,7 @@ const EncryptorDecryptor = () => {
                             onClick={() => handleContentCopy(decryptedText)}
                             edge="end"
                           >
-                            <ContentCopyIcon />
+                            <ContentCopyIcon/>
                           </IconButton>
                         </InputAdornment>
                       }
