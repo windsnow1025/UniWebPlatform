@@ -48,7 +48,7 @@ function PasswordGenerator({keyValue}) {
   }, []);
 
   const handleGeneratePassword = () => {
-    if (keyValue === 0) {
+    if (!keyValue) {
       setAlertMessage('Please set your Secret Key');
       setAlertSeverity('warning');
       setAlertOpen(true);
