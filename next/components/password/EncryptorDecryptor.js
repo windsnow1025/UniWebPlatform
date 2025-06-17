@@ -18,16 +18,12 @@ import {
 import {TabContext, TabPanel} from "@mui/lab";
 import {
   ContentCopy as ContentCopyIcon,
-  Key as KeyIcon,
   Lock as LockIcon,
   LockOpen as LockOpenIcon,
-  Visibility as VisibilityIcon,
-  VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
 import {encryptAES, decryptAES} from "../../lib/password/EncryptionLogic";
 
-function EncryptorDecryptor({keyValue, setKeyValue}) {
-  const [showKey, setShowKey] = useState(false);
+function EncryptorDecryptor({keyValue}) {
   const [tabValue, setTabValue] = useState('0');
   const [plaintext, setPlaintext] = useState('');
   const [ciphertext, setCiphertext] = useState('');
@@ -40,11 +36,6 @@ function EncryptorDecryptor({keyValue, setKeyValue}) {
 
   const handleTabChange = (_event, newValue) => {
     setTabValue(newValue);
-  };
-
-  const handleKeyChange = (e) => {
-    const newKey = parseInt(e.target.value);
-    setKeyValue(newKey);
   };
 
   const handleEncrypt = () => {
@@ -109,33 +100,6 @@ function EncryptorDecryptor({keyValue, setKeyValue}) {
         <Typography variant="h5" className="text-center" gutterBottom>
           AES Encryption / Decryption
         </Typography>
-
-        {/* Secret Key Input */}
-        <FormControl fullWidth variant="outlined">
-          <InputLabel htmlFor="aes-secret-key">Secret Key</InputLabel>
-          <OutlinedInput
-            id="aes-secret-key"
-            type={showKey ? 'number' : 'password'}
-            value={keyValue ?? ''}
-            onChange={handleKeyChange}
-            startAdornment={
-              <InputAdornment position="start">
-                <KeyIcon/>
-              </InputAdornment>
-            }
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShowKey(!showKey)}
-                  edge="end"
-                >
-                  {showKey ? <VisibilityOffIcon/> : <VisibilityIcon/>}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Secret Key"
-          />
-        </FormControl>
 
         <Box sx={{width: '100%'}}>
           <TabContext value={tabValue}>

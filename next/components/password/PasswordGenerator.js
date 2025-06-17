@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import {
   ContentCopy as ContentCopyIcon,
-  Key as KeyIcon,
   Numbers as NumbersIcon,
   Person as PersonIcon,
   Visibility as VisibilityIcon,
@@ -23,13 +22,12 @@ import {
 } from "@mui/icons-material";
 import {generatePassword} from "@/lib/password/PasswordLogic";
 
-function PasswordGenerator({keyValue, setKeyValue}) {
+function PasswordGenerator({keyValue}) {
   const [name, setName] = useState('');
   const [no, setNo] = useState(0);
   const [length, setLength] = useState(16);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showKey, setShowKey] = useState(false);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -75,44 +73,12 @@ function PasswordGenerator({keyValue, setKeyValue}) {
       });
   };
 
-  const handleKeyChange = (e) => {
-    const newKey = parseInt(e.target.value);
-    setKeyValue(newKey);
-  };
-
   return (
     <div className="flex-center p-4">
       <Paper elevation={3} className="flex-center p-6 max-w-md gap-y-4">
         <Typography variant="h5" className="text-center" gutterBottom>
           Password Generator
         </Typography>
-
-        {/* Secret Key Input */}
-        <FormControl fullWidth variant="outlined">
-          <InputLabel htmlFor="secret-key">Secret Key</InputLabel>
-          <OutlinedInput
-            id="secret-key"
-            type={showKey ? 'number' : 'password'}
-            value={keyValue ?? ''}
-            onChange={handleKeyChange}
-            startAdornment={
-              <InputAdornment position="start">
-                <KeyIcon/>
-              </InputAdornment>
-            }
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setShowKey(!showKey)}
-                  edge="end"
-                >
-                  {showKey ? <VisibilityOffIcon/> : <VisibilityIcon/>}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Secret Key"
-          />
-        </FormControl>
 
         {/* Name Input */}
         <FormControl fullWidth variant="outlined">
