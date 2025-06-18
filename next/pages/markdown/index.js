@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import MarkdownLogic from "../../lib/markdown/MarkdownLogic";
-import {Button, Divider, Link, List, ListItem, ListItemText, Paper} from "@mui/material";
+import {Button, Divider, Link, List, ListItem, ListItemText, Paper, TextField, InputAdornment} from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 
 function Index() {
 
@@ -10,12 +11,15 @@ function Index() {
   }, []);
 
   const [markdowns, setMarkdowns] = useState([]);
+  const [allMarkdowns, setAllMarkdowns] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const markdownLogic = new MarkdownLogic();
 
   useEffect(() => {
     async function fetchMarkdowns() {
       const markdowns = await markdownLogic.fetchMarkdowns();
       if (markdowns) {
+        setAllMarkdowns(markdowns);
         setMarkdowns(markdowns);
       }
     }
@@ -23,12 +27,23 @@ function Index() {
     fetchMarkdowns();
   }, []);
 
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setMarkdowns(allMarkdowns);
+    } else {
+      const filtered = allMarkdowns.filter(markdown => 
+        markdown.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        markdown.content.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setMarkdowns(filtered);
+    }
+  }, [searchTerm, allMarkdowns]);
+
   return (
     <div className="local-scroll-container">
-      
       <div className="local-scroll-scrollable">
         <Paper elevation={4} className="m-8 p-8">
-          <div className="flex-between">
+          <div className="flex-between mb-4">
             <Button variant="outlined">
               <Link
                 href="/markdown/add"
@@ -38,6 +53,20 @@ function Index() {
                 New Markdown
               </Link>
             </Button>
+            <TextField
+              placeholder="Search blogs..."
+              variant="outlined"
+              size="small"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              slotProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
           </div>
           <List>
             {markdowns.map((markdown, index) => (
