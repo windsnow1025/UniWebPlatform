@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MarkdownLogic from "../../lib/markdown/MarkdownLogic";
 import {Button, Divider, Link, List, ListItem, ListItemText, Paper, TextField, InputAdornment} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
 
 function Index() {
 
@@ -44,14 +45,15 @@ function Index() {
       <div className="local-scroll-scrollable">
         <Paper elevation={4} className="m-8 p-8">
           <div className="flex-between mb-4">
-            <Button variant="outlined">
-              <Link
-                href="/markdown/add"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                New Markdown
-              </Link>
+            <Button 
+              variant="contained" 
+              color="primary"
+              href="/markdown/add"
+              target="_blank"
+              rel="noopener noreferrer"
+              startIcon={<AddIcon />}
+            >
+              New Markdown
             </Button>
             <TextField
               placeholder="Search blogs..."
