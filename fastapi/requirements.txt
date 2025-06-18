@@ -18,4 +18,4 @@ tiktoken==0.9.0 # tiktoken
 # Testing
 pytest==8.3.5 # pytest
 pytest-asyncio==0.25.3
-protobuf==6.30.1
+protobuf==6.31.1
