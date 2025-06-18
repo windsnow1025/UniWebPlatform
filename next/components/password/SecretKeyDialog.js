@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Dialog,
   DialogTitle,
@@ -12,6 +12,10 @@ import {Key as KeyIcon} from "@mui/icons-material";
 
 function SecretKeyDialog({open, onClose, keyValue, setKeyValue}) {
   const [inputValue, setInputValue] = useState(keyValue);
+
+  useEffect(() => {
+    if (open) setInputValue(keyValue);
+  }, [open, keyValue]);
 
   const handleSave = () => {
     setKeyValue(inputValue);
