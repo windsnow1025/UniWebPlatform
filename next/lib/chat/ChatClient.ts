@@ -47,7 +47,8 @@ export default class ChatClient {
     messages: Message[],
     api_type: string,
     model: string,
-    temperature: number
+    temperature: number,
+    onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse, void, unknown> {
     const token = localStorage.getItem('token')!;
 
@@ -72,6 +73,10 @@ export default class ChatClient {
         'Authorization': token
       },
       async onopen(response) {
+        if (onOpenCallback) {
+          onOpenCallback();
+        }
+
         if (!response.ok) {
           const status = response.status;
           const statusText = response.statusText;
