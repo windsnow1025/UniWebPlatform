@@ -264,7 +264,8 @@ export default class ChatLogic {
   }
 
   async* streamGenerate(
-    messages: Message[], api_type: string, model: string, temperature: number
+    messages: Message[], api_type: string, model: string, temperature: number,
+    onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final citation text
     const desanitizedMessages = messages.map(message => {
       // Create a deep copy of the message
@@ -286,7 +287,7 @@ export default class ChatLogic {
 
     try {
       const response = this.chatService.streamGenerate(
-        desanitizedMessages, api_type, model, temperature
+        desanitizedMessages, api_type, model, temperature, onOpenCallback
       );
 
       let text = "";

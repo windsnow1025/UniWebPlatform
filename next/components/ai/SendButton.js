@@ -20,6 +20,7 @@ function SendButton({
   const chatLogic = new ChatLogic();
 
   const latestRequestIndex = useRef(0);
+  const isFirstStreamOpen = useRef(true);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -57,9 +58,9 @@ function SendButton({
     return true;
   };
 
-  const handleStreamGenerate = async (currentReqIndex) => {
+  const handleStreamGenerate = async (currentReqIndex, onOpenCallback) => {
     let isFirstChunk = true;
-    const generator = chatLogic.streamGenerate(messages, apiType, model, temperature);
+    const generator = chatLogic.streamGenerate(messages, apiType, model, temperature, onOpenCallback);
 
     for await (const chunk of generator) {
       if (!(currentReqIndex === latestRequestIndex.current && isGeneratingRef.current)) {
@@ -115,10 +116,30 @@ function SendButton({
       latestRequestIndex.current += 1;
       const currentReqIndex = latestRequestIndex.current;
 
+      isFirstStreamOpen.current = true;
+      const handleStreamOpen = () => {
+        if (isFirstStreamOpen.current) {
+          isFirstStreamOpen.current = false;
+          return;
+        }
+
+        // This is a reconnection. Clear the last assistant message.
+        setMessages(prevMessages => {
+          const lastMessage = prevMessages[prevMessages.length - 1];
+          if (lastMessage && lastMessage.role === 'assistant') {
+            const newMessages = [...prevMessages];
+            // Replace the partially filled message with a new empty one
+            newMessages[newMessages.length - 1] = chatLogic.emptyAssistantMessage;
+            return newMessages;
+          }
+          return prevMessages;
+        });
+      };
+
       try {
         let success;
         if (stream) {
-          success = await handleStreamGenerate(currentReqIndex);
+          success = await handleStreamGenerate(currentReqIndex, handleStreamOpen);
         } else {
           success = await handleNonStreamGenerate(currentReqIndex);
         }
