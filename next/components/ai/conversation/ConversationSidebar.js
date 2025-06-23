@@ -22,6 +22,7 @@ function ConversationSidebar({
                                conversationUpdateKey,
                              }) {
   const [conversations, setConversations] = useState([]);
+  const [conversationLoadKey, setConversationLoadKey] = useState(0);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -38,22 +39,7 @@ function ConversationSidebar({
       return;
     }
     handleUpdateConversation(conversations.indexOf(conversationToUpdate), false);
-
   }, [conversationUpdateKey]);
-
-  const fetchConversations = async () => {
-    try {
-      const newConversations = await conversationLogic.fetchConversations();
-      setConversations(newConversations);
-      return newConversations;
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage(err.message);
-      setAlertSeverity('error');
-      console.error(err);
-      return [];
-    }
-  };
 
   const handleUpdateConversation = async (index, isManualUpdate = false) => {
     setSelectedConversationId(conversations[index].id);
@@ -70,27 +56,13 @@ function ConversationSidebar({
         newConversations[index] = updatedConversation;
         return newConversations;
       });
-      fetchConversations();
+      setConversationLoadKey(prev => prev + 1);
 
       if (isManualUpdate) {
         setAlertOpen(true);
         setAlertMessage('Conversation updated successfully');
         setAlertSeverity('success');
       }
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage(err.message);
-      setAlertSeverity('error');
-      console.error(err);
-    }
-  };
-
-  const handleRefresh = async () => {
-    try {
-      await fetchConversations();
-      setAlertOpen(true);
-      setAlertMessage('Conversations refreshed successfully');
-      setAlertSeverity('success');
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage(err.message);
@@ -106,11 +78,6 @@ function ConversationSidebar({
           <Typography variant="h6">
             Conversation
           </Typography>
-          <Tooltip title="Refresh">
-            <IconButton onClick={handleRefresh}>
-              <RefreshIcon fontSize="small"/>
-            </IconButton>
-          </Tooltip>
         </div>
         <Divider/>
 
@@ -121,6 +88,8 @@ function ConversationSidebar({
           setSelectedConversationId={setSelectedConversationId}
           messages={messages}
           setMessages={setMessages}
+          conversationLoadKey={conversationLoadKey}
+          setConversationLoadKey={setConversationLoadKey}
         />
 
         <Divider/>
@@ -129,6 +98,7 @@ function ConversationSidebar({
             messages={messages}
             setSelectedConversationId={setSelectedConversationId}
             setConversations={setConversations}
+            setConversationLoadKey={setConversationLoadKey}
           />
         </div>
       </div>

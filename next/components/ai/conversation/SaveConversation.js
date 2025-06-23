@@ -6,7 +6,7 @@ import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 function SaveConversation({
                             messages,
                             setSelectedConversationId,
-                            setConversations
+                            setConversationLoadKey
                           }) {
   const [isToSaveConversation, setIsToSaveConversation] = useState(false);
   const [isSavingConversation, setIsSavingConversation] = useState(false);
@@ -18,12 +18,6 @@ function SaveConversation({
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   const conversationLogic = new ConversationLogic();
-
-  const fetchConversations = async () => {
-    const newConversations = await conversationLogic.fetchConversations();
-    setConversations(newConversations);
-    return newConversations;
-  };
 
   const handleAddConversation = () => {
     setIsToSaveConversation(true);
@@ -43,7 +37,7 @@ function SaveConversation({
         name: newConversationName,
         messages: messages
       });
-      await fetchConversations();
+      setConversationLoadKey(prev => prev + 1);
 
       setSelectedConversationId(newConversation.id);
       setNewConversationName('');

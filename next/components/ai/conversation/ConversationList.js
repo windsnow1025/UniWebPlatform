@@ -56,6 +56,7 @@ function ConversationList({
                             setSelectedConversationId,
                             messages,
                             setMessages,
+                            conversationLoadKey,
                           }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
@@ -80,7 +81,7 @@ function ConversationList({
 
   useEffect(() => {
     loadConversations();
-  }, []);
+  }, [conversationLoadKey]);
 
   const loadConversations = async () => {
     setIsLoadingConversation(true);
@@ -247,8 +248,8 @@ function ConversationList({
                 />
               ) : (
                 <div className="flex-start-center w-full">
-                  <ListItemText 
-                    primary={conversation.name} 
+                  <ListItemText
+                    primary={conversation.name}
                     secondary={(
                       <Typography
                         variant="caption"
