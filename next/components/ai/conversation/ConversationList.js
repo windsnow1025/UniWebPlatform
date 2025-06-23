@@ -265,6 +265,7 @@ function ConversationList({
                       <Typography
                         variant="caption"
                         color="text.secondary"
+                        noWrap
                       >
                         {formatDate(conversation.updatedAt)}
                       </Typography>
