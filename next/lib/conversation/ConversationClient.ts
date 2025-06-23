@@ -2,6 +2,7 @@ import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {
   ConversationReqDto,
   ConversationResDto,
+  ConversationUpdateTimeResDto,
   ConversationsApi
 } from "@/client";
 
@@ -9,6 +10,12 @@ export default class ConversationClient {
   async fetchConversations(): Promise<ConversationResDto[]> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerFind();
+    return res.data;
+  }
+
+  async fetchConversationUpdatedTimes(): Promise<ConversationUpdateTimeResDto[]> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerFindUpdateTimes();
     return res.data;
   }
 

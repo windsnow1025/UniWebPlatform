@@ -1,6 +1,6 @@
 import axios from "axios";
 import ConversationClient from "./ConversationClient";
-import {ConversationReqDto, ConversationResDto} from "@/client";
+import {ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto} from "@/client";
 
 export default class ConversationLogic {
   private conversationService: ConversationClient;
@@ -18,6 +18,21 @@ export default class ConversationLogic {
     } catch (error) {
       console.error(error);
       throw new Error('Failed to fetch conversations');
+    }
+  }
+
+  async fetchConversationUpdatedTimes(): Promise<ConversationUpdateTimeResDto[]> {
+    try {
+      const updatedTimes = await this.conversationService.fetchConversationUpdatedTimes();
+      return updatedTimes.sort((a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
+      console.error(error);
+      throw new Error('Failed to fetch conversation updated times');
     }
   }
 
