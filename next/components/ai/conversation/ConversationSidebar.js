@@ -30,13 +30,10 @@ function ConversationSidebar({
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  // Auto Update
-  const [autoUpdate, setAutoUpdate] = useState(true);
-
   const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
-    if (!autoUpdate || !selectedConversationId) {
+    if (!selectedConversationId) {
       return;
     }
     const conversationToUpdate = conversations.find(c => c.id === selectedConversationId);
@@ -91,10 +88,6 @@ function ConversationSidebar({
     }
   };
 
-  const handleToggleAutoUpdate = () => {
-    setAutoUpdate(!autoUpdate);
-  };
-
   const handleRefresh = async () => {
     try {
       await fetchConversations();
@@ -113,16 +106,10 @@ function ConversationSidebar({
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-y">
         <div className="flex-between-nowrap p-4">
-          <ForumIcon/>
-          <Typography variant="subtitle1" sx={{ml: 1}}>
+          <Typography variant="h6">
             Conversation
           </Typography>
-          <Tooltip title={`${autoUpdate ? 'Disable' : 'Enable'} auto update`}>
-            <IconButton onClick={handleToggleAutoUpdate}>
-              {autoUpdate ? <SyncIcon fontSize="small"/> : <SyncDisabledIcon fontSize="small"/>}
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Refresh conversations">
+          <Tooltip title="Refresh">
             <IconButton onClick={handleRefresh}>
               <RefreshIcon fontSize="small"/>
             </IconButton>
