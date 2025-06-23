@@ -2,14 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Divider,
-  IconButton,
   Snackbar,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  Refresh as RefreshIcon,
-} from '@mui/icons-material';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 import ConversationList from './ConversationList';
 import SaveConversation from './SaveConversation';
@@ -38,10 +33,10 @@ function ConversationSidebar({
     if (!conversationToUpdate) {
       return;
     }
-    handleUpdateConversation(conversations.indexOf(conversationToUpdate), false);
+    handleUpdateConversation(conversations.indexOf(conversationToUpdate));
   }, [conversationUpdateKey]);
 
-  const handleUpdateConversation = async (index, isManualUpdate = false) => {
+  const handleUpdateConversation = async (index) => {
     setSelectedConversationId(conversations[index].id);
     try {
       const updatedConversation = await conversationLogic.updateConversation(
@@ -57,12 +52,6 @@ function ConversationSidebar({
         return newConversations;
       });
       setConversationLoadKey(prev => prev + 1);
-
-      if (isManualUpdate) {
-        setAlertOpen(true);
-        setAlertMessage('Conversation updated successfully');
-        setAlertSeverity('success');
-      }
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage(err.message);
