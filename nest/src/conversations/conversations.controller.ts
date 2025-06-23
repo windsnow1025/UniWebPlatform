@@ -30,6 +30,12 @@ export class ConversationsController {
     );
   }
 
+  @Get('/update-times')
+  async findUpdateTimes(@Request() req: RequestWithUser) {
+    const userId = req.user.id;
+    return await this.service.findUpdateTimes(userId);
+  }
+
   @Get('/conversation/:id')
   async findOne(
     @Request() req: RequestWithUser,

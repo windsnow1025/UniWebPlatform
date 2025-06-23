@@ -8,3 +8,8 @@ export class ConversationResDto {
   users: UserResDto[];
   updatedAt: Date;
 }
+
+export class ConversationUpdateTimeResDto {
+  id: number;
+  updatedAt: Date;
+}
