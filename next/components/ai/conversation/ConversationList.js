@@ -28,7 +28,7 @@ import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const now = new Date();
-  
+
   const diffMs = Math.max(0, now - date);
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);
@@ -68,6 +68,8 @@ function ConversationList({
 
   // Loading state
   const [isLoadingConversation, setIsLoadingConversation] = useState(true);
+  const [isLoadingSelectedConversation, setIsLoadingSelectedConversation] = useState(false);
+  const [loadingConversationId, setLoadingConversationId] = useState(null);
 
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
@@ -110,17 +112,32 @@ function ConversationList({
     setShareDialogOpen(true);
   };
 
-  const handleConversationClick = (conversationMessages, conversationId) => {
-    const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
-    setMessages(messagesCopy);
-    setSelectedConversationId(conversationId);
+  const handleConversationClick = async (conversationMessages, conversationId) => {
+    setIsLoadingSelectedConversation(true);
+    setLoadingConversationId(conversationId);
+
+    try {
+      await loadConversations();
+
+      const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
+      setMessages(messagesCopy);
+      setSelectedConversationId(conversationId);
+    } finally {
+      setIsLoadingSelectedConversation(false);
+      setLoadingConversationId(null);
+    }
   };
 
   const handleUpdateConversation = async (index, isManualUpdate = false) => {
-    setSelectedConversationId(conversations[index].id);
+    const conversationId = conversations[index].id;
+    setSelectedConversationId(conversationId);
+
+    setIsLoadingSelectedConversation(true);
+    setLoadingConversationId(conversationId);
+
     try {
       const updatedConversation = await conversationLogic.updateConversation(
-        conversations[index].id,
+        conversationId,
         {
           name: conversations[index].name,
           messages: messages
@@ -143,12 +160,20 @@ function ConversationList({
       setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
+    } finally {
+      setIsLoadingSelectedConversation(false);
+      setLoadingConversationId(null);
     }
   };
 
   const handleUpdateConversationName = async (index, newName) => {
+    const conversationId = conversations[index].id;
+
+    setIsLoadingSelectedConversation(true);
+    setLoadingConversationId(conversationId);
+
     try {
-      const updatedConversation = await conversationLogic.updateConversationName(conversations[index].id, newName);
+      const updatedConversation = await conversationLogic.updateConversationName(conversationId, newName);
       setConversations((prevConversations) => {
         const newConversations = [...prevConversations];
         newConversations[index] = updatedConversation;
@@ -163,12 +188,20 @@ function ConversationList({
       setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
+    } finally {
+      setIsLoadingSelectedConversation(false);
+      setLoadingConversationId(null);
     }
   };
 
   const handleDeleteConversation = async (index) => {
+    const conversationId = conversations[index].id;
+
+    setIsLoadingSelectedConversation(true);
+    setLoadingConversationId(conversationId);
+
     try {
-      await conversationLogic.deleteConversation(conversations[index].id);
+      await conversationLogic.deleteConversation(conversationId);
       await loadConversations();
       setAlertOpen(true);
       setAlertMessage('Conversation deleted');
@@ -178,6 +211,9 @@ function ConversationList({
       setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
+    } finally {
+      setIsLoadingSelectedConversation(false);
+      setLoadingConversationId(null);
     }
   };
 
@@ -210,7 +246,7 @@ function ConversationList({
                   onClick={(e) => e.stopPropagation()}
                 />
               ) : (
-                <div style={{ width: '100%' }}>
+                <div className="flex-start-center w-full">
                   <ListItemText 
                     primary={conversation.name} 
                     secondary={(
@@ -222,6 +258,9 @@ function ConversationList({
                       </Typography>
                     )}
                   />
+                  {isLoadingSelectedConversation && loadingConversationId === conversation.id && (
+                    <CircularProgress size={20} sx={{ ml: 1 }} />
+                  )}
                 </div>
               )}
               {editingIndex === index ? (
