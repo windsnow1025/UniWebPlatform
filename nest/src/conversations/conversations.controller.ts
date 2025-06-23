@@ -30,6 +30,16 @@ export class ConversationsController {
     );
   }
 
+  @Get('/conversation/:id')
+  async findOne(
+    @Request() req: RequestWithUser,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    const userId = req.user.id;
+    const conversation = await this.service.findOne(userId, id);
+    return this.service.toConversationDto(conversation);
+  }
+
   @Post('/conversation')
   async create(
     @Request() req: RequestWithUser,

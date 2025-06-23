@@ -21,6 +21,18 @@ export default class ConversationLogic {
     }
   }
 
+  async fetchConversation(id: number): Promise<ConversationResDto> {
+    try {
+      return await this.conversationService.fetchConversation(id);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
+      console.error(error);
+      throw new Error('Failed to fetch conversation');
+    }
+  }
+
   async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
     try {
       return await this.conversationService.addConversation(conversation);
@@ -96,5 +108,4 @@ export default class ConversationLogic {
       throw new Error('Failed to delete conversation');
     }
   }
-
 }
