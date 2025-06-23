@@ -8,10 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import {
-  Forum as ForumIcon,
   Refresh as RefreshIcon,
-  Sync as SyncIcon,
-  SyncDisabled as SyncDisabledIcon
 } from '@mui/icons-material';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 import ConversationList from './ConversationList';
