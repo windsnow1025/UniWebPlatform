@@ -12,6 +12,12 @@ export default class ConversationClient {
     return res.data;
   }
 
+  async fetchConversation(id: number): Promise<ConversationResDto> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerFindOne(id);
+    return res.data;
+  }
+
   async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerCreate(
