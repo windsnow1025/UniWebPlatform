@@ -7,7 +7,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
 import { UsersService } from '../users/users.service';
-import { ConversationResDto } from './dto/conversation.res.dto';
+import {
+  ConversationResDto,
+  ConversationUpdateTimeResDto,
+} from './dto/conversation.res.dto';
 import { Message } from './message.entity';
 
 @Injectable()
@@ -67,6 +70,17 @@ export class ConversationsService {
     }
 
     return conversation;
+  }
+
+  async findUpdateTimes(
+    userId: number,
+  ): Promise<ConversationUpdateTimeResDto[]> {
+    const conversations = await this.find(userId);
+
+    return conversations.map((conversation) => ({
+      id: conversation.id,
+      updatedAt: conversation.updatedAt,
+    }));
   }
 
   async create(
