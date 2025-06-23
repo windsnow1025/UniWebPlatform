@@ -113,7 +113,7 @@ export default function App({ Component }: { Component: React.ElementType }) {
         <EmailVerificationDialog/>
         <AnnouncementSnackbar/>
         <div className="local-scroll-root">
-          <DashboardLayout>
+          <DashboardLayout defaultSidebarCollapsed={true}>
           {/*<PageContainer>*/}
             <Component />
           {/*</PageContainer>*/}
