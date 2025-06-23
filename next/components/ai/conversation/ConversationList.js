@@ -24,6 +24,7 @@ import {
 } from '@mui/icons-material';
 import ShareConversationDialog from './ShareConversationDialog';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
+import { isEqual } from 'lodash';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -86,8 +87,17 @@ function ConversationList({
   const loadConversations = async () => {
     setIsLoadingConversation(true);
     try {
+      const updatedTimes = await conversationLogic.fetchConversationUpdatedTimes();
+
+      const currentMetadata = conversations.map(conv => ({ id: conv.id, updatedAt: conv.updatedAt }));
+      if (conversations.length > 0 && updatedTimes.length === currentMetadata.length && isEqual(updatedTimes, currentMetadata)) {
+        console.log('Conversation metadata unchanged, skipping full fetch');
+        return conversations;
+      }
+
       const newConversations = await conversationLogic.fetchConversations();
       setConversations(newConversations);
+      return newConversations;
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage(err.message);
@@ -113,14 +123,15 @@ function ConversationList({
     setShareDialogOpen(true);
   };
 
-  const handleConversationClick = async (conversationMessages, conversationId) => {
+  const handleConversationClick = async (conversationId) => {
     setIsLoadingSelectedConversation(true);
     setLoadingConversationId(conversationId);
 
     try {
-      await loadConversations();
+      const conversations = await loadConversations();
+      const conversation = conversations.find(c => c.id === conversationId);
 
-      const messagesCopy = JSON.parse(JSON.stringify(conversationMessages));
+      const messagesCopy = JSON.parse(JSON.stringify(conversation.messages));
       setMessages(messagesCopy);
       setSelectedConversationId(conversationId);
     } finally {
@@ -237,7 +248,7 @@ function ConversationList({
               bgcolor: conversation.id === selectedConversationId ? 'action.selected' : 'inherit',
             }}
           >
-            <ListItemButton onClick={() => handleConversationClick(conversation.messages, conversation.id)}>
+            <ListItemButton onClick={() => handleConversationClick(conversation.id)}>
               {editingIndex === index ? (
                 <TextField
                   value={editingName}
