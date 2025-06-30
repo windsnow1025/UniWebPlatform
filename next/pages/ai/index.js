@@ -4,6 +4,7 @@ import {Collapse, Paper} from "@mui/material";
 import ChatLogic from "../../lib/chat/ChatLogic";
 import ConfigDiv from "../../components/ai/ConfigDiv";
 import SendButton from "../../components/ai/SendButton";
+import RetryButton from "../../components/ai/RetryButton";
 import ChatMessagesDiv from "../../components/ai/ChatMessagesDiv";
 import ClearButton from "../../components/ai/ClearButton";
 import ConversationSidebar from "../../components/ai/conversation/ConversationSidebar";
@@ -43,6 +44,9 @@ function AIChat() {
 
   // Credit refresh
   const [creditRefreshKey, setCreditRefreshKey] = useState(0);
+
+  // Ref for handleGenerate function
+  const handleGenerateRef = useRef(null);
 
   return (
     <div className="local-scroll-container">
@@ -88,19 +92,30 @@ function AIChat() {
             />
           </Paper>
           <div className="flex-around">
-            <SendButton
-              isGenerating={isGenerating}
-              setIsGenerating={setIsGenerating}
-              isGeneratingRef={isGeneratingRef}
-              setConversationUpdateKey={setConversationUpdateKey}
-              setCreditRefreshKey={setCreditRefreshKey}
-              messages={messages}
-              setMessages={setMessages}
-              apiType={apiType}
-              model={model}
-              temperature={temperature}
-              stream={stream}
-            />
+            <div className="flex-center">
+              <SendButton
+                isGenerating={isGenerating}
+                setIsGenerating={setIsGenerating}
+                isGeneratingRef={isGeneratingRef}
+                setConversationUpdateKey={setConversationUpdateKey}
+                setCreditRefreshKey={setCreditRefreshKey}
+                handleGenerateRef={handleGenerateRef}
+                messages={messages}
+                setMessages={setMessages}
+                apiType={apiType}
+                model={model}
+                temperature={temperature}
+                stream={stream}
+              />
+              <RetryButton
+                messages={messages}
+                setMessages={setMessages}
+                isGenerating={isGenerating}
+                setIsGenerating={setIsGenerating}
+                isGeneratingRef={isGeneratingRef}
+                handleGenerate={() => handleGenerateRef.current && handleGenerateRef.current()}
+              />
+            </div>
             <ClearButton
               setMessages={setMessages}
               setIsGenerating={setIsGenerating}

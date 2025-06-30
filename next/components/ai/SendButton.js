@@ -10,6 +10,7 @@ function SendButton({
                       isGeneratingRef,
                       setConversationUpdateKey,
                       setCreditRefreshKey,
+                      handleGenerateRef,
                       messages,
                       setMessages,
                       apiType,
@@ -159,6 +160,10 @@ function SendButton({
       switchStatus(false);
     }
   };
+
+  useEffect(() => {
+    handleGenerateRef.current = handleGenerate;
+  })
 
   return (
     <div className="m-2">
