@@ -142,12 +142,7 @@ export class ConversationsService {
     return await this.conversationsRepository.save(conversation);
   }
 
-  async update(
-    userId: number,
-    id: number,
-    name: string,
-    messages: Message[],
-  ) {
+  async update(userId: number, id: number, name: string, messages: Message[]) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
