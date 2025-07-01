@@ -91,7 +91,6 @@ function ConversationList({
 
       const currentMetadata = conversations.map(conv => ({ id: conv.id, updatedAt: conv.updatedAt }));
       if (conversations.length > 0 && updatedTimes.length === currentMetadata.length && isEqual(updatedTimes, currentMetadata)) {
-        console.log('Conversation metadata unchanged, skipping full fetch');
         return conversations;
       }
 
@@ -160,7 +159,6 @@ function ConversationList({
         newConversations[index] = updatedConversation;
         return newConversations;
       });
-      await loadConversations();
 
       if (isManualUpdate) {
         setAlertOpen(true);
@@ -191,7 +189,6 @@ function ConversationList({
         newConversations[index] = updatedConversation;
         return newConversations;
       });
-      await loadConversations();
       setAlertOpen(true);
       setAlertMessage('Conversation name updated');
       setAlertSeverity('success');

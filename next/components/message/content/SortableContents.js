@@ -15,6 +15,7 @@ function SortableContents({
                             contents,
                             setContents,
                             rawEditableState,
+                            setConversationUpdateKey,
                           }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -38,18 +39,27 @@ function SortableContents({
     }
 
     setContents(updatedContents);
+
+    if (item.type === SortableContentType.Files) {
+      console.log("update triggered in sortable contents")
+      setConversationUpdateKey(prev => prev + 1);
+    }
   };
 
   const handleContentDelete = (itemId) => {
     const item = groupedItems.find(item => item.id === itemId);
     if (!item) return;
     setContents(deleteContent(contents, item));
+
+    setConversationUpdateKey(prev => prev + 1);
   };
 
   const handleDragEnd = (event) => {
-    const { active, over } = event;
+    const {active, over} = event;
     if (!over || active.id === over.id) return;
     setContents(reorderContents(contents, groupedItems, active.id, over.id));
+
+    setConversationUpdateKey(prev => prev + 1);
   };
 
   return (
@@ -71,6 +81,7 @@ function SortableContents({
             onChange={(newData) => handleContentChange(item.id, newData)}
             onDelete={() => handleContentDelete(item.id)}
             rawEditableState={rawEditableState}
+            setConversationUpdateKey={setConversationUpdateKey}
           />
         ))}
       </SortableContext>

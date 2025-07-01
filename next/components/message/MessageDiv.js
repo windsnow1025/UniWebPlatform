@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {IconButton, lighten, Tooltip} from "@mui/material";
-import RoleDiv from './role/RoleDiv';
 import RoleSelect from './role/RoleSelect';
 import DisplayDiv from "./content/display/DisplayDiv";
 import SortableContents from './content/SortableContents';
@@ -16,8 +15,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 function MessageDiv({
                       message,
                       setMessage,
-                      useRoleSelect = false,
-                      onMessageDelete = null,
+                      onMessageDelete,
+                      setConversationUpdateKey,
                     }) {
   const theme = useTheme();
   const [showPreview, setShowPreview] = useState(message.role !== MessageRoleEnum.User);
@@ -25,6 +24,8 @@ function MessageDiv({
   const handleRoleChange = (newRole) => {
     setMessage({...message, role: newRole});
     setShowPreview(newRole !== MessageRoleEnum.User);
+
+    setConversationUpdateKey(prev => prev + 1);
   };
 
   const handleContentsChange = (newContents) => {
@@ -83,15 +84,13 @@ function MessageDiv({
         }}
       >
         <div className="flex">
-          {useRoleSelect ? (
-            <RoleSelect role={message.role} setRole={handleRoleChange}/>
-          ) : (
-            <RoleDiv role={message.role} setRole={handleRoleChange}/>
-          )}
+          <RoleSelect role={message.role} setRole={handleRoleChange}/>
           <div className="inflex-fill"></div>
 
           <Tooltip title={showPreview ? "Edit Mode" : "Preview Mode"}>
-            <IconButton size="small" onClick={() => {setShowPreview(!showPreview)}}>
+            <IconButton size="small" onClick={() => {
+              setShowPreview(!showPreview)
+            }}>
               {showPreview ? <VisibilityOffIcon fontSize="small"/> : <VisibilityIcon fontSize="small"/>}
             </IconButton>
           </Tooltip>
@@ -103,19 +102,18 @@ function MessageDiv({
               </IconButton>
             </Tooltip>
           )}
-          {onMessageDelete && (
-            <Tooltip title="Delete Message">
-              <IconButton size="small" onClick={onMessageDelete}>
-                <RemoveCircleOutlineIcon fontSize="small"/>
-              </IconButton>
-            </Tooltip>
-          )}
+          <Tooltip title="Delete Message">
+            <IconButton size="small" onClick={onMessageDelete}>
+              <RemoveCircleOutlineIcon fontSize="small"/>
+            </IconButton>
+          </Tooltip>
         </div>
 
         <SortableContents
           contents={message.contents}
           setContents={handleContentsChange}
           rawEditableState={rawEditableState}
+          setConversationUpdateKey={setConversationUpdateKey}
         />
 
         <DisplayDiv
@@ -127,6 +125,7 @@ function MessageDiv({
           <AddContentArea
             contents={message.contents}
             setContents={handleContentsChange}
+            setConversationUpdateKey={setConversationUpdateKey}
           />
         )}
       </div>
