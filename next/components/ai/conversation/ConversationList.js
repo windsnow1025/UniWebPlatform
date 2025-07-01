@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
   Alert,
+  Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   List,
   ListItem,
@@ -18,7 +24,6 @@ import {
   DeleteOutlined as DeleteOutlinedIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
-  Save as SaveIcon,
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon,
 } from '@mui/icons-material';
@@ -78,6 +83,10 @@ function ConversationList({
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
+  // Selection dialog state
+  const [selectionDialogOpen, setSelectionDialogOpen] = useState(false);
+  const [pendingConversationId, setPendingConversationId] = useState(null);
+
   const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
@@ -123,6 +132,16 @@ function ConversationList({
   };
 
   const handleConversationClick = async (conversationId) => {
+    if (selectedConversationId === null) {
+      setPendingConversationId(conversationId);
+      setSelectionDialogOpen(true);
+      return;
+    }
+
+    await selectConversation(conversationId);
+  };
+
+  const selectConversation = async (conversationId) => {
     setIsLoadingSelectedConversation(true);
     setLoadingConversationId(conversationId);
 
@@ -139,7 +158,14 @@ function ConversationList({
     }
   };
 
-  const handleUpdateConversation = async (index, isManualUpdate = false) => {
+  const overwriteConversation = async (conversationId) => {
+    const conversationIndex = conversations.findIndex(c => c.id === conversationId);
+    if (conversationIndex === -1) return;
+
+    await updateConversation(conversationIndex);
+  };
+
+  const updateConversation = async (index) => {
     const conversationId = conversations[index].id;
     setSelectedConversationId(conversationId);
 
@@ -159,12 +185,6 @@ function ConversationList({
         newConversations[index] = updatedConversation;
         return newConversations;
       });
-
-      if (isManualUpdate) {
-        setAlertOpen(true);
-        setAlertMessage('Conversation updated successfully');
-        setAlertSeverity('success');
-      }
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage(err.message);
@@ -176,7 +196,7 @@ function ConversationList({
     }
   };
 
-  const handleUpdateConversationName = async (index, newName) => {
+  const updateConversationName = async (index, newName) => {
     const conversationId = conversations[index].id;
 
     setIsLoadingSelectedConversation(true);
@@ -203,7 +223,7 @@ function ConversationList({
     }
   };
 
-  const handleDeleteConversation = async (index) => {
+  const deleteConversation = async (index) => {
     const conversationId = conversations[index].id;
 
     setIsLoadingSelectedConversation(true);
@@ -277,7 +297,7 @@ function ConversationList({
                 <Tooltip title="Save">
                   <IconButton onClick={(e) => {
                     e.stopPropagation();
-                    handleUpdateConversationName(index, editingName);
+                    updateConversationName(index, editingName);
                     setEditingIndex(null);
                     setEditingName('');
                   }}>
@@ -311,15 +331,7 @@ function ConversationList({
             >
               <MenuItem onClick={(e) => {
                 e.stopPropagation();
-                handleUpdateConversation(index, true);
-                handleMenuClose();
-              }}>
-                <SaveIcon fontSize="small" className="m-1" />
-                Update
-              </MenuItem>
-              <MenuItem onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteConversation(index);
+                deleteConversation(index);
                 handleMenuClose();
               }}>
                 <DeleteOutlinedIcon fontSize="small" className="m-1" />
@@ -343,6 +355,40 @@ function ConversationList({
         onClose={() => setShareDialogOpen(false)}
         conversationId={conversations[selectedConversationIndex]?.id}
       />
+
+      <Dialog
+        open={selectionDialogOpen}
+        onClose={() => setSelectionDialogOpen(false)}
+        aria-labelledby="conversation-selection-dialog-title"
+      >
+        <DialogTitle id="conversation-selection-dialog-title">
+          Select Conversation
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Overwrite with current messages, or select (unsaved messages will be lost)?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            onClick={() => {
+              setSelectionDialogOpen(false);
+              selectConversation(pendingConversationId);
+            }}
+          >
+            Select
+          </Button>
+          <Button 
+            onClick={() => {
+              setSelectionDialogOpen(false);
+              overwriteConversation(pendingConversationId);
+            }}
+            variant="contained"
+          >
+            Overwrite
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Snackbar
         open={alertOpen}
