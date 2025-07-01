@@ -375,6 +375,8 @@ function ConversationList({
               setSelectionDialogOpen(false);
               selectConversation(pendingConversationId);
             }}
+            variant="contained"
+            color="primary"
           >
             Select
           </Button>
@@ -384,6 +386,7 @@ function ConversationList({
               overwriteConversation(pendingConversationId);
             }}
             variant="contained"
+            color="secondary"
           >
             Overwrite
           </Button>
