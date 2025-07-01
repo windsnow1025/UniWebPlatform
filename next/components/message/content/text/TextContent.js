@@ -7,6 +7,7 @@ function TextContent({
                       content,
                       setContent,
                       rawEditableState,
+                      setConversationUpdateKey,
                     }) {
   const theme = useTheme();
   const mode = theme.palette.mode;
@@ -50,6 +51,11 @@ function TextContent({
   const handleBlur = () => {
     const newContent = contentRef.current.innerHTML;
     setContent(newContent);
+
+    if (setConversationUpdateKey) {
+      console.log("trigger update in text content")
+      setConversationUpdateKey(prev => prev + 1);
+    }
   };
 
   return (

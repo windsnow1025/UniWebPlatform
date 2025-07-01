@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Button, Divider} from "@mui/material";
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import {Box, Divider} from "@mui/material";
 import FileUpload from './FileUpload';
 import AudioRecord from './AudioRecord';
 import FileDropZone from './FileDropZone';
@@ -8,7 +7,7 @@ import UrlAdd from './UrlAdd';
 import {ContentTypeEnum} from "../../../../client";
 import AddTextButton from "./AddTextButton";
 
-function AddContentArea({contents, setContents}) {
+function AddContentArea({contents, setContents, setConversationUpdateKey}) {
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -23,13 +22,8 @@ function AddContentArea({contents, setContents}) {
     });
 
     setContents(newContents);
-  };
 
-  const handleAddFileByUrl = (url) => {
-    setContents([
-      ...contents,
-      {type: ContentTypeEnum.File, data: url}
-    ]);
+    setConversationUpdateKey(prev => prev + 1);
   };
 
   return (
@@ -44,7 +38,7 @@ function AddContentArea({contents, setContents}) {
           />
         </div>
 
-        <Divider orientation="vertical" flexItem sx={{ ml: 1 }} />
+        <Divider orientation="vertical" flexItem sx={{ml: 1}}/>
 
         <div className="flex-center mt-1.5 inflex-fill">
           <FileUpload
@@ -67,7 +61,7 @@ function AddContentArea({contents, setContents}) {
           />
 
           <UrlAdd
-            setUrl={handleAddFileByUrl}
+            setUrl={url => handleAddFiles([url])}
             isUploading={isUploading}
           />
 

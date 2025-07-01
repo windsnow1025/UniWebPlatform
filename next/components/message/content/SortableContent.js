@@ -17,6 +17,7 @@ function SortableContent({
                            onChange,
                            onDelete,
                            rawEditableState,
+                           setConversationUpdateKey,
                          }) {
   const {
     attributes,
@@ -85,6 +86,7 @@ function SortableContent({
               content={content}
               setContent={onChange}
               rawEditableState={rawEditableState}
+              setConversationUpdateKey={setConversationUpdateKey}
             />
           ) : (
             <SortableFiles

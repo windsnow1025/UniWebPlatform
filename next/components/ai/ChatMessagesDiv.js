@@ -41,8 +41,8 @@ function ChatMessagesDiv({
           <MessageDiv
             message={message}
             setMessage={(updatedMessage) => handleMessageUpdate(message.id, updatedMessage)}
-            useRoleSelect={true}
             onMessageDelete={() => handleMessageDelete(message.id)}
+            setConversationUpdateKey={setConversationUpdateKey}
           />
           <AddMessageDivider
             messages={messages}
