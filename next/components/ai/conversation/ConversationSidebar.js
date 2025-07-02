@@ -81,7 +81,6 @@ function ConversationSidebar({
           setConversationLoadKey={setConversationLoadKey}
         />
 
-        <Divider/>
         <div className="p-2">
           <SaveConversation
             messages={messages}
