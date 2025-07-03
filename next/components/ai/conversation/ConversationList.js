@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Alert,
   Button,
@@ -29,7 +29,7 @@ import {
 } from '@mui/icons-material';
 import ShareConversationDialog from './ShareConversationDialog';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
-import { isEqual } from 'lodash';
+import {isEqual} from 'lodash';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -74,8 +74,7 @@ function ConversationList({
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
 
   // Loading state
-  const [isLoadingConversation, setIsLoadingConversation] = useState(true);
-  const [isLoadingSelectedConversation, setIsLoadingSelectedConversation] = useState(false);
+  const [isLoadingConversations, setIsLoadingConversations] = useState(true);
   const [loadingConversationId, setLoadingConversationId] = useState(null);
 
   // Alert state
@@ -94,12 +93,12 @@ function ConversationList({
   }, [conversationLoadKey]);
 
   const loadConversations = async () => {
-    setIsLoadingConversation(true);
+    setIsLoadingConversations(true);
     try {
       const updatedTimes = await conversationLogic.fetchConversationUpdatedTimes();
 
-      const currentMetadata = conversations.map(conv => ({ id: conv.id, updatedAt: conv.updatedAt }));
-      if (conversations.length > 0 && updatedTimes.length === currentMetadata.length && isEqual(updatedTimes, currentMetadata)) {
+      const currentMetadata = conversations.map(conv => ({id: conv.id, updatedAt: conv.updatedAt}));
+      if (isEqual(updatedTimes, currentMetadata)) {
         return conversations;
       }
 
@@ -111,9 +110,8 @@ function ConversationList({
       setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
-    } finally {
-      setIsLoadingConversation(false);
     }
+    setIsLoadingConversations(false);
   };
 
   const handleMenuOpen = (event, index) => {
@@ -142,20 +140,17 @@ function ConversationList({
   };
 
   const selectConversation = async (conversationId) => {
-    setIsLoadingSelectedConversation(true);
     setLoadingConversationId(conversationId);
 
-    try {
-      const conversations = await loadConversations();
-      const conversation = conversations.find(c => c.id === conversationId);
+    const conversations = await loadConversations();
+    const conversation = conversations.find(c => c.id === conversationId);
 
-      const messagesCopy = JSON.parse(JSON.stringify(conversation.messages));
-      setMessages(messagesCopy);
-      setSelectedConversationId(conversationId);
-    } finally {
-      setIsLoadingSelectedConversation(false);
-      setLoadingConversationId(null);
-    }
+    const messagesCopy = JSON.parse(JSON.stringify(conversation.messages));
+    setMessages(messagesCopy);
+
+    setLoadingConversationId(null);
+
+    setSelectedConversationId(conversationId);
   };
 
   const overwriteConversation = async (conversationId) => {
@@ -163,13 +158,12 @@ function ConversationList({
     if (conversationIndex === -1) return;
 
     await updateConversation(conversationIndex);
+    setSelectedConversationId(conversationId);
   };
 
   const updateConversation = async (index) => {
     const conversationId = conversations[index].id;
-    setSelectedConversationId(conversationId);
 
-    setIsLoadingSelectedConversation(true);
     setLoadingConversationId(conversationId);
 
     try {
@@ -190,16 +184,14 @@ function ConversationList({
       setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
-    } finally {
-      setIsLoadingSelectedConversation(false);
-      setLoadingConversationId(null);
     }
+
+    setLoadingConversationId(null);
   };
 
   const updateConversationName = async (index, newName) => {
     const conversationId = conversations[index].id;
 
-    setIsLoadingSelectedConversation(true);
     setLoadingConversationId(conversationId);
 
     try {
@@ -217,16 +209,14 @@ function ConversationList({
       setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
-    } finally {
-      setIsLoadingSelectedConversation(false);
-      setLoadingConversationId(null);
     }
+
+    setLoadingConversationId(null);
   };
 
   const deleteConversation = async (index) => {
     const conversationId = conversations[index].id;
 
-    setIsLoadingSelectedConversation(true);
     setLoadingConversationId(conversationId);
 
     try {
@@ -240,16 +230,15 @@ function ConversationList({
       setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
-    } finally {
-      setIsLoadingSelectedConversation(false);
-      setLoadingConversationId(null);
     }
+
+    setLoadingConversationId(null);
   };
 
-  if (isLoadingConversation && conversations.length === 0) {
+  if (isLoadingConversations && conversations.length === 0) {
     return (
       <div className="local-scroll-scrollable flex-center p-4">
-        <CircularProgress />
+        <CircularProgress/>
       </div>
     );
   }
@@ -288,8 +277,8 @@ function ConversationList({
                       </Typography>
                     )}
                   />
-                  {isLoadingSelectedConversation && loadingConversationId === conversation.id && (
-                    <CircularProgress size={20} sx={{ ml: 1 }} />
+                  {loadingConversationId === conversation.id && (
+                    <CircularProgress size={20} sx={{ml: 1}}/>
                   )}
                 </div>
               )}
@@ -301,7 +290,7 @@ function ConversationList({
                     setEditingIndex(null);
                     setEditingName('');
                   }}>
-                    <SaveOutlinedIcon />
+                    <SaveOutlinedIcon/>
                   </IconButton>
                 </Tooltip>
               ) : (
@@ -311,7 +300,7 @@ function ConversationList({
                     setEditingIndex(index);
                     setEditingName(conversation.name);
                   }}>
-                    <EditIcon fontSize="small" />
+                    <EditIcon fontSize="small"/>
                   </IconButton>
                 </Tooltip>
               )}
@@ -320,7 +309,7 @@ function ConversationList({
                   e.stopPropagation();
                   handleMenuOpen(e, index);
                 }}>
-                  <MoreVertIcon fontSize="small" />
+                  <MoreVertIcon fontSize="small"/>
                 </IconButton>
               </Tooltip>
             </ListItemButton>
@@ -334,7 +323,7 @@ function ConversationList({
                 deleteConversation(index);
                 handleMenuClose();
               }}>
-                <DeleteOutlinedIcon fontSize="small" className="m-1" />
+                <DeleteOutlinedIcon fontSize="small" className="m-1"/>
                 Delete
               </MenuItem>
               <MenuItem onClick={(e) => {
@@ -342,7 +331,7 @@ function ConversationList({
                 openShareDialog(index);
                 handleMenuClose();
               }}>
-                <ShareIcon fontSize="small" className="m-1" />
+                <ShareIcon fontSize="small" className="m-1"/>
                 Share
               </MenuItem>
             </Menu>
@@ -362,15 +351,15 @@ function ConversationList({
         aria-labelledby="conversation-selection-dialog-title"
       >
         <DialogTitle id="conversation-selection-dialog-title">
-          Select Conversation
+          Conversation Options
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Overwrite with current messages, or select (unsaved messages will be lost)?
+            Overwrite with current messages, or not overwrite (unsaved messages will be lost)?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button 
+          <Button
             onClick={() => {
               setSelectionDialogOpen(false);
               selectConversation(pendingConversationId);
@@ -378,9 +367,9 @@ function ConversationList({
             variant="contained"
             color="primary"
           >
-            Select
+            Not Overwrite
           </Button>
-          <Button 
+          <Button
             onClick={() => {
               setSelectionDialogOpen(false);
               overwriteConversation(pendingConversationId);
