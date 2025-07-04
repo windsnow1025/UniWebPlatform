@@ -8,6 +8,11 @@ html {
     overflow: hidden;
 }
 
+/* Markdown */
+.markdown-body table {
+    display: table !important;
+}
+
 /* Next.JS */
 nextjs-portal {
     display: none;

@@ -25,7 +25,7 @@ function MarkdownAdd() {
       const content = markdownRef.current.innerHTML;
       setContent(content);
 
-      parseMarkdownLaTeX(markdownRef.current, content);
+      markdownRef.current.innerHTML = parseMarkdownLaTeX(content);
     }
     setIsEditing(false);
   };

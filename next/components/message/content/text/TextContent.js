@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
+import {applyTheme, desanitizeContent, parseMarkdownLaTeX, sanitizeContent} from "markdown-latex-renderer";
 import {ContentEditable, RawEditableState} from "@/lib/common/message/EditableState";
 import {useTheme} from "@mui/material";
 
@@ -16,10 +16,10 @@ function TextContent({
   const contentRef = useRef(null);
 
   const parse = (content) => {
-    parseMarkdownLaTeX(contentRef.current, content);
+    contentRef.current.innerHTML = parseMarkdownLaTeX(content);
   }
   const unparse = (content) => {
-    contentRef.current.innerHTML = content;
+    contentRef.current.innerHTML = sanitizeContent(content);
   }
 
   const processMarkdown = async (content, editableState) => {
@@ -49,11 +49,10 @@ function TextContent({
   }, [content, rawEditableState, mode]);
 
   const handleBlur = () => {
-    const newContent = contentRef.current.innerHTML;
+    const newContent = desanitizeContent(contentRef.current.innerHTML);
     setContent(newContent);
 
     if (setConversationUpdateKey) {
-      console.log("trigger update in text content")
       setConversationUpdateKey(prev => prev + 1);
     }
   };

@@ -16,7 +16,7 @@ function MarkdownViewer() {
     const publicService = new PublicClient();
     const markdown = await publicService.fetchMarkdown(filename);
     if (markdownRef.current) {
-      parseMarkdownLaTeX(markdownRef.current, markdown);
+      markdownRef.current.innerHTML = parseMarkdownLaTeX(markdown);
     }
   };
 
