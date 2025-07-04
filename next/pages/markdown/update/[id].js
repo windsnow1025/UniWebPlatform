@@ -21,7 +21,7 @@ function MarkdownUpdate() {
 
     document.title = markdown.title;
 
-    parseMarkdownLaTeX(markdownRef.current, markdown.content);
+    markdownRef.current.innerHTML = parseMarkdownLaTeX(markdown.content);
   };
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function MarkdownUpdate() {
     if (markdownRef.current) {
       const content = markdownRef.current.innerHTML;
       setMarkdown(prev => ({...prev, content: content}));
-      parseMarkdownLaTeX(markdownRef.current, content);
+      markdownRef.current.innerHTML = parseMarkdownLaTeX(content);
     }
     setIsEditing(false);
   };
