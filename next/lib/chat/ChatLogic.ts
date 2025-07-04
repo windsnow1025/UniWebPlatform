@@ -217,27 +217,9 @@ export default class ChatLogic {
   async nonStreamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
   ): Promise<ChatResponse> {
-    const desanitizedMessages = messages.map(message => {
-      // Create a deep copy of the message
-      const messageCopy = {...message};
-
-      // Find and desanitize text content
-      messageCopy.contents = message.contents.map(content => {
-        if (content.type === ContentTypeEnum.Text) {
-          return {
-            ...content,
-            data: desanitizeContent(content.data)
-          };
-        }
-        return content;
-      });
-
-      return messageCopy;
-    });
-
     try {
       const content = await this.chatService.nonStreamGenerate(
-        desanitizedMessages, api_type, model, temperature
+        messages, api_type, model, temperature
       );
       if (content.error) {
         throw new Error(content.error);
@@ -249,7 +231,6 @@ export default class ChatLogic {
         if (citations) {
           text = this.addCitations(text, citations);
         }
-        text = sanitizeContent(text);
       }
 
       return {
@@ -267,27 +248,9 @@ export default class ChatLogic {
     messages: Message[], api_type: string, model: string, temperature: number,
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final citation text
-    const desanitizedMessages = messages.map(message => {
-      // Create a deep copy of the message
-      const messageCopy = {...message};
-
-      // Find and desanitize text content
-      messageCopy.contents = message.contents.map(content => {
-        if (content.type === ContentTypeEnum.Text) {
-          return {
-            ...content,
-            data: desanitizeContent(content.data)
-          };
-        }
-        return content;
-      });
-
-      return messageCopy;
-    });
-
     try {
       const response = this.chatService.streamGenerate(
-        desanitizedMessages, api_type, model, temperature, onOpenCallback
+        messages, api_type, model, temperature, onOpenCallback
       );
 
       let text = "";
@@ -298,17 +261,15 @@ export default class ChatLogic {
           throw new Error(chunk.error);
         }
 
-        let sanitizedChunkText;
         if (chunk.text) {
-          sanitizedChunkText = sanitizeContent(chunk.text);
-          text += sanitizedChunkText;
+          text += chunk.text;
         }
         if (chunk.citations) {
           citations = citations.concat(chunk.citations);
         }
 
         yield {
-          text: sanitizedChunkText,
+          text: chunk.text,
           image: chunk.image,
           display: chunk.display,
         }
