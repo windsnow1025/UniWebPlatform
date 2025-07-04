@@ -1,23 +1,19 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import PublicClient from "../../../lib/common/public/PublicClient";
-import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
+import TextContent from '../../../components/message/content/text/TextContent';
+import {RawEditableState} from '../../../lib/common/message/EditableState';
 import {useTheme} from "@mui/material";
 
 function MarkdownViewer() {
   const router = useRouter();
   const {filename} = router.query;
-  const markdownRef = useRef(null);
-
-  const theme = useTheme();
-  const mode = theme.palette.mode;
+  const [markdown, setMarkdown] = useState('');
 
   const fetchMarkdown = async () => {
     const publicService = new PublicClient();
-    const markdown = await publicService.fetchMarkdown(filename);
-    if (markdownRef.current) {
-      markdownRef.current.innerHTML = parseMarkdownLaTeX(markdown);
-    }
+    const markdownContent = await publicService.fetchMarkdown(filename);
+    setMarkdown(markdownContent);
   };
 
   useEffect(() => {
@@ -27,18 +23,16 @@ function MarkdownViewer() {
     }
   }, [filename]);
 
-  useEffect(() => {
-    applyTheme(mode);
-  }, [mode]);
-
   return (
     <div className="local-scroll-container">
-      
-      <div className="local-scroll-scrollable m-2">
-        <div
-          className="markdown-body p-2 min-h-16"
-          ref={markdownRef}
-        />
+      <div className="local-scroll-scrollable">
+        <div className="m-2">
+          <TextContent
+            content={markdown}
+            setContent={() => {}}
+            rawEditableState={RawEditableState.AlwaysFalse}
+          />
+        </div>
       </div>
     </div>
   );

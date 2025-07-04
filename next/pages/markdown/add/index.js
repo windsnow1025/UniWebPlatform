@@ -1,38 +1,28 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MarkdownLogic from '../../../lib/markdown/MarkdownLogic';
 import {Alert, Button, Snackbar, useTheme} from "@mui/material";
-import {applyTheme, parseMarkdownLaTeX} from "markdown-latex-renderer";
+import TextContent from '../../../components/message/content/text/TextContent';
+import {RawEditableState} from '../../../lib/common/message/EditableState';
 
 function MarkdownAdd() {
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const markdownRef = useRef(null);
-
-  const theme = useTheme();
-  const mode = theme.palette.mode;
 
   useEffect(() => {
     document.title = "Markdown Add";
   }, []);
 
   const handleEdit = () => {
-    markdownRef.current.innerHTML = content;
     setIsEditing(true);
   };
 
   const handleConfirm = async () => {
-    if (markdownRef.current) {
-      const content = markdownRef.current.innerHTML;
-      setContent(content);
-
-      markdownRef.current.innerHTML = parseMarkdownLaTeX(content);
-    }
     setIsEditing(false);
   };
 
-  useEffect(() => {
-    applyTheme(mode);
-  }, [mode]);
+  const handleContentChange = (newContent) => {
+    setContent(newContent);
+  };
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -55,13 +45,14 @@ function MarkdownAdd() {
 
   return (
     <div className="local-scroll-container">
-      
-      <div className="local-scroll-scrollable m-2">
-        <div
-          className="markdown-body p-2 min-h-16"
-          ref={markdownRef}
-          contentEditable={isEditing ? "plaintext-only" : "false"}
-        />
+      <div className="local-scroll-scrollable">
+        <div className="m-2">
+          <TextContent
+            content={content}
+            setContent={handleContentChange}
+            rawEditableState={isEditing ? RawEditableState.AlwaysTrue : RawEditableState.AlwaysFalse}
+          />
+        </div>
       </div>
       <div className="flex-center">
         {!isEditing &&
