@@ -3,12 +3,12 @@ import {IconButton, Tooltip, Typography, useTheme} from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import {useSortable} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
-import { RawEditableState } from "../../../lib/common/message/EditableState";
+import {RawEditableState} from "../../../lib/common/message/EditableState";
 import SortableFiles from "./file/SortableFiles";
-import { SortableContentType } from "../../../lib/common/message/SortableContent";
+import {SortableContentType} from "../../../lib/common/message/SortableContent";
 
 function SortableContent({
                            id,
@@ -80,22 +80,20 @@ function SortableContent({
           </div>
         )}
 
-        <div className="m-1">
-          {type === SortableContentType.Text ? (
-            <TextContent
-              content={content}
-              setContent={onChange}
-              rawEditableState={rawEditableState}
-              setConversationUpdateKey={setConversationUpdateKey}
-            />
-          ) : (
-            <SortableFiles
-              files={content}
-              setFiles={onChange}
-              rawEditableState={rawEditableState}
-            />
-          )}
-        </div>
+        {type === SortableContentType.Text ? (
+          <TextContent
+            content={content}
+            setContent={onChange}
+            rawEditableState={rawEditableState}
+            setConversationUpdateKey={setConversationUpdateKey}
+          />
+        ) : (
+          <SortableFiles
+            files={content}
+            setFiles={onChange}
+            rawEditableState={rawEditableState}
+          />
+        )}
       </div>
     </div>
   );
