@@ -4,11 +4,11 @@ import {ContentEditable, RawEditableState} from "@/lib/common/message/EditableSt
 import {useTheme} from "@mui/material";
 
 function TextContent({
-                      content,
-                      setContent,
-                      rawEditableState,
-                      setConversationUpdateKey,
-                    }) {
+                       content,
+                       setContent,
+                       rawEditableState,
+                       setConversationUpdateKey,
+                     }) {
   const theme = useTheme();
   const mode = theme.palette.mode;
 
@@ -58,14 +58,12 @@ function TextContent({
   };
 
   return (
-    <>
-      <div
-        className="markdown-body p-4 h-full rounded min-h-16"
-        contentEditable={contentEditable}
-        ref={contentRef}
-        onBlur={handleBlur}
-      />
-    </>
+    <div
+      className="local-scroll-scrollable markdown-body p-4 h-full rounded min-h-16"
+      contentEditable={contentEditable}
+      ref={contentRef}
+      onBlur={handleBlur}
+    />
   );
 }
 
