@@ -10,7 +10,7 @@ function DisplayDiv({ display, setDisplay }) {
     <div className="flex local-scroll-scrollable">
       <div
         dangerouslySetInnerHTML={{ __html: display }}
-        className="flex-1"
+        className="flex-1 m-0.25"
       />
       <Tooltip title="Remove Display" className="self-start">
         <IconButton
