@@ -6,19 +6,22 @@ import {
   DialogActions,
   Button,
   TextField,
-  InputAdornment
+  InputAdornment,
+  FormControlLabel,
+  Checkbox
 } from "@mui/material";
 import {Key as KeyIcon} from "@mui/icons-material";
 
 function SecretKeyDialog({open, onClose, keyValue, setKeyValue}) {
   const [inputValue, setInputValue] = useState(keyValue);
+  const [rememberKey, setRememberKey] = useState(true);
 
   useEffect(() => {
     if (open) setInputValue(keyValue);
   }, [open, keyValue]);
 
   const handleSave = () => {
-    setKeyValue(inputValue);
+    setKeyValue(inputValue, rememberKey);
     onClose();
   };
 
@@ -42,6 +45,16 @@ function SecretKeyDialog({open, onClose, keyValue, setKeyValue}) {
             ),
             inputProps: {min: 0}
           }}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={rememberKey}
+              onChange={(e) => setRememberKey(e.target.checked)}
+              color="primary"
+            />
+          }
+          label="Remember this key"
         />
       </DialogContent>
       <DialogActions>
