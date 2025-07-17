@@ -13,9 +13,14 @@ function PasswordEncryptionTool() {
     if (savedKey) setKey(Number(savedKey));
   }, []);
 
-  useEffect(() => {
-    if (key) localStorage.setItem('secretKey', key.toString());
-  }, [key]);
+  const handleSetKey = (newKey, remember = true) => {
+    setKey(Number(newKey));
+    if (remember && newKey) {
+      localStorage.setItem('secretKey', newKey.toString());
+    } else {
+      localStorage.removeItem('secretKey');
+    }
+  };
 
   return (
     <div>
@@ -28,7 +33,7 @@ function PasswordEncryptionTool() {
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
         keyValue={key}
-        setKeyValue={setKey}
+        setKeyValue={handleSetKey}
       />
       <div className="flex flex-col md:flex-row gap-8 justify-center">
         <PasswordGenerator keyValue={key} />
