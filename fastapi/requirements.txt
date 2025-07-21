@@ -2,7 +2,7 @@ llm_bridge==1.7.9 # llm_bridge
 
 # FastAPI and related libraries
 fastapi==0.115.12 # fastapi
-starlette==0.46.1 # starlette
+starlette==0.47.2 # starlette
 uvicorn==0.34.0
 pydantic==2.10.6 # pydantic
 
