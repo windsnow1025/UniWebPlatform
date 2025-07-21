@@ -22,7 +22,7 @@ function TextContent({
     contentRef.current.innerHTML = sanitizeContent(content);
   }
 
-  const processMarkdown = async (content, editableState) => {
+  const updateDisplay = async (content, editableState) => {
     applyTheme(mode);
 
     if (!contentRef.current) {
@@ -45,11 +45,15 @@ function TextContent({
   }
 
   useEffect(() => {
-    processMarkdown(content, rawEditableState);
+    updateDisplay(content, rawEditableState);
   }, [content, rawEditableState, mode]);
 
   const handleBlur = () => {
-    const newContent = desanitizeContent(contentRef.current.innerHTML);
+    let html = contentRef.current.innerHTML;
+    if (html === "<br>") {
+      html = "";
+    }
+    const newContent = desanitizeContent(html);
     setContent(newContent);
 
     if (setConversationUpdateKey) {
