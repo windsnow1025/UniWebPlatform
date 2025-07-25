@@ -49,11 +49,7 @@ function TextContent({
   }, [content, rawEditableState, mode]);
 
   const handleBlur = () => {
-    let html = contentRef.current.innerHTML;
-    if (html === "<br>") {
-      html = "";
-    }
-    const newContent = desanitizeContent(html);
+    const newContent = desanitizeContent(contentRef.current.textContent);
     setContent(newContent);
 
     if (setConversationUpdateKey) {
