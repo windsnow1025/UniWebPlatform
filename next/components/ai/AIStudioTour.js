@@ -12,6 +12,12 @@ const steps = [
     disableBeacon: true,
   },
   {
+    target: '#new-conversation-button-large',
+    content: 'Now click on the button to start a fresh conversation. This will create a new chat where you can interact with the AI.',
+    placement: 'bottom',
+    spotlightClicks: true,
+  },
+  {
     target: '#api-type-select',
     content: 'Select the API type for your AI model here.',
     placement: 'bottom',
@@ -78,9 +84,29 @@ const AIStudioTour = () => {
   const [runTour, setRunTour] = useState(false);
 
   const handleTourCallback = useCallback((data) => {
-    const { status, type } = data;
+    const { status, type, index, action, lifecycle } = data;
+
+    // Handle tour completion or skipping
     if (['finished', 'skipped'].includes(status)) {
       setRunTour(false);
+      return;
+    }
+
+    // Handle the case when user clicks on the New Conversation button
+    if (index === 1 && type === 'step:after') {
+      if (action === 'next') {
+        // User clicked Next without clicking the button, just continue normally
+        return;
+      }
+
+      if (action === 'update' && lifecycle === 'complete') {
+        // User clicked the button, wait for the new conversation to be created
+        // then manually advance to the next step
+        setTimeout(() => {
+          // The tour will automatically continue to the next step
+          // We don't need to set runTour again
+        }, 800); // Increased timeout to give more time for the conversation to be created
+      }
     }
   }, []);
 

@@ -55,6 +55,7 @@ function NewConversationButton({
         startIcon={loading ? <CircularProgress size={16}/> : <ChatIcon/>}
         onClick={handleNewConversation}
         disabled={loading}
+        id={`new-conversation-button-${size}`}
       >
         {loading ? "Creating..." : "New Conversation"}
       </Button>
