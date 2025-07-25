@@ -62,6 +62,17 @@ export default class ChatLogic {
     ]
   }
 
+  static getFileUrlsFromMessage(message: Message): string[] {
+    return message.contents
+      .filter(content => content.type === ContentTypeEnum.File)
+      .map(content => content.data);
+  }
+
+  static getFileUrlsFromMessages(messages: Message[]): string[] {
+    return messages
+      .flatMap(message => ChatLogic.getFileUrlsFromMessage(message));
+  }
+
   async getImageUrl(image: string) {
     const base64ToFile = (base64String: string, filename: string) => {
       const byteCharacters = atob(base64String);

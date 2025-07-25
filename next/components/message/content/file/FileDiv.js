@@ -15,12 +15,23 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 import FilePreview from './FilePreview';
 import { RawEditableState } from "../../../../lib/common/message/EditableState";
+import FileLogic from "../../../../lib/common/file/FileLogic";
 
 const FileDiv = ({ fileUrl, files, setFiles, rawEditableState }) => {
   const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1] || fileUrl.split('/').pop();
   const [previewOpen, setPreviewOpen] = useState(false);
 
-  const handleFileDelete = () => {
+  const handleFileDelete = async () => {
+    // Delete the file from storage
+    try {
+      const fullFileName = FileLogic.getFileNamesFromUrls([fileUrl])[0];
+      const fileLogic = new FileLogic();
+      await fileLogic.deleteFiles([fullFileName]);
+    } catch (error) {
+      console.error('Failed to delete file:', error);
+    }
+
+    // Remove the file from the content
     setFiles(files.filter(file => file !== fileUrl));
   };
 

@@ -24,7 +24,10 @@ import {
 } from '@mui/icons-material';
 import ShareConversationDialog from './ShareConversationDialog';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
+import FileLogic from "../../../lib/common/file/FileLogic";
+import {ContentTypeEnum} from "../../../client";
 import {isEqual} from 'lodash';
+import ChatLogic from "../../../lib/chat/ChatLogic";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -165,7 +168,27 @@ function ConversationList({
     setLoadingConversationId(conversationId);
 
     try {
+      // Find files in the conversation
+      const conversation = await conversationLogic.fetchConversation(conversationId);
+      let fileUrls = [];
+      if (conversation) {
+        fileUrls = ChatLogic.getFileUrlsFromMessages(conversation.messages);
+      }
+
+      // Delete the conversation
       await conversationLogic.deleteConversation(conversationId);
+
+      // Delete the files from storage
+      if (fileUrls.length > 0) {
+        try {
+          const fileNames = FileLogic.getFileNamesFromUrls(fileUrls);
+          const fileLogic = new FileLogic();
+          await fileLogic.deleteFiles(fileNames);
+        } catch (fileError) {
+          console.error('Failed to delete files from conversation:', fileError);
+        }
+      }
+
       await loadConversations();
       setAlertOpen(true);
       setAlertMessage('Conversation deleted');
