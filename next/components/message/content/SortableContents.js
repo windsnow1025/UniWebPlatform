@@ -10,6 +10,7 @@ import {
   updateFileContent,
   updateTextContent
 } from "../../../lib/common/message/SortableContent";
+import FileLogic from "../../../lib/common/file/FileLogic";
 
 function SortableContents({
                             contents,
@@ -45,11 +46,30 @@ function SortableContents({
     }
   };
 
-  const handleContentDelete = (itemId) => {
+  const handleContentDelete = async (itemId) => {
     const item = groupedItems.find(item => item.id === itemId);
     if (!item) return;
-    setContents(deleteContent(contents, item));
 
+    // Find files in the content
+    const groupContentData = item.getData();
+    let fileUrls = [];
+    if (item.type === SortableContentType.Files) {
+      fileUrls = groupContentData;
+    }
+
+    // Delete the files from storage
+    if (fileUrls.length > 0) {
+      try {
+        const fileNames = FileLogic.getFileNamesFromUrls(fileUrls);
+        const fileLogic = new FileLogic();
+        await fileLogic.deleteFiles(fileNames);
+      } catch (error) {
+        console.error('Failed to delete files:', error);
+      }
+    }
+    
+    // Remove the content from the message
+    setContents(deleteContent(contents, item));
     setConversationUpdateKey(prev => prev + 1);
   };
 
