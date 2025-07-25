@@ -17,6 +17,7 @@ function SendButton({
                       model,
                       temperature,
                       stream,
+                      disabled = false,
                     }) {
   const chatLogic = new ChatLogic();
 
@@ -174,6 +175,7 @@ function SendButton({
           color="primary"
           onClick={handleGenerate}
           startIcon={isGenerating ? <StopIcon/> : <PlayArrowIcon/>}
+          disabled={disabled}
         >
           {isGenerating ? "Stop" : "Send"}
         </Button>

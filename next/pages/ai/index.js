@@ -6,11 +6,11 @@ import ConfigDiv from "../../components/ai/ConfigDiv";
 import SendButton from "../../components/ai/SendButton";
 import RetryButton from "../../components/ai/RetryButton";
 import ChatMessagesDiv from "../../components/ai/ChatMessagesDiv";
-import ClearButton from "../../components/ai/ClearButton";
 import ConversationSidebar from "../../components/ai/conversation/ConversationSidebar";
 import ToggleConversationButton from "../../components/ai/conversation/ToggleConversationButton";
 import useScreenSize from '../../components/common/hooks/useScreenSize';
 import AIStudioTour from '../../components/ai/AIStudioTour';
+import NewConversationButton from "../../components/ai/NewConversationButton";
 
 function AIChat() {
   const screenSize = useScreenSize();
@@ -28,7 +28,7 @@ function AIChat() {
   const chatLogic = new ChatLogic();
 
   // Chat Parameters
-  const [messages, setMessages] = useState(chatLogic.initMessages);
+  const [messages, setMessages] = useState([]);
   const [apiType, setApiType] = useState(chatLogic.defaultApiTypeModels[0].apiType);
   const [model, setModel] = useState(chatLogic.defaultApiTypeModels[0].model);
   const [temperature, setTemperature] = useState(0);
@@ -41,6 +41,8 @@ function AIChat() {
   // Conversation
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [conversationUpdateKey, setConversationUpdateKey] = useState(0);
+  const [conversations, setConversations] = useState([]);
+  const [conversationLoadKey, setConversationLoadKey] = useState(0);
 
   // Credit refresh
   const [creditRefreshKey, setCreditRefreshKey] = useState(0);
@@ -59,6 +61,10 @@ function AIChat() {
               selectedConversationId={selectedConversationId}
               setSelectedConversationId={setSelectedConversationId}
               conversationUpdateKey={conversationUpdateKey}
+              conversations={conversations}
+              setConversations={setConversations}
+              conversationLoadKey={conversationLoadKey}
+              setConversationLoadKey={setConversationLoadKey}
             />
           </Collapse>
         </Paper>
@@ -83,13 +89,25 @@ function AIChat() {
             </div>
           </div>
           <Paper elevation={0} className="local-scroll-scrollable px-1" id="chat-messages">
-            <ChatMessagesDiv
-              messages={messages}
-              setMessages={setMessages}
-              setIsGenerating={setIsGenerating}
-              isGeneratingRef={isGeneratingRef}
-              setConversationUpdateKey={setConversationUpdateKey}
-            />
+            {messages.length > 0 ? (
+              <ChatMessagesDiv
+                messages={messages}
+                setMessages={setMessages}
+                setIsGenerating={setIsGenerating}
+                isGeneratingRef={isGeneratingRef}
+                setConversationUpdateKey={setConversationUpdateKey}
+              />
+            ) : (
+              <div className="flex-center h-full">
+                <NewConversationButton
+                  setMessages={setMessages}
+                  setConversations={setConversations}
+                  setSelectedConversationId={setSelectedConversationId}
+                  setConversationLoadKey={setConversationLoadKey}
+                  size="large"
+                />
+              </div>
+            )}
           </Paper>
           <div className="flex-around">
             <div className="flex-center">
@@ -106,6 +124,7 @@ function AIChat() {
                 model={model}
                 temperature={temperature}
                 stream={stream}
+                disabled={messages.length === 0}
               />
               <RetryButton
                 messages={messages}
@@ -116,16 +135,10 @@ function AIChat() {
                 handleGenerate={() => handleGenerateRef.current && handleGenerateRef.current()}
               />
             </div>
-            <ClearButton
-              setMessages={setMessages}
-              setIsGenerating={setIsGenerating}
-              isGeneratingRef={isGeneratingRef}
-              setSelectedConversationId={setSelectedConversationId}
-            />
           </div>
         </div>
       </div>
-      <AIStudioTour />
+      <AIStudioTour/>
     </div>
   );
 }
