@@ -3,11 +3,10 @@ import {
   Alert,
   Divider,
   Snackbar,
-  Typography,
 } from '@mui/material';
-import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 import ConversationList from './ConversationList';
-import SaveConversation from './SaveConversation';
+import NewConversationButton from "../NewConversationButton";
+import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 
 function ConversationSidebar({
                                messages,
@@ -15,15 +14,16 @@ function ConversationSidebar({
                                selectedConversationId,
                                setSelectedConversationId,
                                conversationUpdateKey,
+                               conversations,
+                               setConversations,
+                               conversationLoadKey,
+                               setConversationLoadKey,
                              }) {
-  const [conversations, setConversations] = useState([]);
-  const [conversationLoadKey, setConversationLoadKey] = useState(0);
+  const conversationLogic = new ConversationLogic();
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
-
-  const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
     if (!selectedConversationId) {
@@ -64,9 +64,12 @@ function ConversationSidebar({
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-y">
         <div className="flex-between-nowrap p-4">
-          <Typography variant="h6">
-            Conversation
-          </Typography>
+          <NewConversationButton
+            setMessages={setMessages}
+            setConversations={setConversations}
+            setSelectedConversationId={setSelectedConversationId}
+            setConversationLoadKey={setConversationLoadKey}
+          />
         </div>
         <Divider/>
 
@@ -80,15 +83,6 @@ function ConversationSidebar({
           conversationLoadKey={conversationLoadKey}
           setConversationLoadKey={setConversationLoadKey}
         />
-
-        <div className="p-2">
-          <SaveConversation
-            messages={messages}
-            setSelectedConversationId={setSelectedConversationId}
-            setConversations={setConversations}
-            setConversationLoadKey={setConversationLoadKey}
-          />
-        </div>
       </div>
       <Snackbar
         open={alertOpen}
