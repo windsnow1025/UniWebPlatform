@@ -55,7 +55,6 @@ function ConversationList({
                             setConversations,
                             selectedConversationId,
                             setSelectedConversationId,
-                            messages,
                             setMessages,
                             conversationLoadKey,
                           }) {
@@ -133,35 +132,6 @@ function ConversationList({
     setLoadingConversationId(null);
 
     setSelectedConversationId(conversationId);
-  };
-
-
-  const updateConversation = async (index) => {
-    const conversationId = conversations[index].id;
-
-    setLoadingConversationId(conversationId);
-
-    try {
-      const updatedConversation = await conversationLogic.updateConversation(
-        conversationId,
-        {
-          name: conversations[index].name,
-          messages: messages
-        }
-      );
-      setConversations((prevConversations) => {
-        const newConversations = [...prevConversations];
-        newConversations[index] = updatedConversation;
-        return newConversations;
-      });
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage(err.message);
-      setAlertSeverity('error');
-      console.error(err);
-    }
-
-    setLoadingConversationId(null);
   };
 
   const updateConversationName = async (index, newName) => {

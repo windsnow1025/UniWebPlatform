@@ -78,7 +78,6 @@ function ConversationSidebar({
           setConversations={setConversations}
           selectedConversationId={selectedConversationId}
           setSelectedConversationId={setSelectedConversationId}
-          messages={messages}
           setMessages={setMessages}
           conversationLoadKey={conversationLoadKey}
           setConversationLoadKey={setConversationLoadKey}
