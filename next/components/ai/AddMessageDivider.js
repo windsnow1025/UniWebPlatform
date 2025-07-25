@@ -21,7 +21,6 @@ function AddMessageDivider({
                              isGeneratingRef,
                              setConversationUpdateKey
                            }) {
-  const chatLogic = new ChatLogic();
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMessageAdd = (index) => {
@@ -31,7 +30,7 @@ function AddMessageDivider({
     }
 
     const newMessages = [...messages];
-    newMessages.splice(index + 1, 0, chatLogic.emptyUserMessage);
+    newMessages.splice(index + 1, 0, ChatLogic.emptyUserMessage);
     setMessages(newMessages);
 
     setConversationUpdateKey(prev => prev + 1);

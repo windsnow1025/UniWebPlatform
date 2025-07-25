@@ -6,37 +6,18 @@ import FileLogic from "@/lib/common/file/FileLogic";
 
 export default class ChatLogic {
   private chatService: ChatClient;
-  public initMessages: Message[];
-  public emptyUserMessage: Message;
-  public emptyAssistantMessage: Message;
-  public defaultApiTypeModels: ApiTypeModel[];
-
-  constructor() {
-    this.chatService = new ChatClient();
-
-    this.initMessages = [
-      {
-        id: uuidv4(),
-        role: MessageRoleEnum.System,
-        contents: [
-          {
-            type: ContentTypeEnum.Text,
-            data: "You are a helpful assistant."
-          }
-        ],
-      },
-      {
-        id: uuidv4(),
-        role: MessageRoleEnum.User,
-        contents: [
-          {
-            type: ContentTypeEnum.Text,
-            data: ""
-          }
-        ],
-      }
-    ];
-    this.emptyUserMessage = {
+  static initMessages: Message[] = [
+    {
+      id: uuidv4(),
+      role: MessageRoleEnum.System,
+      contents: [
+        {
+          type: ContentTypeEnum.Text,
+          data: "You are a helpful assistant."
+        }
+      ],
+    },
+    {
       id: uuidv4(),
       role: MessageRoleEnum.User,
       contents: [
@@ -45,35 +26,51 @@ export default class ChatLogic {
           data: ""
         }
       ],
-    };
-    this.emptyAssistantMessage = {
-      id: uuidv4(),
-      role: MessageRoleEnum.Assistant,
-      contents: [
-        {
-          type: ContentTypeEnum.Text,
-          data: ""
-        }
-      ],
-    };
+    }
+  ];
+  static emptyUserMessage: Message = {
+    id: uuidv4(),
+    role: MessageRoleEnum.User,
+    contents: [
+      {
+        type: ContentTypeEnum.Text,
+        data: ""
+      }
+    ],
+  };
+  static emptyAssistantMessage: Message = {
+    id: uuidv4(),
+    role: MessageRoleEnum.Assistant,
+    contents: [
+      {
+        type: ContentTypeEnum.Text,
+        data: ""
+      }
+    ],
+  };
+  static defaultApiTypeModels: ApiTypeModel[] = [
+    {apiType: "", model: "", input: 0, output: 0},
+  ];
 
-    this.defaultApiTypeModels = [
-      {apiType: "", model: "", input: 0, output: 0},
-    ]
+  constructor() {
+    this.chatService = new ChatClient();
   }
 
+  // For deleting files from storage
   static getFileUrlsFromMessage(message: Message): string[] {
     return message.contents
       .filter(content => content.type === ContentTypeEnum.File)
       .map(content => content.data);
   }
 
+  // For deleting files from storage
   static getFileUrlsFromMessages(messages: Message[]): string[] {
     return messages
       .flatMap(message => ChatLogic.getFileUrlsFromMessage(message));
   }
 
-  async getImageUrl(image: string) {
+  // For converting model generated image data to url
+  static async getImageUrl(image: string) {
     const base64ToFile = (base64String: string, filename: string) => {
       const byteCharacters = atob(base64String);
       const byteNumbers = new Array(byteCharacters.length);
@@ -93,7 +90,8 @@ export default class ChatLogic {
     return imageUrl;
   }
 
-  createAssistantMessage(text: string, display: string, fileUrl: string): Message {
+  // For converting model response to an assistant message - first chunk
+  static createAssistantMessage(text: string, display: string, fileUrl: string): Message {
     const contents: Content[] = [
       {
         type: ContentTypeEnum.Text,
@@ -116,7 +114,8 @@ export default class ChatLogic {
     };
   }
 
-  updateMessage(
+  // For converting model response to an assistant message - middle chunks
+  static updateMessage(
     messages: Message[],
     index: number,
     chunk: ChatResponse,
@@ -172,7 +171,8 @@ export default class ChatLogic {
     return newMessages;
   }
 
-  replaceMessageText(
+  // For converting model response to an assistant message - final chunks
+  static replaceMessageText(
     messages: Message[], messageIndex: number, contentIndex: number, text: string
   ): Message[] {
     return messages.map((message, index) => {
@@ -195,6 +195,34 @@ export default class ChatLogic {
     });
   }
 
+  // For chat config
+  static getAllApiTypes(apiModels: ApiTypeModel[]): string[] {
+    const apiTypes = apiModels.map(model => model.apiType);
+    return Array.from(new Set(apiTypes));
+  }
+
+  // For chat config
+  static getDefaultApiType(apiModels: ApiTypeModel[]): string {
+    return ChatLogic.getAllApiTypes(apiModels)[0];
+  }
+
+  // For chat config
+  static filterApiTypeModelsByApiType(
+    apiTypeModels: ApiTypeModel[], apiType: string
+  ): ApiTypeModel[] {
+    if (!Array.isArray(apiTypeModels) || !apiTypeModels.length || !apiType) {
+      return ChatLogic.defaultApiTypeModels;
+    }
+    return apiTypeModels
+      .filter(apiModel => apiModel.apiType === apiType)
+  }
+
+  // For chat config
+  static filterDefaultModelByApiType(apiTypeModels: ApiTypeModel[], apiType: string): string {
+    return ChatLogic.filterApiTypeModelsByApiType(apiTypeModels, apiType)[0].model;
+  }
+
+  // For chat config
   async fetchApiTypeModels(): Promise<ApiTypeModel[]> {
     try {
       return await this.chatService.fetchApiModels();
@@ -203,27 +231,7 @@ export default class ChatLogic {
     }
   }
 
-  getAllApiTypes(apiModels: ApiTypeModel[]): string[] {
-    const apiTypes = apiModels.map(model => model.apiType);
-    return Array.from(new Set(apiTypes));
-  }
-
-  getDefaultApiType(apiModels: ApiTypeModel[]): string {
-    return this.getAllApiTypes(apiModels)[0];
-  }
-
-  filterApiTypeModelsByApiType(apiTypeModels: ApiTypeModel[], apiType: string): ApiTypeModel[] {
-    if (!Array.isArray(apiTypeModels) || !apiTypeModels.length || !apiType) {
-      return this.defaultApiTypeModels;
-    }
-    return apiTypeModels
-      .filter(apiModel => apiModel.apiType === apiType)
-  }
-
-  filterDefaultModelByApiType(apiTypeModels: ApiTypeModel[], apiType: string): string {
-    return this.filterApiTypeModelsByApiType(apiTypeModels, apiType)[0].model;
-  }
-
+  // For chat generate
   async nonStreamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
   ): Promise<ChatResponse> {
@@ -239,7 +247,7 @@ export default class ChatLogic {
       let citations = content.citations;
       if (text) {
         if (citations) {
-          text = this.addCitations(text, citations);
+          text = ChatLogic.addCitations(text, citations);
         }
       }
 
@@ -254,6 +262,7 @@ export default class ChatLogic {
     }
   }
 
+  // For chat generate
   async* streamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number,
     onOpenCallback?: () => void,
@@ -285,14 +294,15 @@ export default class ChatLogic {
         }
       }
 
-      yield this.addCitations(text, citations);
+      yield ChatLogic.addCitations(text, citations);
     } catch (error) {
       console.error("Error in POST /:", error);
       throw error;
     }
   }
 
-  private addCitations(text: string, citations: Citation[]): string {
+  // For chat generate
+  private static addCitations(text: string, citations: Citation[]): string {
     for (const citation of citations) {
       const citationText = citation.text;
       const citationIndices = citation.indices;

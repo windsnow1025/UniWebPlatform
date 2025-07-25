@@ -52,8 +52,8 @@ function SendButton({
 
     setMessages(prevMessages => [
       ...prevMessages,
-      chatLogic.createAssistantMessage(content.text, content.display, imageUrl),
-      chatLogic.emptyUserMessage,
+      ChatLogic.createAssistantMessage(content.text, content.display, imageUrl),
+      ChatLogic.emptyUserMessage,
     ]);
 
     return true;
@@ -73,28 +73,28 @@ function SendButton({
 
       // Create Empty Assistant Message on First Chunk
       if (isFirstChunk) {
-        setMessages(prevMessages => [...prevMessages, chatLogic.emptyAssistantMessage]);
+        setMessages(prevMessages => [...prevMessages, ChatLogic.emptyAssistantMessage]);
         isFirstChunk = false;
       }
 
       // Final citation text
       if (typeof chunk === "string") {
         setMessages(prevMessages =>
-          chatLogic.replaceMessageText(prevMessages, prevMessages.length - 1, 0, chunk)
+          ChatLogic.replaceMessageText(prevMessages, prevMessages.length - 1, 0, chunk)
         );
         break;
       }
 
-      const imageUrl = await chatLogic.getImageUrl(chunk.image);
+      const imageUrl = await ChatLogic.getImageUrl(chunk.image);
 
-      setMessages(prevMessages => chatLogic.updateMessage(
+      setMessages(prevMessages => ChatLogic.updateMessage(
         prevMessages, prevMessages.length - 1, chunk, imageUrl
       ));
 
       if (isAtBottom) scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
     }
 
-    setMessages(prevMessages => [...prevMessages, chatLogic.emptyUserMessage]);
+    setMessages(prevMessages => [...prevMessages, ChatLogic.emptyUserMessage]);
 
     return true;
   };
@@ -130,7 +130,7 @@ function SendButton({
           if (lastMessage && lastMessage.role === 'assistant') {
             const newMessages = [...prevMessages];
             // Replace the partially filled message with a new empty one
-            newMessages[newMessages.length - 1] = chatLogic.emptyAssistantMessage;
+            newMessages[newMessages.length - 1] = ChatLogic.emptyAssistantMessage;
             return newMessages;
           }
           return prevMessages;
