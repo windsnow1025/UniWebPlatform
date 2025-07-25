@@ -11,6 +11,8 @@ function RetryButton({
                        handleGenerate
                      }) {
   const isRetryEnabled = () => {
+    if (messages === null) return false;
+
     if (messages.length === 0) return false;
 
     // Find the last assistant message
