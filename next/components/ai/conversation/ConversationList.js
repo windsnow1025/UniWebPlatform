@@ -200,6 +200,8 @@ function ConversationList({
       console.error(err);
     }
 
+    setSelectedConversationId(null);
+    setMessages(null);
     setLoadingConversationId(null);
   };
 
