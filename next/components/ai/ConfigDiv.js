@@ -54,13 +54,13 @@ function ConfigDiv({
   }, []);
 
   useEffect(() => {
-    setApiTypes(chatLogic.getAllApiTypes(apiTypeModels));
-    setApiType(chatLogic.getDefaultApiType(apiTypeModels));
+    setApiTypes(ChatLogic.getAllApiTypes(apiTypeModels));
+    setApiType(ChatLogic.getDefaultApiType(apiTypeModels));
   }, [apiTypeModels]);
 
   useEffect(() => {
-    setFilteredApiTypeModels(chatLogic.filterApiTypeModelsByApiType(apiTypeModels, apiType));
-    setModel(chatLogic.filterDefaultModelByApiType(apiTypeModels, apiType));
+    setFilteredApiTypeModels(ChatLogic.filterApiTypeModelsByApiType(apiTypeModels, apiType));
+    setModel(ChatLogic.filterDefaultModelByApiType(apiTypeModels, apiType));
   }, [apiType]);
 
   return (

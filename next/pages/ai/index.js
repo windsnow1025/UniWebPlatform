@@ -25,12 +25,10 @@ function AIChat() {
     setDrawerOpen(screenSize !== 'xs' && screenSize !== 'sm');
   }, [screenSize]);
 
-  const chatLogic = new ChatLogic();
-
   // Chat Parameters
   const [messages, setMessages] = useState(null);
-  const [apiType, setApiType] = useState(chatLogic.defaultApiTypeModels[0].apiType);
-  const [model, setModel] = useState(chatLogic.defaultApiTypeModels[0].model);
+  const [apiType, setApiType] = useState(ChatLogic.defaultApiTypeModels[0].apiType);
+  const [model, setModel] = useState(ChatLogic.defaultApiTypeModels[0].model);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
 
