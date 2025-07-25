@@ -28,7 +28,7 @@ function AIChat() {
   const chatLogic = new ChatLogic();
 
   // Chat Parameters
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(null);
   const [apiType, setApiType] = useState(chatLogic.defaultApiTypeModels[0].apiType);
   const [model, setModel] = useState(chatLogic.defaultApiTypeModels[0].model);
   const [temperature, setTemperature] = useState(0);
@@ -89,7 +89,7 @@ function AIChat() {
             </div>
           </div>
           <Paper elevation={0} className="local-scroll-scrollable px-1" id="chat-messages">
-            {messages.length > 0 ? (
+            {messages !== null ? (
               <ChatMessagesDiv
                 messages={messages}
                 setMessages={setMessages}
@@ -124,7 +124,6 @@ function AIChat() {
                 model={model}
                 temperature={temperature}
                 stream={stream}
-                disabled={messages.length === 0}
               />
               <RetryButton
                 messages={messages}
