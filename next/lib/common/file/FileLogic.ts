@@ -8,6 +8,10 @@ export default class FileLogic {
     this.fileService = new FileClient();
   }
 
+  static getFileNamesFromUrls(fileUrls: string[]): string[] {
+    return fileUrls.map(url => url.split('/').pop() || '');
+  }
+
   async uploadFiles(files: File[]) {
     try {
       return await this.fileService.uploadFiles(files);
