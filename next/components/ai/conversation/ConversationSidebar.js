@@ -37,7 +37,6 @@ function ConversationSidebar({
   }, [conversationUpdateKey]);
 
   const handleUpdateConversation = async (index) => {
-    setSelectedConversationId(conversations[index].id);
     try {
       const updatedConversation = await conversationLogic.updateConversation(
         conversations[index].id,
