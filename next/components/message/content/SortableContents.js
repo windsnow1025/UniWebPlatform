@@ -41,7 +41,6 @@ function SortableContents({
     setContents(updatedContents);
 
     if (item.type === SortableContentType.Files) {
-      console.log("update triggered in sortable contents")
       setConversationUpdateKey(prev => prev + 1);
     }
   };
