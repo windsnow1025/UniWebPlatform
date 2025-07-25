@@ -3,11 +3,6 @@ import {
   Alert,
   Button,
   CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   IconButton,
   List,
   ListItem,
@@ -82,9 +77,6 @@ function ConversationList({
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  // Selection dialog state
-  const [selectionDialogOpen, setSelectionDialogOpen] = useState(false);
-  const [pendingConversationId, setPendingConversationId] = useState(null);
 
   const conversationLogic = new ConversationLogic();
 
@@ -129,16 +121,6 @@ function ConversationList({
     setShareDialogOpen(true);
   };
 
-  const handleConversationClick = async (conversationId) => {
-    if (selectedConversationId === null) {
-      setPendingConversationId(conversationId);
-      setSelectionDialogOpen(true);
-      return;
-    }
-
-    await selectConversation(conversationId);
-  };
-
   const selectConversation = async (conversationId) => {
     setLoadingConversationId(conversationId);
 
@@ -153,13 +135,6 @@ function ConversationList({
     setSelectedConversationId(conversationId);
   };
 
-  const overwriteConversation = async (conversationId) => {
-    const conversationIndex = conversations.findIndex(c => c.id === conversationId);
-    if (conversationIndex === -1) return;
-
-    await updateConversation(conversationIndex);
-    setSelectedConversationId(conversationId);
-  };
 
   const updateConversation = async (index) => {
     const conversationId = conversations[index].id;
@@ -254,7 +229,7 @@ function ConversationList({
               bgcolor: conversation.id === selectedConversationId ? 'action.selected' : 'inherit',
             }}
           >
-            <ListItemButton onClick={() => handleConversationClick(conversation.id)}>
+            <ListItemButton onClick={() => selectConversation(conversation.id)}>
               {editingIndex === index ? (
                 <TextField
                   value={editingName}
@@ -344,43 +319,6 @@ function ConversationList({
         onClose={() => setShareDialogOpen(false)}
         conversationId={conversations[selectedConversationIndex]?.id}
       />
-
-      <Dialog
-        open={selectionDialogOpen}
-        onClose={() => setSelectionDialogOpen(false)}
-        aria-labelledby="conversation-selection-dialog-title"
-      >
-        <DialogTitle id="conversation-selection-dialog-title">
-          Conversation Options
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Overwrite with current messages, or not overwrite (unsaved messages will be lost)?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setSelectionDialogOpen(false);
-              selectConversation(pendingConversationId);
-            }}
-            variant="contained"
-            color="primary"
-          >
-            Not Overwrite
-          </Button>
-          <Button
-            onClick={() => {
-              setSelectionDialogOpen(false);
-              overwriteConversation(pendingConversationId);
-            }}
-            variant="contained"
-            color="secondary"
-          >
-            Overwrite
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       <Snackbar
         open={alertOpen}
