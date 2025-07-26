@@ -47,7 +47,7 @@ function NewConversationButton({
   };
 
   return (
-    <>
+    <div className="text-nowrap">
       <Button
         size={size}
         variant="text"
@@ -67,7 +67,7 @@ function NewConversationButton({
           {alertMessage}
         </Alert>
       </Snackbar>
-    </>
+    </div>
   )
 }
 
