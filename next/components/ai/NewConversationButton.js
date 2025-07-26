@@ -25,7 +25,7 @@ function NewConversationButton({
       const now = new Date();
       const dateStr = now.toISOString().replace('T', ' ').substring(0, 19);
 
-      const defaultMessages = ChatLogic.initMessages;
+      const defaultMessages = ChatLogic.getInitMessages();
 
       const newConversation = await conversationLogic.addConversation({
         name: dateStr,
