@@ -6,7 +6,7 @@ import FileLogic from "@/lib/common/file/FileLogic";
 
 export default class ChatLogic {
   private chatService: ChatClient;
-  static initMessages: Message[] = [
+  static getInitMessages = (): Message[] => [
     {
       id: uuidv4(),
       role: MessageRoleEnum.System,
@@ -28,7 +28,7 @@ export default class ChatLogic {
       ],
     }
   ];
-  static emptyUserMessage: Message = {
+  static getEmptyUserMessage = (): Message => ({
     id: uuidv4(),
     role: MessageRoleEnum.User,
     contents: [
@@ -37,8 +37,8 @@ export default class ChatLogic {
         data: ""
       }
     ],
-  };
-  static emptyAssistantMessage: Message = {
+  });
+  static getEmptyAssistantMessage = (): Message => ({
     id: uuidv4(),
     role: MessageRoleEnum.Assistant,
     contents: [
@@ -47,7 +47,7 @@ export default class ChatLogic {
         data: ""
       }
     ],
-  };
+  });
   static defaultApiTypeModels: ApiTypeModel[] = [
     {apiType: "", model: "", input: 0, output: 0},
   ];

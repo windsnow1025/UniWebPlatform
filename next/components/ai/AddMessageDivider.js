@@ -30,7 +30,7 @@ function AddMessageDivider({
     }
 
     const newMessages = [...messages];
-    newMessages.splice(index + 1, 0, ChatLogic.emptyUserMessage);
+    newMessages.splice(index + 1, 0, ChatLogic.getEmptyUserMessage());
     setMessages(newMessages);
 
     setConversationUpdateKey(prev => prev + 1);

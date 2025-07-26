@@ -53,7 +53,7 @@ function SendButton({
     setMessages(prevMessages => [
       ...prevMessages,
       ChatLogic.createAssistantMessage(content.text, content.display, imageUrl),
-      ChatLogic.emptyUserMessage,
+      ChatLogic.getEmptyUserMessage(),
     ]);
 
     return true;
@@ -73,7 +73,7 @@ function SendButton({
 
       // Create Empty Assistant Message on First Chunk
       if (isFirstChunk) {
-        setMessages(prevMessages => [...prevMessages, ChatLogic.emptyAssistantMessage]);
+        setMessages(prevMessages => [...prevMessages, ChatLogic.getEmptyAssistantMessage()]);
         isFirstChunk = false;
       }
 
@@ -94,7 +94,7 @@ function SendButton({
       if (isAtBottom) scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
     }
 
-    setMessages(prevMessages => [...prevMessages, ChatLogic.emptyUserMessage]);
+    setMessages(prevMessages => [...prevMessages, ChatLogic.getEmptyUserMessage()]);
 
     return true;
   };
@@ -130,7 +130,7 @@ function SendButton({
           if (lastMessage && lastMessage.role === 'assistant') {
             const newMessages = [...prevMessages];
             // Replace the partially filled message with a new empty one
-            newMessages[newMessages.length - 1] = ChatLogic.emptyAssistantMessage;
+            newMessages[newMessages.length - 1] = ChatLogic.getEmptyAssistantMessage();
             return newMessages;
           }
           return prevMessages;
