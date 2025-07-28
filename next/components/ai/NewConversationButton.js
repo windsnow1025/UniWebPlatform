@@ -57,6 +57,7 @@ function NewConversationButton({
         onClick={handleNewConversation}
         disabled={loading}
         id={`new-conversation-button-${size}`}
+        fullWidth
       >
         {loading ? "Creating..." : "New Conversation"}
       </Button>

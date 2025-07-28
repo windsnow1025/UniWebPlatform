@@ -65,7 +65,7 @@ function ConversationSidebar({
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-y">
         <div className="py-2">
-          <div className="flex-between-nowrap px-4 py-1">
+          <div className="w-full px-4 py-1">
             <TemporaryChatButton
               setMessages={setMessages}
               setSelectedConversationId={setSelectedConversationId}
@@ -73,7 +73,7 @@ function ConversationSidebar({
               size="small"
             />
           </div>
-          <div className="flex-between-nowrap px-4 py-1">
+          <div className="w-full px-4 py-1">
             <NewConversationButton
               setMessages={setMessages}
               setConversations={setConversations}
