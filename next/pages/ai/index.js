@@ -11,6 +11,7 @@ import ToggleConversationButton from "../../components/ai/conversation/ToggleCon
 import useScreenSize from '../../components/common/hooks/useScreenSize';
 import AIStudioTour from '../../components/ai/AIStudioTour';
 import NewConversationButton from "../../components/ai/NewConversationButton";
+import TemporaryChatButton from "../../components/ai/TemporaryChatButton";
 
 function AIChat() {
   const screenSize = useScreenSize();
@@ -96,12 +97,17 @@ function AIChat() {
                 setConversationUpdateKey={setConversationUpdateKey}
               />
             ) : (
-              <div className="flex-center h-full">
+              <div className="flex-around h-full">
                 <NewConversationButton
                   setMessages={setMessages}
                   setConversations={setConversations}
                   setSelectedConversationId={setSelectedConversationId}
                   setConversationLoadKey={setConversationLoadKey}
+                  size="large"
+                />
+                <TemporaryChatButton
+                  setMessages={setMessages}
+                  setSelectedConversationId={setSelectedConversationId}
                   size="large"
                 />
               </div>
