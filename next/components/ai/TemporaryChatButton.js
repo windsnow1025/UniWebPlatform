@@ -23,6 +23,7 @@ function TemporaryChatButton({
         startIcon={<ChatBubbleOutlineIcon/>}
         onClick={handleTemporaryChat}
         id={`temporary-chat-button-${size}`}
+        fullWidth
       >
         Temporary Chat
       </Button>
