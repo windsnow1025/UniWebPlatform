@@ -32,6 +32,7 @@ function AIChat() {
   const [model, setModel] = useState(ChatLogic.defaultApiTypeModels[0].model);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
+  const [isTemporaryChat, setIsTemporaryChat] = useState(false);
 
   // Generation Control
   const [isGenerating, setIsGenerating] = useState(false);
@@ -64,6 +65,7 @@ function AIChat() {
               setConversations={setConversations}
               conversationLoadKey={conversationLoadKey}
               setConversationLoadKey={setConversationLoadKey}
+              setIsTemporaryChat={setIsTemporaryChat}
             />
           </Collapse>
         </Paper>
@@ -95,6 +97,7 @@ function AIChat() {
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
                 setConversationUpdateKey={setConversationUpdateKey}
+                isTemporaryChat={isTemporaryChat}
               />
             ) : (
               <div className="flex-around h-full">
@@ -103,16 +106,18 @@ function AIChat() {
                   setConversations={setConversations}
                   setSelectedConversationId={setSelectedConversationId}
                   setConversationLoadKey={setConversationLoadKey}
+                  setIsTemporaryChat={setIsTemporaryChat}
                   size="large"
                 />
                 <TemporaryChatButton
                   setMessages={setMessages}
                   setSelectedConversationId={setSelectedConversationId}
-                  size="large"
+                  setIsTemporaryChat={setIsTemporaryChat}
                 />
               </div>
             )}
           </Paper>
+
           <div className="flex-around">
             <div className="flex-center">
               <SendButton

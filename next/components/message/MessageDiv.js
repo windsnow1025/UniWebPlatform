@@ -17,6 +17,7 @@ function MessageDiv({
                       setMessage,
                       onMessageDelete,
                       setConversationUpdateKey,
+                      isTemporaryChat = false,
                     }) {
   const theme = useTheme();
   const [showPreview, setShowPreview] = useState(message.role !== MessageRoleEnum.User);
@@ -114,6 +115,7 @@ function MessageDiv({
           setContents={handleContentsChange}
           rawEditableState={rawEditableState}
           setConversationUpdateKey={setConversationUpdateKey}
+          isTemporaryChat={isTemporaryChat}
         />
 
         <DisplayDiv
@@ -121,7 +123,7 @@ function MessageDiv({
           setDisplay={handleDisplayChange}
         />
 
-        {rawEditableState !== RawEditableState.AlwaysFalse && (
+        {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
           <AddContentArea
             contents={message.contents}
             setContents={handleContentsChange}

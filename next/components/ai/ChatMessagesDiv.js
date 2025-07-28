@@ -10,7 +10,8 @@ function ChatMessagesDiv({
                            setMessages,
                            setIsGenerating,
                            isGeneratingRef,
-                           setConversationUpdateKey
+                           setConversationUpdateKey,
+                           isTemporaryChat
                          }) {
   const handleMessageUpdate = (id, updatedMessage) => {
     setMessages((prevMessages) =>
@@ -64,6 +65,7 @@ function ChatMessagesDiv({
             setMessage={(updatedMessage) => handleMessageUpdate(message.id, updatedMessage)}
             onMessageDelete={() => handleMessageDelete(message.id)}
             setConversationUpdateKey={setConversationUpdateKey}
+            isTemporaryChat={isTemporaryChat}
           />
           <AddMessageDivider
             messages={messages}
