@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import ConversationList from './ConversationList';
 import NewConversationButton from "../NewConversationButton";
+import TemporaryChatButton from "../TemporaryChatButton";
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 
 function ConversationSidebar({
@@ -63,14 +64,24 @@ function ConversationSidebar({
   return (
     <div className="local-scroll-container">
       <div className="local-scroll-unscrollable-y">
-        <div className="flex-between-nowrap p-4">
-          <NewConversationButton
-            setMessages={setMessages}
-            setConversations={setConversations}
-            setSelectedConversationId={setSelectedConversationId}
-            setConversationLoadKey={setConversationLoadKey}
-            setIsTemporaryChat={setIsTemporaryChat}
-          />
+        <div className="py-2">
+          <div className="flex-between-nowrap px-4 py-1">
+            <TemporaryChatButton
+              setMessages={setMessages}
+              setSelectedConversationId={setSelectedConversationId}
+              setIsTemporaryChat={setIsTemporaryChat}
+              size="small"
+            />
+          </div>
+          <div className="flex-between-nowrap px-4 py-1">
+            <NewConversationButton
+              setMessages={setMessages}
+              setConversations={setConversations}
+              setSelectedConversationId={setSelectedConversationId}
+              setConversationLoadKey={setConversationLoadKey}
+              setIsTemporaryChat={setIsTemporaryChat}
+            />
+          </div>
         </div>
         <Divider/>
 

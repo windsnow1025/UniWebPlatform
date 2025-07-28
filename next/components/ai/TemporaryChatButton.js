@@ -7,6 +7,7 @@ function TemporaryChatButton({
                                setMessages,
                                setSelectedConversationId,
                                setIsTemporaryChat,
+                               size = "large",
                              }) {
   const handleTemporaryChat = async () => {
     setMessages(ChatLogic.getInitMessages());
@@ -17,11 +18,11 @@ function TemporaryChatButton({
   return (
     <div className="text-nowrap">
       <Button
-        size="large"
+        size={size}
         variant="text"
         startIcon={<ChatBubbleOutlineIcon/>}
         onClick={handleTemporaryChat}
-        id="temporary-chat-button"
+        id={`temporary-chat-button-${size}`}
       >
         Temporary Chat
       </Button>
