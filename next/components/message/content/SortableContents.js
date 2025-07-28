@@ -17,6 +17,7 @@ function SortableContents({
                             setContents,
                             rawEditableState,
                             setConversationUpdateKey,
+                            isTemporaryChat,
                           }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -101,6 +102,7 @@ function SortableContents({
             onDelete={() => handleContentDelete(item.id)}
             rawEditableState={rawEditableState}
             setConversationUpdateKey={setConversationUpdateKey}
+            isTemporaryChat={isTemporaryChat}
           />
         ))}
       </SortableContext>

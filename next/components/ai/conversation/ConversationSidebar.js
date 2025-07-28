@@ -18,6 +18,7 @@ function ConversationSidebar({
                                setConversations,
                                conversationLoadKey,
                                setConversationLoadKey,
+                               setIsTemporaryChat,
                              }) {
   const conversationLogic = new ConversationLogic();
 
@@ -68,6 +69,7 @@ function ConversationSidebar({
             setConversations={setConversations}
             setSelectedConversationId={setSelectedConversationId}
             setConversationLoadKey={setConversationLoadKey}
+            setIsTemporaryChat={setIsTemporaryChat}
           />
         </div>
         <Divider/>
@@ -80,6 +82,7 @@ function ConversationSidebar({
           setMessages={setMessages}
           conversationLoadKey={conversationLoadKey}
           setConversationLoadKey={setConversationLoadKey}
+          setIsTemporaryChat={setIsTemporaryChat}
         />
       </div>
       <Snackbar

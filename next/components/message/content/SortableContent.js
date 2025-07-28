@@ -18,6 +18,7 @@ function SortableContent({
                            onDelete,
                            rawEditableState,
                            setConversationUpdateKey,
+                           isTemporaryChat,
                          }) {
   const {
     attributes,
@@ -50,7 +51,7 @@ function SortableContent({
           backgroundColor: `${theme.palette.primary.main}20`
         }}
       >
-        {rawEditableState !== RawEditableState.AlwaysFalse && (
+        {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
           <div className="flex items-center">
             <div
               {...listeners}

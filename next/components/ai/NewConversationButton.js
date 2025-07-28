@@ -9,6 +9,7 @@ function NewConversationButton({
                                  setConversations,
                                  setSelectedConversationId,
                                  setConversationLoadKey,
+                                 setIsTemporaryChat,
                                  size = "small",
                                }) {
   const conversationLogic = new ConversationLogic();
@@ -32,6 +33,7 @@ function NewConversationButton({
         messages: defaultMessages
       });
 
+      setIsTemporaryChat(false);
       setConversations(prev => [newConversation, ...prev]);
       setSelectedConversationId(newConversation.id);
       setMessages(newConversation.messages);

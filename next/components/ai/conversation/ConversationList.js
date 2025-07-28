@@ -60,6 +60,7 @@ function ConversationList({
                             setSelectedConversationId,
                             setMessages,
                             conversationLoadKey,
+                            setIsTemporaryChat,
                           }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
@@ -130,10 +131,10 @@ function ConversationList({
     const conversation = conversations.find(c => c.id === conversationId);
 
     const messagesCopy = JSON.parse(JSON.stringify(conversation.messages));
+
+    setIsTemporaryChat(false);
     setMessages(messagesCopy);
-
     setLoadingConversationId(null);
-
     setSelectedConversationId(conversationId);
   };
 

@@ -6,11 +6,12 @@ import ChatLogic from "../../lib/chat/ChatLogic";
 function TemporaryChatButton({
                                setMessages,
                                setSelectedConversationId,
+                               setIsTemporaryChat,
                              }) {
   const handleTemporaryChat = async () => {
-    const defaultMessages = ChatLogic.getInitMessages();
-    setMessages(defaultMessages);
+    setMessages(ChatLogic.getInitMessages());
     setSelectedConversationId(null);
+    setIsTemporaryChat(true);
   };
 
   return (
