@@ -66,6 +66,8 @@ function AIChat() {
               conversationLoadKey={conversationLoadKey}
               setConversationLoadKey={setConversationLoadKey}
               setIsTemporaryChat={setIsTemporaryChat}
+              isGeneratingRef={isGeneratingRef}
+              handleGenerateRef={handleGenerateRef}
             />
           </Collapse>
         </Paper>

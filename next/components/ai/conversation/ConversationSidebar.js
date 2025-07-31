@@ -20,6 +20,8 @@ function ConversationSidebar({
                                conversationLoadKey,
                                setConversationLoadKey,
                                setIsTemporaryChat,
+                               isGeneratingRef,
+                               handleGenerateRef,
                              }) {
   const conversationLogic = new ConversationLogic();
 
@@ -94,6 +96,8 @@ function ConversationSidebar({
           conversationLoadKey={conversationLoadKey}
           setConversationLoadKey={setConversationLoadKey}
           setIsTemporaryChat={setIsTemporaryChat}
+          isGeneratingRef={isGeneratingRef}
+          handleGenerateRef={handleGenerateRef}
         />
       </div>
       <Snackbar
