@@ -112,6 +112,14 @@ stream {
         listen 3306;
         proxy_pass localhost:33306;
     }
+    server {
+        listen 6379;
+        proxy_pass localhost:36379;
+    }
+    server {
+        listen 9000;
+        proxy_pass localhost:39000;
+    }
 }
 ```
 
