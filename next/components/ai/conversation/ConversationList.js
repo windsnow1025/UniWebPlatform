@@ -61,6 +61,8 @@ function ConversationList({
                             setMessages,
                             conversationLoadKey,
                             setIsTemporaryChat,
+                            isGeneratingRef,
+                            handleGenerateRef,
                           }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
@@ -165,6 +167,10 @@ function ConversationList({
 
   const deleteConversation = async (index) => {
     const conversationId = conversations[index].id;
+    
+    if (conversationId === selectedConversationId && isGeneratingRef && isGeneratingRef.current) {
+      handleGenerateRef.current && handleGenerateRef.current();
+    }
 
     setLoadingConversationId(conversationId);
 
