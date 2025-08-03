@@ -127,6 +127,10 @@ function ConversationList({
   };
 
   const selectConversation = async (conversationId) => {
+    if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
+      handleGenerateRef.current();
+    }
+    
     setLoadingConversationId(conversationId);
 
     const conversations = await loadConversations();
@@ -167,9 +171,9 @@ function ConversationList({
 
   const deleteConversation = async (index) => {
     const conversationId = conversations[index].id;
-    
-    if (conversationId === selectedConversationId && isGeneratingRef && isGeneratingRef.current) {
-      handleGenerateRef.current && handleGenerateRef.current();
+
+    if (conversationId === selectedConversationId && isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
+      handleGenerateRef.current();
     }
 
     setLoadingConversationId(conversationId);

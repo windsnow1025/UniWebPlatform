@@ -11,6 +11,8 @@ function NewConversationButton({
                                  setConversationLoadKey,
                                  setIsTemporaryChat,
                                  size = "small",
+                                 isGeneratingRef,
+                                 handleGenerateRef,
                                }) {
   const conversationLogic = new ConversationLogic();
 
@@ -20,6 +22,9 @@ function NewConversationButton({
   const [loading, setLoading] = useState(false);
 
   const handleNewConversation = async () => {
+    if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
+      handleGenerateRef.current();
+    }
     setLoading(true);
     try {
       // YYYY-MM-DD HH:MM:SS
