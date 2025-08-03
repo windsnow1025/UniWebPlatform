@@ -8,8 +8,13 @@ function TemporaryChatButton({
                                setSelectedConversationId,
                                setIsTemporaryChat,
                                size = "large",
+                               isGeneratingRef,
+                               handleGenerateRef,
                              }) {
   const handleTemporaryChat = async () => {
+    if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
+      handleGenerateRef.current();
+    }
     setMessages(ChatLogic.getInitMessages());
     setSelectedConversationId(null);
     setIsTemporaryChat(true);

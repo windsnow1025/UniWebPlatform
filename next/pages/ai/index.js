@@ -110,11 +110,15 @@ function AIChat() {
                   setConversationLoadKey={setConversationLoadKey}
                   setIsTemporaryChat={setIsTemporaryChat}
                   size="large"
+                  isGeneratingRef={isGeneratingRef}
+                  handleGenerateRef={handleGenerateRef}
                 />
                 <TemporaryChatButton
                   setMessages={setMessages}
                   setSelectedConversationId={setSelectedConversationId}
                   setIsTemporaryChat={setIsTemporaryChat}
+                  isGeneratingRef={isGeneratingRef}
+                  handleGenerateRef={handleGenerateRef}
                 />
               </div>
             )}
