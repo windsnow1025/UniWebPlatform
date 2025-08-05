@@ -10,7 +10,7 @@ function NewConversationButton({
                                  setSelectedConversationId,
                                  setConversationLoadKey,
                                  setIsTemporaryChat,
-                                 size = "small",
+                                 size,
                                  isGeneratingRef,
                                  handleGenerateRef,
                                }) {

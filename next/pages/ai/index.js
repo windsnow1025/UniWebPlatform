@@ -117,6 +117,7 @@ function AIChat() {
                   setMessages={setMessages}
                   setSelectedConversationId={setSelectedConversationId}
                   setIsTemporaryChat={setIsTemporaryChat}
+                  size="large"
                   isGeneratingRef={isGeneratingRef}
                   handleGenerateRef={handleGenerateRef}
                 />
