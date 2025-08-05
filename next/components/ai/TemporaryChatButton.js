@@ -7,7 +7,7 @@ function TemporaryChatButton({
                                setMessages,
                                setSelectedConversationId,
                                setIsTemporaryChat,
-                               size = "large",
+                               size,
                                isGeneratingRef,
                                handleGenerateRef,
                              }) {
