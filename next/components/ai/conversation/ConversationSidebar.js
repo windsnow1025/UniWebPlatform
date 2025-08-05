@@ -73,6 +73,8 @@ function ConversationSidebar({
               setSelectedConversationId={setSelectedConversationId}
               setIsTemporaryChat={setIsTemporaryChat}
               size="small"
+              isGeneratingRef={isGeneratingRef}
+              handleGenerateRef={handleGenerateRef}
             />
           </div>
           <div className="w-full px-4 py-1">
@@ -82,6 +84,9 @@ function ConversationSidebar({
               setSelectedConversationId={setSelectedConversationId}
               setConversationLoadKey={setConversationLoadKey}
               setIsTemporaryChat={setIsTemporaryChat}
+              size="small"
+              isGeneratingRef={isGeneratingRef}
+              handleGenerateRef={handleGenerateRef}
             />
           </div>
         </div>
