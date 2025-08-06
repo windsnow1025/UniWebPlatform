@@ -49,6 +49,11 @@ function TextContent({
   }, [content, rawEditableState, mode]);
 
   const handleBlur = () => {
+    // Prevent content update on blur caused by clicking links
+    if (rawEditableState !== RawEditableState.AlwaysTrue) {
+      return;
+    }
+
     const newContent = desanitizeContent(contentRef.current.textContent);
     setContent(newContent);
 
