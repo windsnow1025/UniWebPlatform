@@ -39,14 +39,22 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
   };
 
   const getAllFiles = async (items) => {
-    let files = [];
+    let allFiles = [];
+
+    const filePromises = [];
     for (let i = 0; i < items.length; i++) {
       const entry = items[i].webkitGetAsEntry?.();
       if (entry) {
-        files = files.concat(await traverseFileTree(entry));
+        filePromises.push(traverseFileTree(entry));
       }
     }
-    return files;
+
+    const filesArrays = await Promise.all(filePromises);
+    for (const filesArray of filesArrays) {
+      allFiles = allFiles.concat(filesArray);
+    }
+
+    return allFiles;
   };
 
   const handleDragEnter = useCallback((e) => {
