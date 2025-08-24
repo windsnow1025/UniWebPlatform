@@ -103,7 +103,7 @@ export default function App({ Component }: { Component: React.ElementType }) {
   const pathForTitle = router.asPath.split('?')[0];
   const firstSegment = pathForTitle === '/' ? '' : (pathForTitle.split('/')[1] || '');
   const navItem = NAVIGATION.find(item => (item as any).segment === firstSegment) as any;
-  const currentTitle = navItem.title;
+  const currentTitle = navItem ? navItem.title : firstSegment;
   const fullTitle = `${currentTitle} - ${BRANDING.title}`;
 
   return (
