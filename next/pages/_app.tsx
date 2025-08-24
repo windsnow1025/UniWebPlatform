@@ -99,10 +99,18 @@ export default function App({ Component }: { Component: React.ElementType }) {
     };
   }, []);
 
+  // Page Title
+  const pathForTitle = router.asPath.split('?')[0];
+  const firstSegment = pathForTitle === '/' ? '' : (pathForTitle.split('/')[1] || '');
+  const navItem = NAVIGATION.find(item => (item as any).segment === firstSegment) as any;
+  const currentTitle = navItem.title;
+  const fullTitle = `${currentTitle} - ${BRANDING.title}`;
+
   return (
     <AppCacheProvider>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>{fullTitle}</title>
       </Head>
       <NextAppProvider
         session={session}
