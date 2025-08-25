@@ -4,6 +4,7 @@ import {Alert, Button, Snackbar, useTheme} from "@mui/material";
 import {useRouter} from "next/router";
 import TextContent from '../../../components/message/content/text/TextContent';
 import {RawEditableState} from '../../../lib/common/message/EditableState';
+import Head from "next/head";
 
 function MarkdownUpdate() {
   const router = useRouter();
@@ -15,8 +16,6 @@ function MarkdownUpdate() {
   const fetchMarkdown = async () => {
     const markdown = await markdownLogic.fetchMarkdown(id);
     setMarkdown(markdown);
-
-    document.title = markdown.title;
   };
 
   useEffect(() => {
@@ -71,6 +70,9 @@ function MarkdownUpdate() {
 
   return (
     <div className="local-scroll-container">
+      <Head>
+        <title>{markdown.title} - Windsnow1025</title>
+      </Head>
       <div className="local-scroll-scrollable ">
         <div className="m-2">
           <TextContent

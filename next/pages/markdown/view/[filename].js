@@ -4,6 +4,7 @@ import PublicClient from "../../../lib/common/public/PublicClient";
 import TextContent from '../../../components/message/content/text/TextContent';
 import {RawEditableState} from '../../../lib/common/message/EditableState';
 import {useTheme} from "@mui/material";
+import Head from "next/head";
 
 function MarkdownViewer() {
   const router = useRouter();
@@ -19,12 +20,14 @@ function MarkdownViewer() {
   useEffect(() => {
     if (filename) {
       fetchMarkdown();
-      document.title = filename;
     }
   }, [filename]);
 
   return (
     <div className="local-scroll-container">
+      <Head>
+        <title>{filename} - Windsnow1025</title>
+      </Head>
       <div className="local-scroll-scrollable">
         <div className="m-2">
           <TextContent

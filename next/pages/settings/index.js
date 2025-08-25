@@ -5,17 +5,15 @@ import DeveloperSettings from "../../components/common/settings/DeveloperSetting
 import AdminSetting from "../../components/common/settings/AdminSetting";
 import UserLogic from "../../lib/common/user/UserLogic";
 import StorageSettings from "../../components/common/settings/StorageSettings";
+import Head from "next/head";
 
 const Settings = () => {
-  const title = "Settings";
   const userLogic = new UserLogic();
 
   const [activeTab, setActiveTab] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    document.title = title;
-
     const checkAdmin = async () => {
       const adminStatus = await userLogic.isAdmin();
       setIsAdmin(adminStatus);
@@ -30,6 +28,9 @@ const Settings = () => {
 
   return (
     <div className="local-scroll-container">
+      <Head>
+        <title>Settings - Windsnow1025</title>
+      </Head>
       <Tabs
         value={activeTab}
         onChange={handleTabChange}

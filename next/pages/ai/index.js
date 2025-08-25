@@ -17,11 +17,6 @@ import TemporaryChatButton from "../../components/ai/TemporaryChatButton";
 function AIChat() {
   const screenSize = useScreenSize();
   const [drawerOpen, setDrawerOpen] = useState();
-  const title = "AI Studio";
-
-  useEffect(() => {
-    document.title = title;
-  }, []);
 
   useEffect(() => {
     setDrawerOpen(screenSize !== 'xs' && screenSize !== 'sm');
@@ -55,6 +50,7 @@ function AIChat() {
     <div className="local-scroll-container">
       <Head>
         <meta name="description" content="AI Studio - Windsnow1025, a multi-model AI tool. Support full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, search citations, stream output." />
+        <title>AI Studio - Windsnow1025</title>
       </Head>
       <div className="local-scroll-unscrollable-x">
         <Paper elevation={2} sx={{borderRadius: 0}} className="flex">

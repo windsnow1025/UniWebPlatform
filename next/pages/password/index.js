@@ -3,6 +3,7 @@ import PasswordGenerator from "../../components/password/PasswordGenerator";
 import EncryptorDecryptor from "../../components/password/EncryptorDecryptor";
 import SecretKeyDialog from "../../components/password/SecretKeyDialog";
 import { Button } from "@mui/material";
+import Head from "next/head";
 
 function PasswordEncryptionTool() {
   const [key, setKey] = useState(0);
@@ -24,6 +25,11 @@ function PasswordEncryptionTool() {
 
   return (
     <div>
+      <Head>
+        <meta name="description" content="Generate secure and customizable passwords by your key." />
+        <title>Password & Encryption - Windsnow1025</title>
+      </Head>
+
       <div className="flex-center mt-4">
         <Button variant="outlined" onClick={() => setDialogOpen(true)}>
           Set Secret Key

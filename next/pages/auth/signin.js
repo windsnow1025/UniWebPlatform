@@ -4,6 +4,7 @@ import UserLogic from "../../lib/common/user/UserLogic";
 import {Alert, Box, Button, Snackbar, Tab, Tabs, TextField, Typography, useTheme} from "@mui/material";
 import {SignInPage} from '@toolpad/core/SignInPage';
 import {wait} from "../../components/common/utils/Wait";
+import Head from "next/head";
 
 function SignIn() {
   const userLogic = new UserLogic();
@@ -13,10 +14,6 @@ function SignIn() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
-
-  useEffect(() => {
-    document.title = "Sign In";
-  }, []);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -97,6 +94,9 @@ function SignIn() {
 
   return (
     <div className="local-scroll-container">
+      <Head>
+        <title>Sign In - Windsnow1025</title>
+      </Head>
       <div className="local-scroll-scrollable">
         <Tabs
           value={tabValue}
