@@ -3,14 +3,9 @@ import MarkdownLogic from "../../lib/markdown/MarkdownLogic";
 import {Button, Divider, Link, List, ListItem, ListItemText, Paper, TextField, InputAdornment} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
+import Head from "next/head";
 
 function Index() {
-
-  const title = "Markdown Blogs"
-  useEffect(() => {
-    document.title = title;
-  }, []);
-
   const [markdowns, setMarkdowns] = useState([]);
   const [allMarkdowns, setAllMarkdowns] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -42,6 +37,10 @@ function Index() {
 
   return (
     <div className="local-scroll-container">
+      <Head>
+        <meta name="description" content="Blogs with Markdown and LaTeX support for personal usage." />
+        <title>Markdown Blogs - Windsnow1025</title>
+      </Head>
       <div className="local-scroll-scrollable">
         <Paper elevation={4} className="m-8 p-8">
           <div className="flex-between mb-4">

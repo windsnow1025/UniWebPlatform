@@ -5,6 +5,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PasswordIcon from '@mui/icons-material/Password';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import Head from "next/head";
 
 function FeatureCard({title, description, icon}) {
   const theme = useTheme();
@@ -52,12 +53,11 @@ function Index() {
     },
   ];
 
-  useEffect(() => {
-    document.title = "Windsnow1025";
-  }, []);
-
   return (
     <div className="local-scroll-container">
+      <Head>
+        <title>Windsnow1025</title>
+      </Head>
       <div className="local-scroll-scrollable flex-column gap-y-8 p-4">
         {/* Hero Section */}
         <div className="text-center">

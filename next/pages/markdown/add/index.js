@@ -3,14 +3,11 @@ import MarkdownLogic from '../../../lib/markdown/MarkdownLogic';
 import {Alert, Button, Snackbar, useTheme} from "@mui/material";
 import TextContent from '../../../components/message/content/text/TextContent';
 import {RawEditableState} from '../../../lib/common/message/EditableState';
+import Head from "next/head";
 
 function MarkdownAdd() {
   const [content, setContent] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-
-  useEffect(() => {
-    document.title = "Markdown Add";
-  }, []);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -45,6 +42,9 @@ function MarkdownAdd() {
 
   return (
     <div className="local-scroll-container">
+      <Head>
+        <title>Markdown Add - Windsnow1025</title>
+      </Head>
       <div className="local-scroll-scrollable">
         <div className="m-2">
           <TextContent
