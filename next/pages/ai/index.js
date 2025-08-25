@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+import Head from 'next/head';
 import {Collapse, Paper} from "@mui/material";
 
 import ChatLogic from "../../lib/chat/ChatLogic";
@@ -52,6 +53,9 @@ function AIChat() {
 
   return (
     <div className="local-scroll-container">
+      <Head>
+        <meta name="description" content="AI Studio - Windsnow1025, a multi-model AI tool. Support full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, search citations, stream output." />
+      </Head>
       <div className="local-scroll-unscrollable-x">
         <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
           <Collapse orientation="horizontal" in={drawerOpen}>
