@@ -1,11 +1,10 @@
 import React, {useEffect} from "react";
-import {Box, Card, CardContent, Container, Link, Typography, useTheme} from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import {Box, Card, CardContent, Link, Typography, useTheme} from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
-import ChatIcon from "@mui/icons-material/Chat";
-import BookIcon from "@mui/icons-material/Book";
-import PasswordIcon from "@mui/icons-material/Password";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import PasswordIcon from '@mui/icons-material/Password';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
 function FeatureCard({title, description, icon}) {
   const theme = useTheme();
@@ -13,6 +12,7 @@ function FeatureCard({title, description, icon}) {
   return (
     <Card
       sx={{
+        margin: 2,
         transition: 'transform 0.2s',
         '&:hover': {
           transform: 'scale(1.02)',
@@ -20,8 +20,8 @@ function FeatureCard({title, description, icon}) {
         }
       }}
     >
-      <CardContent sx={{flexGrow: 1, textAlign: 'center'}}>
-        {React.cloneElement(icon, {sx: {fontSize: 40, mb: 2, color: theme.palette.primary.main}})}
+      <CardContent className="text-center">
+        {React.cloneElement(icon, {sx: {fontSize: 40, color: theme.palette.primary.main}})}
         <Typography gutterBottom variant="h5" component="h2">
           {title}
         </Typography>
@@ -37,80 +37,75 @@ function Index() {
   const features = [
     {
       title: "AI Studio",
-      description: "Engage in intelligent conversations with our advanced AI Studio",
-      icon: <ChatIcon/>
-    },
-    {
-      title: "Markdown Blogs",
-      description: "Create and share your thoughts with our markdown-based blog system",
-      icon: <BookIcon/>
+      description: "A multi-model AI tool, supporting full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, search citations, stream output.",
+      icon: <AutoAwesomeIcon />,
     },
     {
       title: "Password & Encryption Tools",
-      description: "Generate secure and customizable passwords",
-      icon: <PasswordIcon/>
+      description: "Generate secure and customizable passwords by your key.",
+      icon: <PasswordIcon/>,
+    },
+    {
+      title: "Markdown Blogs",
+      description: "Blogs with Markdown and LaTeX support for personal usage.",
+      icon: <EditNoteIcon />,
     },
   ];
 
   useEffect(() => {
-    document.title = "UniWebPlatform";
+    document.title = "Windsnow1025";
   }, []);
 
   return (
     <div className="local-scroll-container">
-      
-      <div className="local-scroll-scrollable flex-around m-2">
-        <Container maxWidth="xl" className="py-4">
-          {/* Hero Section */}
-          <Box className="text-center mb-8">
-            <Typography
-              variant="h2"
-              color="primary"
-              gutterBottom
+      <div className="local-scroll-scrollable flex-column gap-y-8 p-4">
+        {/* Hero Section */}
+        <div className="text-center">
+          <Typography
+            variant="h2"
+            color="primary"
+            gutterBottom
+          >
+            Windsnow1025
+          </Typography>
+          <Typography variant="h5" color="textSecondary">
+            Featuring AI Studio and utilities
+          </Typography>
+        </div>
+
+        {/* Features Grid */}
+        <div className="flex-center gap-4">
+          {features.map((feature, index) => (
+            <FeatureCard key={index} {...feature} />
+          ))}
+        </div>
+
+        {/* Contact Section */}
+        <Box className="text-center">
+          <Typography variant="h4" gutterBottom color="primary">
+            Connect With Me
+          </Typography>
+          <div className="flex-center gap-x-8">
+            <Link
+              href="mailto:windsnow1025@gmail.com"
+              className="flex-center space-x-2"
+              color="inherit"
             >
-              UniWebPlatform
-            </Typography>
-            <Typography variant="h5" color="textSecondary">
-              A modern full-stack web platform featuring AI-powered tools and utilities
-            </Typography>
-          </Box>
-
-          {/* Features Grid */}
-          <Grid container spacing={4} className="mb-8">
-            {features.map((feature, index) => (
-              <Grid xs={12} sm={6} md={4} key={index}>
-                <FeatureCard {...feature} />
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* Contact Section */}
-          <Box className="text-center mt-8">
-            <Typography variant="h4" gutterBottom color="primary">
-              Connect With Me
-            </Typography>
-            <Box className="flex justify-center space-x-6 mt-4">
-              <Link
-                href="mailto:windsnow1024@gmail.com"
-                className="flex items-center space-x-2 hover:opacity-80"
-                color="inherit"
-              >
-                <EmailIcon/>
-                <Typography>Email</Typography>
-              </Link>
-              <Link
-                href="https://github.com/windsnow1025/UniWebPlatform"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 hover:opacity-80"
-                color="inherit"
-              >
-                <GitHubIcon/>
-                <Typography>GitHub</Typography>
-              </Link>
-            </Box>
-          </Box>
-        </Container>
+              <EmailIcon/>
+              <Typography>Email</Typography>
+            </Link>
+            <Link
+              href="https://github.com/windsnow1025/UniWebPlatform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-center space-x-2"
+              color="inherit"
+            >
+              <GitHubIcon/>
+              <Typography>GitHub</Typography>
+            </Link>
+          </div>
+        </Box>
       </div>
     </div>
   );
