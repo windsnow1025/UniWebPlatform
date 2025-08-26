@@ -7,29 +7,31 @@ function CreditSection({ refreshKey = 0 }) {
 
   const [credit, setCredit] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
     const fetchCredit = async () => {
-      if (localStorage.getItem('token')) {
-        setLoading(true);
+      const token = localStorage.getItem('token');
+      setSignedIn(!!token);
+      if (token) {
         const credit = await userLogic.fetchCredit();
         setCredit(credit);
-        setLoading(false);
       }
+      setLoading(false);
     };
 
     fetchCredit();
   }, [refreshKey]);
 
-  return (
-    <>
-      {loading ? (
-        <CircularProgress/>
-      ) : (
-        <Typography>Credit: {credit}</Typography>
-      )}
-    </>
-  );
+  if (loading) {
+    return <CircularProgress/>;
+  }
+
+  if (!signedIn) {
+    return <Typography>Sign in to view credits</Typography>;
+  }
+
+  return <Typography>Credit: {credit}</Typography>;
 }
 
 export default CreditSection;
