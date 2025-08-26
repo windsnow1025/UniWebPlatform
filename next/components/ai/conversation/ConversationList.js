@@ -82,12 +82,25 @@ function ConversationList({
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
+  // Auth state
+  const [signedIn, setSignedIn] = useState(false);
 
   const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    setSignedIn(!!token);
+    if (!token) {
+      setIsLoadingConversations(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!signedIn) {
+      return;
+    }
     loadConversations();
-  }, [conversationLoadKey]);
+  }, [conversationLoadKey, signedIn]);
 
   const loadConversations = async () => {
     setIsLoadingConversations(true);
@@ -130,7 +143,7 @@ function ConversationList({
     if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
       handleGenerateRef.current();
     }
-    
+
     setLoadingConversationId(conversationId);
 
     const conversations = await loadConversations();
@@ -222,6 +235,14 @@ function ConversationList({
     return (
       <div className="local-scroll-scrollable flex-center p-4">
         <CircularProgress/>
+      </div>
+    );
+  }
+
+  if (!signedIn) {
+    return (
+      <div className="local-scroll-scrollable flex-center p-4">
+        <Typography variant="body2" color="text.secondary">Sign in to view conversations</Typography>
       </div>
     );
   }

@@ -14,8 +14,12 @@ function CreditSection({ refreshKey = 0 }) {
       const token = localStorage.getItem('token');
       setSignedIn(!!token);
       if (token) {
-        const credit = await userLogic.fetchCredit();
-        setCredit(credit);
+        try {
+          const credit = await userLogic.fetchCredit();
+          setCredit(credit);
+        } catch (error) {
+          setCredit("error");
+        }
       }
       setLoading(false);
     };
