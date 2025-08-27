@@ -2,13 +2,12 @@ import React, {useState} from 'react';
 import {
   Typography,
   Paper,
-  Grid2 as Grid,
+  Grid,
   Tabs,
   Tab,
   Box,
   Divider,
   useTheme,
-  useMediaQuery
 } from "@mui/material";
 import { TabContext, TabPanel } from "@mui/lab";
 import CreditDiv from "./CreditSection";
@@ -29,7 +28,7 @@ function AccountDiv() {
     <Paper elevation={3} sx={{borderRadius: 2, overflow: 'hidden'}}>
       <Box sx={{
         p: 3,
-        background: theme.palette.primary.main,
+        background: theme.vars.palette.primary.main,
         color: 'white',
         display: 'flex',
         alignItems: 'center',
