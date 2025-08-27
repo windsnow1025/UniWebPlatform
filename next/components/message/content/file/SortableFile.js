@@ -30,7 +30,7 @@ const SortableFile = ({ fileUrl, files, setFiles, rawEditableState }) => {
         {showDragHandle && (
           <div
             {...listeners}
-            style={{cursor: 'grab', color: theme.vars.palette.text.secondary, touchAction: 'none'}}
+            style={{cursor: 'grab', color: theme.palette.text.secondary, touchAction: 'none'}}
           >
             <DragIndicatorIcon fontSize="small"/>
           </div>

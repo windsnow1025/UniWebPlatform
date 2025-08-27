@@ -22,7 +22,7 @@ function FeatureCard({title, description, icon}) {
       }}
     >
       <CardContent className="text-center">
-        {React.cloneElement(icon, {sx: {fontSize: 40, color: theme.vars.palette.primary.main}})}
+        {React.cloneElement(icon, {sx: {fontSize: 40, color: theme.palette.primary.main}})}
         <Typography gutterBottom variant="h5" component="h2">
           {title}
         </Typography>

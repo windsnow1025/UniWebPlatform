@@ -121,7 +121,7 @@ const AIStudioTour = () => {
           right: theme.spacing(2.5),
           boxShadow: 10,
           '&:hover': {
-            backgroundColor: theme.vars.palette.action.hover,
+            backgroundColor: theme.palette.action.hover,
           }
         }}
       >
