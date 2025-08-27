@@ -182,13 +182,13 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
         sx={{
           p: 1,
           border: isDragging || isFocused
-            ? `1px dashed ${theme.palette.primary.main}`
-            : `1px dashed ${theme.palette.divider}`,
+            ? `1px dashed ${theme.vars.palette.primary.main}`
+            : `1px dashed ${theme.vars.palette.divider}`,
           backgroundColor: isDragging || isFocused
-            ? `${theme.palette.primary.light}20`
+            ? `${theme.vars.palette.primary.light}20`
             : isUploading
-              ? `${theme.palette.action.disabledBackground}`
-              : theme.palette.background.paper,
+              ? `${theme.vars.palette.action.disabledBackground}`
+              : theme.vars.palette.background.paper,
           textAlign: 'center',
           cursor: isUploading ? 'not-allowed' : 'pointer',
           display: 'flex',
