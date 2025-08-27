@@ -40,11 +40,11 @@ function MessageDiv({
   const getRoleBorderStyles = (role) => {
     switch (role) {
       case MessageRoleEnum.User:
-        return {border: `1px solid color-mix(in srgb, ${theme.vars.palette.primary.main}, white 50%)`};
+        return {border: `1px solid ${lighten(theme.palette.primary.main, 0.5)}`};
       case MessageRoleEnum.Assistant:
-        return {border: `1px solid color-mix(in srgb, ${theme.vars.palette.secondary.main}, white 50%)`};
+        return {border: `1px solid ${lighten(theme.palette.secondary.main, 0.5)}`};
       case MessageRoleEnum.System:
-        return {border: `1px solid color-mix(in srgb, ${theme.vars.palette.warning.main}, white 50%)`};
+        return {border: `1px solid ${lighten(theme.palette.warning.main, 0.5)}`};
       default:
         return {};
     }

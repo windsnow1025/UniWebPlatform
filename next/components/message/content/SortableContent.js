@@ -48,7 +48,7 @@ function SortableContent({
       <div
         className="p-1 rounded-md my-2"
         style={{
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 90%)`
+          backgroundColor: `${theme.palette.primary.main}20`
         }}
       >
         {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (

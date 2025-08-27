@@ -2,7 +2,6 @@ import {useEffect, useRef, useState} from "react";
 import {applyTheme, desanitizeContent, parseMarkdownLaTeX, sanitizeContent} from "markdown-latex-renderer";
 import {ContentEditable, RawEditableState} from "@/lib/common/message/EditableState";
 import {useTheme} from "@mui/material";
-import { useColorScheme } from '@mui/material/styles';
 
 function TextContent({
                        content,
@@ -10,7 +9,8 @@ function TextContent({
                        rawEditableState,
                        setConversationUpdateKey,
                      }) {
-  const { mode } = useColorScheme();
+  const theme = useTheme();
+  const mode = theme.palette.mode;
 
   const [contentEditable, setContentEditable] = useState(ContentEditable.PlainTextOnly);
   const contentRef = useRef(null);

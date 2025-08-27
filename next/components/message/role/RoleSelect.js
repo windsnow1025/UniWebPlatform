@@ -31,21 +31,21 @@ function RoleSelect({role, setRole}) {
       type: MessageRoleEnum.User,
       label: username ? username[0].toUpperCase() : "U",
       tooltip: "User",
-      color: `color-mix(in srgb, ${theme.vars.palette.primary.main}, white 50%)`,
+      color: lighten(theme.palette.primary.main, 0.5),
       avatar: avatar
     },
     {
       type: MessageRoleEnum.Assistant,
       label: <AssistantIcon/>,
       tooltip: "Assistant",
-      color: `color-mix(in srgb, ${theme.vars.palette.secondary.main}, white 50%)`,
+      color: lighten(theme.palette.secondary.main, 0.5),
       avatar: null
     },
     {
       type: MessageRoleEnum.System,
       label: <BuildIcon/>,
       tooltip: "System",
-      color: `color-mix(in srgb, ${theme.vars.palette.warning.main}, white 50%)`,
+      color: lighten(theme.palette.warning.main, 0.5),
       avatar: null
     }
   ];
@@ -61,7 +61,7 @@ function RoleSelect({role, setRole}) {
               width: 30,
               height: 30,
               transition: "border 0.5s ease, background-color 0.5s ease",
-              backgroundColor: role === type ? color : theme.vars.palette.text.disabled,
+              backgroundColor: role === type ? color : theme.palette.text.disabled,
               border: role === type ? "2px solid transparent" : "none",
             }}
             src={avatar}
