@@ -8,7 +8,6 @@ import {
   Box,
   Divider,
   useTheme,
-  useMediaQuery
 } from "@mui/material";
 import { TabContext, TabPanel } from "@mui/lab";
 import CreditDiv from "./CreditSection";
