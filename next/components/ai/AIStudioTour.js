@@ -122,7 +122,7 @@ const AIStudioTour = () => {
             bottom: theme.spacing(2.5),
             right: theme.spacing(2.5),
             boxShadow: 10,
-            backgroundColor: lighten(theme.palette.background.default, 0.1),
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.default}, white 10%)`,
           }}
         >
           <HelpOutlineIcon />
