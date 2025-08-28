@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Box, Card, CardContent, Link, Typography, useTheme} from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
@@ -22,7 +22,7 @@ function FeatureCard({title, description, icon}) {
       }}
     >
       <CardContent className="text-center">
-        {React.cloneElement(icon, {sx: {fontSize: 40, color: theme.palette.primary.main}})}
+        {React.cloneElement(icon, {sx: {fontSize: 40, color: theme.vars.palette.primary.main}})}
         <Typography gutterBottom variant="h5" component="h2">
           {title}
         </Typography>

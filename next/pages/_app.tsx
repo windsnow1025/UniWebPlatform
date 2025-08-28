@@ -21,6 +21,7 @@ import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
 import EmailVerificationDialog from "@/components/common/EmailVerificationDialog";
 import AnnouncementSnackbar from "@/components/common/AnnouncementSnackbar";
+import {createTheme, ThemeProvider } from "@mui/material/styles";
 
 const NAVIGATION: Navigation = [
   {
@@ -60,6 +61,13 @@ const NAVIGATION: Navigation = [
 const BRANDING = {
   title: 'Windsnow1025',
 };
+
+const muiTheme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data-toolpad-color-scheme',
+  },
+  colorSchemes: { light: true, dark: true },
+});
 
 export default function App({ Component }: { Component: React.ElementType }) {
   const [session, setSession] = React.useState<Session | null>(null);
@@ -104,22 +112,24 @@ export default function App({ Component }: { Component: React.ElementType }) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <NextAppProvider
-        session={session}
-        authentication={authentication}
-        navigation={NAVIGATION}
-        branding={BRANDING}
-      >
-        <EmailVerificationDialog/>
-        <AnnouncementSnackbar/>
-        <div className="local-scroll-root">
-          <DashboardLayout defaultSidebarCollapsed={true}>
-          {/*<PageContainer>*/}
-            <Component />
-          {/*</PageContainer>*/}
-          </DashboardLayout>
-        </div>
-      </NextAppProvider>
+      <ThemeProvider theme={muiTheme}>
+        <NextAppProvider
+            session={session}
+            authentication={authentication}
+            navigation={NAVIGATION}
+            branding={BRANDING}
+        >
+          <EmailVerificationDialog/>
+          <AnnouncementSnackbar/>
+          <div className="local-scroll-root">
+            <DashboardLayout defaultSidebarCollapsed={true}>
+              {/*<PageContainer>*/}
+              <Component />
+              {/*</PageContainer>*/}
+            </DashboardLayout>
+          </div>
+        </NextAppProvider>
+      </ThemeProvider>
     </AppCacheProvider>
   );
 }
