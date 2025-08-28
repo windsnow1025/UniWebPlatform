@@ -23,7 +23,7 @@
     "@mui/lab": "^7.0.0-beta.16",
     "@mui/material": "^7.3.1",
     "@mui/material-nextjs": "^7.3.0",
-    "@mui/x-data-grid-premium": "^7.29.9",
+    "@mui/x-data-grid-premium": "^8.10.2",
     "@tailwindcss/postcss": "^4.1.12",
     "@toolpad/core": "^0.16.0",
     "axios": "1.11.0",

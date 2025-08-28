@@ -1,26 +1,160 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
+  ColumnsPanelTrigger,
   DataGridPremium,
   DEFAULT_GRID_COL_TYPE_KEY,
+  ExportCsv,
+  ExportPrint,
+  FilterPanelTrigger,
   getGridDefaultColumnTypes,
   GridActionsCellItem,
   GridRowModes,
-  GridToolbar,
-  GridToolbarContainer,
+  PivotPanelTrigger,
+  QuickFilter,
+  QuickFilterClear,
+  QuickFilterControl,
+  QuickFilterTrigger,
+  Toolbar,
+  ToolbarButton,
 } from '@mui/x-data-grid-premium';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import PrintIcon from '@mui/icons-material/Print';
+import CancelIcon from '@mui/icons-material/Cancel';
+import SearchIcon from '@mui/icons-material/Search';
+import ViewColumnIcon from '@mui/icons-material/ViewColumn';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import PivotTableChartIcon from '@mui/icons-material/PivotTableChart';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import {InputAdornment, styled, TextField, Tooltip, Typography} from "@mui/material";
 
 function EditToolbar({onAddRow}) {
+  const StyledQuickFilter = styled(QuickFilter)({
+    display: 'grid',
+    alignItems: 'center',
+    marginLeft: 'auto',
+  });
+
+  const StyledToolbarButton = styled(ToolbarButton)(
+    ({ theme, ownerState }) => ({
+      gridArea: '1 / 1',
+      width: 'min-content',
+      height: 'min-content',
+      zIndex: 1,
+      opacity: ownerState.expanded ? 0 : 1,
+      pointerEvents: ownerState.expanded ? 'none' : 'auto',
+      transition: theme.transitions.create(['opacity']),
+    })
+  );
+
+  const StyledTextField = styled(TextField)(({ theme, ownerState }) => ({
+    gridArea: '1 / 1',
+    overflowX: 'clip',
+    width: ownerState.expanded ? 260 : 'var(--trigger-width)',
+    opacity: ownerState.expanded ? 1 : 0,
+    transition: theme.transitions.create(['width', 'opacity']),
+  }));
+
   return (
-    <GridToolbarContainer>
-      <GridToolbar/>
+    <Toolbar>
+      <Typography fontWeight="medium" sx={{ flex: 1, mx: 0.5 }}>
+        Toolbar
+      </Typography>
+
+      <Tooltip title="Download as CSV">
+        <ExportCsv render={<ToolbarButton />}>
+          <FileDownloadIcon fontSize="small" />
+        </ExportCsv>
+      </Tooltip>
+      <Tooltip title="Print">
+        <ExportPrint render={<ToolbarButton />}>
+          <PrintIcon fontSize="small" />
+        </ExportPrint>
+      </Tooltip>
+
+      <StyledQuickFilter>
+        <QuickFilterTrigger
+          render={(triggerProps, state) => (
+            <Tooltip title="Search" enterDelay={0}>
+              <StyledToolbarButton
+                {...triggerProps}
+                ownerState={{ expanded: state.expanded }}
+                color="default"
+                aria-disabled={state.expanded}
+              >
+                <SearchIcon fontSize="small" />
+              </StyledToolbarButton>
+            </Tooltip>
+          )}
+        />
+        <QuickFilterControl
+          render={({ ref, ...controlProps }, state) => (
+            <StyledTextField
+              {...controlProps}
+              ownerState={{ expanded: state.expanded }}
+              inputRef={ref}
+              aria-label="Search"
+              placeholder="Search..."
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: state.value ? (
+                    <InputAdornment position="end">
+                      <QuickFilterClear
+                        edge="end"
+                        size="small"
+                        aria-label="Clear search"
+                        material={{ sx: { marginRight: -0.75 } }}
+                      >
+                        <CancelIcon fontSize="small" />
+                      </QuickFilterClear>
+                    </InputAdornment>
+                  ) : null,
+                  ...controlProps.slotProps?.input,
+                },
+                ...controlProps.slotProps,
+              }}
+            />
+          )}
+        />
+      </StyledQuickFilter>
+
+      <Tooltip title="Columns">
+        <ColumnsPanelTrigger render={<ToolbarButton />}>
+          <ViewColumnIcon fontSize="small" />
+        </ColumnsPanelTrigger>
+      </Tooltip>
+
+      <Tooltip title="Filters">
+        <FilterPanelTrigger render={<ToolbarButton />}>
+          <FilterListIcon fontSize="small" />
+        </FilterPanelTrigger>
+      </Tooltip>
+
+      <Tooltip title="Pivot">
+        <PivotPanelTrigger
+          render={(triggerProps, state) => (
+            <ToolbarButton
+              {...triggerProps}
+              color={state.active ? 'primary' : 'default'}
+            />
+          )}
+        >
+          <PivotTableChartIcon fontSize="small" />
+        </PivotPanelTrigger>
+      </Tooltip>
+
       <div className="pt-1">
         <Button
           startIcon={<AddIcon/>}
@@ -30,7 +164,7 @@ function EditToolbar({onAddRow}) {
           Add record
         </Button>
       </div>
-    </GridToolbarContainer>
+    </Toolbar>
   );
 }
 
@@ -239,7 +373,7 @@ function CustomDataGrid({
             />,
             <GridActionsCellItem
               key="cancel"
-              icon={<CancelIcon/>}
+              icon={<CloseIcon/>}
               label="Cancel"
               onClick={handleCancelClick(id)}
             />,
@@ -270,16 +404,18 @@ function CustomDataGrid({
   ]);
 
   const [models, setModels] = useState({
-    rowSelectionModel: [],
+    rowSelectionModel: { type: 'include', ids: new Set() },
     filterModel: {},
   });
 
   const rowSelectionModelLookup = useMemo(
-    () =>
-      models.rowSelectionModel.reduce((lookup, rowId) => {
+    () => {
+      const lookup = {};
+      models.rowSelectionModel.ids.forEach((rowId) => {
         lookup[rowId] = rowId;
-        return lookup;
-      }, {}),
+      });
+      return lookup;
+    },
     [models.rowSelectionModel]
   );
 
@@ -312,7 +448,7 @@ function CustomDataGrid({
           rowModesModel={rowModesModel}
           onRowSelectionModelChange={handleRowSelectionModelChange}
           onFilterModelChange={handleFilterModelChange}
-          handleRowModelChange={(newModel) => setRowModesModel(newModel)}
+          onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
           processRowUpdate={processRowUpdate}
           loading={loading}
           slots={{
@@ -322,6 +458,7 @@ function CustomDataGrid({
             toolbar: {onAddRow: handleAddRow},
           }}
           pagination={true}
+          showToolbar
         />
       </div>
       <Snackbar
