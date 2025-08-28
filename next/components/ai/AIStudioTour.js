@@ -3,6 +3,7 @@ import GuidedTour from '../common/GuidedTour';
 import IconButton from '@mui/material/IconButton';
 import {useTheme} from '@mui/material/styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import {lighten, Tooltip} from "@mui/material";
 
 const steps = [
   {
@@ -112,21 +113,21 @@ const AIStudioTour = () => {
 
   return (
     <>
-      <IconButton
-        size="large"
-        onClick={() => setRunTour(true)}
-        sx={{
-          position: 'fixed',
-          bottom: theme.spacing(2.5),
-          right: theme.spacing(2.5),
-          boxShadow: 10,
-          '&:hover': {
-            backgroundColor: theme.palette.action.hover,
-          }
-        }}
-      >
-        <HelpOutlineIcon />
-      </IconButton>
+      <Tooltip title="Help">
+        <IconButton
+          size="large"
+          onClick={() => setRunTour(true)}
+          sx={{
+            position: 'fixed',
+            bottom: theme.spacing(2.5),
+            right: theme.spacing(2.5),
+            boxShadow: 10,
+            backgroundColor: lighten(theme.palette.background.default, 0.1),
+          }}
+        >
+          <HelpOutlineIcon />
+        </IconButton>
+      </Tooltip>
 
       <GuidedTour
         steps={steps}
