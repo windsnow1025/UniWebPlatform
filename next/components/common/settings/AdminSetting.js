@@ -42,9 +42,24 @@ const AdminSetting = () => {
 
   // User management columns
   const columns = [
-    {field: "id", headerName: "ID", flex: 0.1},
-    {field: "username", headerName: "Username", flex: 0.2},
-    {field: "email", headerName: "Email", flex: 0.3},
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 0.1,
+      editable: true
+    },
+    {
+      field: "username",
+      headerName: "Username",
+      flex: 0.2,
+      editable: true
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 0.3,
+      editable: true
+    },
     {
       field: "emailVerified",
       headerName: "Email Verified",
