@@ -9,7 +9,7 @@ function TextContent({
                        rawEditableState,
                        setConversationUpdateKey,
                      }) {
-  const mode = useColorScheme().mode;
+  const {systemMode } = useColorScheme();
 
   const [contentEditable, setContentEditable] = useState(ContentEditable.PlainTextOnly);
   const contentRef = useRef(null);
@@ -22,7 +22,7 @@ function TextContent({
   }
 
   const updateDisplay = async (content, editableState) => {
-    applyTheme(mode);
+    applyTheme(systemMode);
 
     if (!contentRef.current) {
       return;
@@ -45,7 +45,7 @@ function TextContent({
 
   useEffect(() => {
     updateDisplay(content, rawEditableState);
-  }, [content, rawEditableState, mode]);
+  }, [content, rawEditableState, systemMode]);
 
   const handleBlur = () => {
     // Prevent content update on blur caused by clicking links
