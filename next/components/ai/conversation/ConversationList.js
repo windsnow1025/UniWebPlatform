@@ -138,8 +138,9 @@ function ConversationList({
       setAlertMessage(err.message);
       setAlertSeverity('error');
       console.error(err);
+    } finally {
+      setIsLoadingConversations(false);
     }
-    setIsLoadingConversations(false);
   };
 
   const handleMenuOpen = (event, index) => {
