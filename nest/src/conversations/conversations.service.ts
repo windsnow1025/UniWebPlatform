@@ -28,6 +28,7 @@ export class ConversationsService {
       messages: conversation.messages,
       users: conversation.users.map(this.usersService.toUserDto),
       updatedAt: conversation.updatedAt,
+      colorLabel: conversation.colorLabel,
     };
     return conversationDto;
   }
@@ -103,14 +104,15 @@ export class ConversationsService {
   async cloneForSpecificUser(
     userId: number,
     id: number,
-    username: string,
+    targetUsername: string,
   ): Promise<Conversation> {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
 
-    const targetUser = await this.usersService.findOneByUsername(username);
+    const targetUser =
+      await this.usersService.findOneByUsername(targetUsername);
     if (!targetUser) {
       throw new NotFoundException('User not found');
     }
@@ -161,6 +163,17 @@ export class ConversationsService {
     }
 
     conversation.name = name;
+
+    return await this.conversationsRepository.save(conversation);
+  }
+
+  async updateColorLabel(userId: number, id: number, colorLabel?: string) {
+    const conversation = await this.findOne(userId, id);
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    conversation.colorLabel = colorLabel;
 
     return await this.conversationsRepository.save(conversation);
   }

@@ -28,4 +28,7 @@ export class Conversation extends BaseEntity {
   @ManyToMany(() => User)
   @JoinTable()
   users: User[];
+
+  @Column({ type: 'varchar', length: 32, nullable: true })
+  colorLabel?: string;
 }
