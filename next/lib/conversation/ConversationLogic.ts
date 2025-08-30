@@ -100,6 +100,18 @@ export default class ConversationLogic {
     }
   }
 
+  async updateConversationColorLabel(id: number, colorLabel?: string): Promise<ConversationResDto> {
+    try {
+      return this.conversationService.updateConversationColorLabel(id, colorLabel);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
+      console.error(error);
+      throw new Error('Failed to update conversation color label');
+    }
+  }
+
   async addUserToConversation(id: number, username: string) {
     try {
       await this.conversationService.addUserToConversation(id, username);
