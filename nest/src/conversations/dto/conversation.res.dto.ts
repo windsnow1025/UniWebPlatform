@@ -4,7 +4,6 @@ import { Message } from '../message.entity';
 export class ConversationResDto {
   id: number;
   name: string;
-  colorLabel?: string;
   messages: Message[];
   users: UserResDto[];
   updatedAt: Date;

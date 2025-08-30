@@ -25,7 +25,6 @@ export class ConversationsService {
     const conversationDto: ConversationResDto = {
       id: conversation.id,
       name: conversation.name,
-      colorLabel: conversation.colorLabel,
       messages: conversation.messages,
       users: conversation.users.map(this.usersService.toUserDto),
       updatedAt: conversation.updatedAt,
@@ -88,7 +87,6 @@ export class ConversationsService {
     userId: number,
     name: string,
     messages: Message[],
-    colorLabel?: string,
   ): Promise<Conversation> {
     const user = await this.usersService.findOneById(userId);
     if (!user) {
@@ -99,23 +97,20 @@ export class ConversationsService {
     conversation.name = name;
     conversation.messages = messages;
     conversation.users = [user];
-    conversation.colorLabel = colorLabel;
-
     return await this.conversationsRepository.save(conversation);
   }
 
   async cloneForSpecificUser(
     userId: number,
     id: number,
-    targetUsername: string,
+    username: string,
   ): Promise<Conversation> {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
 
-    const targetUser =
-      await this.usersService.findOneByUsername(targetUsername);
+    const targetUser = await this.usersService.findOneByUsername(username);
     if (!targetUser) {
       throw new NotFoundException('User not found');
     }
@@ -124,7 +119,6 @@ export class ConversationsService {
     newConversation.name = conversation.name;
     newConversation.messages = conversation.messages;
     newConversation.users = [targetUser];
-    newConversation.colorLabel = conversation.colorLabel;
 
     return await this.conversationsRepository.save(newConversation);
   }
@@ -148,13 +142,7 @@ export class ConversationsService {
     return await this.conversationsRepository.save(conversation);
   }
 
-  async update(
-    userId: number,
-    id: number,
-    name: string,
-    messages: Message[],
-    colorLabel?: string,
-  ) {
+  async update(userId: number, id: number, name: string, messages: Message[]) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
@@ -162,7 +150,6 @@ export class ConversationsService {
 
     conversation.name = name;
     conversation.messages = messages;
-    conversation.colorLabel = colorLabel;
 
     return await this.conversationsRepository.save(conversation);
   }
