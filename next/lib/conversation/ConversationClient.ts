@@ -65,7 +65,7 @@ export default class ConversationClient {
     return res.data;
   }
 
-  async updateConversationColorLabel(id: number, colorLabel?: string): Promise<ConversationResDto> {
+  async updateConversationColorLabel(id: number, colorLabel: string): Promise<ConversationResDto> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdateColorLabel(
       id, { colorLabel },

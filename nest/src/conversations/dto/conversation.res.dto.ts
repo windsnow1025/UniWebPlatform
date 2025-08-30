@@ -7,7 +7,7 @@ export class ConversationResDto {
   messages: Message[];
   users: UserResDto[];
   updatedAt: Date;
-  colorLabel?: string;
+  colorLabel: string;
 }
 
 export class ConversationUpdateTimeResDto {

@@ -70,7 +70,7 @@ function ConversationList({
                             handleGenerateRef,
                           }) {
   const LABEL_OPTIONS = [
-    { key: undefined, name: 'No label', color: '#9e9e9e' },
+    { key: '', name: 'No label', color: '#9e9e9e' },
     { key: 'red', name: 'Red', color: '#ef5350' },
     { key: 'orange', name: 'Orange', color: '#ffa726' },
     { key: 'yellow', name: 'Yellow', color: '#ffee58' },
@@ -291,7 +291,7 @@ function ConversationList({
     if (label && label !== 'No label') {
       return LABEL_OPTIONS.find(o => o.key === label).color;
     } else {
-      return LABEL_OPTIONS.find(o => o.key === undefined).color;
+      return LABEL_OPTIONS.find(o => o.key === '').color;
     }
   };
 
@@ -299,7 +299,7 @@ function ConversationList({
     if (label && label !== 'No label') {
       return LABEL_OPTIONS.find(o => o.key === label).name;
     } else {
-      return LABEL_OPTIONS.find(o => o.key === undefined).name;
+      return LABEL_OPTIONS.find(o => o.key === '').name;
     }
   };
 

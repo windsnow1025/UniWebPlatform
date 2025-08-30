@@ -144,7 +144,7 @@ export interface ConversationColorReqDto {
      * @type {string}
      * @memberof ConversationColorReqDto
      */
-    'colorLabel'?: string;
+    'colorLabel': string;
 }
 /**
  * 
@@ -219,7 +219,7 @@ export interface ConversationResDto {
      * @type {string}
      * @memberof ConversationResDto
      */
-    'colorLabel'?: string;
+    'colorLabel': string;
 }
 /**
  * 
