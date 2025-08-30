@@ -21,6 +21,13 @@ export class Conversation extends BaseEntity {
   name: string;
 
   @Column({
+    type: 'varchar',
+    length: 15,
+    nullable: true,
+  })
+  colorLabel?: string;
+
+  @Column({
     type: 'json',
   })
   messages: Message[];
