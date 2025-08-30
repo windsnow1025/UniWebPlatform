@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
-import {Collapse, Paper} from "@mui/material";
+import {Collapse, Drawer, Paper} from "@mui/material";
 
 import ChatLogic from "../../lib/chat/ChatLogic";
 import ConfigDiv from "../../components/ai/ConfigDiv";
@@ -53,8 +53,12 @@ function AIChat() {
         <title>AI Studio - Windsnow1025</title>
       </Head>
       <div className="local-scroll-unscrollable-x">
-        <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
-          <Collapse orientation="horizontal" in={drawerOpen}>
+        {screenSize === 'xs' || screenSize === 'sm' ? (
+          <Drawer
+            open={!!drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            sx={{ zIndex: 1202 }}
+          >
             <ConversationSidebar
               messages={messages}
               setMessages={setMessages}
@@ -69,8 +73,27 @@ function AIChat() {
               isGeneratingRef={isGeneratingRef}
               handleGenerateRef={handleGenerateRef}
             />
-          </Collapse>
-        </Paper>
+          </Drawer>
+        ) : (
+          <Paper elevation={2} sx={{borderRadius: 0}} className="flex">
+            <Collapse orientation="horizontal" in={drawerOpen}>
+              <ConversationSidebar
+                messages={messages}
+                setMessages={setMessages}
+                selectedConversationId={selectedConversationId}
+                setSelectedConversationId={setSelectedConversationId}
+                conversationUpdateKey={conversationUpdateKey}
+                conversations={conversations}
+                setConversations={setConversations}
+                conversationLoadKey={conversationLoadKey}
+                setConversationLoadKey={setConversationLoadKey}
+                setIsTemporaryChat={setIsTemporaryChat}
+                isGeneratingRef={isGeneratingRef}
+                handleGenerateRef={handleGenerateRef}
+              />
+            </Collapse>
+          </Paper>
+        )}
         <div className="local-scroll-unscrollable-y">
           <div className="flex">
             <ToggleConversationButton
