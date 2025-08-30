@@ -160,12 +160,6 @@ export interface ConversationReqDto {
     'name': string;
     /**
      * 
-     * @type {string}
-     * @memberof ConversationReqDto
-     */
-    'colorLabel'?: string;
-    /**
-     * 
      * @type {Array<Message>}
      * @memberof ConversationReqDto
      */
@@ -189,12 +183,6 @@ export interface ConversationResDto {
      * @memberof ConversationResDto
      */
     'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ConversationResDto
-     */
-    'colorLabel'?: string;
     /**
      * 
      * @type {Array<Message>}
