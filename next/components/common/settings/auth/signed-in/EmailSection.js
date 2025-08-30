@@ -125,7 +125,7 @@ function EmailSection() {
             Verification email sent to {newEmail}
           </Typography>
           <Typography variant="body2" align="center" gutterBottom>
-            Please check your inbox and verify your email to complete the update.
+            Please check your inbox to verify your email. If you are not seeing the email, check your spam folder.
           </Typography>
           <Button
             variant="contained"
