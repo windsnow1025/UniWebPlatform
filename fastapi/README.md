@@ -11,7 +11,7 @@
 
 Pycharm Professional
 
-### Steps
+### Setup
 
 1. Add new configuration -> FastAPI
-2. Set Application file to `<root>\fastapi\app\main.py`
+2. Set Application file to `./fastapi/app/main.py`
