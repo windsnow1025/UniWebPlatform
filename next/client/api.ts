@@ -136,6 +136,19 @@ export type ContentTypeEnum = typeof ContentTypeEnum[keyof typeof ContentTypeEnu
 /**
  * 
  * @export
+ * @interface ConversationColorReqDto
+ */
+export interface ConversationColorReqDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConversationColorReqDto
+     */
+    'colorLabel'?: string;
+}
+/**
+ * 
+ * @export
  * @interface ConversationNameReqDto
  */
 export interface ConversationNameReqDto {
@@ -201,6 +214,12 @@ export interface ConversationResDto {
      * @memberof ConversationResDto
      */
     'updatedAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConversationResDto
+     */
+    'colorLabel'?: string;
 }
 /**
  * 
@@ -1308,6 +1327,49 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @param {number} id 
+         * @param {ConversationColorReqDto} conversationColorReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        conversationsControllerUpdateColorLabel: async (id: number, conversationColorReqDto: ConversationColorReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('conversationsControllerUpdateColorLabel', 'id', id)
+            // verify required parameter 'conversationColorReqDto' is not null or undefined
+            assertParamExists('conversationsControllerUpdateColorLabel', 'conversationColorReqDto', conversationColorReqDto)
+            const localVarPath = `/conversations/conversation/{id}/color-label`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(conversationColorReqDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
          * @param {ConversationNameReqDto} conversationNameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1458,6 +1520,19 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
+         * @param {ConversationColorReqDto} conversationColorReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async conversationsControllerUpdateColorLabel(id: number, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdateColorLabel(id, conversationColorReqDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerUpdateColorLabel']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
          * @param {ConversationNameReqDto} conversationNameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1550,6 +1625,16 @@ export const ConversationsApiFactory = function (configuration?: Configuration, 
          */
         conversationsControllerUpdate(id: number, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
             return localVarFp.conversationsControllerUpdate(id, conversationReqDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {ConversationColorReqDto} conversationColorReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        conversationsControllerUpdateColorLabel(id: number, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
+            return localVarFp.conversationsControllerUpdateColorLabel(id, conversationColorReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1658,6 +1743,18 @@ export class ConversationsApi extends BaseAPI {
      */
     public conversationsControllerUpdate(id: number, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerUpdate(id, conversationReqDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {ConversationColorReqDto} conversationColorReqDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ConversationsApi
+     */
+    public conversationsControllerUpdateColorLabel(id: number, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerUpdateColorLabel(id, conversationColorReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

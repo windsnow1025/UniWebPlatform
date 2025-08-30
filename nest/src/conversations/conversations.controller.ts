@@ -14,6 +14,7 @@ import { ConversationsService } from './conversations.service';
 import {
   ConversationNameReqDto,
   ConversationReqDto,
+  ConversationColorReqDto,
 } from './dto/conversation.req.dto';
 import { UserUsernameReqDto } from '../users/dto/user.req.dto';
 
@@ -117,6 +118,21 @@ export class ConversationsController {
       userId,
       id,
       reqDto.name,
+    );
+    return this.service.toConversationDto(updatedConversation);
+  }
+
+  @Put('/conversation/:id/color-label')
+  async updateColorLabel(
+    @Request() req: RequestWithUser,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() reqDto: ConversationColorReqDto,
+  ) {
+    const userId = req.user.id;
+    const updatedConversation = await this.service.updateColorLabel(
+      userId,
+      id,
+      reqDto.colorLabel,
     );
     return this.service.toConversationDto(updatedConversation);
   }
