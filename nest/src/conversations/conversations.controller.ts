@@ -56,6 +56,7 @@ export class ConversationsController {
       userId,
       reqDto.name,
       reqDto.messages,
+      reqDto.colorLabel,
     );
     return this.service.toConversationDto(conversation);
   }
@@ -102,6 +103,7 @@ export class ConversationsController {
       id,
       reqDto.name,
       reqDto.messages,
+      reqDto.colorLabel,
     );
     return this.service.toConversationDto(conversation);
   }
