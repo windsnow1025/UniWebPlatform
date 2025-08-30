@@ -7,15 +7,17 @@ Copy `./.env.example` and rename it to `.env`, then fill in the Env variables.
 Copy `./firebaseConfig.example.json` and rename it to `./firebaseConfig.json`, then fill in the Env variables.
 Copy `./serviceAccountKey.example.json` and rename it to `./serviceAccountKey.json`, then fill in the Env variables.
 
-## Requirements
-
-```bash
-npm i -g @nestjs/cli @openapitools/openapi-generator-cli
-```
-
 ## OpenAPI
 
-Docs: `/api`
+### Requirements
+
+1. Install nest.js cli and openapi-generator-cli globally.
+
+    ```bash
+    npm i -g @nestjs/cli @openapitools/openapi-generator-cli
+    ```
+
+2. Install Java.
 
 ### Generate Client Package
 
