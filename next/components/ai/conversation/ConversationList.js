@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
   Alert,
+  Button,
   CircularProgress,
   IconButton,
   List,
@@ -13,10 +14,6 @@ import {
   TextField,
   Tooltip,
   Typography,
-  Chip,
-  Collapse,
-  Box,
-  Divider,
 } from '@mui/material';
 import {
   DeleteOutlined as DeleteOutlinedIcon,
@@ -24,13 +21,11 @@ import {
   MoreVert as MoreVertIcon,
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon,
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
-  LabelOutlined as LabelOutlinedIcon,
 } from '@mui/icons-material';
 import ShareConversationDialog from './ShareConversationDialog';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 import FileLogic from "../../../lib/common/file/FileLogic";
+import {ContentTypeEnum} from "../../../client";
 import {isEqual} from 'lodash';
 import ChatLogic from "../../../lib/chat/ChatLogic";
 
@@ -69,16 +64,6 @@ function ConversationList({
                             isGeneratingRef,
                             handleGenerateRef,
                           }) {
-  const LABEL_OPTIONS = [
-    { key: undefined, name: 'No label', color: '#9e9e9e' },
-    { key: 'red', name: 'Red', color: '#ef5350' },
-    { key: 'orange', name: 'Orange', color: '#ffa726' },
-    { key: 'yellow', name: 'Yellow', color: '#ffee58' },
-    { key: 'green', name: 'Green', color: '#66bb6a' },
-    { key: 'blue', name: 'Blue', color: '#42a5f5' },
-    { key: 'purple', name: 'Purple', color: '#ab47bc' },
-    { key: 'gray', name: 'Gray', color: '#bdbdbd' },
-  ];
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuIndex, setMenuIndex] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -99,9 +84,6 @@ function ConversationList({
 
   // Auth state
   const [signedIn, setSignedIn] = useState(false);
-
-  // Group collapse state per label
-  const [collapsedGroups, setCollapsedGroups] = useState({});
 
   const conversationLogic = new ConversationLogic();
 
@@ -145,16 +127,6 @@ function ConversationList({
   const handleMenuOpen = (event, index) => {
     setAnchorEl(event.currentTarget);
     setMenuIndex(index);
-  };
-
-  const colorForLabel = (label) => {
-    const entry = LABEL_OPTIONS.find(o => o.key === label);
-    return entry ? entry.color : '#9e9e9e';
-  };
-
-  const nameForLabel = (label) => {
-    const entry = LABEL_OPTIONS.find(o => o.key === label);
-    return entry ? entry.name : 'No label';
   };
 
   const handleMenuClose = () => {
@@ -207,28 +179,6 @@ function ConversationList({
       console.error(err);
     }
 
-    setLoadingConversationId(null);
-  };
-
-  const updateConversationColorLabel = async (index, colorLabel) => {
-    const conversationId = conversations[index].id;
-    setLoadingConversationId(conversationId);
-    try {
-      const updatedConversation = await conversationLogic.updateConversationColorLabel(conversationId, colorLabel);
-      setConversations((prevConversations) => {
-        const newConversations = [...prevConversations];
-        newConversations[index] = updatedConversation;
-        return newConversations;
-      });
-      setAlertOpen(true);
-      setAlertMessage('Conversation label updated');
-      setAlertSeverity('success');
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage(err.message);
-      setAlertSeverity('error');
-      console.error(err);
-    }
     setLoadingConversationId(null);
   };
 
@@ -297,157 +247,99 @@ function ConversationList({
     );
   }
 
-  // Group conversations by colorLabel
-  const groups = conversations.reduce((acc, conv, idx) => {
-    const key = conv.colorLabel || 'No label';
-    if (!acc[key]) acc[key] = [];
-    acc[key].push({ conv, idx });
-    return acc;
-  }, {});
-  const groupKeys = Object.keys(groups);
-
-  const toggleGroup = (key) => {
-    setCollapsedGroups(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
   return (
     <>
       <List className="local-scroll-scrollable">
-        {groupKeys.map((key) => (
-          <div key={`group-${key}`}>
-            <ListItem
-              disablePadding
-              sx={{ bgcolor: 'background.paper', position: 'sticky', top: 0, zIndex: 1 }}
+        {conversations.map((conversation, index) => (
+          <ListItem
+            key={conversation.id}
+            disablePadding
+            sx={{
+              bgcolor: conversation.id === selectedConversationId ? 'action.selected' : 'inherit',
+            }}
+          >
+            <ListItemButton onClick={() => selectConversation(conversation.id)}>
+              {editingIndex === index ? (
+                <TextField
+                  value={editingName}
+                  onChange={(e) => setEditingName(e.target.value)}
+                  autoFocus
+                  fullWidth
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                <div className="flex-start-center w-full">
+                  <ListItemText
+                    primary={conversation.name}
+                    secondary={(
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        noWrap
+                      >
+                        {formatDate(conversation.updatedAt)}
+                      </Typography>
+                    )}
+                  />
+                  {loadingConversationId === conversation.id && (
+                    <CircularProgress size={20} sx={{ml: 1}}/>
+                  )}
+                </div>
+              )}
+              {editingIndex === index ? (
+                <Tooltip title="Save">
+                  <IconButton onClick={(e) => {
+                    e.stopPropagation();
+                    updateConversationName(index, editingName);
+                    setEditingIndex(null);
+                    setEditingName('');
+                  }}>
+                    <SaveOutlinedIcon/>
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Rename">
+                  <IconButton onClick={(e) => {
+                    e.stopPropagation();
+                    setEditingIndex(index);
+                    setEditingName(conversation.name);
+                  }}>
+                    <EditIcon fontSize="small"/>
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Tooltip title="More">
+                <IconButton onClick={(e) => {
+                  e.stopPropagation();
+                  handleMenuOpen(e, index);
+                }}>
+                  <MoreVertIcon fontSize="small"/>
+                </IconButton>
+              </Tooltip>
+            </ListItemButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={menuIndex === index}
+              onClose={handleMenuClose}
             >
-              <ListItemButton onClick={() => toggleGroup(key)}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
-                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: colorForLabel(key === 'No label' ? undefined : key), border: '1px solid rgba(0,0,0,0.2)' }} />
-                  <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-                    {nameForLabel(key === 'No label' ? undefined : key)} ({groups[key].length})
-                  </Typography>
-                  {collapsedGroups[key] ? <ExpandMoreIcon fontSize="small"/> : <ExpandLessIcon fontSize="small"/>}
-                </Box>
-              </ListItemButton>
-            </ListItem>
-            <Collapse in={!collapsedGroups[key]} timeout="auto" unmountOnExit>
-              {groups[key].map(({ conv, idx }) => (
-                <ListItem
-                  key={conv.id}
-                  disablePadding
-                  sx={{
-                    pl: 1,
-                    bgcolor: conv.id === selectedConversationId ? 'action.selected' : 'inherit',
-                  }}
-                >
-                  <ListItemButton onClick={() => selectConversation(conv.id)}>
-                    {editingIndex === idx ? (
-                      <TextField
-                        value={editingName}
-                        onChange={(e) => setEditingName(e.target.value)}
-                        autoFocus
-                        fullWidth
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    ) : (
-                      <div className="flex-start-center w-full">
-                        <Box sx={{ mr: 1 }}>
-                          <Chip
-                            size="small"
-                            icon={<LabelOutlinedIcon/>}
-                            label=""
-                            variant="outlined"
-                            sx={{
-                              '& .MuiChip-icon': { color: colorForLabel(conv.colorLabel) },
-                              borderColor: 'transparent',
-                            }}
-                          />
-                        </Box>
-                        <ListItemText
-                          primary={conv.name}
-                          secondary={(
-                            <Typography
-                              variant="caption"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {formatDate(conv.updatedAt)}
-                            </Typography>
-                          )}
-                        />
-                        {loadingConversationId === conv.id && (
-                          <CircularProgress size={20} sx={{ml: 1}}/>
-                        )}
-                      </div>
-                    )}
-                    {editingIndex === idx ? (
-                      <Tooltip title="Save">
-                        <IconButton onClick={(e) => {
-                          e.stopPropagation();
-                          updateConversationName(idx, editingName);
-                          setEditingIndex(null);
-                          setEditingName('');
-                        }}>
-                          <SaveOutlinedIcon/>
-                        </IconButton>
-                      </Tooltip>
-                    ) : (
-                      <Tooltip title="Rename">
-                        <IconButton onClick={(e) => {
-                          e.stopPropagation();
-                          setEditingIndex(idx);
-                          setEditingName(conv.name);
-                        }}>
-                          <EditIcon fontSize="small"/>
-                        </IconButton>
-                      </Tooltip>
-                    )}
-                    <Tooltip title="More">
-                      <IconButton onClick={(e) => {
-                        e.stopPropagation();
-                        handleMenuOpen(e, idx);
-                      }}>
-                        <MoreVertIcon fontSize="small"/>
-                      </IconButton>
-                    </Tooltip>
-                  </ListItemButton>
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={menuIndex === idx}
-                    onClose={handleMenuClose}
-                  >
-                    <MenuItem disabled>Set label</MenuItem>
-                    {LABEL_OPTIONS.map((opt) => (
-                      <MenuItem key={`lbl-${String(opt.key)}`} onClick={(e) => {
-                        e.stopPropagation();
-                        updateConversationColorLabel(idx, opt.key);
-                        handleMenuClose();
-                      }}>
-                        <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: opt.color, border: '1px solid rgba(0,0,0,0.2)', mr: 1 }} />
-                        {opt.name}
-                      </MenuItem>
-                    ))}
-                    <Divider/>
-                    <MenuItem onClick={(e) => {
-                      e.stopPropagation();
-                      openShareDialog(idx);
-                      handleMenuClose();
-                    }}>
-                      <ShareIcon fontSize="small" className="m-1"/>
-                      Share
-                    </MenuItem>
-                    <MenuItem onClick={(e) => {
-                      e.stopPropagation();
-                      deleteConversation(idx);
-                      handleMenuClose();
-                    }}>
-                      <DeleteOutlinedIcon fontSize="small" className="m-1"/>
-                      Delete
-                    </MenuItem>
-                  </Menu>
-                </ListItem>
-              ))}
-            </Collapse>
-          </div>
+              <MenuItem onClick={(e) => {
+                e.stopPropagation();
+                deleteConversation(index);
+                handleMenuClose();
+              }}>
+                <DeleteOutlinedIcon fontSize="small" className="m-1"/>
+                Delete
+              </MenuItem>
+              <MenuItem onClick={(e) => {
+                e.stopPropagation();
+                openShareDialog(index);
+                handleMenuClose();
+              }}>
+                <ShareIcon fontSize="small" className="m-1"/>
+                Share
+              </MenuItem>
+            </Menu>
+          </ListItem>
         ))}
       </List>
 
