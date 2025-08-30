@@ -167,7 +167,7 @@ export class ConversationsService {
     return await this.conversationsRepository.save(conversation);
   }
 
-  async updateColorLabel(userId: number, id: number, colorLabel?: string) {
+  async updateColorLabel(userId: number, id: number, colorLabel: string) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');

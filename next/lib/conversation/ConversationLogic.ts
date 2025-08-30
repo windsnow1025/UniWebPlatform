@@ -100,7 +100,7 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversationColorLabel(id: number, colorLabel?: string): Promise<ConversationResDto> {
+  async updateConversationColorLabel(id: number, colorLabel: string): Promise<ConversationResDto> {
     try {
       return this.conversationService.updateConversationColorLabel(id, colorLabel);
     } catch (error) {

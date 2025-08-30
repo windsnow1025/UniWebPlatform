@@ -15,8 +15,7 @@ export class ConversationNameReqDto {
 }
 
 export class ConversationColorReqDto {
-  @IsOptional()
   @IsString()
   @MaxLength(32)
-  colorLabel?: string;
+  colorLabel: string;
 }
