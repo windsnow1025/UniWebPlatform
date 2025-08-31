@@ -4,8 +4,11 @@ import UserLogic from "../../../../lib/common/user/UserLogic";
 import AccountDiv from "./signed-in/AccountDiv";
 import SignDiv from "./signed-out/SignDiv";
 import ConfirmDialog from "../../ConfirmDialog";
+import {useSession} from "@toolpad/core";
 
 const AuthSettings = () => {
+  const session = useSession();
+
   const userLogic = new UserLogic();
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,15 +20,9 @@ const AuthSettings = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
   useEffect(() => {
-    const fetchUsername = async () => {
-      setLoading(true);
-      const fetchedUsername = await userLogic.fetchUsername();
-      setUsername(fetchedUsername);
-      setLoading(false);
-    };
-
-    fetchUsername();
-  }, []);
+    if (!session) return;
+    setUsername(session.user.name);
+  }, [session]);
 
   const handleDeleteAccount = async (confirmed) => {
     setConfirmDialogOpen(false);

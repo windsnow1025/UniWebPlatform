@@ -1,30 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, lighten, Stack, Tooltip, useTheme} from "@mui/material";
-import UserLogic from "../../../lib/common/user/UserLogic";
+import {Avatar, Stack, Tooltip, useTheme} from "@mui/material";
 import BuildIcon from '@mui/icons-material/Build';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import {MessageRoleEnum} from "../../../client";
+import {useSession} from "@toolpad/core";
 
 function RoleSelect({role, setRole}) {
+  const theme = useTheme();
+  const session = useSession();
+
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState(null);
-  const theme = useTheme();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const userLogic = new UserLogic();
-      const fetchedUsername = await userLogic.fetchUsername();
-      const fetchedAvatar = await userLogic.fetchAvatar();
-
-      if (fetchedUsername) {
-        setUsername(fetchedUsername);
-      }
-      if (fetchedAvatar) {
-        setAvatar(fetchedAvatar);
-      }
-    };
-    fetchUserData();
-  }, []);
+    if (!session) return;
+    setUsername(session.user.name);
+    setAvatar(session.user.image);
+  }, [session]);
 
   const roles = [
     {

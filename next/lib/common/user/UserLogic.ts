@@ -65,14 +65,6 @@ export default class UserLogic {
     }
   }
 
-  async fetchUsername() {
-    const user = await this.fetchUser();
-    if (!user) {
-      return null;
-    }
-    return user.username;
-  }
-
   async fetchEmailVerified() {
     const user = await this.fetchUser();
     if (!user) {
@@ -87,14 +79,6 @@ export default class UserLogic {
       return null;
     }
     return user.credit;
-  }
-
-  async fetchAvatar() {
-    const user = await this.fetchUser();
-    if (!user) {
-      return null;
-    }
-    return user.avatar;
   }
 
   async isAdmin(): Promise<boolean> {
