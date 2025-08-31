@@ -19,7 +19,9 @@ function AIChat() {
   const [drawerOpen, setDrawerOpen] = useState();
 
   useEffect(() => {
-    setDrawerOpen(screenSize !== 'xs' && screenSize !== 'sm');
+    if (screenSize === 'xs' || screenSize === 'sm') {
+      setDrawerOpen(false);
+    }
   }, [screenSize]);
 
   // Chat Parameters
