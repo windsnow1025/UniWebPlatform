@@ -32,7 +32,10 @@ export default class ChatClient {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           const status = error.response.status;
-          const detail = error.response.data?.detail || error.response.statusText;
+          let detail = error.response.data?.detail || error.response.statusText;
+          if (status === 402) {
+            detail += ", please contact windsnow1025@gmail.com";
+          }
           throw new Error(`${status}: ${detail}`);
         } else {
           throw error;
@@ -86,10 +89,18 @@ export default class ChatClient {
           } catch (error) {
             console.error(error);
           }
+
+          let detail;
           if (resJson && resJson.detail) {
-            throw new Error(`${status} : ${resJson.detail}`);
+            detail = resJson.detail;
+          } else {
+            detail = statusText;
           }
-          throw new Error(`${status}: ${statusText}`);
+          if (status === 402) {
+            detail += ", please contact windsnow1025@gmail.com";
+          }
+
+          throw new Error(`${status}: ${detail}`);
         }
       },
       onmessage(event) {
