@@ -3,17 +3,18 @@ import UserLogic from '../../lib/common/user/UserLogic';
 import ConfirmDialog from './ConfirmDialog';
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
+import {useSession} from "@toolpad/core";
 
 const EmailVerificationDialog = () => {
+  const session = useSession();
+
   const [openDialog, setOpenDialog] = useState(false);
   const userLogic = new UserLogic();
 
   useEffect(() => {
     const checkEmailVerification = async () => {
       try {
-        const username = await userLogic.fetchUsername();
-
-        if (!username) {
+        if (!session?.user) {
           return;
         }
 
@@ -28,7 +29,7 @@ const EmailVerificationDialog = () => {
     };
 
     checkEmailVerification();
-  }, []);
+  }, [session]);
 
   const router = useRouter();
   const pathname = usePathname();

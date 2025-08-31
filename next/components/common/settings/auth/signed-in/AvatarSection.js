@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Avatar, Button, CircularProgress, Alert, Snackbar, Typography, Box } from '@mui/material';
 import UserLogic from '../../../../../lib/common/user/UserLogic';
 import FileLogic from '../../../../../lib/common/file/FileLogic';
+import {useSession} from "@toolpad/core";
 
 function AvatarSection() {
-  const [avatar, setAvatar] = useState(null);
-  const [username, setUsername] = useState('');
+  const session = useSession();
+
   const [isUploading, setIsUploading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -18,10 +19,14 @@ function AvatarSection() {
   const userLogic = new UserLogic();
   const fileLogic = new FileLogic();
 
+  const [username, setUsername] = useState("");
+  const [avatar, setAvatar] = useState("");
+
   useEffect(() => {
-    fetchAvatar();
-    fetchUsername();
-  }, []);
+    if (!session) return;
+    setUsername(session.user.name);
+    setAvatar(session.user.image);
+  }, [session]);
 
   useEffect(() => {
     return () => {
@@ -30,25 +35,6 @@ function AvatarSection() {
       }
     };
   }, [previewUrl]);
-
-  const fetchAvatar = async () => {
-    try {
-      const avatarUrl = await userLogic.fetchAvatar();
-      setAvatar(avatarUrl);
-    } catch (error) {
-      console.error("Failed to fetch avatar:", error);
-    }
-  };
-
-  const fetchUsername = async () => {
-    try {
-      const name = await userLogic.fetchUsername();
-      setUsername(name || 'User');
-    } catch (error) {
-      console.error("Failed to fetch username:", error);
-      setUsername('User');
-    }
-  };
 
   const showAlert = (message, severity) => {
     setAlertMessage(message);
@@ -164,7 +150,7 @@ function AvatarSection() {
               <CircularProgress size={24} sx={{ mr: 1 }} />
             </Box>
           ) : (
-            'Upload Image'
+            'Upload'
           )}
         </Button>
 
