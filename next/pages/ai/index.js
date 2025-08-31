@@ -58,6 +58,9 @@ function AIChat() {
             open={!!drawerOpen}
             onClose={() => setDrawerOpen(false)}
             sx={{ zIndex: 1202 }}
+            ModalProps={{
+              keepMounted: true,
+            }}
           >
             <ConversationSidebar
               messages={messages}
