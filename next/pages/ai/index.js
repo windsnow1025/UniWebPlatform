@@ -16,13 +16,9 @@ import TemporaryChatButton from "../../components/ai/TemporaryChatButton";
 
 function AIChat() {
   const screenSize = useScreenSize();
-  const [drawerOpen, setDrawerOpen] = useState();
-
-  useEffect(() => {
-    if (screenSize === 'xs' || screenSize === 'sm') {
-      setDrawerOpen(false);
-    }
-  }, [screenSize]);
+  const [drawerOpen, setDrawerOpen] = useState(() => {
+    return screenSize === 'xs' || screenSize === 'sm' ? false : true;
+  });
 
   // Chat Parameters
   const [messages, setMessages] = useState(null);
@@ -57,7 +53,7 @@ function AIChat() {
       <div className="local-scroll-unscrollable-x">
         {screenSize === 'xs' || screenSize === 'sm' ? (
           <Drawer
-            open={!!drawerOpen}
+            open={drawerOpen}
             onClose={() => setDrawerOpen(false)}
             sx={{ zIndex: 1202 }}
             ModalProps={{
