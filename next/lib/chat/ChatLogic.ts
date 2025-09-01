@@ -171,7 +171,7 @@ export default class ChatLogic {
     return newMessages;
   }
 
-  // For converting model response to an assistant message - final chunks
+  // For converting model response to an assistant message - final chunk
   static replaceMessageText(
     messages: Message[], messageIndex: number, contentIndex: number, text: string
   ): Message[] {
