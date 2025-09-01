@@ -293,7 +293,7 @@ export default class ChatLogic {
 
       for await (const chunk of response) {
         if (chunk.error) {
-          throw new Error(chunk.error);
+          throw new Error(`chunk.error: ${chunk.error}`);
         }
 
         if (chunk.text) {
