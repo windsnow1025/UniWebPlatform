@@ -91,7 +91,9 @@ export default class ChatLogic {
   }
 
   // For converting model response to an assistant message - first chunk
-  static createAssistantMessage(text: string, display: string, fileUrl: string): Message {
+  static createAssistantMessage(
+      text: string, thought: string, display: string, fileUrl: string
+  ): Message {
     const contents: Content[] = [
       {
         type: ContentTypeEnum.Text,
@@ -110,6 +112,7 @@ export default class ChatLogic {
       id: uuidv4(),
       role: MessageRoleEnum.Assistant,
       contents: contents,
+      thought: thought,
       display: display,
     };
   }
@@ -152,7 +155,6 @@ export default class ChatLogic {
       }
     }
 
-    // Append file if provided
     if (fileUrl) {
       currentMessage.contents.push({
         type: ContentTypeEnum.File,
@@ -160,7 +162,9 @@ export default class ChatLogic {
       });
     }
 
-    // Update display property if chunk has display text
+    if (chunk.thought) {
+      currentMessage.thought = (currentMessage.thought || '') + chunk.thought;
+    }
     if (chunk.display) {
       currentMessage.display = (currentMessage.display || '') + chunk.display;
     }
@@ -253,6 +257,7 @@ export default class ChatLogic {
       }
 
       let text = content.text;
+      let thought = content.thought;
       let citations = content.citations;
       if (text) {
         if (citations) {
@@ -262,6 +267,7 @@ export default class ChatLogic {
 
       return {
         text: text,
+        thought: thought,
         image: content.image,
         display: content.display,
       };
@@ -299,6 +305,7 @@ export default class ChatLogic {
 
         yield {
           text: chunk.text,
+          thought: chunk.thought,
           image: chunk.image,
           display: chunk.display,
         }

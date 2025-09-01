@@ -339,6 +339,12 @@ export interface Message {
      * @type {string}
      * @memberof Message
      */
+    'thought'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Message
+     */
     'display'?: string;
 }
 
