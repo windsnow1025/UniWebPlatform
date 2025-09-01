@@ -5,7 +5,7 @@ import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
 import FileLogic from "@/lib/common/file/FileLogic";
 
 export default class ChatLogic {
-  private chatService: ChatClient;
+  private chatClient: ChatClient;
   static getInitMessages = (): Message[] => [
     {
       id: uuidv4(),
@@ -53,7 +53,7 @@ export default class ChatLogic {
   ];
 
   constructor() {
-    this.chatService = new ChatClient();
+    this.chatClient = new ChatClient();
   }
 
   // For deleting files from storage
@@ -225,7 +225,7 @@ export default class ChatLogic {
   // For chat config
   async fetchApiTypeModels(): Promise<ApiTypeModel[]> {
     try {
-      return await this.chatService.fetchApiModels();
+      return await this.chatClient.fetchApiModels();
     } catch (error) {
       throw new Error("Failed to fetch API Models");
     }
@@ -236,7 +236,7 @@ export default class ChatLogic {
     messages: Message[], api_type: string, model: string, temperature: number
   ): Promise<ChatResponse> {
     try {
-      const content = await this.chatService.nonStreamGenerate(
+      const content = await this.chatClient.nonStreamGenerate(
         messages, api_type, model, temperature
       );
       if (content.error) {
@@ -268,7 +268,7 @@ export default class ChatLogic {
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final citation text
     try {
-      const response = this.chatService.streamGenerate(
+      const response = this.chatClient.streamGenerate(
         messages, api_type, model, temperature, onOpenCallback
       );
 
