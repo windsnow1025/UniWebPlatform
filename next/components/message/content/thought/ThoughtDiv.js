@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { IconButton, Tooltip, Typography, useTheme } from "@mui/material";
+import { IconButton, Tooltip, Typography, useTheme, CircularProgress } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextContent from "../text/TextContent";
 import {RawEditableState} from "../../../../lib/common/message/EditableState";
 
-function ThoughtDiv({ thought, setThought, isPreview }) {
-  const [collapsed, setCollapsed] = useState(false);
+function ThoughtDiv({ thought, setThought, isPreview, hasText }) {
+  const [collapsed, setCollapsed] = useState(true);
   const theme = useTheme();
 
   if (!thought) return null;
@@ -20,7 +20,12 @@ function ThoughtDiv({ thought, setThought, isPreview }) {
       }}
     >
       <div className="flex-center">
-        <Typography variant="h6" className="flex-1 pl-1">Thought</Typography>
+        <Typography variant="h6" className="pl-1">Thought</Typography>
+        <div className="flex-1">
+          {!hasText && (
+            <CircularProgress size={14} thickness={6} className="ml-2" />
+          )}
+        </div>
         <Tooltip title={collapsed ? "Expand Thought" : "Collapse Thought"}>
           <IconButton size="small" onClick={() => setCollapsed(prev => !prev)}>
             {collapsed ? <ExpandMoreIcon fontSize="small"/> : <ExpandLessIcon fontSize="small"/>}

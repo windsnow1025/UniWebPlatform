@@ -7,7 +7,7 @@ import DisplayDiv from "./content/display/DisplayDiv";
 import ThoughtDiv from "./content/thought/ThoughtDiv";
 import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
-import {MessageRoleEnum} from "../../client";
+import {MessageRoleEnum, ContentTypeEnum} from "../../client";
 import {RawEditableState} from "../../lib/common/message/EditableState";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -85,6 +85,8 @@ function MessageDiv({
 
   const rawEditableState = showPreview ? RawEditableState.AlwaysFalse : RawEditableState.AlwaysTrue;
 
+  const hasText = Array.isArray(message.contents) && message.contents.some(c => c.type === ContentTypeEnum.Text && c.data && String(c.data).length > 0);
+
   return (
     <div style={{...getMessageContainerStyles(message.role), display: 'flex'}}>
       <div
@@ -125,6 +127,7 @@ function MessageDiv({
           thought={message.thought}
           setThought={handleThoughtChange}
           isPreview={showPreview}
+          hasText={hasText}
         />
 
         <SortableContents
