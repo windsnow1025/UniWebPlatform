@@ -232,12 +232,21 @@ export default class ChatLogic {
   }
 
   // For chat generate
+  private static filterOutboundMessages(messages: Message[]): Message[] {
+    return messages.map((msg) => ({
+      role: msg.role,
+      contents: msg.contents,
+    }));
+  }
+
+  // For chat generate
   async nonStreamGenerate(
     messages: Message[], api_type: string, model: string, temperature: number
   ): Promise<ChatResponse> {
     try {
+      const filteredMessages = ChatLogic.filterOutboundMessages(messages);
       const content = await this.chatClient.nonStreamGenerate(
-        messages, api_type, model, temperature
+        filteredMessages, api_type, model, temperature
       );
       if (content.error) {
         throw new Error(content.error);
@@ -268,8 +277,9 @@ export default class ChatLogic {
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final citation text
     try {
+      const filtered = ChatLogic.filterOutboundMessages(messages);
       const response = this.chatClient.streamGenerate(
-        messages, api_type, model, temperature, onOpenCallback
+        filtered, api_type, model, temperature, onOpenCallback
       );
 
       let text = "";
