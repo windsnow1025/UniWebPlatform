@@ -124,6 +124,7 @@ function MessageDiv({
         <ThoughtDiv
           thought={message.thought}
           setThought={handleThoughtChange}
+          isPreview={showPreview}
         />
 
         <SortableContents
@@ -137,6 +138,7 @@ function MessageDiv({
         <DisplayDiv
           display={message.display}
           setDisplay={handleDisplayChange}
+          isPreview={showPreview}
         />
 
         {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (

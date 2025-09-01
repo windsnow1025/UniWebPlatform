@@ -4,9 +4,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextContent from "../text/TextContent";
-import { RawEditableState } from "@/lib/common/message/EditableState";
+import {RawEditableState} from "../../../../lib/common/message/EditableState";
 
-function ThoughtDiv({ thought, setThought }) {
+function ThoughtDiv({ thought, setThought, isPreview }) {
   const [collapsed, setCollapsed] = useState(false);
   const theme = useTheme();
 
@@ -26,10 +26,12 @@ function ThoughtDiv({ thought, setThought }) {
             {collapsed ? <ExpandMoreIcon fontSize="small"/> : <ExpandLessIcon fontSize="small"/>}
           </IconButton>
         </Tooltip>
-        <Tooltip title="Remove Thought" className="self-start">
-          <IconButton aria-label="remove-thought" onClick={() => setThought(null)}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
+        <Tooltip title={isPreview ? "Disabled in Preview" : "Remove Thought"} className="self-start">
+          <span>
+            <IconButton aria-label="remove-thought" onClick={() => {setThought(null)}} disabled={isPreview}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </span>
         </Tooltip>
       </div>
 
