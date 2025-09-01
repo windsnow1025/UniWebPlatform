@@ -4,6 +4,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {IconButton, lighten, Tooltip} from "@mui/material";
 import RoleSelect from './role/RoleSelect';
 import DisplayDiv from "./content/display/DisplayDiv";
+import ThoughtDiv from "./content/thought/ThoughtDiv";
 import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
 import {MessageRoleEnum} from "../../client";
@@ -35,6 +36,10 @@ function MessageDiv({
 
   const handleDisplayChange = (newDisplay) => {
     setMessage({...message, display: newDisplay});
+  };
+
+  const handleThoughtChange = (newThought) => {
+    setMessage({...message, thought: newThought});
   };
 
   const getRoleBorderStyles = (role) => {
@@ -115,6 +120,11 @@ function MessageDiv({
             </IconButton>
           </Tooltip>
         </div>
+
+        <ThoughtDiv
+          thought={message.thought}
+          setThought={handleThoughtChange}
+        />
 
         <SortableContents
           contents={message.contents}
