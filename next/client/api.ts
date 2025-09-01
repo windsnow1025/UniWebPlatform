@@ -321,7 +321,7 @@ export interface Message {
      * @type {string}
      * @memberof Message
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}

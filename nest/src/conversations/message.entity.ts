@@ -15,7 +15,7 @@ export class Content {
 }
 
 export class Message {
-  id: string; // uuid, not send to FastAPI
+  id?: string; // uuid, not send to FastAPI
   role: MessageRole;
   contents: Content[];
   display?: string; // not send to FastAPI
