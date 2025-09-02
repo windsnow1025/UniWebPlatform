@@ -20,24 +20,24 @@ function ThoughtDiv({ thought, setThought, isPreview, hasText }) {
       }}
     >
       <div className="flex-center">
-        <Typography variant="h6" className="pl-1">Thought</Typography>
+        <Typography variant="h6" className="pl-2">Thought</Typography>
         <div className="flex-1">
           {!hasText && (
             <CircularProgress size={14} thickness={6} className="ml-2" />
           )}
         </div>
-        <Tooltip title={collapsed ? "Expand Thought" : "Collapse Thought"}>
+        <Tooltip title={collapsed ? "Expand" : "Collapse"}>
           <IconButton size="small" onClick={() => setCollapsed(prev => !prev)}>
             {collapsed ? <ExpandMoreIcon fontSize="small"/> : <ExpandLessIcon fontSize="small"/>}
           </IconButton>
         </Tooltip>
-        <Tooltip title={isPreview ? "Disabled in Preview" : "Remove Thought"} className="self-start">
-          <span>
-            <IconButton aria-label="remove-thought" onClick={() => {setThought(null)}} disabled={isPreview}>
+        {!isPreview && (
+          <Tooltip title="Remove Thought">
+            <IconButton aria-label="remove-thought" onClick={() => {setThought(null)}}>
               <CloseIcon fontSize="small" />
             </IconButton>
-          </span>
-        </Tooltip>
+          </Tooltip>
+        )}
       </div>
 
       {!collapsed && (

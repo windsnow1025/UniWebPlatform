@@ -12,17 +12,13 @@ function DisplayDiv({ display, setDisplay, isPreview }) {
         dangerouslySetInnerHTML={{ __html: display }}
         className="flex-1 m-0.25"
       />
-      <Tooltip title={isPreview ? "Disabled in Preview" : "Remove Display"} className="self-start">
-        <span>
-          <IconButton
-            aria-label="remove-display"
-            onClick={() => {setDisplay(null)}}
-            disabled={isPreview}
-          >
+      {!isPreview && (
+        <Tooltip title="Remove Display" className="self-start">
+          <IconButton aria-label="remove-display" onClick={() => {setDisplay(null)}}>
             <CloseIcon fontSize="small" />
           </IconButton>
-        </span>
-      </Tooltip>
+        </Tooltip>
+      )}
     </div>
   );
 }
