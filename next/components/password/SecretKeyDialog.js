@@ -37,14 +37,6 @@ function SecretKeyDialog({open, onClose, keyValue, setKeyValue}) {
           fullWidth
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
-          slotProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <KeyIcon/>
-              </InputAdornment>
-            ),
-            inputProps: {min: 0}
-          }}
         />
         <FormControlLabel
           control={
