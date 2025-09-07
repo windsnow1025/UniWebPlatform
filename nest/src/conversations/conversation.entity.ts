@@ -29,6 +29,9 @@ export class Conversation extends BaseEntity {
   @JoinTable()
   users: User[];
 
+  @Column({ type: 'boolean', default: false })
+  isPublic: boolean;
+
   @Column({ type: 'varchar', length: 32, default: '' })
   colorLabel: string;
 }

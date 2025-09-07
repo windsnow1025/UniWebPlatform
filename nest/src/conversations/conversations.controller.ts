@@ -15,8 +15,10 @@ import {
   ConversationNameReqDto,
   ConversationReqDto,
   ConversationColorReqDto,
+  ConversationPublicReqDto,
 } from './dto/conversation.req.dto';
 import { UserUsernameReqDto } from '../users/dto/user.req.dto';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('conversations')
 export class ConversationsController {
@@ -44,6 +46,13 @@ export class ConversationsController {
   ) {
     const userId = req.user.id;
     const conversation = await this.service.findOne(userId, id);
+    return this.service.toConversationDto(conversation);
+  }
+
+  @Public()
+  @Get('/public/conversation/:id')
+  async findPublicOne(@Param('id', ParseIntPipe) id: number) {
+    const conversation = await this.service.findPublicOne(id);
     return this.service.toConversationDto(conversation);
   }
 
@@ -118,6 +127,21 @@ export class ConversationsController {
       userId,
       id,
       reqDto.name,
+    );
+    return this.service.toConversationDto(updatedConversation);
+  }
+
+  @Put('/conversation/:id/public')
+  async updatePublic(
+    @Request() req: RequestWithUser,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() reqDto: ConversationPublicReqDto,
+  ) {
+    const userId = req.user.id;
+    const updatedConversation = await this.service.updatePublic(
+      userId,
+      id,
+      reqDto.isPublic,
     );
     return this.service.toConversationDto(updatedConversation);
   }
