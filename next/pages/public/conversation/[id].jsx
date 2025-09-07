@@ -22,6 +22,7 @@ export default function PublicConversationPage() {
       const conversation = await conversationLogic.fetchPublicConversation(numId);
       setMessages(conversation.messages);
     } catch (err) {
+      setMessages([]);
       setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
@@ -40,11 +41,8 @@ export default function PublicConversationPage() {
 
   return (
     <div>
-      { messages &&
-        <AIChat initMessages={messages} initIsTemporaryChat={true} />
-      }
+      <AIChat initMessages={messages} initIsTemporaryChat={true} />
 
-      {/* TODO: not working */}
       <Snackbar
         open={alertOpen}
         autoHideDuration={6000}
