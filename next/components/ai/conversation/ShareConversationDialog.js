@@ -24,11 +24,13 @@ import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 function ShareConversationDialog({open, onClose, conversationId}) {
   const [usernames, setUsernames] = useState([]);
   const [selectedUsername, setSelectedUsername] = useState('');
+
+  const [isLink, setIsLink] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
+
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
-  const [isLink, setIsLink] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
 
   const userLogic = new UserLogic();
   const conversationLogic = new ConversationLogic();
