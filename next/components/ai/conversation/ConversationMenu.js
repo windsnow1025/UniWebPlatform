@@ -126,18 +126,6 @@ function ConversationMenu({
         open={menuIndex === conversationIndex}
         onClose={handleMenuClose}
       >
-        <MenuItem disabled>Set label</MenuItem>
-        {COLOR_LABELS.map((opt) => (
-          <MenuItem dense key={`lbl-${String(opt.key)}`} onClick={(e) => {
-            e.stopPropagation();
-            updateConversationColorLabel(conversationIndex, opt.key);
-            handleMenuClose();
-          }}>
-            <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: opt.color, mr: 1 }} />
-            {opt.name}
-          </MenuItem>
-        ))}
-        <Divider/>
         <MenuItem onClick={(e) => {
           e.stopPropagation();
           openShareDialog(conversationIndex);
@@ -154,6 +142,18 @@ function ConversationMenu({
           <DeleteOutlinedIcon fontSize="small" className="mr-1"/>
           Delete
         </MenuItem>
+        <Divider/>
+        <MenuItem disabled>Set label</MenuItem>
+        {COLOR_LABELS.map((opt) => (
+          <MenuItem dense key={`lbl-${String(opt.key)}`} onClick={(e) => {
+            e.stopPropagation();
+            updateConversationColorLabel(conversationIndex, opt.key);
+            handleMenuClose();
+          }}>
+            <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: opt.color, mr: 1 }} />
+            {opt.name}
+          </MenuItem>
+        ))}
       </Menu>
 
       <ShareConversationDialog
