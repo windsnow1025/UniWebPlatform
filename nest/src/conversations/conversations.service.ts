@@ -80,8 +80,12 @@ export class ConversationsService {
       relations: ['users'],
     });
 
-    if (!conversation || !conversation.isPublic) {
+    if (!conversation) {
       throw new NotFoundException('Conversation not found');
+    }
+
+    if (!conversation.isPublic) {
+      throw new ForbiddenException();
     }
 
     return conversation;
