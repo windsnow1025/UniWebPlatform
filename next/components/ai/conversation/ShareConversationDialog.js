@@ -134,7 +134,7 @@ function ShareConversationDialog({open, onClose, conversationId}) {
         <DialogContent>
           {/* Preview section */}
           <div>
-            <div className="font-semibold mb-1">Make Public</div>
+            <div className="font-semibold mb-1">Option 1: Make it Public</div>
             <FormControlLabel
               control={
                 <Checkbox
@@ -179,7 +179,7 @@ function ShareConversationDialog({open, onClose, conversationId}) {
 
           {/* Share with User */}
           <div>
-            <div className="font-semibold mb-1 mt-8">Share with User</div>
+            <div className="font-semibold mb-1 mt-8">Option 2: Share with User</div>
             <div className="mt-2">
               <Autocomplete
                 options={usernames}
@@ -190,20 +190,30 @@ function ShareConversationDialog({open, onClose, conversationId}) {
                 fullWidth
               />
             </div>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={isLink}
-                  onChange={(e) => setIsLink(e.target.checked)}
-                />
-              }
-              label="Link"
-            />
+            <div className="flex-between">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isLink}
+                    onChange={(e) => setIsLink(e.target.checked)}
+                  />
+                }
+                label="Link"
+              />
+              <div className="mt-1">
+                <Button
+                  onClick={handleShare}
+                  disabled={!selectedUsername}
+                  variant="contained"
+                >
+                  Share
+                </Button>
+              </div>
+            </div>
           </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={handleShare} disabled={!selectedUsername}>Share</Button>
         </DialogActions>
       </Dialog>
       <Snackbar
