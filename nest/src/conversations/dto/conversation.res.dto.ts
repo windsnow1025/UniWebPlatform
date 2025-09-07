@@ -7,6 +7,7 @@ export class ConversationResDto {
   messages: Message[];
   users: UserResDto[];
   updatedAt: Date;
+  isPublic: boolean;
   colorLabel: string;
 }
 

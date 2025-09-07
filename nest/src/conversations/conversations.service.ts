@@ -29,6 +29,7 @@ export class ConversationsService {
       users: conversation.users.map(this.usersService.toUserDto),
       updatedAt: conversation.updatedAt,
       colorLabel: conversation.colorLabel,
+      isPublic: conversation.isPublic,
     };
     return conversationDto;
   }
@@ -68,6 +69,19 @@ export class ConversationsService {
     );
     if (!userInConversation) {
       throw new ForbiddenException();
+    }
+
+    return conversation;
+  }
+
+  async findPublicOne(id: number) {
+    const conversation = await this.conversationsRepository.findOne({
+      where: { id },
+      relations: ['users'],
+    });
+
+    if (!conversation || !conversation.isPublic) {
+      throw new NotFoundException('Conversation not found');
     }
 
     return conversation;
@@ -164,6 +178,16 @@ export class ConversationsService {
 
     conversation.name = name;
 
+    return await this.conversationsRepository.save(conversation);
+  }
+
+  async updatePublic(userId: number, id: number, isPublic: boolean) {
+    const conversation = await this.findOne(userId, id);
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    conversation.isPublic = isPublic;
     return await this.conversationsRepository.save(conversation);
   }
 
