@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import AIChat from '../../../components/ai/AIChat';
 import ConversationLogic from '../../../lib/conversation/ConversationLogic';
-import {Alert, Snackbar} from "@mui/material";
+import {Alert, CircularProgress, Snackbar} from "@mui/material";
 
 export default function PublicConversationPage() {
   const router = useRouter();
@@ -36,7 +36,11 @@ export default function PublicConversationPage() {
   }, [id]);
 
   if (messages === null) {
-    return <div className="p-4">Loading...</div>;
+    return (
+      <div className="flex-center h-full">
+        <CircularProgress/>
+      </div>
+    );
   }
 
   return (
