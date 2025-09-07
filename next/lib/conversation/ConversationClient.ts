@@ -25,6 +25,12 @@ export default class ConversationClient {
     return res.data;
   }
 
+  async fetchPublicConversation(id: number): Promise<ConversationResDto> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerFindPublicOne(id);
+    return res.data;
+  }
+
   async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerCreate(
@@ -61,6 +67,14 @@ export default class ConversationClient {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdateName(
       id, {name},
+    );
+    return res.data;
+  }
+
+  async updateConversationPublic(id: number, isPublic: boolean): Promise<ConversationResDto> {
+    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const res = await api.conversationsControllerUpdatePublic(
+        id, { isPublic },
     );
     return res.data;
   }

@@ -48,6 +48,18 @@ export default class ConversationLogic {
     }
   }
 
+  async fetchPublicConversation(id: number): Promise<ConversationResDto> {
+    try {
+      return await this.conversationService.fetchPublicConversation(id);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
+      console.error(error);
+      throw new Error('Failed to fetch public conversation');
+    }
+  }
+
   async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
     try {
       return await this.conversationService.addConversation(conversation);
@@ -97,6 +109,18 @@ export default class ConversationLogic {
       }
       console.error(error);
       throw new Error('Failed to update conversation name');
+    }
+  }
+
+  async updateConversationPublic(id: number, isPublic: boolean): Promise<ConversationResDto> {
+    try {
+      return this.conversationService.updateConversationPublic(id, isPublic);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
+      console.error(error);
+      throw new Error('Failed to update conversation public status');
     }
   }
 
