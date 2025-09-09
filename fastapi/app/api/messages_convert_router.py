@@ -15,9 +15,12 @@ async def convert_messages(chat_request: MessagesConvertRequest):
     messages = chat_request.messages
     api_type = chat_request.api_type
 
-    if api_type == "OpenAI":
-        return await convert_messages_to_gpt(messages)
-    elif api_type == "Gemini":
+    if api_type == "OpenAI" or api_type == "Grok":
+        return await convert_messages_to_openai_responses(messages)
+    if api_type == "OpenAI-Azure" or api_type == "OpenAI-GitHub":
+        return await convert_messages_to_openai(messages)
+    if api_type == "Gemini":
         return await convert_messages_to_gemini(messages)
-    elif api_type == "Claude":
+    if api_type == "Claude":
         return await convert_messages_to_claude(messages)
+    return None
