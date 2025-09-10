@@ -255,6 +255,7 @@ function ConversationList({
                         autoFocus
                         fullWidth
                         onClick={(e) => e.stopPropagation()}
+                        size="small"
                       />
                     ) : (
                       <div className="flex-start-center-nowrap w-full">
