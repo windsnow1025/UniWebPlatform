@@ -66,6 +66,7 @@ function ChatMessagesDiv({
             onMessageDelete={() => handleMessageDelete(message.id)}
             setConversationUpdateKey={setConversationUpdateKey}
             isTemporaryChat={isTemporaryChat}
+            isGeneratingRef={isGeneratingRef}
           />
           <AddMessageDivider
             messages={messages}
