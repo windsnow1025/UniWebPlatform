@@ -18,7 +18,8 @@ function MessageDiv({
                       setMessage,
                       onMessageDelete,
                       setConversationUpdateKey,
-                      isTemporaryChat = false,
+                      isTemporaryChat,
+                      isGeneratingRef,
                     }) {
   const theme = useTheme();
   const [showPreview, setShowPreview] = useState(message.role !== MessageRoleEnum.User);
@@ -87,6 +88,8 @@ function MessageDiv({
 
   const hasText = Array.isArray(message.contents) && message.contents.some(c => c.type === ContentTypeEnum.Text && c.data && String(c.data).length > 0);
 
+  const thoughtIsLoading = hasText || (isGeneratingRef ? !isGeneratingRef.current : false);
+
   return (
     <div style={{...getMessageContainerStyles(message.role), display: 'flex'}}>
       <div
@@ -127,7 +130,7 @@ function MessageDiv({
           thought={message.thought}
           setThought={handleThoughtChange}
           isPreview={showPreview}
-          hasText={hasText}
+          isLoading={thoughtIsLoading}
         />
 
         <SortableContents

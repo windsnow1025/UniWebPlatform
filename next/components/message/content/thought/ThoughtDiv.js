@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextContent from "../text/TextContent";
 import {RawEditableState} from "../../../../lib/common/message/EditableState";
 
-function ThoughtDiv({ thought, setThought, isPreview, hasText }) {
+function ThoughtDiv({ thought, setThought, isPreview, isLoading }) {
   const [collapsed, setCollapsed] = useState(true);
   const theme = useTheme();
 
@@ -22,7 +22,7 @@ function ThoughtDiv({ thought, setThought, isPreview, hasText }) {
       <div className="flex-center">
         <Typography variant="h6" className="pl-2">Thought</Typography>
         <div className="flex-1">
-          {!hasText && (
+          {!isLoading && (
             <CircularProgress size={14} thickness={6} className="ml-2" />
           )}
         </div>
