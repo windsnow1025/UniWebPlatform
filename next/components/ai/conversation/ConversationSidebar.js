@@ -68,11 +68,11 @@ function ConversationSidebar({
     <Box
       sx={{
         maxWidth: {
-          xs: '70vw',
-          sm: '60vw',
-          md: '50vw',
-          lg: '40vw',
-          xl: '30vw'
+          xs: '75vw',
+          sm: '70vw',
+          md: '35vw',
+          lg: '30vw',
+          xl: '25vw'
         }
       }}
       className="local-scroll-container"

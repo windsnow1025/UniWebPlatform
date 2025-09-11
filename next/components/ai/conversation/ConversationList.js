@@ -274,13 +274,14 @@ function ConversationList({
                             size="small"
                           />
                         ) : (
-                          <div className="flex-start-center-nowrap w-full">
+                          <div className="flex-start-center-nowrap w-full min-w-0">
                             <LabelOutlinedIcon
                               fontSize="small"
                               sx={{ color: colorForLabel(conv.colorLabel), mr: 2 }}
                             />
                             <ListItemText
                               primary={conv.name}
+                              slotProps={{ primary: { noWrap: true } }}
                               secondary={(
                                 <Typography
                                   variant="caption"
