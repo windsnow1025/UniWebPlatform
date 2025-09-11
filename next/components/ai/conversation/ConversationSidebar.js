@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
+  Box,
   Divider,
   Snackbar,
 } from '@mui/material';
@@ -64,7 +65,18 @@ function ConversationSidebar({
   };
 
   return (
-    <div className="local-scroll-container">
+    <Box
+      sx={{
+        maxWidth: {
+          xs: '70vw',
+          sm: '60vw',
+          md: '50vw',
+          lg: '40vw',
+          xl: '30vw'
+        }
+      }}
+      className="local-scroll-container"
+    >
       <div className="local-scroll-unscrollable-y">
         <div className="py-2">
           <div className="w-full px-4 py-1">
@@ -114,7 +126,7 @@ function ConversationSidebar({
           {alertMessage}
         </Alert>
       </Snackbar>
-    </div>
+    </Box>
   );
 }
 
