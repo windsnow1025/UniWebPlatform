@@ -213,6 +213,10 @@ function ConversationList({
     acc[key].push({ conv, idx });
     return acc;
   }, {});
+  Object.keys(groups).forEach(key => {
+    groups[key].sort((a, b) => new Date(b.conv.updatedAt) - new Date(a.conv.updatedAt));
+  });
+
   const groupKeys = Object.keys(groups);
 
   const toggleGroup = (key) => {
