@@ -230,124 +230,126 @@ function ConversationList({
   return (
     <>
       <div className="local-scroll-scrollable">
-        {groupKeys.map((key) => (
-          <Accordion
-            key={`group-${key}`}
-            expanded={expandedAccordion[key] !== false}
-            onChange={handleAccordionChange(key)}
-            disableGutters
-            elevation={4}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              sx={{
-                backgroundColor: 'background.paper',
-              }}
+        <div className="local-scroll-unscrollable-y">
+          {groupKeys.map((key) => (
+            <Accordion
+              key={`group-${key}`}
+              expanded={expandedAccordion[key] !== false}
+              onChange={handleAccordionChange(key)}
+              disableGutters
+              elevation={4}
             >
-              <div className="flex-center w-full gap-2">
-                <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: colorForLabel(key)}} />
-                <Typography variant="subtitle2" className="flex-1">
-                  {nameForLabel(key)} ({groups[key].length})
-                </Typography>
-              </div>
-            </AccordionSummary>
-            <AccordionDetails sx={{ padding: 0 }}>
-              <List disablePadding>
-                {groups[key].map(({ conv, idx }) => (
-                  <ListItem
-                    dense
-                    key={conv.id}
-                    disablePadding
-                    sx={{
-                      bgcolor: conv.id === selectedConversationId ? 'action.selected' : 'inherit',
-                    }}
-                  >
-                    <ListItemButton onClick={() => selectConversation(conv.id)}>
-                      {editingIndex === idx ? (
-                        <TextField
-                          value={editingName}
-                          onChange={(e) => setEditingName(e.target.value)}
-                          autoFocus
-                          fullWidth
-                          onClick={(e) => e.stopPropagation()}
-                          size="small"
-                        />
-                      ) : (
-                        <div className="flex-start-center-nowrap w-full">
-                          <LabelOutlinedIcon
-                            fontSize="small"
-                            sx={{ color: colorForLabel(conv.colorLabel), mr: 2 }}
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                  backgroundColor: 'background.paper',
+                }}
+              >
+                <div className="flex-center w-full gap-2">
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: colorForLabel(key)}} />
+                  <Typography variant="subtitle2" className="flex-1">
+                    {nameForLabel(key)} ({groups[key].length})
+                  </Typography>
+                </div>
+              </AccordionSummary>
+              <AccordionDetails sx={{ padding: 0 }}>
+                <List disablePadding>
+                  {groups[key].map(({ conv, idx }) => (
+                    <ListItem
+                      dense
+                      key={conv.id}
+                      disablePadding
+                      sx={{
+                        bgcolor: conv.id === selectedConversationId ? 'action.selected' : 'inherit',
+                      }}
+                    >
+                      <ListItemButton onClick={() => selectConversation(conv.id)}>
+                        {editingIndex === idx ? (
+                          <TextField
+                            value={editingName}
+                            onChange={(e) => setEditingName(e.target.value)}
+                            autoFocus
+                            fullWidth
+                            onClick={(e) => e.stopPropagation()}
+                            size="small"
                           />
-                          <ListItemText
-                            primary={conv.name}
-                            secondary={(
-                              <Typography
-                                variant="caption"
-                                color="text.secondary"
-                                noWrap
-                              >
-                                {formatDate(conv.updatedAt)}
-                              </Typography>
+                        ) : (
+                          <div className="flex-start-center-nowrap w-full">
+                            <LabelOutlinedIcon
+                              fontSize="small"
+                              sx={{ color: colorForLabel(conv.colorLabel), mr: 2 }}
+                            />
+                            <ListItemText
+                              primary={conv.name}
+                              secondary={(
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                  noWrap
+                                >
+                                  {formatDate(conv.updatedAt)}
+                                </Typography>
+                              )}
+                            />
+                            {loadingConversationId === conv.id && (
+                              <CircularProgress size={20} sx={{ml: 1}}/>
                             )}
-                          />
-                          {loadingConversationId === conv.id && (
-                            <CircularProgress size={20} sx={{ml: 1}}/>
-                          )}
-                        </div>
-                      )}
-                      {editingIndex === idx ? (
-                        <Tooltip title="Save">
+                          </div>
+                        )}
+                        {editingIndex === idx ? (
+                          <Tooltip title="Save">
+                            <IconButton onClick={(e) => {
+                              e.stopPropagation();
+                              updateConversationName(idx, editingName);
+                              setEditingIndex(null);
+                              setEditingName('');
+                            }}>
+                              <SaveOutlinedIcon/>
+                            </IconButton>
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Rename">
+                            <IconButton onClick={(e) => {
+                              e.stopPropagation();
+                              setEditingIndex(idx);
+                              setEditingName(conv.name);
+                            }}>
+                              <EditIcon fontSize="small"/>
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                        <Tooltip title="More">
                           <IconButton onClick={(e) => {
                             e.stopPropagation();
-                            updateConversationName(idx, editingName);
-                            setEditingIndex(null);
-                            setEditingName('');
+                            handleMenuOpen(e, idx);
                           }}>
-                            <SaveOutlinedIcon/>
+                            <MoreVertIcon fontSize="small"/>
                           </IconButton>
                         </Tooltip>
-                      ) : (
-                        <Tooltip title="Rename">
-                          <IconButton onClick={(e) => {
-                            e.stopPropagation();
-                            setEditingIndex(idx);
-                            setEditingName(conv.name);
-                          }}>
-                            <EditIcon fontSize="small"/>
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                      <Tooltip title="More">
-                        <IconButton onClick={(e) => {
-                          e.stopPropagation();
-                          handleMenuOpen(e, idx);
-                        }}>
-                          <MoreVertIcon fontSize="small"/>
-                        </IconButton>
-                      </Tooltip>
-                    </ListItemButton>
-                    <ConversationMenu
-                      conversationIndex={idx}
-                      anchorEl={anchorEl}
-                      setAnchorEl={setAnchorEl}
-                      menuIndex={menuIndex}
-                      setMenuIndex={setMenuIndex}
-                      conversations={conversations}
-                      setConversations={setConversations}
-                      selectedConversationId={selectedConversationId}
-                      setSelectedConversationId={setSelectedConversationId}
-                      setMessages={setMessages}
-                      setConversationLoadKey={setConversationLoadKey}
-                      isGeneratingRef={isGeneratingRef}
-                      handleGenerateRef={handleGenerateRef}
-                      setLoadingConversationId={setLoadingConversationId}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        ))}
+                      </ListItemButton>
+                      <ConversationMenu
+                        conversationIndex={idx}
+                        anchorEl={anchorEl}
+                        setAnchorEl={setAnchorEl}
+                        menuIndex={menuIndex}
+                        setMenuIndex={setMenuIndex}
+                        conversations={conversations}
+                        setConversations={setConversations}
+                        selectedConversationId={selectedConversationId}
+                        setSelectedConversationId={setSelectedConversationId}
+                        setMessages={setMessages}
+                        setConversationLoadKey={setConversationLoadKey}
+                        isGeneratingRef={isGeneratingRef}
+                        handleGenerateRef={handleGenerateRef}
+                        setLoadingConversationId={setLoadingConversationId}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </div>
       </div>
 
       <Snackbar
