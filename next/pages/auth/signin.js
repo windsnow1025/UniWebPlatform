@@ -1,10 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useRouter} from "next/router";
 import UserLogic from "../../lib/common/user/UserLogic";
-import {Alert, Box, Button, Snackbar, Tab, Tabs, TextField, Typography, useTheme} from "@mui/material";
+import {Alert, Link, Snackbar, Tab, Tabs, TextField, useTheme} from "@mui/material";
 import {SignInPage} from '@toolpad/core/SignInPage';
 import {wait} from "../../components/common/utils/Wait";
 import Head from "next/head";
+
+function SignUpLink() {
+  return (
+    <Link href="/auth/signup" variant="body2">
+      Sign up
+    </Link>
+  );
+}
+
+function ForgotPasswordLink() {
+  return (
+    <Link href="/auth/password-reset" variant="body2">
+      Forgot password?
+    </Link>
+  );
+}
 
 function SignIn() {
   const userLogic = new UserLogic();
@@ -107,34 +123,15 @@ function SignIn() {
           <Tab label="Sign in with Email"/>
           <Tab label="Sign in with Username"/>
         </Tabs>
-
-        <Box sx={{textAlign: 'center', m: 1}}>
-          <Typography variant="body2">
-            <Button
-              onClick={() => router.push("/auth/password-reset")}
-              sx={{p: 0, minWidth: 'auto', textTransform: 'none'}}
-            >
-              Forgot Password?
-            </Button>
-          </Typography>
-        </Box>
-
-        <Box sx={{textAlign: 'center', m: 1}}>
-          <Typography variant="body2">
-            Do not have an account?{' '}
-            <Button
-              onClick={() => router.push("/auth/signup")}
-              sx={{p: 0, minWidth: 'auto'}}
-            >
-              Sign Up
-            </Button>
-          </Typography>
-        </Box>
-
+        
         {tabValue === 0 ? (
           <SignInPage
             signIn={handleSignIn}
             providers={providers}
+            slots={{
+              signUpLink: SignUpLink,
+              forgotPasswordLink: ForgotPasswordLink,
+            }}
             slotProps={{
               emailField: {autoFocus: false},
             }}
@@ -144,7 +141,9 @@ function SignIn() {
             signIn={handleSignIn}
             providers={providers}
             slots={{
-              emailField: UsernameField
+              emailField: UsernameField,
+              signUpLink: SignUpLink,
+              forgotPasswordLink: ForgotPasswordLink,
             }}
           />
         )}
