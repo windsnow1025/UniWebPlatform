@@ -8,31 +8,37 @@ import {useSession} from "@toolpad/core";
 const EmailVerificationDialog = () => {
   const session = useSession();
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [openDialog, setOpenDialog] = useState(false);
   const userLogic = new UserLogic();
 
   useEffect(() => {
     const checkEmailVerification = async () => {
+      if (!session?.user) {
+        setOpenDialog(false);
+        return;
+      }
+
+      if (pathname && pathname.startsWith('/settings')) {
+        setOpenDialog(false);
+        return;
+      }
       try {
-        if (!session?.user) {
+        if (await userLogic.fetchEmailVerified()) {
+          setOpenDialog(false);
           return;
         }
 
-        const isVerified = await userLogic.fetchEmailVerified();
-
-        if (!isVerified) {
-          setOpenDialog(true);
-        }
+        setOpenDialog(true);
       } catch (error) {
         console.error('Error checking email verification:', error);
       }
     };
 
     checkEmailVerification();
-  }, [session]);
-
-  const router = useRouter();
-  const pathname = usePathname();
+  }, [session, pathname]);
 
   const handleDialogClose = (confirmed) => {
     setOpenDialog(false);
