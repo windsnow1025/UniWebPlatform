@@ -26,7 +26,7 @@
     "@mui/x-data-grid-premium": "^8.10.2",
     "@tailwindcss/postcss": "^4.1.12",
     "@toolpad/core": "^0.16.0",
-    "axios": "1.11.0",
+    "axios": "1.12.0",
     "crypto-js": "^4.2.0",
     "lodash": "^4.17.21",
     "markdown-latex-renderer": "^1.5.3",
