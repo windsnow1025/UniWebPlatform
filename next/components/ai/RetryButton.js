@@ -30,7 +30,8 @@ function RetryButton({
     for (let i = lastAssistantIndex + 1; i < messages.length; i++) {
       const message = messages[i];
       const hasNonEmptyContent = message.contents.some(content =>
-        content.type === 'Text' && content.data.trim() !== ''
+        (content.type === 'text' && content.data.trim() !== '') ||
+        content.type === 'file'
       );
 
       if (hasNonEmptyContent) return false;
