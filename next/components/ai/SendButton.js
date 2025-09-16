@@ -20,6 +20,8 @@ function SendButton({
                     }) {
   const chatLogic = new ChatLogic();
 
+  const sendButtonRef = useRef(null);
+
   const latestRequestIndex = useRef(0);
   const isFirstStreamOpen = useRef(true);
 
@@ -29,10 +31,9 @@ function SendButton({
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.ctrlKey && e.key === 'Enter') {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
         document.activeElement.blur();
-        const sendButton = document.getElementById('send');
-        setTimeout(() => sendButton.click(), 0);
+        setTimeout(() => sendButtonRef.current.click(), 0);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -167,7 +168,7 @@ function SendButton({
 
   return (
     <div className="m-2">
-      <Tooltip title="Ctrl + Enter">
+      <Tooltip title="Ctrl/Cmd + Enter">
         <Button
           id="send"
           variant="contained"
@@ -175,6 +176,7 @@ function SendButton({
           onClick={handleGenerate}
           startIcon={isGenerating ? <StopIcon/> : <PlayArrowIcon/>}
           disabled={messages === null}
+          ref={sendButtonRef}
         >
           {isGenerating ? "Stop" : "Send"}
         </Button>
