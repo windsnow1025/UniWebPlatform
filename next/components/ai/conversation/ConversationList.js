@@ -271,6 +271,15 @@ function ConversationList({
                             autoFocus
                             fullWidth
                             onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                updateConversationName(idx, editingName);
+                                setEditingIndex(null);
+                                setEditingName('');
+                              }
+                            }}
                             size="small"
                           />
                         ) : (
@@ -298,7 +307,7 @@ function ConversationList({
                           </div>
                         )}
                         {editingIndex === idx ? (
-                          <Tooltip title="Save">
+                          <Tooltip title="Save (Enter)">
                             <IconButton onClick={(e) => {
                               e.stopPropagation();
                               updateConversationName(idx, editingName);
