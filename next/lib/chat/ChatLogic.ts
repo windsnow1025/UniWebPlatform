@@ -263,7 +263,12 @@ export default class ChatLogic {
       }
 
       let text = content.text;
-      let thought = content.thought;
+      if (content.code) {
+        text += `\n# Code\n\n\`\`\`\n${content.code}\`\`\`\n`;
+      }
+      if (content.code_output) {
+        text += `\n# Code Output\n\n\`\`\`\n${content.code_output}\`\`\`\n`;
+      }
       let citations = content.citations;
       if (text) {
         if (citations) {
@@ -273,7 +278,7 @@ export default class ChatLogic {
 
       return {
         text: text,
-        thought: thought,
+        thought: content.thought,
         files: content.files,
         display: content.display,
       };
@@ -302,8 +307,15 @@ export default class ChatLogic {
           throw new Error(`chunk.error: ${chunk.error}`);
         }
 
+        let chunkText = chunk.text;
         if (chunk.text) {
-          text += chunk.text;
+          text += chunkText;
+        }
+        if (chunk.code) {
+          text += `\n# Code\n\n\`\`\`\n${chunk.code}\`\`\`\n`;
+        }
+        if (chunk.code_output) {
+          text += `\n# Code Output\n\n\`\`\`\n${chunk.code_output}\`\`\`\n`;
         }
         if (chunk.citations) {
           citations = citations.concat(chunk.citations);
