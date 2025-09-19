@@ -7,8 +7,8 @@ import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
 import {RawEditableState} from "../../../lib/common/message/EditableState";
-import SortableFiles from "./file/SortableFiles";
 import {SortableContentType} from "../../../lib/common/message/SortableContent";
+import FileDiv from "./file/FileDiv";
 
 function SortableContent({
                            id,
@@ -19,6 +19,8 @@ function SortableContent({
                            rawEditableState,
                            setConversationUpdateKey,
                            isTemporaryChat,
+                           contents,
+                           setContents,
                          }) {
   const {
     attributes,
@@ -41,18 +43,63 @@ function SortableContent({
     }
   };
 
+  const handleSetFiles = (newFileUrls) => {
+    const newContents = contents.filter(c => {
+      if (c.type !== 'file') return true;
+      return newFileUrls.includes(c.data);
+    });
+    setContents(newContents);
+    if (setConversationUpdateKey) {
+      setConversationUpdateKey(prev => prev + 1);
+    }
+  };
+
   const theme = useTheme();
+  const isTextContent = type === SortableContentType.Text;
 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
-      <div
-        className="p-1 rounded-md my-2"
-        style={{
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 90%)`
-        }}
-      >
-        {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
-          <div className="flex items-center">
+      {isTextContent ? (
+        <div
+          className="p-1 rounded-md my-2"
+          style={{
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 90%)`
+          }}
+        >
+          {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
+            <div className="flex-start-center">
+              <div
+                {...listeners}
+                className="cursor-move mr-2 flex"
+                style={{touchAction: 'none'}}
+              >
+                <DragIndicatorIcon fontSize="small"/>
+              </div>
+              <Typography variant="subtitle2" className="flex-grow">
+                Text Content
+              </Typography>
+              <Tooltip title="Copy">
+                <IconButton size="small" onClick={handleCopy}>
+                  <ContentCopyIcon fontSize="small"/>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete">
+                <IconButton size="small" onClick={onDelete} color="error">
+                  <DeleteIcon fontSize="small"/>
+                </IconButton>
+              </Tooltip>
+            </div>
+          )}
+          <TextContent
+            content={content}
+            setContent={onChange}
+            rawEditableState={rawEditableState}
+            setConversationUpdateKey={setConversationUpdateKey}
+          />
+        </div>
+      ) : (
+        <div className="flex-start-center my-2">
+          {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
             <div
               {...listeners}
               className="cursor-move mr-2 flex"
@@ -60,42 +107,15 @@ function SortableContent({
             >
               <DragIndicatorIcon fontSize="small"/>
             </div>
-
-            <Typography variant="subtitle2" className="flex-grow">
-              {type === SortableContentType.Text ? 'Text Content' : 'Grouped File Content'}
-            </Typography>
-
-            {type === SortableContentType.Text && (
-              <Tooltip title="Copy">
-                <IconButton size="small" onClick={handleCopy}>
-                  <ContentCopyIcon fontSize="small"/>
-                </IconButton>
-              </Tooltip>
-            )}
-
-            <Tooltip title="Delete">
-              <IconButton size="small" onClick={onDelete} color="error">
-                <DeleteIcon fontSize="small"/>
-              </IconButton>
-            </Tooltip>
-          </div>
-        )}
-
-        {type === SortableContentType.Text ? (
-          <TextContent
-            content={content}
-            setContent={onChange}
-            rawEditableState={rawEditableState}
-            setConversationUpdateKey={setConversationUpdateKey}
-          />
-        ) : (
-          <SortableFiles
-            files={content}
-            setFiles={onChange}
+          )}
+          <FileDiv
+            fileUrl={content}
+            files={contents.filter(c => c.type === 'file').map(c => c.data)}
+            setFiles={handleSetFiles}
             rawEditableState={rawEditableState}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
