@@ -19,6 +19,8 @@ export interface Citation {
 export interface ChatResponse {
   text?: string;
   thought?: string;
+  code?: string;
+  code_output?: string;
   files?: ResponseFile[];
   display?: string;
   citations?: Citation[];
