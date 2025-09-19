@@ -49,11 +49,11 @@ function SendButton({
       return false;
     }
 
-    const imageUrl = await chatLogic.getImageUrl(content.image);
+    const fileUrls = await ChatLogic.getFileUrls(content.files || []);
 
     setMessages(prevMessages => [
       ...prevMessages,
-      ChatLogic.createAssistantMessage(content.text, content.display, imageUrl),
+      ChatLogic.createAssistantMessage(content.text, content.thought, content.display, fileUrls),
       ChatLogic.getEmptyUserMessage(),
     ]);
 
@@ -86,10 +86,10 @@ function SendButton({
         break;
       }
 
-      const imageUrl = await ChatLogic.getImageUrl(chunk.image);
+      const fileUrls = await ChatLogic.getFileUrls(chunk.files || []);
 
       setMessages(prevMessages => ChatLogic.updateMessage(
-        prevMessages, prevMessages.length - 1, chunk, imageUrl
+        prevMessages, prevMessages.length - 1, chunk, fileUrls
       ));
 
       if (isAtBottom) scrollableContainer.scrollTop = scrollableContainer.scrollHeight;

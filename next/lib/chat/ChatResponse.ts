@@ -13,7 +13,7 @@ export interface Citation {
 export interface ChatResponse {
   text?: string;
   thought?: string;
-  image?: string;
+  files?: string[];
   display?: string;
   citations?: Citation[];
   error?: string;

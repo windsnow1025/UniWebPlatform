@@ -69,8 +69,12 @@ export default class ChatLogic {
       .flatMap(message => ChatLogic.getFileUrlsFromMessage(message));
   }
 
-  // For converting model generated image data to url
-  static async getImageUrl(image: string) {
+  // For converting model generated file data to urls
+  static async getFileUrls(files: string[]): Promise<string[]> {
+    if (!files || files.length === 0) {
+      return [];
+    }
+
     const base64ToFile = (base64String: string, filename: string) => {
       const byteCharacters = atob(base64String);
       const byteNumbers = new Array(byteCharacters.length);
@@ -78,21 +82,28 @@ export default class ChatLogic {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
       const byteArray = new Uint8Array(byteNumbers);
+      // TODO: type
       return new File([byteArray], filename, {type: "image/png"});
     };
-    let imageUrl = null;
-    if (image) {
-      const file = base64ToFile(image, "generated_image.png");
-      const fileLogic = new FileLogic();
-      const uploadedFiles = await fileLogic.uploadFiles([file]);
-      imageUrl = uploadedFiles[0];
+
+    const fileObjects = files.map((base64String, index) =>
+      base64ToFile(base64String, `generated_file_${index}.png`)
+    );
+
+    if (fileObjects.length === 0) {
+      return [];
     }
-    return imageUrl;
+
+    const fileLogic = new FileLogic();
+    return await fileLogic.uploadFiles(fileObjects);
   }
 
   // For converting model response to an assistant message - first chunk
   static createAssistantMessage(
-      text: string, thought: string, display: string, fileUrl: string
+      text: string,
+      thought: string,
+      display: string,
+      fileUrls: string[],
   ): Message {
     const contents: Content[] = [
       {
@@ -101,10 +112,12 @@ export default class ChatLogic {
       }
     ];
 
-    if (fileUrl) {
-      contents.push({
-        type: ContentTypeEnum.File,
-        data: fileUrl
+    if (fileUrls && fileUrls.length > 0) {
+      fileUrls.forEach(fileUrl => {
+        contents.push({
+          type: ContentTypeEnum.File,
+          data: fileUrl
+        });
       });
     }
 
@@ -122,7 +135,7 @@ export default class ChatLogic {
     messages: Message[],
     index: number,
     chunk: ChatResponse,
-    fileUrl: string
+    fileUrls: string[]
   ): Message[] {
     const newMessages = [...messages];
 
@@ -155,10 +168,12 @@ export default class ChatLogic {
       }
     }
 
-    if (fileUrl) {
-      currentMessage.contents.push({
-        type: ContentTypeEnum.File,
-        data: fileUrl
+    if (fileUrls && fileUrls.length > 0) {
+      fileUrls.forEach(fileUrl => {
+        currentMessage.contents.push({
+          type: ContentTypeEnum.File,
+          data: fileUrl
+        });
       });
     }
 
@@ -268,7 +283,7 @@ export default class ChatLogic {
       return {
         text: text,
         thought: thought,
-        image: content.image,
+        files: content.files,
         display: content.display,
       };
     } catch (error) {
@@ -306,7 +321,7 @@ export default class ChatLogic {
         yield {
           text: chunk.text,
           thought: chunk.thought,
-          image: chunk.image,
+          files: chunk.files,
           display: chunk.display,
         }
       }
