@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
-import {ApiTypeModel, ChatResponse, Citation} from "@/lib/chat/ChatResponse";
+import {ApiTypeModel, ChatResponse, Citation, ResponseFile} from "@/lib/chat/ChatResponse";
 import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
 import FileLogic from "@/lib/common/file/FileLogic";
 
@@ -70,29 +70,20 @@ export default class ChatLogic {
   }
 
   // For converting model generated file data to urls
-  static async getFileUrls(files: string[]): Promise<string[]> {
-    if (!files || files.length === 0) {
-      return [];
-    }
-
-    const base64ToFile = (base64String: string, filename: string) => {
-      const byteCharacters = atob(base64String);
+  static async getFileUrls(files: ResponseFile[]): Promise<string[]> {
+    const base64ToFile = (name: string, data: string, type: string) => {
+      const byteCharacters = atob(data);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
       const byteArray = new Uint8Array(byteNumbers);
-      // TODO: type
-      return new File([byteArray], filename, {type: "image/png"});
+      return new File([byteArray], name, { type: type});
     };
 
-    const fileObjects = files.map((base64String, index) =>
-      base64ToFile(base64String, `generated_file_${index}.png`)
+    const fileObjects = files.map((file) =>
+      base64ToFile(file.name, file.data, file.type)
     );
-
-    if (fileObjects.length === 0) {
-      return [];
-    }
 
     const fileLogic = new FileLogic();
     return await fileLogic.uploadFiles(fileObjects);
