@@ -60,21 +60,23 @@ function SortableContents({
         items={sortableItems.map(item => item.id)}
         strategy={verticalListSortingStrategy}
       >
-        {sortableItems.map(item => (
-          <SortableContent
-            key={item.id}
-            id={item.id}
-            type={item.type}
-            content={item.content.data}
-            onChange={(newData) => handleContentChange(item.id, newData)}
-            onDelete={() => handleContentDelete(item.id)}
-            rawEditableState={rawEditableState}
-            setConversationUpdateKey={setConversationUpdateKey}
-            isTemporaryChat={isTemporaryChat}
-            contents={contents}
-            setContents={setContents}
-          />
-        ))}
+        <div className="flex-start-start">
+          {sortableItems.map(item => (
+            <SortableContent
+              key={item.id}
+              id={item.id}
+              type={item.type}
+              content={item.content.data}
+              onChange={(newData) => handleContentChange(item.id, newData)}
+              onDelete={() => handleContentDelete(item.id)}
+              rawEditableState={rawEditableState}
+              setConversationUpdateKey={setConversationUpdateKey}
+              isTemporaryChat={isTemporaryChat}
+              contents={contents}
+              setContents={setContents}
+            />
+          ))}
+        </div>
       </SortableContext>
     </DndContext>
   );
