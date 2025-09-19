@@ -7,10 +7,8 @@ import {
   deleteContent,
   reorderContents,
   SortableContentType,
-  updateFileContent,
   updateTextContent
 } from "../../../lib/common/message/SortableContent";
-import FileLogic from "../../../lib/common/file/FileLogic";
 
 function SortableContents({
                             contents,
@@ -25,51 +23,22 @@ function SortableContents({
     })
   );
 
-  const groupedItems = React.useMemo(() => {
+  const sortableItems = React.useMemo(() => {
     return createSortableContents(contents);
   }, [contents]);
 
   const handleContentChange = (itemId, newValue) => {
-    const item = groupedItems.find(item => item.id === itemId);
-    if (!item) return;
+    const item = sortableItems.find(item => item.id === itemId);
+    if (!item || item.type !== SortableContentType.Text) return;
 
-    let updatedContents;
-    if (item.type === SortableContentType.Text) {
-      updatedContents = updateTextContent(contents, item, newValue);
-    } else {
-      updatedContents = updateFileContent(contents, item, newValue);
-    }
-
+    const updatedContents = updateTextContent(contents, item, newValue);
     setContents(updatedContents);
-
-    if (item.type === SortableContentType.Files) {
-      setConversationUpdateKey(prev => prev + 1);
-    }
   };
 
-  const handleContentDelete = async (itemId) => {
-    const item = groupedItems.find(item => item.id === itemId);
+  const handleContentDelete = (itemId) => {
+    const item = sortableItems.find(item => item.id === itemId);
     if (!item) return;
 
-    // Find files in the content
-    const groupContentData = item.getData();
-    let fileUrls = [];
-    if (item.type === SortableContentType.Files) {
-      fileUrls = groupContentData;
-    }
-
-    // Delete the files from storage
-    if (fileUrls.length > 0) {
-      try {
-        const fileNames = FileLogic.getFileNamesFromUrls(fileUrls);
-        const fileLogic = new FileLogic();
-        await fileLogic.deleteFiles(fileNames);
-      } catch (error) {
-        console.error('Failed to delete files:', error);
-      }
-    }
-    
-    // Remove the content from the message
     setContents(deleteContent(contents, item));
     setConversationUpdateKey(prev => prev + 1);
   };
@@ -77,8 +46,7 @@ function SortableContents({
   const handleDragEnd = (event) => {
     const {active, over} = event;
     if (!over || active.id === over.id) return;
-    setContents(reorderContents(contents, groupedItems, active.id, over.id));
-
+    setContents(reorderContents(contents, sortableItems, active.id, over.id));
     setConversationUpdateKey(prev => prev + 1);
   };
 
@@ -89,20 +57,22 @@ function SortableContents({
       onDragEnd={handleDragEnd}
     >
       <SortableContext
-        items={groupedItems.map(item => item.id)}
+        items={sortableItems.map(item => item.id)}
         strategy={verticalListSortingStrategy}
       >
-        {groupedItems.map(item => (
+        {sortableItems.map(item => (
           <SortableContent
             key={item.id}
             id={item.id}
             type={item.type}
-            content={item.getData()}
+            content={item.content.data}
             onChange={(newData) => handleContentChange(item.id, newData)}
             onDelete={() => handleContentDelete(item.id)}
             rawEditableState={rawEditableState}
             setConversationUpdateKey={setConversationUpdateKey}
             isTemporaryChat={isTemporaryChat}
+            contents={contents}
+            setContents={setContents}
           />
         ))}
       </SortableContext>
