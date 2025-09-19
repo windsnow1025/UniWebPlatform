@@ -5,6 +5,12 @@ export interface ApiTypeModel {
   output: number;
 }
 
+export interface ResponseFile {
+  name: string;
+  data: string;
+  type: string;
+}
+
 export interface Citation {
   text: string;
   indices: number[];
@@ -13,7 +19,7 @@ export interface Citation {
 export interface ChatResponse {
   text?: string;
   thought?: string;
-  files?: string[];
+  files?: ResponseFile[];
   display?: string;
   citations?: Citation[];
   error?: string;
