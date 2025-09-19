@@ -28,7 +28,10 @@ async def stream_handler(
 ) -> StreamingResponse:
     async def wrapper_generator() -> AsyncGenerator[str, None]:
         text = ""
-        image = ""
+        thought = ""
+        code = ""
+        code_output = ""
+        files = []
         display = ""
         citations = []
         input_tokens = 0
@@ -37,10 +40,17 @@ async def stream_handler(
         try:
             async for chunk in generator:
                 logging.info(f"chunk: {str(chunk)}")
+
                 if chunk.text:
                     text += chunk.text
-                if chunk.image:
-                    image += chunk.image
+                if chunk.thought:
+                    thought += chunk.thought
+                if chunk.code:
+                    code += chunk.code
+                if chunk.code_output:
+                    code_output += chunk.code_output
+                if chunk.files:
+                    files += chunk.files
                 if chunk.display:
                     display += chunk.display
                 if chunk.citations:
@@ -49,11 +59,15 @@ async def stream_handler(
                     input_tokens = chunk.input_tokens
                 if chunk.output_tokens:
                     output_tokens += chunk.output_tokens
+
                 yield f"data: {json.dumps(serialize(chunk))}\n\n"
 
             chat_response = ChatResponse(
                 text=text,
-                image=image,
+                thought=thought,
+                code=code,
+                code_output=code_output,
+                files=files,
                 display=display,
                 citations=citations,
                 input_tokens=input_tokens,
@@ -66,7 +80,7 @@ async def stream_handler(
             logging.info(f"cost: {cost}")
 
         except Exception as e:
-            logging.exception("Error in stream_handler")
+            logging.exception(f"Error in stream_handler: {e}")
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
 
     return StreamingResponse(wrapper_generator(), media_type='text/event-stream')
