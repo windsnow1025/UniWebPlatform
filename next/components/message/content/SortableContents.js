@@ -1,5 +1,5 @@
 import React from 'react';
-import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
+import {DndContext, PointerSensor, rectIntersection, useSensor, useSensors} from "@dnd-kit/core";
 import {SortableContext} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
 import {ContentTypeEnum} from "../../../client";
@@ -102,7 +102,7 @@ function SortableContents({
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={rectIntersection}
       onDragEnd={handleDragEnd}
     >
       <SortableContext
