@@ -1,6 +1,6 @@
 import React from 'react';
 import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
-import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import {SortableContext} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
 
 function SortableContents({
@@ -39,21 +39,24 @@ function SortableContents({
     >
       <SortableContext
         items={contents.map((_, index) => `content-${index}`)}
-        strategy={verticalListSortingStrategy}
       >
-        {contents.map((content, index) => (
-          <SortableContent
-            key={`content-${index}`}
-            id={`content-${index}`}
-            index={index}
-            content={content}
-            contents={contents}
-            setContents={setContents}
-            rawEditableState={rawEditableState}
-            setConversationUpdateKey={setConversationUpdateKey}
-            isTemporaryChat={isTemporaryChat}
-          />
-        ))}
+        <div
+          className="flex-start-center"
+        >
+          {contents.map((content, index) => (
+            <SortableContent
+              key={`content-${index}`}
+              id={`content-${index}`}
+              index={index}
+              content={content}
+              contents={contents}
+              setContents={setContents}
+              rawEditableState={rawEditableState}
+              setConversationUpdateKey={setConversationUpdateKey}
+              isTemporaryChat={isTemporaryChat}
+            />
+          ))}
+        </div>
       </SortableContext>
     </DndContext>
   );
