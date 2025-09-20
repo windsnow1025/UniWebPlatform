@@ -27,11 +27,11 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
   };
 
   return (
-    <div>
+    <div className="mt-2">
       <Divider/>
 
-      <div className="flex">
-        <div className="flex-center mt-1.5">
+      <div className="flex pt-2">
+        <div className="flex-center">
           <AddTextButton
             setContent={(content) => setContents([...contents, content])}
             disabled={isUploading}
@@ -40,7 +40,7 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
 
         <Divider orientation="vertical" flexItem sx={{ml: 1}}/>
 
-        <div className="flex-center mt-1.5 inflex-fill">
+        <div className="flex-center inflex-fill">
           <FileUpload
             files={files}
             setFiles={(newFiles) => {
@@ -65,7 +65,7 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
             isUploading={isUploading}
           />
 
-          <div className="flex-1 m-1">
+          <div className="flex-1">
             <FileDropZone
               setFiles={handleAddFiles}
               isUploading={isUploading}

@@ -49,7 +49,7 @@ const FileDiv = ({ fileUrl, rawEditableState, onDelete }) => {
 
   return (
     <>
-      <Paper key={fileUrl} className="p-2 m-2 flex-center">
+      <Paper key={fileUrl} className="p-2 flex-center">
         <div className="inflex-fill">
           <div className="flex-between">
             <Typography variant="body2">

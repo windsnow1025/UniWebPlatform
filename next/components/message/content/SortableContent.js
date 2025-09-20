@@ -62,7 +62,7 @@ function SortableContent({
     return (
       <div ref={setNodeRef} style={style} {...attributes}>
         <div
-          className="p-1 rounded-md my-2"
+          className="p-1 rounded-md"
           style={{
             backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 90%)`
           }}
