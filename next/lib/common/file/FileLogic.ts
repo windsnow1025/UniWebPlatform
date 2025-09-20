@@ -8,6 +8,10 @@ export default class FileLogic {
     this.fileService = new FileClient();
   }
 
+  static getFileNameFromUrl(url: string): string {
+    return url.split('/').pop() || '';
+  }
+
   static getFileNamesFromUrls(fileUrls: string[]): string[] {
     return fileUrls.map(url => url.split('/').pop() || '');
   }

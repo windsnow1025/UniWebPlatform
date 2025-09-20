@@ -7,12 +7,12 @@ import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
 import {RawEditableState} from "../../../lib/common/message/EditableState";
-import {SortableContentType} from "../../../lib/common/message/SortableContent";
+import {ContentTypeEnum} from '@/client';
 import FileDiv from "./file/FileDiv";
 
 function SortableContent({
                            id,
-                           type,
+                           index,
                            content,
                            onChange,
                            onDelete,
@@ -38,14 +38,14 @@ function SortableContent({
   };
 
   const handleCopy = () => {
-    if (type === SortableContentType.Text) {
-      navigator.clipboard.writeText(content);
+    if (content.type === ContentTypeEnum.Text) {
+      navigator.clipboard.writeText(content.data);
     }
   };
 
   const handleSetFiles = (newFileUrls) => {
     const newContents = contents.filter(c => {
-      if (c.type !== 'file') return true;
+      if (c.type !== ContentTypeEnum.File) return true;
       return newFileUrls.includes(c.data);
     });
     setContents(newContents);
@@ -55,7 +55,7 @@ function SortableContent({
   };
 
   const theme = useTheme();
-  const isTextContent = type === SortableContentType.Text;
+  const isTextContent = content.type === ContentTypeEnum.Text;
 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
@@ -67,7 +67,7 @@ function SortableContent({
           }}
         >
           {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
-            <div className="flex-start-center">
+            <div className="flex items-center">
               <div
                 {...listeners}
                 className="cursor-move mr-2 flex"
@@ -91,14 +91,14 @@ function SortableContent({
             </div>
           )}
           <TextContent
-            content={content}
+            content={content.data}
             setContent={onChange}
             rawEditableState={rawEditableState}
             setConversationUpdateKey={setConversationUpdateKey}
           />
         </div>
       ) : (
-        <div className="flex-start-center my-2">
+        <div className="flex items-center my-2">
           {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
             <div
               {...listeners}
@@ -109,8 +109,8 @@ function SortableContent({
             </div>
           )}
           <FileDiv
-            fileUrl={content}
-            files={contents.filter(c => c.type === 'file').map(c => c.data)}
+            fileUrl={content.data}
+            files={contents.filter(c => c.type === ContentTypeEnum.File).map(c => c.data)}
             setFiles={handleSetFiles}
             rawEditableState={rawEditableState}
           />
