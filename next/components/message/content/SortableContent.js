@@ -60,9 +60,9 @@ function SortableContent({
 
   if (isTextContent) {
     return (
-      <div ref={setNodeRef} style={style} {...attributes} className="w-full">
+      <div ref={setNodeRef} style={style} {...attributes}>
         <div
-          className="p-1 rounded-md my-1"
+          className="p-1 rounded-md my-2"
           style={{
             backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 90%)`
           }}
