@@ -27,7 +27,7 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
   };
 
   return (
-    <Box sx={{mt: 2}}>
+    <div className="mt-2">
       <Divider/>
 
       <div className="flex">
@@ -74,7 +74,7 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
           </div>
         </div>
       </div>
-    </Box>
+    </div>
   );
 }
 
