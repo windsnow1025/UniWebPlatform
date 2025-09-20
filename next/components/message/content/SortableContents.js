@@ -41,7 +41,7 @@ function SortableContents({
         items={contents.map((_, index) => `content-${index}`)}
       >
         <div
-          className="flex-start-center"
+          className="flex-start-center my-1"
         >
           {contents.map((content, index) => (
             <SortableContent
