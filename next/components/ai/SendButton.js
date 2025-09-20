@@ -92,7 +92,11 @@ function SendButton({
         prevMessages, prevMessages.length - 1, chunk, fileUrls
       ));
 
-      if (isAtBottom) scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+      if (isAtBottom) {
+        setTimeout(() => {
+          scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+        }, 0);
+      }
     }
 
     setMessages(prevMessages => [...prevMessages, ChatLogic.getEmptyUserMessage()]);
