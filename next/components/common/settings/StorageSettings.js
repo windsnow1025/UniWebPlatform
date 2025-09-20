@@ -104,7 +104,7 @@ const StorageSettings = () => {
             <Button
               variant="contained"
               color="error"
-              startIcon={<DeleteIcon />}
+              startIcon={<DeleteIcon/>}
               onClick={handleDeleteSelected}
               disabled={deleting}
               size="small"
@@ -117,7 +117,7 @@ const StorageSettings = () => {
 
       <div className="my-2">
         {loading ? (
-          <CircularProgress />
+          <CircularProgress/>
         ) : files.length > 0 ? (
           files.map((fileUrl) => (
             <div key={fileUrl} className="flex-center">
@@ -127,7 +127,7 @@ const StorageSettings = () => {
                 disabled={deleting}
               />
               <div className="inflex-fill">
-                <FileDiv fileUrl={fileUrl} files={files} />
+                <FileDiv fileUrl={fileUrl}/>
               </div>
             </div>
           ))
@@ -141,7 +141,7 @@ const StorageSettings = () => {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: "100%" }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: "100%"}}>
           {alertMessage}
         </Alert>
       </Snackbar>
