@@ -7,7 +7,6 @@ function TextContent({
                        content,
                        setContent,
                        rawEditableState,
-                       setConversationUpdateKey,
                      }) {
   const { mode } = useColorScheme();
 
@@ -63,10 +62,6 @@ function TextContent({
 
     const newContent = desanitizeContent(contentRef.current.textContent);
     setContent(newContent);
-
-    if (setConversationUpdateKey) {
-      setConversationUpdateKey(prev => prev + 1);
-    }
   };
 
   return (

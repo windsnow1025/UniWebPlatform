@@ -14,8 +14,6 @@ function SortableContent({
                            id,
                            index,
                            content,
-                           onChange,
-                           onDelete,
                            rawEditableState,
                            setConversationUpdateKey,
                            isTemporaryChat,
@@ -37,6 +35,20 @@ function SortableContent({
     opacity: isDragging ? 0.5 : 1,
   };
 
+  const handleContentUpdate = (newValue) => {
+    const newContents = [...contents];
+    newContents[index] = {...newContents[index], data: newValue};
+    setContents(newContents);
+    setConversationUpdateKey(prev => prev + 1);
+  };
+
+  const handleContentDelete = () => {
+    const newContents = [...contents];
+    newContents.splice(index, 1);
+    setContents(newContents);
+    setConversationUpdateKey(prev => prev + 1);
+  };
+
   const handleCopy = () => {
     if (content.type === ContentTypeEnum.Text) {
       navigator.clipboard.writeText(content.data);
@@ -44,14 +56,12 @@ function SortableContent({
   };
 
   const handleSetFiles = (newFileUrls) => {
-    const newContents = contents.filter(c => {
-      if (c.type !== ContentTypeEnum.File) return true;
-      return newFileUrls.includes(c.data);
+    const newContents = contents.filter(content => {
+      if (content.type !== ContentTypeEnum.File) return true;
+      return newFileUrls.includes(content.data);
     });
     setContents(newContents);
-    if (setConversationUpdateKey) {
-      setConversationUpdateKey(prev => prev + 1);
-    }
+    setConversationUpdateKey(prev => prev + 1);
   };
 
   const theme = useTheme();
@@ -84,7 +94,7 @@ function SortableContent({
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete">
-                <IconButton size="small" onClick={onDelete} color="error">
+                <IconButton size="small" onClick={handleContentDelete} color="error">
                   <DeleteIcon fontSize="small"/>
                 </IconButton>
               </Tooltip>
@@ -92,7 +102,7 @@ function SortableContent({
           )}
           <TextContent
             content={content.data}
-            setContent={onChange}
+            setContent={handleContentUpdate}
             rawEditableState={rawEditableState}
             setConversationUpdateKey={setConversationUpdateKey}
           />

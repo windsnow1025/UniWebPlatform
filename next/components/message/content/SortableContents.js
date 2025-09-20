@@ -2,7 +2,6 @@ import React from 'react';
 import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
-import {ContentTypeEnum} from '@/client';
 
 function SortableContents({
                             contents,
@@ -16,19 +15,6 @@ function SortableContents({
       activationConstraint: {distance: 5},
     })
   );
-
-  const handleContentChange = (index, newValue) => {
-    const newContents = [...contents];
-    newContents[index] = { ...newContents[index], data: newValue };
-    setContents(newContents);
-  };
-
-  const handleContentDelete = (index) => {
-    const newContents = [...contents];
-    newContents.splice(index, 1);
-    setContents(newContents);
-    setConversationUpdateKey(prev => prev + 1);
-  };
 
   const handleDragEnd = (event) => {
     const {active, over} = event;
@@ -61,8 +47,6 @@ function SortableContents({
             id={`content-${index}`}
             index={index}
             content={content}
-            onChange={(newData) => handleContentChange(index, newData)}
-            onDelete={() => handleContentDelete(index)}
             rawEditableState={rawEditableState}
             setConversationUpdateKey={setConversationUpdateKey}
             isTemporaryChat={isTemporaryChat}
