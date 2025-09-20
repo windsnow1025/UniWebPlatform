@@ -24,7 +24,7 @@ const FileDiv = ({ fileUrl, files, setFiles, rawEditableState }) => {
   const handleFileDelete = async () => {
     // Delete the file from storage
     try {
-      const fullFileName = FileLogic.getFileNamesFromUrls([fileUrl])[0];
+      const fullFileName = FileLogic.getFileNameFromUrl(fileUrl);
       const fileLogic = new FileLogic();
       await fileLogic.deleteFiles([fullFileName]);
     } catch (error) {
