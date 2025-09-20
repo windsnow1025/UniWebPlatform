@@ -71,6 +71,10 @@ export default class ChatLogic {
 
   // For converting model generated file data to urls
   static async getFileUrls(files: ResponseFile[]): Promise<string[]> {
+    if (files.length === 0) {
+      return [];
+    }
+
     const base64ToFile = (name: string, data: string, type: string) => {
       const byteCharacters = atob(data);
       const byteNumbers = new Array(byteCharacters.length);
