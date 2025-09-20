@@ -2,6 +2,7 @@ import React from 'react';
 import {closestCenter, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {SortableContext} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
+import {ContentTypeEnum} from "../../../client";
 
 function SortableContents({
                             contents,
@@ -31,6 +32,73 @@ function SortableContents({
     setConversationUpdateKey(prev => prev + 1);
   };
 
+  const renderGroupedContents = () => {
+    const grouped = [];
+    let currentFileGroup = [];
+
+    contents.forEach((content, index) => {
+      const itemWithIndex = { content, index };
+
+      if (content.type === ContentTypeEnum.Text) { // If text content
+        // 1. Push the collected file group
+        if (currentFileGroup.length > 0) {
+          grouped.push({ type: 'fileGroup', items: currentFileGroup });
+          currentFileGroup = [];
+        }
+        // 2. Push the text content
+        grouped.push({ type: 'text', items: [itemWithIndex] });
+      } else { // If file content
+        // Collect the file content
+        currentFileGroup.push(itemWithIndex);
+      }
+    });
+
+    // Push the remaining file group
+    if (currentFileGroup.length > 0) {
+      grouped.push({ type: 'fileGroup', items: currentFileGroup });
+    }
+
+    return grouped.map((group, groupIndex) => {
+      if (group.type === 'text') {
+        const { content, index } = group.items[0];
+        return (
+          <SortableContent
+            key={`content-${index}`}
+            id={`content-${index}`}
+            index={index}
+            content={content}
+            contents={contents}
+            setContents={setContents}
+            rawEditableState={rawEditableState}
+            setConversationUpdateKey={setConversationUpdateKey}
+            isTemporaryChat={isTemporaryChat}
+          />
+        );
+      }
+
+      if (group.type === 'fileGroup') {
+        return (
+          <div key={`group-${groupIndex}`} className="flex-start-center">
+            {group.items.map(({ content, index }) => (
+              <SortableContent
+                key={`content-${index}`}
+                id={`content-${index}`}
+                index={index}
+                content={content}
+                contents={contents}
+                setContents={setContents}
+                rawEditableState={rawEditableState}
+                setConversationUpdateKey={setConversationUpdateKey}
+                isTemporaryChat={isTemporaryChat}
+              />
+            ))}
+          </div>
+        );
+      }
+      return null;
+    });
+  };
+
   return (
     <DndContext
       sensors={sensors}
@@ -40,22 +108,8 @@ function SortableContents({
       <SortableContext
         items={contents.map((_, index) => `content-${index}`)}
       >
-        <div
-          className="flex-start-center my-1"
-        >
-          {contents.map((content, index) => (
-            <SortableContent
-              key={`content-${index}`}
-              id={`content-${index}`}
-              index={index}
-              content={content}
-              contents={contents}
-              setContents={setContents}
-              rawEditableState={rawEditableState}
-              setConversationUpdateKey={setConversationUpdateKey}
-              isTemporaryChat={isTemporaryChat}
-            />
-          ))}
+        <div className="my-1">
+          {renderGroupedContents()}
         </div>
       </SortableContext>
     </DndContext>

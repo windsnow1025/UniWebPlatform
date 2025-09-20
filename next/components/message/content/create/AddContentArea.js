@@ -27,7 +27,7 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
   };
 
   return (
-    <div className="mt-2">
+    <div>
       <Divider/>
 
       <div className="flex">
