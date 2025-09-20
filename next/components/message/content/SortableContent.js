@@ -71,8 +71,8 @@ function SortableContent({
             <div className="flex-start-center">
               <div
                 {...listeners}
-                className="cursor-move mr-2 flex"
-                style={{touchAction: 'none'}}
+                className="mr-2 flex"
+                style={{cursor: 'grab', touchAction: 'none'}}
               >
                 <DragIndicatorIcon fontSize="small"/>
               </div>
@@ -103,12 +103,12 @@ function SortableContent({
   } else {
     return (
       <div ref={setNodeRef} style={style} {...attributes}>
-        <div className="flex-start-center my-2">
+        <div className="flex-start-center">
           {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
             <div
               {...listeners}
-              className="cursor-move flex"
-              style={{touchAction: 'none'}}
+              className="flex"
+              style={{cursor: 'grab', touchAction: 'none'}}
             >
               <DragIndicatorIcon fontSize="small"/>
             </div>
