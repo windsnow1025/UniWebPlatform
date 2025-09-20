@@ -58,9 +58,9 @@ function SortableContent({
   const theme = useTheme();
   const isTextContent = content.type === ContentTypeEnum.Text;
 
-  return (
-    <div ref={setNodeRef} style={style} {...attributes}>
-      {isTextContent ? (
+  if (isTextContent) {
+    return (
+      <div ref={setNodeRef} style={style} {...attributes} className="w-full">
         <div
           className="p-1 rounded-md my-2"
           style={{
@@ -68,7 +68,7 @@ function SortableContent({
           }}
         >
           {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
-            <div className="flex items-center">
+            <div className="flex-start-center">
               <div
                 {...listeners}
                 className="cursor-move mr-2 flex"
@@ -98,8 +98,12 @@ function SortableContent({
             setConversationUpdateKey={setConversationUpdateKey}
           />
         </div>
-      ) : (
-        <div className="flex items-center my-2">
+      </div>
+    );
+  } else {
+    return (
+      <div ref={setNodeRef} style={style} {...attributes}>
+        <div className="flex-start-center my-2">
           {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
             <div
               {...listeners}
@@ -115,9 +119,10 @@ function SortableContent({
             onDelete={handleContentDelete}
           />
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+
 }
 
 export default SortableContent;
