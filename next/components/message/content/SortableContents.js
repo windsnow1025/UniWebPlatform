@@ -78,7 +78,7 @@ function SortableContents({
 
       if (group.type === 'fileGroup') {
         return (
-          <div key={`group-${groupIndex}`} className="flex-start-center">
+          <div key={`group-${groupIndex}`} className="flex-start-center gap-y-2">
             {group.items.map(({ content, index }) => (
               <SortableContent
                 key={`content-${index}`}
@@ -108,7 +108,7 @@ function SortableContents({
       <SortableContext
         items={contents.map((_, index) => `content-${index}`)}
       >
-        <div className="my-1">
+        <div className="flex-column gap-y-2 mt-2">
           {renderGroupedContents()}
         </div>
       </SortableContext>

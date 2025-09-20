@@ -126,7 +126,7 @@ const StorageSettings = () => {
                 onChange={() => handleFileSelect(fileUrl)}
                 disabled={deleting}
               />
-              <div className="inflex-fill">
+              <div className="inflex-fill my-2">
                 <FileDiv fileUrl={fileUrl}/>
               </div>
             </div>
