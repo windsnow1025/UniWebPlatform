@@ -268,10 +268,10 @@ export default class ChatLogic {
 
       let text = content.text;
       if (content.code) {
-        text += `\n# Code\n\n\`\`\`\n${content.code}\`\`\`\n`;
+        text += `\n# Code\n\n\`\`\`\n${content.code}\n\`\`\`\n`;
       }
       if (content.code_output) {
-        text += `\n# Code Output\n\n\`\`\`\n${content.code_output}\`\`\`\n`;
+        text += `\n# Code Output\n\n\`\`\`\n${content.code_output}\n\`\`\`\n`;
       }
       let citations = content.citations;
       if (text) {
@@ -316,10 +316,10 @@ export default class ChatLogic {
           text += chunkText;
         }
         if (chunk.code) {
-          text += `\n# Code\n\n\`\`\`\n${chunk.code}\`\`\`\n`;
+          text += `\n# Code\n\n\`\`\`\n${chunk.code}\n\`\`\`\n`;
         }
         if (chunk.code_output) {
-          text += `\n# Code Output\n\n\`\`\`\n${chunk.code_output}\`\`\`\n`;
+          text += `\n# Code Output\n\n\`\`\`\n${chunk.code_output}\n\`\`\`\n`;
         }
         if (chunk.citations) {
           citations = citations.concat(chunk.citations);
