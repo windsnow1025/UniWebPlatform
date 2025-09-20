@@ -47,11 +47,11 @@ function SortableContents({
             id={`content-${index}`}
             index={index}
             content={content}
+            contents={contents}
+            setContents={setContents}
             rawEditableState={rawEditableState}
             setConversationUpdateKey={setConversationUpdateKey}
             isTemporaryChat={isTemporaryChat}
-            contents={contents}
-            setContents={setContents}
           />
         ))}
       </SortableContext>

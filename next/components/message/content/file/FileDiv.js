@@ -17,7 +17,7 @@ import FilePreview from './FilePreview';
 import { RawEditableState } from "../../../../lib/common/message/EditableState";
 import FileLogic from "../../../../lib/common/file/FileLogic";
 
-const FileDiv = ({ fileUrl, files, setFiles, rawEditableState }) => {
+const FileDiv = ({ fileUrl, rawEditableState, onDelete }) => {
   const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1] || fileUrl.split('/').pop();
   const [previewOpen, setPreviewOpen] = useState(false);
 
@@ -31,17 +31,12 @@ const FileDiv = ({ fileUrl, files, setFiles, rawEditableState }) => {
       console.error('Failed to delete file:', error);
     }
 
-    // Remove the file from the content
-    setFiles(files.filter(file => file !== fileUrl));
+    onDelete();
   };
 
   if (rawEditableState === RawEditableState.AlwaysFalse) {
     return (
-      <Paper
-        key={fileUrl}
-        className="p-2 m-2"
-        variant="outlined"
-      >
+      <Paper key={fileUrl} className="p-2 m-2" variant="outlined">
         <Typography variant="body2" gutterBottom>
           <a href={fileUrl} target="_blank" rel="noopener noreferrer">
             {fileName}
@@ -69,7 +64,7 @@ const FileDiv = ({ fileUrl, files, setFiles, rawEditableState }) => {
             </Tooltip>
           </div>
         </div>
-        {setFiles && (
+        {onDelete && (
           <div className="self-end">
             <Tooltip title="Remove file">
               <IconButton onClick={handleFileDelete} size="small" color="error">
@@ -83,9 +78,7 @@ const FileDiv = ({ fileUrl, files, setFiles, rawEditableState }) => {
       <Dialog open={previewOpen} onClose={() => setPreviewOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h6">
-              {fileName}
-            </Typography>
+            <Typography variant="h6">{fileName}</Typography>
             <IconButton edge="end" color="inherit" onClick={() => setPreviewOpen(false)}>
               <CloseIcon />
             </IconButton>

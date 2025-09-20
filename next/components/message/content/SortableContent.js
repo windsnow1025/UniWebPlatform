@@ -14,11 +14,11 @@ function SortableContent({
                            id,
                            index,
                            content,
+                           contents,
+                           setContents,
                            rawEditableState,
                            setConversationUpdateKey,
                            isTemporaryChat,
-                           contents,
-                           setContents,
                          }) {
   const {
     attributes,
@@ -53,15 +53,6 @@ function SortableContent({
     if (content.type === ContentTypeEnum.Text) {
       navigator.clipboard.writeText(content.data);
     }
-  };
-
-  const handleSetFiles = (newFileUrls) => {
-    const newContents = contents.filter(content => {
-      if (content.type !== ContentTypeEnum.File) return true;
-      return newFileUrls.includes(content.data);
-    });
-    setContents(newContents);
-    setConversationUpdateKey(prev => prev + 1);
   };
 
   const theme = useTheme();
@@ -112,7 +103,7 @@ function SortableContent({
           {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
             <div
               {...listeners}
-              className="cursor-move mr-2 flex"
+              className="cursor-move flex"
               style={{touchAction: 'none'}}
             >
               <DragIndicatorIcon fontSize="small"/>
@@ -120,9 +111,8 @@ function SortableContent({
           )}
           <FileDiv
             fileUrl={content.data}
-            files={contents.filter(c => c.type === ContentTypeEnum.File).map(c => c.data)}
-            setFiles={handleSetFiles}
             rawEditableState={rawEditableState}
+            onDelete={handleContentDelete}
           />
         </div>
       )}
