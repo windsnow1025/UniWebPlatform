@@ -34,7 +34,7 @@ const steps = [
     placement: 'bottom',
   },
   {
-    target: '[aria-label="toggle-preview"]',
+    target: '[aria-label="Edit Mode"]',
     content: 'Toggle between edit mode and preview mode. Edit mode allows you to modify the message, while preview mode shows how it will be rendered.',
     placement: 'bottom',
   },
