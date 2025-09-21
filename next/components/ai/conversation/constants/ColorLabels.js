@@ -6,5 +6,5 @@ export const COLOR_LABELS = [
   { key: 'green', name: 'Green', color: '#66bb6a' },
   { key: 'blue', name: 'Blue', color: '#42a5f5' },
   { key: 'purple', name: 'Purple', color: '#ab47bc' },
-  { key: 'gray', name: 'Gray', color: '#bdbdbd' },
+  { key: 'gray', name: 'Gray', color: '#616161' },
 ];
