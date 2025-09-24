@@ -82,7 +82,7 @@ export default class ChatLogic {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
       const byteArray = new Uint8Array(byteNumbers);
-      return new File([byteArray], name, { type: type});
+      return new File([byteArray], name, {type: type});
     };
 
     const fileObjects = files.map((file) =>
@@ -95,10 +95,10 @@ export default class ChatLogic {
 
   // For converting model response to an assistant message - first chunk
   static createAssistantMessage(
-      text: string,
-      thought: string,
-      display: string,
-      fileUrls: string[],
+    text: string,
+    thought: string,
+    display: string,
+    fileUrls: string[],
   ): Message {
     const contents: Content[] = [
       {
@@ -266,18 +266,19 @@ export default class ChatLogic {
         throw new Error(content.error);
       }
 
-      let text = content.text;
+      let text = '';
       if (content.code) {
         text += `\n# Code\n\n\`\`\`\n${content.code}\n\`\`\`\n`;
       }
       if (content.code_output) {
         text += `\n# Code Output\n\n\`\`\`\n${content.code_output}\n\`\`\`\n`;
       }
+      if (content.text) {
+        text += content.text;
+      }
       let citations = content.citations;
-      if (text) {
-        if (citations) {
-          text = ChatLogic.addCitations(text, citations);
-        }
+      if (text && citations) {
+        text = ChatLogic.addCitations(text, citations);
       }
 
       return {
@@ -311,22 +312,23 @@ export default class ChatLogic {
           throw new Error(`chunk.error: ${chunk.error}`);
         }
 
-        let chunkText = chunk.text;
+        let chunkText = '';
         if (chunk.text) {
-          text += chunkText;
+          chunkText += chunk.text;
         }
         if (chunk.code) {
-          text += `\n# Code\n\n\`\`\`\n${chunk.code}\n\`\`\`\n`;
+          chunkText += `\n# Code\n\n\`\`\`\n${chunk.code}\n\`\`\`\n`;
         }
         if (chunk.code_output) {
-          text += `\n# Code Output\n\n\`\`\`\n${chunk.code_output}\n\`\`\`\n`;
+          chunkText += `\n# Code Output\n\n\`\`\`\n${chunk.code_output}\n\`\`\`\n`;
         }
+        text += chunkText;
         if (chunk.citations) {
           citations = citations.concat(chunk.citations);
         }
 
         yield {
-          text: chunk.text,
+          text: chunkText,
           thought: chunk.thought,
           files: chunk.files,
           display: chunk.display,
