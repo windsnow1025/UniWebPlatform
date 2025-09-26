@@ -36,7 +36,6 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
         <div className="flex-center">
           <AddTextButton
             setContent={(content) => setContents([...contents, content])}
-            disabled={isUploading}
           />
         </div>
 
