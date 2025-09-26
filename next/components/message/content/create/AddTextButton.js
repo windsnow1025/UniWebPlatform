@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import { ContentTypeEnum } from "../../../../client";
 
-function AddTextButton({ setContent, disabled }) {
+function AddTextButton({ setContent }) {
   const handleAddTextContent = () => {
     setContent({ type: ContentTypeEnum.Text, data: '' });
   };
@@ -14,7 +14,6 @@ function AddTextButton({ setContent, disabled }) {
       size="small"
       startIcon={<TextSnippetIcon />}
       onClick={handleAddTextContent}
-      disabled={disabled}
     >
       Add Text
     </Button>
