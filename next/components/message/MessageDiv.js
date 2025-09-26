@@ -32,7 +32,16 @@ function MessageDiv({
   };
 
   const handleContentsChange = (newContents) => {
-    setMessage({...message, contents: newContents});
+    setMessage(prevMessage => {
+      const updatedContents = typeof newContents === 'function'
+        ? newContents(prevMessage.contents)
+        : newContents;
+
+      return {
+        ...prevMessage,
+        contents: updatedContents
+      };
+    });
   };
 
   const handleDisplayChange = (newDisplay) => {
