@@ -12,16 +12,18 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleAddFiles = (fileUrls) => {
-    const newContents = [...contents];
+    setContents(prevContents => {
+      const newContents = [...prevContents];
 
-    fileUrls.forEach(fileUrl => {
-      newContents.push({
-        type: ContentTypeEnum.File,
-        data: fileUrl
+      fileUrls.forEach(fileUrl => {
+        newContents.push({
+          type: ContentTypeEnum.File,
+          data: fileUrl
+        });
       });
-    });
 
-    setContents(newContents);
+      return newContents;
+    });
 
     setConversationUpdateKey(prev => prev + 1);
   };

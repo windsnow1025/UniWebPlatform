@@ -15,7 +15,14 @@ function ChatMessagesDiv({
                          }) {
   const handleMessageUpdate = (id, updatedMessage) => {
     setMessages((prevMessages) =>
-      prevMessages.map((msg) => (msg.id === id ? updatedMessage : msg))
+      prevMessages.map((prevMessage) => {
+        if (prevMessage.id === id) {
+          return typeof updatedMessage === 'function'
+            ? updatedMessage(prevMessage)
+            : updatedMessage;
+        }
+        return prevMessage;
+      })
     );
   };
 
