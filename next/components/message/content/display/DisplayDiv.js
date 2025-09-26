@@ -7,7 +7,7 @@ function DisplayDiv({ display, setDisplay, isPreview }) {
   if (!display) return null;
 
   return (
-    <div className="flex local-scroll-scrollable pb-1">
+    <div className="flex local-scroll-scrollable my-1">
       <div
         dangerouslySetInnerHTML={{ __html: display }}
         className="flex-1 m-0.25"
