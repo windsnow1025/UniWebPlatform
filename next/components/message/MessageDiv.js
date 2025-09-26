@@ -93,7 +93,7 @@ function MessageDiv({
   return (
     <div style={{...getMessageContainerStyles(message.role), display: 'flex'}}>
       <div
-        className="px-2 py-3 rounded-lg"
+        className="p-2 rounded-lg"
         style={{
           ...getRoleBorderStyles(message.role),
           minWidth: "75%",
