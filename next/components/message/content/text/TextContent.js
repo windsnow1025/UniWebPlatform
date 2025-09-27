@@ -60,6 +60,8 @@ function TextContent({
       return;
     }
 
+    // Existing bug for Android Chrome:
+    // `textContent` loses the line breaks when text is paste by clipboard
     const newContent = desanitizeContent(contentRef.current.textContent);
     setContent(newContent);
   };
