@@ -69,7 +69,7 @@ function ConversationList({
   const [menuIndex, setMenuIndex] = useState(null);
 
   // Name editing state
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState('');
 
   // Loading state
@@ -103,6 +103,15 @@ function ConversationList({
     }
     loadConversations();
   }, [conversationLoadKey, signedIn]);
+
+  useEffect(() => {
+    if (editingId == null) return;
+    const exists = conversations.some(c => c.id === editingId);
+    if (!exists) {
+      setEditingId(null);
+      setEditingName('');
+    }
+  }, [conversations, editingId]);
 
   const loadConversations = async () => {
     setIsLoadingConversations(true);
@@ -150,8 +159,8 @@ function ConversationList({
     setSelectedConversationId(conversationId);
   };
 
-  const updateConversationName = async (index, newName) => {
-    const conversationId = conversations[index].id;
+  const updateConversationName = async (conversationId, newName) => {
+    const index = conversations.findIndex(convo => convo.id === conversationId);
 
     setLoadingConversationId(conversationId);
 
@@ -173,6 +182,12 @@ function ConversationList({
     }
 
     setLoadingConversationId(null);
+  };
+
+  const handleSaveConversationName = (conversationId) => {
+    updateConversationName(conversationId, editingName);
+    setEditingId(null);
+    setEditingName('');
   };
 
   const handleAccordionChange = (panel) => (event, isExpanded) => {
@@ -264,7 +279,7 @@ function ConversationList({
                       }}
                     >
                       <ListItemButton onClick={() => selectConversation(conv.id)}>
-                        {editingIndex === idx ? (
+                        {editingId === conv.id ? (
                           <TextField
                             value={editingName}
                             onChange={(e) => setEditingName(e.target.value)}
@@ -273,11 +288,8 @@ function ConversationList({
                             onClick={(e) => e.stopPropagation()}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') {
-                                e.preventDefault();
                                 e.stopPropagation();
-                                updateConversationName(idx, editingName);
-                                setEditingIndex(null);
-                                setEditingName('');
+                                handleSaveConversationName(conv.id);
                               }
                             }}
                             size="small"
@@ -306,13 +318,11 @@ function ConversationList({
                             )}
                           </div>
                         )}
-                        {editingIndex === idx ? (
+                        {editingId === conv.id ? (
                           <Tooltip title="Save (Enter)">
                             <IconButton onClick={(e) => {
                               e.stopPropagation();
-                              updateConversationName(idx, editingName);
-                              setEditingIndex(null);
-                              setEditingName('');
+                              handleSaveConversationName(conv.id);
                             }}>
                               <SaveOutlinedIcon/>
                             </IconButton>
@@ -321,7 +331,7 @@ function ConversationList({
                           <Tooltip title="Rename">
                             <IconButton onClick={(e) => {
                               e.stopPropagation();
-                              setEditingIndex(idx);
+                              setEditingId(conv.id);
                               setEditingName(conv.name);
                             }}>
                               <EditIcon fontSize="small"/>
