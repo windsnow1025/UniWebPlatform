@@ -162,7 +162,7 @@ function AvatarSection() {
           fullWidth
           sx={{ whiteSpace: 'nowrap' }}
         >
-          {isUpdating ? <CircularProgress size={24} /> : 'Set as Avatar'}
+          {isUpdating ? <CircularProgress size={24} /> : 'Confirm'}
         </Button>
       </div>
 

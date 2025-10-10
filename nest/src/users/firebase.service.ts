@@ -44,14 +44,18 @@ export class FirebaseService {
   }
 
   async checkEmailVerified(email: string): Promise<boolean> {
-    const user = await this.signInFirebaseUser(
-      email,
-      this.firebaseUserPassword,
-    );
-    if (!user.emailVerified) {
+    try {
+      const user = await this.signInFirebaseUser(
+        email,
+        this.firebaseUserPassword,
+      );
+      if (!user.emailVerified) {
+        return false;
+      }
+      await deleteUser(user);
+    } catch {
       return false;
     }
-    await deleteUser(user);
     return true;
   }
 

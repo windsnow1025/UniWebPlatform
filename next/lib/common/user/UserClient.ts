@@ -29,9 +29,10 @@ export default class UserClient {
     await api.usersControllerSendPasswordResetEmail({ email });
   }
 
-  async updateEmailVerified() {
+  async updateEmailVerified(): Promise<UserResDto> {
     const api = new UsersApi(getOpenAPIConfiguration());
-    await api.usersControllerUpdateEmailVerified();
+    const res = await api.usersControllerUpdateEmailVerified();
+    return res.data;
   }
 
   async updateResetPassword(email: string, password: string) {

@@ -124,7 +124,7 @@ export class UsersService {
     }
 
     if (!(await this.firebaseService.checkEmailVerified(email))) {
-      throw new UnauthorizedException('Email not verified');
+      return user;
     }
 
     user.emailVerified = true;

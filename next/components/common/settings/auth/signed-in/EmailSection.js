@@ -66,7 +66,7 @@ function EmailSection() {
 
       setEmailVerificationSent(true);
       setResendCooldown(60);
-      showAlert("Verification email sent to " + newEmail + ". Please verify your email to complete the update.", 'info');
+      showAlert("Verification email sent to " + newEmail, 'info');
     } catch (e) {
       showAlert(e.message, 'error');
     } finally {
@@ -97,7 +97,11 @@ function EmailSection() {
   const handleCheckVerification = async () => {
     try {
       setIsCheckingVerification(true);
-      await userLogic.updateEmailVerification();
+      const isVerified = await userLogic.updateEmailVerified();
+      if (!isVerified) {
+        showAlert("Email verification failed. Please check your inbox and try again.", 'error');
+        return;
+      }
       setEmailVerificationSent(false);
       showAlert("Email verification success. Redirecting...", 'success');
 
@@ -118,14 +122,14 @@ function EmailSection() {
   const isProcessing = isSendingVerification || isCheckingVerification;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="mt-4 flex-column gap-2">
       {emailVerificationSent ? (
         <>
           <Typography variant="body1" align="center" gutterBottom>
-            Verification email sent to {newEmail}
+            Verification Email Sent
           </Typography>
           <Typography variant="body2" align="center" gutterBottom>
-            Please check your inbox to verify your email. If you are not seeing the email, check your spam folder.
+            Please check your inbox (or spam folder).
           </Typography>
           <Button
             variant="contained"
