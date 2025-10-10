@@ -150,9 +150,10 @@ export default class UserLogic {
     }
   }
 
-  async updateEmailVerification() {
+  async updateEmailVerified(): Promise<boolean> {
     try {
-      await this.userClient.updateEmailVerified();
+      const user = await this.userClient.updateEmailVerified();
+      return user.emailVerified;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
