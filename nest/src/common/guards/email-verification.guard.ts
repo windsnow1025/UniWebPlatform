@@ -2,18 +2,22 @@ import {
   Injectable,
   CanActivate,
   ExecutionContext,
-  UnauthorizedException,
   ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ALLOW_UNVERIFIED_EMAIL_KEY } from '../decorators/allow-unverified-email.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { UsersService } from '../../users/users.service';
+import { UserResDto } from '../../users/dto/user.res.dto';
 
 @Injectable()
 export class EmailVerificationGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(
+    private reflector: Reflector,
+    private usersService: UsersService,
+  ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -31,11 +35,7 @@ export class EmailVerificationGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const user = request.user;
-
-    if (!user) {
-      throw new UnauthorizedException();
-    }
+    const user: UserResDto = request.user;
 
     if (!user.emailVerified) {
       throw new ForbiddenException('Email not verified');
