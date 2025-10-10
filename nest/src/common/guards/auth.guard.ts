@@ -43,9 +43,12 @@ export class AuthGuard implements CanActivate {
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       const userId = parseInt(payload.sub);
-      const user = await this.usersService.findOneById(userId);
+      let user = await this.usersService.findOneById(userId);
       if (!user) {
         throw new UnauthorizedException();
+      }
+      if (!user.emailVerified) {
+        user = await this.usersService.updateEmailVerified(user.email);
       }
       request['user'] = this.usersService.toUserDto(user);
     } catch {
