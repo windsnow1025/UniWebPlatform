@@ -7,7 +7,7 @@ import configuration from '../config/configuration';
 import { RolesGuard } from './common/guards/roles.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthGuard } from './auth/auth.guard';
+import { AuthGuard } from './common/guards/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';

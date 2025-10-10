@@ -34,7 +34,7 @@ export class EmailVerificationGuard implements CanActivate {
     const user = request.user;
 
     if (!user) {
-      throw new UnauthorizedException('User not authenticated');
+      throw new UnauthorizedException();
     }
 
     if (!user.emailVerified) {
