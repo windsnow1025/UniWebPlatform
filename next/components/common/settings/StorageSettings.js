@@ -4,11 +4,8 @@ import {
   Button,
   Checkbox,
   CircularProgress,
-  IconButton,
   Snackbar,
-  Tooltip,
-  Typography,
-  Box
+  Typography
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileLogic from "../../../lib/common/file/FileLogic";
