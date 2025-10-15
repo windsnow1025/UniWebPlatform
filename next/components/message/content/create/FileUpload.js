@@ -4,7 +4,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileLogic from "../../../../lib/common/file/FileLogic";
 
-function FileUpload({files, setFiles, isUploading, setIsUploading}) {
+function FileUpload({onFilesUpload, isUploading, setIsUploading}) {
   const fileInputRef = useRef(null);
   const folderInputRef = useRef(null);
   const fileLogic = new FileLogic();
@@ -34,8 +34,7 @@ function FileUpload({files, setFiles, isUploading, setIsUploading}) {
 
         const uploadedFileUrls = await fileLogic.uploadFiles(filesArray);
 
-        const newFiles = files.concat(uploadedFileUrls);
-        setFiles(newFiles);
+        onFilesUpload(uploadedFileUrls);
 
         setAlertMessage("Files uploaded successfully");
         setAlertSeverity('success');
