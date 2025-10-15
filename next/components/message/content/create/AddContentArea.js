@@ -8,7 +8,6 @@ import {ContentTypeEnum} from "../../../../client";
 import AddTextButton from "./AddTextButton";
 
 function AddContentArea({contents, setContents, setConversationUpdateKey}) {
-  const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
 
   const handleAddFiles = (fileUrls) => {
@@ -43,14 +42,7 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
 
         <div className="flex-center inflex-fill">
           <FileUpload
-            files={files}
-            setFiles={(newFiles) => {
-              setFiles(newFiles);
-              const addedFiles = newFiles.slice(files.length);
-              if (addedFiles.length > 0) {
-                handleAddFiles(addedFiles);
-              }
-            }}
+            onFilesUpload={handleAddFiles}
             isUploading={isUploading}
             setIsUploading={setIsUploading}
           />
