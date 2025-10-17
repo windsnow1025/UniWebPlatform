@@ -10,6 +10,8 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileLogic from "../../../lib/common/file/FileLogic";
 import FileDiv from "../../message/content/file/FileDiv";
+import FilesUpload from "../../message/content/create/FilesUpload";
+import UserLogic from "../../../lib/common/user/UserLogic";
 
 const StorageSettings = () => {
   const fileLogic = new FileLogic();
@@ -22,8 +24,24 @@ const StorageSettings = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("info");
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
   useEffect(() => {
     fetchFiles();
+  }, []);
+
+  useEffect(() => {
+    const userLogic = new UserLogic();
+    const checkAdmin = async () => {
+      try {
+        const adminStatus = await userLogic.isAdmin();
+        setIsAdmin(adminStatus);
+      } catch (e) {
+        setIsAdmin(false);
+      }
+    };
+    checkAdmin();
   }, []);
 
   const fetchFiles = async () => {
@@ -80,9 +98,25 @@ const StorageSettings = () => {
     }
   };
 
+  const handleFilesUploaded = (uploadedFileUrls) => {
+    const merged = [...files, ...uploadedFileUrls];
+    setFiles(merged);
+    setSelectedFiles(new Set());
+    setAlertMessage("Files uploaded successfully");
+    setAlertSeverity("success");
+    setAlertOpen(true);
+  };
+
   return (
     <div>
       <h2>Storage Settings</h2>
+
+      {isAdmin && (
+        <div className="flex-normal gap-2 my-2">
+          <Typography variant="body2">Upload:</Typography>
+          <FilesUpload onFilesUpload={handleFilesUploaded} isUploading={isUploading} setIsUploading={setIsUploading} />
+        </div>
+      )}
 
       {files.length > 0 && (
         <div className="flex-normal gap-2">
