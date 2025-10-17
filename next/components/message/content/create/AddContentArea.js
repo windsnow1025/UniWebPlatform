@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Box, Divider} from "@mui/material";
-import FileUpload from './FileUpload';
+import FilesUpload from './FilesUpload';
 import AudioRecord from './AudioRecord';
 import FileDropZone from './FileDropZone';
 import UrlAdd from './UrlAdd';
@@ -41,7 +41,7 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
         <Divider orientation="vertical" flexItem sx={{ml: 1}}/>
 
         <div className="flex-center inflex-fill">
-          <FileUpload
+          <FilesUpload
             onFilesUpload={handleAddFiles}
             isUploading={isUploading}
             setIsUploading={setIsUploading}
