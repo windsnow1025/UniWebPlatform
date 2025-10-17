@@ -4,7 +4,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileLogic from "../../../../lib/common/file/FileLogic";
 
-function FileUpload({onFilesUpload, isUploading, setIsUploading}) {
+function FilesUpload({onFilesUpload, isUploading, setIsUploading}) {
   const fileInputRef = useRef(null);
   const folderInputRef = useRef(null);
   const fileLogic = new FileLogic();
@@ -98,4 +98,4 @@ function FileUpload({onFilesUpload, isUploading, setIsUploading}) {
   );
 }
 
-export default FileUpload;
+export default FilesUpload;
