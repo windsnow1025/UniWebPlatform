@@ -129,20 +129,18 @@ const StorageSettings = () => {
           <Typography variant="body2">
             {selectedFiles.size > 0
               ? `${selectedFiles.size} selected`
-              : 'Select all'}
+              : 'Select All'}
           </Typography>
-          {selectedFiles.size > 0 && (
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<DeleteIcon/>}
-              onClick={handleDeleteSelected}
-              disabled={deleting}
-              size="small"
-            >
-              Delete Selected ({selectedFiles.size})
-            </Button>
-          )}
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<DeleteIcon/>}
+            onClick={handleDeleteSelected}
+            disabled={deleting || selectedFiles.size === 0}
+            size="small"
+          >
+            Delete ({selectedFiles.size})
+          </Button>
         </div>
       )}
 
