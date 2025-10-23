@@ -50,6 +50,11 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: GEMINI_PAID_API_KEY
+            - name: GEMINI_VERTEX_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: GEMINI_VERTEX_API_KEY
             - name: ANTHROPIC_API_KEY
               valueFrom:
                 secretKeyRef:
