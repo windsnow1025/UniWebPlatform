@@ -39,6 +39,7 @@ async def handle_chat_interaction(
         "GITHUB_API_KEY": os.environ.get("GITHUB_API_KEY"),
         "GEMINI_FREE_API_KEY": os.environ.get("GEMINI_FREE_API_KEY"),
         "GEMINI_PAID_API_KEY": os.environ.get("GEMINI_PAID_API_KEY"),
+        "GEMINI_VERTEX_API_KEY": os.environ.get("GEMINI_VERTEX_API_KEY"),
         "ANTHROPIC_API_KEY": os.environ.get("ANTHROPIC_API_KEY"),
         "XAI_API_KEY": os.environ.get("XAI_API_KEY"),
     }
