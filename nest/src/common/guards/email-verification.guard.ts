@@ -7,15 +7,11 @@ import {
 import { Reflector } from '@nestjs/core';
 import { ALLOW_UNVERIFIED_EMAIL_KEY } from '../decorators/allow-unverified-email.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
-import { UsersService } from '../../users/users.service';
 import { UserResDto } from '../../users/dto/user.res.dto';
 
 @Injectable()
 export class EmailVerificationGuard implements CanActivate {
-  constructor(
-    private reflector: Reflector,
-    private usersService: UsersService,
-  ) {}
+  constructor(private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
