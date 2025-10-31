@@ -1,8 +1,7 @@
 import MessageDiv from "../message/MessageDiv";
-import React from "react";
+import React, {useCallback} from "react";
 import AddMessageDivider from "./AddMessageDivider";
 import FileLogic from "../../lib/common/file/FileLogic";
-import { ContentTypeEnum } from "../../client";
 import ChatLogic from "../../lib/chat/ChatLogic";
 
 function ChatMessagesDiv({
@@ -13,7 +12,7 @@ function ChatMessagesDiv({
                            setConversationUpdateKey,
                            isTemporaryChat
                          }) {
-  const handleMessageUpdate = (id, updatedMessage) => {
+  const handleMessageUpdate = useCallback((id, updatedMessage) => {
     setMessages((prevMessages) =>
       prevMessages.map((prevMessage) => {
         if (prevMessage.id === id) {
@@ -24,25 +23,31 @@ function ChatMessagesDiv({
         return prevMessage;
       })
     );
-  };
+  }, [setMessages]);
 
-  const handleMessageDelete = async (id) => {
-    if (messages[messages.length - 1].id === id) {
-      setIsGenerating(false);
-      isGeneratingRef.current = false;
-    }
+  const handleMessageDelete = useCallback(async (id) => {
+    let fileUrlsToDelete = [];
 
-    // Find files in the message
-    const messageToDelete = messages.find(msg => msg.id === id);
-    let fileUrls = [];
-    if (messageToDelete) {
-      fileUrls = ChatLogic.getFileUrlsFromMessage(messageToDelete);
-    }
+    // Remove the message from the UI
+    setMessages((prevMessages) => {
+      // Find files in the message
+      const messageToDelete = prevMessages.find(msg => msg.id === id);
+      if (messageToDelete) {
+        fileUrlsToDelete = ChatLogic.getFileUrlsFromMessage(messageToDelete);
+      }
+
+      // Stop generating if the last message is deleted
+      if (prevMessages.length > 0 && prevMessages[prevMessages.length - 1].id === id) {
+        setIsGenerating(false);
+        isGeneratingRef.current = false;
+      }
+      return prevMessages.filter((msg) => msg.id !== id);
+    });
 
     // Delete the files from storage
-    if (fileUrls.length > 0) {
+    if (fileUrlsToDelete.length > 0) {
       try {
-        const fileNames = FileLogic.getFileNamesFromUrls(fileUrls);
+        const fileNames = FileLogic.getFileNamesFromUrls(fileUrlsToDelete);
         const fileLogic = new FileLogic();
         await fileLogic.deleteFiles(fileNames);
       } catch (error) {
@@ -50,10 +55,9 @@ function ChatMessagesDiv({
       }
     }
 
-    // Remove the message from the UI
-    setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== id));
     setConversationUpdateKey(prev => prev + 1);
-  };
+
+  }, [setMessages, setIsGenerating, isGeneratingRef, setConversationUpdateKey]);
 
   return (
     <div>
@@ -69,8 +73,8 @@ function ChatMessagesDiv({
         <div key={message.id}>
           <MessageDiv
             message={message}
-            setMessage={(updatedMessage) => handleMessageUpdate(message.id, updatedMessage)}
-            onMessageDelete={() => handleMessageDelete(message.id)}
+            setMessage={handleMessageUpdate}
+            onMessageDelete={handleMessageDelete}
             setConversationUpdateKey={setConversationUpdateKey}
             isTemporaryChat={isTemporaryChat}
             isGeneratingRef={isGeneratingRef}

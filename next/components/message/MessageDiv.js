@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {IconButton, lighten, Tooltip} from "@mui/material";
+import {IconButton, Tooltip} from "@mui/material";
 import RoleSelect from './role/RoleSelect';
 import DisplayDiv from "./content/display/DisplayDiv";
 import ThoughtDiv from "./content/thought/ThoughtDiv";
@@ -12,27 +12,33 @@ import {RawEditableState} from "../../lib/common/message/EditableState";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import usePropsChangeLogger from "../../hooks/usePropsChangeLogger";
 
-function MessageDiv({
-                      message,
-                      setMessage,
-                      onMessageDelete,
-                      setConversationUpdateKey,
-                      isTemporaryChat,
-                      isGeneratingRef,
-                    }) {
+function MessageDiv(props) {
+  const {
+    message,
+    setMessage,
+    onMessageDelete,
+    setConversationUpdateKey,
+    isTemporaryChat,
+    isGeneratingRef,
+  } = props;
+
+  usePropsChangeLogger(`MessageDiv: ${message.id}`, props);
+
   const theme = useTheme();
   const [showPreview, setShowPreview] = useState(message.role !== MessageRoleEnum.User);
+  // console.log(`[MessageDiv] re-rendered: id=${message?.id}, role=${message?.role}, contents=${message.contents[0].data}`);
 
   const handleRoleChange = (newRole) => {
-    setMessage({...message, role: newRole});
+    setMessage(message.id, {...message, role: newRole});
     setShowPreview(newRole !== MessageRoleEnum.User);
 
     setConversationUpdateKey(prev => prev + 1);
   };
 
   const handleContentsChange = (newContents) => {
-    setMessage(prevMessage => {
+    setMessage(message.id, prevMessage => {
       const updatedContents = typeof newContents === 'function'
         ? newContents(prevMessage.contents)
         : newContents;
@@ -45,11 +51,11 @@ function MessageDiv({
   };
 
   const handleDisplayChange = (newDisplay) => {
-    setMessage({...message, display: newDisplay});
+    setMessage(message.id, {...message, display: newDisplay});
   };
 
   const handleThoughtChange = (newThought) => {
-    setMessage({...message, thought: newThought});
+    setMessage(message.id, {...message, thought: newThought});
   };
 
   const getRoleBorderStyles = (role) => {
@@ -70,7 +76,7 @@ function MessageDiv({
         return {};
     }
   };
-  
+
   const getMessageContainerStyles = (role) => {
     switch (role) {
       case MessageRoleEnum.User:
@@ -129,7 +135,7 @@ function MessageDiv({
             </Tooltip>
           )}
           <Tooltip title="Delete Message">
-            <IconButton size="small" onClick={onMessageDelete}>
+            <IconButton size="small" onClick={() => onMessageDelete(message.id)}>
               <RemoveCircleOutlineIcon fontSize="small"/>
             </IconButton>
           </Tooltip>
@@ -168,4 +174,4 @@ function MessageDiv({
   );
 }
 
-export default MessageDiv;
+export default memo(MessageDiv);
