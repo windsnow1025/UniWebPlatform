@@ -42,7 +42,7 @@ function AccountDiv() {
 
       <TabContext value={tabValue}>
         <Grid container>
-          <Grid item sx={{ borderRight: 1, borderColor: 'divider' }}>
+          <Grid sx={{ borderRight: 1, borderColor: 'divider' }}>
             <div className="p-4 flex flex-col items-center">
               <AvatarSection/>
             </div>
@@ -59,7 +59,7 @@ function AccountDiv() {
             </Tabs>
           </Grid>
 
-          <Grid item>
+          <Grid>
             <TabPanel value="0">
               <Typography variant="h6" gutterBottom>
                 Email Settings
