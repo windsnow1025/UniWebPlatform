@@ -22,7 +22,7 @@ function ThoughtDiv({ thought, setThought, isPreview, isLoading }) {
       <div className="flex-center">
         <Typography variant="h6" className="pl-2">Thought</Typography>
         <div className="flex-1">
-          {!isLoading && (
+          {isLoading && (
             <CircularProgress size={14} thickness={6} className="ml-2" />
           )}
         </div>

@@ -35,6 +35,9 @@ function AIChat({
   const [isGenerating, setIsGenerating] = useState(false);
   const isGeneratingRef = useRef(false);
 
+  // Thought Loading
+  const [isLastChunkThought, setIsLastChunkThought] = useState(false);
+
   // Conversation
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [conversationUpdateKey, setConversationUpdateKey] = useState(0);
@@ -126,10 +129,12 @@ function AIChat({
               <ChatMessagesDiv
                 messages={messages}
                 setMessages={setMessages}
+                isGenerating={isGenerating}
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
                 setConversationUpdateKey={setConversationUpdateKey}
                 isTemporaryChat={isTemporaryChat}
+                isLastChunkThought={isLastChunkThought}
               />
             ) : (
               <div className="flex-around h-full">
@@ -161,6 +166,7 @@ function AIChat({
                 isGenerating={isGenerating}
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
+                setIsLastChunkThought={setIsLastChunkThought}
                 setConversationUpdateKey={setConversationUpdateKey}
                 setCreditRefreshKey={setCreditRefreshKey}
                 handleGenerateRef={handleGenerateRef}

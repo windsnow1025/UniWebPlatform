@@ -7,10 +7,12 @@ import ChatLogic from "../../lib/chat/ChatLogic";
 function ChatMessagesDiv({
                            messages,
                            setMessages,
+                           isGenerating,
                            setIsGenerating,
                            isGeneratingRef,
                            setConversationUpdateKey,
-                           isTemporaryChat
+                           isTemporaryChat,
+                           isLastChunkThought,
                          }) {
   const handleMessageUpdate = useCallback((id, updatedMessage) => {
     setMessages((prevMessages) =>
@@ -69,26 +71,31 @@ function ChatMessagesDiv({
         isGeneratingRef={isGeneratingRef}
         setConversationUpdateKey={setConversationUpdateKey}
       />
-      {messages.map((message, index) => (
-        <div key={message.id}>
-          <MessageDiv
-            message={message}
-            setMessage={handleMessageUpdate}
-            onMessageDelete={handleMessageDelete}
-            setConversationUpdateKey={setConversationUpdateKey}
-            isTemporaryChat={isTemporaryChat}
-            isGeneratingRef={isGeneratingRef}
-          />
-          <AddMessageDivider
-            messages={messages}
-            setMessages={setMessages}
-            index={index}
-            setIsGenerating={setIsGenerating}
-            isGeneratingRef={isGeneratingRef}
-            setConversationUpdateKey={setConversationUpdateKey}
-          />
-        </div>
-      ))}
+      {messages.map((message, index) => {
+          const isLastMessage = index === messages.length - 1;
+          const isThoughtLoading = isLastMessage && isGenerating && isLastChunkThought;
+          return (
+            <div key={message.id}>
+              <MessageDiv
+                message={message}
+                setMessage={handleMessageUpdate}
+                onMessageDelete={handleMessageDelete}
+                setConversationUpdateKey={setConversationUpdateKey}
+                isTemporaryChat={isTemporaryChat}
+                isThoughtLoading={isThoughtLoading}
+              />
+              <AddMessageDivider
+                messages={messages}
+                setMessages={setMessages}
+                index={index}
+                setIsGenerating={setIsGenerating}
+                isGeneratingRef={isGeneratingRef}
+                setConversationUpdateKey={setConversationUpdateKey}
+              />
+            </div>
+          )
+        }
+      )}
     </div>
   );
 }
