@@ -7,12 +7,11 @@ import DisplayDiv from "./content/display/DisplayDiv";
 import ThoughtDiv from "./content/thought/ThoughtDiv";
 import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
-import {MessageRoleEnum, ContentTypeEnum} from "../../client";
+import {MessageRoleEnum} from "../../client";
 import {RawEditableState} from "../../lib/common/message/EditableState";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import usePropsChangeLogger from "../../hooks/usePropsChangeLogger";
 
 function MessageDiv(props) {
   const {
@@ -21,14 +20,14 @@ function MessageDiv(props) {
     onMessageDelete,
     setConversationUpdateKey,
     isTemporaryChat,
-    isGeneratingRef,
+    isThoughtLoading,
   } = props;
 
-  usePropsChangeLogger(`MessageDiv: ${message.id}`, props);
+  // import usePropsChangeLogger from "../../hooks/usePropsChangeLogger";
+  // usePropsChangeLogger(`MessageDiv: ${message.id}`, props);
 
   const theme = useTheme();
   const [showPreview, setShowPreview] = useState(message.role !== MessageRoleEnum.User);
-  // console.log(`[MessageDiv] re-rendered: id=${message?.id}, role=${message?.role}, contents=${message.contents[0].data}`);
 
   const handleRoleChange = (newRole) => {
     setMessage(message.id, {...message, role: newRole});
@@ -101,10 +100,6 @@ function MessageDiv(props) {
 
   const rawEditableState = showPreview ? RawEditableState.AlwaysFalse : RawEditableState.AlwaysTrue;
 
-  const hasText = Array.isArray(message.contents) && message.contents.some(c => c.type === ContentTypeEnum.Text && c.data && String(c.data).length > 0);
-
-  const thoughtIsLoading = hasText || (isGeneratingRef ? !isGeneratingRef.current : false);
-
   return (
     <div style={{...getMessageContainerStyles(message.role), display: 'flex'}}>
       <div
@@ -145,7 +140,7 @@ function MessageDiv(props) {
           thought={message.thought}
           setThought={handleThoughtChange}
           isPreview={showPreview}
-          isLoading={thoughtIsLoading}
+          isLoading={isThoughtLoading}
         />
 
         <SortableContents

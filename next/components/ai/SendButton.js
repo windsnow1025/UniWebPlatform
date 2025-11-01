@@ -8,6 +8,7 @@ function SendButton({
                       isGenerating,
                       setIsGenerating,
                       isGeneratingRef,
+                      setIsLastChunkThought,
                       setConversationUpdateKey,
                       setCreditRefreshKey,
                       handleGenerateRef,
@@ -85,6 +86,9 @@ function SendButton({
         );
         break;
       }
+
+      // For thought loading status
+      setIsLastChunkThought(!!(chunk.thought && !chunk.text));
 
       const fileUrls = await ChatLogic.getFileUrls(chunk.files || []);
 
