@@ -18,11 +18,9 @@ import {defaultAPIBaseURLs} from "../../../lib/common/APIConfig";
 const STORAGE_SELECTED_KEY = "apiBaseURLs";
 const STORAGE_OPTIONS_KEY = "apiBaseURLsOptions";
 
-const emptyOptions = {nest: [], fastAPI: []};
-
 const DeveloperSettings = () => {
   const [apiBaseURLs, setApiBaseURLs] = useState(defaultAPIBaseURLs);
-  const [options, setOptions] = useState(emptyOptions);
+  const [options, setOptions] = useState({nest: [], fastAPI: []});
   const [newOption, setNewOption] = useState({nest: "", fastAPI: ""});
 
   const [alertOpen, setAlertOpen] = useState(false);
