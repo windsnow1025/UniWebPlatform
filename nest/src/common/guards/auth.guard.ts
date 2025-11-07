@@ -47,7 +47,7 @@ export class AuthGuard implements CanActivate {
       if (!user) {
         throw new UnauthorizedException();
       }
-      if (!user.emailVerified) {
+      if (user.email && !user.emailVerified) {
         user = await this.usersService.updateEmailVerified(user.email);
       }
       request['user'] = this.usersService.toUserDto(user);

@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   Inject,
   Injectable,
@@ -60,6 +59,10 @@ export class UsersService {
   }
 
   async findOneById(id: number) {
+    if (!id) {
+      throw new UnauthorizedException();
+    }
+
     const cacheKey = this.getUserCacheKey(id);
     let user = await this.cacheManager.get<User>(cacheKey);
     if (user) {
@@ -74,10 +77,16 @@ export class UsersService {
   }
 
   findOneByUsername(username: string) {
+    if (!username) {
+      throw new UnauthorizedException();
+    }
     return this.usersRepository.findOneBy({ username });
   }
 
   findOneByEmail(email: string) {
+    if (!email) {
+      throw new UnauthorizedException();
+    }
     return this.usersRepository.findOneBy({ email });
   }
 
