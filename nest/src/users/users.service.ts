@@ -239,10 +239,6 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    if (user.credit < amount) {
-      throw new BadRequestException('Insufficient credit');
-    }
-
     user.credit -= amount;
 
     await this.cacheManager.del(this.getUserCacheKey(id));
