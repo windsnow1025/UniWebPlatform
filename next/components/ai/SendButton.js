@@ -88,7 +88,12 @@ function SendButton({
       }
 
       // For thought loading status
-      setIsLastChunkThought(!!(chunk.thought && !chunk.text));
+      if (chunk.thought) {
+        setIsLastChunkThought(true);
+      }
+      if (chunk.text) {
+        setIsLastChunkThought(false);
+      }
 
       const fileUrls = await ChatLogic.getFileUrls(chunk.files || []);
 
