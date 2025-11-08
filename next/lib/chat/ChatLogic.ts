@@ -307,21 +307,48 @@ export default class ChatLogic {
       let text = "";
       let citations: Citation[] = [];
 
+      let openSection: 'code' | 'code_output' | null = null;
+
       for await (const chunk of response) {
         if (chunk.error) {
           throw new Error(`chunk.error: ${chunk.error}`);
         }
 
         let chunkText = '';
+
+        // Text section
         if (chunk.text) {
+          if (openSection) {
+            chunkText += '\n```\n';
+            openSection = null;
+          }
           chunkText += chunk.text;
         }
+
+        // Code section
         if (chunk.code) {
-          chunkText += `\n# Code\n\n\`\`\`\n${chunk.code}\n\`\`\`\n`;
+          if (openSection && openSection !== 'code') {
+            chunkText += '\n```\n';
+          }
+          if (openSection !== 'code') {
+            chunkText += '\n# Code\n\n```\n';
+            openSection = 'code';
+          }
+          chunkText += chunk.code;
         }
+
+        // Code Output section
         if (chunk.code_output) {
-          chunkText += `\n# Code Output\n\n\`\`\`\n${chunk.code_output}\n\`\`\`\n`;
+          if (openSection && openSection !== 'code_output') {
+            chunkText += '\n```\n';
+          }
+          if (openSection !== 'code_output') {
+            chunkText += '\n# Code Output\n\n```\n';
+            openSection = 'code_output';
+          }
+          chunkText += chunk.code_output;
         }
+
         text += chunkText;
         if (chunk.citations) {
           citations = citations.concat(chunk.citations);
@@ -333,6 +360,10 @@ export default class ChatLogic {
           files: chunk.files,
           display: chunk.display,
         }
+      }
+
+      if (openSection) {
+        text += '\n```\n';
       }
 
       yield ChatLogic.addCitations(text, citations);
