@@ -8,9 +8,13 @@ Authorization: {{token}}
   "messages": [
     {
       "role": "user",
-      "text": "Say this is a test.",
-      "files": []
+      "contents": [
+        {
+          "type": "text",
+          "data": "Explain the concept of Occam's Razor and provide a simple, everyday example."
+        }
+      ]
     }
   ],
-  "api_type": "OpenAI"
+  "api_type": "Claude"
 }
