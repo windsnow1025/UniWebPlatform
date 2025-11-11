@@ -91,7 +91,7 @@ function SendButton({
       if (chunk.thought) {
         setIsLastChunkThought(true);
       }
-      if (chunk.text) {
+      if (chunk.text || chunk.files || chunk.display) {
         setIsLastChunkThought(false);
       }
 
