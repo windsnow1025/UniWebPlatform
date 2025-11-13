@@ -90,8 +90,7 @@ function SendButton({
       // For thought loading status
       if (chunk.thought) {
         setIsLastChunkThought(true);
-      }
-      if (chunk.text || chunk.files || chunk.display) {
+      } else if (chunk.text || (chunk.files && chunk.files.length !== 0) || chunk.display) {
         setIsLastChunkThought(false);
       }
 
