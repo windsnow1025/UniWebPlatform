@@ -2,6 +2,7 @@ import {Alert, Box, Divider, Menu, MenuItem, Snackbar} from "@mui/material";
 import {
   DeleteOutlined as DeleteOutlinedIcon,
   Share as ShareIcon,
+  SaveOutlined as SaveOutlinedIcon,
 } from '@mui/icons-material';
 import React, {useState} from "react";
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
@@ -9,6 +10,7 @@ import ChatLogic from "../../../lib/chat/ChatLogic";
 import FileLogic from "../../../lib/common/file/FileLogic";
 import {COLOR_LABELS} from "./constants/ColorLabels";
 import ShareConversationDialog from "./ShareConversationDialog";
+import SaveAsConversationDialog from "./SaveAsConversationDialog";
 
 function ConversationMenu({
                             conversationIndex,
@@ -37,6 +39,10 @@ function ConversationMenu({
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(null);
 
+  // Save As dialog state
+  const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
+  const [saveAsConversationIndex, setSaveAsConversationIndex] = useState(null);
+
   const handleMenuClose = () => {
     setAnchorEl(null);
     setMenuIndex(null);
@@ -45,6 +51,11 @@ function ConversationMenu({
   const openShareDialog = (index) => {
     setSelectedConversationIndex(index);
     setShareDialogOpen(true);
+  };
+
+  const openSaveAsDialog = (index) => {
+    setSaveAsConversationIndex(index);
+    setSaveAsDialogOpen(true);
   };
 
   const deleteConversation = async (index) => {
@@ -128,6 +139,14 @@ function ConversationMenu({
       >
         <MenuItem onClick={(e) => {
           e.stopPropagation();
+          openSaveAsDialog(conversationIndex);
+          handleMenuClose();
+        }}>
+          <SaveOutlinedIcon fontSize="small" className="mr-1"/>
+          Save As
+        </MenuItem>
+        <MenuItem onClick={(e) => {
+          e.stopPropagation();
           openShareDialog(conversationIndex);
           handleMenuClose();
         }}>
@@ -160,6 +179,23 @@ function ConversationMenu({
         open={shareDialogOpen}
         onClose={() => setShareDialogOpen(false)}
         conversationId={conversations[selectedConversationIndex]?.id}
+      />
+
+      <SaveAsConversationDialog
+        open={saveAsDialogOpen}
+        onClose={() => setSaveAsDialogOpen(false)}
+        conversationId={conversations[saveAsConversationIndex]?.id}
+        defaultName={(conversations[saveAsConversationIndex]?.name) + ' Copy'}
+        onSaved={(newConversation) => {
+          if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
+            handleGenerateRef.current();
+          }
+
+          setConversations(prev => [newConversation, ...prev]);
+          setSelectedConversationId(newConversation.id);
+          setMessages(newConversation.messages);
+          setConversationLoadKey(prev => prev + 1);
+        }}
       />
 
       <Snackbar
