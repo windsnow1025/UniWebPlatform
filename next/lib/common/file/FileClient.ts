@@ -20,6 +20,12 @@ export default class FileClient {
     return response.data.urls;
   }
 
+  async getStorageUrl(): Promise<string> {
+    const api = new FilesApi(getOpenAPIConfiguration());
+    const response = await api.filesControllerGetMinioWebUrl();
+    return response.data.webUrl;
+  }
+
   async cloneFiles(filenames: string[]): Promise<string[]> {
     const api = new FilesApi(getOpenAPIConfiguration());
     const response = await api.filesControllerCloneFiles({
