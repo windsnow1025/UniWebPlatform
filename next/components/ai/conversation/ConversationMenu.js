@@ -90,6 +90,9 @@ function ConversationMenu({
         }
       }
 
+      // Remove the conversation in UI
+      setConversations((prevConversations) => prevConversations.filter(c => c.id !== conversationId));
+
       setConversationLoadKey(prev => prev + 1);
       setAlertOpen(true);
       setAlertMessage('Conversation deleted');
