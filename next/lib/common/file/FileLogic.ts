@@ -47,6 +47,18 @@ export default class FileLogic {
     }
   }
 
+  async cloneFiles(filenames: string[]): Promise<string[]> {
+    try {
+      return await this.fileService.cloneFiles(filenames);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
+      console.error(error);
+      throw new Error('Failed to clone files');
+    }
+  }
+
   async fetchFiles(): Promise<string[]> {
     try {
       return await this.fileService.fetchFiles();
