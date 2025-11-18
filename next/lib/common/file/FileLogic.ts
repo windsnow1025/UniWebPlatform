@@ -9,27 +9,27 @@ export default class FileLogic {
     this.fileService = new FileClient();
   }
 
-  static getFileNameFromUrl(url: string): string {
+  static getFilenameFromUrl(url: string): string {
     return url.split('/').pop() || '';
   }
 
-  static getFileNamesFromUrls(fileUrls: string[]): string[] {
+  static getFilenamesFromUrls(fileUrls: string[]): string[] {
     return fileUrls.map(url => url.split('/').pop() || '');
   }
 
-  static getServerFileNameFromUrl(url: string): string | null {
+  static getServerFilenameFromUrl(url: string): string | null {
     const fileUrl = new URL(url);
     const nestUrl = new URL(getAPIBaseURLs().nest);
     if (fileUrl.origin !== nestUrl.origin) {
       return null;
     }
 
-    return FileLogic.getFileNameFromUrl(url);
+    return FileLogic.getFilenameFromUrl(url);
   }
   
-  static getServerFileNamesFromUrls(fileUrls: string[]): string[] {
+  static getServerFilenamesFromUrls(fileUrls: string[]): string[] {
     return fileUrls
-      .map(url => FileLogic.getServerFileNameFromUrl(url))
+      .map(url => FileLogic.getServerFilenameFromUrl(url))
       .filter((fileName): fileName is string => fileName !== null);
   }
 

@@ -83,7 +83,7 @@ const StorageSettings = () => {
 
     setDeleting(true);
     try {
-      const fileNames = FileLogic.getFileNamesFromUrls(Array.from(selectedFiles));
+      const fileNames = FileLogic.getFilenamesFromUrls(Array.from(selectedFiles));
       await fileLogic.deleteFiles(fileNames);
       fetchFiles();
       setAlertMessage(`${selectedFiles.size} file(s) deleted successfully`);
