@@ -2066,6 +2066,39 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        filesControllerGetMinioWebUrl: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/files/web-url`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         filesControllerUploadFiles: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/files`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2144,6 +2177,17 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async filesControllerGetMinioWebUrl(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerGetMinioWebUrl(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.filesControllerGetMinioWebUrl']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async filesControllerUploadFiles(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerUploadFiles(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -2185,6 +2229,14 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
          */
         filesControllerGetFiles(options?: RawAxiosRequestConfig): AxiosPromise<FilesResDto> {
             return localVarFp.filesControllerGetFiles(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        filesControllerGetMinioWebUrl(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.filesControllerGetMinioWebUrl(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2234,6 +2286,16 @@ export class FilesApi extends BaseAPI {
      */
     public filesControllerGetFiles(options?: RawAxiosRequestConfig) {
         return FilesApiFp(this.configuration).filesControllerGetFiles(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilesApi
+     */
+    public filesControllerGetMinioWebUrl(options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).filesControllerGetMinioWebUrl(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

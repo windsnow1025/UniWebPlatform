@@ -7,6 +7,10 @@ export class FilesService {
 
   constructor(private readonly minioService: MinioService) {}
 
+  getWebUrl(): string {
+    return this.minioService.getWebUrl();
+  }
+
   getFileUrl(fullFilename: string): string {
     return this.minioService.getFileUrl(fullFilename);
   }

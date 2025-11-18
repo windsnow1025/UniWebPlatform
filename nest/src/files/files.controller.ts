@@ -26,6 +26,11 @@ const multerOptions: MulterOptions = {
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
+  @Get('web-url')
+  getMinioWebUrl() {
+    return { webUrl: this.filesService.getWebUrl() };
+  }
+
   @Post()
   @UseInterceptors(AnyFilesInterceptor(multerOptions))
   async uploadFiles(
