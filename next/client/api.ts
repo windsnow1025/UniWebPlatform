@@ -580,6 +580,19 @@ export interface UserUsernameReqDto {
      */
     'username': string;
 }
+/**
+ * 
+ * @export
+ * @interface WebUrlResDto
+ */
+export interface WebUrlResDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof WebUrlResDto
+     */
+    'webUrl': string;
+}
 
 /**
  * AnnouncementApi - axios parameter creator
@@ -2177,7 +2190,7 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async filesControllerGetMinioWebUrl(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async filesControllerGetMinioWebUrl(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebUrlResDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerGetMinioWebUrl(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FilesApi.filesControllerGetMinioWebUrl']?.[localVarOperationServerIndex]?.url;
@@ -2235,7 +2248,7 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        filesControllerGetMinioWebUrl(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        filesControllerGetMinioWebUrl(options?: RawAxiosRequestConfig): AxiosPromise<WebUrlResDto> {
             return localVarFp.filesControllerGetMinioWebUrl(options).then((request) => request(axios, basePath));
         },
         /**

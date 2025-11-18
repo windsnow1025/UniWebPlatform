@@ -12,7 +12,7 @@ import {
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
-import { FilesResDto } from './dto/files.res.dto';
+import { FilesResDto, WebUrlResDto } from './dto/files.res.dto';
 import { FilesReqDto } from './dto/files.req.dto';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 
@@ -27,7 +27,7 @@ export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
   @Get('web-url')
-  getMinioWebUrl() {
+  getMinioWebUrl(): WebUrlResDto {
     return { webUrl: this.filesService.getWebUrl() };
   }
 
