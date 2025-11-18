@@ -5,3 +5,7 @@ export class FilesResDto {
   @IsString({ each: true })
   urls: string[];
 }
+
+export class WebUrlResDto {
+  webUrl: string;
+}
