@@ -4,6 +4,7 @@ import {getAPIBaseURLs} from "@/lib/common/APIConfig";
 
 export default class FileLogic {
   private fileService: FileClient;
+  private webUrlOrigin?: string;
 
   constructor() {
     this.fileService = new FileClient();
@@ -17,20 +18,31 @@ export default class FileLogic {
     return fileUrls.map(url => url.split('/').pop() || '');
   }
 
-  static getServerFilenameFromUrl(url: string): string | null {
-    const fileUrl = new URL(url);
-    const nestUrl = new URL(getAPIBaseURLs().nest);
-    if (fileUrl.origin !== nestUrl.origin) {
+  static getStorageFilenameFromUrl(url: string, storageUrl: string): string | null {
+    if (url.includes(storageUrl)) {
       return null;
     }
 
     return FileLogic.getFilenameFromUrl(url);
   }
   
-  static getServerFilenamesFromUrls(fileUrls: string[]): string[] {
+  async getServerFilenamesFromUrls(fileUrls: string[]): Promise<string[]> {
+    const storageUrl = await this.getStorageUrl();
     return fileUrls
-      .map(url => FileLogic.getServerFilenameFromUrl(url))
+      .map(url => FileLogic.getStorageFilenameFromUrl(url, storageUrl))
       .filter((fileName): fileName is string => fileName !== null);
+  }
+
+  async getStorageUrl() {
+    try {
+      return await this.fileService.getStorageUrl();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      }
+      console.error(error);
+      throw new Error('Failed to get storage URL');
+    }
   }
 
   async uploadFiles(files: File[]) {
