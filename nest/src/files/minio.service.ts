@@ -63,6 +63,21 @@ export class MinioService implements OnModuleInit {
     return `${this.webUrl}/${this.bucketName}/${fileName}`;
   }
 
+  async getTotalSize(prefix: string): Promise<number> {
+    const objects = await this.minioClient
+      .listObjects(this.bucketName, prefix, true)
+      .toArray();
+    return objects.reduce((acc, obj) => acc + (obj.size || 0), 0);
+  }
+
+  async getObjectSize(fullFilename: string): Promise<number> {
+    const stat = await this.minioClient.statObject(
+      this.bucketName,
+      fullFilename,
+    );
+    return stat.size;
+  }
+
   async uploadFile(
     fullFilename: string,
     buffer: Buffer,
@@ -86,6 +101,18 @@ export class MinioService implements OnModuleInit {
     }
   }
 
+  async copyObject(
+    sourceFullFilename: string,
+    targetFullFilename: string,
+  ): Promise<void> {
+    const srcPath = `/${this.bucketName}/${sourceFullFilename}`;
+    await this.minioClient.copyObject(
+      this.bucketName,
+      targetFullFilename,
+      srcPath,
+    );
+  }
+
   async listObjects(prefix: string): Promise<string[]> {
     const objects = await this.minioClient
       .listObjects(this.bucketName, prefix, true)
@@ -95,12 +122,5 @@ export class MinioService implements OnModuleInit {
 
   async removeObject(fileName: string): Promise<void> {
     await this.minioClient.removeObject(this.bucketName, fileName);
-  }
-
-  async getTotalSize(prefix: string): Promise<number> {
-    const objects = await this.minioClient
-      .listObjects(this.bucketName, prefix, true)
-      .toArray();
-    return objects.reduce((acc, obj) => acc + (obj.size || 0), 0);
   }
 }

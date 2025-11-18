@@ -37,20 +37,42 @@ export class FilesController {
     const currentTotalSize = await this.filesService.getUserTotalSize(userId);
     const newFilesTotalSize = files.reduce((acc, file) => acc + file.size, 0);
 
-    const maxTotalSize = 256 * 1024 * 1024; // 256MB
-    if (currentTotalSize + newFilesTotalSize > maxTotalSize) {
+    if (currentTotalSize + newFilesTotalSize > this.filesService.maxTotalSize) {
       throw new PayloadTooLargeException(
-        `Total file size limit exceeded. Max allowed: ${maxTotalSize / (1024 * 1024)}MB`,
+        `Total file size limit exceeded. Max allowed: ${this.filesService.maxTotalSize / (1024 * 1024)}MB`,
       );
     }
 
-    const fileUrls = await Promise.all(
-      files.map(async (file) => {
-        const fullFilename = await this.filesService.create(userId, file);
-        return this.filesService.getFileUrl(fullFilename);
-      }),
+    const fullFilenames = await this.filesService.createFiles(userId, files);
+    const fileUrls = this.filesService.getFileUrls(fullFilenames);
+
+    return { urls: fileUrls };
+  }
+
+  @Post('clone')
+  async cloneFiles(
+    @Req() req: RequestWithUser,
+    @Body() cloneFilesReqDto: FilesReqDto,
+  ): Promise<FilesResDto> {
+    const userId = req.user.id;
+
+    const currentTotalSize = await this.filesService.getUserTotalSize(userId);
+    const filesToCloneSize = await this.filesService.getFilesSize(
+      userId,
+      cloneFilesReqDto.filenames,
     );
 
+    if (currentTotalSize + filesToCloneSize > this.filesService.maxTotalSize) {
+      throw new PayloadTooLargeException(
+        `Total file size limit exceeded. Max allowed: ${this.filesService.maxTotalSize / (1024 * 1024)}MB`,
+      );
+    }
+
+    const newFullFilenames = await this.filesService.cloneFiles(
+      userId,
+      cloneFilesReqDto.filenames,
+    );
+    const fileUrls = this.filesService.getFileUrls(newFullFilenames);
     return { urls: fileUrls };
   }
 
@@ -58,10 +80,8 @@ export class FilesController {
   async getFiles(@Req() req: RequestWithUser): Promise<FilesResDto> {
     const userId = req.user.id;
 
-    const files = await this.filesService.findAll(userId);
-    const fileUrls = files.map((fileName) =>
-      this.filesService.getFileUrl(fileName),
-    );
+    const fullFilenames = await this.filesService.getUserFullFilenames(userId);
+    const fileUrls = this.filesService.getFileUrls(fullFilenames);
 
     return { urls: fileUrls };
   }
