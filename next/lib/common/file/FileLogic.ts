@@ -17,22 +17,19 @@ export default class FileLogic {
     return fileUrls.map(url => url.split('/').pop() || '');
   }
 
-  static getOriginalFileNameFromUrl(url: string): string | null {
-    // Skip file not from the Nest server
+  static getServerFileNameFromUrl(url: string): string | null {
     const fileUrl = new URL(url);
     const nestUrl = new URL(getAPIBaseURLs().nest);
     if (fileUrl.origin !== nestUrl.origin) {
       return null;
     }
 
-    const fileName = FileLogic.getFileNameFromUrl(url);
-
-    return fileName.replace(/^\d{13,}-/, "");
+    return FileLogic.getFileNameFromUrl(url);
   }
   
-  static getOriginalFileNamesFromUrls(fileUrls: string[]): string[] {
+  static getServerFileNamesFromUrls(fileUrls: string[]): string[] {
     return fileUrls
-      .map(url => FileLogic.getOriginalFileNameFromUrl(url))
+      .map(url => FileLogic.getServerFileNameFromUrl(url))
       .filter((fileName): fileName is string => fileName !== null);
   }
 
