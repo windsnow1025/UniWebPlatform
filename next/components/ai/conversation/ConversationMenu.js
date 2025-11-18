@@ -82,7 +82,7 @@ function ConversationMenu({
       // Delete the files from storage
       if (fileUrls.length > 0) {
         try {
-          const fileNames = FileLogic.getFileNamesFromUrls(fileUrls);
+          const fileNames = FileLogic.getFilenamesFromUrls(fileUrls);
           const fileLogic = new FileLogic();
           await fileLogic.deleteFiles(fileNames);
         } catch (fileError) {

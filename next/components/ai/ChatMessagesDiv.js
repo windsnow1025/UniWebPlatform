@@ -49,7 +49,7 @@ function ChatMessagesDiv({
     // Delete the files from storage
     if (fileUrlsToDelete.length > 0) {
       try {
-        const fileNames = FileLogic.getFileNamesFromUrls(fileUrlsToDelete);
+        const fileNames = FileLogic.getFilenamesFromUrls(fileUrlsToDelete);
         const fileLogic = new FileLogic();
         await fileLogic.deleteFiles(fileNames);
       } catch (error) {
