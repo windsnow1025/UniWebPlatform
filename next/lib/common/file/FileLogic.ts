@@ -1,5 +1,6 @@
 import FileClient from "./FileClient";
 import axios from "axios";
+import {getAPIBaseURLs} from "@/lib/common/APIConfig";
 
 export default class FileLogic {
   private fileService: FileClient;
@@ -14,6 +15,25 @@ export default class FileLogic {
 
   static getFileNamesFromUrls(fileUrls: string[]): string[] {
     return fileUrls.map(url => url.split('/').pop() || '');
+  }
+
+  static getOriginalFileNameFromUrl(url: string): string | null {
+    // Skip file not from the Nest server
+    const fileUrl = new URL(url);
+    const nestUrl = new URL(getAPIBaseURLs().nest);
+    if (fileUrl.origin !== nestUrl.origin) {
+      return null;
+    }
+
+    const fileName = FileLogic.getFileNameFromUrl(url);
+
+    return fileName.replace(/^\d{13,}-/, "");
+  }
+  
+  static getOriginalFileNamesFromUrls(fileUrls: string[]): string[] {
+    return fileUrls
+      .map(url => FileLogic.getOriginalFileNameFromUrl(url))
+      .filter((fileName): fileName is string => fileName !== null);
   }
 
   async uploadFiles(files: File[]) {
