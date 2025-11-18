@@ -19,15 +19,14 @@ export default class FileLogic {
   }
 
   static getStorageFilenameFromUrl(url: string, storageUrl: string): string | null {
-    if (url.includes(storageUrl)) {
+    if (!url.includes(storageUrl)) {
       return null;
     }
 
     return FileLogic.getFilenameFromUrl(url);
   }
-  
-  async getServerFilenamesFromUrls(fileUrls: string[]): Promise<string[]> {
-    const storageUrl = await this.getStorageUrl();
+
+  static getStorageFilenamesFromUrls(fileUrls: string[], storageUrl: string): string[] {
     return fileUrls
       .map(url => FileLogic.getStorageFilenameFromUrl(url, storageUrl))
       .filter((fileName): fileName is string => fileName !== null);

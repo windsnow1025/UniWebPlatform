@@ -50,51 +50,53 @@ function SaveAsConversationDialog({
     try {
       const conversation = await conversationLogic.fetchConversation(conversationId);
 
-      // const newMessages = JSON.parse(JSON.stringify(conversation.messages));
-      //
-      // // 1) Collect all file urls from messages
-      // const fileUrls = [];
-      // for (const msg of newMessages) {
-      //   if (!msg?.contents) continue;
-      //   for (const content of msg.contents) {
-      //     if (content.type === ContentTypeEnum.File) {
-      //       fileUrls.push(content.data);
-      //     }
-      //   }
-      // }
-      //
-      // // 2) Filter to server-hosted files and clone them server-side
-      // const fileLogic = new FileLogic();
-      // const serverFilenames = FileLogic.getServerFilenamesFromUrls(fileUrls);
-      //
-      // let urlMapping = new Map();
-      // if (serverFilenames.length > 0) {
-      //   const clonedUrls = await fileLogic.cloneFiles(serverFilenames);
-      //   serverFilenames.forEach((filename, idx) => {
-      //     const serverFileUrl = fileUrls.find(fileUrl => FileLogic.getServerFilenameFromUrl(fileUrl) === filename);
-      //     if (serverFileUrl) {
-      //       urlMapping.set(serverFileUrl, clonedUrls[idx]);
-      //     }
-      //   });
-      // }
-      //
-      // // 3) Replace file urls in message contents with the newly cloned urls
-      // for (const msg of newMessages) {
-      //   if (!msg?.contents) continue;
-      //   for (const content of msg.contents) {
-      //     if (content.type === ContentTypeEnum.File) {
-      //       const serverFilenames = FileLogic.getServerFilenameFromUrl(content.data);
-      //       if (serverFilenames) {
-      //         content.data = urlMapping.get(content.data);
-      //       }
-      //     }
-      //   }
-      // }
+      const newMessages = JSON.parse(JSON.stringify(conversation.messages));
+      const fileLogic = new FileLogic();
+      const storageUrl = await fileLogic.getStorageUrl();
+
+      // 1) Collect all file urls from messages
+      const fileUrls = [];
+      for (const msg of newMessages) {
+        if (!msg?.contents) continue;
+        for (const content of msg.contents) {
+          if (content.type === ContentTypeEnum.File) {
+            fileUrls.push(content.data);
+          }
+        }
+      }
+
+      // 2) Filter to server-hosted files and clone them
+      const storageFilenames = FileLogic.getStorageFilenamesFromUrls(fileUrls, storageUrl);
+
+      let urlMapping = new Map();
+      if (storageFilenames.length > 0) {
+        const clonedUrls = await fileLogic.cloneFiles(storageFilenames);
+        storageFilenames.forEach((filename, idx) => {
+          const storageFileUrl = fileUrls.find(
+            fileUrl => FileLogic.getStorageFilenameFromUrl(fileUrl, storageUrl) === filename
+          );
+          if (storageFileUrl) {
+            urlMapping.set(storageFileUrl, clonedUrls[idx]);
+          }
+        });
+      }
+
+      // 3) Replace file urls in message contents with the newly cloned urls
+      for (const msg of newMessages) {
+        if (!msg?.contents) continue;
+        for (const content of msg.contents) {
+          if (content.type === ContentTypeEnum.File) {
+            const serverFilenames = FileLogic.getStorageFilenameFromUrl(content.data, storageUrl);
+            if (serverFilenames) {
+              content.data = urlMapping.get(content.data);
+            }
+          }
+        }
+      }
 
       const newConversation = await conversationLogic.addConversation({
         name: newName,
-        // messages: newMessages,
-        messages: conversation.messages,
+        messages: newMessages,
       });
 
       if (onSaved) onSaved(newConversation);
