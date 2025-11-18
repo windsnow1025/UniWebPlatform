@@ -59,6 +59,10 @@ export class MinioService implements OnModuleInit {
     console.log(`Bucket policy for "${this.bucketName}" set to public.`);
   }
 
+  getWebUrl(): string {
+    return this.webUrl;
+  }
+
   getFileUrl(fileName: string): string {
     return `${this.webUrl}/${this.bucketName}/${fileName}`;
   }
