@@ -1956,6 +1956,45 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        filesControllerCloneFiles: async (filesReqDto: FilesReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'filesReqDto' is not null or undefined
+            assertParamExists('filesControllerCloneFiles', 'filesReqDto', filesReqDto)
+            const localVarPath = `/files/clone`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(filesReqDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {FilesReqDto} filesReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         filesControllerDeleteFiles: async (filesReqDto: FilesReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'filesReqDto' is not null or undefined
             assertParamExists('filesControllerDeleteFiles', 'filesReqDto', filesReqDto)
@@ -2071,6 +2110,18 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async filesControllerCloneFiles(filesReqDto: FilesReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FilesResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerCloneFiles(filesReqDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.filesControllerCloneFiles']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {FilesReqDto} filesReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async filesControllerDeleteFiles(filesReqDto: FilesReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.filesControllerDeleteFiles(filesReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -2115,6 +2166,15 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        filesControllerCloneFiles(filesReqDto: FilesReqDto, options?: RawAxiosRequestConfig): AxiosPromise<FilesResDto> {
+            return localVarFp.filesControllerCloneFiles(filesReqDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {FilesReqDto} filesReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         filesControllerDeleteFiles(filesReqDto: FilesReqDto, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.filesControllerDeleteFiles(filesReqDto, options).then((request) => request(axios, basePath));
         },
@@ -2144,6 +2204,17 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class FilesApi extends BaseAPI {
+    /**
+     * 
+     * @param {FilesReqDto} filesReqDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FilesApi
+     */
+    public filesControllerCloneFiles(filesReqDto: FilesReqDto, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).filesControllerCloneFiles(filesReqDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {FilesReqDto} filesReqDto 
