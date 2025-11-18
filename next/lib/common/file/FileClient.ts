@@ -20,6 +20,14 @@ export default class FileClient {
     return response.data.urls;
   }
 
+  async cloneFiles(filenames: string[]): Promise<string[]> {
+    const api = new FilesApi(getOpenAPIConfiguration());
+    const response = await api.filesControllerCloneFiles({
+      filenames: filenames
+    });
+    return response.data.urls;
+  }
+
   async fetchFiles(): Promise<string[]> {
     const api = new FilesApi(getOpenAPIConfiguration());
     const response = await api.filesControllerGetFiles();
