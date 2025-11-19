@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Avatar, Stack, Tooltip, useTheme} from "@mui/material";
+import React, {useEffect, useMemo, useState} from 'react';
+import {Avatar, Tooltip, useTheme, Menu, MenuItem, ListItemIcon, ListItemText} from "@mui/material";
 import BuildIcon from '@mui/icons-material/Build';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import {MessageRoleEnum} from "../../../client";
@@ -18,7 +18,7 @@ function RoleSelect({role, setRole}) {
     setAvatar(session.user.image);
   }, [session]);
 
-  const roles = [
+  const rolesConfig = [
     {
       type: MessageRoleEnum.User,
       label: username ? username[0].toUpperCase() : "U",
@@ -42,27 +42,62 @@ function RoleSelect({role, setRole}) {
     }
   ];
 
+  const currentRoleConfig = rolesConfig.find(
+    roleConfig => roleConfig.type === role
+  );
+
+  // Menu
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => setAnchorEl(null);
+
+  const handleSelect = (type) => {
+    setRole(type);
+    handleClose();
+  };
+
   return (
-    <Stack direction="row" spacing={2}>
-      {roles.map(({type, label, tooltip, color, avatar}) => (
-        <Tooltip key={type} title={tooltip} arrow>
-          <Avatar
-            onClick={() => setRole(type)}
-            sx={{
-              cursor: "pointer",
-              width: 30,
-              height: 30,
-              transition: "border 0.5s ease, background-color 0.5s ease",
-              backgroundColor: role === type ? color : theme.vars.palette.text.disabled,
-              border: role === type ? "2px solid transparent" : "none",
-            }}
-            src={avatar}
-          >
-            {label}
-          </Avatar>
-        </Tooltip>
-      ))}
-    </Stack>
+    <>
+      <Tooltip title={currentRoleConfig.tooltip} arrow>
+        <Avatar
+          onClick={handleOpen}
+          sx={{
+            cursor: "pointer",
+            width: 30,
+            height: 30,
+            transition: "border 0.5s ease, background-color 0.5s ease",
+            backgroundColor: currentRoleConfig.color,
+          }}
+          src={currentRoleConfig.avatar}
+        >
+          {currentRoleConfig.label}
+        </Avatar>
+      </Tooltip>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        {rolesConfig
+          .filter(roleConfig => roleConfig.type !== role)
+          .map(({type, label, tooltip, color, avatar}) => (
+            <MenuItem key={type} onClick={() => handleSelect(type)}>
+              <ListItemIcon>
+                <Avatar sx={{ width: 30, height: 30, backgroundColor: color }} src={avatar}>
+                  {label}
+                </Avatar>
+              </ListItemIcon>
+              <ListItemText>{tooltip}</ListItemText>
+            </MenuItem>
+          ))}
+      </Menu>
+    </>
   );
 }
 
