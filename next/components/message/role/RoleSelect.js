@@ -83,6 +83,13 @@ function RoleSelect({role, setRole}) {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        slotProps={{
+          paper: {
+            sx: {
+              mt: 1,
+            }
+          }
+        }}
       >
         {rolesConfig
           .filter(roleConfig => roleConfig.type !== role)

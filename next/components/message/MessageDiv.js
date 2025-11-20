@@ -11,7 +11,6 @@ import {MessageRoleEnum} from "../../client";
 import {RawEditableState} from "../../lib/common/message/EditableState";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 
 function MessageDiv(props) {
