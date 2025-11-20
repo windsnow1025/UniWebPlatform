@@ -75,6 +75,7 @@ export default class ChatClient {
         'Content-Type': 'application/json',
         'Authorization': token
       },
+      openWhenHidden: true,
       async onopen(response) {
         if (onOpenCallback) {
           onOpenCallback();
