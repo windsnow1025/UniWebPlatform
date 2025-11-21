@@ -1,4 +1,5 @@
 import logging
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 init_env()
 
-app = FastAPI()
+app = FastAPI(root_path=os.environ.get("FASTAPI_PATH_PREFIX"))
 
 app.add_middleware(
     CORSMiddleware,

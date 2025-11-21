@@ -36,6 +36,11 @@ spec:
                 configMapKeyRef:
                   name: app-configmap
                   key: NEST_HOST
+            - name: FASTAPI_PATH_PREFIX
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: FASTAPI_PATH_PREFIX
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
