@@ -8,3 +8,4 @@ data:
   MYSQL_HOST: "mysql-service"
   MINIO_HOST: "minio-service"
   REDIS_HOST: "redis-service"
+  FASTAPI_PATH_PREFIX: "/api/fastapi"

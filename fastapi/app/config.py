@@ -13,5 +13,6 @@ def init_env():
         os.environ['NEST_API_BASE_URL'] = f'http://{nest_host}:3000'
     else:
         os.environ['NEST_API_BASE_URL'] = os.environ.get('NEST_API_BASE_URL') or 'http://localhost:3001'
+        os.environ['FASTAPI_PATH_PREFIX'] = ""
 
     logging.info(f"Using {'production' if is_production else 'development'} setting.")
