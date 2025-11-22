@@ -27,6 +27,7 @@ function ShareConversationDialog({open, onClose, conversationId}) {
 
   const [isLink, setIsLink] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
+  const [version, setVersion] = useState(null);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -64,6 +65,7 @@ function ShareConversationDialog({open, onClose, conversationId}) {
       const conv = await conversationLogic.fetchConversation(conversationId);
       if (conv) {
         setIsPublic(conv.isPublic);
+        setVersion(conv.version);
       }
     } catch (err) {
       setAlertMessage(err.message);
@@ -76,7 +78,8 @@ function ShareConversationDialog({open, onClose, conversationId}) {
   const handleShare = async () => {
     try {
       if (isLink) {
-        await conversationLogic.addUserToConversation(conversationId, selectedUsername);
+        const etag = String(version ?? '');
+        await conversationLogic.addUserToConversation(conversationId, etag, selectedUsername);
         setAlertMessage('Conversation shared (link) successfully');
       } else {
         await conversationLogic.addConversationForUser(conversationId, selectedUsername);
@@ -96,7 +99,11 @@ function ShareConversationDialog({open, onClose, conversationId}) {
 
   const handleTogglePublic = async (checked) => {
     try {
-      await conversationLogic.updateConversationPublic(conversationId, checked);
+      const etag = String(version ?? '');
+      const updated = await conversationLogic.updateConversationPublic(
+        conversationId, etag, checked
+      );
+      setVersion(updated.version);
       setIsPublic(checked);
       setAlertMessage(`Conversation made ${checked ? 'public' : 'private'}`);
       setAlertSeverity('success');
@@ -132,7 +139,7 @@ function ShareConversationDialog({open, onClose, conversationId}) {
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>Share Conversation</DialogTitle>
         <DialogContent>
-          {/* Preview section */}
+          {/* Make it Public */}
           <div>
             <div className="font-semibold mb-1">Option 1: Make it Public</div>
             <FormControlLabel

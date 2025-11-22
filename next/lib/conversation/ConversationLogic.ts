@@ -104,7 +104,7 @@ export default class ConversationLogic {
     id: number, etag: string, name: string
   ): Promise<ConversationResDto> {
     try {
-      return this.conversationService.updateConversationName(id, etag, name);
+      return await this.conversationService.updateConversationName(id, etag, name);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
@@ -118,7 +118,7 @@ export default class ConversationLogic {
     id: number, etag: string, isPublic: boolean
   ): Promise<ConversationResDto> {
     try {
-      return this.conversationService.updateConversationPublic(id, etag, isPublic);
+      return await this.conversationService.updateConversationPublic(id, etag, isPublic);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
@@ -132,7 +132,7 @@ export default class ConversationLogic {
     id: number, etag: string, colorLabel: string
   ): Promise<ConversationResDto> {
     try {
-      return this.conversationService.updateConversationColorLabel(id, etag, colorLabel);
+      return await this.conversationService.updateConversationColorLabel(id, etag, colorLabel);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);

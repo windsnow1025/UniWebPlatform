@@ -115,7 +115,9 @@ function ConversationMenu({
     const conversationId = conversations[index].id;
     setLoadingConversationId(conversationId);
     try {
-      const updatedConversation = await conversationLogic.updateConversationColorLabel(conversationId, colorLabel);
+      const updatedConversation = await conversationLogic.updateConversationColorLabel(
+        conversationId, conversations[index].version, colorLabel
+      );
       setConversations((prevConversations) => {
         const newConversations = [...prevConversations];
         newConversations[index] = updatedConversation;

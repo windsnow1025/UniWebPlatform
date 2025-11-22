@@ -165,7 +165,9 @@ function ConversationList({
     setLoadingConversationId(conversationId);
 
     try {
-      const updatedConversation = await conversationLogic.updateConversationName(conversationId, newName);
+      const updatedConversation = await conversationLogic.updateConversationName(
+        conversationId, conversations[index].version, newName
+      );
       setConversations((prevConversations) => {
         const newConversations = [...prevConversations];
         newConversations[index] = updatedConversation;
