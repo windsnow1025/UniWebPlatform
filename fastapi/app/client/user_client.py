@@ -19,7 +19,7 @@ async def get_user(token: str = None) -> dict:
     
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(f"{os.environ.get("NEST_API_BASE_URL")}/users/user", headers=headers)
+            response = await client.get(f"{os.environ["NEST_API_BASE_URL"]}/users/user", headers=headers)
         except httpx.ConnectError as e:
             logging.exception(f"httpx.ConnectError while fetching users: {e}")
             raise
@@ -52,7 +52,7 @@ async def reduce_user_credit(amount: float, token: str = None) -> dict:
     async with httpx.AsyncClient() as client:
         try:
             response = await client.put(
-                f"{os.environ.get("NEST_API_BASE_URL")}/users/user/reduce-credit",
+                f"{os.environ["NEST_API_BASE_URL"]}/users/user/reduce-credit",
                 json={"amount": amount},
                 headers=headers
             )
