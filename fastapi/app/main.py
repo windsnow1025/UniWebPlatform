@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 init_env()
 
-app = FastAPI(root_path=os.environ.get("FASTAPI_PATH_PREFIX"))
+app = FastAPI(root_path=os.environ["FASTAPI_PATH_PREFIX"])
 
 app.add_middleware(
     CORSMiddleware,
