@@ -24,7 +24,7 @@ export default class ChatClient {
     try {
       const res = await getFastAPIAxiosInstance().post(`/chat`, requestData, {
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       });
       return res.data;
@@ -73,7 +73,7 @@ export default class ChatClient {
       body: JSON.stringify(requestData),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        'Authorization': `Bearer ${token}`
       },
       openWhenHidden: true,
       async onopen(response) {
