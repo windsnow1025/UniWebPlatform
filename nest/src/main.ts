@@ -23,7 +23,7 @@ async function bootstrap() {
     .addSecurityRequirements('bearer')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('docs', app, documentFactory);
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('port')!;
