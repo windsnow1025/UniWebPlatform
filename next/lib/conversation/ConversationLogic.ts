@@ -72,7 +72,7 @@ export default class ConversationLogic {
     }
   }
 
-  async addConversationForUser(
+  async cloneConversationForUser(
     id: number, username: string
   ): Promise<ConversationResDto> {
     try {
@@ -142,9 +142,11 @@ export default class ConversationLogic {
     }
   }
 
-  async addUserToConversation(id: number, etag: string, username: string) {
+  async addUserToConversation(
+    id: number, etag: string, username: string
+  ): Promise<ConversationResDto> {
     try {
-      await this.conversationService.addUserToConversation(id, etag, username);
+      return await this.conversationService.addUserToConversation(id, etag, username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);

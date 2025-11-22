@@ -183,7 +183,14 @@ function ConversationMenu({
       <ShareConversationDialog
         open={shareDialogOpen}
         onClose={() => setShareDialogOpen(false)}
-        conversationId={conversations[selectedConversationIndex]?.id}
+        conversation={conversations[selectedConversationIndex]}
+        setConversation={(updatedConversation) => {
+          setConversations((prevConversations) => {
+            const newConversations = [...prevConversations];
+            newConversations[selectedConversationIndex] = updatedConversation;
+            return newConversations;
+          });
+        }}
       />
 
       <SaveAsConversationDialog
