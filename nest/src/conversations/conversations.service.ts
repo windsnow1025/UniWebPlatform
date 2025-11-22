@@ -2,6 +2,7 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
+  PreconditionFailedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
@@ -32,6 +33,20 @@ export class ConversationsService {
       isPublic: conversation.isPublic,
     };
     return conversationDto;
+  }
+
+  public getEtag(conversation: Conversation): string {
+    return `"${conversation.id}:${conversation.version}"`;
+  }
+
+  private assertIfMatch(conversation: Conversation, ifMatch?: string) {
+    if (!ifMatch) {
+      throw new PreconditionFailedException('Precondition Required');
+    }
+    const current = this.getEtag(conversation);
+    if (ifMatch !== current) {
+      throw new PreconditionFailedException('Precondition Failed');
+    }
   }
 
   async find(userId: number) {
@@ -147,11 +162,14 @@ export class ConversationsService {
     userId: number,
     conversationId: number,
     username: string,
+    ifMatch?: string,
   ) {
     const conversation = await this.findOne(userId, conversationId);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
+
+    this.assertIfMatch(conversation, ifMatch);
 
     const userToAdd = await this.usersService.findOneByUsername(username);
     if (!userToAdd) {
@@ -162,11 +180,19 @@ export class ConversationsService {
     return await this.conversationsRepository.save(conversation);
   }
 
-  async update(userId: number, id: number, name: string, messages: Message[]) {
+  async update(
+    userId: number,
+    id: number,
+    name: string,
+    messages: Message[],
+    ifMatch?: string,
+  ) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
+
+    this.assertIfMatch(conversation, ifMatch);
 
     conversation.name = name;
     conversation.messages = messages;
@@ -174,32 +200,48 @@ export class ConversationsService {
     return await this.conversationsRepository.save(conversation);
   }
 
-  async updateName(userId: number, id: number, name: string) {
+  async updateName(userId: number, id: number, name: string, ifMatch?: string) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
+
+    this.assertIfMatch(conversation, ifMatch);
 
     conversation.name = name;
 
     return await this.conversationsRepository.save(conversation);
   }
 
-  async updatePublic(userId: number, id: number, isPublic: boolean) {
+  async updatePublic(
+    userId: number,
+    id: number,
+    isPublic: boolean,
+    ifMatch?: string,
+  ) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
+
+    this.assertIfMatch(conversation, ifMatch);
 
     conversation.isPublic = isPublic;
     return await this.conversationsRepository.save(conversation);
   }
 
-  async updateColorLabel(userId: number, id: number, colorLabel: string) {
+  async updateColorLabel(
+    userId: number,
+    id: number,
+    colorLabel: string,
+    ifMatch?: string,
+  ) {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
+
+    this.assertIfMatch(conversation, ifMatch);
 
     conversation.colorLabel = colorLabel;
 
