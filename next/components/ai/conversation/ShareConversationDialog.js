@@ -21,13 +21,11 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import UserLogic from "../../../lib/common/user/UserLogic";
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 
-function ShareConversationDialog({open, onClose, conversationId}) {
+function ShareConversationDialog({open, onClose, conversation, setConversation}) {
   const [usernames, setUsernames] = useState([]);
   const [selectedUsername, setSelectedUsername] = useState('');
 
   const [isLink, setIsLink] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
-  const [version, setVersion] = useState(null);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -37,17 +35,16 @@ function ShareConversationDialog({open, onClose, conversationId}) {
   const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
-    if (open && conversationId) {
+    if (open) {
       fetchUsernames();
-      fetchConversationPublicStatus();
     }
-  }, [open, conversationId]);
+  }, [open]);
 
   const publicUrl = useMemo(() => {
-    if (!isPublic || !conversationId) return '';
+    if (!conversation?.isPublic || !conversation?.id) return '';
     const origin = window.location.origin;
-    return `${origin}/public/conversation/${conversationId}`;
-  }, [isPublic, conversationId]);
+    return `${origin}/public/conversation/${conversation.id}`;
+  }, [conversation]);
 
   const fetchUsernames = async () => {
     try {
@@ -60,29 +57,16 @@ function ShareConversationDialog({open, onClose, conversationId}) {
     }
   };
 
-  const fetchConversationPublicStatus = async () => {
-    try {
-      const conv = await conversationLogic.fetchConversation(conversationId);
-      if (conv) {
-        setIsPublic(conv.isPublic);
-        setVersion(conv.version);
-      }
-    } catch (err) {
-      setAlertMessage(err.message);
-      setAlertSeverity('error');
-      setAlertOpen(true);
-      console.error(err);
-    }
-  };
-
   const handleShare = async () => {
     try {
       if (isLink) {
-        const etag = String(version ?? '');
-        await conversationLogic.addUserToConversation(conversationId, etag, selectedUsername);
+        const updatedConversation = await conversationLogic.addUserToConversation(
+          conversation.id, conversation.version, selectedUsername
+        );
+        setConversation(updatedConversation);
         setAlertMessage('Conversation shared (link) successfully');
       } else {
-        await conversationLogic.addConversationForUser(conversationId, selectedUsername);
+        await conversationLogic.cloneConversationForUser(conversation.id, selectedUsername);
         setAlertMessage('Conversation shared (copy) successfully');
       }
       setAlertSeverity('success');
@@ -99,12 +83,10 @@ function ShareConversationDialog({open, onClose, conversationId}) {
 
   const handleTogglePublic = async (checked) => {
     try {
-      const etag = String(version ?? '');
-      const updated = await conversationLogic.updateConversationPublic(
-        conversationId, etag, checked
+      const updatedConversation = await conversationLogic.updateConversationPublic(
+        conversation.id, conversation.version, checked
       );
-      setVersion(updated.version);
-      setIsPublic(checked);
+      setConversation(updatedConversation);
       setAlertMessage(`Conversation made ${checked ? 'public' : 'private'}`);
       setAlertSeverity('success');
       setAlertOpen(true);
@@ -145,15 +127,15 @@ function ShareConversationDialog({open, onClose, conversationId}) {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={isPublic}
+                  checked={conversation?.isPublic}
                   onChange={(e) => handleTogglePublic(e.target.checked)}
                 />
               }
               label="Public"
             />
-            {isPublic && (
+            {conversation?.isPublic && (
               <div className="mt-2">
-                {isPublic && (
+                {conversation?.isPublic && (
                   <div className="mt-2">
                     <FormControl fullWidth variant="outlined">
                       <InputLabel htmlFor="public-url-input">Public URL</InputLabel>
