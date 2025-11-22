@@ -45,6 +45,7 @@ function ConversationSidebar({
     try {
       const updatedConversation = await conversationLogic.updateConversation(
         conversations[index].id,
+        conversations[index].version,
         {
           name: conversations[index].name,
           messages: messages
