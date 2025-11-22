@@ -3,11 +3,13 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   ParseIntPipe,
   Post,
   Put,
   Request,
+  Res,
 } from '@nestjs/common';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { ConversationsService } from './conversations.service';
@@ -43,16 +45,22 @@ export class ConversationsController {
   async findOne(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
+    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const conversation = await this.service.findOne(userId, id);
+    res.setHeader('ETag', this.service.getEtag(conversation));
     return this.service.toConversationDto(conversation);
   }
 
   @Public()
   @Get('/public/conversation/:id')
-  async findPublicOne(@Param('id', ParseIntPipe) id: number) {
+  async findPublicOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Res({ passthrough: true }) res: any,
+  ) {
     const conversation = await this.service.findPublicOne(id);
+    res.setHeader('ETag', this.service.getEtag(conversation));
     return this.service.toConversationDto(conversation);
   }
 
@@ -90,13 +98,17 @@ export class ConversationsController {
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: UserUsernameReqDto,
+    @Headers('if-match') ifMatch: string,
+    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const conversation = await this.service.addUserForUsers(
       userId,
       id,
       reqDto.username,
+      ifMatch,
     );
+    res.setHeader('ETag', this.service.getEtag(conversation));
     return this.service.toConversationDto(conversation);
   }
 
@@ -105,6 +117,8 @@ export class ConversationsController {
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationReqDto,
+    @Headers('if-match') ifMatch: string,
+    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const conversation = await this.service.update(
@@ -112,7 +126,9 @@ export class ConversationsController {
       id,
       reqDto.name,
       reqDto.messages,
+      ifMatch,
     );
+    res.setHeader('ETag', this.service.getEtag(conversation));
     return this.service.toConversationDto(conversation);
   }
 
@@ -121,13 +137,17 @@ export class ConversationsController {
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationNameReqDto,
+    @Headers('if-match') ifMatch: string,
+    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const updatedConversation = await this.service.updateName(
       userId,
       id,
       reqDto.name,
+      ifMatch,
     );
+    res.setHeader('ETag', this.service.getEtag(updatedConversation));
     return this.service.toConversationDto(updatedConversation);
   }
 
@@ -136,13 +156,17 @@ export class ConversationsController {
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationPublicReqDto,
+    @Headers('if-match') ifMatch: string,
+    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const updatedConversation = await this.service.updatePublic(
       userId,
       id,
       reqDto.isPublic,
+      ifMatch,
     );
+    res.setHeader('ETag', this.service.getEtag(updatedConversation));
     return this.service.toConversationDto(updatedConversation);
   }
 
@@ -151,13 +175,17 @@ export class ConversationsController {
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationColorReqDto,
+    @Headers('if-match') ifMatch: string,
+    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const updatedConversation = await this.service.updateColorLabel(
       userId,
       id,
       reqDto.colorLabel,
+      ifMatch,
     );
+    res.setHeader('ETag', this.service.getEtag(updatedConversation));
     return this.service.toConversationDto(updatedConversation);
   }
 
