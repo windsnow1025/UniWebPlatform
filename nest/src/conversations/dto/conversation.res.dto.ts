@@ -9,6 +9,7 @@ export class ConversationResDto {
   updatedAt: Date;
   isPublic: boolean;
   colorLabel: string;
+  version: number;
 }
 
 export class ConversationUpdateTimeResDto {

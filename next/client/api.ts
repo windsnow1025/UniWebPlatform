@@ -239,6 +239,12 @@ export interface ConversationResDto {
      * @memberof ConversationResDto
      */
     'colorLabel': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ConversationResDto
+     */
+    'version': number;
 }
 /**
  * 
