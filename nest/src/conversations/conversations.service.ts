@@ -31,12 +31,13 @@ export class ConversationsService {
       updatedAt: conversation.updatedAt,
       colorLabel: conversation.colorLabel,
       isPublic: conversation.isPublic,
+      version: conversation.version,
     };
     return conversationDto;
   }
 
   public getEtag(conversation: Conversation): string {
-    return `"${conversation.id}:${conversation.version}"`;
+    return `${conversation.version}`;
   }
 
   private assertIfMatch(conversation: Conversation, ifMatch?: string) {
