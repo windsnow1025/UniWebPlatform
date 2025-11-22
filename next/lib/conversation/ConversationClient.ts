@@ -47,42 +47,42 @@ export default class ConversationClient {
     return res.data;
   }
 
-  async addUserToConversation(id: number, username: string): Promise<ConversationResDto> {
+  async addUserToConversation(id: number, etag: string, username: string): Promise<ConversationResDto> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerAddUserForUsers(
-      id, {username}
+      id, etag, {username}
     );
     return res.data;
   }
 
-  async updateConversation(id: number, conversation: ConversationReqDto): Promise<ConversationResDto> {
+  async updateConversation(id: number, etag: string, conversation: ConversationReqDto): Promise<ConversationResDto> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdate(
-      id, conversation
+      id, etag, conversation
     );
     return res.data;
   }
 
-  async updateConversationName(id: number, name: string): Promise<ConversationResDto> {
+  async updateConversationName(id: number, etag: string, name: string): Promise<ConversationResDto> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdateName(
-      id, {name},
+      id, etag, {name},
     );
     return res.data;
   }
 
-  async updateConversationPublic(id: number, isPublic: boolean): Promise<ConversationResDto> {
+  async updateConversationPublic(id: number, etag: string, isPublic: boolean): Promise<ConversationResDto> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdatePublic(
-        id, { isPublic },
+        id, etag, { isPublic },
     );
     return res.data;
   }
 
-  async updateConversationColorLabel(id: number, colorLabel: string): Promise<ConversationResDto> {
+  async updateConversationColorLabel(id: number, etag: string, colorLabel: string): Promise<ConversationResDto> {
     const api = new ConversationsApi(getOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdateColorLabel(
-      id, { colorLabel },
+      id, etag, { colorLabel },
     );
     return res.data;
   }

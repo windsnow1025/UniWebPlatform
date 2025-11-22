@@ -87,10 +87,10 @@ export default class ConversationLogic {
   }
 
   async updateConversation(
-    id: number, conversation: ConversationReqDto
+    id: number, etag: string, conversation: ConversationReqDto
   ): Promise<ConversationResDto> {
     try {
-      return await this.conversationService.updateConversation(id, conversation);
+      return await this.conversationService.updateConversation(id, etag, conversation);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
@@ -100,9 +100,11 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversationName(id: number, name: string): Promise<ConversationResDto> {
+  async updateConversationName(
+    id: number, etag: string, name: string
+  ): Promise<ConversationResDto> {
     try {
-      return this.conversationService.updateConversationName(id, name);
+      return this.conversationService.updateConversationName(id, etag, name);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
@@ -112,9 +114,11 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversationPublic(id: number, isPublic: boolean): Promise<ConversationResDto> {
+  async updateConversationPublic(
+    id: number, etag: string, isPublic: boolean
+  ): Promise<ConversationResDto> {
     try {
-      return this.conversationService.updateConversationPublic(id, isPublic);
+      return this.conversationService.updateConversationPublic(id, etag, isPublic);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
@@ -124,9 +128,11 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversationColorLabel(id: number, colorLabel: string): Promise<ConversationResDto> {
+  async updateConversationColorLabel(
+    id: number, etag: string, colorLabel: string
+  ): Promise<ConversationResDto> {
     try {
-      return this.conversationService.updateConversationColorLabel(id, colorLabel);
+      return this.conversationService.updateConversationColorLabel(id, etag, colorLabel);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
@@ -136,9 +142,9 @@ export default class ConversationLogic {
     }
   }
 
-  async addUserToConversation(id: number, username: string) {
+  async addUserToConversation(id: number, etag: string, username: string) {
     try {
-      await this.conversationService.addUserToConversation(id, username);
+      await this.conversationService.addUserToConversation(id, etag, username);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
