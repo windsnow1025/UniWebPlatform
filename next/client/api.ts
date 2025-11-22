@@ -1057,13 +1057,16 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {UserUsernameReqDto} userUsernameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerAddUserForUsers: async (id: number, userUsernameReqDto: UserUsernameReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        conversationsControllerAddUserForUsers: async (id: number, ifMatch: string, userUsernameReqDto: UserUsernameReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('conversationsControllerAddUserForUsers', 'id', id)
+            // verify required parameter 'ifMatch' is not null or undefined
+            assertParamExists('conversationsControllerAddUserForUsers', 'ifMatch', ifMatch)
             // verify required parameter 'userUsernameReqDto' is not null or undefined
             assertParamExists('conversationsControllerAddUserForUsers', 'userUsernameReqDto', userUsernameReqDto)
             const localVarPath = `/conversations/conversation/{id}/users`
@@ -1087,6 +1090,9 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
+            if (ifMatch != null) {
+                localVarHeaderParameter['if-match'] = String(ifMatch);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1359,13 +1365,16 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationReqDto} conversationReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdate: async (id: number, conversationReqDto: ConversationReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        conversationsControllerUpdate: async (id: number, ifMatch: string, conversationReqDto: ConversationReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('conversationsControllerUpdate', 'id', id)
+            // verify required parameter 'ifMatch' is not null or undefined
+            assertParamExists('conversationsControllerUpdate', 'ifMatch', ifMatch)
             // verify required parameter 'conversationReqDto' is not null or undefined
             assertParamExists('conversationsControllerUpdate', 'conversationReqDto', conversationReqDto)
             const localVarPath = `/conversations/conversation/{id}`
@@ -1389,6 +1398,9 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
+            if (ifMatch != null) {
+                localVarHeaderParameter['if-match'] = String(ifMatch);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1402,13 +1414,16 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationColorReqDto} conversationColorReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdateColorLabel: async (id: number, conversationColorReqDto: ConversationColorReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        conversationsControllerUpdateColorLabel: async (id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('conversationsControllerUpdateColorLabel', 'id', id)
+            // verify required parameter 'ifMatch' is not null or undefined
+            assertParamExists('conversationsControllerUpdateColorLabel', 'ifMatch', ifMatch)
             // verify required parameter 'conversationColorReqDto' is not null or undefined
             assertParamExists('conversationsControllerUpdateColorLabel', 'conversationColorReqDto', conversationColorReqDto)
             const localVarPath = `/conversations/conversation/{id}/color-label`
@@ -1432,6 +1447,9 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
+            if (ifMatch != null) {
+                localVarHeaderParameter['if-match'] = String(ifMatch);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1445,13 +1463,16 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationNameReqDto} conversationNameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdateName: async (id: number, conversationNameReqDto: ConversationNameReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        conversationsControllerUpdateName: async (id: number, ifMatch: string, conversationNameReqDto: ConversationNameReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('conversationsControllerUpdateName', 'id', id)
+            // verify required parameter 'ifMatch' is not null or undefined
+            assertParamExists('conversationsControllerUpdateName', 'ifMatch', ifMatch)
             // verify required parameter 'conversationNameReqDto' is not null or undefined
             assertParamExists('conversationsControllerUpdateName', 'conversationNameReqDto', conversationNameReqDto)
             const localVarPath = `/conversations/conversation/{id}/name`
@@ -1475,6 +1496,9 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
+            if (ifMatch != null) {
+                localVarHeaderParameter['if-match'] = String(ifMatch);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1488,13 +1512,16 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationPublicReqDto} conversationPublicReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdatePublic: async (id: number, conversationPublicReqDto: ConversationPublicReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        conversationsControllerUpdatePublic: async (id: number, ifMatch: string, conversationPublicReqDto: ConversationPublicReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('conversationsControllerUpdatePublic', 'id', id)
+            // verify required parameter 'ifMatch' is not null or undefined
+            assertParamExists('conversationsControllerUpdatePublic', 'ifMatch', ifMatch)
             // verify required parameter 'conversationPublicReqDto' is not null or undefined
             assertParamExists('conversationsControllerUpdatePublic', 'conversationPublicReqDto', conversationPublicReqDto)
             const localVarPath = `/conversations/conversation/{id}/public`
@@ -1518,6 +1545,9 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
+            if (ifMatch != null) {
+                localVarHeaderParameter['if-match'] = String(ifMatch);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1541,12 +1571,13 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {UserUsernameReqDto} userUsernameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async conversationsControllerAddUserForUsers(id: number, userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerAddUserForUsers(id, userUsernameReqDto, options);
+        async conversationsControllerAddUserForUsers(id: number, ifMatch: string, userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerAddUserForUsers(id, ifMatch, userUsernameReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerAddUserForUsers']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1637,12 +1668,13 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationReqDto} conversationReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async conversationsControllerUpdate(id: number, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdate(id, conversationReqDto, options);
+        async conversationsControllerUpdate(id: number, ifMatch: string, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdate(id, ifMatch, conversationReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerUpdate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1650,12 +1682,13 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationColorReqDto} conversationColorReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async conversationsControllerUpdateColorLabel(id: number, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdateColorLabel(id, conversationColorReqDto, options);
+        async conversationsControllerUpdateColorLabel(id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdateColorLabel(id, ifMatch, conversationColorReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerUpdateColorLabel']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1663,12 +1696,13 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationNameReqDto} conversationNameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async conversationsControllerUpdateName(id: number, conversationNameReqDto: ConversationNameReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdateName(id, conversationNameReqDto, options);
+        async conversationsControllerUpdateName(id: number, ifMatch: string, conversationNameReqDto: ConversationNameReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdateName(id, ifMatch, conversationNameReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerUpdateName']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1676,12 +1710,13 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationPublicReqDto} conversationPublicReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async conversationsControllerUpdatePublic(id: number, conversationPublicReqDto: ConversationPublicReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdatePublic(id, conversationPublicReqDto, options);
+        async conversationsControllerUpdatePublic(id: number, ifMatch: string, conversationPublicReqDto: ConversationPublicReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdatePublic(id, ifMatch, conversationPublicReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerUpdatePublic']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1699,12 +1734,13 @@ export const ConversationsApiFactory = function (configuration?: Configuration, 
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {UserUsernameReqDto} userUsernameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerAddUserForUsers(id: number, userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
-            return localVarFp.conversationsControllerAddUserForUsers(id, userUsernameReqDto, options).then((request) => request(axios, basePath));
+        conversationsControllerAddUserForUsers(id: number, ifMatch: string, userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
+            return localVarFp.conversationsControllerAddUserForUsers(id, ifMatch, userUsernameReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1771,42 +1807,46 @@ export const ConversationsApiFactory = function (configuration?: Configuration, 
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationReqDto} conversationReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdate(id: number, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
-            return localVarFp.conversationsControllerUpdate(id, conversationReqDto, options).then((request) => request(axios, basePath));
+        conversationsControllerUpdate(id: number, ifMatch: string, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
+            return localVarFp.conversationsControllerUpdate(id, ifMatch, conversationReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationColorReqDto} conversationColorReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdateColorLabel(id: number, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
-            return localVarFp.conversationsControllerUpdateColorLabel(id, conversationColorReqDto, options).then((request) => request(axios, basePath));
+        conversationsControllerUpdateColorLabel(id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
+            return localVarFp.conversationsControllerUpdateColorLabel(id, ifMatch, conversationColorReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationNameReqDto} conversationNameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdateName(id: number, conversationNameReqDto: ConversationNameReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
-            return localVarFp.conversationsControllerUpdateName(id, conversationNameReqDto, options).then((request) => request(axios, basePath));
+        conversationsControllerUpdateName(id: number, ifMatch: string, conversationNameReqDto: ConversationNameReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
+            return localVarFp.conversationsControllerUpdateName(id, ifMatch, conversationNameReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {ConversationPublicReqDto} conversationPublicReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdatePublic(id: number, conversationPublicReqDto: ConversationPublicReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
-            return localVarFp.conversationsControllerUpdatePublic(id, conversationPublicReqDto, options).then((request) => request(axios, basePath));
+        conversationsControllerUpdatePublic(id: number, ifMatch: string, conversationPublicReqDto: ConversationPublicReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
+            return localVarFp.conversationsControllerUpdatePublic(id, ifMatch, conversationPublicReqDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1821,13 +1861,14 @@ export class ConversationsApi extends BaseAPI {
     /**
      * 
      * @param {number} id 
+     * @param {string} ifMatch 
      * @param {UserUsernameReqDto} userUsernameReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConversationsApi
      */
-    public conversationsControllerAddUserForUsers(id: number, userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig) {
-        return ConversationsApiFp(this.configuration).conversationsControllerAddUserForUsers(id, userUsernameReqDto, options).then((request) => request(this.axios, this.basePath));
+    public conversationsControllerAddUserForUsers(id: number, ifMatch: string, userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerAddUserForUsers(id, ifMatch, userUsernameReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1909,49 +1950,53 @@ export class ConversationsApi extends BaseAPI {
     /**
      * 
      * @param {number} id 
+     * @param {string} ifMatch 
      * @param {ConversationReqDto} conversationReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConversationsApi
      */
-    public conversationsControllerUpdate(id: number, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig) {
-        return ConversationsApiFp(this.configuration).conversationsControllerUpdate(id, conversationReqDto, options).then((request) => request(this.axios, this.basePath));
+    public conversationsControllerUpdate(id: number, ifMatch: string, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerUpdate(id, ifMatch, conversationReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {number} id 
+     * @param {string} ifMatch 
      * @param {ConversationColorReqDto} conversationColorReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConversationsApi
      */
-    public conversationsControllerUpdateColorLabel(id: number, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig) {
-        return ConversationsApiFp(this.configuration).conversationsControllerUpdateColorLabel(id, conversationColorReqDto, options).then((request) => request(this.axios, this.basePath));
+    public conversationsControllerUpdateColorLabel(id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerUpdateColorLabel(id, ifMatch, conversationColorReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {number} id 
+     * @param {string} ifMatch 
      * @param {ConversationNameReqDto} conversationNameReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConversationsApi
      */
-    public conversationsControllerUpdateName(id: number, conversationNameReqDto: ConversationNameReqDto, options?: RawAxiosRequestConfig) {
-        return ConversationsApiFp(this.configuration).conversationsControllerUpdateName(id, conversationNameReqDto, options).then((request) => request(this.axios, this.basePath));
+    public conversationsControllerUpdateName(id: number, ifMatch: string, conversationNameReqDto: ConversationNameReqDto, options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerUpdateName(id, ifMatch, conversationNameReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {number} id 
+     * @param {string} ifMatch 
      * @param {ConversationPublicReqDto} conversationPublicReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConversationsApi
      */
-    public conversationsControllerUpdatePublic(id: number, conversationPublicReqDto: ConversationPublicReqDto, options?: RawAxiosRequestConfig) {
-        return ConversationsApiFp(this.configuration).conversationsControllerUpdatePublic(id, conversationPublicReqDto, options).then((request) => request(this.axios, this.basePath));
+    public conversationsControllerUpdatePublic(id: number, ifMatch: string, conversationPublicReqDto: ConversationPublicReqDto, options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerUpdatePublic(id, ifMatch, conversationPublicReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
