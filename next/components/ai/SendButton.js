@@ -64,7 +64,9 @@ function SendButton({
 
   const handleStreamGenerate = async (currentReqIndex, onOpenCallback) => {
     let isFirstChunk = true;
-    const generator = chatLogic.streamGenerate(messages, apiType, model, temperature, onOpenCallback);
+    const generator = chatLogic.streamGenerate(
+      messages, apiType, model, temperature, onOpenCallback
+    );
 
     for await (const chunk of generator) {
       if (!(currentReqIndex === latestRequestIndex.current && isGeneratingRef.current)) {

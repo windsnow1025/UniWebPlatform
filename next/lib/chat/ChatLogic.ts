@@ -255,12 +255,17 @@ export default class ChatLogic {
 
   // For chat generate
   async nonStreamGenerate(
-    messages: Message[], api_type: string, model: string, temperature: number
+    messages: Message[],
+    api_type: string,
+    model: string,
+    temperature: number,
+    thought: boolean,
+    code_execution: boolean,
   ): Promise<ChatResponse> {
     try {
       const filteredMessages = ChatLogic.filterOutboundMessages(messages);
       const content = await this.chatClient.nonStreamGenerate(
-        filteredMessages, api_type, model, temperature
+        filteredMessages, api_type, model, temperature, thought, code_execution
       );
       if (content.error) {
         throw new Error(content.error);
@@ -295,13 +300,18 @@ export default class ChatLogic {
 
   // For chat generate
   async* streamGenerate(
-    messages: Message[], api_type: string, model: string, temperature: number,
+    messages: Message[],
+    api_type: string,
+    model: string,
+    temperature: number,
+    thought: boolean,
+    code_execution: boolean,
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final citation text
     try {
       const filtered = ChatLogic.filterOutboundMessages(messages);
       const response = this.chatClient.streamGenerate(
-        filtered, api_type, model, temperature, onOpenCallback
+        filtered, api_type, model, temperature, thought, code_execution, onOpenCallback
       );
 
       let text = "";

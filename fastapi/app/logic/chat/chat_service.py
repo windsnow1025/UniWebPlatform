@@ -17,6 +17,8 @@ async def handle_chat_interaction(
         api_type: str,
         temperature: float,
         stream: bool,
+        thought: bool,
+        code_execution: bool,
 ):
     logging.info(f"User ID: {user_id}, Model: {model}")
 
@@ -51,6 +53,8 @@ async def handle_chat_interaction(
         api_type=api_type,
         temperature=temperature,
         stream=stream,
+        thought=thought,
+        code_execution=code_execution,
     )
 
     if stream:
