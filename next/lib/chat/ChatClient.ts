@@ -32,11 +32,13 @@ export default class ChatClient {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           const status = error.response.status;
-          let detail = error.response.data?.detail || error.response.statusText;
+          const statusText = error.response.statusText;
+          const message = error.response.data.detail;
+          let finalMessage = "";
           if (status === 402) {
-            detail += ", please contact windsnow1025@gmail.com";
+            finalMessage = "Please contact windsnow1025@gmail.com";
           }
-          throw new Error(`${status}: ${detail}`);
+          throw new Error(`${status} - ${statusText}: ${message}. ${finalMessage}`);
         } else {
           throw error;
         }
@@ -91,17 +93,16 @@ export default class ChatClient {
             console.error(error);
           }
 
-          let detail;
+          let message = '';
           if (resJson && resJson.detail) {
-            detail = resJson.detail;
-          } else {
-            detail = statusText;
+            message = resJson.detail;
           }
+          let finalMessage = "";
           if (status === 402) {
-            detail += ", please contact windsnow1025@gmail.com";
+            finalMessage = "Please contact windsnow1025@gmail.com";
           }
 
-          throw new Error(`${status}: ${detail}`);
+          throw new Error(`${status} ${statusText}: ${message}. ${finalMessage}`);
         }
       },
       onmessage(event) {
