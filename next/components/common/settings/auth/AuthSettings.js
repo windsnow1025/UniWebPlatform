@@ -5,6 +5,7 @@ import AccountDiv from "./signed-in/AccountDiv";
 import SignDiv from "./signed-out/SignDiv";
 import ConfirmDialog from "../../ConfirmDialog";
 import {useSession} from "@toolpad/core";
+import {StorageKeys} from "../../../../lib/common/Constants";
 
 const AuthSettings = () => {
   const session = useSession();
@@ -31,7 +32,7 @@ const AuthSettings = () => {
       try {
         setLoading(true);
         await userLogic.deleteUser();
-        localStorage.removeItem("token");
+        localStorage.removeItem(StorageKeys.Token);
         setUsername("");
         setAlertMessage("Account deleted successfully.");
         setAlertSeverity("success");

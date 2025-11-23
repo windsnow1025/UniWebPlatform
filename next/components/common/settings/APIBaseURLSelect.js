@@ -13,9 +13,7 @@ import {
   TextField
 } from "@mui/material";
 import {defaultAPIBaseURLs} from "../../../lib/common/APIConfig";
-
-const STORAGE_SELECTED_KEY = "apiBaseURLs";
-const STORAGE_OPTIONS_KEY = "apiBaseURLsOptions";
+import {StorageKeys} from "../../../lib/common/Constants";
 
 const APIBaseURLSelect = ({apiType, label}) => {
   const [selected, setSelected] = useState(defaultAPIBaseURLs);
@@ -29,19 +27,19 @@ const APIBaseURLSelect = ({apiType, label}) => {
 
   const getStoredSelectedOrDefault = () => {
     const defaultSelected = defaultAPIBaseURLs;
-    const storedSelectedString = localStorage.getItem(STORAGE_SELECTED_KEY);
+    const storedSelectedString = localStorage.getItem(StorageKeys.APIBaseURLs);
     if (storedSelectedString) {
       let storedSelected;
       try {
         storedSelected = JSON.parse(storedSelectedString);
         if (!storedSelected || !storedSelected.nest || !storedSelected.fastAPI) {
-          localStorage.removeItem(STORAGE_SELECTED_KEY);
+          localStorage.removeItem(StorageKeys.APIBaseURLs);
           return defaultSelected;
         } else {
           return storedSelected;
         }
       } catch (e) {
-        localStorage.removeItem(STORAGE_SELECTED_KEY);
+        localStorage.removeItem(StorageKeys.APIBaseURLs);
         return defaultSelected;
       }
     } else {
@@ -51,19 +49,19 @@ const APIBaseURLSelect = ({apiType, label}) => {
 
   const getStoredOptionsOrDefault = () => {
     const defaultOptions = {nest: [], fastAPI: []};
-    const storedOptionsString = localStorage.getItem(STORAGE_OPTIONS_KEY);
+    const storedOptionsString = localStorage.getItem(StorageKeys.APIBaseURLsOptions);
     if (storedOptionsString) {
       let storedOptions;
       try {
         storedOptions = JSON.parse(storedOptionsString);
         if (!storedOptions || !storedOptions.nest || !storedOptions.fastAPI) {
-          localStorage.removeItem(STORAGE_OPTIONS_KEY);
+          localStorage.removeItem(StorageKeys.APIBaseURLsOptions);
           return defaultOptions;
         } else {
           return storedOptions;
         }
       } catch (e) {
-        localStorage.removeItem(STORAGE_OPTIONS_KEY);
+        localStorage.removeItem(StorageKeys.APIBaseURLsOptions);
         return defaultOptions;
       }
     } else {
@@ -79,11 +77,11 @@ const APIBaseURLSelect = ({apiType, label}) => {
   }, []);
 
   const persistSelected = (selected) => {
-    localStorage.setItem(STORAGE_SELECTED_KEY, JSON.stringify(selected));
+    localStorage.setItem(StorageKeys.APIBaseURLs, JSON.stringify(selected));
   };
 
   const persistOptions = (options) => {
-    localStorage.setItem(STORAGE_OPTIONS_KEY, JSON.stringify(options));
+    localStorage.setItem(StorageKeys.APIBaseURLsOptions, JSON.stringify(options));
   };
 
   const typeDefault = defaultAPIBaseURLs[apiType];

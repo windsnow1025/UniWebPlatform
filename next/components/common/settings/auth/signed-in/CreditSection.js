@@ -1,6 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {CircularProgress, Typography} from "@mui/material";
 import UserLogic from "../../../../../lib/common/user/UserLogic";
+import {StorageKeys} from "../../../../../lib/common/Constants";
 
 function CreditSection({ refreshKey = 0 }) {
   const userLogic = new UserLogic();
@@ -11,7 +12,7 @@ function CreditSection({ refreshKey = 0 }) {
 
   useEffect(() => {
     const fetchCredit = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem(StorageKeys.Token);
       setSignedIn(!!token);
       if (token) {
         try {
