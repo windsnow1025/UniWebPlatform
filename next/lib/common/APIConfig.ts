@@ -1,5 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
-import {Configuration} from "@/client/nest";
+import {Configuration as NestConfiguration} from "@/client/nest";
+import {Configuration as FastAPIConfiguration} from "@/client/fastapi";
 
 export interface APIBaseURLs {
   nest: string;
@@ -28,17 +29,17 @@ export function getFastAPIAxiosInstance(): AxiosInstance {
   });
 }
 
-export function getNestOpenAPIConfiguration(): Configuration {
+export function getNestOpenAPIConfiguration(): NestConfiguration {
   const token = localStorage.getItem("token");
-  return new Configuration({
+  return new NestConfiguration({
     basePath: getAPIBaseURLs().nest,
     accessToken: token || undefined,
   });
 }
 
-export function getFastAPIOpenAPIConfiguration(): Configuration {
+export function getFastAPIOpenAPIConfiguration(): FastAPIConfiguration {
   const token = localStorage.getItem("token");
-  return new Configuration({
+  return new FastAPIConfiguration({
     basePath: getAPIBaseURLs().fastAPI,
     accessToken: token || undefined,
   });
