@@ -1,6 +1,7 @@
 import UserClient from "./UserClient";
 import AuthClient from "@/lib/common/user/AuthClient";
 import axios from "axios";
+import {handleError} from "@/lib/common/ErrorHandler";
 import {UserResDto, UserResDtoRolesEnum} from "@/client";
 
 export default class UserLogic {
@@ -96,11 +97,7 @@ export default class UserLogic {
       const token = await this.authService.createTokenByEmail(email, password);
       localStorage.setItem('token', token);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Sign in failed');
+      handleError(error, 'Sign in failed');
     }
   }
 
@@ -109,11 +106,7 @@ export default class UserLogic {
       const token = await this.authService.createTokenByUsername(username, password);
       localStorage.setItem('token', token);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Sign in failed');
+      handleError(error, 'Sign in failed');
     }
   }
 
@@ -121,11 +114,7 @@ export default class UserLogic {
     try {
       await this.userClient.createUser(username, email, password);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Sign up failed');
+      handleError(error, 'Sign up failed');
     }
   }
 
@@ -133,11 +122,7 @@ export default class UserLogic {
     try {
       await this.userClient.sendEmailVerification(email);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Send email verification failed');
+      handleError(error, 'Send email verification failed');
     }
   }
 
@@ -155,11 +140,7 @@ export default class UserLogic {
       const user = await this.userClient.updateEmailVerified();
       return user.emailVerified;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Update email verification failed');
+      handleError(error, 'Update email verification failed');
     }
   }
 
@@ -167,11 +148,7 @@ export default class UserLogic {
     try {
       await this.userClient.updateResetPassword(email, password);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to update reset password');
+      handleError(error, 'Failed to update reset password');
     }
   }
 
@@ -179,11 +156,7 @@ export default class UserLogic {
     try {
       await this.userClient.updateEmail(email);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Update email failed');
+      handleError(error, 'Update email failed');
     }
   }
 
@@ -191,11 +164,7 @@ export default class UserLogic {
     try {
       await this.userClient.updateUsername(username);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Update username failed');
+      handleError(error, 'Update username failed');
     }
   }
 
@@ -212,11 +181,7 @@ export default class UserLogic {
     try {
       return await this.userClient.updateAvatar(avatar);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to update avatar');
+      handleError(error, 'Failed to update avatar');
     }
   }
 
@@ -224,11 +189,7 @@ export default class UserLogic {
     try {
       return await this.userClient.updateUserPrivileges(username, emailVerified, roles, credit);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to update privileges');
+      handleError(error, 'Failed to update privileges');
     }
   }
 
@@ -236,11 +197,7 @@ export default class UserLogic {
     try {
       await this.userClient.deleteUser();
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to delete user');
+      handleError(error, 'Failed to delete user');
     }
   }
 
@@ -248,11 +205,7 @@ export default class UserLogic {
     try {
       return await this.userClient.deleteUserById(id);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to delete user');
+      handleError(error, 'Failed to delete user');
     }
   }
 

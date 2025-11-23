@@ -1,4 +1,4 @@
-import axios from "axios";
+import {handleError} from "@/lib/common/ErrorHandler";
 import ConversationClient from "./ConversationClient";
 import {ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto} from "@/client";
 
@@ -28,11 +28,7 @@ export default class ConversationLogic {
         new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
       );
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to fetch conversation updated times');
+      handleError(error, 'Failed to fetch conversation updated times');
     }
   }
 
@@ -40,11 +36,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.fetchConversation(id);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to fetch conversation');
+      handleError(error, 'Failed to fetch conversation');
     }
   }
 
@@ -52,11 +44,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.fetchPublicConversation(id);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to fetch public conversation');
+      handleError(error, 'Failed to fetch public conversation');
     }
   }
 
@@ -64,11 +52,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.addConversation(conversation);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to add conversation');
+      handleError(error, 'Failed to add conversation');
     }
   }
 
@@ -78,11 +62,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.cloneConversationForUser(id, username);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to add conversation for user');
+      handleError(error, 'Failed to add conversation for user');
     }
   }
 
@@ -92,11 +72,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.updateConversation(id, etag, conversation);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to update conversation');
+      handleError(error, 'Failed to update conversation');
     }
   }
 
@@ -106,11 +82,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.updateConversationName(id, etag, name);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to update conversation name');
+      handleError(error, 'Failed to update conversation name');
     }
   }
 
@@ -120,11 +92,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.updateConversationPublic(id, etag, isPublic);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to update conversation public status');
+      handleError(error, 'Failed to update conversation public status');
     }
   }
 
@@ -134,11 +102,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.updateConversationColorLabel(id, etag, colorLabel);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to update conversation color label');
+      handleError(error, 'Failed to update conversation color label');
     }
   }
 
@@ -148,11 +112,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.addUserToConversation(id, etag, username);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to share conversation');
+      handleError(error, 'Failed to share conversation');
     }
   }
 
@@ -160,11 +120,7 @@ export default class ConversationLogic {
     try {
       await this.conversationService.deleteConversation(id);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to delete conversation');
+      handleError(error, 'Failed to delete conversation');
     }
   }
 }
