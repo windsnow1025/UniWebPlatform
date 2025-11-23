@@ -1,4 +1,4 @@
-import {getNestAxiosInstance, getOpenAPIConfiguration} from "@/lib/common/APIConfig";
+import {getNestAxiosInstance, getNestOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {FilesApi} from "@/client/nest";
 
 export default class FileClient {
@@ -21,13 +21,13 @@ export default class FileClient {
   }
 
   async getStorageUrl(): Promise<string> {
-    const api = new FilesApi(getOpenAPIConfiguration());
+    const api = new FilesApi(getNestOpenAPIConfiguration());
     const response = await api.filesControllerGetMinioWebUrl();
     return response.data.webUrl;
   }
 
   async cloneFiles(filenames: string[]): Promise<string[]> {
-    const api = new FilesApi(getOpenAPIConfiguration());
+    const api = new FilesApi(getNestOpenAPIConfiguration());
     const response = await api.filesControllerCloneFiles({
       filenames: filenames
     });
@@ -35,13 +35,13 @@ export default class FileClient {
   }
 
   async fetchFiles(): Promise<string[]> {
-    const api = new FilesApi(getOpenAPIConfiguration());
+    const api = new FilesApi(getNestOpenAPIConfiguration());
     const response = await api.filesControllerGetFiles();
     return response.data.urls;
   }
 
   async deleteFiles(filenames: string[]): Promise<void> {
-    const api = new FilesApi(getOpenAPIConfiguration());
+    const api = new FilesApi(getNestOpenAPIConfiguration());
     await api.filesControllerDeleteFiles({
       filenames: filenames
     });

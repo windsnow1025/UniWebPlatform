@@ -1,4 +1,4 @@
-import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
+import {getNestOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {
   ConversationReqDto,
   ConversationResDto,
@@ -8,31 +8,31 @@ import {
 
 export default class ConversationClient {
   async fetchConversations(): Promise<ConversationResDto[]> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerFind();
     return res.data;
   }
 
   async fetchConversationUpdatedTimes(): Promise<ConversationUpdateTimeResDto[]> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerFindUpdateTimes();
     return res.data;
   }
 
   async fetchConversation(id: number): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerFindOne(id);
     return res.data;
   }
 
   async fetchPublicConversation(id: number): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerFindPublicOne(id);
     return res.data;
   }
 
   async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerCreate(
       conversation
     );
@@ -40,7 +40,7 @@ export default class ConversationClient {
   }
 
   async cloneConversationForUser(id: number, username: string): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerCloneForSpecificUser(
       id, {username}
     );
@@ -48,7 +48,7 @@ export default class ConversationClient {
   }
 
   async addUserToConversation(id: number, etag: string, username: string): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerAddUserForUsers(
       id, etag, {username}
     );
@@ -56,7 +56,7 @@ export default class ConversationClient {
   }
 
   async updateConversation(id: number, etag: string, conversation: ConversationReqDto): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdate(
       id, etag, conversation
     );
@@ -64,7 +64,7 @@ export default class ConversationClient {
   }
 
   async updateConversationName(id: number, etag: string, name: string): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdateName(
       id, etag, {name},
     );
@@ -72,7 +72,7 @@ export default class ConversationClient {
   }
 
   async updateConversationPublic(id: number, etag: string, isPublic: boolean): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdatePublic(
         id, etag, { isPublic },
     );
@@ -80,7 +80,7 @@ export default class ConversationClient {
   }
 
   async updateConversationColorLabel(id: number, etag: string, colorLabel: string): Promise<ConversationResDto> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdateColorLabel(
       id, etag, { colorLabel },
     );
@@ -88,7 +88,7 @@ export default class ConversationClient {
   }
 
   async deleteConversation(id: number): Promise<void> {
-    const api = new ConversationsApi(getOpenAPIConfiguration());
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
     await api.conversationsControllerDelete(id);
   }
 }

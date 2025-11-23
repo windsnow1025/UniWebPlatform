@@ -28,10 +28,18 @@ export function getFastAPIAxiosInstance(): AxiosInstance {
   });
 }
 
-export function getOpenAPIConfiguration(): Configuration {
+export function getNestOpenAPIConfiguration(): Configuration {
   const token = localStorage.getItem("token");
   return new Configuration({
     basePath: getAPIBaseURLs().nest,
+    accessToken: token || undefined,
+  });
+}
+
+export function getFastAPIOpenAPIConfiguration(): Configuration {
+  const token = localStorage.getItem("token");
+  return new Configuration({
+    basePath: getAPIBaseURLs().fastAPI,
     accessToken: token || undefined,
   });
 }
