@@ -43,13 +43,13 @@ export class ConversationsService {
   private assertIfMatch(conversation: Conversation, ifMatch?: string) {
     if (!ifMatch) {
       throw new PreconditionFailedException(
-        'Precondition Required: If-Match missing',
+        'If-Match missing',
       );
     }
     const current = this.getEtag(conversation);
     if (ifMatch !== current) {
       throw new PreconditionFailedException(
-        'Precondition Failed: ETag mismatch',
+        'ETag mismatch',
       );
     }
   }
