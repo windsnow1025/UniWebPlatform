@@ -42,15 +42,11 @@ export class ConversationsService {
 
   private assertIfMatch(conversation: Conversation, ifMatch?: string) {
     if (!ifMatch) {
-      throw new PreconditionFailedException(
-        'If-Match missing',
-      );
+      return;
     }
     const current = this.getEtag(conversation);
     if (ifMatch !== current) {
-      throw new PreconditionFailedException(
-        'ETag mismatch',
-      );
+      throw new PreconditionFailedException('ETag mismatch');
     }
   }
 
