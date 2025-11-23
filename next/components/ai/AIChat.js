@@ -29,6 +29,8 @@ function AIChat({
   const [model, setModel] = useState(ChatLogic.defaultApiTypeModels[0].model);
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
+  const [thought, setThought] = useState(true);
+  const [codeExecution, setCodeExecution] = useState(false);
   const [isTemporaryChat, setIsTemporaryChat] = useState(initIsTemporaryChat);
 
   // Generation Control
@@ -120,6 +122,10 @@ function AIChat({
                 setTemperature={setTemperature}
                 stream={stream}
                 setStream={setStream}
+                thought={thought}
+                setThought={setThought}
+                codeExecution={codeExecution}
+                setCodeExecution={setCodeExecution}
                 refreshKey={creditRefreshKey}
               />
             </div>
@@ -176,6 +182,8 @@ function AIChat({
                 model={model}
                 temperature={temperature}
                 stream={stream}
+                thought={thought}
+                codeExecution={codeExecution}
               />
               <RetryButton
                 messages={messages}

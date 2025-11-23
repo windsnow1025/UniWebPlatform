@@ -12,6 +12,7 @@ import {
   Typography
 } from "@mui/material";
 import ChatLogic from "../../lib/chat/ChatLogic";
+import {StorageKeys} from "../../lib/common/Constants";
 import useScreenSize from "../common/hooks/useScreenSize";
 import CreditSection from "../common/settings/auth/signed-in/CreditSection";
 
@@ -24,6 +25,10 @@ function ConfigDiv({
                        setTemperature,
                        stream,
                        setStream,
+                       thought,
+                       setThought,
+                       codeExecution,
+                       setCodeExecution,
                        refreshKey,
                      }) {
   const screenSize = useScreenSize();
@@ -34,6 +39,8 @@ function ConfigDiv({
   const [filteredApiTypeModels, setFilteredApiTypeModels] = useState([]);
   const [apiTypeModels, setApiTypeModels] = useState([]);
   const [apiTypes, setApiTypes] = useState([]);
+
+  const [developerMode, setDeveloperMode] = useState(false);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -51,6 +58,13 @@ function ConfigDiv({
     };
 
     fetchApiTypeModels();
+  }, []);
+
+  useEffect(() => {
+    const storedDeveloperMode = localStorage.getItem(StorageKeys.DeveloperMode);
+    if (storedDeveloperMode !== null) {
+      setDeveloperMode(storedDeveloperMode === 'true');
+    }
   }, []);
 
   useEffect(() => {
@@ -110,7 +124,7 @@ function ConfigDiv({
           </FormControl>
         </div>
         <CreditSection refreshKey={refreshKey}/>
-        {!smallScreen && (
+        {developerMode && (
           <>
             <div>
               <Typography variant="body1">Temperature</Typography>
@@ -133,6 +147,24 @@ function ConfigDiv({
                 size="small"
               />
             } label="Stream"/>
+          </>
+        )}
+        {!smallScreen && (
+          <>
+            <FormControlLabel control={
+              <Switch
+                checked={thought}
+                onChange={e => setThought(e.target.checked)}
+                size="small"
+              />
+            } label="Thought"/>
+            <FormControlLabel control={
+              <Switch
+                checked={codeExecution}
+                onChange={e => setCodeExecution(e.target.checked)}
+                size="small"
+              />
+            } label="Code Execution"/>
           </>
         )}
       </div>
