@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 import FileLogic from "../../../lib/common/file/FileLogic";
-import {ContentTypeEnum} from "@/client";
+import {ContentTypeEnum} from "../../../client";
 
 function SaveAsConversationDialog({
   open,

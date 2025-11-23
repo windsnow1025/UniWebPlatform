@@ -7,8 +7,8 @@ import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
 import {RawEditableState} from "../../../lib/common/message/EditableState";
-import {ContentTypeEnum} from '@/client';
 import FileDiv from "./file/FileDiv";
+import {ContentTypeEnum} from "../../../client";
 
 function SortableContent({
                            id,
