@@ -1,6 +1,6 @@
 import MarkdownClient from "./MarkdownClient";
 import {handleError} from "@/lib/common/ErrorHandler";
-import {MarkdownResDto} from "@/client";
+import {MarkdownResDto} from "@/client/nest";
 
 export default class MarkdownLogic {
   private markdownService: MarkdownClient;

@@ -2,7 +2,7 @@ import React from 'react';
 import {DndContext, PointerSensor, rectIntersection, useSensor, useSensors} from "@dnd-kit/core";
 import {SortableContext} from "@dnd-kit/sortable";
 import SortableContent from './SortableContent';
-import {ContentTypeEnum} from "../../../client";
+import {ContentTypeEnum} from "../../../client/nest";
 
 function SortableContents({
                             contents,

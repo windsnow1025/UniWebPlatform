@@ -8,7 +8,7 @@ import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
 import {RawEditableState} from "../../../lib/common/message/EditableState";
 import FileDiv from "./file/FileDiv";
-import {ContentTypeEnum} from "../../../client";
+import {ContentTypeEnum} from "../../../client/nest";
 
 function SortableContent({
                            id,

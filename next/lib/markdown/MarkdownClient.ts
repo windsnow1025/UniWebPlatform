@@ -1,5 +1,5 @@
 import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
-import {MarkdownReqDto, MarkdownResDto, MarkdownsApi} from "@/client";
+import {MarkdownReqDto, MarkdownResDto, MarkdownsApi} from "@/client/nest";
 
 export default class MarkdownClient {
   async fetchMarkdowns(): Promise<MarkdownResDto[]> {

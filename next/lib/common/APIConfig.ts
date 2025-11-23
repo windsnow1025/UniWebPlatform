@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
-import {Configuration} from "@/client";
+import {Configuration} from "@/client/nest";
 
 export interface APIBaseURLs {
   nest: string;

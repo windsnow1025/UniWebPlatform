@@ -2,7 +2,7 @@ import UserClient from "./UserClient";
 import AuthClient from "@/lib/common/user/AuthClient";
 import axios from "axios";
 import {handleError} from "@/lib/common/ErrorHandler";
-import {UserResDto, UserResDtoRolesEnum} from "@/client";
+import {UserResDto, UserResDtoRolesEnum} from "@/client/nest";
 
 export default class UserLogic {
   private authService: AuthClient;
