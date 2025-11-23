@@ -1,8 +1,8 @@
-import axios from 'axios';
 import {ApiTypeModel, ChatResponse} from "./ChatResponse";
 import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/lib/common/APIConfig";
 import {fetchEventSource} from '@microsoft/fetch-event-source';
 import {Message} from "@/client/nest";
+import {handleError} from "@/lib/common/ErrorHandler";
 
 export default class ChatClient {
   async nonStreamGenerate(
@@ -29,22 +29,7 @@ export default class ChatClient {
       });
       return res.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          const status = error.response.status;
-          const statusText = error.response.statusText;
-          const message = error.response.data.detail;
-          let finalMessage = "";
-          if (status === 402) {
-            finalMessage = "Please contact windsnow1025@gmail.com";
-          }
-          throw new Error(`${status} - ${statusText}: ${message}. ${finalMessage}`);
-        } else {
-          throw error;
-        }
-      } else {
-        throw error;
-      }
+      handleError(error, 'Failed to generate non-streaming chat response');
     }
   }
 
