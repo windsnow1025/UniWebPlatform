@@ -1,9 +1,10 @@
 import {getNestAxiosInstance, getNestOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {FilesApi} from "@/client/nest";
+import {StorageKeys} from "@/lib/common/Constants";
 
 export default class FileClient {
   async uploadFiles(files: File[]): Promise<string[]> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(StorageKeys.Token);
 
     const formData = new FormData();
     files.forEach(file => {

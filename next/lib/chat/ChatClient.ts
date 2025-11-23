@@ -4,6 +4,7 @@ import {fetchEventSource} from '@microsoft/fetch-event-source';
 import {Message} from "@/client/nest";
 import {handleError} from "@/lib/common/ErrorHandler";
 import {DefaultApi, type ChatRequest} from "@/client/fastapi";
+import {AuthorEmail, StorageKeys} from "@/lib/common/Constants";
 
 export default class ChatClient {
   async nonStreamGenerate(
@@ -36,7 +37,7 @@ export default class ChatClient {
     temperature: number,
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse, void, unknown> {
-    const token = localStorage.getItem('token')!;
+    const token = localStorage.getItem(StorageKeys.Token)!;
 
     const requestData: ChatRequest = {
       messages: messages,
@@ -80,7 +81,7 @@ export default class ChatClient {
           }
           let finalMessage = "";
           if (status === 402) {
-            finalMessage = "Please contact windsnow1025@gmail.com";
+            finalMessage = `Please contact ${AuthorEmail}`;
           }
 
           throw new Error(`${status} ${statusText}: ${message}. ${finalMessage}`);

@@ -27,6 +27,7 @@ import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 import {isEqual} from 'lodash';
 import {COLOR_LABELS} from "./constants/ColorLabels";
 import ConversationMenu from "./ConversationMenu";
+import {StorageKeys} from "../../../lib/common/Constants";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -90,7 +91,7 @@ function ConversationList({
   const conversationLogic = new ConversationLogic();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(StorageKeys.Token);
     setSignedIn(!!token);
     if (!token) {
       setIsLoadingConversations(false);

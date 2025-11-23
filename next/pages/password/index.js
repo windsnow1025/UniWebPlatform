@@ -4,22 +4,23 @@ import EncryptorDecryptor from "../../components/password/EncryptorDecryptor";
 import SecretKeyDialog from "../../components/password/SecretKeyDialog";
 import { Button } from "@mui/material";
 import Head from "next/head";
+import {StorageKeys} from "../../lib/common/Constants";
 
 function PasswordEncryptionTool() {
   const [key, setKey] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    const savedKey = localStorage.getItem('secretKey');
+    const savedKey = localStorage.getItem(StorageKeys.SecretKey);
     if (savedKey) setKey(Number(savedKey));
   }, []);
 
   const handleSetKey = (newKey, remember = true) => {
     setKey(Number(newKey));
     if (remember && newKey) {
-      localStorage.setItem('secretKey', newKey.toString());
+      localStorage.setItem(StorageKeys.SecretKey, newKey.toString());
     } else {
-      localStorage.removeItem('secretKey');
+      localStorage.removeItem(StorageKeys.SecretKey);
     }
   };
 

@@ -22,6 +22,7 @@ import {usePathname} from "next/navigation";
 import EmailVerificationDialog from "@/components/common/EmailVerificationDialog";
 import AnnouncementSnackbar from "@/components/common/AnnouncementSnackbar";
 import {createTheme, ThemeProvider } from "@mui/material/styles";
+import {StorageKeys} from "@/lib/common/Constants";
 
 const NAVIGATION: Navigation = [
   {
@@ -101,7 +102,7 @@ export default function App({ Component }: { Component: React.ElementType }) {
       },
       signOut: () => {
         setSession(null);
-        localStorage.removeItem("token");
+        localStorage.removeItem(StorageKeys.Token);
         router.push(`/auth/signin?redirect=${encodeURIComponent(pathname!)}`);
       },
     };

@@ -3,6 +3,7 @@ import {Alert, Button, Snackbar, Tooltip} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import ChatLogic from "../../lib/chat/ChatLogic";
+import {StorageKeys} from "../../lib/common/Constants";
 
 function SendButton({
                       isGenerating,
@@ -118,7 +119,7 @@ function SendButton({
   };
 
   const handleGenerate = async () => {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem(StorageKeys.Token)) {
       setAlertMessage('Please sign in first.');
       setAlertSeverity('warning');
       setAlertOpen(true);

@@ -3,6 +3,7 @@ import AuthClient from "@/lib/common/user/AuthClient";
 import axios from "axios";
 import {handleError} from "@/lib/common/ErrorHandler";
 import {UserResDto, UserResDtoRolesEnum} from "@/client/nest";
+import {StorageKeys} from "@/lib/common/Constants";
 
 export default class UserLogic {
   private authService: AuthClient;
@@ -51,9 +52,9 @@ export default class UserLogic {
   }
 
   async fetchUser() {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem(StorageKeys.Token)
     if (this.isTokenExpired(token)) {
-      localStorage.removeItem('token');
+      localStorage.removeItem(StorageKeys.Token);
       return null;
     }
     try {
@@ -95,7 +96,7 @@ export default class UserLogic {
   async signInByEmail(email: string, password: string) {
     try {
       const token = await this.authService.createTokenByEmail(email, password);
-      localStorage.setItem('token', token);
+      localStorage.setItem(StorageKeys.Token, token);
     } catch (error) {
       handleError(error, 'Sign in failed');
     }
@@ -104,7 +105,7 @@ export default class UserLogic {
   async signInByUsername(username: string, password: string) {
     try {
       const token = await this.authService.createTokenByUsername(username, password);
-      localStorage.setItem('token', token);
+      localStorage.setItem(StorageKeys.Token, token);
     } catch (error) {
       handleError(error, 'Sign in failed');
     }
