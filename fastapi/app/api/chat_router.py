@@ -19,6 +19,8 @@ class ChatRequest(BaseModel):
     api_type: str
     temperature: float
     stream: bool
+    thought: bool
+    code_execution: bool
 
 
 @chat_router.post("/chat")
@@ -47,6 +49,8 @@ async def generate(
             api_type=chat_request.api_type,
             temperature=chat_request.temperature,
             stream=chat_request.stream,
+            thought=chat_request.thought,
+            code_execution=chat_request.code_execution,
         )
     except HTTPException as e:
         raise e

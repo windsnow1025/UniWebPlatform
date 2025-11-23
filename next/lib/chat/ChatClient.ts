@@ -11,14 +11,18 @@ export default class ChatClient {
     messages: Message[],
     api_type: string,
     model: string,
-    temperature: number
+    temperature: number,
+    thought: boolean,
+    code_execution: boolean,
   ): Promise<ChatResponse> {
     const requestData: ChatRequest = {
       messages: messages,
       api_type: api_type,
       model: model,
       temperature: temperature,
-      stream: false
+      stream: false,
+      thought: thought,
+      code_execution: code_execution,
     };
 
     try {
@@ -35,6 +39,8 @@ export default class ChatClient {
     api_type: string,
     model: string,
     temperature: number,
+    thought: boolean,
+    code_execution: boolean,
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse, void, unknown> {
     const token = localStorage.getItem(StorageKeys.Token)!;
@@ -44,7 +50,9 @@ export default class ChatClient {
       api_type: api_type,
       model: model,
       temperature: temperature,
-      stream: true
+      stream: true,
+      thought: thought,
+      code_execution: code_execution,
     };
 
     const queue: ChatResponse[] = [];

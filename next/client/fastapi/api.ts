@@ -29,6 +29,8 @@ export interface ChatRequest {
     'api_type': string;
     'temperature': number;
     'stream': boolean;
+    'thought': boolean;
+    'code_execution': boolean;
 }
 export interface Content {
     'type': ContentType;

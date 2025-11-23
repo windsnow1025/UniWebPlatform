@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **api_type** | **string** |  | [default to undefined]
 **temperature** | **number** |  | [default to undefined]
 **stream** | **boolean** |  | [default to undefined]
+**thought** | **boolean** |  | [default to undefined]
+**code_execution** | **boolean** |  | [default to undefined]
 
 ## Example
 
@@ -22,6 +24,8 @@ const instance: ChatRequest = {
     api_type,
     temperature,
     stream,
+    thought,
+    code_execution,
 };
 ```
 

@@ -27,13 +27,15 @@ def sample_messages():
 
 @pytest.mark.asyncio
 async def test_basic(sample_messages):
-    messages = sample_messages
-    model = "gpt-4o"
-    api_type = "OpenAI"
-    temperature = 0
-    stream = False
     api_keys = {
         "OPENAI_API_KEY": "test-key"
     }
+    messages = sample_messages
+    model = "gpt-5.0"
+    api_type = "OpenAI"
+    temperature = 0
+    stream = True
+    thought = True
+    code_execution = True
 
     assert True
