@@ -1,8 +1,9 @@
 import {ApiTypeModel, ChatResponse} from "./ChatResponse";
-import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/lib/common/APIConfig";
+import {getAPIBaseURLs, getFastAPIOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {fetchEventSource} from '@microsoft/fetch-event-source';
 import {Message} from "@/client/nest";
 import {handleError} from "@/lib/common/ErrorHandler";
+import {DefaultApi, type ChatRequest} from "@/client/fastapi";
 
 export default class ChatClient {
   async nonStreamGenerate(
@@ -11,9 +12,7 @@ export default class ChatClient {
     model: string,
     temperature: number
   ): Promise<ChatResponse> {
-    const token = localStorage.getItem('token')!;
-
-    const requestData = {
+    const requestData: ChatRequest = {
       messages: messages,
       api_type: api_type,
       model: model,
@@ -22,11 +21,8 @@ export default class ChatClient {
     };
 
     try {
-      const res = await getFastAPIAxiosInstance().post(`/chat`, requestData, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const api = new DefaultApi(getFastAPIOpenAPIConfiguration());
+      const res = await api.generateChatPost(requestData);
       return res.data;
     } catch (error) {
       handleError(error, 'Failed to generate non-streaming chat response');
@@ -42,7 +38,7 @@ export default class ChatClient {
   ): AsyncGenerator<ChatResponse, void, unknown> {
     const token = localStorage.getItem('token')!;
 
-    const requestData = {
+    const requestData: ChatRequest = {
       messages: messages,
       api_type: api_type,
       model: model,
@@ -128,7 +124,8 @@ export default class ChatClient {
   }
 
   async fetchApiModels(): Promise<ApiTypeModel[]> {
-    const res = await getFastAPIAxiosInstance().get(`/model`);
+    const api = new DefaultApi(getFastAPIOpenAPIConfiguration());
+    const res = await api.getModelsModelGet();
     return res.data;
   }
 }
