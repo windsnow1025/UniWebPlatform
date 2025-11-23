@@ -1,9 +1,9 @@
-import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
+import {getNestOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {AuthApi} from "@/client/nest";
 
 export default class AuthClient {
   async createTokenByEmail(email: string, password: string): Promise<string> {
-    const api = new AuthApi(getOpenAPIConfiguration());
+    const api = new AuthApi(getNestOpenAPIConfiguration());
     const res = await api.authControllerCreateTokenByEmail({
       email: email,
       password: password
@@ -12,7 +12,7 @@ export default class AuthClient {
   }
 
   async createTokenByUsername(username: string, password: string): Promise<string> {
-    const api = new AuthApi(getOpenAPIConfiguration());
+    const api = new AuthApi(getNestOpenAPIConfiguration());
     const res = await api.authControllerCreateTokenByUsername({
       username: username,
       password: password
