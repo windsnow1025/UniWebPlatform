@@ -45,12 +45,12 @@ async def handle_chat_interaction(
     }
 
     chat_client = await create_chat_client(
+        api_keys=api_keys,
         messages=messages,
         model=model,
         api_type=api_type,
         temperature=temperature,
         stream=stream,
-        api_keys=api_keys,
     )
 
     if stream:
