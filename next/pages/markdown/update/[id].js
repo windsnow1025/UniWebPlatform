@@ -88,7 +88,15 @@ function MarkdownUpdate() {
         {isEditing &&
           <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button>
           </div>}
-        <div className="m-1"><Button variant="contained" color="secondary" onClick={handleUpdate}>Update</Button>
+        <div className="m-1">
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleUpdate}
+            disabled={!markdown.content || markdown.content.trim().length === 0}
+          >
+            Update
+          </Button>
         </div>
         <div className="m-1"><Button variant="outlined" onClick={handleDelete}>Delete</Button></div>
       </div>

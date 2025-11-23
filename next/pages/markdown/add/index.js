@@ -60,7 +60,16 @@ function MarkdownAdd() {
         {isEditing &&
           <div className="m-1"><Button variant="contained" color="primary" onClick={handleConfirm}>Confirm</Button>
           </div>}
-        <div className="m-1"><Button variant="contained" color="secondary" onClick={handleAdd}>Add</Button></div>
+        <div className="m-1">
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleAdd}
+            disabled={!content || content.trim().length === 0}
+          >
+            Add
+          </Button>
+        </div>
       </div>
       <Snackbar
         open={alertOpen}
