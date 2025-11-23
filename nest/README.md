@@ -2,27 +2,26 @@
 
 ## Setup
 
-Copy `./.env.example` and rename it to `.env`, then fill in the Env variables.
-
-Copy `./firebaseConfig.example.json` and rename it to `./firebaseConfig.json`, then fill in the Env variables.
-Copy `./serviceAccountKey.example.json` and rename it to `./serviceAccountKey.json`, then fill in the Env variables.
+- Copy `./.env.example` and rename it to `.env`, then fill in the Env variables.
+- Copy `./firebaseConfig.example.json` and rename it to `./firebaseConfig.json`, then fill in the Env variables.
+- Copy `./serviceAccountKey.example.json` and rename it to `./serviceAccountKey.json`, then fill in the Env variables.
 
 ## OpenAPI
 
 ### Requirements
 
-1. Install nest.js cli and openapi-generator-cli globally.
+1. Install openapi-generator-cli globally.
 
     ```bash
-    npm i -g @nestjs/cli @openapitools/openapi-generator-cli
+    npm i -g @openapitools/openapi-generator-cli
     ```
 
 2. Install Java.
 
 ### Generate Client Package
 
-```sh
-openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/neset
+```bash
+openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/nest
 ```
 
 ## Run
