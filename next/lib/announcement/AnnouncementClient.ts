@@ -1,4 +1,4 @@
-import {AnnouncementApi, AnnouncementResDto} from "@/client";
+import {AnnouncementApi, AnnouncementResDto} from "@/client/nest";
 import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
 
 export default class AnnouncementClient {

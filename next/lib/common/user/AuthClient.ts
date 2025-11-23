@@ -1,5 +1,5 @@
 import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
-import {AuthApi} from "@/client";
+import {AuthApi} from "@/client/nest";
 
 export default class AuthClient {
   async createTokenByEmail(email: string, password: string): Promise<string> {

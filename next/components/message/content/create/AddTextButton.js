@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from "@mui/material";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import { ContentTypeEnum } from "../../../../client";
+import { ContentTypeEnum } from "../../../../client/nest";
 
 function AddTextButton({ setContent }) {
   const handleAddTextContent = () => {

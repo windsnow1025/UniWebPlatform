@@ -4,7 +4,7 @@ import FilesUpload from './FilesUpload';
 import AudioRecord from './AudioRecord';
 import FileDropZone from './FileDropZone';
 import UrlAdd from './UrlAdd';
-import {ContentTypeEnum} from "../../../../client";
+import {ContentTypeEnum} from "../../../../client/nest";
 import AddTextButton from "./AddTextButton";
 
 function AddContentArea({contents, setContents, setConversationUpdateKey}) {

@@ -2,7 +2,7 @@ import axios from 'axios';
 import {ApiTypeModel, ChatResponse} from "./ChatResponse";
 import {getAPIBaseURLs, getFastAPIAxiosInstance} from "@/lib/common/APIConfig";
 import {fetchEventSource} from '@microsoft/fetch-event-source';
-import {Message} from "@/client";
+import {Message} from "@/client/nest";
 
 export default class ChatClient {
   async nonStreamGenerate(

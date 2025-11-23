@@ -22,7 +22,7 @@ Copy `./serviceAccountKey.example.json` and rename it to `./serviceAccountKey.js
 ### Generate Client Package
 
 ```sh
-openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client
+openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/neset
 ```
 
 ## Run

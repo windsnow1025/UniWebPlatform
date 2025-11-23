@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Avatar, Tooltip, useTheme, Menu, MenuItem, ListItemIcon, ListItemText} from "@mui/material";
 import BuildIcon from '@mui/icons-material/Build';
 import AssistantIcon from '@mui/icons-material/Assistant';
-import {MessageRoleEnum} from "../../../client";
+import {MessageRoleEnum} from "../../../client/nest";
 import {useSession} from "@toolpad/core";
 
 function RoleSelect({role, setRole}) {

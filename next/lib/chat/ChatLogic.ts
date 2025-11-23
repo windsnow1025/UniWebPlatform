@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
 import {ApiTypeModel, ChatResponse, Citation, ResponseFile} from "@/lib/chat/ChatResponse";
-import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client";
+import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client/nest";
 import FileLogic from "@/lib/common/file/FileLogic";
 
 export default class ChatLogic {

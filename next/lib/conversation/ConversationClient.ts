@@ -4,7 +4,7 @@ import {
   ConversationResDto,
   ConversationUpdateTimeResDto,
   ConversationsApi
-} from "@/client";
+} from "@/client/nest";
 
 export default class ConversationClient {
   async fetchConversations(): Promise<ConversationResDto[]> {

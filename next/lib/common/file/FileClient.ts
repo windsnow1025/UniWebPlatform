@@ -1,5 +1,5 @@
 import {getNestAxiosInstance, getOpenAPIConfiguration} from "@/lib/common/APIConfig";
-import {FilesApi} from "@/client";
+import {FilesApi} from "@/client/nest";
 
 export default class FileClient {
   async uploadFiles(files: File[]): Promise<string[]> {

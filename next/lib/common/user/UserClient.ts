@@ -1,5 +1,5 @@
 import {getOpenAPIConfiguration} from "@/lib/common/APIConfig";
-import {UserResDto, UsersApi, UserResDtoRolesEnum} from "@/client";
+import {UserResDto, UsersApi, UserResDtoRolesEnum} from "@/client/nest";
 
 export default class UserClient {
   async fetchUsers(): Promise<UserResDto[]> {

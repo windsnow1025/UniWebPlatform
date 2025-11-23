@@ -7,7 +7,7 @@ import DisplayDiv from "./content/display/DisplayDiv";
 import ThoughtDiv from "./content/thought/ThoughtDiv";
 import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
-import {MessageRoleEnum} from "../../client";
+import {MessageRoleEnum} from "../../client/nest";
 import {RawEditableState} from "../../lib/common/message/EditableState";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import VisibilityIcon from "@mui/icons-material/Visibility";

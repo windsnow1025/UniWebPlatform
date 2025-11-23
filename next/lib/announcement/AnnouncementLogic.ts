@@ -1,6 +1,6 @@
 import AnnouncementClient from "./AnnouncementClient";
 import {handleError} from "@/lib/common/ErrorHandler";
-import {AnnouncementResDto} from "@/client";
+import {AnnouncementResDto} from "@/client/nest";
 
 export default class AnnouncementLogic {
   private announcementService: AnnouncementClient;
