@@ -1,5 +1,5 @@
 import MarkdownClient from "./MarkdownClient";
-import axios from "axios";
+import {handleError} from "@/lib/common/ErrorHandler";
 import {MarkdownResDto} from "@/client";
 
 export default class MarkdownLogic {
@@ -35,11 +35,7 @@ export default class MarkdownLogic {
     try {
       return await this.markdownService.addMarkdown({title, content});
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to add markdown');
+      handleError(error, 'Failed to add markdown');
     }
   }
 
@@ -47,11 +43,7 @@ export default class MarkdownLogic {
     try {
       return await this.markdownService.updateMarkdown(id, {title, content});
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to update markdown');
+      handleError(error, 'Failed to update markdown');
     }
   }
 
@@ -59,11 +51,7 @@ export default class MarkdownLogic {
     try {
       await this.markdownService.deleteMarkdown(id);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to delete markdown');
+      handleError(error, 'Failed to delete markdown');
     }
   }
 }

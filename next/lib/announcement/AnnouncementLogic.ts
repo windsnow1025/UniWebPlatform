@@ -1,5 +1,5 @@
 import AnnouncementClient from "./AnnouncementClient";
-import axios from "axios";
+import {handleError} from "@/lib/common/ErrorHandler";
 import {AnnouncementResDto} from "@/client";
 
 export default class AnnouncementLogic {
@@ -22,11 +22,7 @@ export default class AnnouncementLogic {
     try {
       return await this.announcementService.updateAnnouncement(content);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error("Failed to update announcement");
+      handleError(error, "Failed to update announcement");
     }
   }
 }

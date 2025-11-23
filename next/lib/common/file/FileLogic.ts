@@ -1,5 +1,6 @@
 import FileClient from "./FileClient";
 import axios from "axios";
+import {handleError} from "@/lib/common/ErrorHandler";
 import {getAPIBaseURLs} from "@/lib/common/APIConfig";
 
 export default class FileLogic {
@@ -36,11 +37,7 @@ export default class FileLogic {
     try {
       return await this.fileService.getStorageUrl();
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to get storage URL');
+      handleError(error, 'Failed to get storage URL');
     }
   }
 
@@ -48,13 +45,10 @@ export default class FileLogic {
     try {
       return await this.fileService.uploadFiles(files);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          throw new Error("Upload failed: file in use, folder paste not supported, or connection lost.");        }
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
+      if (axios.isAxiosError(error) && !error.response) {
+        throw new Error("Upload failed: file in use, folder paste not supported, or connection lost.");
       }
-      console.error(error);
-      throw new Error('Failed to upload file');
+      handleError(error, 'Failed to upload file');
     }
   }
 
@@ -62,11 +56,7 @@ export default class FileLogic {
     try {
       return await this.fileService.cloneFiles(filenames);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to clone files');
+      handleError(error, 'Failed to clone files');
     }
   }
 
@@ -74,11 +64,7 @@ export default class FileLogic {
     try {
       return await this.fileService.fetchFiles();
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to fetch files');
+      handleError(error, 'Failed to fetch files');
     }
   }
 
@@ -86,11 +72,7 @@ export default class FileLogic {
     try {
       await this.fileService.deleteFiles(filenames);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      console.error(error);
-      throw new Error('Failed to delete files');
+      handleError(error, 'Failed to delete files');
     }
   }
 }
