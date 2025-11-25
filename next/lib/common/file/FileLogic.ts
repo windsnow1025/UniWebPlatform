@@ -4,11 +4,10 @@ import {handleError} from "@/lib/common/ErrorHandler";
 import {getAPIBaseURLs} from "@/lib/common/APIConfig";
 
 export default class FileLogic {
-  private fileService: FileClient;
-  private webUrlOrigin?: string;
+  private fileClient: FileClient;
 
   constructor() {
-    this.fileService = new FileClient();
+    this.fileClient = new FileClient();
   }
 
   static getFilenameFromUrl(url: string): string {
@@ -35,7 +34,7 @@ export default class FileLogic {
 
   async getStorageUrl() {
     try {
-      return await this.fileService.getStorageUrl();
+      return await this.fileClient.getStorageUrl();
     } catch (error) {
       handleError(error, 'Failed to get storage URL');
     }
@@ -43,7 +42,7 @@ export default class FileLogic {
 
   async uploadFiles(files: File[]) {
     try {
-      return await this.fileService.uploadFiles(files);
+      return await this.fileClient.uploadFiles(files);
     } catch (error) {
       if (axios.isAxiosError(error) && !error.response) {
         throw new Error("Upload failed: file in use, folder paste not supported, or connection lost.");
@@ -54,7 +53,7 @@ export default class FileLogic {
 
   async cloneFiles(filenames: string[]): Promise<string[]> {
     try {
-      return await this.fileService.cloneFiles(filenames);
+      return await this.fileClient.cloneFiles(filenames);
     } catch (error) {
       handleError(error, 'Failed to clone files');
     }
@@ -62,7 +61,7 @@ export default class FileLogic {
 
   async fetchFiles(): Promise<string[]> {
     try {
-      return await this.fileService.fetchFiles();
+      return await this.fileClient.fetchFiles();
     } catch (error) {
       handleError(error, 'Failed to fetch files');
     }
@@ -70,7 +69,7 @@ export default class FileLogic {
 
   async deleteFiles(filenames: string[]): Promise<void> {
     try {
-      await this.fileService.deleteFiles(filenames);
+      await this.fileClient.deleteFiles(filenames);
     } catch (error) {
       handleError(error, 'Failed to delete files');
     }
