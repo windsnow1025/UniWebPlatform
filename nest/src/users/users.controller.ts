@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Request,
@@ -145,7 +146,7 @@ export class UsersController {
     return this.usersService.toUserDto(user);
   }
 
-  @Put('/user/reduce-credit')
+  @Patch('/user/reduce-credit')
   async reduceCredit(
     @Request() req: RequestWithUser,
     @Body() reduceCreditReqDto: ReduceCreditReqDto,
