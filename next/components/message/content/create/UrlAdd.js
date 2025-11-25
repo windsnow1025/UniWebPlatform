@@ -53,12 +53,32 @@ function UrlAdd({setUrl, isUploading}) {
     }
   }, [open]);
 
-  const handleAdd = () => {
-    if (inputUrl.trim()) {
-      setUrl(inputUrl.trim());
-      setInputUrl('');
-      setOpen(false);
+  const handleAdd = async () => {
+    const fileUrl = inputUrl.trim();
+    if (!fileUrl) return;
+
+    if (fileUrls.includes(fileUrl)) {
+      const fileLogic = new FileLogic();
+      try {
+        const storageUrl = await fileLogic.getStorageUrl();
+        const storageFilename = FileLogic.getStorageFilenameFromUrl(fileUrl, storageUrl);
+
+        const cloned = await fileLogic.cloneFiles([storageFilename]);
+        if (!cloned || cloned.length === 0) {
+          throw new Error('Failed to clone file');
+        }
+        setUrl(cloned[0]);
+      } catch (err) {
+        setAlertMessage(err.message);
+        setAlertSeverity('error');
+        setAlertOpen(true);
+        return;
+      }
+    } else {
+      setUrl(fileUrl);
     }
+    setInputUrl('');
+    setOpen(false);
   };
 
   const handleDialogKeyDown = (e) => {
