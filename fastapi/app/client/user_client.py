@@ -51,7 +51,7 @@ async def reduce_user_credit(amount: float, token: str = None) -> dict:
     
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.put(
+            response = await client.patch(
                 f"{os.environ["NEST_API_BASE_URL"]}/users/user/reduce-credit",
                 json={"amount": amount},
                 headers=headers
