@@ -21,14 +21,17 @@ async def get_user(token: str = None) -> dict:
         try:
             response = await client.get(f"{os.environ["NEST_API_BASE_URL"]}/users/user", headers=headers)
         except httpx.ConnectError as e:
-            logging.exception(f"httpx.ConnectError while fetching users: {e}")
-            raise
+            detail = f"httpx.ConnectError while fetching users: {e}"
+            logging.exception(detail)
+            raise HTTPException(status_code=500, detail=detail)
         except httpcore.ConnectError as e:
-            logging.exception(f"httpcore.ConnectError while fetching users: {e}")
-            raise
+            detail = f"httpcore.ConnectError while fetching users: {e}"
+            logging.exception(detail)
+            raise HTTPException(status_code=500, detail=detail)
         except Exception as e:
-            logging.exception(f"Unknown error while fetching users: {e}")
-            raise e
+            detail = f"Unknown error while fetching users: {e}"
+            logging.exception(detail)
+            raise HTTPException(status_code=500, detail=detail)
 
         if response.status_code != 200:
             status_code = response.status_code
