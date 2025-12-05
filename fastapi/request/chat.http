@@ -21,10 +21,74 @@ Authorization: {{token}}
     }
   ],
   "model": "gemini-3-pro-preview",
-  "api_type": "Gemini",
+  "api_type": "Gemini-Vertex",
   "temperature": 0,
   "stream": true,
   "thought": true,
   "code_execution": false,
-  "structured_output_schema": "{'$defs': {'Ingredient': {'properties': {'name': {'description': 'Name of the ingredient.', 'title': 'Name', 'type': 'string'}, 'quantity': {'description': 'Quantity of the ingredient, including units.', 'title': 'Quantity', 'type': 'string'}}, 'required': ['name', 'quantity'], 'title': 'Ingredient', 'type': 'object'}}, 'properties': {'recipe_name': {'description': 'The name of the recipe.', 'title': 'Recipe Name', 'type': 'string'}, 'prep_time_minutes': {'anyOf': [{'type': 'integer'}, {'type': 'null'}], 'description': 'Optional time in minutes to prepare the recipe.', 'title': 'Prep Time Minutes'}, 'ingredients': {'items': {'$ref': '#/$defs/Ingredient'}, 'title': 'Ingredients', 'type': 'array'}, 'instructions': {'items': {'type': 'string'}, 'title': 'Instructions', 'type': 'array'}}, 'required': ['recipe_name', 'prep_time_minutes', 'ingredients', 'instructions'], 'title': 'Recipe', 'type': 'object'}"
+  "structured_output_schema": {
+    "$defs": {
+      "Ingredient": {
+        "properties": {
+          "name": {
+            "description": "Name of the ingredient.",
+            "title": "Name",
+            "type": "string"
+          },
+          "quantity": {
+            "description": "Quantity of the ingredient, including units.",
+            "title": "Quantity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "quantity"
+        ],
+        "title": "Ingredient",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "recipe_name": {
+        "description": "The name of the recipe.",
+        "title": "Recipe Name",
+        "type": "string"
+      },
+      "prep_time_minutes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Optional time in minutes to prepare the recipe.",
+        "title": "Prep Time Minutes"
+      },
+      "ingredients": {
+        "items": {
+          "$ref": "#/$defs/Ingredient"
+        },
+        "title": "Ingredients",
+        "type": "array"
+      },
+      "instructions": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Instructions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "recipe_name",
+      "prep_time_minutes",
+      "ingredients",
+      "instructions"
+    ],
+    "title": "Recipe",
+    "type": "object"
+  }
 }
