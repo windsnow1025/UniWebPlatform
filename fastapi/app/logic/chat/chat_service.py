@@ -19,6 +19,7 @@ async def handle_chat_interaction(
         stream: bool,
         thought: bool,
         code_execution: bool,
+        structured_output_schema: dict | None,
 ):
     logging.info(f"User ID: {user_id}, Model: {model}")
 
@@ -55,6 +56,7 @@ async def handle_chat_interaction(
         stream=stream,
         thought=thought,
         code_execution=code_execution,
+        structured_output_schema=structured_output_schema,
     )
 
     if stream:
