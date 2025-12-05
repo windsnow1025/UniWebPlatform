@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException, Request, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from llm_bridge import Message, get_model_prices, ModelPrice, find_model_prices
 from pydantic import BaseModel
+from typing import Any, Optional
 
 import app.logic.auth as auth
 from app.logic.chat.chat_service import handle_chat_interaction
@@ -21,6 +22,7 @@ class ChatRequest(BaseModel):
     stream: bool
     thought: bool
     code_execution: bool
+    structured_output_schema: Optional[dict[str, Any]] = None
 
 
 @chat_router.post("/chat")
@@ -51,6 +53,7 @@ async def generate(
             stream=chat_request.stream,
             thought=chat_request.thought,
             code_execution=chat_request.code_execution,
+            structured_output_schema=chat_request.structured_output_schema,
         )
     except HTTPException as e:
         raise e
