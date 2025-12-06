@@ -64,12 +64,12 @@ export class UsersService {
     }
 
     const cacheKey = this.getUserCacheKey(id);
-    let user = await this.cacheManager.get<User>(cacheKey);
-    if (user) {
-      return user;
+    const cachedUser = await this.cacheManager.get<User>(cacheKey);
+    if (cachedUser) {
+      return cachedUser;
     }
 
-    user = await this.usersRepository.findOneBy({ id });
+    const user = await this.usersRepository.findOneBy({ id });
     if (user) {
       await this.cacheManager.set(cacheKey, user, 3600000);
     }
