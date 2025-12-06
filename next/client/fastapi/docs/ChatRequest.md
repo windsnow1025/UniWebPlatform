@@ -6,12 +6,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **messages** | [**Array&lt;Message&gt;**](Message.md) |  | [default to undefined]
-**model** | **string** |  | [default to undefined]
 **api_type** | **string** |  | [default to undefined]
+**model** | **string** |  | [default to undefined]
 **temperature** | **number** |  | [default to undefined]
 **stream** | **boolean** |  | [default to undefined]
 **thought** | **boolean** |  | [default to undefined]
 **code_execution** | **boolean** |  | [default to undefined]
+**structured_output_schema** | **object** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,12 +21,13 @@ import { ChatRequest } from './api';
 
 const instance: ChatRequest = {
     messages,
-    model,
     api_type,
+    model,
     temperature,
     stream,
     thought,
     code_execution,
+    structured_output_schema,
 };
 ```
 
