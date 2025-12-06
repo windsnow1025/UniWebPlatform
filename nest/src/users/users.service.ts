@@ -152,10 +152,7 @@ export class UsersService {
       throw new UnauthorizedException('Invalid password');
     }
 
-    user.password = await this.hashPassword(password);
-
-    await this.cacheManager.del(this.getUserCacheKey(user.id));
-    return await this.usersRepository.save(user);
+    return await this.updatePassword(user, password);
   }
 
   async updateEmail(id: number, email: string) {
@@ -199,15 +196,10 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async updatePassword(id: number, password: string) {
-    const user = await this.findOneById(id);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
+  async updatePassword(user: User, password: string) {
     user.password = await this.hashPassword(password);
 
-    await this.cacheManager.del(this.getUserCacheKey(id));
+    await this.cacheManager.del(this.getUserCacheKey(user.id));
     return await this.usersRepository.save(user);
   }
 

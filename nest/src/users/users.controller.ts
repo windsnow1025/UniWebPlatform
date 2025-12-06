@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Patch,
@@ -114,11 +115,15 @@ export class UsersController {
     @Body() userPasswordReqDto: UserPasswordReqDto,
   ) {
     const id = req.user.id;
-    const user = await this.usersService.updatePassword(
-      id,
+    const user = await this.usersService.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const newUser = await this.usersService.updatePassword(
+      user,
       userPasswordReqDto.password,
     );
-    return this.usersService.toUserDto(user);
+    return this.usersService.toUserDto(newUser);
   }
 
   @Put('/user/avatar')
