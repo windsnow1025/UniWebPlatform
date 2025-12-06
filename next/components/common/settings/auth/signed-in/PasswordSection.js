@@ -55,6 +55,9 @@ function PasswordSection() {
 
   return (
     <div className="flex flex-col gap-2">
+      <Alert severity="info" sx={{ mb: 1 }}>
+        Changing your password will sign out all signed-in devices.
+      </Alert>
       <TextField
         label="New Password"
         variant="outlined"
