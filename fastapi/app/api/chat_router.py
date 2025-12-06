@@ -16,8 +16,8 @@ security = HTTPBearer()
 
 class ChatRequest(BaseModel):
     messages: list[Message]
-    model: str
     api_type: str
+    model: str
     temperature: float
     stream: bool
     thought: bool
