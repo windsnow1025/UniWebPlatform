@@ -25,12 +25,13 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 
 export interface ChatRequest {
     'messages': Array<Message>;
-    'model': string;
     'api_type': string;
+    'model': string;
     'temperature': number;
     'stream': boolean;
     'thought': boolean;
     'code_execution': boolean;
+    'structured_output_schema'?: object | null;
 }
 export interface Content {
     'type': ContentType;
