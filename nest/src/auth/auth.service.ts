@@ -30,6 +30,7 @@ export class AuthService {
 
     const payload: JwtPayload = {
       sub: user.id.toString(),
+      tokenVersion: user.tokenVersion,
     };
     return await this.jwtService.signAsync(payload);
   }

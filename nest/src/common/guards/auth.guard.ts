@@ -47,6 +47,9 @@ export class AuthGuard implements CanActivate {
       if (!user) {
         throw new UnauthorizedException();
       }
+      if (payload.tokenVersion !== user.tokenVersion) {
+        throw new UnauthorizedException();
+      }
       if (user.email && !user.emailVerified) {
         user = await this.usersService.updateEmailVerified(user.email);
       }

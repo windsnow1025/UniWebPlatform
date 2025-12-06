@@ -36,6 +36,13 @@ export class User extends BaseEntity {
   password: string;
 
   @Column({
+    type: 'int',
+    default: 0,
+    name: 'token_version',
+  })
+  tokenVersion: number;
+
+  @Column({
     type: 'json',
     nullable: true,
   })
