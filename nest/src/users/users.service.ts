@@ -198,7 +198,7 @@ export class UsersService {
 
   async updatePassword(user: User, password: string) {
     user.password = await this.hashPassword(password);
-    user.tokenVersion += 1;
+    user.tokenVersion = user.tokenVersion + 1;
 
     await this.cacheManager.del(this.getUserCacheKey(user.id));
     return await this.usersRepository.save(user);
