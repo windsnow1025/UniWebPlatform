@@ -61,5 +61,5 @@ Authorization: {{token}}
       "productName",
       "price"
     ]
-    }
+  }
 }
