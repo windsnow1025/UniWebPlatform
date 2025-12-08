@@ -11,7 +11,7 @@ A full-stack web application for my personal website, featuring:
 
 - **Front End**: Node.js, React.js, Next.js, Tailwind CSS, MUI
 - **Back End**: Node.js (Nest.js), Python (FastAPI)
-- **Storage**: MySQL, MinIO, Redis
+- **Storage**: PostgreSQL, MinIO, Redis
 - **Authentication**: Firebase (Email Verification)
 - **Infrastructure**: Linux (Debian 12), Kubernetes (K3S), Nginx
 - **DevOps**: GitHub Actions

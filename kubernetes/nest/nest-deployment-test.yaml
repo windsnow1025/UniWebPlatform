@@ -30,26 +30,26 @@ spec:
                 configMapKeyRef:
                   name: app-configmap
                   key: ENV
-            - name: MYSQL_HOST
+            - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
                   name: app-configmap
-                  key: MYSQL_HOST
-            - name: MYSQL_USER
+                  key: POSTGRES_HOST
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: app-secret
-                  key: MYSQL_USER
-            - name: MYSQL_PASSWORD
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: app-secret
-                  key: MYSQL_PASSWORD
-            - name: MYSQL_DATABASE
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
                   name: app-secret
-                  key: MYSQL_DATABASE
+                  key: POSTGRES_DB
             - name: MINIO_HOST
               valueFrom:
                 configMapKeyRef:
