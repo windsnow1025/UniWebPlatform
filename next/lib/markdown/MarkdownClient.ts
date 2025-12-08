@@ -20,9 +20,9 @@ export default class MarkdownClient {
     return res.data;
   }
 
-  async updateMarkdown(id: number, markdown: MarkdownReqDto): Promise<MarkdownResDto> {
+  async updateMarkdown(id: number, etag: string, markdown: MarkdownReqDto): Promise<MarkdownResDto> {
     const api = new MarkdownsApi(getNestOpenAPIConfiguration());
-    const res = await api.markdownsControllerUpdate(id, markdown);
+    const res = await api.markdownsControllerUpdate(id, etag, markdown);
     return res.data;
   }
 
