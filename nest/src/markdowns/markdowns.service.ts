@@ -16,6 +16,7 @@ export class MarkdownsService {
       id: markdown.id,
       title: markdown.title,
       content: markdown.content,
+      updatedAt: markdown.updatedAt,
     };
   }
 
