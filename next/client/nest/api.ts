@@ -340,6 +340,12 @@ export interface MarkdownResDto {
      * @memberof MarkdownResDto
      */
     'updatedAt': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MarkdownResDto
+     */
+    'version': number;
 }
 /**
  * 
@@ -2536,13 +2542,16 @@ export const MarkdownsApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {MarkdownReqDto} markdownReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        markdownsControllerUpdate: async (id: number, markdownReqDto: MarkdownReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        markdownsControllerUpdate: async (id: number, ifMatch: string, markdownReqDto: MarkdownReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('markdownsControllerUpdate', 'id', id)
+            // verify required parameter 'ifMatch' is not null or undefined
+            assertParamExists('markdownsControllerUpdate', 'ifMatch', ifMatch)
             // verify required parameter 'markdownReqDto' is not null or undefined
             assertParamExists('markdownsControllerUpdate', 'markdownReqDto', markdownReqDto)
             const localVarPath = `/markdowns/markdown/{id}`
@@ -2566,6 +2575,9 @@ export const MarkdownsApiAxiosParamCreator = function (configuration?: Configura
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
+            if (ifMatch != null) {
+                localVarHeaderParameter['if-match'] = String(ifMatch);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2636,12 +2648,13 @@ export const MarkdownsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {MarkdownReqDto} markdownReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async markdownsControllerUpdate(id: number, markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MarkdownResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.markdownsControllerUpdate(id, markdownReqDto, options);
+        async markdownsControllerUpdate(id: number, ifMatch: string, markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MarkdownResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.markdownsControllerUpdate(id, ifMatch, markdownReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MarkdownsApi.markdownsControllerUpdate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2694,12 +2707,13 @@ export const MarkdownsApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @param {number} id 
+         * @param {string} ifMatch 
          * @param {MarkdownReqDto} markdownReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        markdownsControllerUpdate(id: number, markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig): AxiosPromise<MarkdownResDto> {
-            return localVarFp.markdownsControllerUpdate(id, markdownReqDto, options).then((request) => request(axios, basePath));
+        markdownsControllerUpdate(id: number, ifMatch: string, markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig): AxiosPromise<MarkdownResDto> {
+            return localVarFp.markdownsControllerUpdate(id, ifMatch, markdownReqDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2757,13 +2771,14 @@ export class MarkdownsApi extends BaseAPI {
     /**
      * 
      * @param {number} id 
+     * @param {string} ifMatch 
      * @param {MarkdownReqDto} markdownReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MarkdownsApi
      */
-    public markdownsControllerUpdate(id: number, markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig) {
-        return MarkdownsApiFp(this.configuration).markdownsControllerUpdate(id, markdownReqDto, options).then((request) => request(this.axios, this.basePath));
+    public markdownsControllerUpdate(id: number, ifMatch: string, markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig) {
+        return MarkdownsApiFp(this.configuration).markdownsControllerUpdate(id, ifMatch, markdownReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
