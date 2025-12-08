@@ -133,8 +133,10 @@ stream {
 
 #### Windows Develop Environment
 
-1. Setup and run MySQL and MinIO by K3S in Test Server.
-2. Setup and run Next, Nest, FastAPI separately by JetBrains IDE according to their documentations.
+1. Setup and run K3S in Test Server.
+2. Setup and run Next.js, Nest.js, FastAPI separately by JetBrains IDE according to their documentations.
+    - Configure Next.js backend URL in UI - Settings - Developer - API Base URL.
+    - Configure FastAPI related backend URL in environment variables.
 
 #### CI/CD
 
