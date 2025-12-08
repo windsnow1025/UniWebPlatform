@@ -9,7 +9,6 @@ import {
   Post,
   Put,
   Request,
-  Res,
 } from '@nestjs/common';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { ConversationsService } from './conversations.service';
@@ -45,22 +44,16 @@ export class ConversationsController {
   async findOne(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
-    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const conversation = await this.service.findOne(userId, id);
-    res.setHeader('ETag', this.service.getEtag(conversation));
     return this.service.toConversationDto(conversation);
   }
 
   @Public()
   @Get('/public/conversation/:id')
-  async findPublicOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Res({ passthrough: true }) res: any,
-  ) {
+  async findPublicOne(@Param('id', ParseIntPipe) id: number) {
     const conversation = await this.service.findPublicOne(id);
-    res.setHeader('ETag', this.service.getEtag(conversation));
     return this.service.toConversationDto(conversation);
   }
 
@@ -99,7 +92,6 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: UserUsernameReqDto,
     @Headers('if-match') ifMatch: string,
-    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const conversation = await this.service.addUserForUsers(
@@ -108,7 +100,6 @@ export class ConversationsController {
       reqDto.username,
       ifMatch,
     );
-    res.setHeader('ETag', this.service.getEtag(conversation));
     return this.service.toConversationDto(conversation);
   }
 
@@ -118,7 +109,6 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationReqDto,
     @Headers('if-match') ifMatch: string,
-    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const conversation = await this.service.update(
@@ -128,7 +118,6 @@ export class ConversationsController {
       reqDto.messages,
       ifMatch,
     );
-    res.setHeader('ETag', this.service.getEtag(conversation));
     return this.service.toConversationDto(conversation);
   }
 
@@ -138,7 +127,6 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationNameReqDto,
     @Headers('if-match') ifMatch: string,
-    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const updatedConversation = await this.service.updateName(
@@ -147,7 +135,6 @@ export class ConversationsController {
       reqDto.name,
       ifMatch,
     );
-    res.setHeader('ETag', this.service.getEtag(updatedConversation));
     return this.service.toConversationDto(updatedConversation);
   }
 
@@ -157,7 +144,6 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationPublicReqDto,
     @Headers('if-match') ifMatch: string,
-    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const updatedConversation = await this.service.updatePublic(
@@ -166,7 +152,6 @@ export class ConversationsController {
       reqDto.isPublic,
       ifMatch,
     );
-    res.setHeader('ETag', this.service.getEtag(updatedConversation));
     return this.service.toConversationDto(updatedConversation);
   }
 
@@ -176,7 +161,6 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: ConversationColorReqDto,
     @Headers('if-match') ifMatch: string,
-    @Res({ passthrough: true }) res: any,
   ) {
     const userId = req.user.id;
     const updatedConversation = await this.service.updateColorLabel(
@@ -185,7 +169,6 @@ export class ConversationsController {
       reqDto.colorLabel,
       ifMatch,
     );
-    res.setHeader('ETag', this.service.getEtag(updatedConversation));
     return this.service.toConversationDto(updatedConversation);
   }
 

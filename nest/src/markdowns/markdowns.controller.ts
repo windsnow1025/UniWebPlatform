@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   NotFoundException,
   Param,
   ParseIntPipe,
@@ -51,11 +52,13 @@ export class MarkdownsController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() reqDto: MarkdownReqDto,
+    @Headers('if-match') ifMatch: string,
   ): Promise<MarkdownResDto> {
     const markdown = await this.service.update(
       id,
       reqDto.title,
       reqDto.content,
+      ifMatch,
     );
     return this.service.toMarkdownDto(markdown);
   }
