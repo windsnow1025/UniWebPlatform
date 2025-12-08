@@ -27,7 +27,7 @@ function Index() {
     if (searchTerm.trim() === '') {
       setMarkdowns(allMarkdowns);
     } else {
-      const filtered = allMarkdowns.filter(markdown => 
+      const filtered = allMarkdowns.filter(markdown =>
         markdown.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         markdown.content.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -38,19 +38,19 @@ function Index() {
   return (
     <div className="local-scroll-container">
       <Head>
-        <meta name="description" content="Blogs with Markdown and LaTeX support for personal usage." />
+        <meta name="description" content="Blogs with Markdown and LaTeX support for personal usage."/>
         <title>Markdown Blogs - Windsnow1025</title>
       </Head>
       <div className="local-scroll-scrollable">
         <Paper elevation={4} className="m-8 p-8">
           <div className="flex-between mb-4">
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               color="primary"
               href="/markdown/add"
               target="_blank"
               rel="noopener noreferrer"
-              startIcon={<AddIcon />}
+              startIcon={<AddIcon/>}
             >
               New Markdown
             </Button>
@@ -63,7 +63,7 @@ function Index() {
               slotProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon />
+                    <SearchIcon/>
                   </InputAdornment>
                 ),
               }}
@@ -84,6 +84,7 @@ function Index() {
                         {markdown.title}
                       </Link>
                     }
+                    secondary={`Updated: ${new Date(markdown.updatedAt).toLocaleDateString()}`}
                   />
                 </ListItem>
                 {index < markdowns.length - 1 && <Divider/>}
