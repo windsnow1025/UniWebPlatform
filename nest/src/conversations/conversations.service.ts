@@ -36,15 +36,11 @@ export class ConversationsService {
     return conversationDto;
   }
 
-  public getEtag(conversation: Conversation): string {
-    return `${conversation.version}`;
-  }
-
   private assertIfMatch(conversation: Conversation, ifMatch?: string) {
     if (!ifMatch) {
       return;
     }
-    const current = this.getEtag(conversation);
+    const current = `${conversation.version}`;
     if (ifMatch !== current) {
       throw new PreconditionFailedException('ETag mismatch');
     }

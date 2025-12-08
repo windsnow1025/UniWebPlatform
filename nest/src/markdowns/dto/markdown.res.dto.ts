@@ -3,4 +3,5 @@ export class MarkdownResDto {
   title: string;
   content: string;
   updatedAt: Date;
+  version: number;
 }

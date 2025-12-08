@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  PreconditionFailedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Markdown } from './markdown.entity';
@@ -11,12 +15,23 @@ export class MarkdownsService {
     private markdownsRepository: Repository<Markdown>,
   ) {}
 
+  private assertIfMatch(markdown: Markdown, ifMatch?: string) {
+    if (!ifMatch) {
+      return;
+    }
+    const current = `${markdown.version}`;
+    if (ifMatch !== current) {
+      throw new PreconditionFailedException('ETag mismatch');
+    }
+  }
+
   public toMarkdownDto(markdown: Markdown): MarkdownResDto {
     return {
       id: markdown.id,
       title: markdown.title,
       content: markdown.content,
       updatedAt: markdown.updatedAt,
+      version: markdown.version,
     };
   }
 
@@ -39,11 +54,18 @@ export class MarkdownsService {
     return this.markdownsRepository.save(markdown);
   }
 
-  async update(id: number, title: string, content: string): Promise<Markdown> {
+  async update(
+    id: number,
+    title: string,
+    content: string,
+    ifMatch?: string,
+  ): Promise<Markdown> {
     const markdown = await this.findOne(id);
     if (!markdown) {
       throw new NotFoundException('Markdown not found');
     }
+
+    this.assertIfMatch(markdown, ifMatch);
 
     markdown.title = title;
     markdown.content = content;
