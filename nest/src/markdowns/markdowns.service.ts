@@ -21,7 +21,9 @@ export class MarkdownsService {
   }
 
   findAll() {
-    return this.markdownsRepository.find();
+    return this.markdownsRepository.find({
+      order: { updatedAt: 'DESC' },
+    });
   }
 
   findOne(id: number) {
