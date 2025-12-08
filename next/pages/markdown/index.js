@@ -43,7 +43,7 @@ function Index() {
       </Head>
       <div className="local-scroll-scrollable">
         <Paper elevation={4} className="m-8 p-8">
-          <div className="flex-between mb-4">
+          <div className="flex-between gap-4 mb-4">
             <Button
               variant="contained"
               color="primary"
