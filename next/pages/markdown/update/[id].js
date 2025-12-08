@@ -9,7 +9,7 @@ import Head from "next/head";
 function MarkdownUpdate() {
   const router = useRouter();
   const {id} = router.query;
-  const [markdown, setMarkdown] = useState({title: '', content: ''});
+  const [markdown, setMarkdown] = useState({title: '', content: '', version: 0});
   const [isEditing, setIsEditing] = useState(false);
   const markdownLogic = new MarkdownLogic();
 
@@ -44,7 +44,13 @@ function MarkdownUpdate() {
     const newTitle = markdownLogic.getTitleFromContent(markdown.content);
     setMarkdown(prev => ({...prev, title: newTitle}));
     try {
-      await markdownLogic.updateMarkdown(id, newTitle, markdown.content);
+      const updatedMarkdown = await markdownLogic.updateMarkdown(
+        id,
+        markdown.version,
+        newTitle,
+        markdown.content,
+      );
+      setMarkdown(prev => ({...prev, version: updatedMarkdown.version}));
       setAlertMessage('Update success');
       setAlertSeverity('success');
       setAlertOpen(true);

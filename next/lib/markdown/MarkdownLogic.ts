@@ -39,9 +39,9 @@ export default class MarkdownLogic {
     }
   }
 
-  async updateMarkdown(id: number, title: string, content: string): Promise<MarkdownResDto> {
+  async updateMarkdown(id: number, etag: string, title: string, content: string): Promise<MarkdownResDto> {
     try {
-      return await this.markdownService.updateMarkdown(id, {title, content});
+      return await this.markdownService.updateMarkdown(id, etag, {title, content});
     } catch (error) {
       handleError(error, 'Failed to update markdown');
     }
