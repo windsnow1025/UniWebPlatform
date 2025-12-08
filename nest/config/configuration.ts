@@ -26,12 +26,12 @@ export default () => {
 
   return {
     port: isProduction ? 3000 : 3001,
-    mysql: {
-      host: process.env.MYSQL_HOST,
-      port: 3306,
-      user: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE,
+    postgres: {
+      host: process.env.POSTGRES_HOST,
+      port: 5432,
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
     },
     minio: {
       endPoint: process.env.MINIO_HOST,

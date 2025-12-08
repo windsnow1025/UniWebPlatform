@@ -6,10 +6,10 @@
 # App
 kubectl apply -f ./app-configmap.yaml
 
-# MySQL
-kubectl apply -f ./mysql/mysql-pvc.yaml
-kubectl apply -f ./mysql/mysql-deployment.yaml
-kubectl apply -f ./mysql/mysql-service.yaml
+# PostgreSQL
+kubectl apply -f ./postgresql/postgresql-pvc.yaml
+kubectl apply -f ./postgresql/postgresql-deployment.yaml
+kubectl apply -f ./postgresql/postgresql-service.yaml
 
 # MinIO
 kubectl apply -f ./minio/minio-configmap.yaml
@@ -74,8 +74,8 @@ kubectl apply -f ./next/next-deployment-test.yaml
 # Dashboard
 kubectl rollout restart deployment -n kubernetes-dashboard
 
-# MySQL
-kubectl rollout restart deployment mysql-deployment
+# PostgreSQL
+kubectl rollout restart deployment postgresql-deployment
 
 # MinIO
 kubectl rollout restart deployment minio-deployment
