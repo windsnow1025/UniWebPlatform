@@ -334,6 +334,12 @@ export interface MarkdownResDto {
      * @memberof MarkdownResDto
      */
     'content': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarkdownResDto
+     */
+    'updatedAt': string;
 }
 /**
  * 
