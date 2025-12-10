@@ -55,7 +55,9 @@ export class UsersService {
   }
 
   find() {
-    return this.usersRepository.find();
+    return this.usersRepository.find({
+      order: { id: 'ASC' },
+    });
   }
 
   async findOneById(id: number) {
