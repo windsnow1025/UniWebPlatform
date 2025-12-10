@@ -1,0 +1,1480 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Nest JS API description
+  title: Nest JS
+  version: "1.0"
+servers:
+- url: /
+security:
+- bearer: []
+tags:
+- description: ""
+  name: NestJS
+paths:
+  /:
+    get:
+      operationId: app_controller_get_root
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: ""
+      tags:
+      - App
+      x-openapi-router-controller: openapi_server.controllers.app_controller
+  /announcement:
+    get:
+      operationId: announcement_controller_find
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnnouncementResDto"
+          description: ""
+      tags:
+      - Announcement
+      x-openapi-router-controller: openapi_server.controllers.announcement_controller
+    put:
+      operationId: announcement_controller_update
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnnouncementReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnnouncementResDto"
+          description: ""
+      tags:
+      - Announcement
+      x-openapi-router-controller: openapi_server.controllers.announcement_controller
+      x-codegen-request-body-name: body
+  /auth/token/email:
+    post:
+      operationId: auth_controller_create_token_by_email
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthTokenEmailReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokenResDto"
+          description: ""
+      tags:
+      - Auth
+      x-openapi-router-controller: openapi_server.controllers.auth_controller
+      x-codegen-request-body-name: body
+  /auth/token/username:
+    post:
+      operationId: auth_controller_create_token_by_username
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthTokenUsernameReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokenResDto"
+          description: ""
+      tags:
+      - Auth
+      x-openapi-router-controller: openapi_server.controllers.auth_controller
+      x-codegen-request-body-name: body
+  /conversations:
+    get:
+      operationId: conversations_controller_find
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/ConversationResDto"
+                type: array
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+  /conversations/conversation:
+    post:
+      operationId: conversations_controller_create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+      x-codegen-request-body-name: body
+  /conversations/conversation/{id}:
+    delete:
+      operationId: conversations_controller_delete
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+    get:
+      operationId: conversations_controller_find_one
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+    put:
+      operationId: conversations_controller_update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+      x-codegen-request-body-name: body
+  /conversations/conversation/{id}/clone:
+    post:
+      operationId: conversations_controller_clone_for_specific_user
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUsernameReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+      x-codegen-request-body-name: body
+  /conversations/conversation/{id}/color-label:
+    put:
+      operationId: conversations_controller_update_color_label
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationColorReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+      x-codegen-request-body-name: body
+  /conversations/conversation/{id}/name:
+    put:
+      operationId: conversations_controller_update_name
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationNameReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+      x-codegen-request-body-name: body
+  /conversations/conversation/{id}/public:
+    put:
+      operationId: conversations_controller_update_public
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationPublicReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+      x-codegen-request-body-name: body
+  /conversations/conversation/{id}/users:
+    post:
+      operationId: conversations_controller_add_user_for_users
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUsernameReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+      x-codegen-request-body-name: body
+  /conversations/public/conversation/{id}:
+    get:
+      operationId: conversations_controller_find_public_one
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationResDto"
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+  /conversations/update-times:
+    get:
+      operationId: conversations_controller_find_update_times
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/ConversationUpdateTimeResDto"
+                type: array
+          description: ""
+      tags:
+      - Conversations
+      x-openapi-router-controller: openapi_server.controllers.conversations_controller
+  /files:
+    delete:
+      operationId: files_controller_delete_files
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilesReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          description: ""
+      tags:
+      - Files
+      x-openapi-router-controller: openapi_server.controllers.files_controller
+      x-codegen-request-body-name: body
+    get:
+      operationId: files_controller_get_files
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilesResDto"
+          description: ""
+      tags:
+      - Files
+      x-openapi-router-controller: openapi_server.controllers.files_controller
+    post:
+      operationId: files_controller_upload_files
+      parameters: []
+      responses:
+        "201":
+          description: ""
+      tags:
+      - Files
+      x-openapi-router-controller: openapi_server.controllers.files_controller
+  /files/clone:
+    post:
+      operationId: files_controller_clone_files
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilesReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilesResDto"
+          description: ""
+      tags:
+      - Files
+      x-openapi-router-controller: openapi_server.controllers.files_controller
+      x-codegen-request-body-name: body
+  /files/web-url:
+    get:
+      operationId: files_controller_get_minio_web_url
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebUrlResDto"
+          description: ""
+      tags:
+      - Files
+      x-openapi-router-controller: openapi_server.controllers.files_controller
+  /markdowns:
+    get:
+      operationId: markdowns_controller_find_all
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/MarkdownResDto"
+                type: array
+          description: ""
+      tags:
+      - Markdowns
+      x-openapi-router-controller: openapi_server.controllers.markdowns_controller
+  /markdowns/markdown:
+    post:
+      operationId: markdowns_controller_create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MarkdownReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarkdownResDto"
+          description: ""
+      tags:
+      - Markdowns
+      x-openapi-router-controller: openapi_server.controllers.markdowns_controller
+      x-codegen-request-body-name: body
+  /markdowns/markdown/{id}:
+    delete:
+      operationId: markdowns_controller_delete
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      responses:
+        "200":
+          description: ""
+      tags:
+      - Markdowns
+      x-openapi-router-controller: openapi_server.controllers.markdowns_controller
+    get:
+      operationId: markdowns_controller_find_one
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarkdownResDto"
+          description: ""
+      tags:
+      - Markdowns
+      x-openapi-router-controller: openapi_server.controllers.markdowns_controller
+    put:
+      operationId: markdowns_controller_update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MarkdownReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarkdownResDto"
+          description: ""
+      tags:
+      - Markdowns
+      x-openapi-router-controller: openapi_server.controllers.markdowns_controller
+      x-codegen-request-body-name: body
+  /users:
+    get:
+      operationId: users_controller_find
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/UserResDto"
+                type: array
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+  /users/user:
+    delete:
+      operationId: users_controller_delete
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+    get:
+      operationId: users_controller_find_one
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+    post:
+      operationId: users_controller_create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/avatar:
+    put:
+      operationId: users_controller_update_avatar
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserAvatarReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/email:
+    put:
+      operationId: users_controller_update_email
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserEmailReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/email-verification:
+    post:
+      operationId: users_controller_send_email_verification
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserEmailReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "201":
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/email-verified:
+    put:
+      operationId: users_controller_update_email_verified
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+  /users/user/firebase:
+    delete:
+      operationId: users_controller_delete_all_firebase_users
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+  /users/user/password:
+    put:
+      operationId: users_controller_update_password
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPasswordReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/password-reset-email:
+    post:
+      operationId: users_controller_send_password_reset_email
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserEmailReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "201":
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/privileges:
+    put:
+      operationId: users_controller_update_privileges
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPrivilegesReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/reduce-credit:
+    patch:
+      operationId: users_controller_reduce_credit
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReduceCreditReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/reset-password:
+    put:
+      operationId: users_controller_update_reset_password
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserEmailPasswordReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/username:
+    put:
+      operationId: users_controller_update_username
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUsernameReqDto"
+        required: true
+        x-body-name: body
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResDto"
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+      x-codegen-request-body-name: body
+  /users/user/{id}:
+    delete:
+      operationId: users_controller_delete_by_id
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: number
+        style: simple
+      responses:
+        "200":
+          description: ""
+      tags:
+      - Users
+      x-openapi-router-controller: openapi_server.controllers.users_controller
+components:
+  schemas:
+    AuthTokenEmailReqDto:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          title: email
+          type: string
+        password:
+          title: password
+          type: string
+      required:
+      - email
+      - password
+      title: AuthTokenEmailReqDto
+      type: object
+    AuthTokenResDto:
+      example:
+        accessToken: accessToken
+      properties:
+        accessToken:
+          title: accessToken
+          type: string
+      required:
+      - accessToken
+      title: AuthTokenResDto
+      type: object
+    AuthTokenUsernameReqDto:
+      example:
+        password: password
+        username: username
+      properties:
+        username:
+          title: username
+          type: string
+        password:
+          title: password
+          type: string
+      required:
+      - password
+      - username
+      title: AuthTokenUsernameReqDto
+      type: object
+    UserResDto:
+      example:
+        emailVerified: true
+        roles:
+        - user
+        - user
+        id: 6.027456183070403
+        avatar: avatar
+        credit: 1.4658129805029452
+        email: email
+        username: username
+      properties:
+        id:
+          title: id
+          type: number
+        username:
+          title: username
+          type: string
+        email:
+          title: email
+          type: string
+        emailVerified:
+          title: emailVerified
+          type: boolean
+        roles:
+          items:
+            enum:
+            - user
+            - admin
+            type: string
+          title: roles
+          type: array
+        avatar:
+          title: avatar
+          type: string
+        credit:
+          title: credit
+          type: number
+      required:
+      - credit
+      - email
+      - emailVerified
+      - id
+      - roles
+      - username
+      title: UserResDto
+      type: object
+    UserReqDto:
+      example:
+        password: password
+        email: email
+        username: username
+      properties:
+        username:
+          title: username
+          type: string
+        email:
+          title: email
+          type: string
+        password:
+          title: password
+          type: string
+      required:
+      - email
+      - password
+      - username
+      title: UserReqDto
+      type: object
+    UserEmailReqDto:
+      example:
+        email: email
+      properties:
+        email:
+          title: email
+          type: string
+      required:
+      - email
+      title: UserEmailReqDto
+      type: object
+    UserEmailPasswordReqDto:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          title: email
+          type: string
+        password:
+          title: password
+          type: string
+      required:
+      - email
+      - password
+      title: UserEmailPasswordReqDto
+      type: object
+    UserUsernameReqDto:
+      example:
+        username: username
+      properties:
+        username:
+          title: username
+          type: string
+      required:
+      - username
+      title: UserUsernameReqDto
+      type: object
+    UserPasswordReqDto:
+      example:
+        password: password
+      properties:
+        password:
+          title: password
+          type: string
+      required:
+      - password
+      title: UserPasswordReqDto
+      type: object
+    UserAvatarReqDto:
+      example:
+        avatar: https://openapi-generator.tech
+      properties:
+        avatar:
+          format: uri
+          title: avatar
+          type: string
+      required:
+      - avatar
+      title: UserAvatarReqDto
+      type: object
+    UserPrivilegesReqDto:
+      example:
+        emailVerified: true
+        roles:
+        - user
+        - user
+        credit: 0.8008281904610115
+        username: username
+      properties:
+        username:
+          title: username
+          type: string
+        emailVerified:
+          title: emailVerified
+          type: boolean
+        roles:
+          items:
+            enum:
+            - user
+            - admin
+            type: string
+          title: roles
+          type: array
+        credit:
+          title: credit
+          type: number
+      required:
+      - credit
+      - emailVerified
+      - roles
+      - username
+      title: UserPrivilegesReqDto
+      type: object
+    ReduceCreditReqDto:
+      example:
+        amount: 0.08008281904610115
+      properties:
+        amount:
+          minimum: 0
+          title: amount
+          type: number
+      required:
+      - amount
+      title: ReduceCreditReqDto
+      type: object
+    WebUrlResDto:
+      example:
+        webUrl: webUrl
+      properties:
+        webUrl:
+          title: webUrl
+          type: string
+      required:
+      - webUrl
+      title: WebUrlResDto
+      type: object
+    FilesReqDto:
+      example:
+        filenames:
+        - filenames
+        - filenames
+      properties:
+        filenames:
+          items:
+            type: string
+          title: filenames
+          type: array
+      required:
+      - filenames
+      title: FilesReqDto
+      type: object
+    FilesResDto:
+      example:
+        urls:
+        - urls
+        - urls
+      properties:
+        urls:
+          items:
+            type: string
+          title: urls
+          type: array
+      required:
+      - urls
+      title: FilesResDto
+      type: object
+    Content:
+      example:
+        data: data
+        type: text
+      properties:
+        type:
+          enum:
+          - text
+          - file
+          title: type
+          type: string
+        data:
+          title: data
+          type: string
+      required:
+      - data
+      - type
+      title: Content
+      type: object
+    Message:
+      example:
+        role: user
+        thought: thought
+        contents:
+        - data: data
+          type: text
+        - data: data
+          type: text
+        display: display
+        id: id
+      properties:
+        id:
+          title: id
+          type: string
+        role:
+          enum:
+          - user
+          - assistant
+          - system
+          title: role
+          type: string
+        contents:
+          items:
+            $ref: "#/components/schemas/Content"
+          title: contents
+          type: array
+        thought:
+          title: thought
+          type: string
+        display:
+          title: display
+          type: string
+      required:
+      - contents
+      - role
+      title: Message
+      type: object
+    ConversationResDto:
+      example:
+        name: name
+        messages:
+        - role: user
+          thought: thought
+          contents:
+          - data: data
+            type: text
+          - data: data
+            type: text
+          display: display
+          id: id
+        - role: user
+          thought: thought
+          contents:
+          - data: data
+            type: text
+          - data: data
+            type: text
+          display: display
+          id: id
+        isPublic: true
+        id: 0.8008281904610115
+        colorLabel: colorLabel
+        version: 5.962133916683182
+        users:
+        - emailVerified: true
+          roles:
+          - user
+          - user
+          id: 6.027456183070403
+          avatar: avatar
+          credit: 1.4658129805029452
+          email: email
+          username: username
+        - emailVerified: true
+          roles:
+          - user
+          - user
+          id: 6.027456183070403
+          avatar: avatar
+          credit: 1.4658129805029452
+          email: email
+          username: username
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          title: id
+          type: number
+        name:
+          title: name
+          type: string
+        messages:
+          items:
+            $ref: "#/components/schemas/Message"
+          title: messages
+          type: array
+        users:
+          items:
+            $ref: "#/components/schemas/UserResDto"
+          title: users
+          type: array
+        updatedAt:
+          format: date-time
+          title: updatedAt
+          type: string
+        isPublic:
+          title: isPublic
+          type: boolean
+        colorLabel:
+          title: colorLabel
+          type: string
+        version:
+          title: version
+          type: number
+      required:
+      - colorLabel
+      - id
+      - isPublic
+      - messages
+      - name
+      - updatedAt
+      - users
+      - version
+      title: ConversationResDto
+      type: object
+    ConversationUpdateTimeResDto:
+      example:
+        id: 0.8008281904610115
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          title: id
+          type: number
+        updatedAt:
+          format: date-time
+          title: updatedAt
+          type: string
+      required:
+      - id
+      - updatedAt
+      title: ConversationUpdateTimeResDto
+      type: object
+    ConversationReqDto:
+      example:
+        name: name
+        messages:
+        - role: user
+          thought: thought
+          contents:
+          - data: data
+            type: text
+          - data: data
+            type: text
+          display: display
+          id: id
+        - role: user
+          thought: thought
+          contents:
+          - data: data
+            type: text
+          - data: data
+            type: text
+          display: display
+          id: id
+      properties:
+        name:
+          title: name
+          type: string
+        messages:
+          items:
+            $ref: "#/components/schemas/Message"
+          title: messages
+          type: array
+      required:
+      - messages
+      - name
+      title: ConversationReqDto
+      type: object
+    ConversationNameReqDto:
+      example:
+        name: name
+      properties:
+        name:
+          title: name
+          type: string
+      required:
+      - name
+      title: ConversationNameReqDto
+      type: object
+    ConversationPublicReqDto:
+      example:
+        isPublic: true
+      properties:
+        isPublic:
+          title: isPublic
+          type: boolean
+      required:
+      - isPublic
+      title: ConversationPublicReqDto
+      type: object
+    ConversationColorReqDto:
+      example:
+        colorLabel: colorLabel
+      properties:
+        colorLabel:
+          maxLength: 32
+          title: colorLabel
+          type: string
+      required:
+      - colorLabel
+      title: ConversationColorReqDto
+      type: object
+    MarkdownResDto:
+      example:
+        id: 0.8008281904610115
+        title: title
+        version: 6.027456183070403
+        content: content
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          title: id
+          type: number
+        title:
+          title: title
+          type: string
+        content:
+          title: content
+          type: string
+        updatedAt:
+          format: date-time
+          title: updatedAt
+          type: string
+        version:
+          title: version
+          type: number
+      required:
+      - content
+      - id
+      - title
+      - updatedAt
+      - version
+      title: MarkdownResDto
+      type: object
+    MarkdownReqDto:
+      example:
+        title: title
+        content: content
+      properties:
+        title:
+          title: title
+          type: string
+        content:
+          title: content
+          type: string
+      required:
+      - content
+      - title
+      title: MarkdownReqDto
+      type: object
+    AnnouncementResDto:
+      example:
+        id: 0.8008281904610115
+        content: content
+      properties:
+        id:
+          title: id
+          type: number
+        content:
+          title: content
+          type: string
+      required:
+      - content
+      - id
+      title: AnnouncementResDto
+      type: object
+    AnnouncementReqDto:
+      example:
+        content: content
+      properties:
+        content:
+          title: content
+          type: string
+      required:
+      - content
+      title: AnnouncementReqDto
+      type: object
+  securitySchemes:
+    bearer:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: openapi_server.controllers.security_controller.info_from_bearer

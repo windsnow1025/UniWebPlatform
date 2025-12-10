@@ -20,9 +20,14 @@
 
 ### Generate Client Package
 
-```bash
-openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/nest
-```
+- Next.js
+   ```bash
+   openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/nest
+   ```
+- FastAPI
+   ```bash
+   openapi-generator-cli generate -i http://localhost:3001/docs-json -g python-aiohttp -o ../fastapi/client/nest
+   ```
 
 ## Run
 
