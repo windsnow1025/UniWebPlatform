@@ -23,106 +23,26 @@ import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
-/**
- * 
- * @export
- * @interface AnnouncementReqDto
- */
 export interface AnnouncementReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof AnnouncementReqDto
-     */
     'content': string;
 }
-/**
- * 
- * @export
- * @interface AnnouncementResDto
- */
 export interface AnnouncementResDto {
-    /**
-     * 
-     * @type {number}
-     * @memberof AnnouncementResDto
-     */
     'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AnnouncementResDto
-     */
     'content': string;
 }
-/**
- * 
- * @export
- * @interface AuthTokenEmailReqDto
- */
 export interface AuthTokenEmailReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof AuthTokenEmailReqDto
-     */
     'email': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AuthTokenEmailReqDto
-     */
     'password': string;
 }
-/**
- * 
- * @export
- * @interface AuthTokenResDto
- */
 export interface AuthTokenResDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof AuthTokenResDto
-     */
     'accessToken': string;
 }
-/**
- * 
- * @export
- * @interface AuthTokenUsernameReqDto
- */
 export interface AuthTokenUsernameReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof AuthTokenUsernameReqDto
-     */
     'username': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AuthTokenUsernameReqDto
-     */
     'password': string;
 }
-/**
- * 
- * @export
- * @interface Content
- */
 export interface Content {
-    /**
-     * 
-     * @type {string}
-     * @memberof Content
-     */
     'type': ContentTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof Content
-     */
     'data': string;
 }
 
@@ -133,255 +53,55 @@ export const ContentTypeEnum = {
 
 export type ContentTypeEnum = typeof ContentTypeEnum[keyof typeof ContentTypeEnum];
 
-/**
- * 
- * @export
- * @interface ConversationColorReqDto
- */
 export interface ConversationColorReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof ConversationColorReqDto
-     */
     'colorLabel': string;
 }
-/**
- * 
- * @export
- * @interface ConversationNameReqDto
- */
 export interface ConversationNameReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof ConversationNameReqDto
-     */
     'name': string;
 }
-/**
- * 
- * @export
- * @interface ConversationPublicReqDto
- */
 export interface ConversationPublicReqDto {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ConversationPublicReqDto
-     */
     'isPublic': boolean;
 }
-/**
- * 
- * @export
- * @interface ConversationReqDto
- */
 export interface ConversationReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof ConversationReqDto
-     */
     'name': string;
-    /**
-     * 
-     * @type {Array<Message>}
-     * @memberof ConversationReqDto
-     */
     'messages': Array<Message>;
 }
-/**
- * 
- * @export
- * @interface ConversationResDto
- */
 export interface ConversationResDto {
-    /**
-     * 
-     * @type {number}
-     * @memberof ConversationResDto
-     */
     'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ConversationResDto
-     */
     'name': string;
-    /**
-     * 
-     * @type {Array<Message>}
-     * @memberof ConversationResDto
-     */
     'messages': Array<Message>;
-    /**
-     * 
-     * @type {Array<UserResDto>}
-     * @memberof ConversationResDto
-     */
     'users': Array<UserResDto>;
-    /**
-     * 
-     * @type {string}
-     * @memberof ConversationResDto
-     */
     'updatedAt': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ConversationResDto
-     */
     'isPublic': boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof ConversationResDto
-     */
     'colorLabel': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ConversationResDto
-     */
     'version': number;
 }
-/**
- * 
- * @export
- * @interface ConversationUpdateTimeResDto
- */
 export interface ConversationUpdateTimeResDto {
-    /**
-     * 
-     * @type {number}
-     * @memberof ConversationUpdateTimeResDto
-     */
     'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ConversationUpdateTimeResDto
-     */
     'updatedAt': string;
 }
-/**
- * 
- * @export
- * @interface FilesReqDto
- */
 export interface FilesReqDto {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof FilesReqDto
-     */
     'filenames': Array<string>;
 }
-/**
- * 
- * @export
- * @interface FilesResDto
- */
 export interface FilesResDto {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof FilesResDto
-     */
     'urls': Array<string>;
 }
-/**
- * 
- * @export
- * @interface MarkdownReqDto
- */
 export interface MarkdownReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof MarkdownReqDto
-     */
     'title': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MarkdownReqDto
-     */
     'content': string;
 }
-/**
- * 
- * @export
- * @interface MarkdownResDto
- */
 export interface MarkdownResDto {
-    /**
-     * 
-     * @type {number}
-     * @memberof MarkdownResDto
-     */
     'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof MarkdownResDto
-     */
     'title': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MarkdownResDto
-     */
     'content': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MarkdownResDto
-     */
     'updatedAt': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof MarkdownResDto
-     */
     'version': number;
 }
-/**
- * 
- * @export
- * @interface Message
- */
 export interface Message {
-    /**
-     * 
-     * @type {string}
-     * @memberof Message
-     */
     'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Message
-     */
     'role': MessageRoleEnum;
-    /**
-     * 
-     * @type {Array<Content>}
-     * @memberof Message
-     */
     'contents': Array<Content>;
-    /**
-     * 
-     * @type {string}
-     * @memberof Message
-     */
     'thought'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Message
-     */
     'display'?: string;
 }
 
@@ -393,106 +113,26 @@ export const MessageRoleEnum = {
 
 export type MessageRoleEnum = typeof MessageRoleEnum[keyof typeof MessageRoleEnum];
 
-/**
- * 
- * @export
- * @interface ReduceCreditReqDto
- */
 export interface ReduceCreditReqDto {
-    /**
-     * 
-     * @type {number}
-     * @memberof ReduceCreditReqDto
-     */
     'amount': number;
 }
-/**
- * 
- * @export
- * @interface UserAvatarReqDto
- */
 export interface UserAvatarReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserAvatarReqDto
-     */
     'avatar': string;
 }
-/**
- * 
- * @export
- * @interface UserEmailPasswordReqDto
- */
 export interface UserEmailPasswordReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserEmailPasswordReqDto
-     */
     'email': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserEmailPasswordReqDto
-     */
     'password': string;
 }
-/**
- * 
- * @export
- * @interface UserEmailReqDto
- */
 export interface UserEmailReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserEmailReqDto
-     */
     'email': string;
 }
-/**
- * 
- * @export
- * @interface UserPasswordReqDto
- */
 export interface UserPasswordReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserPasswordReqDto
-     */
     'password': string;
 }
-/**
- * 
- * @export
- * @interface UserPrivilegesReqDto
- */
 export interface UserPrivilegesReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserPrivilegesReqDto
-     */
     'username': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserPrivilegesReqDto
-     */
     'emailVerified': boolean;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UserPrivilegesReqDto
-     */
     'roles': Array<UserPrivilegesReqDtoRolesEnum>;
-    /**
-     * 
-     * @type {number}
-     * @memberof UserPrivilegesReqDto
-     */
     'credit': number;
 }
 
@@ -503,78 +143,18 @@ export const UserPrivilegesReqDtoRolesEnum = {
 
 export type UserPrivilegesReqDtoRolesEnum = typeof UserPrivilegesReqDtoRolesEnum[keyof typeof UserPrivilegesReqDtoRolesEnum];
 
-/**
- * 
- * @export
- * @interface UserReqDto
- */
 export interface UserReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserReqDto
-     */
     'username': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserReqDto
-     */
     'email': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserReqDto
-     */
     'password': string;
 }
-/**
- * 
- * @export
- * @interface UserResDto
- */
 export interface UserResDto {
-    /**
-     * 
-     * @type {number}
-     * @memberof UserResDto
-     */
     'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserResDto
-     */
     'username': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserResDto
-     */
     'email': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserResDto
-     */
     'emailVerified': boolean;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof UserResDto
-     */
     'roles': Array<UserResDtoRolesEnum>;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserResDto
-     */
     'avatar'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof UserResDto
-     */
     'credit': number;
 }
 
@@ -585,36 +165,15 @@ export const UserResDtoRolesEnum = {
 
 export type UserResDtoRolesEnum = typeof UserResDtoRolesEnum[keyof typeof UserResDtoRolesEnum];
 
-/**
- * 
- * @export
- * @interface UserUsernameReqDto
- */
 export interface UserUsernameReqDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserUsernameReqDto
-     */
     'username': string;
 }
-/**
- * 
- * @export
- * @interface WebUrlResDto
- */
 export interface WebUrlResDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof WebUrlResDto
-     */
     'webUrl': string;
 }
 
 /**
  * AnnouncementApi - axios parameter creator
- * @export
  */
 export const AnnouncementApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -695,7 +254,6 @@ export const AnnouncementApiAxiosParamCreator = function (configuration?: Config
 
 /**
  * AnnouncementApi - functional programming interface
- * @export
  */
 export const AnnouncementApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AnnouncementApiAxiosParamCreator(configuration)
@@ -728,7 +286,6 @@ export const AnnouncementApiFp = function(configuration?: Configuration) {
 
 /**
  * AnnouncementApi - factory interface
- * @export
  */
 export const AnnouncementApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AnnouncementApiFp(configuration)
@@ -755,16 +312,12 @@ export const AnnouncementApiFactory = function (configuration?: Configuration, b
 
 /**
  * AnnouncementApi - object-oriented interface
- * @export
- * @class AnnouncementApi
- * @extends {BaseAPI}
  */
 export class AnnouncementApi extends BaseAPI {
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AnnouncementApi
      */
     public announcementControllerFind(options?: RawAxiosRequestConfig) {
         return AnnouncementApiFp(this.configuration).announcementControllerFind(options).then((request) => request(this.axios, this.basePath));
@@ -775,7 +328,6 @@ export class AnnouncementApi extends BaseAPI {
      * @param {AnnouncementReqDto} announcementReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AnnouncementApi
      */
     public announcementControllerUpdate(announcementReqDto: AnnouncementReqDto, options?: RawAxiosRequestConfig) {
         return AnnouncementApiFp(this.configuration).announcementControllerUpdate(announcementReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -786,7 +338,6 @@ export class AnnouncementApi extends BaseAPI {
 
 /**
  * AppApi - axios parameter creator
- * @export
  */
 export const AppApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -828,7 +379,6 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
 
 /**
  * AppApi - functional programming interface
- * @export
  */
 export const AppApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AppApiAxiosParamCreator(configuration)
@@ -849,7 +399,6 @@ export const AppApiFp = function(configuration?: Configuration) {
 
 /**
  * AppApi - factory interface
- * @export
  */
 export const AppApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AppApiFp(configuration)
@@ -867,16 +416,12 @@ export const AppApiFactory = function (configuration?: Configuration, basePath?:
 
 /**
  * AppApi - object-oriented interface
- * @export
- * @class AppApi
- * @extends {BaseAPI}
  */
 export class AppApi extends BaseAPI {
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AppApi
      */
     public appControllerGetRoot(options?: RawAxiosRequestConfig) {
         return AppApiFp(this.configuration).appControllerGetRoot(options).then((request) => request(this.axios, this.basePath));
@@ -887,7 +432,6 @@ export class AppApi extends BaseAPI {
 
 /**
  * AuthApi - axios parameter creator
- * @export
  */
 export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -974,7 +518,6 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * AuthApi - functional programming interface
- * @export
  */
 export const AuthApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AuthApiAxiosParamCreator(configuration)
@@ -1008,7 +551,6 @@ export const AuthApiFp = function(configuration?: Configuration) {
 
 /**
  * AuthApi - factory interface
- * @export
  */
 export const AuthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AuthApiFp(configuration)
@@ -1036,9 +578,6 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * AuthApi - object-oriented interface
- * @export
- * @class AuthApi
- * @extends {BaseAPI}
  */
 export class AuthApi extends BaseAPI {
     /**
@@ -1046,7 +585,6 @@ export class AuthApi extends BaseAPI {
      * @param {AuthTokenEmailReqDto} authTokenEmailReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AuthApi
      */
     public authControllerCreateTokenByEmail(authTokenEmailReqDto: AuthTokenEmailReqDto, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).authControllerCreateTokenByEmail(authTokenEmailReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -1057,7 +595,6 @@ export class AuthApi extends BaseAPI {
      * @param {AuthTokenUsernameReqDto} authTokenUsernameReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AuthApi
      */
     public authControllerCreateTokenByUsername(authTokenUsernameReqDto: AuthTokenUsernameReqDto, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).authControllerCreateTokenByUsername(authTokenUsernameReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -1068,7 +605,6 @@ export class AuthApi extends BaseAPI {
 
 /**
  * ConversationsApi - axios parameter creator
- * @export
  */
 export const ConversationsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1581,7 +1117,6 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
 
 /**
  * ConversationsApi - functional programming interface
- * @export
  */
 export const ConversationsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ConversationsApiAxiosParamCreator(configuration)
@@ -1744,7 +1279,6 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
 
 /**
  * ConversationsApi - factory interface
- * @export
  */
 export const ConversationsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = ConversationsApiFp(configuration)
@@ -1871,9 +1405,6 @@ export const ConversationsApiFactory = function (configuration?: Configuration, 
 
 /**
  * ConversationsApi - object-oriented interface
- * @export
- * @class ConversationsApi
- * @extends {BaseAPI}
  */
 export class ConversationsApi extends BaseAPI {
     /**
@@ -1883,7 +1414,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {UserUsernameReqDto} userUsernameReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerAddUserForUsers(id: number, ifMatch: string, userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerAddUserForUsers(id, ifMatch, userUsernameReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -1895,7 +1425,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {UserUsernameReqDto} userUsernameReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerCloneForSpecificUser(id: number, userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerCloneForSpecificUser(id, userUsernameReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -1906,7 +1435,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {ConversationReqDto} conversationReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerCreate(conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerCreate(conversationReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -1917,7 +1445,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerDelete(id: number, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
@@ -1927,7 +1454,6 @@ export class ConversationsApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerFind(options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerFind(options).then((request) => request(this.axios, this.basePath));
@@ -1938,7 +1464,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerFindOne(id: number, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
@@ -1949,7 +1474,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerFindPublicOne(id: number, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerFindPublicOne(id, options).then((request) => request(this.axios, this.basePath));
@@ -1959,7 +1483,6 @@ export class ConversationsApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerFindUpdateTimes(options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerFindUpdateTimes(options).then((request) => request(this.axios, this.basePath));
@@ -1972,7 +1495,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {ConversationReqDto} conversationReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerUpdate(id: number, ifMatch: string, conversationReqDto: ConversationReqDto, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerUpdate(id, ifMatch, conversationReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -1985,7 +1507,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {ConversationColorReqDto} conversationColorReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerUpdateColorLabel(id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerUpdateColorLabel(id, ifMatch, conversationColorReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -1998,7 +1519,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {ConversationNameReqDto} conversationNameReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerUpdateName(id: number, ifMatch: string, conversationNameReqDto: ConversationNameReqDto, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerUpdateName(id, ifMatch, conversationNameReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -2011,7 +1531,6 @@ export class ConversationsApi extends BaseAPI {
      * @param {ConversationPublicReqDto} conversationPublicReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ConversationsApi
      */
     public conversationsControllerUpdatePublic(id: number, ifMatch: string, conversationPublicReqDto: ConversationPublicReqDto, options?: RawAxiosRequestConfig) {
         return ConversationsApiFp(this.configuration).conversationsControllerUpdatePublic(id, ifMatch, conversationPublicReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -2022,7 +1541,6 @@ export class ConversationsApi extends BaseAPI {
 
 /**
  * FilesApi - axios parameter creator
- * @export
  */
 export const FilesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -2208,7 +1726,6 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
 
 /**
  * FilesApi - functional programming interface
- * @export
  */
 export const FilesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FilesApiAxiosParamCreator(configuration)
@@ -2275,7 +1792,6 @@ export const FilesApiFp = function(configuration?: Configuration) {
 
 /**
  * FilesApi - factory interface
- * @export
  */
 export const FilesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = FilesApiFp(configuration)
@@ -2327,9 +1843,6 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
 
 /**
  * FilesApi - object-oriented interface
- * @export
- * @class FilesApi
- * @extends {BaseAPI}
  */
 export class FilesApi extends BaseAPI {
     /**
@@ -2337,7 +1850,6 @@ export class FilesApi extends BaseAPI {
      * @param {FilesReqDto} filesReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FilesApi
      */
     public filesControllerCloneFiles(filesReqDto: FilesReqDto, options?: RawAxiosRequestConfig) {
         return FilesApiFp(this.configuration).filesControllerCloneFiles(filesReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -2348,7 +1860,6 @@ export class FilesApi extends BaseAPI {
      * @param {FilesReqDto} filesReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FilesApi
      */
     public filesControllerDeleteFiles(filesReqDto: FilesReqDto, options?: RawAxiosRequestConfig) {
         return FilesApiFp(this.configuration).filesControllerDeleteFiles(filesReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -2358,7 +1869,6 @@ export class FilesApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FilesApi
      */
     public filesControllerGetFiles(options?: RawAxiosRequestConfig) {
         return FilesApiFp(this.configuration).filesControllerGetFiles(options).then((request) => request(this.axios, this.basePath));
@@ -2368,7 +1878,6 @@ export class FilesApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FilesApi
      */
     public filesControllerGetMinioWebUrl(options?: RawAxiosRequestConfig) {
         return FilesApiFp(this.configuration).filesControllerGetMinioWebUrl(options).then((request) => request(this.axios, this.basePath));
@@ -2378,7 +1887,6 @@ export class FilesApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FilesApi
      */
     public filesControllerUploadFiles(options?: RawAxiosRequestConfig) {
         return FilesApiFp(this.configuration).filesControllerUploadFiles(options).then((request) => request(this.axios, this.basePath));
@@ -2389,7 +1897,6 @@ export class FilesApi extends BaseAPI {
 
 /**
  * MarkdownsApi - axios parameter creator
- * @export
  */
 export const MarkdownsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -2593,7 +2100,6 @@ export const MarkdownsApiAxiosParamCreator = function (configuration?: Configura
 
 /**
  * MarkdownsApi - functional programming interface
- * @export
  */
 export const MarkdownsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = MarkdownsApiAxiosParamCreator(configuration)
@@ -2664,7 +2170,6 @@ export const MarkdownsApiFp = function(configuration?: Configuration) {
 
 /**
  * MarkdownsApi - factory interface
- * @export
  */
 export const MarkdownsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = MarkdownsApiFp(configuration)
@@ -2720,9 +2225,6 @@ export const MarkdownsApiFactory = function (configuration?: Configuration, base
 
 /**
  * MarkdownsApi - object-oriented interface
- * @export
- * @class MarkdownsApi
- * @extends {BaseAPI}
  */
 export class MarkdownsApi extends BaseAPI {
     /**
@@ -2730,7 +2232,6 @@ export class MarkdownsApi extends BaseAPI {
      * @param {MarkdownReqDto} markdownReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MarkdownsApi
      */
     public markdownsControllerCreate(markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig) {
         return MarkdownsApiFp(this.configuration).markdownsControllerCreate(markdownReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -2741,7 +2242,6 @@ export class MarkdownsApi extends BaseAPI {
      * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MarkdownsApi
      */
     public markdownsControllerDelete(id: number, options?: RawAxiosRequestConfig) {
         return MarkdownsApiFp(this.configuration).markdownsControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
@@ -2751,7 +2251,6 @@ export class MarkdownsApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MarkdownsApi
      */
     public markdownsControllerFindAll(options?: RawAxiosRequestConfig) {
         return MarkdownsApiFp(this.configuration).markdownsControllerFindAll(options).then((request) => request(this.axios, this.basePath));
@@ -2762,7 +2261,6 @@ export class MarkdownsApi extends BaseAPI {
      * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MarkdownsApi
      */
     public markdownsControllerFindOne(id: number, options?: RawAxiosRequestConfig) {
         return MarkdownsApiFp(this.configuration).markdownsControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
@@ -2775,7 +2273,6 @@ export class MarkdownsApi extends BaseAPI {
      * @param {MarkdownReqDto} markdownReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MarkdownsApi
      */
     public markdownsControllerUpdate(id: number, ifMatch: string, markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig) {
         return MarkdownsApiFp(this.configuration).markdownsControllerUpdate(id, ifMatch, markdownReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -2786,7 +2283,6 @@ export class MarkdownsApi extends BaseAPI {
 
 /**
  * UsersApi - axios parameter creator
- * @export
  */
 export const UsersApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -3387,7 +2883,6 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 
 /**
  * UsersApi - functional programming interface
- * @export
  */
 export const UsersApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
@@ -3584,7 +3079,6 @@ export const UsersApiFp = function(configuration?: Configuration) {
 
 /**
  * UsersApi - factory interface
- * @export
  */
 export const UsersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = UsersApiFp(configuration)
@@ -3733,9 +3227,6 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 
 /**
  * UsersApi - object-oriented interface
- * @export
- * @class UsersApi
- * @extends {BaseAPI}
  */
 export class UsersApi extends BaseAPI {
     /**
@@ -3743,7 +3234,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserReqDto} userReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerCreate(userReqDto: UserReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerCreate(userReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3753,7 +3243,6 @@ export class UsersApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerDelete(options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerDelete(options).then((request) => request(this.axios, this.basePath));
@@ -3763,7 +3252,6 @@ export class UsersApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerDeleteAllFirebaseUsers(options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerDeleteAllFirebaseUsers(options).then((request) => request(this.axios, this.basePath));
@@ -3774,7 +3262,6 @@ export class UsersApi extends BaseAPI {
      * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerDeleteById(id: number, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerDeleteById(id, options).then((request) => request(this.axios, this.basePath));
@@ -3784,7 +3271,6 @@ export class UsersApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerFind(options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerFind(options).then((request) => request(this.axios, this.basePath));
@@ -3794,7 +3280,6 @@ export class UsersApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerFindOne(options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerFindOne(options).then((request) => request(this.axios, this.basePath));
@@ -3805,7 +3290,6 @@ export class UsersApi extends BaseAPI {
      * @param {ReduceCreditReqDto} reduceCreditReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerReduceCredit(reduceCreditReqDto: ReduceCreditReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerReduceCredit(reduceCreditReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3816,7 +3300,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserEmailReqDto} userEmailReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerSendEmailVerification(userEmailReqDto: UserEmailReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerSendEmailVerification(userEmailReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3827,7 +3310,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserEmailReqDto} userEmailReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerSendPasswordResetEmail(userEmailReqDto: UserEmailReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerSendPasswordResetEmail(userEmailReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3838,7 +3320,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserAvatarReqDto} userAvatarReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerUpdateAvatar(userAvatarReqDto: UserAvatarReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerUpdateAvatar(userAvatarReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3849,7 +3330,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserEmailReqDto} userEmailReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerUpdateEmail(userEmailReqDto: UserEmailReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerUpdateEmail(userEmailReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3859,7 +3339,6 @@ export class UsersApi extends BaseAPI {
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerUpdateEmailVerified(options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerUpdateEmailVerified(options).then((request) => request(this.axios, this.basePath));
@@ -3870,7 +3349,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserPasswordReqDto} userPasswordReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerUpdatePassword(userPasswordReqDto: UserPasswordReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerUpdatePassword(userPasswordReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3881,7 +3359,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserPrivilegesReqDto} userPrivilegesReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerUpdatePrivileges(userPrivilegesReqDto: UserPrivilegesReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerUpdatePrivileges(userPrivilegesReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3892,7 +3369,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserEmailPasswordReqDto} userEmailPasswordReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerUpdateResetPassword(userEmailPasswordReqDto: UserEmailPasswordReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerUpdateResetPassword(userEmailPasswordReqDto, options).then((request) => request(this.axios, this.basePath));
@@ -3903,7 +3379,6 @@ export class UsersApi extends BaseAPI {
      * @param {UserUsernameReqDto} userUsernameReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UsersApi
      */
     public usersControllerUpdateUsername(userUsernameReqDto: UserUsernameReqDto, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).usersControllerUpdateUsername(userUsernameReqDto, options).then((request) => request(this.axios, this.basePath));
