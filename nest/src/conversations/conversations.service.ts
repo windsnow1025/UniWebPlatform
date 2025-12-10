@@ -63,6 +63,7 @@ export class ConversationsService {
     return this.conversationsRepository.find({
       where: { id: In(ids) },
       relations: ['users'],
+      order: { updatedAt: 'DESC' },
     });
   }
 
