@@ -1,78 +1,17 @@
-import logging
-import os
-
-import httpx
-import httpcore
-from fastapi import HTTPException
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from ...client.nest_js_client.api.users.users_controller_find_one import asyncio as find_one_async
+from ...client.nest_js_client.api.users.users_controller_reduce_credit import asyncio as reduce_credit_async
+from ...client.nest_js_client.models import UserResDto
+from ...client.nest_js_client.models.reduce_credit_req_dto import ReduceCreditReqDto
+from ...config import get_client
 
 
-@retry(
-    stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=1, min=1, max=4),
-    retry=retry_if_exception_type((httpx.ConnectError, httpcore.ConnectError)),
-    reraise=True,
-)
-async def get_user(token: str = None) -> dict:
-
-    headers = {"Authorization": f"Bearer {token}"} if token else {}
-    
-    async with httpx.AsyncClient() as client:
-        try:
-            response = await client.get(f"{os.environ["NEST_API_BASE_URL"]}/users/user", headers=headers)
-        except httpx.ConnectError as e:
-            detail = f"httpx.ConnectError while fetching users: {e}"
-            logging.exception(detail)
-            raise HTTPException(status_code=500, detail=detail)
-        except httpcore.ConnectError as e:
-            detail = f"httpcore.ConnectError while fetching users: {e}"
-            logging.exception(detail)
-            raise HTTPException(status_code=500, detail=detail)
-        except Exception as e:
-            detail = f"Unknown error while fetching users: {e}"
-            logging.exception(detail)
-            raise HTTPException(status_code=500, detail=detail)
-
-        if response.status_code != 200:
-            status_code = response.status_code
-            text = response.text
-            logging.error(f"Error {status_code}: {text}")
-            raise HTTPException(status_code=status_code, detail=text)
-
-        return response.json()
+async def get_user(token: str = None) -> UserResDto:
+    client = get_client(token)
+    async with client as client:
+        return await find_one_async(client=client)
 
 
-@retry(
-    stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=1, min=1, max=4),
-    retry=retry_if_exception_type((httpx.ConnectError, httpcore.ConnectError)),
-    reraise=True,
-)
-async def reduce_user_credit(amount: float, token: str = None) -> dict:
-
-    headers = {"Authorization": f"Bearer {token}"} if token else {}
-    
-    async with httpx.AsyncClient() as client:
-        try:
-            response = await client.patch(
-                f"{os.environ["NEST_API_BASE_URL"]}/users/user/reduce-credit",
-                json={"amount": amount},
-                headers=headers
-            )
-        except httpx.ConnectError as e:
-            logging.exception(f"httpx.ConnectError while reducing credit: {e}")
-            raise
-        except httpcore.ConnectError as e:
-            logging.exception(f"httpcore.ConnectError while reducing credit: {e}")
-            raise
-        except Exception as e:
-            logging.exception(f"Unknown error while reducing credit: {e}")
-            raise e
-
-        if response.status_code != 200:
-            status_code = response.status_code
-            text = response.text
-            logging.error(f"Error {status_code}: {text}")
-            raise HTTPException(status_code=status_code, detail=text)
-
-        return response.json()
+async def reduce_user_credit(amount: float, token: str = None) -> UserResDto:
+    client = get_client(token)
+    async with client as client:
+        return await reduce_credit_async(client=client, body=ReduceCreditReqDto(amount=amount))

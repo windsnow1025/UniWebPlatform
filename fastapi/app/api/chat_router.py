@@ -37,7 +37,7 @@ async def generate(
         if find_model_prices(chat_request.api_type, chat_request.model) is None:
             raise HTTPException(status_code=400, detail="Invalid API Type and Model combination")
 
-        user = await user_logic.select_user(token)
+        user = await user_logic.get_user(token)
         if not user.email_verified:
             raise HTTPException(status_code=401, detail="Email not verified")
         if user.credit <= 0:
