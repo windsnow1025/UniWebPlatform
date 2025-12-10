@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from llm_bridge import Message, get_model_prices, ModelPrice, find_model_prices
 from pydantic import BaseModel
@@ -8,7 +8,7 @@ from typing import Any, Optional
 
 import app.logic.auth as auth
 from app.logic.chat.chat_service import handle_chat_interaction
-from app.client import user_logic
+from app.logic.user import user_logic
 
 chat_router = APIRouter()
 security = HTTPBearer()

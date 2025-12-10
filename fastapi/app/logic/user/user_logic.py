@@ -1,5 +1,5 @@
-from app.client import user_client
-from app.client.user_entity import User
+from app.logic.user import user_client
+from app.logic.user.user_entity import User
 
 
 async def select_user(token: str = None) -> User:

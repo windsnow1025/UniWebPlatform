@@ -6,7 +6,7 @@ from llm_bridge import *
 from starlette.responses import StreamingResponse
 
 from app.logic.chat import response_handler
-from app.client import user_logic
+from app.logic.user import user_logic
 
 
 async def handle_chat_interaction(

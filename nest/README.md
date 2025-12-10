@@ -26,7 +26,7 @@
    ```
 - FastAPI
    ```bash
-   openapi-generator-cli generate -i http://localhost:3001/docs-json -g python-aiohttp -o ../fastapi/client/nest
+   openapi-generator-cli generate -i http://localhost:3001/docs-json -g python-aiohttp -o ../fastapi/app/client
    ```
 
 ## Run
