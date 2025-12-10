@@ -1,5 +1,5 @@
 from app.client.nest_js_client.models import UserResDto
-from app.logic.user import user_client
+from app.lib.user import user_client
 
 
 async def get_user(token: str = None) -> UserResDto:
