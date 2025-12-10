@@ -22,15 +22,16 @@ In Pycharm Professional:
 ### Requirements
 
 1. Install openapi-generator-cli globally.
-
-    ```bash
-    npm i -g @openapitools/openapi-generator-cli
-    ```
-
+  ```bash
+  npm i -g @openapitools/openapi-generator-cli@latest
+  ```
 2. Install Java.
 
 ### Generate Client Package
 
+```bash
+rm -r ../next/client/fastapi
+```
 ```bash
 openapi-generator-cli generate -i http://localhost:8000/openapi.json -g typescript-axios -o ../next/client/fastapi
 ```

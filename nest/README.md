@@ -11,23 +11,32 @@
 ### Requirements
 
 1. Install openapi-generator-cli globally.
-
     ```bash
-    npm i -g @openapitools/openapi-generator-cli
+    npm i -g @openapitools/openapi-generator-cli@latest
     ```
-
 2. Install Java.
+3. Install Python.
+4. Install openapi-python-client.
+    ```bash
+    pip install --upgrade openapi-python-client
+    ```
 
 ### Generate Client Package
 
 - Next.js
-   ```bash
-   openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/nest
-   ```
+  ```bash
+  rm -r ../next/client/nest
+  ```
+  ```bash
+  openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/nest
+  ```
 - FastAPI
-   ```bash
-   openapi-generator-cli generate -i http://localhost:3001/docs-json -g python-aiohttp -o ../fastapi/app/client
-   ```
+  ```bash
+  rm -r ../fastapi/app/client
+  ```
+  ```bash
+  openapi-python-client generate --url http://localhost:3001/docs-json --output-path ../fastapi/app/client
+  ```
 
 ## Run
 
