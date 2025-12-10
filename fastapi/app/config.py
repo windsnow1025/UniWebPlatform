@@ -1,7 +1,10 @@
 import logging
 import os
+from typing import Optional
 
 from dotenv import load_dotenv
+
+from .client.nest_js_client.client import AuthenticatedClient, Client
 
 
 def init_env():
@@ -15,3 +18,17 @@ def init_env():
         os.environ['FASTAPI_PATH_PREFIX'] = ""
 
     logging.info(f"Using {'production' if is_production else 'development'} setting.")
+
+
+def get_client(token: Optional[str] = None) -> Client | AuthenticatedClient:
+    base_url = os.environ["NEST_API_BASE_URL"]
+    if token:
+        return AuthenticatedClient(
+            base_url=base_url,
+            token=token,
+            raise_on_unexpected_status=True,
+        )
+    return Client(
+        base_url=base_url,
+        raise_on_unexpected_status=True,
+    )
