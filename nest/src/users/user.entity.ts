@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../common/enums/role.enum';
 import { BaseEntity } from '../common/entities/base.entity';
+import { ColumnNumericTransformer } from '../common/transformers/numeric.transformer';
 
 @Entity()
 export class User extends BaseEntity {
@@ -56,8 +57,11 @@ export class User extends BaseEntity {
   avatar: string;
 
   @Column({
-    type: 'float',
+    type: 'decimal',
+    precision: 19,
+    scale: 8,
     default: 0,
+    transformer: new ColumnNumericTransformer(),
   })
   credit: number;
 }
