@@ -18,6 +18,12 @@ Add New Configuration >> uv run
 - Module: `uvicorn`
 - Arguments: `app.main:app --reload --host 127.0.0.1 --port 8000`
 
+### Test
+
+```bash
+uv run pytest
+```
+
 ## OpenAPI
 
 ### Requirements
