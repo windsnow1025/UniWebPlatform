@@ -1,12 +1,24 @@
-FROM python:3.12
+FROM python:3.12-slim
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-WORKDIR /code
+# Change the working directory to the `app` directory
+WORKDIR /app
 
-COPY ./requirements.txt /code/requirements.txt
+# Install dependencies
+ENV UV_COMPILE_BYTECODE=1
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+# Copy the project into the image
+COPY . /app
 
-COPY ./app /code/app
+# Sync the project
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked
+
+ENV PATH="/app/.venv/bin:$PATH"
 
 # Use uvicorn instead of fastapi run to prevent Gemini stream bug
 # CMD ["fastapi", "run", "app/main.py", "--port", "80"]

@@ -1,21 +1,22 @@
 # FastAPI
 
-## Setup
+## Development
 
-### Environment
+### Python uv
 
-1. Copy `./.env.example` and rename it to `./.env`, then fill in the environment variables.
-2. Install dependencies:
-    ```
-    pip install -r requirements.txt
-    ```
+1. Install uv: `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+2. Install Python in uv: `uv python install 3.12`; upgrade Python in uv: `uv python install 3.12`
+3. Configure requirements:
+  ```bash
+  uv sync
+  ```
 
-### Run
+### Pycharm Professional
 
-In Pycharm Professional:
-
-1. Add new configuration -> FastAPI
-2. Set Application file to `./fastapi/app/main.py`
+Add New Configuration >> uv run
+- Run: Module
+- Module: `uvicorn`
+- Arguments: `app.main:app --reload --host 127.0.0.1 --port 8000`
 
 ## OpenAPI
 
