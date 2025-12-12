@@ -15,8 +15,10 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getRoot()).toBe('Nest JS');
+    it('should return welcome message', () => {
+      expect(appController.getRoot()).toStrictEqual({
+        message: 'Welcome to the NestJS. See /docs for details.',
+      });
     });
   });
 });
