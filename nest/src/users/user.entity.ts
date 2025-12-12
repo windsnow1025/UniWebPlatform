@@ -60,7 +60,7 @@ export class User extends BaseEntity {
     type: 'decimal',
     precision: 19,
     scale: 8,
-    default: 0,
+    default: '0',
     transformer: new ColumnNumericTransformer(),
   })
   credit: number;
