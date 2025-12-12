@@ -8,7 +8,7 @@
 2. Install Python in uv: `uv python install 3.12`; upgrade Python in uv: `uv python install 3.12`
 3. Configure requirements:
   ```bash
-  uv sync
+  uv sync --refresh
   ```
 
 ### Pycharm Professional
