@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getRoot(): string {
-    return 'Nest JS';
+  getRoot() {
+    return { message: 'Welcome to the NestJS. See /docs for details.' };
   }
 }
