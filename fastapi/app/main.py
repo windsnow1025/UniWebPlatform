@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.chat_router import chat_router
 from app.api.messages_convert_router import messages_convert_router
+from app.api.root_router import root_router
 from app.config import init_env
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -22,5 +23,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(root_router)
 app.include_router(chat_router)
 app.include_router(messages_convert_router)
