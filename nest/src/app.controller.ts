@@ -8,7 +8,7 @@ export class AppController {
 
   @Public()
   @Get()
-  getRoot(): string {
+  getRoot() {
     return this.appService.getRoot();
   }
 }
