@@ -1,6 +1,12 @@
 # Next.js
 
-## Run
+## Development
+
+### pnpm
+
+1. Install Node.js
+2. Install pnpm: `corepack enable`
+3. Install dependencies: `pnpm install`
 
 ```bash
 npm run dev
