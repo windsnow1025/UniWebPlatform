@@ -8,10 +8,12 @@ on:
     branches: [ "main", "test" ]
     paths:
       - 'fastapi/**'
+      - '.github/workflows/fastapi-python-test.yaml'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'fastapi/**'
+      - '.github/workflows/fastapi-python-test.yaml'
 
 jobs:
   uv:

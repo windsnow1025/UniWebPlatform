@@ -10,6 +10,7 @@ on:
       - "test"
     paths:
       - 'fastapi/**'
+      - '.github/workflows/fastapi-docker-publish.yml'
 
 jobs:
   build-fastapi:

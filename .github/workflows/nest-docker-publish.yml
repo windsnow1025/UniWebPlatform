@@ -10,6 +10,7 @@ on:
       - "test"
     paths:
       - 'nest/**'
+      - '.github/workflows/nest-docker-publish.yml'
 
 jobs:
   build-nest:

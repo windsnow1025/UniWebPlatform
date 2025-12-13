@@ -1,13 +1,4 @@
-import {
-  blue,
-  brown,
-  green,
-  grey,
-  orange,
-  purple,
-  red,
-  yellow
-} from '@mui/material/colors';
+import {blue, brown, green, grey, orange, purple, red, yellow} from '@mui/material/colors';
 
 export const COLOR_LABELS = [
   { key: '', name: 'No label', color: grey[400] },
