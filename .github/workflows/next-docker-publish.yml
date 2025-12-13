@@ -10,6 +10,7 @@ on:
       - "test"
     paths:
       - 'next/**'
+      - '.github/workflows/next-docker-publish.yml'
 
 jobs:
   build-next:
