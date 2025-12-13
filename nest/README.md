@@ -1,10 +1,28 @@
 # Nest.js
 
-## Setup
+## Development
+
+### pnpm
+
+1. Install Node.js
+2. Install pnpm: `corepack enable`
+3. Install dependencies: `pnpm install`
+
+### WebStorm
+
+Settings >> Languages & Frameworks >> JavaScript Runtime >> Package manager: `pnpm`
+
+### Environment Variables
 
 - Copy `./.env.example` and rename it to `.env`, then fill in the Env variables.
 - Copy `./firebaseConfig.example.json` and rename it to `./firebaseConfig.json`, then fill in the Env variables.
 - Copy `./serviceAccountKey.example.json` and rename it to `./serviceAccountKey.json`, then fill in the Env variables.
+
+### Run
+
+```bash
+pnpm run dev
+```
 
 ## OpenAPI
 
