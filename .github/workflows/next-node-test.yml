@@ -39,7 +39,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-        cache-dependency-path: ./next/pnpm-lock.json
+        cache-dependency-path: ./next/pnpm-lock.yaml
     - run: pnpm install --frozen-lockfile
       working-directory: ./next
     - run: pnpm run build --if-present
