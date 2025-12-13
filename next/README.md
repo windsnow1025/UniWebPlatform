@@ -8,8 +8,10 @@
 2. Install pnpm: `corepack enable`
 3. Install dependencies: `pnpm install`
 
+### Run
+
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ## Configuration changes made after `create-next-app`
