@@ -28,15 +28,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: next/package-lock.json
-    - run: npm ci
+        cache: 'pnpm'
+        cache-dependency-path: next/pnpm-lock.json
+    - run: pnpm install --frozen-lockfile
       working-directory: ./next
-    - run: npm run build --if-present
+    - run: pnpm run build --if-present
       working-directory: ./next
-    - run: npm test
+    - run: pnpm test
       working-directory: ./next
