@@ -1,8 +1,8 @@
 import {Alert, Box, Divider, Menu, MenuItem, Snackbar} from "@mui/material";
 import {
   DeleteOutlined as DeleteOutlinedIcon,
-  Share as ShareIcon,
   SaveOutlined as SaveOutlinedIcon,
+  Share as ShareIcon,
 } from '@mui/icons-material';
 import React, {useState} from "react";
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";

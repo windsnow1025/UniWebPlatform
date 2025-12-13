@@ -1,6 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Alert,
+  Box,
   CircularProgress,
   IconButton,
   List,
@@ -11,17 +15,13 @@ import {
   TextField,
   Tooltip,
   Typography,
-  Box,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from '@mui/material';
 import {
   Edit as EditIcon,
-  MoreVert as MoreVertIcon,
-  SaveOutlined as SaveOutlinedIcon,
   ExpandMore as ExpandMoreIcon,
   LabelOutlined as LabelOutlinedIcon,
+  MoreVert as MoreVertIcon,
+  SaveOutlined as SaveOutlinedIcon,
 } from '@mui/icons-material';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 import {isEqual} from 'lodash';

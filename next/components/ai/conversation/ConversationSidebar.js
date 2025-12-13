@@ -1,10 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Box,
-  Divider,
-  Snackbar,
-} from '@mui/material';
+import {Alert, Box, Divider, Snackbar,} from '@mui/material';
 import ConversationList from './ConversationList';
 import NewConversationButton from "../NewConversationButton";
 import TemporaryChatButton from "../TemporaryChatButton";
