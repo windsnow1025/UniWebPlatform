@@ -8,6 +8,10 @@
 2. Install pnpm: `corepack enable`
 3. Install dependencies: `pnpm install`
 
+### WebStorm
+
+Settings >> Languages & Frameworks >> JavaScript Runtime >> Package manager: `pnpm`
+
 ### Environment Variables
 
 - Copy `./.env.example` and rename it to `.env`, then fill in the Env variables.
