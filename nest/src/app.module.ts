@@ -50,13 +50,24 @@ import { createKeyv } from '@keyv/redis';
         const redisHost = configService.get<string>('redis.host');
         const redisPort = configService.get<number>('redis.port');
         const redisPassword = configService.get<string>('redis.password')!;
+        const redisUrl = `redis://:${encodeURIComponent(redisPassword)}@${redisHost}:${redisPort}`;
+
+        const store = createKeyv(redisUrl);
+
+        const redisClient = (store as any).opts.store.client;
+
+        if (redisClient) {
+          redisClient.on('error', (error: any) =>
+            console.error('error', error.message),
+          );
+        }
+
+        store.on('error', (error) => {
+          console.error('error', error);
+        });
 
         return {
-          stores: [
-            createKeyv(
-              `redis://:${encodeURIComponent(redisPassword)}@${redisHost}:${redisPort}`,
-            ),
-          ],
+          stores: [store],
         };
       },
     }),
