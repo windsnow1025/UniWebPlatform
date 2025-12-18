@@ -11,7 +11,7 @@ import ConversationSidebar from "./conversation/ConversationSidebar";
 import ToggleConversationButton from "./conversation/ToggleConversationButton";
 import useScreenSize from '../common/hooks/useScreenSize';
 import AIStudioTour from './AIStudioTour';
-import NewConversationButton from "./NewConversationButton";
+import NewConversationButton from "./conversation/NewConversationButton";
 import TemporaryChatButton from "./TemporaryChatButton";
 
 function AIChat({
