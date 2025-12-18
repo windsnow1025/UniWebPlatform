@@ -1,15 +1,22 @@
-FROM node:22-alpine
+FROM node:22-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-WORKDIR /usr/src/app
+FROM base AS prod
 
-COPY package*.json ./
+COPY pnpm-lock.yaml /app
+WORKDIR /app
+RUN pnpm fetch --prod
 
-RUN npm install
+COPY package.json ./
+RUN pnpm install --offline --prod
 
-COPY . .
+COPY . /app
+RUN pnpm run build
 
-RUN npm run build
-
+FROM base
+COPY --from=prod /app/node_modules /app/node_modules
+COPY --from=prod /app/dist /app/dist
 EXPOSE 3000
-
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "pnpm", "start:prod" ]
