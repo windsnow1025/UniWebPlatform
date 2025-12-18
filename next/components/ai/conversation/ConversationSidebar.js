@@ -4,6 +4,7 @@ import ConversationList from './ConversationList';
 import NewConversationButton from "./NewConversationButton";
 import TemporaryChatButton from "../TemporaryChatButton";
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
+import {wait} from "next/dist/lib/wait";
 
 function ConversationSidebar({
                                messages,
@@ -37,20 +38,33 @@ function ConversationSidebar({
   }, [conversationUpdateKey]);
 
   const handleUpdateConversation = async (index) => {
+    const conversationId = conversations[index]?.id;
+    if (!conversationId) return;
+
     try {
       const updatedConversation = await conversationLogic.updateConversation(
-        conversations[index].id,
+        conversationId,
         conversations[index].version,
         {
           name: conversations[index].name,
           messages: messages
         }
       );
+
       setConversations((prevConversations) => {
+        const targetIndex = prevConversations.findIndex(c => c.id === conversationId);
+
+        if (targetIndex === -1) {
+          return prevConversations;
+        }
+
         const newConversations = [...prevConversations];
-        newConversations[index] = updatedConversation;
+
+        newConversations[targetIndex] = updatedConversation;
+
         return newConversations;
       });
+
       setConversationLoadKey(prev => prev + 1);
     } catch (err) {
       setAlertOpen(true);
