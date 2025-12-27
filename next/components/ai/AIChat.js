@@ -176,6 +176,7 @@ function AIChat({
                 setConversationUpdateKey={setConversationUpdateKey}
                 setCreditRefreshKey={setCreditRefreshKey}
                 handleGenerateRef={handleGenerateRef}
+                isTemporaryChat={isTemporaryChat}
                 messages={messages}
                 setMessages={setMessages}
                 apiType={apiType}
