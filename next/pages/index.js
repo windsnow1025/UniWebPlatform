@@ -38,7 +38,7 @@ function Index() {
   const features = [
     {
       title: "AI Studio",
-      description: "A multi-model AI tool, supporting full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, search citations, stream output.",
+      description: "A multi-model AI tool, supporting full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, stream output.",
       icon: <AutoAwesomeIcon />,
     },
     {

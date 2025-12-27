@@ -86,7 +86,7 @@ function SendButton({
         isFirstChunk = false;
       }
 
-      // Final citation text
+      // Final text
       if (typeof chunk === "string") {
         setMessages(prevMessages =>
           ChatLogic.replaceMessageText(prevMessages, prevMessages.length - 1, 0, chunk)

@@ -33,7 +33,6 @@ async def stream_handler(
         code_output = ""
         files = []
         display = ""
-        citations = []
         input_tokens = 0
         output_tokens = 0
 
@@ -53,8 +52,6 @@ async def stream_handler(
                     files += chunk.files
                 if chunk.display:
                     display += chunk.display
-                if chunk.citations:
-                    citations += chunk.citations
                 if chunk.input_tokens:
                     input_tokens = chunk.input_tokens
                 if chunk.output_tokens:
@@ -69,7 +66,6 @@ async def stream_handler(
                 code_output=code_output,
                 files=files,
                 display=display,
-                citations=citations,
                 input_tokens=input_tokens,
                 output_tokens=output_tokens,
             )
