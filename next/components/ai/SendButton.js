@@ -13,6 +13,7 @@ function SendButton({
                       setConversationUpdateKey,
                       setCreditRefreshKey,
                       handleGenerateRef,
+                      isTemporaryChat,
                       messages,
                       setMessages,
                       apiType,
@@ -55,7 +56,16 @@ function SendButton({
       return false;
     }
 
-    const fileUrls = await ChatLogic.getFileUrls(content.files || []);
+    let fileUrls = [];
+    if (content.files && content.files.length > 0) {
+      if (isTemporaryChat) {
+        setAlertMessage('File generation is not supported in Temporary Chat mode. Please create a new conversation to save files.');
+        setAlertSeverity('warning');
+        setAlertOpen(true);
+      } else {
+        fileUrls = await ChatLogic.getFileUrls(content.files);
+      }
+    }
 
     setMessages(prevMessages => [
       ...prevMessages,
@@ -101,7 +111,16 @@ function SendButton({
         setIsLastChunkThought(false);
       }
 
-      const fileUrls = await ChatLogic.getFileUrls(chunk.files || []);
+      let fileUrls = [];
+      if (chunk.files && chunk.files.length > 0) {
+        if (isTemporaryChat) {
+          setAlertMessage('File generation is not supported in Temporary Chat mode. Please create a new conversation to save files.');
+          setAlertSeverity('warning');
+          setAlertOpen(true);
+        } else {
+          fileUrls = await ChatLogic.getFileUrls(chunk.files);
+        }
+      }
 
       setMessages(prevMessages => ChatLogic.updateMessage(
         prevMessages, prevMessages.length - 1, chunk, fileUrls
