@@ -11,11 +11,6 @@ export interface ResponseFile {
   type: string;
 }
 
-export interface Citation {
-  text: string;
-  indices: number[];
-}
-
 export interface ChatResponse {
   text?: string;
   thought?: string;
@@ -23,7 +18,6 @@ export interface ChatResponse {
   code_output?: string;
   files?: ResponseFile[];
   display?: string;
-  citations?: Citation[];
   error?: string;
   input_tokens?: number;
   output_tokens?: number;

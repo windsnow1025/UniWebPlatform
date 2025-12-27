@@ -57,7 +57,7 @@ function AIChat({
       <Head>
         <meta
           name="description"
-          content="AI Studio - Windsnow1025, a multi-model AI tool. Support full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, search citations, stream output."
+          content="AI Studio - Windsnow1025, a multi-model AI tool. Support full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, stream output."
         />
         <title>AI Studio - Windsnow1025</title>
       </Head>

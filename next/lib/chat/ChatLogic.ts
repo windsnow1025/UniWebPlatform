@@ -1,7 +1,7 @@
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import ChatClient from "./ChatClient";
-import {ApiTypeModel, ChatResponse, Citation, ResponseFile} from "@/lib/chat/ChatResponse";
-import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client/nest";
+import { ApiTypeModel, ChatResponse, ResponseFile } from "@/lib/chat/ChatResponse";
+import { Content, ContentTypeEnum, Message, MessageRoleEnum } from "@/client/nest";
 import FileLogic from "@/lib/common/file/FileLogic";
 
 export default class ChatLogic {
@@ -49,7 +49,7 @@ export default class ChatLogic {
     ],
   });
   static defaultApiTypeModels: ApiTypeModel[] = [
-    {apiType: "", model: "", input: 0, output: 0},
+    { apiType: "", model: "", input: 0, output: 0 },
   ];
 
   constructor() {
@@ -82,7 +82,7 @@ export default class ChatLogic {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
       const byteArray = new Uint8Array(byteNumbers);
-      return new File([byteArray], name, {type: type});
+      return new File([byteArray], name, { type: type });
     };
 
     const fileObjects = files.map((file) =>
@@ -139,7 +139,7 @@ export default class ChatLogic {
     }
 
     // Create a deep copy of the message to modify
-    const currentMessage = {...newMessages[index]};
+    const currentMessage = { ...newMessages[index] };
 
     // Create a deep copy of the contents array
     currentMessage.contents = [...currentMessage.contents];
@@ -281,10 +281,6 @@ export default class ChatLogic {
       if (content.text) {
         text += content.text;
       }
-      let citations = content.citations;
-      if (text && citations) {
-        text = ChatLogic.addCitations(text, citations);
-      }
 
       return {
         text: text,
@@ -307,7 +303,7 @@ export default class ChatLogic {
     thought: boolean,
     code_execution: boolean,
     onOpenCallback?: () => void,
-  ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final citation text
+  ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final text
     try {
       const filtered = ChatLogic.filterOutboundMessages(messages);
       const response = this.chatClient.streamGenerate(
@@ -315,7 +311,6 @@ export default class ChatLogic {
       );
 
       let text = "";
-      let citations: Citation[] = [];
 
       let openSection: 'code' | 'code_output' | null = null;
 
@@ -360,9 +355,6 @@ export default class ChatLogic {
         }
 
         text += chunkText;
-        if (chunk.citations) {
-          citations = citations.concat(chunk.citations);
-        }
 
         yield {
           text: chunkText,
@@ -376,22 +368,10 @@ export default class ChatLogic {
         text += '\n```\n';
       }
 
-      yield ChatLogic.addCitations(text, citations);
+      yield text;
     } catch (error) {
       console.error("Error in POST /:", error);
       throw error;
     }
-  }
-
-  // For chat generate
-  private static addCitations(text: string, citations: Citation[]): string {
-    for (const citation of citations) {
-      const citationText = citation.text;
-      const citationIndices = citation.indices;
-      const index = text.indexOf(citationText) + citationText.length;
-      const citationStr = `^${citationIndices.join(",")}^`;
-      text = text.slice(0, index) + citationStr + text.slice(index);
-    }
-    return text;
   }
 }
