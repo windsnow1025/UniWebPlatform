@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   IconButton,
   Paper,
@@ -9,17 +9,24 @@ import {
   DialogTitle,
   DialogActions,
   Button,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 import FilePreview from './FilePreview';
-import { RawEditableState } from "../../../../lib/common/message/EditableState";
+import {RawEditableState} from "../../../../lib/common/message/EditableState";
 import FileLogic from "../../../../lib/common/file/FileLogic";
 
-const FileDiv = ({ fileUrl, rawEditableState, onDelete }) => {
+const FileDiv = ({fileUrl, rawEditableState, onDelete}) => {
   const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1] || fileUrl.split('/').pop();
   const [previewOpen, setPreviewOpen] = useState(false);
+
+  // Alert state
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   const handleFileDelete = async () => {
     // Delete the file from storage
@@ -28,7 +35,10 @@ const FileDiv = ({ fileUrl, rawEditableState, onDelete }) => {
       const fileLogic = new FileLogic();
       await fileLogic.deleteFiles([fullFileName]);
     } catch (error) {
-      console.error('Failed to delete file:', error);
+      setAlertOpen(true);
+      setAlertMessage(error.message);
+      setAlertSeverity('error');
+      return;
     }
 
     onDelete();
@@ -42,7 +52,7 @@ const FileDiv = ({ fileUrl, rawEditableState, onDelete }) => {
             {fileName}
           </a>
         </Typography>
-        <FilePreview fileUrl={fileUrl} fileName={fileName} />
+        <FilePreview fileUrl={fileUrl} fileName={fileName}/>
       </Paper>
     );
   }
@@ -77,20 +87,30 @@ const FileDiv = ({ fileUrl, rawEditableState, onDelete }) => {
 
       <Dialog open={previewOpen} onClose={() => setPreviewOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <Typography variant="h6">{fileName}</Typography>
             <IconButton edge="end" color="inherit" onClick={() => setPreviewOpen(false)}>
-              <CloseIcon />
+              <CloseIcon/>
             </IconButton>
           </div>
         </DialogTitle>
         <DialogContent dividers>
-          <FilePreview fileUrl={fileUrl} fileName={fileName} />
+          <FilePreview fileUrl={fileUrl} fileName={fileName}/>
         </DialogContent>
         <DialogActions>
           <Button component="a" href={fileUrl} target="_blank" rel="noopener noreferrer">Open in New Tab</Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
