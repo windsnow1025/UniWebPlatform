@@ -249,7 +249,7 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async remove(id: number) {
+  async delete(id: number) {
     await this.cacheManager.del(this.getUserCacheKey(id));
     return await this.usersRepository.delete(id);
   }

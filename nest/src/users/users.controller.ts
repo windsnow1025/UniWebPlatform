@@ -167,13 +167,13 @@ export class UsersController {
   @Delete('/user')
   delete(@Request() req: RequestWithUser) {
     const id = req.user.id;
-    return this.usersService.remove(id);
+    return this.usersService.delete(id);
   }
 
   @Delete('/user/:id')
   @Roles([Role.Admin])
   deleteById(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+    return this.usersService.delete(id);
   }
 
   @Delete('/user/firebase')
