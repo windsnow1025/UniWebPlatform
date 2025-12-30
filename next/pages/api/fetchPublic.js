@@ -8,7 +8,7 @@ export default function handler(req, res) {
     return res.status(400).json({error: 'Filename is required'});
   }
 
-  const baseDir = path.join(process.cwd(), 'public', 'markdown');
+  const baseDir = path.join(process.cwd(), 'public');
   const safeFilename = path.basename(filename);
   const filePath = path.join(baseDir, safeFilename);
 

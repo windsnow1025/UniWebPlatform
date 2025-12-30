@@ -76,7 +76,7 @@ function Index() {
                   <ListItemText
                     primary={
                       <Link
-                        href={`/markdown/update/${markdown.id}`}
+                        href={`/blog/update/${markdown.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         color="secondary"
