@@ -251,7 +251,11 @@ export class UsersService {
 
   async delete(id: number) {
     await this.cacheManager.del(this.getUserCacheKey(id));
-    return await this.usersRepository.delete(id);
+    const result = await this.usersRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException('User not deleted');
+    }
+    return result;
   }
 
   async deleteAllFirebaseUsers() {

@@ -252,7 +252,10 @@ export class ConversationsService {
       throw new NotFoundException('Conversation not found');
     }
 
-    await this.conversationsRepository.delete(id);
+    const result = await this.conversationsRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException('Conversation not deleted');
+    }
 
     return conversation;
   }
