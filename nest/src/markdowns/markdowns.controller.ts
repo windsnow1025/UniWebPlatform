@@ -66,6 +66,6 @@ export class MarkdownsController {
   @Delete('/markdown/:id')
   @Roles([Role.Admin])
   delete(@Param('id', ParseIntPipe) id: number) {
-    return this.service.remove(id);
+    return this.service.delete(id);
   }
 }

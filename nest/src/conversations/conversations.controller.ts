@@ -178,7 +178,7 @@ export class ConversationsController {
     @Param('id', ParseIntPipe) id: number,
   ) {
     const userId = req.user.id;
-    const deletedConversation = await this.service.remove(userId, id);
+    const deletedConversation = await this.service.delete(userId, id);
     return this.service.toConversationDto(deletedConversation);
   }
 }

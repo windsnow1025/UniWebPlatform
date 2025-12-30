@@ -73,7 +73,7 @@ export class MarkdownsService {
     return this.markdownsRepository.save(markdown);
   }
 
-  remove(id: number) {
+  delete(id: number) {
     return this.markdownsRepository.delete(id);
   }
 }
