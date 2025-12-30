@@ -246,12 +246,14 @@ export class ConversationsService {
     return await this.conversationsRepository.save(conversation);
   }
 
-  async remove(userId: number, id: number) {
+  async remove(userId: number, id: number): Promise<Conversation> {
     const conversation = await this.findOne(userId, id);
     if (!conversation) {
       throw new NotFoundException('Conversation not found');
     }
 
-    return await this.conversationsRepository.remove(conversation);
+    await this.conversationsRepository.delete(id);
+
+    return conversation;
   }
 }
