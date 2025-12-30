@@ -53,7 +53,7 @@ const NAVIGATION: Navigation = [
     icon: <PasswordIcon />,
   },
   {
-    segment: 'markdown',
+    segment: 'blog',
     title: 'Blogs',
     icon: <EditNoteIcon />,
   },
