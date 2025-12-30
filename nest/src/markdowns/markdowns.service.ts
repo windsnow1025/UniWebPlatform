@@ -73,7 +73,11 @@ export class MarkdownsService {
     return this.markdownsRepository.save(markdown);
   }
 
-  delete(id: number) {
-    return this.markdownsRepository.delete(id);
+  async delete(id: number) {
+    const result = await this.markdownsRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException('Markdown not deleted');
+    }
+    return result;
   }
 }
