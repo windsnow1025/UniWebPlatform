@@ -50,8 +50,8 @@ function ConfigDiv({
     const fetchApiTypeModels = async () => {
       try {
         setApiTypeModels(await chatLogic.fetchApiTypeModels());
-      } catch (e) {
-        setAlertMessage(e.message);
+      } catch (err) {
+        setAlertMessage(err.message);
         setAlertSeverity('error');
         setAlertOpen(true);
       }

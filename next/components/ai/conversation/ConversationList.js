@@ -195,7 +195,6 @@ function ConversationList({
       setAlertOpen(true);
       setAlertMessage(err.message);
       setAlertSeverity('error');
-      console.error(err);
     }
 
     setLoadingConversationId(null);

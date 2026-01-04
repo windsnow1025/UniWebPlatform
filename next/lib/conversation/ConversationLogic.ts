@@ -12,9 +12,8 @@ export default class ConversationLogic {
   async fetchConversations(): Promise<ConversationResDto[]> {
     try {
       return await this.conversationService.fetchConversations();
-    } catch (error) {
-      console.error(error);
-      throw new Error('Failed to fetch conversations');
+    } catch (err) {
+      handleError(err, 'Failed to fetch conversations');
     }
   }
 

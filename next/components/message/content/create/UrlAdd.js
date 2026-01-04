@@ -41,7 +41,7 @@ function UrlAdd({setUrl, isUploading}) {
           const urls = await fileLogic.fetchFiles();
           setFileUrls(urls);
         } catch (err) {
-          setAlertMessage(err.message || 'Failed to fetch files');
+          setAlertMessage(err.message);
           setAlertSeverity('error');
           setAlertOpen(true);
         } finally {

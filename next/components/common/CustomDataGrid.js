@@ -222,11 +222,10 @@ function CustomDataGrid({
           newRowsMap.has(row.id) || row.isNew
         );
       });
-    } catch (error) {
-      setAlertOpen(true);
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
-      console.error('Error loading data:', error);
+      setAlertOpen(true);
     } finally {
       setLoading(false);
     }
@@ -246,8 +245,8 @@ function CustomDataGrid({
         prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
       );
       setAlertSeverity('success');
-    } catch (error) {
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
     } finally {
       setAlertOpen(true);
@@ -261,8 +260,8 @@ function CustomDataGrid({
       setRows((prevRows) => prevRows.filter((row) => row.id !== id));
       setAlertMessage('Record deleted');
       setAlertSeverity('success');
-    } catch (error) {
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
     } finally {
       setAlertOpen(true);
