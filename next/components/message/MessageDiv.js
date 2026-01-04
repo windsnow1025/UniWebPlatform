@@ -47,6 +47,8 @@ function MessageDiv(props) {
         contents: updatedContents
       };
     });
+
+    setConversationUpdateKey(prev => prev + 1);
   };
 
   const handleDisplayChange = (newDisplay) => {
@@ -161,7 +163,6 @@ function MessageDiv(props) {
           <AddContentArea
             contents={message.contents}
             setContents={handleContentsChange}
-            setConversationUpdateKey={setConversationUpdateKey}
           />
         )}
       </div>
