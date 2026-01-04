@@ -30,6 +30,7 @@ function SystemPromptSelect({
                               setMessage,
                               setConversationUpdateKey,
                             }) {
+  const fileLogic = new FileLogic();
   const systemPromptLogic = new SystemPromptLogic();
 
   // System prompts list
@@ -41,7 +42,7 @@ function SystemPromptSelect({
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  // Save as new dialog
+  // Save dialog
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [newName, setNewName] = useState('');
   const [saving, setSaving] = useState(false);
@@ -82,7 +83,7 @@ function SystemPromptSelect({
   const handleSelect = async (event) => {
     const value = event.target.value;
 
-    if (value === 'save-new') {
+    if (value === 'save') {
       setSaveDialogOpen(true);
       return;
     }
@@ -107,7 +108,7 @@ function SystemPromptSelect({
     }
   };
 
-  const handleSaveAsNew = async () => {
+  const handleSave = async () => {
     setSaving(true);
     try {
       const newSystemPrompt = await systemPromptLogic.saveSystemPrompt({
@@ -137,12 +138,16 @@ function SystemPromptSelect({
   const handleUnlink = async (keepContent) => {
     setUnlinking(true);
     try {
-      if (keepContent) {
-        // Clone files if any
-        const fileLogic = new FileLogic();
+      if (!keepContent) {
+        setMessage(message.id, {
+          ...message,
+          systemPromptId: undefined,
+          contents: [{type: ContentTypeEnum.Text, data: ''}],
+        });
+      } else {
         const storageUrl = await fileLogic.getStorageUrl();
 
-        const newContents = JSON.parse(JSON.stringify(message.contents || []));
+        const newContents = JSON.parse(JSON.stringify(message.contents));
         const fileUrls = newContents
           .filter(c => c.type === ContentTypeEnum.File)
           .map(c => c.data);
@@ -161,7 +166,6 @@ function SystemPromptSelect({
             }
           });
 
-          // Replace file urls in contents
           for (const content of newContents) {
             if (content.type === ContentTypeEnum.File && urlMapping.has(content.data)) {
               content.data = urlMapping.get(content.data);
@@ -173,13 +177,6 @@ function SystemPromptSelect({
           ...message,
           systemPromptId: undefined,
           contents: newContents,
-        });
-      } else {
-        // Clear contents
-        setMessage(message.id, {
-          ...message,
-          systemPromptId: undefined,
-          contents: [{type: ContentTypeEnum.Text, data: ''}],
         });
       }
 
@@ -208,9 +205,8 @@ function SystemPromptSelect({
       const deletedPrompt = await systemPromptLogic.deleteSystemPrompt(deletingId);
 
       // Delete files from the deleted system prompt
-      const fileLogic = new FileLogic();
       const storageUrl = await fileLogic.getStorageUrl();
-      const fileUrls = (deletedPrompt.contents || [])
+      const fileUrls = (deletedPrompt.contents)
         .filter(c => c.type === ContentTypeEnum.File)
         .map(c => c.data);
       const fileNames = FileLogic.getStorageFilenamesFromUrls(fileUrls, storageUrl);
@@ -284,10 +280,10 @@ function SystemPromptSelect({
             return prompt ? prompt.name : '';
           }}
         >
-          {/* Save as new option */}
-          <MenuItem value="save-new">
+          {/* Save option */}
+          <MenuItem value="save">
             <ListItemIcon><AddIcon fontSize="small"/></ListItemIcon>
-            <ListItemText>Save as New</ListItemText>
+            <ListItemText>Save</ListItemText>
           </MenuItem>
 
           {/* Unlink option (only when linked) */}
@@ -321,9 +317,9 @@ function SystemPromptSelect({
         </Select>
       </FormControl>
 
-      {/* Save as New Dialog */}
+      {/* Save Dialog */}
       <Dialog open={saveDialogOpen} onClose={saving ? undefined : () => setSaveDialogOpen(false)}>
-        <DialogTitle>Save as New System Prompt</DialogTitle>
+        <DialogTitle>Save System Prompt</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -332,13 +328,13 @@ function SystemPromptSelect({
             label="Name"
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && newName.trim() && handleSaveAsNew()}
+            onKeyDown={(e) => e.key === 'Enter' && newName.trim() && handleSave()}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setSaveDialogOpen(false)} disabled={saving}>Cancel</Button>
           <Button
-            onClick={handleSaveAsNew}
+            onClick={handleSave}
             variant="contained"
             disabled={saving || !newName.trim()}
             startIcon={saving ? <CircularProgress size={16}/> : null}
