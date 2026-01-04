@@ -29,6 +29,10 @@ docs/MarkdownResDto.md
 docs/MarkdownsApi.md
 docs/Message.md
 docs/ReduceCreditReqDto.md
+docs/SystemPromptNameReqDto.md
+docs/SystemPromptReqDto.md
+docs/SystemPromptResDto.md
+docs/SystemPromptsApi.md
 docs/UserAvatarReqDto.md
 docs/UserEmailPasswordReqDto.md
 docs/UserEmailReqDto.md

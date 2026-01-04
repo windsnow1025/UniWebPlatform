@@ -20,6 +20,9 @@ from .markdown_res_dto import MarkdownResDto
 from .message import Message
 from .message_role import MessageRole
 from .reduce_credit_req_dto import ReduceCreditReqDto
+from .system_prompt_name_req_dto import SystemPromptNameReqDto
+from .system_prompt_req_dto import SystemPromptReqDto
+from .system_prompt_res_dto import SystemPromptResDto
 from .user_avatar_req_dto import UserAvatarReqDto
 from .user_email_password_req_dto import UserEmailPasswordReqDto
 from .user_email_req_dto import UserEmailReqDto
@@ -53,6 +56,9 @@ __all__ = (
     "Message",
     "MessageRole",
     "ReduceCreditReqDto",
+    "SystemPromptNameReqDto",
+    "SystemPromptReqDto",
+    "SystemPromptResDto",
     "UserAvatarReqDto",
     "UserEmailPasswordReqDto",
     "UserEmailReqDto",
