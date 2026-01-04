@@ -305,9 +305,9 @@ export default class ChatLogic {
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final text
     try {
-      const filtered = ChatLogic.filterOutboundMessages(messages);
+      const filteredMessages = ChatLogic.filterOutboundMessages(messages);
       const response = this.chatClient.streamGenerate(
-        filtered, api_type, model, temperature, thought, code_execution, onOpenCallback
+        filteredMessages, api_type, model, temperature, thought, code_execution, onOpenCallback
       );
 
       let text = "";
