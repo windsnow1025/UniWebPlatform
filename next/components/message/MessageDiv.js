@@ -146,6 +146,7 @@ function MessageDiv(props) {
           </Tooltip>
         </div>
 
+        <div className="mt-2"></div>
         <ThoughtDiv
           thought={message.thought}
           setThought={handleThoughtChange}

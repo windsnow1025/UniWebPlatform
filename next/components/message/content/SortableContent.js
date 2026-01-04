@@ -8,6 +8,8 @@ import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
 import {RawEditableState} from "../../../lib/common/message/EditableState";
 import FileDiv from "./file/FileDiv";
+import CodeDiv from "./code/CodeDiv";
+import CodeOutputDiv from "./code/CodeOutputDiv";
 import {ContentTypeEnum} from "../../../client/nest";
 
 function SortableContent({
@@ -53,9 +55,8 @@ function SortableContent({
   };
 
   const theme = useTheme();
-  const isTextContent = content.type === ContentTypeEnum.Text;
 
-  if (isTextContent) {
+  if (content.type === ContentTypeEnum.Text) {
     return (
       <div ref={setNodeRef} style={style} {...attributes}>
         <div
@@ -96,7 +97,35 @@ function SortableContent({
         </div>
       </div>
     );
-  } else {
+  }
+
+  if (content.type === ContentTypeEnum.Code) {
+    return (
+      <div ref={setNodeRef} style={style} {...attributes} className="w-full">
+        <CodeDiv
+          code={content.data}
+          setCode={(newCode) => newCode === null ? handleContentDelete() : handleContentUpdate(newCode)}
+          isPreview={rawEditableState === RawEditableState.AlwaysFalse}
+          isLoading={false}
+        />
+      </div>
+    );
+  }
+
+  if (content.type === ContentTypeEnum.CodeOutput) {
+    return (
+      <div ref={setNodeRef} style={style} {...attributes} className="w-full">
+        <CodeOutputDiv
+          output={content.data}
+          setOutput={(newOutput) => newOutput === null ? handleContentDelete() : handleContentUpdate(newOutput)}
+          isPreview={rawEditableState === RawEditableState.AlwaysFalse}
+          isLoading={false}
+        />
+      </div>
+    );
+  }
+
+  if (content.type === ContentTypeEnum.File) {
     return (
       <div ref={setNodeRef} style={style} {...attributes}>
         <div className="flex-start-center">
@@ -119,6 +148,9 @@ function SortableContent({
     );
   }
 
+  return (
+    <div>Unknown content type: {JSON.stringify(content)}</div>
+  );
 }
 
 export default SortableContent;
