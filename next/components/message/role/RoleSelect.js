@@ -5,7 +5,7 @@ import AssistantIcon from '@mui/icons-material/Assistant';
 import {MessageRoleEnum} from "../../../client/nest";
 import {useSession} from "@toolpad/core";
 
-function RoleSelect({role, setRole}) {
+function RoleSelect({role, setRole, disabled}) {
   const theme = useTheme();
   const session = useSession();
 
@@ -51,6 +51,7 @@ function RoleSelect({role, setRole}) {
   const open = Boolean(anchorEl);
 
   const handleOpen = (event) => {
+    if (disabled) return;
     setAnchorEl(event.currentTarget);
   };
 
@@ -67,7 +68,8 @@ function RoleSelect({role, setRole}) {
         <Avatar
           onClick={handleOpen}
           sx={{
-            cursor: "pointer",
+            cursor: disabled ? "default" : "pointer",
+            opacity: disabled ? 0.6 : 1,
             width: 30,
             height: 30,
             transition: "border 0.5s ease, background-color 0.5s ease",
@@ -96,7 +98,7 @@ function RoleSelect({role, setRole}) {
           .map(({type, label, tooltip, color, avatar}) => (
             <MenuItem key={type} onClick={() => handleSelect(type)}>
               <ListItemIcon>
-                <Avatar sx={{ width: 30, height: 30, backgroundColor: color }} src={avatar}>
+                <Avatar sx={{width: 30, height: 30, backgroundColor: color}} src={avatar}>
                   {label}
                 </Avatar>
               </ListItemIcon>
