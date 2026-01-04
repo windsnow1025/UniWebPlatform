@@ -69,7 +69,7 @@ function SendButton({
 
     setMessages(prevMessages => [
       ...prevMessages,
-      ChatLogic.createAssistantMessage(content.text, content.thought, content.display, fileUrls),
+      ChatLogic.createAssistantMessage(content, fileUrls),
       ChatLogic.getEmptyUserMessage(),
     ]);
 
