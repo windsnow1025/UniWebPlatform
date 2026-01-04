@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **stream** | **boolean** |  | [default to undefined]
 **thought** | **boolean** |  | [default to undefined]
 **code_execution** | **boolean** |  | [default to undefined]
-**structured_output_schema** | **object** |  | [optional] [default to undefined]
+**structured_output_schema** | **{ [key: string]: any; }** |  | [optional] [default to undefined]
 
 ## Example
 
