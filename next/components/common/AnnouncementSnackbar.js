@@ -5,6 +5,7 @@ import TextContent from "@/components/message/content/text/TextContent";
 import {RawEditableState} from "@/lib/common/message/EditableState";
 
 const AnnouncementSnackbar = () => {
+  // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
@@ -18,10 +19,13 @@ const AnnouncementSnackbar = () => {
 
         if (announcement.content !== "" && announcement.content !== "\n") {
           setAlertMessage(announcement.content);
+          setAlertSeverity('info');
           setAlertOpen(true);
         }
-      } catch (error) {
-        console.error('Failed to fetch announcement:', error);
+      } catch (err) {
+        setAlertMessage(err.message);
+        setAlertSeverity('error');
+        setAlertOpen(true);
       }
     };
 

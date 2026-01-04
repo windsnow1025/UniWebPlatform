@@ -6,6 +6,8 @@ import {Alert, Button, Snackbar} from "@mui/material";
 function UsernameSection() {
   const [newUsername, setNewUsername] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
@@ -19,8 +21,8 @@ function UsernameSection() {
         if (userData) {
           setNewUsername(userData.username);
         }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
+      } catch (err) {
+        showAlert(err.message, 'error');
       }
     };
 

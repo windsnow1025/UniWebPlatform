@@ -20,12 +20,15 @@ const StorageSettings = () => {
   const [selectedFiles, setSelectedFiles] = useState(new Set());
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  // Admin Upload
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
+  // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("info");
-
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchFiles();
@@ -37,8 +40,10 @@ const StorageSettings = () => {
       try {
         const adminStatus = await userLogic.isAdmin();
         setIsAdmin(adminStatus);
-      } catch (e) {
-        setIsAdmin(false);
+      } catch (err) {
+        setAlertMessage(err.message);
+        setAlertSeverity("error");
+        setAlertOpen(true);
       }
     };
     checkAdmin();
@@ -50,9 +55,8 @@ const StorageSettings = () => {
       const fetchedFiles = await fileLogic.fetchFiles();
       setFiles(fetchedFiles);
       setSelectedFiles(new Set());
-    } catch (error) {
-      console.error("Error fetching files:", error);
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity("error");
       setAlertOpen(true);
     } finally {
@@ -88,9 +92,8 @@ const StorageSettings = () => {
       fetchFiles();
       setAlertMessage(`${selectedFiles.size} file(s) deleted successfully`);
       setAlertSeverity("success");
-    } catch (error) {
-      console.error("Error deleting files:", error);
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity("error");
     } finally {
       setDeleting(false);

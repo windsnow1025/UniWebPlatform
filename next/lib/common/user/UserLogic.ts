@@ -36,8 +36,7 @@ export default class UserLogic {
     try {
       return await this.userClient.fetchUsers();
     } catch (error) {
-      console.error(error);
-      throw new Error("Failed to fetch users.");
+      handleError(error, 'Failed to fetch users');
     }
   }
 
@@ -46,8 +45,7 @@ export default class UserLogic {
       const users = await this.userClient.fetchUsers();
       return users.map(user => user.username);
     } catch (error) {
-      console.error(error);
-      throw new Error("Failed to fetch usernames.");
+      handleError(error, 'Failed to fetch usernames');
     }
   }
 
@@ -60,10 +58,7 @@ export default class UserLogic {
     try {
       return await this.userClient.fetchUser();
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`Error ${error.response?.status}: ${error.response?.data.message}`);
-      }
-      return null;
+      handleError(error, 'Failed to fetch user');
     }
   }
 
@@ -88,8 +83,7 @@ export default class UserLogic {
       const user = await this.userClient.fetchUser();
       return user.roles.includes(UserResDtoRolesEnum.Admin);
     } catch (error) {
-      console.error(error);
-      return false;
+      handleError(error, 'Failed to check admin status');
     }
   }
 
@@ -131,8 +125,7 @@ export default class UserLogic {
     try {
       await this.userClient.sendPasswordResetEmail(email);
     } catch (error) {
-      console.error(error);
-      throw new Error('Failed to send password reset email');
+      handleError(error, 'Failed to send password reset email');
     }
   }
 
@@ -173,8 +166,7 @@ export default class UserLogic {
     try {
       await this.userClient.updatePassword(password);
     } catch (error) {
-      console.error(error);
-      throw new Error('Update password failed');
+      handleError(error, 'Update password failed');
     }
   }
 

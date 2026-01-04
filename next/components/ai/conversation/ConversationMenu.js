@@ -85,8 +85,10 @@ function ConversationMenu({
           const fileNames = FileLogic.getFilenamesFromUrls(fileUrls);
           const fileLogic = new FileLogic();
           await fileLogic.deleteFiles(fileNames);
-        } catch (fileError) {
-          console.error('Failed to delete files from conversation:', fileError);
+        } catch (err) {
+          setAlertOpen(true);
+          setAlertMessage(err.message);
+          setAlertSeverity('error');
         }
       }
 
@@ -101,7 +103,6 @@ function ConversationMenu({
       setAlertOpen(true);
       setAlertMessage(err.message);
       setAlertSeverity('error');
-      console.error(err);
     }
 
     if (conversationId === selectedConversationId) {
@@ -130,7 +131,6 @@ function ConversationMenu({
       setAlertOpen(true);
       setAlertMessage(err.message);
       setAlertSeverity('error');
-      console.error(err);
     }
     setLoadingConversationId(null);
   };

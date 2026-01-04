@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import UserLogic from "../../../lib/common/user/UserLogic";
 import AnnouncementLogic from "../../../lib/announcement/AnnouncementLogic";
 import CustomDataGrid from "../CustomDataGrid";
-import {Button, IconButton, Tooltip} from "@mui/material";
+import {Alert, Button, IconButton, Snackbar, Tooltip} from "@mui/material";
 import {RawEditableState} from "../../../lib/common/message/EditableState";
 import TextContent from "../../message/content/text/TextContent";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -16,13 +16,20 @@ const AdminSetting = () => {
   const [loading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
+  // Alert state
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("info");
+
   useEffect(() => {
     const fetchAnnouncement = async () => {
       try {
         const fetchedAnnouncement = await announcementLogic.fetchAnnouncement();
         setAnnouncement(fetchedAnnouncement.content);
-      } catch (error) {
-        console.error("Error fetching announcement:", error);
+      } catch (err) {
+        setAlertMessage(err.message);
+        setAlertSeverity("error");
+        setAlertOpen(true);
       }
     };
 
@@ -33,8 +40,10 @@ const AdminSetting = () => {
     setLoading(true);
     try {
       await announcementLogic.updateAnnouncement(announcement);
-    } catch (error) {
-      console.error("Error updating announcement:", error);
+    } catch (err) {
+      setAlertMessage(err.message);
+      setAlertSeverity("error");
+      setAlertOpen(true);
     } finally {
       setLoading(false);
     }
@@ -85,24 +94,43 @@ const AdminSetting = () => {
   ];
 
   const fetchData = async () => {
-    const users = await userLogic.fetchUsers();
-    return users.map(user => ({
-      ...user,
-      role: user.roles[0]
-    }))
+    try {
+      const users = await userLogic.fetchUsers();
+      return users.map(user => ({
+        ...user,
+        role: user.roles[0]
+      }))
+    } catch (err) {
+      setAlertMessage(err.message);
+      setAlertSeverity("error");
+      setAlertOpen(true);
+      return [];
+    }
   };
 
   const updateRow = async (row) => {
-    return await userLogic.updateUserPrivileges(
-      row.username,
-      row.emailVerified,
-      [row.role],
-      row.credit
-    );
+    try {
+      return await userLogic.updateUserPrivileges(
+        row.username,
+        row.emailVerified,
+        [row.role],
+        row.credit
+      );
+    } catch (err) {
+      setAlertMessage(err.message);
+      setAlertSeverity("error");
+      setAlertOpen(true);
+    }
   };
 
   const deleteRow = async (id) => {
-    return await userLogic.deleteUserById(id);
+    try {
+      await userLogic.deleteUserById(id);
+    } catch (err) {
+      setAlertMessage(err.message);
+      setAlertSeverity("error");
+      setAlertOpen(true);
+    }
   }
 
   return (
@@ -148,6 +176,16 @@ const AdminSetting = () => {
         updateRow={updateRow}
         deleteRow={deleteRow}
       />
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: "100%"}}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

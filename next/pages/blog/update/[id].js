@@ -54,8 +54,8 @@ function MarkdownUpdate() {
       setAlertMessage('Update success');
       setAlertSeverity('success');
       setAlertOpen(true);
-    } catch (e) {
-      setAlertMessage(e.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }
@@ -67,8 +67,8 @@ function MarkdownUpdate() {
       setAlertMessage('Delete success');
       setAlertSeverity('success');
       setAlertOpen(true);
-    } catch (e) {
-      setAlertMessage(e.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }

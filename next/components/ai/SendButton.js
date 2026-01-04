@@ -186,9 +186,9 @@ function SendButton({
         if (success) {
           switchStatus(false);
         }
-      } catch (error) {
+      } catch (err) {
         switchStatus(false);
-        setAlertMessage(error.message);
+        setAlertMessage(err.message);
         setAlertSeverity('error');
         setAlertOpen(true);
       } finally {

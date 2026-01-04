@@ -105,10 +105,9 @@ function SaveAsConversationDialog({
       setAlertSeverity('success');
       setAlertOpen(true);
     } catch (err) {
-      setAlertMessage(err.message || 'Failed to save conversation');
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
-      console.error(err);
     } finally {
       setSaving(false);
     }

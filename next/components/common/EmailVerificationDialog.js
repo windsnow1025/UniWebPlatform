@@ -4,6 +4,7 @@ import ConfirmDialog from './ConfirmDialog';
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
 import {useSession} from "@toolpad/core";
+import {Alert, Snackbar} from "@mui/material";
 
 const EmailVerificationDialog = () => {
   const session = useSession();
@@ -13,6 +14,11 @@ const EmailVerificationDialog = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
   const userLogic = new UserLogic();
+
+  // Alert state
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   useEffect(() => {
     const checkEmailVerification = async () => {
@@ -32,8 +38,10 @@ const EmailVerificationDialog = () => {
         }
 
         setOpenDialog(true);
-      } catch (error) {
-        console.error('Error checking email verification:', error);
+      } catch (err) {
+        setAlertMessage(err.message);
+        setAlertSeverity('error');
+        setAlertOpen(true);
       }
     };
 
@@ -48,12 +56,24 @@ const EmailVerificationDialog = () => {
   };
 
   return (
-    <ConfirmDialog
-      open={openDialog}
-      onClose={handleDialogClose}
-      title="Email Verification Required"
-      content="Your email address has not been verified. Please go to settings to verify your email address."
-    />
+    <>
+      <ConfirmDialog
+        open={openDialog}
+        onClose={handleDialogClose}
+        title="Email Verification Required"
+        content="Your email address has not been verified. Please go to settings to verify your email address."
+      />
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 

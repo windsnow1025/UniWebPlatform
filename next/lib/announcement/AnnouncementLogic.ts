@@ -13,8 +13,7 @@ export default class AnnouncementLogic {
     try {
       return await this.announcementService.fetchAnnouncement();
     } catch (error) {
-      console.error(error);
-      throw new Error("Failed to fetch announcement");
+      handleError(error, "Failed to fetch announcement");
     }
   }
 

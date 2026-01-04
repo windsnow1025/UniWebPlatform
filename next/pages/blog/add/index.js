@@ -33,8 +33,8 @@ function MarkdownAdd() {
       setAlertMessage('Add success');
       setAlertSeverity('success');
       setAlertOpen(true);
-    } catch (e) {
-      setAlertMessage(e.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }

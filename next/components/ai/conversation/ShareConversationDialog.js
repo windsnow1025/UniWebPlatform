@@ -55,7 +55,6 @@ function ShareConversationDialog({open, onClose, conversation, setConversation})
       setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
-      console.error(err);
     }
   };
 
@@ -79,7 +78,6 @@ function ShareConversationDialog({open, onClose, conversation, setConversation})
       setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
-      console.error(err);
     }
   };
 
@@ -96,7 +94,6 @@ function ShareConversationDialog({open, onClose, conversation, setConversation})
       setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
-      console.error(err);
     }
   };
 
@@ -107,8 +104,8 @@ function ShareConversationDialog({open, onClose, conversation, setConversation})
       setAlertMessage('Public URL copied');
       setAlertSeverity('success');
       setAlertOpen(true);
-    } catch (e) {
-      setAlertMessage('Failed to copy URL');
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }

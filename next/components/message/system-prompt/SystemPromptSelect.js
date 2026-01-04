@@ -258,7 +258,7 @@ function SystemPromptSelect({
       );
       await fetchSystemPrompts();
     } catch (err) {
-      console.error('Failed to sync system prompt:', err);
+      showAlert(err.message, 'error');
     }
   };
 

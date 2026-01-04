@@ -106,8 +106,8 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
         setAlertMessage("Files uploaded successfully");
         setAlertSeverity('success');
         setAlertOpen(true);
-      } catch (error) {
-        setAlertMessage(error.message);
+      } catch (err) {
+        setAlertMessage(err.message);
         setAlertSeverity('error');
         setAlertOpen(true);
       } finally {
@@ -143,8 +143,8 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
         setAlertMessage("Files pasted and uploaded successfully");
         setAlertSeverity('success');
         setAlertOpen(true);
-      } catch (error) {
-        setAlertMessage(error.message);
+      } catch (err) {
+        setAlertMessage(err.message);
         setAlertSeverity('error');
         setAlertOpen(true);
       } finally {

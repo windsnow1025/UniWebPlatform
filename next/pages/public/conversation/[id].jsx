@@ -26,7 +26,6 @@ export default function PublicConversationPage() {
       setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
-      console.error(err);
     }
   }
 
