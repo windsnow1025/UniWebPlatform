@@ -20,6 +20,8 @@ function ChatMessagesDiv({
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("info");
 
+  const fileLogic = new FileLogic();
+
   const handleMessageUpdate = useCallback((id, updatedMessage) => {
     setMessages((prevMessages) =>
       prevMessages.map((prevMessage) => {
@@ -55,9 +57,8 @@ function ChatMessagesDiv({
     // Delete the files from storage
     if (fileUrlsToDelete.length > 0) {
       try {
-        const fileNames = FileLogic.getFilenamesFromUrls(fileUrlsToDelete);
-        const fileLogic = new FileLogic();
-        await fileLogic.deleteFiles(fileNames);
+        const filenames = FileLogic.getFilenamesFromUrls(fileUrlsToDelete);
+        await fileLogic.deleteFiles(filenames);
       } catch (err) {
         setAlertMessage(err.message);
         setAlertSeverity("error");

@@ -60,8 +60,7 @@ function UrlAdd({setUrl, isUploading}) {
     if (fileUrls.includes(fileUrl)) {
       const fileLogic = new FileLogic();
       try {
-        const storageUrl = await fileLogic.getStorageUrl();
-        const storageFilename = FileLogic.getStorageFilenameFromUrl(fileUrl, storageUrl);
+        const storageFilename = await fileLogic.getStorageFilenameFromUrl(fileUrl);
         if (!storageFilename) {
           throw new Error('Failed to get storage filename');
         }
