@@ -44,7 +44,7 @@ export default class ConversationLogic {
 
   async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
     try {
-      return await this.conversationService.addConversation(conversation);
+      return await this.conversationService.saveConversation(conversation);
     } catch (error) {
       handleError(error, 'Failed to add conversation');
     }

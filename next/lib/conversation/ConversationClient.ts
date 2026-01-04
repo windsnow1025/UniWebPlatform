@@ -31,7 +31,7 @@ export default class ConversationClient {
     return res.data;
   }
 
-  async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
+  async saveConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
     const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerCreate(
       conversation
