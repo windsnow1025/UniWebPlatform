@@ -29,6 +29,7 @@ function SaveAsConversationDialog({
   const [alertSeverity, setAlertSeverity] = useState('info');
 
   const conversationLogic = new ConversationLogic();
+  const fileLogic = new FileLogic();
 
   useEffect(() => {
     if (open) {
@@ -51,8 +52,6 @@ function SaveAsConversationDialog({
       const conversation = await conversationLogic.fetchConversation(conversationId);
 
       const newMessages = JSON.parse(JSON.stringify(conversation.messages));
-      const fileLogic = new FileLogic();
-      const storageUrl = await fileLogic.getStorageUrl();
 
       // 1) Collect all file urls from messages
       const fileUrls = [];
@@ -66,22 +65,10 @@ function SaveAsConversationDialog({
       }
 
       // 2) Filter to server-hosted files and clone them
-      const storageFilenames = FileLogic.getStorageFilenamesFromUrls(fileUrls, storageUrl);
-
-      let urlMapping = new Map();
-      if (storageFilenames.length > 0) {
-        const clonedUrls = await fileLogic.cloneFiles(storageFilenames);
-        storageFilenames.forEach((filename, idx) => {
-          const storageFileUrl = fileUrls.find(
-            fileUrl => FileLogic.getStorageFilenameFromUrl(fileUrl, storageUrl) === filename
-          );
-          if (storageFileUrl) {
-            urlMapping.set(storageFileUrl, clonedUrls[idx]);
-          }
-        });
-      }
+      const urlMapping = await fileLogic.cloneFileUrls(fileUrls);
 
       // 3) Replace file urls in message contents with the newly cloned urls
+      const storageUrl = await fileLogic.getStorageUrl();
       for (const msg of newMessages) {
         if (!msg?.contents) continue;
         for (const content of msg.contents) {

@@ -74,4 +74,26 @@ export default class FileLogic {
       handleError(error, 'Failed to delete files');
     }
   }
+
+  // Filter to server-hosted files and clone them
+  async cloneFileUrls(fileUrls: string[]): Promise<Map<string, string>> {
+    const storageUrl = await this.getStorageUrl();
+
+    const storageFilenames = FileLogic.getStorageFilenamesFromUrls(fileUrls, storageUrl);
+
+    let urlMapping = new Map();
+    if (storageFilenames.length > 0) {
+      const clonedUrls = await this.cloneFiles(storageFilenames);
+      storageFilenames.forEach((filename, idx) => {
+        const storageFileUrl = fileUrls.find(
+          fileUrl => FileLogic.getStorageFilenameFromUrl(fileUrl, storageUrl) === filename
+        );
+        if (storageFileUrl) {
+          urlMapping.set(storageFileUrl, clonedUrls[idx]);
+        }
+      });
+    }
+
+    return urlMapping;
+  }
 }

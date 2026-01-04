@@ -145,29 +145,18 @@ function SystemPromptSelect({
           contents: [{type: ContentTypeEnum.Text, data: ''}],
         });
       } else {
-        const storageUrl = await fileLogic.getStorageUrl();
-
         const newContents = JSON.parse(JSON.stringify(message.contents));
         const fileUrls = newContents
-          .filter(c => c.type === ContentTypeEnum.File)
-          .map(c => c.data);
+          .filter(content => content.type === ContentTypeEnum.File)
+          .map(content => content.data);
 
-        const storageFilenames = FileLogic.getStorageFilenamesFromUrls(fileUrls, storageUrl);
+        const urlMapping = await fileLogic.cloneFileUrls(fileUrls);
 
-        if (storageFilenames.length > 0) {
-          const clonedUrls = await fileLogic.cloneFiles(storageFilenames);
-          const urlMapping = new Map();
-          storageFilenames.forEach((filename, idx) => {
-            const originalUrl = fileUrls.find(
-              url => FileLogic.getStorageFilenameFromUrl(url, storageUrl) === filename
-            );
-            if (originalUrl) {
-              urlMapping.set(originalUrl, clonedUrls[idx]);
-            }
-          });
-
-          for (const content of newContents) {
-            if (content.type === ContentTypeEnum.File && urlMapping.has(content.data)) {
+        const storageUrl = await fileLogic.getStorageUrl();
+        for (const content of newContents) {
+          if (content.type === ContentTypeEnum.File) {
+            const serverFilename = FileLogic.getStorageFilenameFromUrl(content.data, storageUrl);
+            if (serverFilename) {
               content.data = urlMapping.get(content.data);
             }
           }

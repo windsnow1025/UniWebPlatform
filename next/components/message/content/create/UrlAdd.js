@@ -62,7 +62,9 @@ function UrlAdd({setUrl, isUploading}) {
       try {
         const storageUrl = await fileLogic.getStorageUrl();
         const storageFilename = FileLogic.getStorageFilenameFromUrl(fileUrl, storageUrl);
-
+        if (!storageFilename) {
+          throw new Error('Failed to get storage filename');
+        }
         const cloned = await fileLogic.cloneFiles([storageFilename]);
         if (!cloned || cloned.length === 0) {
           throw new Error('Failed to clone file');
