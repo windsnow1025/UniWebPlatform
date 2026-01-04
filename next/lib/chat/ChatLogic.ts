@@ -96,6 +96,20 @@ export default class ChatLogic {
   ): Message {
     const contents: Content[] = [];
 
+    if (chatResponse.code) {
+      contents.push({
+        type: ContentTypeEnum.Code,
+        data: chatResponse.code
+      });
+    }
+
+    if (chatResponse.code_output) {
+      contents.push({
+        type: ContentTypeEnum.CodeOutput,
+        data: chatResponse.code_output
+      });
+    }
+
     if (chatResponse.text) {
       contents.push({
         type: ContentTypeEnum.Text,
@@ -138,17 +152,25 @@ export default class ChatLogic {
     const currentMessage = {...newMessages[index]};
     currentMessage.contents = [...currentMessage.contents];
 
-    if (chunk.text) {
+    const appendOrCreateContent = (type: ContentTypeEnum, data: string) => {
       const lastContent = currentMessage.contents[currentMessage.contents.length - 1];
-
-      if (lastContent && lastContent.type === ContentTypeEnum.Text) {
-        lastContent.data += chunk.text;
+      if (lastContent && lastContent.type === type) {
+        lastContent.data += data;
       } else {
-        currentMessage.contents.push({
-          type: ContentTypeEnum.Text,
-          data: chunk.text
-        });
+        currentMessage.contents.push({type, data});
       }
+    };
+
+    if (chunk.code) {
+      appendOrCreateContent(ContentTypeEnum.Code, chunk.code);
+    }
+
+    if (chunk.code_output) {
+      appendOrCreateContent(ContentTypeEnum.CodeOutput, chunk.code_output);
+    }
+
+    if (chunk.text) {
+      appendOrCreateContent(ContentTypeEnum.Text, chunk.text);
     }
 
     if (fileUrls && fileUrls.length > 0) {
@@ -213,7 +235,10 @@ export default class ChatLogic {
   private static filterOutboundMessages(messages: Message[]): Message[] {
     return messages.map((msg) => ({
       role: msg.role,
-      contents: msg.contents,
+      contents: msg.contents.filter(content =>
+        content.type === ContentTypeEnum.Text ||
+        content.type === ContentTypeEnum.File
+      ),
     }));
   }
 
@@ -235,19 +260,10 @@ export default class ChatLogic {
         throw new Error(content.error);
       }
 
-      let text = '';
-      if (content.code) {
-        text += `\n# Code\n\n\`\`\`\n${content.code}\n\`\`\`\n`;
-      }
-      if (content.code_output) {
-        text += `\n# Code Output\n\n\`\`\`\n${content.code_output}\n\`\`\`\n`;
-      }
-      if (content.text) {
-        text += content.text;
-      }
-
       return {
-        text: text,
+        text: content.text,
+        code: content.code,
+        code_output: content.code_output,
         thought: content.thought,
         files: content.files,
         display: content.display,
@@ -273,66 +289,19 @@ export default class ChatLogic {
         filteredMessages, api_type, model, temperature, thought, code_execution, onOpenCallback
       );
 
-      let openSection: 'code' | 'code_output' | null = null;
-
       for await (const chunk of response) {
         if (chunk.error) {
           throw new Error(`chunk.error: ${chunk.error}`);
         }
 
-        let chunkText = '';
-
-        if (chunk.files && chunk.files.length > 0) {
-          if (openSection) {
-            chunkText += '\n```\n';
-            openSection = null;
-          }
-        }
-
-        if (chunk.text) {
-          if (openSection) {
-            chunkText += '\n```\n';
-            openSection = null;
-          }
-          chunkText += chunk.text;
-        }
-
-        // Code section
-        if (chunk.code) {
-          if (openSection && openSection !== 'code') {
-            chunkText += '\n```\n';
-          }
-          if (openSection !== 'code') {
-            chunkText += '\n# Code\n\n```\n';
-            openSection = 'code';
-          }
-          chunkText += chunk.code;
-        }
-
-        // Code Output section
-        if (chunk.code_output) {
-          if (openSection && openSection !== 'code_output') {
-            chunkText += '\n```\n';
-          }
-          if (openSection !== 'code_output') {
-            chunkText += '\n# Code Output\n\n```\n';
-            openSection = 'code_output';
-          }
-          chunkText += chunk.code_output;
-        }
-
         yield {
-          text: chunkText,
+          text: chunk.text,
+          code: chunk.code,
+          code_output: chunk.code_output,
           thought: chunk.thought,
           files: chunk.files,
           display: chunk.display,
         }
-      }
-
-      if (openSection) {
-        yield {
-          text: '\n```\n',
-        };
       }
     } catch (error) {
       handleError(error, 'Failed to generate streaming chat response');
