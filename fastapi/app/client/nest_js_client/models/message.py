@@ -21,16 +21,16 @@ class Message:
     """
     Attributes:
         role (MessageRole):
+        contents (list[Content]):
         id (str | Unset):
-        contents (list[Content] | Unset):
         system_prompt_id (float | Unset):
         thought (str | Unset):
         display (str | Unset):
     """
 
     role: MessageRole
+    contents: list[Content]
     id: str | Unset = UNSET
-    contents: list[Content] | Unset = UNSET
     system_prompt_id: float | Unset = UNSET
     thought: str | Unset = UNSET
     display: str | Unset = UNSET
@@ -39,14 +39,12 @@ class Message:
     def to_dict(self) -> dict[str, Any]:
         role = self.role.value
 
-        id = self.id
+        contents = []
+        for contents_item_data in self.contents:
+            contents_item = contents_item_data.to_dict()
+            contents.append(contents_item)
 
-        contents: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.contents, Unset):
-            contents = []
-            for contents_item_data in self.contents:
-                contents_item = contents_item_data.to_dict()
-                contents.append(contents_item)
+        id = self.id
 
         system_prompt_id = self.system_prompt_id
 
@@ -59,12 +57,11 @@ class Message:
         field_dict.update(
             {
                 "role": role,
+                "contents": contents,
             }
         )
         if id is not UNSET:
             field_dict["id"] = id
-        if contents is not UNSET:
-            field_dict["contents"] = contents
         if system_prompt_id is not UNSET:
             field_dict["systemPromptId"] = system_prompt_id
         if thought is not UNSET:
@@ -81,16 +78,14 @@ class Message:
         d = dict(src_dict)
         role = MessageRole(d.pop("role"))
 
+        contents = []
+        _contents = d.pop("contents")
+        for contents_item_data in _contents:
+            contents_item = Content.from_dict(contents_item_data)
+
+            contents.append(contents_item)
+
         id = d.pop("id", UNSET)
-
-        _contents = d.pop("contents", UNSET)
-        contents: list[Content] | Unset = UNSET
-        if _contents is not UNSET:
-            contents = []
-            for contents_item_data in _contents:
-                contents_item = Content.from_dict(contents_item_data)
-
-                contents.append(contents_item)
 
         system_prompt_id = d.pop("systemPromptId", UNSET)
 
@@ -100,8 +95,8 @@ class Message:
 
         message = cls(
             role=role,
-            id=id,
             contents=contents,
+            id=id,
             system_prompt_id=system_prompt_id,
             thought=thought,
             display=display,

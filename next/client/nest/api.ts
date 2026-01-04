@@ -100,7 +100,7 @@ export interface MarkdownResDto {
 export interface Message {
     'id'?: string;
     'role': MessageRoleEnum;
-    'contents'?: Array<Content>;
+    'contents': Array<Content>;
     'systemPromptId'?: number;
     'thought'?: string;
     'display'?: string;
