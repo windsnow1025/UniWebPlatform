@@ -151,7 +151,7 @@ function ConversationList({
     setLoadingConversationId(conversationId);
 
     const conversations = await loadConversations();
-    const conversation = conversations.find(c => c.id === conversationId);
+    const conversation = conversations.find(conversation => conversation.id === conversationId);
     const messages = conversation.messages;
 
     // Fetch System Prompt

@@ -264,10 +264,12 @@ function SystemPromptSelect({
           }}
         >
           {/* Save option */}
-          <MenuItem value="save">
-            <ListItemIcon><AddIcon fontSize="small"/></ListItemIcon>
-            <ListItemText>Save</ListItemText>
-          </MenuItem>
+          {!selectedSystemPromptId && (
+            <MenuItem value="save">
+              <ListItemIcon><AddIcon fontSize="small"/></ListItemIcon>
+              <ListItemText>Save</ListItemText>
+            </MenuItem>
+          )}
 
           {/* Unlink option */}
           {selectedSystemPromptId && (
