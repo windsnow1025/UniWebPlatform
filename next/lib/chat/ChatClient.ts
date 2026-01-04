@@ -1,9 +1,8 @@
 import {ApiTypeModel, ChatResponse} from "./ChatResponse";
 import {getAPIBaseURLs, getFastAPIOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {fetchEventSource} from '@microsoft/fetch-event-source';
-import {Message} from "@/client/nest";
 import {handleError} from "@/lib/common/ErrorHandler";
-import {DefaultApi, type ChatRequest} from "@/client/fastapi";
+import {DefaultApi, type ChatRequest, type Message} from "@/client/fastapi";
 import {AuthorEmail, StorageKeys} from "@/lib/common/Constants";
 
 export default class ChatClient {
