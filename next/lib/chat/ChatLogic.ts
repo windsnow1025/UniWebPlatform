@@ -42,12 +42,7 @@ export default class ChatLogic {
   static getEmptyAssistantMessage = (): Message => ({
     id: uuidv4(),
     role: MessageRoleEnum.Assistant,
-    contents: [
-      {
-        type: ContentTypeEnum.Text,
-        data: ""
-      }
-    ],
+    contents: [],
   });
   static defaultApiTypeModels: ApiTypeModel[] = [
     {apiType: "", model: "", input: 0, output: 0},
@@ -94,19 +89,19 @@ export default class ChatLogic {
     return await fileLogic.uploadFiles(fileObjects);
   }
 
-  // For converting model response to an assistant message - first chunk
+  // For non-stream response
   static createAssistantMessage(
-    text: string,
-    thought: string,
-    display: string,
+    chatResponse: ChatResponse,
     fileUrls: string[],
   ): Message {
-    const contents: Content[] = [
-      {
+    const contents: Content[] = [];
+
+    if (chatResponse.text) {
+      contents.push({
         type: ContentTypeEnum.Text,
-        data: text || ''
-      }
-    ];
+        data: chatResponse.text
+      });
+    }
 
     if (fileUrls && fileUrls.length > 0) {
       fileUrls.forEach(fileUrl => {
@@ -121,12 +116,12 @@ export default class ChatLogic {
       id: uuidv4(),
       role: MessageRoleEnum.Assistant,
       contents: contents,
-      thought: thought,
-      display: display,
+      thought: chatResponse.thought,
+      display: chatResponse.display,
     };
   }
 
-  // For converting model response to an assistant message - middle chunks
+  // For stream response
   static updateMessage(
     messages: Message[],
     index: number,
@@ -214,7 +209,7 @@ export default class ChatLogic {
     }
   }
 
-  // For chat generate
+  // For chat request
   private static filterOutboundMessages(messages: Message[]): Message[] {
     return messages.map((msg) => ({
       role: msg.role,
@@ -222,7 +217,7 @@ export default class ChatLogic {
     }));
   }
 
-  // For chat generate
+  // For chat request
   async nonStreamGenerate(
     messages: Message[],
     api_type: string,
@@ -262,7 +257,7 @@ export default class ChatLogic {
     }
   }
 
-  // For chat generate
+  // For chat request
   async* streamGenerate(
     messages: Message[],
     api_type: string,
