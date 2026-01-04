@@ -41,20 +41,18 @@ pnpm run dev
 
 ### Generate Client Package
 
-- Next.js
-  ```bash
-  rm -r ../next/client/nest
-  ```
-  ```bash
-  openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/nest
-  ```
-- FastAPI
-  ```bash
-  rm -r ../fastapi/app/client
-  ```
-  ```bash
-  openapi-python-client generate --url http://localhost:3001/docs-json --output-path ../fastapi/app/client
-  ```
+```bash
+rm -r ../next/client/nest # Nest.js
+rm -r ../fastapi/app/client # FastAPI
+```
+
+```bash
+# Nest.js
+openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-axios -o ../next/client/nest
+
+# FastAPI
+openapi-python-client generate --url http://localhost:3001/docs-json --output-path ../fastapi/app/client
+```
 
 ## Run
 

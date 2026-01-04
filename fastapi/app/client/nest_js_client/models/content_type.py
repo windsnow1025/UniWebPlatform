@@ -2,6 +2,8 @@ from enum import Enum
 
 
 class ContentType(str, Enum):
+    CODE = "code"
+    CODE_OUTPUT = "code_output"
     FILE = "file"
     TEXT = "text"
 
