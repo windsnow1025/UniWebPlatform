@@ -1,9 +1,9 @@
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import ChatClient from "./ChatClient";
-import {ApiTypeModel, ChatResponse, ResponseFile} from "@/lib/chat/ChatResponse";
-import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client/nest";
+import { ApiTypeModel, ChatResponse, ResponseFile } from "@/lib/chat/ChatResponse";
+import { Content, ContentTypeEnum, Message, MessageRoleEnum } from "@/client/nest";
 import FileLogic from "@/lib/common/file/FileLogic";
-import {handleError} from "@/lib/common/ErrorHandler";
+import { handleError } from "@/lib/common/ErrorHandler";
 
 export default class ChatLogic {
   private chatClient: ChatClient;
@@ -50,7 +50,7 @@ export default class ChatLogic {
     ],
   });
   static defaultApiTypeModels: ApiTypeModel[] = [
-    {apiType: "", model: "", input: 0, output: 0},
+    { apiType: "", model: "", input: 0, output: 0 },
   ];
 
   constructor() {
@@ -83,7 +83,7 @@ export default class ChatLogic {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
       const byteArray = new Uint8Array(byteNumbers);
-      return new File([byteArray], name, {type: type});
+      return new File([byteArray], name, { type: type });
     };
 
     const fileObjects = files.map((file) =>
@@ -140,7 +140,7 @@ export default class ChatLogic {
     }
 
     // Deep Copy
-    const currentMessage = {...newMessages[index]};
+    const currentMessage = { ...newMessages[index] };
     currentMessage.contents = [...currentMessage.contents];
 
     if (chunk.text) {
@@ -179,31 +179,7 @@ export default class ChatLogic {
 
     return newMessages;
   }
-
-  // For converting model response to an assistant message - final chunk
-  static replaceMessageText(
-    messages: Message[], messageIndex: number, contentIndex: number, text: string
-  ): Message[] {
-    return messages.map((message, index) => {
-      if (index !== messageIndex) {
-        return message;
-      }
-
-      return {
-        ...message,
-        contents: message.contents.map((content, cIndex) => {
-          if (cIndex !== contentIndex) {
-            return content;
-          }
-          return {
-            ...content,
-            data: text
-          };
-        })
-      };
-    });
-  }
-
+  
   // For chat config
   static getAllApiTypes(apiModels: ApiTypeModel[]): string[] {
     const apiTypes = apiModels.map(model => model.apiType);
@@ -297,14 +273,12 @@ export default class ChatLogic {
     thought: boolean,
     code_execution: boolean,
     onOpenCallback?: () => void,
-  ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final text
+  ): AsyncGenerator<ChatResponse, void, unknown> {
     try {
       const filteredMessages = ChatLogic.filterOutboundMessages(messages);
       const response = this.chatClient.streamGenerate(
         filteredMessages, api_type, model, temperature, thought, code_execution, onOpenCallback
       );
-
-      let text = "";
 
       let openSection: 'code' | 'code_output' | null = null;
 
@@ -348,8 +322,6 @@ export default class ChatLogic {
           chunkText += chunk.code_output;
         }
 
-        text += chunkText;
-
         yield {
           text: chunkText,
           thought: chunk.thought,
@@ -359,10 +331,10 @@ export default class ChatLogic {
       }
 
       if (openSection) {
-        text += '\n```\n';
+        yield {
+          text: '\n```\n',
+        };
       }
-
-      yield text;
     } catch (error) {
       handleError(error, 'Failed to generate streaming chat response');
     }
