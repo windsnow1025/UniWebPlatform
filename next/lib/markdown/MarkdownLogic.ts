@@ -17,8 +17,7 @@ export default class MarkdownLogic {
     try {
       return await this.markdownService.fetchMarkdowns();
     } catch (error) {
-      console.error(error);
-      throw new Error('Failed to fetch markdowns');
+      handleError(error, 'Failed to fetch markdowns');
     }
   }
 
@@ -26,8 +25,7 @@ export default class MarkdownLogic {
     try {
       return await this.markdownService.fetchMarkdown(id);
     } catch (error) {
-      console.error(error);
-      throw new Error('Failed to fetch markdown');
+      handleError(error, 'Failed to fetch markdown');
     }
   }
 

@@ -33,11 +33,10 @@ function AudioRecord({setFile, isUploading, setIsUploading}) {
       recorder.start();
       setMediaRecorder(recorder);
       setIsRecording(true);
-    } catch (error) {
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
-      console.error("Error starting recording:", error);
     }
   };
 
@@ -59,8 +58,8 @@ function AudioRecord({setFile, isUploading, setIsUploading}) {
       setAlertMessage("Audio uploaded successfully");
       setAlertSeverity('success');
       setAlertOpen(true);
-    } catch (error) {
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     } finally {

@@ -14,6 +14,7 @@ function EmailSection() {
   const [isCheckingVerification, setIsCheckingVerification] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
 
+  // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
@@ -29,8 +30,8 @@ function EmailSection() {
           setEmailVerified(user.emailVerified);
           setNewEmail(user.email);
         }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
+      } catch (err) {
+        showAlert(err.message, 'error');
       }
     };
     fetchUserData();

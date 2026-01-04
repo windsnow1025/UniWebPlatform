@@ -7,7 +7,7 @@ All URIs are relative to *http://localhost*
 |[**appControllerGetRoot**](#appcontrollergetroot) | **GET** / | |
 
 # **appControllerGetRoot**
-> string appControllerGetRoot()
+> appControllerGetRoot()
 
 
 ### Example
@@ -30,7 +30,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**string**
+void (empty response body)
 
 ### Authorization
 
@@ -39,7 +39,7 @@ This endpoint does not have any parameters.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 
 ### HTTP response details

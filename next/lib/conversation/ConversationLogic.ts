@@ -1,6 +1,6 @@
-import {handleError} from "@/lib/common/ErrorHandler";
+import { handleError } from "@/lib/common/ErrorHandler";
 import ConversationClient from "./ConversationClient";
-import {ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto} from "@/client/nest";
+import { ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto } from "@/client/nest";
 
 export default class ConversationLogic {
   private conversationService: ConversationClient;
@@ -11,22 +11,15 @@ export default class ConversationLogic {
 
   async fetchConversations(): Promise<ConversationResDto[]> {
     try {
-      const conversations = await this.conversationService.fetchConversations();
-      return conversations.sort((a, b) => 
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-      );
-    } catch (error) {
-      console.error(error);
-      throw new Error('Failed to fetch conversations');
+      return await this.conversationService.fetchConversations();
+    } catch (err) {
+      handleError(err, 'Failed to fetch conversations');
     }
   }
 
   async fetchConversationUpdatedTimes(): Promise<ConversationUpdateTimeResDto[]> {
     try {
-      const updatedTimes = await this.conversationService.fetchConversationUpdatedTimes();
-      return updatedTimes.sort((a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-      );
+      return await this.conversationService.fetchConversationUpdatedTimes();
     } catch (error) {
       handleError(error, 'Failed to fetch conversation updated times');
     }
@@ -50,7 +43,7 @@ export default class ConversationLogic {
 
   async addConversation(conversation: ConversationReqDto): Promise<ConversationResDto> {
     try {
-      return await this.conversationService.addConversation(conversation);
+      return await this.conversationService.saveConversation(conversation);
     } catch (error) {
       handleError(error, 'Failed to add conversation');
     }

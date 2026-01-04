@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {handleError} from "@/lib/common/ErrorHandler";
 
 export default class PublicClient {
   async fetchMarkdown(filename: string): Promise<string> {
@@ -6,8 +7,7 @@ export default class PublicClient {
       const response = await axios.get(`/api/fetchMarkdown?filename=${encodeURIComponent(filename)}`);
       return response.data.content;
     } catch (error) {
-      console.error('Error fetching markdown:', error);
-      throw new Error('Failed to fetch markdown file');
+      handleError(error, 'Failed to fetch markdown file');
     }
   }
 }

@@ -41,7 +41,7 @@ function UrlAdd({setUrl, isUploading}) {
           const urls = await fileLogic.fetchFiles();
           setFileUrls(urls);
         } catch (err) {
-          setAlertMessage(err.message || 'Failed to fetch files');
+          setAlertMessage(err.message);
           setAlertSeverity('error');
           setAlertOpen(true);
         } finally {
@@ -60,9 +60,10 @@ function UrlAdd({setUrl, isUploading}) {
     if (fileUrls.includes(fileUrl)) {
       const fileLogic = new FileLogic();
       try {
-        const storageUrl = await fileLogic.getStorageUrl();
-        const storageFilename = FileLogic.getStorageFilenameFromUrl(fileUrl, storageUrl);
-
+        const storageFilename = await fileLogic.getStorageFilenameFromUrl(fileUrl);
+        if (!storageFilename) {
+          throw new Error('Failed to get storage filename');
+        }
         const cloned = await fileLogic.cloneFiles([storageFilename]);
         if (!cloned || cloned.length === 0) {
           throw new Error('Failed to clone file');

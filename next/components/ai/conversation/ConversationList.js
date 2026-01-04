@@ -24,6 +24,7 @@ import {
   SaveOutlined as SaveOutlinedIcon,
 } from '@mui/icons-material';
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
+import SystemPromptLogic from "../../../lib/system-prompt/SystemPromptLogic";
 import {isEqual} from 'lodash';
 import {COLOR_LABELS} from "./constants/ColorLabels";
 import ConversationMenu from "./ConversationMenu";
@@ -89,6 +90,7 @@ function ConversationList({
   const [expandedAccordion, setExpandedAccordion] = useState({});
 
   const conversationLogic = new ConversationLogic();
+  const systemPromptLogic = new SystemPromptLogic();
 
   useEffect(() => {
     const token = localStorage.getItem(StorageKeys.Token);
@@ -121,17 +123,16 @@ function ConversationList({
 
       const currentMetadata = conversations.map(conv => ({id: conv.id, updatedAt: conv.updatedAt}));
       if (isEqual(updatedTimes, currentMetadata)) {
-        return conversations;
+        return JSON.parse(JSON.stringify(conversations));
       }
 
       const newConversations = await conversationLogic.fetchConversations();
       setConversations(newConversations);
-      return newConversations;
+      return JSON.parse(JSON.stringify(newConversations));
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage(err.message);
       setAlertSeverity('error');
-      console.error(err);
     } finally {
       setIsLoadingConversations(false);
     }
@@ -150,12 +151,25 @@ function ConversationList({
     setLoadingConversationId(conversationId);
 
     const conversations = await loadConversations();
-    const conversation = conversations.find(c => c.id === conversationId);
+    const conversation = conversations.find(conversation => conversation.id === conversationId);
+    const messages = conversation.messages;
 
-    const messagesCopy = JSON.parse(JSON.stringify(conversation.messages));
+    // Fetch System Prompt
+    for (const message of messages) {
+      if (message.systemPromptId) {
+        try {
+          const systemPrompt = await systemPromptLogic.fetchSystemPrompt(message.systemPromptId);
+          message.contents = systemPrompt.contents;
+        } catch (err) {
+          setAlertOpen(true);
+          setAlertMessage(err.message);
+          setAlertSeverity('error');
+        }
+      }
+    }
 
     setIsTemporaryChat(false);
-    setMessages(messagesCopy);
+    setMessages(messages);
     setLoadingConversationId(null);
     setSelectedConversationId(conversationId);
   };
@@ -181,7 +195,6 @@ function ConversationList({
       setAlertOpen(true);
       setAlertMessage(err.message);
       setAlertSeverity('error');
-      console.error(err);
     }
 
     setLoadingConversationId(null);
@@ -236,7 +249,7 @@ function ConversationList({
   const groups = conversations.reduce((acc, conv, idx) => {
     const key = conv.colorLabel || 'No label';
     if (!acc[key]) acc[key] = [];
-    acc[key].push({ conv, idx });
+    acc[key].push({conv, idx});
     return acc;
   }, {});
   Object.keys(groups).forEach(key => {
@@ -258,21 +271,21 @@ function ConversationList({
               elevation={4}
             >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon/>}
                 sx={{
                   backgroundColor: 'background.paper',
                 }}
               >
                 <div className="flex-center w-full gap-2">
-                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: colorForLabel(key)}} />
+                  <Box sx={{width: 12, height: 12, borderRadius: '50%', bgcolor: colorForLabel(key)}}/>
                   <Typography variant="subtitle2" className="flex-1">
                     {nameForLabel(key)} ({groups[key].length})
                   </Typography>
                 </div>
               </AccordionSummary>
-              <AccordionDetails sx={{ padding: 0 }}>
+              <AccordionDetails sx={{padding: 0}}>
                 <List disablePadding>
-                  {groups[key].map(({ conv, idx }) => (
+                  {groups[key].map(({conv, idx}) => (
                     <ListItem
                       dense
                       key={conv.id}
@@ -301,11 +314,11 @@ function ConversationList({
                           <div className="flex-start-center-nowrap w-full min-w-0">
                             <LabelOutlinedIcon
                               fontSize="small"
-                              sx={{ color: colorForLabel(conv.colorLabel), mr: 2 }}
+                              sx={{color: colorForLabel(conv.colorLabel), mr: 2}}
                             />
                             <ListItemText
                               primary={conv.name}
-                              slotProps={{ primary: { noWrap: true } }}
+                              slotProps={{primary: {noWrap: true}}}
                               secondary={(
                                 <Typography
                                   variant="caption"

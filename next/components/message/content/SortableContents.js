@@ -8,7 +8,6 @@ function SortableContents({
                             contents,
                             setContents,
                             rawEditableState,
-                            setConversationUpdateKey,
                             isTemporaryChat,
                           }) {
   const sensors = useSensors(
@@ -29,7 +28,6 @@ function SortableContents({
     newContents.splice(newIndex, 0, movedItem);
 
     setContents(newContents);
-    setConversationUpdateKey(prev => prev + 1);
   };
 
   const renderGroupedContents = () => {
@@ -70,7 +68,6 @@ function SortableContents({
             contents={contents}
             setContents={setContents}
             rawEditableState={rawEditableState}
-            setConversationUpdateKey={setConversationUpdateKey}
             isTemporaryChat={isTemporaryChat}
           />
         );
@@ -88,7 +85,6 @@ function SortableContents({
                 contents={contents}
                 setContents={setContents}
                 rawEditableState={rawEditableState}
-                setConversationUpdateKey={setConversationUpdateKey}
                 isTemporaryChat={isTemporaryChat}
               />
             ))}

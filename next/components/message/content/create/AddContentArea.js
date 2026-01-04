@@ -7,7 +7,7 @@ import UrlAdd from './UrlAdd';
 import {ContentTypeEnum} from "../../../../client/nest";
 import AddTextButton from "./AddTextButton";
 
-function AddContentArea({contents, setContents, setConversationUpdateKey}) {
+function AddContentArea({contents, setContents}) {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleAddFiles = (fileUrls) => {
@@ -23,8 +23,6 @@ function AddContentArea({contents, setContents, setConversationUpdateKey}) {
 
       return newContents;
     });
-
-    setConversationUpdateKey(prev => prev + 1);
   };
 
   return (

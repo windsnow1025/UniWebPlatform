@@ -1,8 +1,9 @@
 import MessageDiv from "../message/MessageDiv";
-import React, {useCallback} from "react";
+import React, {useCallback, useState} from "react";
 import AddMessageDivider from "./AddMessageDivider";
 import FileLogic from "../../lib/common/file/FileLogic";
 import ChatLogic from "../../lib/chat/ChatLogic";
+import {Alert, Snackbar} from "@mui/material";
 
 function ChatMessagesDiv({
                            messages,
@@ -14,6 +15,13 @@ function ChatMessagesDiv({
                            isTemporaryChat,
                            isLastChunkThought,
                          }) {
+  // Alert state
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("info");
+
+  const fileLogic = new FileLogic();
+
   const handleMessageUpdate = useCallback((id, updatedMessage) => {
     setMessages((prevMessages) =>
       prevMessages.map((prevMessage) => {
@@ -49,11 +57,12 @@ function ChatMessagesDiv({
     // Delete the files from storage
     if (fileUrlsToDelete.length > 0) {
       try {
-        const fileNames = FileLogic.getFilenamesFromUrls(fileUrlsToDelete);
-        const fileLogic = new FileLogic();
-        await fileLogic.deleteFiles(fileNames);
-      } catch (error) {
-        console.error('Failed to delete files from message:', error);
+        const filenames = FileLogic.getFilenamesFromUrls(fileUrlsToDelete);
+        await fileLogic.deleteFiles(filenames);
+      } catch (err) {
+        setAlertMessage(err.message);
+        setAlertSeverity("error");
+        setAlertOpen(true);
       }
     }
 
@@ -96,6 +105,16 @@ function ChatMessagesDiv({
           )
         }
       )}
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: "100%"}}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

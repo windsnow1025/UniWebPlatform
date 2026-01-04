@@ -65,8 +65,8 @@ function SignIn() {
       }
       await wait(1);
       router.push(redirectUrl);
-    } catch (e) {
-      setAlertMessage(e.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }

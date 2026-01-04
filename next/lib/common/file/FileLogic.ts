@@ -26,7 +26,17 @@ export default class FileLogic {
     return FileLogic.getFilenameFromUrl(url);
   }
 
-  static getStorageFilenamesFromUrls(fileUrls: string[], storageUrl: string): string[] {
+  async getStorageFilenameFromUrl(url: string): Promise<string | null> {
+    const storageUrl = await this.getStorageUrl();
+    if (!url.includes(storageUrl)) {
+      return null;
+    }
+
+    return FileLogic.getFilenameFromUrl(url);
+  }
+
+  async getStorageFilenamesFromUrls(fileUrls: string[]): Promise<string[]> {
+    const storageUrl = await this.getStorageUrl();
     return fileUrls
       .map(url => FileLogic.getStorageFilenameFromUrl(url, storageUrl))
       .filter((fileName): fileName is string => fileName !== null);
@@ -73,5 +83,26 @@ export default class FileLogic {
     } catch (error) {
       handleError(error, 'Failed to delete files');
     }
+  }
+
+  // Filter to server-hosted files and clone them
+  async cloneFileUrls(fileUrls: string[]): Promise<Map<string, string>> {
+    const storageUrl = await this.getStorageUrl();
+    const storageFilenames = await this.getStorageFilenamesFromUrls(fileUrls);
+
+    let urlMapping = new Map();
+    if (storageFilenames.length > 0) {
+      const clonedUrls = await this.cloneFiles(storageFilenames);
+      storageFilenames.forEach((filename, idx) => {
+        const storageFileUrl = fileUrls.find(
+          fileUrl => FileLogic.getStorageFilenameFromUrl(fileUrl, storageUrl) === filename
+        );
+        if (storageFileUrl) {
+          urlMapping.set(storageFileUrl, clonedUrls[idx]);
+        }
+      });
+    }
+
+    return urlMapping;
   }
 }
