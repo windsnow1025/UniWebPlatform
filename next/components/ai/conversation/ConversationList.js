@@ -121,12 +121,12 @@ function ConversationList({
 
       const currentMetadata = conversations.map(conv => ({id: conv.id, updatedAt: conv.updatedAt}));
       if (isEqual(updatedTimes, currentMetadata)) {
-        return conversations;
+        return JSON.parse(JSON.stringify(conversations));
       }
 
       const newConversations = await conversationLogic.fetchConversations();
       setConversations(newConversations);
-      return newConversations;
+      return JSON.parse(JSON.stringify(newConversations));
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage(err.message);
@@ -151,11 +151,10 @@ function ConversationList({
 
     const conversations = await loadConversations();
     const conversation = conversations.find(c => c.id === conversationId);
-
-    const messagesCopy = JSON.parse(JSON.stringify(conversation.messages));
+    const messages = conversation.messages;
 
     setIsTemporaryChat(false);
-    setMessages(messagesCopy);
+    setMessages(messages);
     setLoadingConversationId(null);
     setSelectedConversationId(conversationId);
   };
