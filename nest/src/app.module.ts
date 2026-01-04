@@ -3,11 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
+import { CacheModule } from '@nestjs/cache-manager';
+import { createKeyv } from '@keyv/redis';
 import configuration from '../config/configuration';
+import { AuthGuard } from './common/guards/auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
+import { EmailVerificationGuard } from './common/guards/email-verification.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthGuard } from './common/guards/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
@@ -18,9 +21,8 @@ import { Markdown } from './markdowns/markdown.entity';
 import { MarkdownsModule } from './markdowns/markdowns.module';
 import { Announcement } from './announcement/announcement.entity';
 import { AnnouncementModule } from './announcement/announcement.module';
-import { EmailVerificationGuard } from './common/guards/email-verification.guard';
-import { CacheModule } from '@nestjs/cache-manager';
-import { createKeyv } from '@keyv/redis';
+import { SystemPrompt } from './system-prompts/system-prompt.entity';
+import { SystemPromptsModule } from './system-prompts/system-prompts.module';
 
 @Module({
   imports: [
@@ -38,7 +40,7 @@ import { createKeyv } from '@keyv/redis';
         username: configService.get<string>('postgres.user'),
         password: configService.get<string>('postgres.password'),
         database: configService.get<string>('postgres.database'),
-        entities: [User, Conversation, Markdown, Announcement],
+        entities: [User, Conversation, Markdown, Announcement, SystemPrompt],
         synchronize: true,
       }),
     }),
@@ -78,6 +80,7 @@ import { createKeyv } from '@keyv/redis';
     ConversationsModule,
     MarkdownsModule,
     AnnouncementModule,
+    SystemPromptsModule,
   ],
   controllers: [AppController],
   providers: [

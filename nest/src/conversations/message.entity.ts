@@ -17,7 +17,10 @@ export class Content {
 export class Message {
   id?: string; // uuid, not send to FastAPI
   role: MessageRole;
-  contents: Content[];
-  thought?: string; // not send to FastAPI
-  display?: string; // not send to FastAPI
+  contents?: Content[]; // optional when using systemPromptId
+
+  // not send to FastAPI
+  systemPromptId?: number; // only for role=system
+  thought?: string;
+  display?: string;
 }
