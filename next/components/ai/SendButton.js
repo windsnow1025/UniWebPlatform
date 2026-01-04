@@ -96,14 +96,6 @@ function SendButton({
         isFirstChunk = false;
       }
 
-      // Final text
-      if (typeof chunk === "string") {
-        setMessages(prevMessages =>
-          ChatLogic.replaceMessageText(prevMessages, prevMessages.length - 1, 0, chunk)
-        );
-        break;
-      }
-
       // For thought loading status
       if (chunk.thought) {
         setIsLastChunkThought(true);
