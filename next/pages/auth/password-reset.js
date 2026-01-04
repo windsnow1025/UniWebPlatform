@@ -31,8 +31,8 @@ function PasswordReset() {
       setAlertMessage("Password reset email sent!");
       setAlertSeverity('success');
       setAlertOpen(true);
-    } catch (error) {
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }
@@ -61,8 +61,8 @@ function PasswordReset() {
 
       await wait(1);
       router.push("/auth/signin");
-    } catch (error) {
-      setAlertMessage(error.message);
+    } catch (err) {
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       setAlertOpen(true);
     }

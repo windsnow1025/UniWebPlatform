@@ -7,6 +7,7 @@ import DisplayDiv from "./content/display/DisplayDiv";
 import ThoughtDiv from "./content/thought/ThoughtDiv";
 import SortableContents from './content/SortableContents';
 import AddContentArea from "./content/create/AddContentArea";
+import SystemPromptSelect from "./system-prompt/SystemPromptSelect";
 import {MessageRoleEnum} from "../../client/nest";
 import {RawEditableState} from "../../lib/common/message/EditableState";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -47,6 +48,8 @@ function MessageDiv(props) {
         contents: updatedContents
       };
     });
+
+    setConversationUpdateKey(prev => prev + 1);
   };
 
   const handleDisplayChange = (newDisplay) => {
@@ -110,8 +113,15 @@ function MessageDiv(props) {
           maxWidth: "95%",
         }}
       >
-        <div className="flex">
-          <RoleSelect role={message.role} setRole={handleRoleChange}/>
+        <div className="flex items-center">
+          <RoleSelect role={message.role} setRole={handleRoleChange} disabled={!!message.systemPromptId}/>
+          {message.role === MessageRoleEnum.System && !isTemporaryChat && (
+            <SystemPromptSelect
+              message={message}
+              setMessage={setMessage}
+              setConversationUpdateKey={setConversationUpdateKey}
+            />
+          )}
           <div className="inflex-fill"></div>
 
           <Tooltip title={showPreview ? "Edit Mode" : "Preview Mode"}>
@@ -161,7 +171,6 @@ function MessageDiv(props) {
           <AddContentArea
             contents={message.contents}
             setContents={handleContentsChange}
-            setConversationUpdateKey={setConversationUpdateKey}
           />
         )}
       </div>

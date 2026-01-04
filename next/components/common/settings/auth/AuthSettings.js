@@ -37,8 +37,8 @@ const AuthSettings = () => {
         setAlertMessage("Account deleted successfully.");
         setAlertSeverity("success");
         setAlertOpen(true);
-      } catch (error) {
-        setAlertMessage(error.message);
+      } catch (err) {
+        setAlertMessage(err.message);
         setAlertSeverity("error");
         setAlertOpen(true);
       } finally {

@@ -34,9 +34,9 @@ const FileDiv = ({fileUrl, rawEditableState, onDelete}) => {
       const fullFileName = FileLogic.getFilenameFromUrl(fileUrl);
       const fileLogic = new FileLogic();
       await fileLogic.deleteFiles([fullFileName]);
-    } catch (error) {
+    } catch (err) {
       setAlertOpen(true);
-      setAlertMessage(error.message);
+      setAlertMessage(err.message);
       setAlertSeverity('error');
       return;
     }

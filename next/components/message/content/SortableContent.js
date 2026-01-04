@@ -17,7 +17,6 @@ function SortableContent({
                            contents,
                            setContents,
                            rawEditableState,
-                           setConversationUpdateKey,
                            isTemporaryChat,
                          }) {
   const {
@@ -39,14 +38,12 @@ function SortableContent({
     const newContents = [...contents];
     newContents[index] = {...newContents[index], data: newValue};
     setContents(newContents);
-    setConversationUpdateKey(prev => prev + 1);
   };
 
   const handleContentDelete = () => {
     const newContents = [...contents];
     newContents.splice(index, 1);
     setContents(newContents);
-    setConversationUpdateKey(prev => prev + 1);
   };
 
   const handleCopy = () => {
@@ -95,7 +92,6 @@ function SortableContent({
             content={content.data}
             setContent={handleContentUpdate}
             rawEditableState={rawEditableState}
-            setConversationUpdateKey={setConversationUpdateKey}
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import mime from 'mime';
-import { codeFileExtensions } from "../../../../lib/common/message/CodeFileExtensions"; // Adjust path as needed
+import { codeFileExtensions } from "../../../../lib/common/message/CodeFileExtensions";
 import { Typography } from '@mui/material';
 
 const FilePreview = ({ fileUrl, fileName }) => {
@@ -22,9 +22,8 @@ const FilePreview = ({ fileUrl, fileName }) => {
           }
           const text = await response.text();
           setTextContent(text);
-        } catch (e) {
-          console.error('Error fetching text content:', e);
-          setError('Could not load text content.');
+        } catch (err) {
+          setError('Could not load text content: ' + err.message);
           setTextContent('');
         } finally {
           setIsLoading(false);

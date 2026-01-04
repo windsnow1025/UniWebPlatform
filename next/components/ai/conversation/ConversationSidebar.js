@@ -47,7 +47,12 @@ function ConversationSidebar({
         conversations[index].version,
         {
           name: conversations[index].name,
-          messages: messages
+          messages: messages.map(message => {
+            if (message.systemPromptId) {
+              return {...message, contents: []};
+            }
+            return message;
+          })
         }
       );
 
@@ -70,7 +75,6 @@ function ConversationSidebar({
       setAlertOpen(true);
       setAlertMessage(err.message);
       setAlertSeverity('error');
-      console.error(err);
     }
   };
 

@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **id** | **string** |  | [optional] [default to undefined]
 **role** | **string** |  | [default to undefined]
 **contents** | [**Array&lt;Content&gt;**](Content.md) |  | [default to undefined]
+**systemPromptId** | **number** |  | [optional] [default to undefined]
 **thought** | **string** |  | [optional] [default to undefined]
 **display** | **string** |  | [optional] [default to undefined]
 
@@ -20,6 +21,7 @@ const instance: Message = {
     id,
     role,
     contents,
+    systemPromptId,
     thought,
     display,
 };

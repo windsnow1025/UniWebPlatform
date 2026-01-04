@@ -23,6 +23,7 @@ class Message:
         role (MessageRole):
         contents (list[Content]):
         id (str | Unset):
+        system_prompt_id (float | Unset):
         thought (str | Unset):
         display (str | Unset):
     """
@@ -30,6 +31,7 @@ class Message:
     role: MessageRole
     contents: list[Content]
     id: str | Unset = UNSET
+    system_prompt_id: float | Unset = UNSET
     thought: str | Unset = UNSET
     display: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -43,6 +45,8 @@ class Message:
             contents.append(contents_item)
 
         id = self.id
+
+        system_prompt_id = self.system_prompt_id
 
         thought = self.thought
 
@@ -58,6 +62,8 @@ class Message:
         )
         if id is not UNSET:
             field_dict["id"] = id
+        if system_prompt_id is not UNSET:
+            field_dict["systemPromptId"] = system_prompt_id
         if thought is not UNSET:
             field_dict["thought"] = thought
         if display is not UNSET:
@@ -81,6 +87,8 @@ class Message:
 
         id = d.pop("id", UNSET)
 
+        system_prompt_id = d.pop("systemPromptId", UNSET)
+
         thought = d.pop("thought", UNSET)
 
         display = d.pop("display", UNSET)
@@ -89,6 +97,7 @@ class Message:
             role=role,
             contents=contents,
             id=id,
+            system_prompt_id=system_prompt_id,
             thought=thought,
             display=display,
         )

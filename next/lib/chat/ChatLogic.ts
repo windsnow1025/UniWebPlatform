@@ -3,6 +3,7 @@ import ChatClient from "./ChatClient";
 import { ApiTypeModel, ChatResponse, ResponseFile } from "@/lib/chat/ChatResponse";
 import { Content, ContentTypeEnum, Message, MessageRoleEnum } from "@/client/nest";
 import FileLogic from "@/lib/common/file/FileLogic";
+import {handleError} from "@/lib/common/ErrorHandler";
 
 export default class ChatLogic {
   private chatClient: ChatClient;
@@ -289,8 +290,7 @@ export default class ChatLogic {
         display: content.display,
       };
     } catch (error) {
-      console.error("Error in POST /:", error);
-      throw error;
+      handleError(error, 'Failed to generate non-streaming chat response');
     }
   }
 
@@ -305,9 +305,9 @@ export default class ChatLogic {
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse | string, void, unknown> { // string for final text
     try {
-      const filtered = ChatLogic.filterOutboundMessages(messages);
+      const filteredMessages = ChatLogic.filterOutboundMessages(messages);
       const response = this.chatClient.streamGenerate(
-        filtered, api_type, model, temperature, thought, code_execution, onOpenCallback
+        filteredMessages, api_type, model, temperature, thought, code_execution, onOpenCallback
       );
 
       let text = "";
@@ -370,8 +370,7 @@ export default class ChatLogic {
 
       yield text;
     } catch (error) {
-      console.error("Error in POST /:", error);
-      throw error;
+      handleError(error, 'Failed to generate streaming chat response');
     }
   }
 }

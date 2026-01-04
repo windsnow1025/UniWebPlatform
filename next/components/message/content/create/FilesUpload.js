@@ -39,9 +39,9 @@ function FilesUpload({onFilesUpload, isUploading, setIsUploading}) {
         setAlertMessage("Files uploaded successfully");
         setAlertSeverity('success');
         setAlertOpen(true);
-      } catch (error) {
+      } catch (err) {
         setAlertOpen(true);
-        setAlertMessage(error.message);
+        setAlertMessage(err.message);
         setAlertSeverity('error');
       } finally {
         setIsUploading(false);
