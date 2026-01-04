@@ -14,7 +14,7 @@ function CollapsibleSection({
 
   return (
     <div
-      className="p-1 rounded-md my-2"
+      className="p-1 rounded-md"
       style={{
         backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main}, transparent 90%)`
     }}
