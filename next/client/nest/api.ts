@@ -48,7 +48,9 @@ export interface Content {
 
 export const ContentTypeEnum = {
     Text: 'text',
-    File: 'file'
+    File: 'file',
+    Code: 'code',
+    CodeOutput: 'code_output'
 } as const;
 
 export type ContentTypeEnum = typeof ContentTypeEnum[keyof typeof ContentTypeEnum];

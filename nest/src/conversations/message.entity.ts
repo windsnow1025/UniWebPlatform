@@ -7,6 +7,8 @@ export enum MessageRole {
 export enum ContentType {
   Text = 'text',
   File = 'file',
+  Code = 'code',
+  CodeOutput = 'code_output',
 }
 
 export class Content {
