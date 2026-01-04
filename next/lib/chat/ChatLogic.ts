@@ -2,6 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
 import {ApiTypeModel, ChatResponse, ResponseFile} from "@/lib/chat/ChatResponse";
 import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client/nest";
+import {Message as ReqMessage, Role as ReqRole, ContentType as ReqContentType} from "@/client/fastapi";
 import FileLogic from "@/lib/common/file/FileLogic";
 import {handleError} from "@/lib/common/ErrorHandler";
 
@@ -231,14 +232,19 @@ export default class ChatLogic {
     }
   }
 
-  // For chat request
-  private static filterOutboundMessages(messages: Message[]): Message[] {
+  // For chat request: UI Messages -> Req Messages
+  private static convertMessagesFromUIToReq(messages: Message[]): ReqMessage[] {
     return messages.map((msg) => ({
-      role: msg.role,
-      contents: msg.contents.filter(content =>
-        content.type === ContentTypeEnum.Text ||
-        content.type === ContentTypeEnum.File
-      ),
+      role: msg.role as ReqRole,
+      contents: msg.contents
+        .filter(content =>
+          content.type === ContentTypeEnum.Text ||
+          content.type === ContentTypeEnum.File
+        )
+        .map(content => ({
+          type: content.type as ReqContentType,
+          data: content.data,
+        })),
     }));
   }
 
@@ -252,7 +258,7 @@ export default class ChatLogic {
     code_execution: boolean,
   ): Promise<ChatResponse> {
     try {
-      const filteredMessages = ChatLogic.filterOutboundMessages(messages);
+      const filteredMessages = ChatLogic.convertMessagesFromUIToReq(messages);
       const content = await this.chatClient.nonStreamGenerate(
         filteredMessages, api_type, model, temperature, thought, code_execution
       );
@@ -284,7 +290,7 @@ export default class ChatLogic {
     onOpenCallback?: () => void,
   ): AsyncGenerator<ChatResponse, void, unknown> {
     try {
-      const filteredMessages = ChatLogic.filterOutboundMessages(messages);
+      const filteredMessages = ChatLogic.convertMessagesFromUIToReq(messages);
       const response = this.chatClient.streamGenerate(
         filteredMessages, api_type, model, temperature, thought, code_execution, onOpenCallback
       );
