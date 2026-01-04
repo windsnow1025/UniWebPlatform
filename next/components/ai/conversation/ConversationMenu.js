@@ -43,6 +43,8 @@ function ConversationMenu({
   const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
   const [saveAsConversationIndex, setSaveAsConversationIndex] = useState(null);
 
+  const fileLogic = new FileLogic();
+
   const handleMenuClose = () => {
     setAnchorEl(null);
     setMenuIndex(null);
@@ -83,7 +85,6 @@ function ConversationMenu({
       if (fileUrls.length > 0) {
         try {
           const fileNames = FileLogic.getFilenamesFromUrls(fileUrls);
-          const fileLogic = new FileLogic();
           await fileLogic.deleteFiles(fileNames);
         } catch (err) {
           setAlertOpen(true);

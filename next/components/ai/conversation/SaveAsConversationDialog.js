@@ -69,12 +69,12 @@ function SaveAsConversationDialog({
 
       // 3) Replace file urls in message contents with the newly cloned urls
       const storageUrl = await fileLogic.getStorageUrl();
-      for (const msg of newMessages) {
-        if (!msg?.contents) continue;
-        for (const content of msg.contents) {
+      for (const message of newMessages) {
+        if (!message?.contents) continue;
+        for (const content of message.contents) {
           if (content.type === ContentTypeEnum.File) {
-            const serverFilenames = FileLogic.getStorageFilenameFromUrl(content.data, storageUrl);
-            if (serverFilenames) {
+            const storageFilenames = FileLogic.getStorageFilenameFromUrl(content.data, storageUrl);
+            if (storageFilenames) {
               content.data = urlMapping.get(content.data);
             }
           }

@@ -134,7 +134,6 @@ function SystemPromptSelect({
     }
   };
 
-  // Unlink from system prompt
   const handleUnlink = async (keepContent) => {
     setUnlinking(true);
     try {
@@ -155,8 +154,8 @@ function SystemPromptSelect({
         const storageUrl = await fileLogic.getStorageUrl();
         for (const content of newContents) {
           if (content.type === ContentTypeEnum.File) {
-            const serverFilename = FileLogic.getStorageFilenameFromUrl(content.data, storageUrl);
-            if (serverFilename) {
+            const storageFilename = FileLogic.getStorageFilenameFromUrl(content.data, storageUrl);
+            if (storageFilename) {
               content.data = urlMapping.get(content.data);
             }
           }
@@ -179,7 +178,6 @@ function SystemPromptSelect({
     }
   };
 
-  // Delete a system prompt
   const handleDeleteClick = (event, id) => {
     event.stopPropagation();
     setDeletingId(id);
@@ -196,8 +194,8 @@ function SystemPromptSelect({
       // Delete files from the deleted system prompt
       const storageUrl = await fileLogic.getStorageUrl();
       const fileUrls = (deletedPrompt.contents)
-        .filter(c => c.type === ContentTypeEnum.File)
-        .map(c => c.data);
+        .filter(content => content.type === ContentTypeEnum.File)
+        .map(content => content.data);
       const fileNames = FileLogic.getStorageFilenamesFromUrls(fileUrls, storageUrl);
 
       if (fileNames.length > 0) {
@@ -225,17 +223,16 @@ function SystemPromptSelect({
     }
   };
 
-  // Sync message changes to system prompt
-  const handleContentsSync = async () => {
+  const handleContentsUpdate = async () => {
     if (!message.systemPromptId) return;
 
-    const currentPrompt = systemPrompts.find(sp => sp.id === message.systemPromptId);
+    const currentPrompt = systemPrompts.find(systemPrompt => systemPrompt.id === message.systemPromptId);
     if (!currentPrompt) return;
 
     try {
       await systemPromptLogic.updateSystemPrompt(
         message.systemPromptId,
-        String(currentPrompt.version),
+        currentPrompt.version,
         {
           name: currentPrompt.name,
           contents: message.contents,
@@ -247,10 +244,9 @@ function SystemPromptSelect({
     }
   };
 
-  // Sync when contents change (if linked)
   useEffect(() => {
-    if (message.systemPromptId && message.contents) {
-      handleContentsSync();
+    if (message.systemPromptId) {
+      handleContentsUpdate();
     }
   }, [message.contents]);
 
@@ -275,7 +271,7 @@ function SystemPromptSelect({
             <ListItemText>Save</ListItemText>
           </MenuItem>
 
-          {/* Unlink option (only when linked) */}
+          {/* Unlink option */}
           {selectedSystemPromptId && (
             <MenuItem value="unlink">
               <ListItemIcon><LinkOffIcon fontSize="small"/></ListItemIcon>
@@ -361,9 +357,9 @@ function SystemPromptSelect({
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={deleting ? undefined : () => setDeleteDialogOpen(false)}>
-        <DialogTitle>Delete System Prompt</DialogTitle>
+        <DialogTitle>Delete System Prompt?</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this system prompt? This will also delete any associated files.
+          This will make the system prompt unavailable for any conversations using it.
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)} disabled={deleting}>Cancel</Button>
