@@ -441,7 +441,7 @@ requires-dist = [
     { name = "attrs", specifier = ">=22.2.0" },
     { name = "fastapi", extras = ["standard"] },
     { name = "httpx", specifier = ">=0.23.0,<0.29.0" },
-    { name = "llm-bridge", specifier = "==1.15.0a0" },
+    { name = "llm-bridge", specifier = "==1.15.0" },
     { name = "python-dateutil", specifier = ">=2.8.0,<3.0.0" },
     { name = "python-dotenv" },
     { name = "python-jose", extras = ["cryptography"] },
@@ -720,7 +720,7 @@ wheels = [
 
 [[package]]
 name = "llm-bridge"
-version = "1.15.0a0"
+version = "1.15.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anthropic" },
@@ -735,9 +735,9 @@ dependencies = [
     { name = "tenacity" },
     { name = "tiktoken" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/48/20/b3e367e2900c2f754a5e8880684ec878c40b10270d95389aad0e5613cf73/llm_bridge-1.15.0a0.tar.gz", hash = "sha256:de876cf8169566de4e3d9c2062096cd643076509d13ceb1ba09380a36fb7bb94", size = 79533, upload-time = "2025-12-27T01:27:32.124Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d5/58/682015746ab5350b0b2bfdf4d127c69a39234d99325bd002d07f3e673cba/llm_bridge-1.15.0.tar.gz", hash = "sha256:dca0fd6c799a2863f8aef198259bbca2677ba3d5c7b005b9d67118c578cd15b6", size = 79458, upload-time = "2026-01-04T01:59:12.983Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d6/9e/96b16e8426193a0aa900a5e4f450300a98c237ab0338719c5892fd3c7fbd/llm_bridge-1.15.0a0-py3-none-any.whl", hash = "sha256:8297ed49240f11c2dd4e3ca7bf81ea3b0c74d7e7d5b801812e94d0cab51829ce", size = 43353, upload-time = "2025-12-27T01:27:30.77Z" },
+    { url = "https://files.pythonhosted.org/packages/21/3f/df1cbcf322e0ea3afe0f38e5f4fd4677b4fbd28cb2554067cdf62c6f510d/llm_bridge-1.15.0-py3-none-any.whl", hash = "sha256:a9e24b262e40a27aeca889613f52d77e601cc67a09f8f4724c9c52d29e2ff6d6", size = 43332, upload-time = "2026-01-04T01:59:13.73Z" },
 ]
 
 [[package]]
