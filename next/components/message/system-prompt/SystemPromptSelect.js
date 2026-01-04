@@ -151,10 +151,9 @@ function SystemPromptSelect({
 
         const urlMapping = await fileLogic.cloneFileUrls(fileUrls);
 
-        const storageUrl = await fileLogic.getStorageUrl();
         for (const content of newContents) {
           if (content.type === ContentTypeEnum.File) {
-            const storageFilename = FileLogic.getStorageFilenameFromUrl(content.data, storageUrl);
+            const storageFilename = await fileLogic.getStorageFilenameFromUrl(content.data);
             if (storageFilename) {
               content.data = urlMapping.get(content.data);
             }
@@ -191,12 +190,11 @@ function SystemPromptSelect({
     try {
       const deletedPrompt = await systemPromptLogic.deleteSystemPrompt(deletingId);
 
-      // Delete files from the deleted system prompt
-      const storageUrl = await fileLogic.getStorageUrl();
+      // Delete the files from storage
       const fileUrls = (deletedPrompt.contents)
         .filter(content => content.type === ContentTypeEnum.File)
         .map(content => content.data);
-      const fileNames = FileLogic.getStorageFilenamesFromUrls(fileUrls, storageUrl);
+      const fileNames = await fileLogic.getStorageFilenamesFromUrls(fileUrls);
 
       if (fileNames.length > 0) {
         await fileLogic.deleteFiles(fileNames);
