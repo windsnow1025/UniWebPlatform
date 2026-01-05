@@ -2923,8 +2923,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        usersControllerFindAll: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/users`;
+        usersControllerFind: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users/user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2956,8 +2956,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        usersControllerFindOne: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/users/user`;
+        usersControllerFindAll: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3428,10 +3428,10 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async usersControllerFindAll(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserResDto>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.usersControllerFindAll(options);
+        async usersControllerFind(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersControllerFind(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UsersApi.usersControllerFindAll']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.usersControllerFind']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3439,10 +3439,10 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async usersControllerFindOne(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.usersControllerFindOne(options);
+        async usersControllerFindAll(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserResDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersControllerFindAll(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UsersApi.usersControllerFindOne']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.usersControllerFindAll']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3612,16 +3612,16 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        usersControllerFindAll(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserResDto>> {
-            return localVarFp.usersControllerFindAll(options).then((request) => request(axios, basePath));
+        usersControllerFind(options?: RawAxiosRequestConfig): AxiosPromise<UserResDto> {
+            return localVarFp.usersControllerFind(options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        usersControllerFindOne(options?: RawAxiosRequestConfig): AxiosPromise<UserResDto> {
-            return localVarFp.usersControllerFindOne(options).then((request) => request(axios, basePath));
+        usersControllerFindAll(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserResDto>> {
+            return localVarFp.usersControllerFindAll(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3762,8 +3762,8 @@ export class UsersApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public usersControllerFindAll(options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).usersControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    public usersControllerFind(options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersControllerFind(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3771,8 +3771,8 @@ export class UsersApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public usersControllerFindOne(options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).usersControllerFindOne(options).then((request) => request(this.axios, this.basePath));
+    public usersControllerFindAll(options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersControllerFindAll(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

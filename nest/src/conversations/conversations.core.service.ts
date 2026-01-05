@@ -8,7 +8,7 @@ export class ConversationsCoreService {
   constructor(
     @InjectRepository(Conversation)
     private conversationsRepository: Repository<Conversation>,
-  ) { }
+  ) {}
 
   async find(userId: number) {
     const conversationIds = await this.conversationsRepository
@@ -29,5 +29,16 @@ export class ConversationsCoreService {
       relations: ['users'],
       order: { updatedAt: 'DESC' },
     });
+  }
+
+  async deleteOrphansByUserId(userId: number): Promise<void> {
+    const conversations = await this.find(userId);
+    const orphans = conversations.filter(
+      (conversation) => conversation.users.length === 1,
+    );
+
+    for (const orphan of orphans) {
+      await this.conversationsRepository.delete(orphan.id);
+    }
   }
 }

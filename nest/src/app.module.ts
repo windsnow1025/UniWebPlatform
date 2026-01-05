@@ -11,6 +11,7 @@ import { RolesGuard } from './common/guards/roles.guard';
 import { EmailVerificationGuard } from './common/guards/email-verification.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
@@ -74,6 +75,7 @@ import { SystemPromptsModule } from './system-prompts/system-prompts.module';
       },
     }),
     JwtModule,
+    CoreModule,
     AuthModule,
     UsersModule,
     FilesModule,

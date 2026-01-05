@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SystemPrompt } from './system-prompt.entity';
 import { SystemPromptsService } from './system-prompts.service';
 import { SystemPromptsController } from './system-prompts.controller';
-import { UsersModule } from '../users/users.module';
+import { CoreModule } from '../core/core.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SystemPrompt]), UsersModule],
+  imports: [TypeOrmModule.forFeature([SystemPrompt]), CoreModule],
   providers: [SystemPromptsService],
   controllers: [SystemPromptsController],
   exports: [],

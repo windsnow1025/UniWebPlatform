@@ -22,7 +22,7 @@ export class ConversationsService {
     private conversationsRepository: Repository<Conversation>,
     private conversationsCoreService: ConversationsCoreService,
     private usersCoreService: UsersCoreService,
-  ) { }
+  ) {}
 
   public toConversationDto(conversation: Conversation) {
     const conversationDto: ConversationResDto = {

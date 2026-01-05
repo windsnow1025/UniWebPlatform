@@ -14,6 +14,7 @@ import { FirebaseService } from './firebase.service';
 import { FirebaseAdminService } from './firebase-admin.service';
 import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { UsersCoreService } from './users.core.service';
+import { ConversationsCoreService } from '../conversations/conversations.core.service';
 
 @Injectable()
 export class UsersService {
@@ -21,11 +22,12 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private usersCoreService: UsersCoreService,
+    private conversationsCoreService: ConversationsCoreService,
     @Inject(CACHE_MANAGER)
     private cacheManager: Cache,
     private readonly firebaseService: FirebaseService,
     private readonly firebaseAdminService: FirebaseAdminService,
-  ) { }
+  ) {}
 
   private async hashPassword(password: string) {
     const salt = await bcrypt.genSalt();
@@ -59,7 +61,7 @@ export class UsersService {
   async sendEmailVerification(email: string) {
     try {
       await this.firebaseAdminService.deleteUserByEmail(email);
-    } catch { }
+    } catch {}
     await this.firebaseService.createFirebaseUser(email);
     await this.firebaseService.sendFirebaseEmailVerification(email);
   }
@@ -67,7 +69,7 @@ export class UsersService {
   async sendPasswordResetEmail(email: string) {
     try {
       await this.firebaseAdminService.deleteUserByEmail(email);
-    } catch { }
+    } catch {}
     await this.firebaseService.createFirebaseUser(email);
     await this.firebaseService.sendFirebasePasswordResetEmail(email);
   }
@@ -178,6 +180,8 @@ export class UsersService {
   }
 
   async delete(id: number) {
+    await this.conversationsCoreService.deleteOrphansByUserId(id);
+
     await this.cacheManager.del(this.usersCoreService.getUserCacheKey(id));
     const result = await this.usersRepository.delete(id);
     if (result.affected === 0) {
