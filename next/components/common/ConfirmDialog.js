@@ -6,11 +6,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function ConfirmDialog({open, onClose, title, content}) {
+export default function ConfirmDialog({open, onClose, title, content, disableBackdropClose = false}) {
   return (
     <Dialog
       open={open}
-      // onClose={() => onClose(false)}
+      onClose={disableBackdropClose ? undefined : () => onClose(false)}
       aria-labelledby="confirm-dialog-title"
       aria-describedby="confirm-dialog-description"
     >

@@ -62,6 +62,7 @@ const EmailVerificationDialog = () => {
         onClose={handleDialogClose}
         title="Email Verification Required"
         content="Your email address has not been verified. Please go to settings to verify your email address."
+        disableBackdropClose
       />
 
       <Snackbar
