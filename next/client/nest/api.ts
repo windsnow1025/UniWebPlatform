@@ -55,8 +55,8 @@ export const ContentTypeEnum = {
 
 export type ContentTypeEnum = typeof ContentTypeEnum[keyof typeof ContentTypeEnum];
 
-export interface ConversationColorReqDto {
-    'colorLabel': string;
+export interface ConversationLabelReqDto {
+    'labelId': number | null;
 }
 export interface ConversationNameReqDto {
     'name': string;
@@ -72,10 +72,10 @@ export interface ConversationResDto {
     'id': number;
     'name': string;
     'messages': Array<Message>;
-    'users': Array<UserResDto>;
-    'updatedAt': string;
     'isPublic': boolean;
-    'colorLabel': string;
+    'users': Array<UserResDto>;
+    'label': LabelResDto | null;
+    'updatedAt': string;
     'version': number;
 }
 export interface ConversationUpdateTimeResDto {
@@ -87,6 +87,15 @@ export interface FilesReqDto {
 }
 export interface FilesResDto {
     'urls': Array<string>;
+}
+export interface LabelReqDto {
+    'name': string;
+    'color': string;
+}
+export interface LabelResDto {
+    'id': number;
+    'name': string;
+    'color': string;
 }
 export interface MarkdownReqDto {
     'title': string;
@@ -987,18 +996,18 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
          * 
          * @param {number} id 
          * @param {string} ifMatch 
-         * @param {ConversationColorReqDto} conversationColorReqDto 
+         * @param {ConversationLabelReqDto} conversationLabelReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdateColorLabel: async (id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        conversationsControllerUpdateLabelLink: async (id: number, ifMatch: string, conversationLabelReqDto: ConversationLabelReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('conversationsControllerUpdateColorLabel', 'id', id)
+            assertParamExists('conversationsControllerUpdateLabelLink', 'id', id)
             // verify required parameter 'ifMatch' is not null or undefined
-            assertParamExists('conversationsControllerUpdateColorLabel', 'ifMatch', ifMatch)
-            // verify required parameter 'conversationColorReqDto' is not null or undefined
-            assertParamExists('conversationsControllerUpdateColorLabel', 'conversationColorReqDto', conversationColorReqDto)
-            const localVarPath = `/conversations/conversation/{id}/color-label`
+            assertParamExists('conversationsControllerUpdateLabelLink', 'ifMatch', ifMatch)
+            // verify required parameter 'conversationLabelReqDto' is not null or undefined
+            assertParamExists('conversationsControllerUpdateLabelLink', 'conversationLabelReqDto', conversationLabelReqDto)
+            const localVarPath = `/conversations/conversation/{id}/label`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1025,7 +1034,7 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(conversationColorReqDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(conversationLabelReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1254,14 +1263,14 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
          * 
          * @param {number} id 
          * @param {string} ifMatch 
-         * @param {ConversationColorReqDto} conversationColorReqDto 
+         * @param {ConversationLabelReqDto} conversationLabelReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async conversationsControllerUpdateColorLabel(id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdateColorLabel(id, ifMatch, conversationColorReqDto, options);
+        async conversationsControllerUpdateLabelLink(id: number, ifMatch: string, conversationLabelReqDto: ConversationLabelReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConversationResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerUpdateLabelLink(id, ifMatch, conversationLabelReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerUpdateColorLabel']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerUpdateLabelLink']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -1389,12 +1398,12 @@ export const ConversationsApiFactory = function (configuration?: Configuration, 
          * 
          * @param {number} id 
          * @param {string} ifMatch 
-         * @param {ConversationColorReqDto} conversationColorReqDto 
+         * @param {ConversationLabelReqDto} conversationLabelReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerUpdateColorLabel(id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
-            return localVarFp.conversationsControllerUpdateColorLabel(id, ifMatch, conversationColorReqDto, options).then((request) => request(axios, basePath));
+        conversationsControllerUpdateLabelLink(id: number, ifMatch: string, conversationLabelReqDto: ConversationLabelReqDto, options?: RawAxiosRequestConfig): AxiosPromise<ConversationResDto> {
+            return localVarFp.conversationsControllerUpdateLabelLink(id, ifMatch, conversationLabelReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1522,12 +1531,12 @@ export class ConversationsApi extends BaseAPI {
      * 
      * @param {number} id 
      * @param {string} ifMatch 
-     * @param {ConversationColorReqDto} conversationColorReqDto 
+     * @param {ConversationLabelReqDto} conversationLabelReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public conversationsControllerUpdateColorLabel(id: number, ifMatch: string, conversationColorReqDto: ConversationColorReqDto, options?: RawAxiosRequestConfig) {
-        return ConversationsApiFp(this.configuration).conversationsControllerUpdateColorLabel(id, ifMatch, conversationColorReqDto, options).then((request) => request(this.axios, this.basePath));
+    public conversationsControllerUpdateLabelLink(id: number, ifMatch: string, conversationLabelReqDto: ConversationLabelReqDto, options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerUpdateLabelLink(id, ifMatch, conversationLabelReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1908,6 +1917,383 @@ export class FilesApi extends BaseAPI {
      */
     public filesControllerUploadFiles(options?: RawAxiosRequestConfig) {
         return FilesApiFp(this.configuration).filesControllerUploadFiles(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * LabelsApi - axios parameter creator
+ */
+export const LabelsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {LabelReqDto} labelReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerCreate: async (labelReqDto: LabelReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'labelReqDto' is not null or undefined
+            assertParamExists('labelsControllerCreate', 'labelReqDto', labelReqDto)
+            const localVarPath = `/labels`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(labelReqDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('labelsControllerDelete', 'id', id)
+            const localVarPath = `/labels/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerFind: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/labels`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerFindOne: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('labelsControllerFindOne', 'id', id)
+            const localVarPath = `/labels/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {LabelReqDto} labelReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerUpdate: async (id: number, labelReqDto: LabelReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('labelsControllerUpdate', 'id', id)
+            // verify required parameter 'labelReqDto' is not null or undefined
+            assertParamExists('labelsControllerUpdate', 'labelReqDto', labelReqDto)
+            const localVarPath = `/labels/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(labelReqDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * LabelsApi - functional programming interface
+ */
+export const LabelsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = LabelsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {LabelReqDto} labelReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async labelsControllerCreate(labelReqDto: LabelReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LabelResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsControllerCreate(labelReqDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsControllerCreate']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async labelsControllerDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LabelResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsControllerDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsControllerDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async labelsControllerFind(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<LabelResDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsControllerFind(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsControllerFind']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async labelsControllerFindOne(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LabelResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsControllerFindOne(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsControllerFindOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {LabelReqDto} labelReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async labelsControllerUpdate(id: number, labelReqDto: LabelReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LabelResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsControllerUpdate(id, labelReqDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsControllerUpdate']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * LabelsApi - factory interface
+ */
+export const LabelsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = LabelsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {LabelReqDto} labelReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerCreate(labelReqDto: LabelReqDto, options?: RawAxiosRequestConfig): AxiosPromise<LabelResDto> {
+            return localVarFp.labelsControllerCreate(labelReqDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerDelete(id: number, options?: RawAxiosRequestConfig): AxiosPromise<LabelResDto> {
+            return localVarFp.labelsControllerDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerFind(options?: RawAxiosRequestConfig): AxiosPromise<Array<LabelResDto>> {
+            return localVarFp.labelsControllerFind(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerFindOne(id: number, options?: RawAxiosRequestConfig): AxiosPromise<LabelResDto> {
+            return localVarFp.labelsControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {LabelReqDto} labelReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        labelsControllerUpdate(id: number, labelReqDto: LabelReqDto, options?: RawAxiosRequestConfig): AxiosPromise<LabelResDto> {
+            return localVarFp.labelsControllerUpdate(id, labelReqDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * LabelsApi - object-oriented interface
+ */
+export class LabelsApi extends BaseAPI {
+    /**
+     * 
+     * @param {LabelReqDto} labelReqDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public labelsControllerCreate(labelReqDto: LabelReqDto, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsControllerCreate(labelReqDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public labelsControllerDelete(id: number, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public labelsControllerFind(options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsControllerFind(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public labelsControllerFindOne(id: number, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {LabelReqDto} labelReqDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public labelsControllerUpdate(id: number, labelReqDto: LabelReqDto, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsControllerUpdate(id, labelReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

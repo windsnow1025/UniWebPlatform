@@ -7,7 +7,7 @@ from .auth_token_res_dto import AuthTokenResDto
 from .auth_token_username_req_dto import AuthTokenUsernameReqDto
 from .content import Content
 from .content_type import ContentType
-from .conversation_color_req_dto import ConversationColorReqDto
+from .conversation_label_req_dto import ConversationLabelReqDto
 from .conversation_name_req_dto import ConversationNameReqDto
 from .conversation_public_req_dto import ConversationPublicReqDto
 from .conversation_req_dto import ConversationReqDto
@@ -15,6 +15,8 @@ from .conversation_res_dto import ConversationResDto
 from .conversation_update_time_res_dto import ConversationUpdateTimeResDto
 from .files_req_dto import FilesReqDto
 from .files_res_dto import FilesResDto
+from .label_req_dto import LabelReqDto
+from .label_res_dto import LabelResDto
 from .markdown_req_dto import MarkdownReqDto
 from .markdown_res_dto import MarkdownResDto
 from .message import Message
@@ -43,7 +45,7 @@ __all__ = (
     "AuthTokenUsernameReqDto",
     "Content",
     "ContentType",
-    "ConversationColorReqDto",
+    "ConversationLabelReqDto",
     "ConversationNameReqDto",
     "ConversationPublicReqDto",
     "ConversationReqDto",
@@ -51,6 +53,8 @@ __all__ = (
     "ConversationUpdateTimeResDto",
     "FilesReqDto",
     "FilesResDto",
+    "LabelReqDto",
+    "LabelResDto",
     "MarkdownReqDto",
     "MarkdownResDto",
     "Message",

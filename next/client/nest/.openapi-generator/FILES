@@ -14,7 +14,7 @@ docs/AuthTokenEmailReqDto.md
 docs/AuthTokenResDto.md
 docs/AuthTokenUsernameReqDto.md
 docs/Content.md
-docs/ConversationColorReqDto.md
+docs/ConversationLabelReqDto.md
 docs/ConversationNameReqDto.md
 docs/ConversationPublicReqDto.md
 docs/ConversationReqDto.md
@@ -24,6 +24,9 @@ docs/ConversationsApi.md
 docs/FilesApi.md
 docs/FilesReqDto.md
 docs/FilesResDto.md
+docs/LabelReqDto.md
+docs/LabelResDto.md
+docs/LabelsApi.md
 docs/MarkdownReqDto.md
 docs/MarkdownResDto.md
 docs/MarkdownsApi.md

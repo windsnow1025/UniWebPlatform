@@ -13,7 +13,7 @@ All URIs are relative to *http://localhost*
 |[**conversationsControllerFindPublicOne**](#conversationscontrollerfindpublicone) | **GET** /conversations/public/conversation/{id} | |
 |[**conversationsControllerFindUpdateTimes**](#conversationscontrollerfindupdatetimes) | **GET** /conversations/update-times | |
 |[**conversationsControllerUpdate**](#conversationscontrollerupdate) | **PUT** /conversations/conversation/{id} | |
-|[**conversationsControllerUpdateColorLabel**](#conversationscontrollerupdatecolorlabel) | **PUT** /conversations/conversation/{id}/color-label | |
+|[**conversationsControllerUpdateLabelLink**](#conversationscontrollerupdatelabellink) | **PUT** /conversations/conversation/{id}/label | |
 |[**conversationsControllerUpdateName**](#conversationscontrollerupdatename) | **PUT** /conversations/conversation/{id}/name | |
 |[**conversationsControllerUpdatePublic**](#conversationscontrollerupdatepublic) | **PUT** /conversations/conversation/{id}/public | |
 
@@ -472,8 +472,8 @@ const { status, data } = await apiInstance.conversationsControllerUpdate(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **conversationsControllerUpdateColorLabel**
-> ConversationResDto conversationsControllerUpdateColorLabel(conversationColorReqDto)
+# **conversationsControllerUpdateLabelLink**
+> ConversationResDto conversationsControllerUpdateLabelLink(conversationLabelReqDto)
 
 
 ### Example
@@ -482,7 +482,7 @@ const { status, data } = await apiInstance.conversationsControllerUpdate(
 import {
     ConversationsApi,
     Configuration,
-    ConversationColorReqDto
+    ConversationLabelReqDto
 } from './api';
 
 const configuration = new Configuration();
@@ -490,12 +490,12 @@ const apiInstance = new ConversationsApi(configuration);
 
 let id: number; // (default to undefined)
 let ifMatch: string; // (default to undefined)
-let conversationColorReqDto: ConversationColorReqDto; //
+let conversationLabelReqDto: ConversationLabelReqDto; //
 
-const { status, data } = await apiInstance.conversationsControllerUpdateColorLabel(
+const { status, data } = await apiInstance.conversationsControllerUpdateLabelLink(
     id,
     ifMatch,
-    conversationColorReqDto
+    conversationLabelReqDto
 );
 ```
 
@@ -503,7 +503,7 @@ const { status, data } = await apiInstance.conversationsControllerUpdateColorLab
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **conversationColorReqDto** | **ConversationColorReqDto**|  | |
+| **conversationLabelReqDto** | **ConversationLabelReqDto**|  | |
 | **id** | [**number**] |  | defaults to undefined|
 | **ifMatch** | [**string**] |  | defaults to undefined|
 
