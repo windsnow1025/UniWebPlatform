@@ -25,7 +25,7 @@ export class SystemPrompt extends BaseEntity {
   })
   contents: Content[];
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User;
 }
