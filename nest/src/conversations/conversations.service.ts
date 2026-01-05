@@ -119,9 +119,6 @@ export class ConversationsService {
     targetUsername: string,
   ): Promise<Conversation> {
     const conversation = await this.findOne(userId, id);
-    if (!conversation) {
-      throw new NotFoundException('Conversation not found');
-    }
 
     const targetUser =
       await this.usersCoreService.findOneByUsername(targetUsername);
@@ -144,9 +141,6 @@ export class ConversationsService {
     ifMatch?: string,
   ) {
     const conversation = await this.findOne(userId, conversationId);
-    if (!conversation) {
-      throw new NotFoundException('Conversation not found');
-    }
 
     this.assertIfMatch(conversation, ifMatch);
 
@@ -167,9 +161,6 @@ export class ConversationsService {
     ifMatch?: string,
   ) {
     const conversation = await this.findOne(userId, id);
-    if (!conversation) {
-      throw new NotFoundException('Conversation not found');
-    }
 
     this.assertIfMatch(conversation, ifMatch);
 
@@ -181,9 +172,6 @@ export class ConversationsService {
 
   async updateName(userId: number, id: number, name: string, ifMatch?: string) {
     const conversation = await this.findOne(userId, id);
-    if (!conversation) {
-      throw new NotFoundException('Conversation not found');
-    }
 
     this.assertIfMatch(conversation, ifMatch);
 
@@ -199,9 +187,6 @@ export class ConversationsService {
     ifMatch?: string,
   ) {
     const conversation = await this.findOne(userId, id);
-    if (!conversation) {
-      throw new NotFoundException('Conversation not found');
-    }
 
     this.assertIfMatch(conversation, ifMatch);
 
@@ -216,9 +201,6 @@ export class ConversationsService {
     ifMatch?: string,
   ) {
     const conversation = await this.findOne(userId, id);
-    if (!conversation) {
-      throw new NotFoundException('Conversation not found');
-    }
 
     this.assertIfMatch(conversation, ifMatch);
 
@@ -229,9 +211,6 @@ export class ConversationsService {
 
   async delete(userId: number, id: number): Promise<Conversation> {
     const conversation = await this.findOne(userId, id);
-    if (!conversation) {
-      throw new NotFoundException('Conversation not found');
-    }
 
     const result = await this.conversationsRepository.delete(id);
     if (result.affected === 0) {

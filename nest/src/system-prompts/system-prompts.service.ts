@@ -92,9 +92,6 @@ export class SystemPromptsService {
     ifMatch?: string,
   ): Promise<SystemPrompt> {
     const systemPrompt = await this.findOne(userId, id);
-    if (!systemPrompt) {
-      throw new NotFoundException('System Prompt not found');
-    }
 
     this.assertIfMatch(systemPrompt, ifMatch);
 
@@ -111,9 +108,6 @@ export class SystemPromptsService {
     ifMatch?: string,
   ): Promise<SystemPrompt> {
     const systemPrompt = await this.findOne(userId, id);
-    if (!systemPrompt) {
-      throw new NotFoundException('System Prompt not found');
-    }
 
     this.assertIfMatch(systemPrompt, ifMatch);
 
@@ -124,9 +118,6 @@ export class SystemPromptsService {
 
   async delete(userId: number, id: number): Promise<SystemPrompt> {
     const systemPrompt = await this.findOne(userId, id);
-    if (!systemPrompt) {
-      throw new NotFoundException('System Prompt not found');
-    }
 
     const result = await this.systemPromptsRepository.delete(id);
     if (result.affected === 0) {
