@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UsersCoreService } from '../users/users.core.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { User } from '../users/user.entity';
@@ -8,7 +8,7 @@ import { AuthTokenResDto } from './dto/auth.res.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private usersCoreService: UsersCoreService,
     private jwtService: JwtService,
   ) {}
 
@@ -24,7 +24,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    if (!(await this.usersService.verifyPassword(user, password))) {
+    if (!(await this.usersCoreService.verifyPassword(user, password))) {
       throw new UnauthorizedException();
     }
 
@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   async getTokenByEmail(email: string, password: string): Promise<string> {
-    const user = await this.usersService.findOneByEmail(email);
+    const user = await this.usersCoreService.findOneByEmail(email);
     return await this.getToken(user, password);
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<string> {
-    const user = await this.usersService.findOneByUsername(username);
+    const user = await this.usersCoreService.findOneByUsername(username);
     return await this.getToken(user, password);
   }
 }

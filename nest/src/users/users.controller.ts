@@ -28,15 +28,19 @@ import {
   UserEmailPasswordReqDto,
 } from './dto/user.req.dto';
 import { UserResDto } from './dto/user.res.dto';
+import { UsersCoreService } from './users.core.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly usersCoreService: UsersCoreService,
+  ) {}
 
   @Get()
   async find() {
     const users = await this.usersService.find();
-    return users.map((user) => this.usersService.toUserDto(user));
+    return users.map((user) => this.usersCoreService.toUserDto(user));
   }
 
   @AllowUnverifiedEmail()
@@ -53,7 +57,7 @@ export class UsersController {
       userReqDto.email,
       userReqDto.password,
     );
-    return this.usersService.toUserDto(user);
+    return this.usersCoreService.toUserDto(user);
   }
 
   @AllowUnverifiedEmail()
@@ -71,8 +75,10 @@ export class UsersController {
   @AllowUnverifiedEmail()
   @Put('/user/email-verified')
   async updateEmailVerified(@Request() req: RequestWithUser) {
-    const user = await this.usersService.updateEmailVerified(req.user.email);
-    return this.usersService.toUserDto(user);
+    const user = await this.usersCoreService.updateEmailVerified(
+      req.user.email,
+    );
+    return this.usersCoreService.toUserDto(user);
   }
 
   @Public()
@@ -82,7 +88,7 @@ export class UsersController {
       reqDto.email,
       reqDto.password,
     );
-    return this.usersService.toUserDto(user);
+    return this.usersCoreService.toUserDto(user);
   }
 
   @AllowUnverifiedEmail()
@@ -93,7 +99,7 @@ export class UsersController {
   ): Promise<UserResDto> {
     const id = req.user.id;
     const user = await this.usersService.updateEmail(id, userEmailReqDto.email);
-    return this.usersService.toUserDto(user);
+    return this.usersCoreService.toUserDto(user);
   }
 
   @Put('/user/username')
@@ -106,7 +112,7 @@ export class UsersController {
       id,
       userUsernameReqDto.username,
     );
-    return this.usersService.toUserDto(user);
+    return this.usersCoreService.toUserDto(user);
   }
 
   @Put('/user/password')
@@ -115,7 +121,7 @@ export class UsersController {
     @Body() userPasswordReqDto: UserPasswordReqDto,
   ) {
     const id = req.user.id;
-    const user = await this.usersService.findOneById(id);
+    const user = await this.usersCoreService.findOneById(id);
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -123,7 +129,7 @@ export class UsersController {
       user,
       userPasswordReqDto.password,
     );
-    return this.usersService.toUserDto(newUser);
+    return this.usersCoreService.toUserDto(newUser);
   }
 
   @Put('/user/avatar')
@@ -136,7 +142,7 @@ export class UsersController {
       id,
       userAvatarReqDto.avatar,
     );
-    return this.usersService.toUserDto(user);
+    return this.usersCoreService.toUserDto(user);
   }
 
   @Put('/user/privileges')
@@ -148,7 +154,7 @@ export class UsersController {
       userPrivilegesReqDto.roles,
       userPrivilegesReqDto.credit,
     );
-    return this.usersService.toUserDto(user);
+    return this.usersCoreService.toUserDto(user);
   }
 
   @Patch('/user/reduce-credit')
@@ -161,7 +167,7 @@ export class UsersController {
       id,
       reduceCreditReqDto.amount,
     );
-    return this.usersService.toUserDto(user);
+    return this.usersCoreService.toUserDto(user);
   }
 
   @Delete('/user')
