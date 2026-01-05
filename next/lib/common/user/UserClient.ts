@@ -10,7 +10,7 @@ export default class UserClient {
 
   async fetchUser(): Promise<UserResDto> {
     const api = new UsersApi(getNestOpenAPIConfiguration());
-    const res = await api.usersControllerFindOne();
+    const res = await api.usersControllerFind();
     return res.data;
   }
 

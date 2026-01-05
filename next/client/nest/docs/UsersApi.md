@@ -8,8 +8,8 @@ All URIs are relative to *http://localhost*
 |[**usersControllerDelete**](#userscontrollerdelete) | **DELETE** /users/user | |
 |[**usersControllerDeleteAllFirebaseUsers**](#userscontrollerdeleteallfirebaseusers) | **DELETE** /users/user/firebase | |
 |[**usersControllerDeleteById**](#userscontrollerdeletebyid) | **DELETE** /users/user/{id} | |
+|[**usersControllerFind**](#userscontrollerfind) | **GET** /users/user | |
 |[**usersControllerFindAll**](#userscontrollerfindall) | **GET** /users | |
-|[**usersControllerFindOne**](#userscontrollerfindone) | **GET** /users/user | |
 |[**usersControllerReduceCredit**](#userscontrollerreducecredit) | **PATCH** /users/user/reduce-credit | |
 |[**usersControllerSendEmailVerification**](#userscontrollersendemailverification) | **POST** /users/user/email-verification | |
 |[**usersControllerSendPasswordResetEmail**](#userscontrollersendpasswordresetemail) | **POST** /users/user/password-reset-email | |
@@ -208,6 +208,49 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **usersControllerFind**
+> UserResDto usersControllerFind()
+
+
+### Example
+
+```typescript
+import {
+    UsersApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new UsersApi(configuration);
+
+const { status, data } = await apiInstance.usersControllerFind();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**UserResDto**
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **usersControllerFindAll**
 > Array<UserResDto> usersControllerFindAll()
 
@@ -233,49 +276,6 @@ This endpoint does not have any parameters.
 ### Return type
 
 **Array<UserResDto>**
-
-### Authorization
-
-[bearer](../README.md#bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **usersControllerFindOne**
-> UserResDto usersControllerFindOne()
-
-
-### Example
-
-```typescript
-import {
-    UsersApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new UsersApi(configuration);
-
-const { status, data } = await apiInstance.usersControllerFindOne();
-```
-
-### Parameters
-This endpoint does not have any parameters.
-
-
-### Return type
-
-**UserResDto**
 
 ### Authorization
 

@@ -17,7 +17,7 @@ export class SystemPromptsService {
     @InjectRepository(SystemPrompt)
     private systemPromptsRepository: Repository<SystemPrompt>,
     private usersCoreService: UsersCoreService,
-  ) { }
+  ) {}
 
   public toSystemPromptDto(systemPrompt: SystemPrompt) {
     const systemPromptDto: SystemPromptResDto = {
