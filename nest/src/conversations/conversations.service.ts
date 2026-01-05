@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
-import { UsersService } from '../users/users.service';
+import { UsersCoreService } from '../users/users.core.service';
 import {
   ConversationResDto,
   ConversationUpdateTimeResDto,
@@ -19,7 +19,7 @@ export class ConversationsService {
   constructor(
     @InjectRepository(Conversation)
     private conversationsRepository: Repository<Conversation>,
-    private usersService: UsersService,
+    private usersCoreService: UsersCoreService,
   ) {}
 
   public toConversationDto(conversation: Conversation) {
@@ -27,7 +27,7 @@ export class ConversationsService {
       id: conversation.id,
       name: conversation.name,
       messages: conversation.messages,
-      users: conversation.users.map(this.usersService.toUserDto),
+      users: conversation.users.map(this.usersCoreService.toUserDto),
       updatedAt: conversation.updatedAt,
       colorLabel: conversation.colorLabel,
       isPublic: conversation.isPublic,
@@ -120,7 +120,7 @@ export class ConversationsService {
     name: string,
     messages: Message[],
   ): Promise<Conversation> {
-    const user = await this.usersService.findOneById(userId);
+    const user = await this.usersCoreService.findOneById(userId);
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -143,7 +143,7 @@ export class ConversationsService {
     }
 
     const targetUser =
-      await this.usersService.findOneByUsername(targetUsername);
+      await this.usersCoreService.findOneByUsername(targetUsername);
     if (!targetUser) {
       throw new NotFoundException('User not found');
     }
@@ -169,7 +169,7 @@ export class ConversationsService {
 
     this.assertIfMatch(conversation, ifMatch);
 
-    const userToAdd = await this.usersService.findOneByUsername(username);
+    const userToAdd = await this.usersCoreService.findOneByUsername(username);
     if (!userToAdd) {
       throw new NotFoundException('User not found');
     }

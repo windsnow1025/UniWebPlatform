@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SystemPrompt } from './system-prompt.entity';
-import { UsersService } from '../users/users.service';
+import { UsersCoreService } from '../users/users.core.service';
 import { SystemPromptResDto } from './dto/system-prompt.res.dto';
 import { Content } from '../conversations/message.entity';
 
@@ -16,7 +16,7 @@ export class SystemPromptsService {
   constructor(
     @InjectRepository(SystemPrompt)
     private systemPromptsRepository: Repository<SystemPrompt>,
-    private usersService: UsersService,
+    private usersCoreService: UsersCoreService,
   ) {}
 
   public toSystemPromptDto(systemPrompt: SystemPrompt) {
@@ -24,7 +24,7 @@ export class SystemPromptsService {
       id: systemPrompt.id,
       name: systemPrompt.name,
       contents: systemPrompt.contents,
-      user: this.usersService.toUserDto(systemPrompt.user),
+      user: this.usersCoreService.toUserDto(systemPrompt.user),
       updatedAt: systemPrompt.updatedAt,
       version: systemPrompt.version,
     };
@@ -71,7 +71,7 @@ export class SystemPromptsService {
     name: string,
     contents: Content[],
   ): Promise<SystemPrompt> {
-    const user = await this.usersService.findOneById(userId);
+    const user = await this.usersCoreService.findOneById(userId);
     if (!user) {
       throw new NotFoundException('User not found');
     }
