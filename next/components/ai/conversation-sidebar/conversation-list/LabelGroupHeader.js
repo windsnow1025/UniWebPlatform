@@ -60,9 +60,11 @@ function LabelGroupHeader({
     setIsSaving(true);
     try {
       const updatedLabel = await labelLogic.updateLabel(label.id, editName.trim(), editColor);
-      setLabels(prev => prev.map(l => l.id === updatedLabel.id ? updatedLabel : l));
-      setConversations(prev => prev.map(conversation =>
-        conversation.label?.id === updatedLabel.id ? {...conversation, label: updatedLabel} : conversation
+      setLabels(prevLabels => prevLabels.map(prevLabel =>
+        prevLabel.id === updatedLabel.id ? updatedLabel : prevLabel
+      ));
+      setConversations(convos => convos.map(convo =>
+        convo.label?.id === updatedLabel.id ? {...convo, label: updatedLabel} : convo
       ));
       setEditDialogOpen(false);
       showAlert('Label updated', 'success');
@@ -81,9 +83,9 @@ function LabelGroupHeader({
   const handleDeleteConfirm = async () => {
     try {
       await labelLogic.deleteLabel(label.id);
-      setLabels(prev => prev.filter(l => l.id !== label.id));
-      setConversations(prev => prev.map(c =>
-        c.label?.id === label.id ? {...c, label: null} : c
+      setLabels(prevLabels => prevLabels.filter(prevLabel => prevLabel.id !== label.id));
+      setConversations(convos => convos.map(convo =>
+        convo.label?.id === label.id ? {...convo, label: null} : convo
       ));
       showAlert('Label deleted', 'success');
     } catch (err) {
