@@ -4,7 +4,7 @@ import {UserResDto, UsersApi, UserResDtoRolesEnum} from "@/client/nest";
 export default class UserClient {
   async fetchUsers(): Promise<UserResDto[]> {
     const api = new UsersApi(getNestOpenAPIConfiguration());
-    const res = await api.usersControllerFind();
+    const res = await api.usersControllerFindAll();
     return res.data;
   }
 

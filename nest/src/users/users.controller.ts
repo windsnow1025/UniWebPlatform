@@ -38,8 +38,8 @@ export class UsersController {
   ) {}
 
   @Get()
-  async find() {
-    const users = await this.usersService.find();
+  async findAll() {
+    const users = await this.usersService.findAll();
     return users.map((user) => this.usersCoreService.toUserDto(user));
   }
 
