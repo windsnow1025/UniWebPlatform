@@ -7,11 +7,11 @@ import ConfigDiv from "./ConfigDiv";
 import SendButton from "./SendButton";
 import RetryButton from "./RetryButton";
 import ChatMessagesDiv from "./ChatMessagesDiv";
-import ConversationSidebar from "./conversation/ConversationSidebar";
-import ToggleConversationButton from "./conversation/ToggleConversationButton";
+import ConversationSidebar from "./conversation-sidebar/ConversationSidebar";
+import ToggleConversationButton from "./ToggleConversationButton";
 import useScreenSize from '../common/hooks/useScreenSize';
 import AIStudioTour from './AIStudioTour';
-import NewConversationButton from "./conversation/NewConversationButton";
+import NewConversationButton from "./conversation-sidebar/NewConversationButton";
 import TemporaryChatButton from "./TemporaryChatButton";
 
 function AIChat({
