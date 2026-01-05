@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 |[**usersControllerDelete**](#userscontrollerdelete) | **DELETE** /users/user | |
 |[**usersControllerDeleteAllFirebaseUsers**](#userscontrollerdeleteallfirebaseusers) | **DELETE** /users/user/firebase | |
 |[**usersControllerDeleteById**](#userscontrollerdeletebyid) | **DELETE** /users/user/{id} | |
-|[**usersControllerFind**](#userscontrollerfind) | **GET** /users | |
+|[**usersControllerFindAll**](#userscontrollerfindall) | **GET** /users | |
 |[**usersControllerFindOne**](#userscontrollerfindone) | **GET** /users/user | |
 |[**usersControllerReduceCredit**](#userscontrollerreducecredit) | **PATCH** /users/user/reduce-credit | |
 |[**usersControllerSendEmailVerification**](#userscontrollersendemailverification) | **POST** /users/user/email-verification | |
@@ -208,8 +208,8 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **usersControllerFind**
-> Array<UserResDto> usersControllerFind()
+# **usersControllerFindAll**
+> Array<UserResDto> usersControllerFindAll()
 
 
 ### Example
@@ -223,7 +223,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
 
-const { status, data } = await apiInstance.usersControllerFind();
+const { status, data } = await apiInstance.usersControllerFindAll();
 ```
 
 ### Parameters

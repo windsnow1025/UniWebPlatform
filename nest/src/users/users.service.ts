@@ -33,7 +33,7 @@ export class UsersService {
     return hash;
   }
 
-  find() {
+  findAll() {
     return this.usersRepository.find({
       order: { id: 'ASC' },
     });
