@@ -89,13 +89,13 @@ export default class ConversationLogic {
     }
   }
 
-  async updateConversationColorLabel(
-    id: number, etag: string, colorLabel: string
+  async updateConversationLabelLink(
+    id: number, etag: string, labelId: number | null
   ): Promise<ConversationResDto> {
     try {
-      return await this.conversationService.updateConversationColorLabel(id, etag, colorLabel);
+      return await this.conversationService.updateConversationLabelLink(id, etag, labelId);
     } catch (error) {
-      handleError(error, 'Failed to update conversation color label');
+      handleError(error, 'Failed to update conversation label');
     }
   }
 

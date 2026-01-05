@@ -74,10 +74,10 @@ export default class ConversationClient {
     return res.data;
   }
 
-  async updateConversationColorLabel(id: number, etag: string, colorLabel: string): Promise<ConversationResDto> {
+  async updateConversationLabelLink(id: number, etag: string, labelId: number | null): Promise<ConversationResDto> {
     const api = new ConversationsApi(getNestOpenAPIConfiguration());
-    const res = await api.conversationsControllerUpdateColorLabel(
-      id, etag, {colorLabel},
+    const res = await api.conversationsControllerUpdateLabelLink(
+      id, etag, {labelId},
     );
     return res.data;
   }
