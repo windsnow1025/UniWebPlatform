@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import datetime
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 from dateutil.parser import isoparse
 
 if TYPE_CHECKING:
+    from ..models.label_res_dto import LabelResDto
     from ..models.message import Message
     from ..models.user_res_dto import UserResDto
 
@@ -23,24 +24,26 @@ class ConversationResDto:
         id (float):
         name (str):
         messages (list[Message]):
-        users (list[UserResDto]):
-        updated_at (datetime.datetime):
         is_public (bool):
-        color_label (str):
+        users (list[UserResDto]):
+        label (LabelResDto | None):
+        updated_at (datetime.datetime):
         version (float):
     """
 
     id: float
     name: str
     messages: list[Message]
-    users: list[UserResDto]
-    updated_at: datetime.datetime
     is_public: bool
-    color_label: str
+    users: list[UserResDto]
+    label: LabelResDto | None
+    updated_at: datetime.datetime
     version: float
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.label_res_dto import LabelResDto
+
         id = self.id
 
         name = self.name
@@ -50,16 +53,20 @@ class ConversationResDto:
             messages_item = messages_item_data.to_dict()
             messages.append(messages_item)
 
+        is_public = self.is_public
+
         users = []
         for users_item_data in self.users:
             users_item = users_item_data.to_dict()
             users.append(users_item)
 
+        label: dict[str, Any] | None
+        if isinstance(self.label, LabelResDto):
+            label = self.label.to_dict()
+        else:
+            label = self.label
+
         updated_at = self.updated_at.isoformat()
-
-        is_public = self.is_public
-
-        color_label = self.color_label
 
         version = self.version
 
@@ -70,10 +77,10 @@ class ConversationResDto:
                 "id": id,
                 "name": name,
                 "messages": messages,
-                "users": users,
-                "updatedAt": updated_at,
                 "isPublic": is_public,
-                "colorLabel": color_label,
+                "users": users,
+                "label": label,
+                "updatedAt": updated_at,
                 "version": version,
             }
         )
@@ -82,6 +89,7 @@ class ConversationResDto:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.label_res_dto import LabelResDto
         from ..models.message import Message
         from ..models.user_res_dto import UserResDto
 
@@ -97,6 +105,8 @@ class ConversationResDto:
 
             messages.append(messages_item)
 
+        is_public = d.pop("isPublic")
+
         users = []
         _users = d.pop("users")
         for users_item_data in _users:
@@ -104,11 +114,22 @@ class ConversationResDto:
 
             users.append(users_item)
 
+        def _parse_label(data: object) -> LabelResDto | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                label_type_1 = LabelResDto.from_dict(data)
+
+                return label_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(LabelResDto | None, data)
+
+        label = _parse_label(d.pop("label"))
+
         updated_at = isoparse(d.pop("updatedAt"))
-
-        is_public = d.pop("isPublic")
-
-        color_label = d.pop("colorLabel")
 
         version = d.pop("version")
 
@@ -116,10 +137,10 @@ class ConversationResDto:
             id=id,
             name=name,
             messages=messages,
-            users=users,
-            updated_at=updated_at,
             is_public=is_public,
-            color_label=color_label,
+            users=users,
+            label=label,
+            updated_at=updated_at,
             version=version,
         )
 

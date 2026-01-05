@@ -8,10 +8,10 @@ Name | Type | Description | Notes
 **id** | **number** |  | [default to undefined]
 **name** | **string** |  | [default to undefined]
 **messages** | [**Array&lt;Message&gt;**](Message.md) |  | [default to undefined]
-**users** | [**Array&lt;UserResDto&gt;**](UserResDto.md) |  | [default to undefined]
-**updatedAt** | **string** |  | [default to undefined]
 **isPublic** | **boolean** |  | [default to undefined]
-**colorLabel** | **string** |  | [default to undefined]
+**users** | [**Array&lt;UserResDto&gt;**](UserResDto.md) |  | [default to undefined]
+**label** | [**LabelResDto**](LabelResDto.md) |  | [default to undefined]
+**updatedAt** | **string** |  | [default to undefined]
 **version** | **number** |  | [default to undefined]
 
 ## Example
@@ -23,10 +23,10 @@ const instance: ConversationResDto = {
     id,
     name,
     messages,
-    users,
-    updatedAt,
     isPublic,
-    colorLabel,
+    users,
+    label,
+    updatedAt,
     version,
 };
 ```

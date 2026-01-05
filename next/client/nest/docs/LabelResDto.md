@@ -1,19 +1,23 @@
-# ConversationColorReqDto
+# LabelResDto
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**colorLabel** | **string** |  | [default to undefined]
+**id** | **number** |  | [default to undefined]
+**name** | **string** |  | [default to undefined]
+**color** | **string** |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { ConversationColorReqDto } from './api';
+import { LabelResDto } from './api';
 
-const instance: ConversationColorReqDto = {
-    colorLabel,
+const instance: LabelResDto = {
+    id,
+    name,
+    color,
 };
 ```
 
