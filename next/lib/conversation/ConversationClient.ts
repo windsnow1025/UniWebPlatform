@@ -1,10 +1,5 @@
 import {getNestOpenAPIConfiguration} from "@/lib/common/APIConfig";
-import {
-  ConversationReqDto,
-  ConversationResDto,
-  ConversationUpdateTimeResDto,
-  ConversationsApi
-} from "@/client/nest";
+import {ConversationReqDto, ConversationResDto, ConversationsApi, ConversationUpdateTimeResDto} from "@/client/nest";
 
 export default class ConversationClient {
   async fetchConversations(): Promise<ConversationResDto[]> {
@@ -74,7 +69,7 @@ export default class ConversationClient {
   async updateConversationPublic(id: number, etag: string, isPublic: boolean): Promise<ConversationResDto> {
     const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdatePublic(
-        id, etag, { isPublic },
+      id, etag, {isPublic},
     );
     return res.data;
   }
@@ -82,7 +77,7 @@ export default class ConversationClient {
   async updateConversationColorLabel(id: number, etag: string, colorLabel: string): Promise<ConversationResDto> {
     const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerUpdateColorLabel(
-      id, etag, { colorLabel },
+      id, etag, {colorLabel},
     );
     return res.data;
   }
