@@ -126,6 +126,11 @@ function LabelGroupHeader({
               size="small"
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && editName.trim() && !isSaving) {
+                  handleSave();
+                }
+              }}
               fullWidth
               autoFocus
             />
