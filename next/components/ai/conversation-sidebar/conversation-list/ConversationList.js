@@ -182,9 +182,9 @@ function ConversationList({
     groups[key].sort((a, b) => new Date(b.conv.updatedAt) - new Date(a.conv.updatedAt));
   });
 
-  // Build ordered group keys: all labels first, then 'no-label'
+  // Build ordered group keys: 'no-label' first, then all labels
   const labelIds = labels.map(label => label.id);
-  const groupKeys = [...labelIds, 'no-label'];
+  const groupKeys = ['no-label', ...labelIds];
 
   const getLabelInfo = (key) => {
     if (key === 'no-label') {
