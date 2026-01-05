@@ -44,7 +44,7 @@ function NewLabelAccordion({setLabels}) {
     setIsCreating(true);
     try {
       const createdLabel = await labelLogic.createLabel(name.trim(), color);
-      setLabels(prev => [...prev, createdLabel]);
+      setLabels(prev => [...prev, createdLabel].sort((a, b) => a.name.localeCompare(b.name)));
       setName('');
       setColor(PRESET_COLORS[0]);
       setExpanded(false);

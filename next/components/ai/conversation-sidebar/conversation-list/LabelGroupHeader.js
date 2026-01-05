@@ -60,9 +60,10 @@ function LabelGroupHeader({
     setIsSaving(true);
     try {
       const updatedLabel = await labelLogic.updateLabel(label.id, editName.trim(), editColor);
-      setLabels(prevLabels => prevLabels.map(prevLabel =>
-        prevLabel.id === updatedLabel.id ? updatedLabel : prevLabel
-      ));
+      setLabels(prevLabels => prevLabels
+        .map(prevLabel => prevLabel.id === updatedLabel.id ? updatedLabel : prevLabel)
+        .sort((a, b) => a.name.localeCompare(b.name))
+      );
       setConversations(convos => convos.map(convo =>
         convo.label?.id === updatedLabel.id ? {...convo, label: updatedLabel} : convo
       ));
