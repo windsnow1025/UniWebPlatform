@@ -9,6 +9,6 @@ import { UsersModule } from '../users/users.module';
   imports: [TypeOrmModule.forFeature([SystemPrompt]), UsersModule],
   providers: [SystemPromptsService],
   controllers: [SystemPromptsController],
-  exports: [SystemPromptsService],
+  exports: [],
 })
 export class SystemPromptsModule {}
