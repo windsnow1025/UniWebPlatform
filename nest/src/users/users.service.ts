@@ -25,7 +25,7 @@ export class UsersService {
     private cacheManager: Cache,
     private readonly firebaseService: FirebaseService,
     private readonly firebaseAdminService: FirebaseAdminService,
-  ) {}
+  ) { }
 
   private async hashPassword(password: string) {
     const salt = await bcrypt.genSalt();
@@ -59,7 +59,7 @@ export class UsersService {
   async sendEmailVerification(email: string) {
     try {
       await this.firebaseAdminService.deleteUserByEmail(email);
-    } catch {}
+    } catch { }
     await this.firebaseService.createFirebaseUser(email);
     await this.firebaseService.sendFirebaseEmailVerification(email);
   }
@@ -67,7 +67,7 @@ export class UsersService {
   async sendPasswordResetEmail(email: string) {
     try {
       await this.firebaseAdminService.deleteUserByEmail(email);
-    } catch {}
+    } catch { }
     await this.firebaseService.createFirebaseUser(email);
     await this.firebaseService.sendFirebasePasswordResetEmail(email);
   }

@@ -20,7 +20,7 @@ export class UsersCoreService {
     @Inject(CACHE_MANAGER)
     private cacheManager: Cache,
     private readonly firebaseService: FirebaseService,
-  ) {}
+  ) { }
 
   public toUserDto(user: User) {
     const userDto: UserResDto = {

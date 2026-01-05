@@ -6,7 +6,7 @@ import { UserResDto } from '../../users/dto/user.res.dto';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector) { }
 
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get(Roles, context.getHandler());
