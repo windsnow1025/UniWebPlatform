@@ -182,9 +182,9 @@ function ConversationList({
     groups[key].sort((a, b) => new Date(b.conv.updatedAt) - new Date(a.conv.updatedAt));
   });
 
-  // Build ordered group keys: labels first, then 'no-label'
+  // Build ordered group keys: all labels first (even empty ones), then 'no-label'
   const labelIds = labels.map(l => l.id);
-  const groupKeys = [...labelIds.filter(id => groups[id]), ...(groups['no-label'] ? ['no-label'] : [])];
+  const groupKeys = [...labelIds, ...(groups['no-label'] ? ['no-label'] : [])];
 
   const getLabelInfo = (key) => {
     if (key === 'no-label') {
@@ -232,7 +232,7 @@ function ConversationList({
                 <AccordionDetails sx={{padding: 0}}>
                   <List disablePadding>
                     {groups[key]?.map(({conv, idx}) => (
-                      <React.Fragment key={conv.id}>
+                      <div key={conv.id}>
                         <ConversationItem
                           conversation={conv}
                           isSelected={conv.id === selectedConversationId}
@@ -261,7 +261,7 @@ function ConversationList({
                           setLoadingConversationId={setLoadingConversationId}
                           labels={labels}
                         />
-                      </React.Fragment>
+                      </div>
                     ))}
                   </List>
                 </AccordionDetails>
