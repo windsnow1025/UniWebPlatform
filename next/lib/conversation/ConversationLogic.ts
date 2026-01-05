@@ -1,6 +1,6 @@
-import { handleError } from "@/lib/common/ErrorHandler";
+import {handleError} from "@/lib/common/ErrorHandler";
 import ConversationClient from "./ConversationClient";
-import { ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto } from "@/client/nest";
+import {ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto} from "@/client/nest";
 
 export default class ConversationLogic {
   private conversationService: ConversationClient;
