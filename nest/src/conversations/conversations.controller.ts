@@ -13,10 +13,10 @@ import {
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { ConversationsService } from './conversations.service';
 import {
+  ConversationLabelReqDto,
   ConversationNameReqDto,
-  ConversationReqDto,
-  ConversationColorReqDto,
   ConversationPublicReqDto,
+  ConversationReqDto,
 } from './dto/conversation.req.dto';
 import { UserUsernameReqDto } from '../users/dto/user.req.dto';
 import { Public } from '../common/decorators/public.decorator';
@@ -159,18 +159,18 @@ export class ConversationsController {
     return this.service.toConversationDto(updatedConversation);
   }
 
-  @Put('/conversation/:id/color-label')
-  async updateColorLabel(
+  @Put('/conversation/:id/label')
+  async updateLabelLink(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
-    @Body() reqDto: ConversationColorReqDto,
+    @Body() reqDto: ConversationLabelReqDto,
     @Headers('if-match') ifMatch: string,
   ) {
     const userId = req.user.id;
-    const updatedConversation = await this.service.updateColorLabel(
+    const updatedConversation = await this.service.updateLabelLink(
       userId,
       id,
-      reqDto.colorLabel,
+      reqDto.labelId,
       ifMatch,
     );
     return this.service.toConversationDto(updatedConversation);

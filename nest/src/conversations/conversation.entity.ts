@@ -1,13 +1,16 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from '../common/entities/base.entity';
 import { User } from '../users/user.entity';
 import { Message } from './message.entity';
+import { Label } from '../labels/label.entity';
 
 @Entity()
 export class Conversation extends BaseEntity {
@@ -25,13 +28,14 @@ export class Conversation extends BaseEntity {
   })
   messages: Message[];
 
-  @ManyToMany(() => User)
-  @JoinTable()
-  users: User[];
-
   @Column({ type: 'boolean', default: false })
   isPublic: boolean;
 
-  @Column({ type: 'varchar', length: 32, default: '' })
-  colorLabel: string;
+  @ManyToOne(() => Label, { onDelete: 'SET NULL', nullable: true })
+  @JoinColumn()
+  label: Label | null;
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  users: User[];
 }

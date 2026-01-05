@@ -14,6 +14,8 @@ import {
 } from './dto/conversation.res.dto';
 import { Message } from './message.entity';
 import { ConversationsCoreService } from './conversations.core.service';
+import { LabelsCoreService } from '../labels/labels.core.service';
+import { Label } from '../labels/label.entity';
 
 @Injectable()
 export class ConversationsService {
@@ -22,6 +24,7 @@ export class ConversationsService {
     private conversationsRepository: Repository<Conversation>,
     private conversationsCoreService: ConversationsCoreService,
     private usersCoreService: UsersCoreService,
+    private labelsCoreService: LabelsCoreService,
   ) {}
 
   public toConversationDto(conversation: Conversation) {
@@ -29,10 +32,12 @@ export class ConversationsService {
       id: conversation.id,
       name: conversation.name,
       messages: conversation.messages,
-      users: conversation.users.map(this.usersCoreService.toUserDto),
-      updatedAt: conversation.updatedAt,
-      colorLabel: conversation.colorLabel,
       isPublic: conversation.isPublic,
+      users: conversation.users.map(this.usersCoreService.toUserDto),
+      label: conversation.label
+        ? this.labelsCoreService.toLabelDto(conversation.label)
+        : null,
+      updatedAt: conversation.updatedAt,
       version: conversation.version,
     };
     return conversationDto;
@@ -51,7 +56,7 @@ export class ConversationsService {
   async findOne(userId: number, id: number) {
     const conversation = await this.conversationsRepository.findOne({
       where: { id },
-      relations: ['users'],
+      relations: ['users', 'label'],
     });
 
     if (!conversation) {
@@ -71,7 +76,7 @@ export class ConversationsService {
   async findPublicOne(id: number) {
     const conversation = await this.conversationsRepository.findOne({
       where: { id },
-      relations: ['users'],
+      relations: ['users', 'label'],
     });
 
     if (!conversation) {
@@ -194,17 +199,21 @@ export class ConversationsService {
     return await this.conversationsRepository.save(conversation);
   }
 
-  async updateColorLabel(
+  async updateLabelLink(
     userId: number,
     id: number,
-    colorLabel: string,
+    labelId: number | null,
     ifMatch?: string,
   ) {
     const conversation = await this.findOne(userId, id);
 
     this.assertIfMatch(conversation, ifMatch);
 
-    conversation.colorLabel = colorLabel;
+    let label: Label | null = null;
+    if (labelId !== null) {
+      label = await this.labelsCoreService.findOne(userId, labelId);
+    }
+    conversation.label = label;
 
     return await this.conversationsRepository.save(conversation);
   }

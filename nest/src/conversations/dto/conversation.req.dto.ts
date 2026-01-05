@@ -1,4 +1,10 @@
-import { IsArray, IsBoolean, IsString, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Message } from '../message.entity';
 
 export class ConversationReqDto {
@@ -19,8 +25,8 @@ export class ConversationPublicReqDto {
   isPublic: boolean;
 }
 
-export class ConversationColorReqDto {
-  @IsString()
-  @MaxLength(32)
-  colorLabel: string;
+export class ConversationLabelReqDto {
+  @IsNumber()
+  @IsOptional()
+  labelId: number | null;
 }

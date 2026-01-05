@@ -26,7 +26,7 @@ export class ConversationsCoreService {
 
     return this.conversationsRepository.find({
       where: { id: In(ids) },
-      relations: ['users'],
+      relations: ['users', 'label'],
       order: { updatedAt: 'DESC' },
     });
   }
