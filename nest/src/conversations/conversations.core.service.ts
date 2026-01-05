@@ -8,7 +8,7 @@ export class ConversationsCoreService {
   constructor(
     @InjectRepository(Conversation)
     private conversationsRepository: Repository<Conversation>,
-  ) {}
+  ) { }
 
   async find(userId: number) {
     const conversationIds = await this.conversationsRepository

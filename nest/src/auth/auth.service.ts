@@ -10,7 +10,7 @@ export class AuthService {
   constructor(
     private usersCoreService: UsersCoreService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   public toAuthTokenDto(token: string) {
     const tokenDto: AuthTokenResDto = {

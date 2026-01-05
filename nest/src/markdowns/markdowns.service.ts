@@ -13,7 +13,7 @@ export class MarkdownsService {
   constructor(
     @InjectRepository(Markdown)
     private markdownsRepository: Repository<Markdown>,
-  ) {}
+  ) { }
 
   private assertIfMatch(markdown: Markdown, ifMatch?: string) {
     if (!ifMatch) {
