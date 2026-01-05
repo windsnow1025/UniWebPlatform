@@ -1,16 +1,17 @@
-import {Alert, Box, Divider, Menu, MenuItem, Snackbar} from "@mui/material";
+import {Alert, Divider, Menu, MenuItem, Snackbar, Typography} from "@mui/material";
 import {
   DeleteOutlined as DeleteOutlinedIcon,
   SaveOutlined as SaveOutlinedIcon,
   Share as ShareIcon,
 } from '@mui/icons-material';
 import React, {useState} from "react";
-import ConversationLogic from "../../../lib/conversation/ConversationLogic";
-import ChatLogic from "../../../lib/chat/ChatLogic";
-import FileLogic from "../../../lib/common/file/FileLogic";
-import {COLOR_LABELS} from "./constants/ColorLabels";
+import ConversationLogic from "../../../../../lib/conversation/ConversationLogic";
+import ChatLogic from "../../../../../lib/chat/ChatLogic";
+import FileLogic from "../../../../../lib/common/file/FileLogic";
+import {NO_LABEL_COLOR} from "../label/PresetColors";
 import ShareConversationDialog from "./ShareConversationDialog";
 import SaveAsConversationDialog from "./SaveAsConversationDialog";
+import ColorDot from "../label/ColorDot";
 
 function ConversationMenu({
                             conversationIndex,
@@ -27,6 +28,7 @@ function ConversationMenu({
                             isGeneratingRef,
                             handleGenerateRef,
                             setLoadingConversationId,
+                            labels,
                           }) {
   const conversationLogic = new ConversationLogic();
 
@@ -113,12 +115,12 @@ function ConversationMenu({
     setLoadingConversationId(null);
   };
 
-  const updateConversationColorLabel = async (index, colorLabel) => {
+  const updateConversationLabelLink = async (index, labelId) => {
     const conversationId = conversations[index].id;
     setLoadingConversationId(conversationId);
     try {
-      const updatedConversation = await conversationLogic.updateConversationColorLabel(
-        conversationId, conversations[index].version, colorLabel
+      const updatedConversation = await conversationLogic.updateConversationLabelLink(
+        conversationId, conversations[index].version, labelId
       );
       setConversations((prevConversations) => {
         const newConversations = [...prevConversations];
@@ -169,16 +171,34 @@ function ConversationMenu({
         </MenuItem>
         <Divider/>
         <MenuItem disabled>Set label</MenuItem>
-        {COLOR_LABELS.map((opt) => (
-          <MenuItem dense key={`lbl-${String(opt.key)}`} onClick={(e) => {
-            e.stopPropagation();
-            updateConversationColorLabel(conversationIndex, opt.key);
-            handleMenuClose();
-          }}>
-            <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: opt.color, mr: 1 }} />
-            {opt.name}
+        {/* No label option */}
+        <MenuItem dense onClick={(e) => {
+          e.stopPropagation();
+          updateConversationLabelLink(conversationIndex, null);
+          handleMenuClose();
+        }}>
+          <ColorDot color={NO_LABEL_COLOR} sx={{mr: 1}}/>
+          No label
+        </MenuItem>
+        {/* User's existing labels */}
+        {labels.length > 0 ? (
+          labels.map((label) => (
+            <MenuItem dense key={label.id} onClick={(e) => {
+              e.stopPropagation();
+              updateConversationLabelLink(conversationIndex, label.id);
+              handleMenuClose();
+            }}>
+              <ColorDot color={label.color} sx={{mr: 1}}/>
+              {label.name}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem disabled>
+            <Typography variant="caption" color="text.secondary">
+              No labels created yet
+            </Typography>
           </MenuItem>
-        ))}
+        )}
       </Menu>
 
       <ShareConversationDialog

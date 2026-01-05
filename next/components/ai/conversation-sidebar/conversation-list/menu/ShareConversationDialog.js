@@ -20,8 +20,8 @@ import {
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import UserLogic from "../../../lib/common/user/UserLogic";
-import ConversationLogic from "../../../lib/conversation/ConversationLogic";
+import UserLogic from "../../../../../lib/common/user/UserLogic";
+import ConversationLogic from "../../../../../lib/conversation/ConversationLogic";
 
 function ShareConversationDialog({open, onClose, conversation, setConversation}) {
   const [usernames, setUsernames] = useState([]);

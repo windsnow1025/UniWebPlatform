@@ -10,9 +10,9 @@ import {
   Snackbar,
   TextField,
 } from '@mui/material';
-import ConversationLogic from "../../../lib/conversation/ConversationLogic";
-import FileLogic from "../../../lib/common/file/FileLogic";
-import {ContentTypeEnum} from "../../../client/nest";
+import ConversationLogic from "../../../../../lib/conversation/ConversationLogic";
+import FileLogic from "../../../../../lib/common/file/FileLogic";
+import {ContentTypeEnum} from "../../../../../client/nest";
 
 function SaveAsConversationDialog({
   open,
