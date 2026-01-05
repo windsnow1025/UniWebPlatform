@@ -182,16 +182,15 @@ function ConversationList({
     groups[key].sort((a, b) => new Date(b.conv.updatedAt) - new Date(a.conv.updatedAt));
   });
 
-  // Build ordered group keys: all labels first (even empty ones), then 'no-label'
-  const labelIds = labels.map(l => l.id);
-  const groupKeys = [...labelIds, ...(groups['no-label'] ? ['no-label'] : [])];
+  // Build ordered group keys: all labels first, then 'no-label'
+  const labelIds = labels.map(label => label.id);
+  const groupKeys = [...labelIds, 'no-label'];
 
   const getLabelInfo = (key) => {
     if (key === 'no-label') {
       return {id: 'no-label', name: 'No label', color: NO_LABEL_COLOR};
     }
-    const label = labels.find(l => l.id === key);
-    return label ? label : {id: key, name: 'Unknown', color: NO_LABEL_COLOR};
+    return labels.find(label => label.id === key);
   };
 
   return (
