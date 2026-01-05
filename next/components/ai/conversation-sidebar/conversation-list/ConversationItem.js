@@ -59,8 +59,8 @@ function ConversationItem({
       const updatedConversation = await conversationLogic.updateConversationName(
         conversation.id, conversation.version, editName
       );
-      setConversations(prevConversations => prevConversations.map(prevConversation =>
-        prevConversation.id === updatedConversation.id ? updatedConversation : prevConversation
+      setConversations(convos => convos.map(convo =>
+        convo.id === updatedConversation.id ? updatedConversation : convo
       ));
       setIsEditing(false);
       setEditName('');
