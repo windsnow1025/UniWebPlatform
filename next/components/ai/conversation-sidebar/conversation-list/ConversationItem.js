@@ -59,8 +59,8 @@ function ConversationItem({
       const updatedConversation = await conversationLogic.updateConversationName(
         conversation.id, conversation.version, editName
       );
-      setConversations(prev => prev.map(c =>
-        c.id === updatedConversation.id ? updatedConversation : c
+      setConversations(prevConversations => prevConversations.map(prevConversation =>
+        prevConversation.id === updatedConversation.id ? updatedConversation : prevConversation
       ));
       setIsEditing(false);
       setEditName('');
@@ -121,14 +121,15 @@ function ConversationItem({
                   </Typography>
                 )}
               />
-              {(isLoading || isSaving) && (
-                <CircularProgress size={20} sx={{ml: 1}}/>
-              )}
             </div>
           )}
-          {isEditing ? (
+          {(isLoading || isSaving) ? (
+            <IconButton disabled size="small">
+              <CircularProgress size={20}/>
+            </IconButton>
+          ) : isEditing ? (
             <Tooltip title="Save (Enter)">
-              <IconButton onClick={handleSave} disabled={isSaving}>
+              <IconButton onClick={handleSave}>
                 <SaveOutlinedIcon/>
               </IconButton>
             </Tooltip>
