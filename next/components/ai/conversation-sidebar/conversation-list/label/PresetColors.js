@@ -1,13 +1,12 @@
 import {blue, brown, green, grey, orange, purple, red, yellow} from '@mui/material/colors';
 
 export const PRESET_COLORS = [
-  grey[400],
   red[400],
-  purple[400],
-  blue[400],
-  green[400],
-  yellow[600],
   orange[400],
+  yellow[400],
+  green[400],
+  blue[400],
+  purple[400],
   brown[400],
 ];
 

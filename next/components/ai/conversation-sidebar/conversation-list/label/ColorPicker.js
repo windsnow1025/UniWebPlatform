@@ -5,7 +5,7 @@ import {PRESET_COLORS} from './PresetColors';
 export default function ColorPicker({color, setColor, size = 24, stopPropagation = false}) {
   return (
     <Box sx={{display: 'flex', gap: 0.5, flexWrap: 'wrap', justifyContent: 'center'}}>
-      {PRESET_COLORS.slice(1).map((presetColor, idx) => (
+      {PRESET_COLORS.map((presetColor, idx) => (
         <Box
           key={idx}
           onClick={(e) => {

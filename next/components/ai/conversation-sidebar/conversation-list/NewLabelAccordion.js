@@ -21,7 +21,7 @@ function NewLabelAccordion({setLabels}) {
 
   const [expanded, setExpanded] = useState(false);
   const [name, setName] = useState('');
-  const [color, setColor] = useState(PRESET_COLORS[1]);
+  const [color, setColor] = useState(PRESET_COLORS[0]);
   const [isCreating, setIsCreating] = useState(false);
 
   // Alert state
@@ -46,7 +46,7 @@ function NewLabelAccordion({setLabels}) {
       const createdLabel = await labelLogic.createLabel(name.trim(), color);
       setLabels(prev => [...prev, createdLabel]);
       setName('');
-      setColor(PRESET_COLORS[1]);
+      setColor(PRESET_COLORS[0]);
       setExpanded(false);
       showAlert('Label created', 'success');
     } catch (err) {
