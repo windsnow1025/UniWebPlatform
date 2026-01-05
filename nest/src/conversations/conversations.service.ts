@@ -5,7 +5,7 @@ import {
   PreconditionFailedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
 import { UsersCoreService } from '../users/users.core.service';
 import {
@@ -13,12 +13,14 @@ import {
   ConversationUpdateTimeResDto,
 } from './dto/conversation.res.dto';
 import { Message } from './message.entity';
+import { ConversationsCoreService } from './conversations.core.service';
 
 @Injectable()
 export class ConversationsService {
   constructor(
     @InjectRepository(Conversation)
     private conversationsRepository: Repository<Conversation>,
+    private conversationsCoreService: ConversationsCoreService,
     private usersCoreService: UsersCoreService,
   ) {}
 
@@ -44,27 +46,6 @@ export class ConversationsService {
     if (ifMatch !== current) {
       throw new PreconditionFailedException('ETag mismatch');
     }
-  }
-
-  async find(userId: number) {
-    const conversationIds = await this.conversationsRepository
-      .createQueryBuilder('conversation')
-      .leftJoin('conversation.users', 'user')
-      .where('user.id = :userId', { userId })
-      .select('conversation.id')
-      .getMany();
-
-    const ids = conversationIds.map((conversation) => conversation.id);
-
-    if (ids.length === 0) {
-      return [];
-    }
-
-    return this.conversationsRepository.find({
-      where: { id: In(ids) },
-      relations: ['users'],
-      order: { updatedAt: 'DESC' },
-    });
   }
 
   async findOne(userId: number, id: number) {
@@ -107,7 +88,7 @@ export class ConversationsService {
   async findUpdateTimes(
     userId: number,
   ): Promise<ConversationUpdateTimeResDto[]> {
-    const conversations = await this.find(userId);
+    const conversations = await this.conversationsCoreService.find(userId);
 
     return conversations.map((conversation) => ({
       id: conversation.id,
