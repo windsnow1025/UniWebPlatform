@@ -20,15 +20,19 @@ import {
 } from './dto/conversation.req.dto';
 import { UserUsernameReqDto } from '../users/dto/user.req.dto';
 import { Public } from '../common/decorators/public.decorator';
+import { ConversationsCoreService } from './conversations.core.service';
 
 @Controller('conversations')
 export class ConversationsController {
-  constructor(private readonly service: ConversationsService) {}
+  constructor(
+    private readonly service: ConversationsService,
+    private readonly coreService: ConversationsCoreService,
+  ) {}
 
   @Get()
   async find(@Request() req: RequestWithUser) {
     const userId = req.user.id;
-    const conversations = await this.service.find(userId);
+    const conversations = await this.coreService.find(userId);
     return conversations.map((conversation) =>
       this.service.toConversationDto(conversation),
     );
