@@ -24,6 +24,8 @@ import { Announcement } from './announcement/announcement.entity';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { SystemPrompt } from './system-prompts/system-prompt.entity';
 import { SystemPromptsModule } from './system-prompts/system-prompts.module';
+import { Label } from './labels/label.entity';
+import { LabelsModule } from './labels/labels.module';
 
 @Module({
   imports: [
@@ -41,7 +43,14 @@ import { SystemPromptsModule } from './system-prompts/system-prompts.module';
         username: configService.get<string>('postgres.user'),
         password: configService.get<string>('postgres.password'),
         database: configService.get<string>('postgres.database'),
-        entities: [User, Conversation, Markdown, Announcement, SystemPrompt],
+        entities: [
+          User,
+          Conversation,
+          Markdown,
+          Announcement,
+          SystemPrompt,
+          Label,
+        ],
         synchronize: true,
       }),
     }),
@@ -83,6 +92,7 @@ import { SystemPromptsModule } from './system-prompts/system-prompts.module';
     MarkdownsModule,
     AnnouncementModule,
     SystemPromptsModule,
+    LabelsModule,
   ],
   controllers: [AppController],
   providers: [
