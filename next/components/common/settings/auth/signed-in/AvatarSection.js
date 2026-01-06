@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Avatar, Button, CircularProgress, Alert, Snackbar, Typography, Box } from '@mui/material';
+import React, {useEffect, useRef, useState} from 'react';
+import {Alert, Avatar, Box, Button, CircularProgress, Snackbar, Typography} from '@mui/material';
 import UserLogic from '../../../../../lib/common/user/UserLogic';
 import FileLogic from '../../../../../lib/common/file/FileLogic';
 import {useSession} from "@toolpad/core";
@@ -87,10 +87,25 @@ function AvatarSection() {
 
     try {
       setIsUpdating(true);
+
+      const oldAvatarUrl = avatar;
+
       const updatedUser = await userLogic.updateAvatar(previewUrl);
       setAvatar(updatedUser.avatar);
       showAlert('Avatar updated successfully', 'success');
       setPreviewUrl(null);
+
+      // Delete the old avatar file from storage if it exists
+      if (oldAvatarUrl) {
+        try {
+          const oldFilename = await fileLogic.getStorageFilenameFromUrl(oldAvatarUrl);
+          if (oldFilename) {
+            await fileLogic.deleteFiles([oldFilename]);
+          }
+        } catch (err) {
+          showAlert('Failed to delete old avatar file from storage', 'warning');
+        }
+      }
     } catch (error) {
       showAlert(error.message, 'error');
     } finally {
@@ -113,7 +128,7 @@ function AvatarSection() {
       <Avatar
         alt={`${username}'s Avatar`}
         src={avatar || 'placeholder.png'}
-        sx={{ width: 56, height: 56 }}
+        sx={{width: 56, height: 56}}
       />
 
       {previewUrl && previewUrl !== avatar && (
@@ -124,7 +139,7 @@ function AvatarSection() {
           <Avatar
             alt="Preview"
             src={previewUrl}
-            sx={{ width: 56, height: 56 }}
+            sx={{width: 56, height: 56}}
           />
         </Box>
       )}
@@ -132,7 +147,7 @@ function AvatarSection() {
       <input
         type="file"
         accept="image/*"
-        style={{ display: 'none' }}
+        style={{display: 'none'}}
         onChange={handleFileSelect}
         ref={fileInputRef}
       />
@@ -143,11 +158,11 @@ function AvatarSection() {
           onClick={handleClickSelectFile}
           disabled={isUploading || isUpdating}
           fullWidth
-          sx={{ whiteSpace: 'nowrap' }}
+          sx={{whiteSpace: 'nowrap'}}
         >
           {isUploading ? (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <CircularProgress size={24} sx={{ mr: 1 }} />
+            <Box sx={{display: 'flex', alignItems: 'center'}}>
+              <CircularProgress size={24} sx={{mr: 1}}/>
             </Box>
           ) : (
             'Upload'
@@ -160,9 +175,9 @@ function AvatarSection() {
           onClick={handleUpdateAvatar}
           disabled={!previewUrl || isUploading || isUpdating}
           fullWidth
-          sx={{ whiteSpace: 'nowrap' }}
+          sx={{whiteSpace: 'nowrap'}}
         >
-          {isUpdating ? <CircularProgress size={24} /> : 'Confirm'}
+          {isUpdating ? <CircularProgress size={24}/> : 'Confirm'}
         </Button>
       </div>
 
@@ -171,7 +186,7 @@ function AvatarSection() {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>
