@@ -86,7 +86,7 @@ function Index() {
         <BottomNavigationAction
           label="Email"
           icon={<EmailIcon/>}
-          onClick={() => window.location.href = 'mailto:windsnow1025@gmail.com'}
+          onClick={() => window.location.href = 'mailto:windsnow1025@windsnow1025.com'}
         />
         <BottomNavigationAction
           label="GitHub"
