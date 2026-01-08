@@ -34,6 +34,9 @@ function AccountDiv() {
           <Link href="/pricing/pricing" target="_blank" style={{color: 'white'}}>
             Pricing
           </Link>
+          <Link href="/pricing/purchase" target="_blank" style={{color: 'white'}}>
+            Purchase Credit
+          </Link>
         </Box>
       </Box>
 
