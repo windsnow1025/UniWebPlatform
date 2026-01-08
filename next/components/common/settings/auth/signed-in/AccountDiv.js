@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Link from "next/link";
 import {Box, Divider, Grid, Paper, Tab, Tabs, Typography, useTheme,} from "@mui/material";
 import {TabContext, TabPanel} from "@mui/lab";
 import CreditDiv from "./CreditSection";
@@ -28,7 +29,12 @@ function AccountDiv() {
         <Typography variant="h5" fontWeight="bold">
           Account Settings
         </Typography>
-        <CreditDiv/>
+        <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
+          <CreditDiv/>
+          <Link href="/pricing/pricing" target="_blank" style={{color: 'white'}}>
+            Pricing
+          </Link>
+        </Box>
       </Box>
 
       <TabContext value={tabValue}>
