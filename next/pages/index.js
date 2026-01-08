@@ -1,5 +1,15 @@
 import React from "react";
-import {BottomNavigation, BottomNavigationAction, Card, CardContent, Chip, Typography, useTheme} from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Typography,
+  useTheme
+} from "@mui/material";
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 import PolicyIcon from '@mui/icons-material/Policy';
@@ -73,15 +83,27 @@ function Index() {
           <Typography variant="h5" color="textSecondary">
             Featuring AI Studio and utilities
           </Typography>
-          <Chip
-            icon={<EmailIcon/>}
-            label="windsnow1025@windsnow1025.com"
+          <div className="flex-center gap-2 mt-2">
+            <Chip
+              icon={<EmailIcon/>}
+              label="windsnow1025@windsnow1025.com"
+              color="primary"
+              variant="outlined"
+              clickable
+              onClick={() => window.location.href = 'mailto:windsnow1025@windsnow1025.com'}
+              sx={{p: 1}}
+            />
+          </div>
+          <Button
+            variant="contained"
             color="primary"
-            variant="outlined"
-            clickable
-            onClick={() => window.location.href = 'mailto:windsnow1025@windsnow1025.com'}
-            sx={{mt: 2, p: 1}}
-          />
+            size="large"
+            startIcon={<LocalOfferIcon/>}
+            onClick={() => window.open('/pricing/pricing')}
+            sx={{mt: 2}}
+          >
+            View Pricing
+          </Button>
         </div>
 
         {/* Features Grid */}
