@@ -15,7 +15,7 @@ function Purchase() {
           </Typography>
           <Typography>
             Please contact{' '}
-            <a href="mailto:windsnow1025@gmail.com">windsnow1025@gmail.com</a>
+            <a href="mailto:windsnow1025@windsnow1025.com">windsnow1025@windsnow1025.com</a>
             {' '}to purchase credits.
           </Typography>
         </Paper>

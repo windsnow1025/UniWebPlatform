@@ -6,4 +6,4 @@ export const StorageKeys = {
   DeveloperMode: "developerMode",
 }
 
-export const AuthorEmail = "windsnow1025@gmail.com";
+export const AuthorEmail = "windsnow1025@windsnow1025.com";
