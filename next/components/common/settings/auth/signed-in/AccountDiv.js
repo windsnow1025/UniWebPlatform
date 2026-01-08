@@ -1,15 +1,6 @@
 import React, {useState} from 'react';
-import {
-  Typography,
-  Paper,
-  Grid,
-  Tabs,
-  Tab,
-  Box,
-  Divider,
-  useTheme,
-} from "@mui/material";
-import { TabContext, TabPanel } from "@mui/lab";
+import {Box, Divider, Grid, Paper, Tab, Tabs, Typography, useTheme,} from "@mui/material";
+import {TabContext, TabPanel} from "@mui/lab";
 import CreditDiv from "./CreditSection";
 import UsernameSection from "./UsernameSection";
 import EmailSection from "./EmailSection";
@@ -28,7 +19,7 @@ function AccountDiv() {
     <Paper elevation={3} sx={{borderRadius: 2, overflow: 'hidden'}}>
       <Box sx={{
         p: 3,
-        background: theme.vars.palette.primary.main,
+        background: `color-mix(in srgb, ${theme.vars.palette.primary.main}, black 25%)`,
         color: 'white',
         display: 'flex',
         alignItems: 'center',
@@ -42,7 +33,7 @@ function AccountDiv() {
 
       <TabContext value={tabValue}>
         <Grid container>
-          <Grid sx={{ borderRight: 1, borderColor: 'divider' }}>
+          <Grid sx={{borderRight: 1, borderColor: 'divider'}}>
             <div className="p-4 flex flex-col items-center">
               <AvatarSection/>
             </div>
