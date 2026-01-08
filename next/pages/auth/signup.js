@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
+import Link from "next/link";
 import UserLogic from "../../lib/common/user/UserLogic";
-import {Alert, Button, Paper, Snackbar, Typography} from "@mui/material";
+import {Alert, Button, Checkbox, FormControlLabel, FormGroup, Paper, Snackbar, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import {wait} from "../../components/common/utils/Wait";
 import Head from "next/head";
@@ -12,6 +13,8 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const router = useRouter();
   const userLogic = new UserLogic();
@@ -124,12 +127,47 @@ function SignUp() {
             helperText={!passwordsMatch ? "Passwords don't match" : ""}
           />
 
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={agreedToPrivacy}
+                  onChange={(e) => setAgreedToPrivacy(e.target.checked)}
+                />
+              }
+              label={
+                <Typography variant="body2">
+                  I agree to the{' '}
+                  <Link href="/legal/privacy" target="_blank">
+                    Privacy Policy
+                  </Link>
+                </Typography>
+              }
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                />
+              }
+              label={
+                <Typography variant="body2">
+                  I agree to the{' '}
+                  <Link href="/legal/terms" target="_blank">
+                    Terms &amp; Conditions
+                  </Link>
+                </Typography>
+              }
+            />
+          </FormGroup>
+
           <Button
             variant="contained"
             onClick={handleSignUp}
             size="large"
             fullWidth
-            disabled={!passwordsMatch}
+            disabled={!passwordsMatch || !agreedToPrivacy || !agreedToTerms}
           >
             Sign Up
           </Button>
