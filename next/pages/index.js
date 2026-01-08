@@ -81,6 +81,16 @@ function Index() {
             <FeatureCard key={index} {...feature} />
           ))}
         </div>
+
+        {/* AI Wrapper Disclaimer and Disclosure */}
+        <div className="text-center mt-2">
+          <Typography variant="body2" color="textSecondary">
+            Disclaimer: This platform is an independent product and is not affiliated with OpenAI, Google, Anthropic, xAI or any other AI model providers. We provide access to the various models through our custom interface.
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Disclosure: Our platform offers a user-friendly interface built on top of models like Gemini to enhance usability and provide additional features. We are an independent service and not affiliated with the model providers.
+          </Typography>
+        </div>
       </div>
       <BottomNavigation showLabels>
         <BottomNavigationAction
