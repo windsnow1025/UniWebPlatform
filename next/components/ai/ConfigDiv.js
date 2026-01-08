@@ -17,20 +17,20 @@ import useScreenSize from "../common/hooks/useScreenSize";
 import CreditSection from "../common/settings/auth/signed-in/CreditSection";
 
 function ConfigDiv({
-                       apiType,
-                       setApiType,
-                       model,
-                       setModel,
-                       temperature,
-                       setTemperature,
-                       stream,
-                       setStream,
-                       thought,
-                       setThought,
-                       codeExecution,
-                       setCodeExecution,
-                       refreshKey,
-                     }) {
+                     apiType,
+                     setApiType,
+                     model,
+                     setModel,
+                     temperature,
+                     setTemperature,
+                     stream,
+                     setStream,
+                     thought,
+                     setThought,
+                     codeExecution,
+                     setCodeExecution,
+                     refreshKey,
+                   }) {
   const screenSize = useScreenSize();
   const smallScreen = screenSize === 'xs';
 
@@ -123,7 +123,7 @@ function ConfigDiv({
             </Select>
           </FormControl>
         </div>
-        <CreditSection refreshKey={refreshKey}/>
+        <CreditSection refreshKey={refreshKey} decimalPlaces={5}/>
         {developerMode && (
           <>
             <div>
