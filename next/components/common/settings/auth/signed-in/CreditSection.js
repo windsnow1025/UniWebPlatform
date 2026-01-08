@@ -1,9 +1,9 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CircularProgress, Typography} from "@mui/material";
 import UserLogic from "../../../../../lib/common/user/UserLogic";
 import {StorageKeys} from "../../../../../lib/common/Constants";
 
-function CreditSection({ refreshKey = 0 }) {
+function CreditSection({refreshKey = 0, decimalPlaces = null}) {
   const userLogic = new UserLogic();
 
   const [credit, setCredit] = useState(null);
@@ -28,6 +28,12 @@ function CreditSection({ refreshKey = 0 }) {
     fetchCredit();
   }, [refreshKey]);
 
+  const formatCredit = (value) => {
+    if (value === null || value === "error") return value;
+    if (decimalPlaces === null) return value;
+    return Number(value).toFixed(decimalPlaces);
+  };
+
   if (loading) {
     return <CircularProgress/>;
   }
@@ -36,7 +42,7 @@ function CreditSection({ refreshKey = 0 }) {
     return <Typography>Sign in to view credits</Typography>;
   }
 
-  return <Typography>Credit: {credit}</Typography>;
+  return <Typography>Credit: {formatCredit(credit)}</Typography>;
 }
 
 export default CreditSection;
