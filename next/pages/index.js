@@ -1,5 +1,5 @@
 import React from "react";
-import {BottomNavigation, BottomNavigationAction, Card, CardContent, Paper, Typography, useTheme} from "@mui/material";
+import {BottomNavigation, BottomNavigationAction, Card, CardContent, Chip, Typography, useTheme} from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 import PolicyIcon from '@mui/icons-material/Policy';
@@ -73,6 +73,15 @@ function Index() {
           <Typography variant="h5" color="textSecondary">
             Featuring AI Studio and utilities
           </Typography>
+          <Chip
+            icon={<EmailIcon/>}
+            label="windsnow1025@windsnow1025.com"
+            color="primary"
+            variant="outlined"
+            clickable
+            onClick={() => window.location.href = 'mailto:windsnow1025@windsnow1025.com'}
+            sx={{mt: 2, p: 1}}
+          />
         </div>
 
         {/* Features Grid */}
@@ -85,10 +94,13 @@ function Index() {
         {/* AI Wrapper Disclaimer and Disclosure */}
         <div className="text-center mt-2">
           <Typography variant="body2" color="textSecondary">
-            Disclaimer: This platform is an independent product and is not affiliated with OpenAI, Google, Anthropic, xAI or any other AI model providers. We provide access to the various models through our custom interface.
+            Disclaimer: This platform is an independent product and is not affiliated with OpenAI, Google, Anthropic,
+            xAI or any other AI model providers. We provide access to the various models through our custom interface.
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            Disclosure: Our platform offers a user-friendly interface built on top of models like Gemini to enhance usability and provide additional features. We are an independent service and not affiliated with the model providers.
+            Disclosure: Our platform offers a user-friendly interface built on top of models like Gemini to enhance
+            usability and provide additional features. We are an independent service and not affiliated with the model
+            providers.
           </Typography>
         </div>
       </div>
