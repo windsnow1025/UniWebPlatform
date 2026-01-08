@@ -1,16 +1,21 @@
 import React, {useEffect, useState} from 'react';
+import Link from "next/link";
 import {
   Alert,
+  Box,
   FormControl,
   FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
+  Popover,
   Select,
   Slider,
   Snackbar,
   Switch,
   Typography
 } from "@mui/material";
+import {InfoOutlined} from "@mui/icons-material";
 import ChatLogic from "../../lib/chat/ChatLogic";
 import {StorageKeys} from "../../lib/common/Constants";
 import useScreenSize from "../common/hooks/useScreenSize";
@@ -45,6 +50,8 @@ function ConfigDiv({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
+
+  const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
     const fetchApiTypeModels = async () => {
@@ -123,7 +130,28 @@ function ConfigDiv({
             </Select>
           </FormControl>
         </div>
-        <CreditSection refreshKey={refreshKey} decimalPlaces={5}/>
+        <div className="flex-center">
+          <CreditSection refreshKey={refreshKey} decimalPlaces={5}/>
+          <IconButton size="small" onClick={(e) => setAnchorEl(e.currentTarget)}>
+            <InfoOutlined fontSize="small"/>
+          </IconButton>
+          <Popover
+            open={Boolean(anchorEl)}
+            anchorEl={anchorEl}
+            onClose={() => setAnchorEl(null)}
+            anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+            transformOrigin={{vertical: 'top', horizontal: 'center'}}
+          >
+            <Box sx={{p: 2, display: 'flex', flexDirection: 'column', gap: 1}}>
+              <Link href="/pricing/pricing" target="_blank">
+                Pricing
+              </Link>
+              <Link href="/pricing/purchase" target="_blank">
+                Purchase Credit
+              </Link>
+            </Box>
+          </Popover>
+        </div>
         {developerMode && (
           <>
             <div>

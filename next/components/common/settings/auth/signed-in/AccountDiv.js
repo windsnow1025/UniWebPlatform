@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Link from "next/link";
 import {Box, Divider, Grid, Paper, Tab, Tabs, Typography, useTheme,} from "@mui/material";
 import {TabContext, TabPanel} from "@mui/lab";
-import CreditDiv from "./CreditSection";
+import CreditSection from "./CreditSection";
 import UsernameSection from "./UsernameSection";
 import EmailSection from "./EmailSection";
 import PasswordSection from "./PasswordSection";
@@ -30,7 +30,7 @@ function AccountDiv() {
           Account Settings
         </Typography>
         <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
-          <CreditDiv/>
+          <CreditSection/>
           <Link href="/pricing/pricing" target="_blank" style={{color: 'white'}}>
             Pricing
           </Link>
