@@ -1,7 +1,9 @@
 import React from "react";
-import {Box, Card, CardContent, Link, Typography, useTheme} from "@mui/material";
+import {BottomNavigation, BottomNavigationAction, Card, CardContent, Paper, Typography, useTheme} from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
+import PolicyIcon from '@mui/icons-material/Policy';
+import GavelIcon from '@mui/icons-material/Gavel';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PasswordIcon from '@mui/icons-material/Password';
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -39,7 +41,7 @@ function Index() {
     {
       title: "AI Studio",
       description: "A multi-model AI tool, supporting full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, stream output.",
-      icon: <AutoAwesomeIcon />,
+      icon: <AutoAwesomeIcon/>,
     },
     {
       title: "Password & Encryption Tools",
@@ -49,7 +51,7 @@ function Index() {
     {
       title: "Markdown Blogs",
       description: "Blogs with Markdown and LaTeX support for personal usage.",
-      icon: <EditNoteIcon />,
+      icon: <EditNoteIcon/>,
     },
   ];
 
@@ -79,34 +81,29 @@ function Index() {
             <FeatureCard key={index} {...feature} />
           ))}
         </div>
-
-        {/* Contact Section */}
-        <Box className="text-center">
-          <Typography variant="h4" gutterBottom color="primary">
-            Connect With Me
-          </Typography>
-          <div className="flex-center gap-x-8">
-            <Link
-              href="mailto:windsnow1025@gmail.com"
-              className="flex-center space-x-2"
-              color="inherit"
-            >
-              <EmailIcon/>
-              <Typography>Email</Typography>
-            </Link>
-            <Link
-              href="https://github.com/windsnow1025/UniWebPlatform"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-center space-x-2"
-              color="inherit"
-            >
-              <GitHubIcon/>
-              <Typography>GitHub</Typography>
-            </Link>
-          </div>
-        </Box>
       </div>
+      <BottomNavigation showLabels>
+        <BottomNavigationAction
+          label="Email"
+          icon={<EmailIcon/>}
+          onClick={() => window.location.href = 'mailto:windsnow1025@gmail.com'}
+        />
+        <BottomNavigationAction
+          label="GitHub"
+          icon={<GitHubIcon/>}
+          onClick={() => window.open('https://github.com/windsnow1025/UniWebPlatform', '_blank')}
+        />
+        <BottomNavigationAction
+          label="Privacy"
+          icon={<PolicyIcon/>}
+          onClick={() => window.open('/legal/privacy')}
+        />
+        <BottomNavigationAction
+          label="Terms"
+          icon={<GavelIcon/>}
+          onClick={() => window.open('/legal/terms')}
+        />
+      </BottomNavigation>
     </div>
   );
 }
