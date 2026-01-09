@@ -11,6 +11,7 @@ import ConversationSidebar from "./conversation-sidebar/ConversationSidebar";
 import ToggleConversationButton from "./ToggleConversationButton";
 import useScreenSize from '../common/hooks/useScreenSize';
 import AIStudioTour from './AIStudioTour';
+import ScrollToBottomButton from './ScrollToBottomButton';
 import NewConversationButton from "./conversation-sidebar/NewConversationButton";
 import TemporaryChatButton from "./TemporaryChatButton";
 
@@ -213,6 +214,7 @@ function AIChat({
           </div>
         </div>
       </div>
+      <ScrollToBottomButton/>
       <AIStudioTour/>
     </div>
   );
