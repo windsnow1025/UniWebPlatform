@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
 import {Collapse, Drawer, Paper} from "@mui/material";
 
@@ -51,6 +51,21 @@ function AIChat({
 
   // Ref for handleGenerate function
   const handleGenerateRef = useRef(null);
+
+  // Refresh conversations when page becomes visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        setConversationLoadKey(prev => prev + 1);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <div className="local-scroll-container">
