@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**paymentControllerCreateCheckout**](#paymentcontrollercreatecheckout) | **POST** /payment/checkout | Create a Creem checkout session Returns a checkout URL to redirect the user to|
+|[**paymentControllerGetProducts**](#paymentcontrollergetproducts) | **GET** /payment/products | Get available products for purchase|
 |[**paymentControllerHandleCreemWebhook**](#paymentcontrollerhandlecreemwebhook) | **POST** /payment/webhook/creem | Creem Webhook endpoint Receives payment events from Creem and processes them|
 
 # **paymentControllerCreateCheckout**
@@ -55,6 +56,49 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**201** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **paymentControllerGetProducts**
+> object paymentControllerGetProducts()
+
+
+### Example
+
+```typescript
+import {
+    PaymentApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new PaymentApi(configuration);
+
+const { status, data } = await apiInstance.paymentControllerGetProducts();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**object**
+
+### Authorization
+
+[bearer](../README.md#bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

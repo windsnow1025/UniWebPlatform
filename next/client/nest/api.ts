@@ -2735,6 +2735,40 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Get available products for purchase
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentControllerGetProducts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/payment/products`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Creem Webhook endpoint Receives payment events from Creem and processes them
          * @param {string} creemSignature 
          * @param {*} [options] Override http request option.
@@ -2797,6 +2831,18 @@ export const PaymentApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get available products for purchase
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async paymentControllerGetProducts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentControllerGetProducts(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PaymentApi.paymentControllerGetProducts']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Creem Webhook endpoint Receives payment events from Creem and processes them
          * @param {string} creemSignature 
          * @param {*} [options] Override http request option.
@@ -2829,6 +2875,15 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Get available products for purchase
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentControllerGetProducts(options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.paymentControllerGetProducts(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Creem Webhook endpoint Receives payment events from Creem and processes them
          * @param {string} creemSignature 
          * @param {*} [options] Override http request option.
@@ -2853,6 +2908,16 @@ export class PaymentApi extends BaseAPI {
      */
     public paymentControllerCreateCheckout(checkoutReqDto: CheckoutReqDto, options?: RawAxiosRequestConfig) {
         return PaymentApiFp(this.configuration).paymentControllerCreateCheckout(checkoutReqDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get available products for purchase
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public paymentControllerGetProducts(options?: RawAxiosRequestConfig) {
+        return PaymentApiFp(this.configuration).paymentControllerGetProducts(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

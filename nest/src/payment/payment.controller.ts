@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Headers,
   Logger,
   Post,
@@ -16,6 +17,7 @@ import { Public } from '../common/decorators/public.decorator';
 import { CreemWebhookEvent } from './dto/webhook.dto';
 import { CheckoutReqDto } from './dto/checkout.req.dto';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
+import { ProductsDto } from './dto/product.res.dto';
 
 @Controller('payment')
 export class PaymentController {
@@ -25,6 +27,15 @@ export class PaymentController {
     private readonly paymentService: PaymentService,
     private readonly creemService: CreemService,
   ) {}
+
+  /**
+   * Get available products for purchase
+   */
+  @Public()
+  @Get('products')
+  getProducts(): ProductsDto {
+    return this.creemService.getProducts();
+  }
 
   /**
    * Create a Creem checkout session
@@ -51,7 +62,7 @@ export class PaymentController {
    * Receives payment events from Creem and processes them
    */
   @Public()
-  @Post('webhook/creem')
+  @Post('webhook')
   async handleCreemWebhook(
     @Headers('creem-signature') signature: string,
     @Req() request: RawBodyRequest<ExpressRequest>,

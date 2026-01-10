@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as crypto from 'crypto';
+import { ProductsDto } from './dto/product.res.dto';
 
 interface CreateCheckoutParams {
   productId: string;
@@ -21,16 +22,25 @@ export class CreemService {
   private readonly webhookSecret: string;
   private readonly apiKey: string;
   private readonly apiBaseUrl: string;
+  private readonly products: ProductsDto;
 
   constructor(private readonly configService: ConfigService) {
     this.webhookSecret = this.configService.get<string>('creem.webhookSecret')!;
     this.apiKey = this.configService.get<string>('creem.apiKey')!;
+    this.products = this.configService.get<ProductsDto>('creem.products')!;
 
     // Use test API in development
     const isProduction = this.configService.get<boolean>('isProduction');
     this.apiBaseUrl = isProduction
       ? 'https://api.creem.io'
       : 'https://test-api.creem.io';
+  }
+
+  /**
+   * Get available products
+   */
+  getProducts(): ProductsDto {
+    return this.products;
   }
 
   /**

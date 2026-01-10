@@ -22,6 +22,7 @@ from .markdown_req_dto import MarkdownReqDto
 from .markdown_res_dto import MarkdownResDto
 from .message import Message
 from .message_role import MessageRole
+from .payment_controller_get_products_response_200 import PaymentControllerGetProductsResponse200
 from .reduce_credit_req_dto import ReduceCreditReqDto
 from .system_prompt_name_req_dto import SystemPromptNameReqDto
 from .system_prompt_req_dto import SystemPromptReqDto
@@ -61,6 +62,7 @@ __all__ = (
     "MarkdownResDto",
     "Message",
     "MessageRole",
+    "PaymentControllerGetProductsResponse200",
     "ReduceCreditReqDto",
     "SystemPromptNameReqDto",
     "SystemPromptReqDto",
