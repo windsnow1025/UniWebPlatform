@@ -56,10 +56,7 @@ export default () => {
     creem: {
       apiKey: process.env.CREEM_API_KEY,
       webhookSecret: process.env.CREEM_WEBHOOK_SECRET,
-      products: JSON.parse(process.env.CREEM_PRODUCTS!) as Record<
-        string,
-        number
-      >,
+      products: JSON.parse(process.env.CREEM_PRODUCTS!),
     },
   };
 };
