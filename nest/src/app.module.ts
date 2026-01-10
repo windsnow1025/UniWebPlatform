@@ -26,6 +26,7 @@ import { SystemPrompt } from './system-prompts/system-prompt.entity';
 import { SystemPromptsModule } from './system-prompts/system-prompts.module';
 import { Label } from './labels/label.entity';
 import { LabelsModule } from './labels/labels.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -93,6 +94,7 @@ import { LabelsModule } from './labels/labels.module';
     AnnouncementModule,
     SystemPromptsModule,
     LabelsModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [
