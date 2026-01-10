@@ -25,7 +25,6 @@ export default () => {
   );
 
   return {
-    isProduction,
     port: isProduction ? 3000 : 3001,
     jwtSecret: process.env.JWT_SECRET,
     postgres: {
@@ -56,6 +55,7 @@ export default () => {
     frontendUrl: process.env.FRONTEND_URL,
     creem: {
       apiKey: process.env.CREEM_API_KEY,
+      apiUrl: process.env.CREEM_API_URL,
       webhookSecret: process.env.CREEM_WEBHOOK_SECRET,
       products: JSON.parse(process.env.CREEM_PRODUCTS!),
     },

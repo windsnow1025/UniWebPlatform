@@ -27,13 +27,8 @@ export class CreemService {
   constructor(private readonly configService: ConfigService) {
     this.webhookSecret = this.configService.get<string>('creem.webhookSecret')!;
     this.apiKey = this.configService.get<string>('creem.apiKey')!;
+    this.apiBaseUrl = this.configService.get<string>('creem.apiUrl')!;
     this.products = this.configService.get<ProductsDto>('creem.products')!;
-
-    // Use test API in development
-    const isProduction = this.configService.get<boolean>('isProduction');
-    this.apiBaseUrl = isProduction
-      ? 'https://api.creem.io'
-      : 'https://test-api.creem.io';
   }
 
   /**

@@ -105,6 +105,11 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: CREEM_WEBHOOK_SECRET
+            - name: CREEM_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: CREEM_API_URL
             - name: CREEM_PRODUCTS
               valueFrom:
                 secretKeyRef:
