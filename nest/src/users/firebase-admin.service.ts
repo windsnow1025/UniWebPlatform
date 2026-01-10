@@ -8,8 +8,9 @@ export class FirebaseAdminService {
   private readonly auth: Auth;
 
   constructor(private readonly configService: ConfigService) {
-    const serviceAccount =
-      this.configService.get<ServiceAccount>('firebase.serviceAccountKey')!;
+    const serviceAccount = this.configService.get<ServiceAccount>(
+      'firebase.serviceAccountKey',
+    )!;
     const app = admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     });
