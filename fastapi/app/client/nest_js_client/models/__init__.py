@@ -5,6 +5,7 @@ from .announcement_res_dto import AnnouncementResDto
 from .auth_token_email_req_dto import AuthTokenEmailReqDto
 from .auth_token_res_dto import AuthTokenResDto
 from .auth_token_username_req_dto import AuthTokenUsernameReqDto
+from .checkout_req_dto import CheckoutReqDto
 from .content import Content
 from .content_type import ContentType
 from .conversation_label_req_dto import ConversationLabelReqDto
@@ -43,6 +44,7 @@ __all__ = (
     "AuthTokenEmailReqDto",
     "AuthTokenResDto",
     "AuthTokenUsernameReqDto",
+    "CheckoutReqDto",
     "Content",
     "ContentType",
     "ConversationLabelReqDto",

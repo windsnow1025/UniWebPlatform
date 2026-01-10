@@ -41,6 +41,9 @@ export interface AuthTokenUsernameReqDto {
     'username': string;
     'password': string;
 }
+export interface CheckoutReqDto {
+    'productId': string;
+}
 export interface Content {
     'type': ContentTypeEnum;
     'data': string;
@@ -2680,6 +2683,187 @@ export class MarkdownsApi extends BaseAPI {
      */
     public markdownsControllerUpdate(id: number, ifMatch: string, markdownReqDto: MarkdownReqDto, options?: RawAxiosRequestConfig) {
         return MarkdownsApiFp(this.configuration).markdownsControllerUpdate(id, ifMatch, markdownReqDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PaymentApi - axios parameter creator
+ */
+export const PaymentApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Create a Creem checkout session Returns a checkout URL to redirect the user to
+         * @param {CheckoutReqDto} checkoutReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentControllerCreateCheckout: async (checkoutReqDto: CheckoutReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'checkoutReqDto' is not null or undefined
+            assertParamExists('paymentControllerCreateCheckout', 'checkoutReqDto', checkoutReqDto)
+            const localVarPath = `/payment/checkout`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(checkoutReqDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Creem Webhook endpoint Receives payment events from Creem and processes them
+         * @param {string} creemSignature 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentControllerHandleCreemWebhook: async (creemSignature: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'creemSignature' is not null or undefined
+            assertParamExists('paymentControllerHandleCreemWebhook', 'creemSignature', creemSignature)
+            const localVarPath = `/payment/webhook/creem`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            if (creemSignature != null) {
+                localVarHeaderParameter['creem-signature'] = String(creemSignature);
+            }
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PaymentApi - functional programming interface
+ */
+export const PaymentApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PaymentApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Create a Creem checkout session Returns a checkout URL to redirect the user to
+         * @param {CheckoutReqDto} checkoutReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async paymentControllerCreateCheckout(checkoutReqDto: CheckoutReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentControllerCreateCheckout(checkoutReqDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PaymentApi.paymentControllerCreateCheckout']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Creem Webhook endpoint Receives payment events from Creem and processes them
+         * @param {string} creemSignature 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async paymentControllerHandleCreemWebhook(creemSignature: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentControllerHandleCreemWebhook(creemSignature, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PaymentApi.paymentControllerHandleCreemWebhook']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PaymentApi - factory interface
+ */
+export const PaymentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PaymentApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Create a Creem checkout session Returns a checkout URL to redirect the user to
+         * @param {CheckoutReqDto} checkoutReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentControllerCreateCheckout(checkoutReqDto: CheckoutReqDto, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.paymentControllerCreateCheckout(checkoutReqDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Creem Webhook endpoint Receives payment events from Creem and processes them
+         * @param {string} creemSignature 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        paymentControllerHandleCreemWebhook(creemSignature: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.paymentControllerHandleCreemWebhook(creemSignature, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PaymentApi - object-oriented interface
+ */
+export class PaymentApi extends BaseAPI {
+    /**
+     * 
+     * @summary Create a Creem checkout session Returns a checkout URL to redirect the user to
+     * @param {CheckoutReqDto} checkoutReqDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public paymentControllerCreateCheckout(checkoutReqDto: CheckoutReqDto, options?: RawAxiosRequestConfig) {
+        return PaymentApiFp(this.configuration).paymentControllerCreateCheckout(checkoutReqDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Creem Webhook endpoint Receives payment events from Creem and processes them
+     * @param {string} creemSignature 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public paymentControllerHandleCreemWebhook(creemSignature: string, options?: RawAxiosRequestConfig) {
+        return PaymentApiFp(this.configuration).paymentControllerHandleCreemWebhook(creemSignature, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
