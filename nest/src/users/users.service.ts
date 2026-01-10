@@ -167,18 +167,6 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async reduceCredit(id: number, amount: number) {
-    const user = await this.usersCoreService.findOneById(id);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    user.credit -= amount;
-
-    await this.cacheManager.del(this.usersCoreService.getUserCacheKey(id));
-    return await this.usersRepository.save(user);
-  }
-
   async delete(id: number) {
     await this.conversationsCoreService.deleteOrphansByUserId(id);
 

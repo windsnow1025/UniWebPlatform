@@ -19,13 +19,13 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { AllowUnverifiedEmail } from '../common/decorators/allow-unverified-email.decorator';
 import { Role } from '../common/enums/role.enum';
 import {
+  ReduceCreditReqDto,
   UserAvatarReqDto,
+  UserEmailPasswordReqDto,
   UserEmailReqDto,
   UserPasswordReqDto,
   UserReqDto,
   UserUsernameReqDto,
-  ReduceCreditReqDto,
-  UserEmailPasswordReqDto,
 } from './dto/user.req.dto';
 import { UserResDto } from './dto/user.res.dto';
 import { UsersCoreService } from './users.core.service';
@@ -163,9 +163,9 @@ export class UsersController {
     @Body() reduceCreditReqDto: ReduceCreditReqDto,
   ) {
     const id = req.user.id;
-    const user = await this.usersService.reduceCredit(
+    const user = await this.usersCoreService.adjustCredit(
       id,
-      reduceCreditReqDto.amount,
+      -reduceCreditReqDto.amount,
     );
     return this.usersCoreService.toUserDto(user);
   }

@@ -94,4 +94,16 @@ export class UsersCoreService {
     await this.cacheManager.del(this.getUserCacheKey(user.id));
     return await this.usersRepository.save(user);
   }
+
+  async adjustCredit(id: number, amount: number) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.credit += amount;
+
+    await this.cacheManager.del(this.getUserCacheKey(id));
+    return await this.usersRepository.save(user);
+  }
 }
