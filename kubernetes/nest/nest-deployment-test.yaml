@@ -30,6 +30,11 @@ spec:
                 configMapKeyRef:
                   name: app-configmap
                   key: ENV
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
             - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
@@ -85,11 +90,6 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: REDIS_PASSWORD
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: JWT_SECRET
       volumes:
         - name: config-volume
           secret:

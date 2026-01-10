@@ -29,6 +29,11 @@ spec:
                 configMapKeyRef:
                   name: app-configmap
                   key: ENV
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
             - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
@@ -69,6 +74,11 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: MINIO_BUCKET_NAME
+            - name: MINIO_WEB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: MINIO_WEB_URL
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
@@ -79,16 +89,6 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: REDIS_PASSWORD
-            - name: MINIO_WEB_URL
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: MINIO_WEB_URL
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: JWT_SECRET
       volumes:
         - name: config-volume
           secret:
