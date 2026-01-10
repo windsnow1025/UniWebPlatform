@@ -1,20 +1,19 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
-import * as bodyParser from 'body-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    rawBody: true, // Enable raw body for webhook signature verification
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    rawBody: true,
   });
 
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
-
-  app.use(bodyParser.json({ limit: 'Infinity' }));
-  app.use(bodyParser.urlencoded({ limit: 'Infinity', extended: true }));
+  app.useBodyParser('json', { limit: 'Infinity' });
+  app.useBodyParser('urlencoded', { limit: 'Infinity', extended: true });
 
   const config = new DocumentBuilder()
     .setTitle('Nest JS')
