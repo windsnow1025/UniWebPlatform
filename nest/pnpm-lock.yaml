@@ -50,6 +50,9 @@ importers:
       class-validator:
         specifier: ^0.14.1
         version: 0.14.3
+      creem_io:
+        specifier: ^0.4.0
+        version: 0.4.0
       firebase:
         specifier: ^11.3.1
         version: 11.10.0
@@ -1852,6 +1855,10 @@ packages:
 
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+
+  creem_io@0.4.0:
+    resolution: {integrity: sha512-zw5CFxSb5RPHSphxP5fo5bZa79M84XisXZeORjFFhWwgdzL/JuS4hv+Xsnr8tIRAG2QBKdAQ0Pc4XQdn5+t4VQ==}
+    engines: {node: '>=16.0.0'}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -6104,6 +6111,8 @@ snapshots:
       - ts-node
 
   create-require@1.1.1: {}
+
+  creem_io@0.4.0: {}
 
   cross-spawn@7.0.6:
     dependencies:
