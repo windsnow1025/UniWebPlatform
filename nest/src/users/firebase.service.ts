@@ -16,7 +16,7 @@ export class FirebaseService {
 
   constructor(private readonly configService: ConfigService) {
     const firebaseConfig =
-      this.configService.get<FirebaseOptions>('firebaseConfig')!;
+      this.configService.get<FirebaseOptions>('firebase.config')!;
     const app = initializeApp(firebaseConfig);
     this.auth = getAuth(app);
   }
