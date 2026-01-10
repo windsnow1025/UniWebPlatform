@@ -26,6 +26,7 @@ export default () => {
 
   return {
     port: isProduction ? 3000 : 3001,
+    jwtSecret: process.env.JWT_SECRET,
     postgres: {
       host: process.env.POSTGRES_HOST,
       port: 5432,
@@ -47,8 +48,9 @@ export default () => {
       port: 6379,
       password: process.env.REDIS_PASSWORD,
     },
-    jwtSecret: process.env.JWT_SECRET,
-    firebaseConfig: firebaseConfig,
-    serviceAccountKey: serviceAccountKey,
+    firebase: {
+      config: firebaseConfig,
+      serviceAccountKey: serviceAccountKey,
+    },
   };
 };
