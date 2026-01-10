@@ -55,6 +55,7 @@ export default () => {
     frontendUrl: process.env.FRONTEND_URL,
     creem: {
       apiKey: process.env.CREEM_API_KEY,
+      webhookSecret: process.env.CREEM_WEBHOOK_SECRET,
       products: JSON.parse(process.env.CREEM_PRODUCTS!),
     },
   };
