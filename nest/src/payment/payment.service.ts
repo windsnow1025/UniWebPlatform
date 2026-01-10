@@ -1,9 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UsersCoreService } from '../users/users.core.service';
-import {
-  CreemCheckoutObject,
-  CreemWebhookEvent,
-} from './dto/creem-webhook.dto';
+import { CreemCheckoutObject, CreemWebhookEvent } from './dto/webhook.dto';
 
 @Injectable()
 export class PaymentService {

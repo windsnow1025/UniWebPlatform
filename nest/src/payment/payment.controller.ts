@@ -1,17 +1,21 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Headers,
   Logger,
   Post,
   RawBodyRequest,
   Req,
+  Request,
 } from '@nestjs/common';
-import { Request } from 'express';
+import { Request as ExpressRequest } from 'express';
 import { PaymentService } from './payment.service';
 import { CreemService } from './creem.service';
 import { Public } from '../common/decorators/public.decorator';
-import { CreemWebhookEvent } from './dto/creem-webhook.dto';
+import { CreemWebhookEvent } from './dto/webhook.dto';
+import { CheckoutReqDto } from './dto/checkout.req.dto';
+import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 
 @Controller('payment')
 export class PaymentController {
@@ -23,6 +27,26 @@ export class PaymentController {
   ) {}
 
   /**
+   * Create a Creem checkout session
+   * Returns a checkout URL to redirect the user to
+   */
+  @Post('checkout')
+  async createCheckout(
+    @Request() req: RequestWithUser,
+    @Body() dto: CheckoutReqDto,
+  ) {
+    const { id: userId, email } = req.user;
+
+    const result = await this.creemService.createCheckout({
+      productId: dto.productId,
+      userId,
+      email,
+    });
+
+    return result;
+  }
+
+  /**
    * Creem Webhook endpoint
    * Receives payment events from Creem and processes them
    */
@@ -30,7 +54,7 @@ export class PaymentController {
   @Post('webhook/creem')
   async handleCreemWebhook(
     @Headers('creem-signature') signature: string,
-    @Req() request: RawBodyRequest<Request>,
+    @Req() request: RawBodyRequest<ExpressRequest>,
   ) {
     // Get raw body for signature verification
     const rawBody = request.rawBody;

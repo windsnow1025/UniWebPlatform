@@ -25,6 +25,7 @@ export default () => {
   );
 
   return {
+    isProduction,
     port: isProduction ? 3000 : 3001,
     jwtSecret: process.env.JWT_SECRET,
     postgres: {
