@@ -4,7 +4,6 @@ import {
   Controller,
   Get,
   Headers,
-  Logger,
   Post,
   RawBodyRequest,
   Req,
@@ -21,16 +20,11 @@ import { ProductsDto } from './dto/product.res.dto';
 
 @Controller('payment')
 export class PaymentController {
-  private readonly logger = new Logger(PaymentController.name);
-
   constructor(
     private readonly paymentService: PaymentService,
     private readonly creemService: CreemService,
   ) {}
 
-  /**
-   * Get available products for purchase
-   */
   @Public()
   @Get('products')
   getProducts(): ProductsDto {
@@ -70,7 +64,6 @@ export class PaymentController {
     // Get raw body for signature verification
     const rawBody = request.rawBody;
     if (!rawBody) {
-      this.logger.error('Raw body is not available');
       throw new BadRequestException('Raw body is required');
     }
 
@@ -78,7 +71,6 @@ export class PaymentController {
 
     // Verify signature
     if (!signature) {
-      this.logger.warn('Missing creem-signature header');
       throw new BadRequestException('Missing signature');
     }
 
@@ -88,7 +80,6 @@ export class PaymentController {
 
     // Parse and process event
     const event: CreemWebhookEvent = JSON.parse(payload);
-    this.logger.log(`Received webhook event: ${event.eventType}`);
 
     await this.paymentService.handleWebhookEvent(event);
 
