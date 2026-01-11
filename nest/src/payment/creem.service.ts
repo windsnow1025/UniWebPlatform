@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as crypto from 'crypto';
-import { ProductsDto } from './dto/payment.res.dto';
+import { ProductResDto, Products } from './dto/payment.res.dto';
 
 @Injectable()
 export class CreemService {
+  private readonly frontendUrl: string;
   private readonly apiKey: string;
   private readonly webhookSecret: string;
   private readonly apiBaseUrl: string;
-  private readonly frontendUrl: string;
-  private readonly products: ProductsDto;
+  private readonly products: Products;
 
   constructor(private readonly configService: ConfigService) {
+    this.frontendUrl = this.configService.get<string>('frontendUrl')!;
     this.apiKey = this.configService.get<string>('creem.apiKey')!;
     this.webhookSecret = this.configService.get<string>('creem.webhookSecret')!;
     this.apiBaseUrl = this.configService.get<string>('creem.apiUrl')!;
-    this.frontendUrl = this.configService.get<string>('frontendUrl')!;
-    this.products = this.configService.get<ProductsDto>('creem.products')!;
+    this.products = this.configService.get<Products>('creem.products')!;
   }
 
-  getProducts(): ProductsDto {
-    return this.products;
+  getProducts(): ProductResDto[] {
+    return Object.entries(this.products).map(([id, credit]) => ({
+      id,
+      credit,
+    }));
   }
 
   verifySignature(payload: string, signature: string): boolean {

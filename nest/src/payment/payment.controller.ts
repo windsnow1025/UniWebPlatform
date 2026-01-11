@@ -16,7 +16,7 @@ import { Public } from '../common/decorators/public.decorator';
 import { CreemWebhookEvent } from './dto/webhook.dto';
 import { CheckoutReqDto } from './dto/payment.req.dto';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
-import { CheckoutResDto, ProductsDto } from './dto/payment.res.dto';
+import { CheckoutResDto, ProductResDto } from './dto/payment.res.dto';
 
 @Controller('payment')
 export class PaymentController {
@@ -27,14 +27,10 @@ export class PaymentController {
 
   @Public()
   @Get('products')
-  getProducts(): ProductsDto {
+  getProducts(): ProductResDto[] {
     return this.creemService.getProducts();
   }
 
-  /**
-   * Create a Creem checkout session
-   * Returns a checkout URL to redirect the user to
-   */
   @Post('checkout')
   async createCheckout(
     @Request() req: RequestWithUser,
@@ -51,17 +47,12 @@ export class PaymentController {
     return { checkoutUrl };
   }
 
-  /**
-   * Creem Webhook endpoint
-   * Receives payment events from Creem and processes them
-   */
   @Public()
   @Post('webhook')
   async handleCreemWebhook(
     @Headers('creem-signature') signature: string,
     @Req() request: RawBodyRequest<ExpressRequest>,
   ) {
-    // Get raw body for signature verification
     const rawBody = request.rawBody;
     if (!rawBody) {
       throw new BadRequestException('Raw body is required');
@@ -69,7 +60,6 @@ export class PaymentController {
 
     const payload = rawBody.toString('utf-8');
 
-    // Verify signature
     if (!signature) {
       throw new BadRequestException('Missing signature');
     }
@@ -78,12 +68,10 @@ export class PaymentController {
       throw new BadRequestException('Invalid signature');
     }
 
-    // Parse and process event
     const event: CreemWebhookEvent = JSON.parse(payload);
 
     await this.paymentService.handleWebhookEvent(event);
 
-    // Return 200 OK to acknowledge receipt
     return { received: true };
   }
 }
