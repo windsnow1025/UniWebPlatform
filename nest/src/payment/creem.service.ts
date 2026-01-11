@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as crypto from 'crypto';
-import { ProductsDto } from './dto/product.res.dto';
+import { ProductsDto } from './dto/payment.res.dto';
 
 @Injectable()
 export class CreemService {

@@ -14,9 +14,9 @@ import { PaymentService } from './payment.service';
 import { CreemService } from './creem.service';
 import { Public } from '../common/decorators/public.decorator';
 import { CreemWebhookEvent } from './dto/webhook.dto';
-import { CheckoutReqDto } from './dto/checkout.req.dto';
+import { CheckoutReqDto } from './dto/payment.req.dto';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
-import { ProductsDto } from './dto/product.res.dto';
+import { CheckoutResDto, ProductsDto } from './dto/payment.res.dto';
 
 @Controller('payment')
 export class PaymentController {
@@ -39,7 +39,7 @@ export class PaymentController {
   async createCheckout(
     @Request() req: RequestWithUser,
     @Body() dto: CheckoutReqDto,
-  ) {
+  ): Promise<CheckoutResDto> {
     const { id: userId, email } = req.user;
 
     const checkoutUrl = await this.creemService.createCheckout(
