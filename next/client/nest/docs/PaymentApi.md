@@ -5,11 +5,11 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**paymentControllerCreateCheckout**](#paymentcontrollercreatecheckout) | **POST** /payment/checkout | Create a Creem checkout session Returns a checkout URL to redirect the user to|
-|[**paymentControllerGetProducts**](#paymentcontrollergetproducts) | **GET** /payment/products | Get available products for purchase|
-|[**paymentControllerHandleCreemWebhook**](#paymentcontrollerhandlecreemwebhook) | **POST** /payment/webhook/creem | Creem Webhook endpoint Receives payment events from Creem and processes them|
+|[**paymentControllerGetProducts**](#paymentcontrollergetproducts) | **GET** /payment/products | |
+|[**paymentControllerHandleCreemWebhook**](#paymentcontrollerhandlecreemwebhook) | **POST** /payment/webhook | Creem Webhook endpoint Receives payment events from Creem and processes them|
 
 # **paymentControllerCreateCheckout**
-> paymentControllerCreateCheckout(checkoutReqDto)
+> CheckoutResDto paymentControllerCreateCheckout(checkoutReqDto)
 
 
 ### Example
@@ -40,7 +40,7 @@ const { status, data } = await apiInstance.paymentControllerCreateCheckout(
 
 ### Return type
 
-void (empty response body)
+**CheckoutResDto**
 
 ### Authorization
 
@@ -49,7 +49,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

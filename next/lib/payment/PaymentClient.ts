@@ -1,5 +1,5 @@
 import { getNestOpenAPIConfiguration } from "../common/APIConfig";
-import { PaymentApi } from "../../client/nest";
+import { CheckoutResDto, PaymentApi } from "../../client/nest";
 
 // Products format: { productId: credit }
 export type ProductsDto = Record<string, number>;
@@ -14,6 +14,6 @@ export default class PaymentClient {
   async createCheckout(productId: string): Promise<string> {
     const api = new PaymentApi(getNestOpenAPIConfiguration());
     const res = await api.paymentControllerCreateCheckout({ productId });
-    return (res.data as unknown as { checkoutUrl: string }).checkoutUrl;
+    return res.data.checkoutUrl;
   }
 }

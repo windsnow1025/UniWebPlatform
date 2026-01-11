@@ -14,6 +14,7 @@ docs/AuthTokenEmailReqDto.md
 docs/AuthTokenResDto.md
 docs/AuthTokenUsernameReqDto.md
 docs/CheckoutReqDto.md
+docs/CheckoutResDto.md
 docs/Content.md
 docs/ConversationLabelReqDto.md
 docs/ConversationNameReqDto.md

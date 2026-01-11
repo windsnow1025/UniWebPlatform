@@ -44,6 +44,9 @@ export interface AuthTokenUsernameReqDto {
 export interface CheckoutReqDto {
     'productId': string;
 }
+export interface CheckoutResDto {
+    'checkoutUrl': string;
+}
 export interface Content {
     'type': ContentTypeEnum;
     'data': string;
@@ -2735,7 +2738,6 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Get available products for purchase
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2777,7 +2779,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         paymentControllerHandleCreemWebhook: async (creemSignature: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'creemSignature' is not null or undefined
             assertParamExists('paymentControllerHandleCreemWebhook', 'creemSignature', creemSignature)
-            const localVarPath = `/payment/webhook/creem`;
+            const localVarPath = `/payment/webhook`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2823,7 +2825,7 @@ export const PaymentApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async paymentControllerCreateCheckout(checkoutReqDto: CheckoutReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async paymentControllerCreateCheckout(checkoutReqDto: CheckoutReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CheckoutResDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.paymentControllerCreateCheckout(checkoutReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PaymentApi.paymentControllerCreateCheckout']?.[localVarOperationServerIndex]?.url;
@@ -2831,7 +2833,6 @@ export const PaymentApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get available products for purchase
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2870,12 +2871,11 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentControllerCreateCheckout(checkoutReqDto: CheckoutReqDto, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        paymentControllerCreateCheckout(checkoutReqDto: CheckoutReqDto, options?: RawAxiosRequestConfig): AxiosPromise<CheckoutResDto> {
             return localVarFp.paymentControllerCreateCheckout(checkoutReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Get available products for purchase
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2912,7 +2912,6 @@ export class PaymentApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get available products for purchase
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */

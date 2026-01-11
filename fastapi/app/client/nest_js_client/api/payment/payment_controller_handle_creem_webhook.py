@@ -17,7 +17,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/payment/webhook/creem",
+        "url": "/payment/webhook",
     }
 
     _kwargs["headers"] = headers
