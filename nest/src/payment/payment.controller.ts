@@ -42,13 +42,13 @@ export class PaymentController {
   ) {
     const { id: userId, email } = req.user;
 
-    const result = await this.creemService.createCheckout({
-      productId: dto.productId,
+    const checkoutUrl = await this.creemService.createCheckout(
+      dto.productId,
       userId,
       email,
-    });
+    );
 
-    return result;
+    return { checkoutUrl };
   }
 
   /**
