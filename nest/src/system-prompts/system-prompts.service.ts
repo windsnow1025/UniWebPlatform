@@ -1,9 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  PreconditionFailedException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, PreconditionFailedException, } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SystemPrompt } from './system-prompt.entity';
@@ -29,16 +24,6 @@ export class SystemPromptsService {
       version: systemPrompt.version,
     };
     return systemPromptDto;
-  }
-
-  private assertIfMatch(systemPrompt: SystemPrompt, ifMatch?: string) {
-    if (!ifMatch) {
-      return;
-    }
-    const current = `${systemPrompt.version}`;
-    if (ifMatch !== current) {
-      throw new PreconditionFailedException('ETag mismatch');
-    }
   }
 
   async find(userId: number): Promise<SystemPrompt[]> {
@@ -125,5 +110,15 @@ export class SystemPromptsService {
     }
 
     return systemPrompt;
+  }
+
+  private assertIfMatch(systemPrompt: SystemPrompt, ifMatch?: string) {
+    if (!ifMatch) {
+      return;
+    }
+    const current = `${systemPrompt.version}`;
+    if (ifMatch !== current) {
+      throw new PreconditionFailedException('ETag mismatch');
+    }
   }
 }

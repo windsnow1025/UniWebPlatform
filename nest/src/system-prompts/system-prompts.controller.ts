@@ -13,8 +13,8 @@ import {
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { SystemPromptsService } from './system-prompts.service';
 import {
-  SystemPromptReqDto,
   SystemPromptNameReqDto,
+  SystemPromptReqDto,
 } from './dto/system-prompt.req.dto';
 
 @Controller('system-prompts')
@@ -30,7 +30,7 @@ export class SystemPromptsController {
     );
   }
 
-  @Get('/system-prompt/:id')
+  @Get('system-prompt/:id')
   async findOne(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -40,7 +40,7 @@ export class SystemPromptsController {
     return this.service.toSystemPromptDto(systemPrompt);
   }
 
-  @Post('/system-prompt')
+  @Post('system-prompt')
   async create(
     @Request() req: RequestWithUser,
     @Body() reqDto: SystemPromptReqDto,
@@ -54,7 +54,7 @@ export class SystemPromptsController {
     return this.service.toSystemPromptDto(systemPrompt);
   }
 
-  @Put('/system-prompt/:id')
+  @Put('system-prompt/:id')
   async update(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -72,7 +72,7 @@ export class SystemPromptsController {
     return this.service.toSystemPromptDto(systemPrompt);
   }
 
-  @Put('/system-prompt/:id/name')
+  @Put('system-prompt/:id/name')
   async updateName(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -89,7 +89,7 @@ export class SystemPromptsController {
     return this.service.toSystemPromptDto(systemPrompt);
   }
 
-  @Delete('/system-prompt/:id')
+  @Delete('system-prompt/:id')
   async delete(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,

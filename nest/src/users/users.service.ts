@@ -1,10 +1,4 @@
-import {
-  ConflictException,
-  Inject,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException, } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -28,12 +22,6 @@ export class UsersService {
     private readonly firebaseService: FirebaseService,
     private readonly firebaseAdminService: FirebaseAdminService,
   ) {}
-
-  private async hashPassword(password: string) {
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(password, salt);
-    return hash;
-  }
 
   findAll() {
     return this.usersRepository.find({
@@ -180,5 +168,11 @@ export class UsersService {
 
   async deleteAllFirebaseUsers() {
     await this.firebaseAdminService.deleteAllUsers();
+  }
+
+  private async hashPassword(password: string) {
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(password, salt);
+    return hash;
   }
 }

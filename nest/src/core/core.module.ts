@@ -10,9 +10,16 @@ import { FirebaseService } from '../users/firebase.service';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Conversation, Label]), ConfigModule],
-  providers: [UsersCoreService, ConversationsCoreService, LabelsCoreService, FirebaseService],
+  imports: [
+    TypeOrmModule.forFeature([User, Conversation, Label]),
+    ConfigModule,
+  ],
+  providers: [
+    UsersCoreService,
+    ConversationsCoreService,
+    LabelsCoreService,
+    FirebaseService,
+  ],
   exports: [UsersCoreService, ConversationsCoreService, LabelsCoreService],
 })
-export class CoreModule { }
-
+export class CoreModule {}

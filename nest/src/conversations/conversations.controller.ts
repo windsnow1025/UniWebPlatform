@@ -38,13 +38,13 @@ export class ConversationsController {
     );
   }
 
-  @Get('/update-times')
+  @Get('update-times')
   async findUpdateTimes(@Request() req: RequestWithUser) {
     const userId = req.user.id;
     return await this.service.findUpdateTimes(userId);
   }
 
-  @Get('/conversation/:id')
+  @Get('conversation/:id')
   async findOne(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -55,13 +55,13 @@ export class ConversationsController {
   }
 
   @Public()
-  @Get('/public/conversation/:id')
+  @Get('public/conversation/:id')
   async findPublicOne(@Param('id', ParseIntPipe) id: number) {
     const conversation = await this.service.findPublicOne(id);
     return this.service.toConversationDto(conversation);
   }
 
-  @Post('/conversation')
+  @Post('conversation')
   async create(
     @Request() req: RequestWithUser,
     @Body() reqDto: ConversationReqDto,
@@ -75,7 +75,7 @@ export class ConversationsController {
     return this.service.toConversationDto(conversation);
   }
 
-  @Post('/conversation/:id/clone')
+  @Post('conversation/:id/clone')
   async cloneForSpecificUser(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -90,7 +90,7 @@ export class ConversationsController {
     return this.service.toConversationDto(conversation);
   }
 
-  @Post('/conversation/:id/users')
+  @Post('conversation/:id/users')
   async addUserForUsers(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -107,7 +107,7 @@ export class ConversationsController {
     return this.service.toConversationDto(conversation);
   }
 
-  @Put('/conversation/:id')
+  @Put('conversation/:id')
   async update(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -125,7 +125,7 @@ export class ConversationsController {
     return this.service.toConversationDto(conversation);
   }
 
-  @Put('/conversation/:id/name')
+  @Put('conversation/:id/name')
   async updateName(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -142,7 +142,7 @@ export class ConversationsController {
     return this.service.toConversationDto(updatedConversation);
   }
 
-  @Put('/conversation/:id/public')
+  @Put('conversation/:id/public')
   async updatePublic(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -159,7 +159,7 @@ export class ConversationsController {
     return this.service.toConversationDto(updatedConversation);
   }
 
-  @Put('/conversation/:id/label')
+  @Put('conversation/:id/label')
   async updateLabelLink(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,
@@ -176,7 +176,7 @@ export class ConversationsController {
     return this.service.toConversationDto(updatedConversation);
   }
 
-  @Delete('/conversation/:id')
+  @Delete('conversation/:id')
   async delete(
     @Request() req: RequestWithUser,
     @Param('id', ParseIntPipe) id: number,

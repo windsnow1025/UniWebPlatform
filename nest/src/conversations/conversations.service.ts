@@ -1,17 +1,9 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  PreconditionFailedException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, PreconditionFailedException, } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Conversation } from './conversation.entity';
 import { UsersCoreService } from '../users/users.core.service';
-import {
-  ConversationResDto,
-  ConversationUpdateTimeResDto,
-} from './dto/conversation.res.dto';
+import { ConversationResDto, ConversationUpdateTimeResDto, } from './dto/conversation.res.dto';
 import { Message } from './message.entity';
 import { ConversationsCoreService } from './conversations.core.service';
 import { LabelsCoreService } from '../labels/labels.core.service';
@@ -41,16 +33,6 @@ export class ConversationsService {
       version: conversation.version,
     };
     return conversationDto;
-  }
-
-  private assertIfMatch(conversation: Conversation, ifMatch?: string) {
-    if (!ifMatch) {
-      return;
-    }
-    const current = `${conversation.version}`;
-    if (ifMatch !== current) {
-      throw new PreconditionFailedException('ETag mismatch');
-    }
   }
 
   async findOne(userId: number, id: number) {
@@ -227,5 +209,15 @@ export class ConversationsService {
     }
 
     return conversation;
+  }
+
+  private assertIfMatch(conversation: Conversation, ifMatch?: string) {
+    if (!ifMatch) {
+      return;
+    }
+    const current = `${conversation.version}`;
+    if (ifMatch !== current) {
+      throw new PreconditionFailedException('ETag mismatch');
+    }
   }
 }

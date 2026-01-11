@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FirebaseOptions, initializeApp } from 'firebase/app';
-import { Auth, getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import {
+  Auth,
   createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
   deleteUser,
+  getAuth,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword
 } from 'firebase/auth';
 
 @Injectable()
@@ -19,11 +21,6 @@ export class FirebaseService {
       this.configService.get<FirebaseOptions>('firebase.config')!;
     const app = initializeApp(firebaseConfig);
     this.auth = getAuth(app);
-  }
-
-  private async signInFirebaseUser(email: string, password: string) {
-    await signInWithEmailAndPassword(this.auth, email, password);
-    return this.auth.currentUser!;
   }
 
   async createFirebaseUser(email: string) {
@@ -71,5 +68,10 @@ export class FirebaseService {
 
   async sendFirebasePasswordResetEmail(email: string) {
     await sendPasswordResetEmail(this.auth, email);
+  }
+
+  private async signInFirebaseUser(email: string, password: string) {
+    await signInWithEmailAndPassword(this.auth, email, password);
+    return this.auth.currentUser!;
   }
 }
