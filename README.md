@@ -15,6 +15,7 @@ A full-stack web application for my personal website, featuring:
 - **Authentication**: Firebase (Email Verification)
 - **Infrastructure**: Linux (Debian 12), Kubernetes (K3S), Nginx
 - **DevOps**: GitHub Actions
+- **Payment**: Creem
 
 ## Live Demo
 
