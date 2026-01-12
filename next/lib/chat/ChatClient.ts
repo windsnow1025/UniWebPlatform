@@ -1,9 +1,9 @@
 import {ApiTypeModel, ChatResponse} from "./ChatResponse";
 import {getAPIBaseURLs, getFastAPIOpenAPIConfiguration} from "@/lib/common/APIConfig";
-import {fetchEventSource} from '@microsoft/fetch-event-source';
+import {EventSourceMessage, fetchEventSource} from '@microsoft/fetch-event-source';
 import {handleError} from "@/lib/common/ErrorHandler";
 import {DefaultApi, type ChatRequest, type Message} from "@/client/fastapi";
-import {AuthorEmail, StorageKeys} from "@/lib/common/Constants";
+import {StorageKeys} from "@/lib/common/Constants";
 
 export default class ChatClient {
   async nonStreamGenerate(
@@ -67,7 +67,7 @@ export default class ChatClient {
         'Authorization': `Bearer ${token}`
       },
       openWhenHidden: true,
-      async onopen(response) {
+      async onopen(response: Response) {
         if (onOpenCallback) {
           onOpenCallback();
         }
@@ -86,15 +86,11 @@ export default class ChatClient {
           if (resJson && resJson.detail) {
             message = resJson.detail;
           }
-          let finalMessage = "";
-          if (status === 402) {
-            finalMessage = `Please contact ${AuthorEmail}`;
-          }
 
-          throw new Error(`${status} ${statusText}: ${message}. ${finalMessage}`);
+          throw new Error(`${status} ${statusText}: ${message}.`);
         }
       },
-      onmessage(event) {
+      onmessage(event: EventSourceMessage) {
         const parsedData = JSON.parse(event.data);
         queue.push(parsedData);
         if (resolveQueue) {
@@ -108,7 +104,7 @@ export default class ChatClient {
           resolveQueue();
         }
       },
-      onerror(err) {
+      onerror(err: any) {
         errorOccurred = err;
         isDone = true;
         if (resolveQueue) {
