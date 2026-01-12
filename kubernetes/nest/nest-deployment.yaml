@@ -89,6 +89,31 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: REDIS_PASSWORD
+            - name: FRONTEND_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FRONTEND_URL
+            - name: CREEM_TEST_MODE
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: CREEM_TEST_MODE
+            - name: CREEM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: CREEM_API_KEY
+            - name: CREEM_WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: CREEM_WEBHOOK_SECRET
+            - name: CREEM_PRODUCTS
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: CREEM_PRODUCTS
       volumes:
         - name: config-volume
           secret:
