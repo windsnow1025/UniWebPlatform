@@ -29,7 +29,7 @@ export class MarkdownsController {
   }
 
   @Public()
-  @Get('/markdown/:id')
+  @Get('markdown/:id')
   async findOne(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<MarkdownResDto> {
@@ -40,14 +40,14 @@ export class MarkdownsController {
     return this.service.toMarkdownDto(markdown);
   }
 
-  @Post('/markdown')
+  @Post('markdown')
   @Roles([Role.Admin])
   async create(@Body() reqDto: MarkdownReqDto): Promise<MarkdownResDto> {
     const markdown = await this.service.create(reqDto.title, reqDto.content);
     return this.service.toMarkdownDto(markdown);
   }
 
-  @Put('/markdown/:id')
+  @Put('markdown/:id')
   @Roles([Role.Admin])
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -63,7 +63,7 @@ export class MarkdownsController {
     return this.service.toMarkdownDto(markdown);
   }
 
-  @Delete('/markdown/:id')
+  @Delete('markdown/:id')
   @Roles([Role.Admin])
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.service.delete(id);

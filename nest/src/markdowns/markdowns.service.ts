@@ -13,17 +13,7 @@ export class MarkdownsService {
   constructor(
     @InjectRepository(Markdown)
     private markdownsRepository: Repository<Markdown>,
-  ) { }
-
-  private assertIfMatch(markdown: Markdown, ifMatch?: string) {
-    if (!ifMatch) {
-      return;
-    }
-    const current = `${markdown.version}`;
-    if (ifMatch !== current) {
-      throw new PreconditionFailedException('ETag mismatch');
-    }
-  }
+  ) {}
 
   public toMarkdownDto(markdown: Markdown): MarkdownResDto {
     return {
@@ -79,5 +69,15 @@ export class MarkdownsService {
       throw new NotFoundException('Markdown not deleted');
     }
     return result;
+  }
+
+  private assertIfMatch(markdown: Markdown, ifMatch?: string) {
+    if (!ifMatch) {
+      return;
+    }
+    const current = `${markdown.version}`;
+    if (ifMatch !== current) {
+      throw new PreconditionFailedException('ETag mismatch');
+    }
   }
 }

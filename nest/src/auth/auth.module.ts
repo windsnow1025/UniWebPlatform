@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CoreModule } from '../core/core.module';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AppConfig } from '../../config/config.interface';
 
 @Module({
   imports: [
@@ -11,11 +12,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        global: true,
-        secret: configService.get<string>('jwtSecret'),
-        // signOptions: { expiresIn: '30d' },
-      }),
+      useFactory: async (
+        configService: ConfigService,
+      ): Promise<JwtModuleOptions> => {
+        const config = configService.get<AppConfig>('app')!;
+        return {
+          global: true,
+          secret: config.jwtSecret,
+        };
+      },
     }),
   ],
   providers: [AuthService],

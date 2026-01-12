@@ -43,16 +43,6 @@ export class ConversationsService {
     return conversationDto;
   }
 
-  private assertIfMatch(conversation: Conversation, ifMatch?: string) {
-    if (!ifMatch) {
-      return;
-    }
-    const current = `${conversation.version}`;
-    if (ifMatch !== current) {
-      throw new PreconditionFailedException('ETag mismatch');
-    }
-  }
-
   async findOne(userId: number, id: number) {
     const conversation = await this.conversationsRepository.findOne({
       where: { id },
@@ -227,5 +217,15 @@ export class ConversationsService {
     }
 
     return conversation;
+  }
+
+  private assertIfMatch(conversation: Conversation, ifMatch?: string) {
+    if (!ifMatch) {
+      return;
+    }
+    const current = `${conversation.version}`;
+    if (ifMatch !== current) {
+      throw new PreconditionFailedException('ETag mismatch');
+    }
   }
 }

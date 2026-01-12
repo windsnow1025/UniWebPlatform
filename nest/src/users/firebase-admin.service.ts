@@ -1,17 +1,17 @@
-import admin, { ServiceAccount } from 'firebase-admin';
+import admin from 'firebase-admin';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Auth, UserRecord } from 'firebase-admin/auth';
+import { AppConfig } from '../../config/config.interface';
 
 @Injectable()
 export class FirebaseAdminService {
   private readonly auth: Auth;
 
   constructor(private readonly configService: ConfigService) {
-    const serviceAccount =
-      this.configService.get<ServiceAccount>('firebase.serviceAccountKey')!;
+    const config = this.configService.get<AppConfig>('app')!;
     const app = admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
+      credential: admin.credential.cert(config.firebase.serviceAccountKey),
     });
     this.auth = app.auth();
   }

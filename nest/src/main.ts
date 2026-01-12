@@ -1,20 +1,22 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
-import * as bodyParser from 'body-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppConfig } from '../config/config.interface';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    rawBody: true,
+  });
 
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
+  app.useBodyParser('json', { limit: 'Infinity' });
+  app.useBodyParser('urlencoded', { limit: 'Infinity', extended: true });
 
-  app.use(bodyParser.json({ limit: 'Infinity' }));
-  app.use(bodyParser.urlencoded({ limit: 'Infinity', extended: true }));
-
-  const config = new DocumentBuilder()
+  const swaggerConfig = new DocumentBuilder()
     .setTitle('Nest JS')
     .setDescription('Nest JS API description')
     .setVersion('1.0')
@@ -22,12 +24,13 @@ async function bootstrap() {
     .addBearerAuth()
     .addSecurityRequirements('bearer')
     .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('docs', app, documentFactory);
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('port')!;
-  await app.listen(port);
+  const config = configService.get<AppConfig>('app')!;
+  await app.listen(config.port);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 
