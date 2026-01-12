@@ -13,6 +13,8 @@ docs/AuthApi.md
 docs/AuthTokenEmailReqDto.md
 docs/AuthTokenResDto.md
 docs/AuthTokenUsernameReqDto.md
+docs/CheckoutReqDto.md
+docs/CheckoutResDto.md
 docs/Content.md
 docs/ConversationLabelReqDto.md
 docs/ConversationNameReqDto.md
@@ -31,6 +33,8 @@ docs/MarkdownReqDto.md
 docs/MarkdownResDto.md
 docs/MarkdownsApi.md
 docs/Message.md
+docs/PaymentApi.md
+docs/ProductResDto.md
 docs/ReduceCreditReqDto.md
 docs/SystemPromptNameReqDto.md
 docs/SystemPromptReqDto.md
