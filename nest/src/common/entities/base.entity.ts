@@ -1,7 +1,7 @@
 import {
   CreateDateColumn,
-  UpdateDateColumn,
   DeleteDateColumn,
+  UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../common/enums/role.enum';
 import { BaseEntity } from '../common/entities/base.entity';
 import { ColumnNumericTransformer } from '../common/transformers/numeric.transformer';

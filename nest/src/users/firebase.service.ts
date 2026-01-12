@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { FirebaseOptions, initializeApp } from 'firebase/app';
-import { Auth, getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 import {
+  Auth,
   createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
   deleteUser,
+  getAuth,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
+import { AppConfig } from '../../config/config.interface';
 
 @Injectable()
 export class FirebaseService {
@@ -15,15 +18,9 @@ export class FirebaseService {
   private readonly firebaseUserPassword = 'FirebaseUserPassword';
 
   constructor(private readonly configService: ConfigService) {
-    const firebaseConfig =
-      this.configService.get<FirebaseOptions>('firebase.config')!;
-    const app = initializeApp(firebaseConfig);
+    const config = this.configService.get<AppConfig>('app')!;
+    const app = initializeApp(config.firebase.config);
     this.auth = getAuth(app);
-  }
-
-  private async signInFirebaseUser(email: string, password: string) {
-    await signInWithEmailAndPassword(this.auth, email, password);
-    return this.auth.currentUser!;
   }
 
   async createFirebaseUser(email: string) {
@@ -71,5 +68,14 @@ export class FirebaseService {
 
   async sendFirebasePasswordResetEmail(email: string) {
     await sendPasswordResetEmail(this.auth, email);
+  }
+
+  private async signInFirebaseUser(email: string, password: string) {
+    const userCredential = await signInWithEmailAndPassword(
+      this.auth,
+      email,
+      password,
+    );
+    return userCredential.user;
   }
 }

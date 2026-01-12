@@ -44,13 +44,13 @@ export class UsersController {
   }
 
   @AllowUnverifiedEmail()
-  @Get('/user')
+  @Get('user')
   async find(@Request() req: RequestWithUser): Promise<UserResDto> {
     return req.user;
   }
 
   @Public()
-  @Post('/user')
+  @Post('user')
   async create(@Body() userReqDto: UserReqDto) {
     const user = await this.usersService.create(
       userReqDto.username,
@@ -61,19 +61,19 @@ export class UsersController {
   }
 
   @AllowUnverifiedEmail()
-  @Post('/user/email-verification')
+  @Post('user/email-verification')
   async sendEmailVerification(@Body() userEmailReqDto: UserEmailReqDto) {
     await this.usersService.sendEmailVerification(userEmailReqDto.email);
   }
 
   @Public()
-  @Post('/user/password-reset-email')
+  @Post('user/password-reset-email')
   async sendPasswordResetEmail(@Body() userEmailReqDto: UserEmailReqDto) {
     await this.usersService.sendPasswordResetEmail(userEmailReqDto.email);
   }
 
   @AllowUnverifiedEmail()
-  @Put('/user/email-verified')
+  @Put('user/email-verified')
   async updateEmailVerified(@Request() req: RequestWithUser) {
     const user = await this.usersCoreService.updateEmailVerified(
       req.user.email,
@@ -82,7 +82,7 @@ export class UsersController {
   }
 
   @Public()
-  @Put('/user/reset-password')
+  @Put('user/reset-password')
   async updateResetPassword(@Body() reqDto: UserEmailPasswordReqDto) {
     const user = await this.usersService.updateResetPassword(
       reqDto.email,
@@ -92,7 +92,7 @@ export class UsersController {
   }
 
   @AllowUnverifiedEmail()
-  @Put('/user/email')
+  @Put('user/email')
   async updateEmail(
     @Request() req: RequestWithUser,
     @Body() userEmailReqDto: UserEmailReqDto,
@@ -102,7 +102,7 @@ export class UsersController {
     return this.usersCoreService.toUserDto(user);
   }
 
-  @Put('/user/username')
+  @Put('user/username')
   async updateUsername(
     @Request() req: RequestWithUser,
     @Body() userUsernameReqDto: UserUsernameReqDto,
@@ -115,7 +115,7 @@ export class UsersController {
     return this.usersCoreService.toUserDto(user);
   }
 
-  @Put('/user/password')
+  @Put('user/password')
   async updatePassword(
     @Request() req: RequestWithUser,
     @Body() userPasswordReqDto: UserPasswordReqDto,
@@ -132,7 +132,7 @@ export class UsersController {
     return this.usersCoreService.toUserDto(newUser);
   }
 
-  @Put('/user/avatar')
+  @Put('user/avatar')
   async updateAvatar(
     @Request() req: RequestWithUser,
     @Body() userAvatarReqDto: UserAvatarReqDto,
@@ -145,7 +145,7 @@ export class UsersController {
     return this.usersCoreService.toUserDto(user);
   }
 
-  @Put('/user/privileges')
+  @Put('user/privileges')
   @Roles([Role.Admin])
   async updatePrivileges(@Body() userPrivilegesReqDto: UserPrivilegesReqDto) {
     const user = await this.usersService.updatePrivileges(
@@ -157,7 +157,7 @@ export class UsersController {
     return this.usersCoreService.toUserDto(user);
   }
 
-  @Patch('/user/reduce-credit')
+  @Patch('user/reduce-credit')
   async reduceCredit(
     @Request() req: RequestWithUser,
     @Body() reduceCreditReqDto: ReduceCreditReqDto,
@@ -170,19 +170,19 @@ export class UsersController {
     return this.usersCoreService.toUserDto(user);
   }
 
-  @Delete('/user')
+  @Delete('user')
   delete(@Request() req: RequestWithUser) {
     const id = req.user.id;
     return this.usersService.delete(id);
   }
 
-  @Delete('/user/:id')
+  @Delete('user/:id')
   @Roles([Role.Admin])
   deleteById(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.delete(id);
   }
 
-  @Delete('/user/firebase')
+  @Delete('user/firebase')
   @Roles([Role.Admin])
   deleteAllFirebaseUsers() {
     return this.usersService.deleteAllFirebaseUsers();

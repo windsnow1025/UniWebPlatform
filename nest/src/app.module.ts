@@ -6,6 +6,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { CacheModule } from '@nestjs/cache-manager';
 import { createKeyv } from '@keyv/redis';
 import configuration from '../config/configuration';
+import { AppConfig } from '../config/config.interface';
 import { AuthGuard } from './common/guards/auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 import { EmailVerificationGuard } from './common/guards/email-verification.guard';
@@ -26,6 +27,7 @@ import { SystemPrompt } from './system-prompts/system-prompt.entity';
 import { SystemPromptsModule } from './system-prompts/system-prompts.module';
 import { Label } from './labels/label.entity';
 import { LabelsModule } from './labels/labels.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -36,33 +38,34 @@ import { LabelsModule } from './labels/labels.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('postgres.host'),
-        port: configService.get<number>('postgres.port'),
-        username: configService.get<string>('postgres.user'),
-        password: configService.get<string>('postgres.password'),
-        database: configService.get<string>('postgres.database'),
-        entities: [
-          User,
-          Conversation,
-          Markdown,
-          Announcement,
-          SystemPrompt,
-          Label,
-        ],
-        synchronize: true,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const config = configService.get<AppConfig>('app')!;
+        return {
+          type: 'postgres',
+          host: config.postgres.host,
+          port: config.postgres.port,
+          username: config.postgres.user,
+          password: config.postgres.password,
+          database: config.postgres.database,
+          entities: [
+            User,
+            Conversation,
+            Markdown,
+            Announcement,
+            SystemPrompt,
+            Label,
+          ],
+          synchronize: true,
+        };
+      },
     }),
     CacheModule.registerAsync({
       isGlobal: true,
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const redisHost = configService.get<string>('redis.host');
-        const redisPort = configService.get<number>('redis.port');
-        const redisPassword = configService.get<string>('redis.password')!;
-        const redisUrl = `redis://:${encodeURIComponent(redisPassword)}@${redisHost}:${redisPort}`;
+        const config = configService.get<AppConfig>('app')!;
+        const redisUrl = `redis://:${encodeURIComponent(config.redis.password)}@${config.redis.host}:${config.redis.port}`;
 
         const store = createKeyv(redisUrl);
 
@@ -93,6 +96,7 @@ import { LabelsModule } from './labels/labels.module';
     AnnouncementModule,
     SystemPromptsModule,
     LabelsModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,4 +1,4 @@
-import { IsString, IsUrl, IsNumber, Min } from 'class-validator';
+import { IsNumber, IsString, IsUrl, Min } from 'class-validator';
 
 export class UserReqDto {
   @IsString()

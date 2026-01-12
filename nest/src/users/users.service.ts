@@ -29,12 +29,6 @@ export class UsersService {
     private readonly firebaseAdminService: FirebaseAdminService,
   ) {}
 
-  private async hashPassword(password: string) {
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(password, salt);
-    return hash;
-  }
-
   findAll() {
     return this.usersRepository.find({
       order: { id: 'ASC' },
@@ -180,5 +174,11 @@ export class UsersService {
 
   async deleteAllFirebaseUsers() {
     await this.firebaseAdminService.deleteAllUsers();
+  }
+
+  private async hashPassword(password: string) {
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(password, salt);
+    return hash;
   }
 }

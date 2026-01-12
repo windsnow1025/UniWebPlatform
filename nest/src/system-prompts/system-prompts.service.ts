@@ -31,16 +31,6 @@ export class SystemPromptsService {
     return systemPromptDto;
   }
 
-  private assertIfMatch(systemPrompt: SystemPrompt, ifMatch?: string) {
-    if (!ifMatch) {
-      return;
-    }
-    const current = `${systemPrompt.version}`;
-    if (ifMatch !== current) {
-      throw new PreconditionFailedException('ETag mismatch');
-    }
-  }
-
   async find(userId: number): Promise<SystemPrompt[]> {
     return this.systemPromptsRepository.find({
       where: { user: { id: userId } },
@@ -125,5 +115,15 @@ export class SystemPromptsService {
     }
 
     return systemPrompt;
+  }
+
+  private assertIfMatch(systemPrompt: SystemPrompt, ifMatch?: string) {
+    if (!ifMatch) {
+      return;
+    }
+    const current = `${systemPrompt.version}`;
+    if (ifMatch !== current) {
+      throw new PreconditionFailedException('ETag mismatch');
+    }
   }
 }
