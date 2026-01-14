@@ -14,6 +14,9 @@ export function handleError(error: unknown, fallbackMessage: string): never {
       throw new Error(`Error ${status} ${statusText}: ${message}. ${finalMessage}`)
     }
   }
+  if (error && typeof error === "object" && "message" in error && typeof error.message === "string") {
+    throw new Error(error.message);
+  }
   console.error(error);
   throw new Error(fallbackMessage);
 }
