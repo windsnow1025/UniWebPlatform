@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import {
-  IconButton,
-  Paper,
-  Tooltip,
-  Typography,
+  Alert,
+  Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
-  DialogActions,
-  Button,
+  IconButton,
+  Paper,
   Snackbar,
-  Alert,
+  Tooltip,
+  Typography,
 } from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -47,7 +47,7 @@ const FileDiv = ({fileUrl, rawEditableState, onDelete}) => {
   if (rawEditableState === RawEditableState.AlwaysFalse) {
     return (
       <Paper key={fileUrl} className="p-2 m-2" variant="outlined">
-        <Typography variant="body2" gutterBottom>
+        <Typography variant="body2" className="break-all" gutterBottom>
           <a href={fileUrl} target="_blank" rel="noopener noreferrer">
             {fileName}
           </a>
@@ -62,7 +62,7 @@ const FileDiv = ({fileUrl, rawEditableState, onDelete}) => {
       <Paper key={fileUrl} className="p-2 flex-center">
         <div className="inflex-fill">
           <div className="flex-between">
-            <Typography variant="body2">
+            <Typography variant="body2" className="break-all">
               <a href={fileUrl} target="_blank" rel="noopener noreferrer">
                 {fileName}
               </a>
