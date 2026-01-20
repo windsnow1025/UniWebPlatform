@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import GuidedTour from '../common/GuidedTour';
 import IconButton from '@mui/material/IconButton';
 import {useTheme} from '@mui/material/styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import {lighten, Tooltip} from "@mui/material";
+import {Tooltip} from "@mui/material";
 
 const steps = [
   {
@@ -85,7 +85,7 @@ const AIStudioTour = () => {
   const [runTour, setRunTour] = useState(false);
 
   const handleTourCallback = useCallback((data) => {
-    const { status, type, index, action, lifecycle } = data;
+    const {status, type, index, action, lifecycle} = data;
 
     // Handle tour completion or skipping
     if (['finished', 'skipped'].includes(status)) {
@@ -118,14 +118,14 @@ const AIStudioTour = () => {
           size="large"
           onClick={() => setRunTour(true)}
           sx={{
-            position: 'fixed',
+            position: 'absolute',
             bottom: theme.spacing(2.5),
             right: theme.spacing(2.5),
             boxShadow: 10,
             backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.default}, white 10%)`,
           }}
         >
-          <HelpOutlineIcon />
+          <HelpOutlineIcon/>
         </IconButton>
       </Tooltip>
 

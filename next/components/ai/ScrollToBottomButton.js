@@ -23,7 +23,7 @@ const ScrollToBottomButton = () => {
         size="large"
         onClick={handleScrollToBottom}
         sx={{
-          position: 'fixed',
+          position: 'absolute',
           bottom: theme.spacing(2.5),
           left: theme.spacing(2.5),
           boxShadow: 10,
