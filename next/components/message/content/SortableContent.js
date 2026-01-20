@@ -127,7 +127,7 @@ function SortableContent({
 
   if (content.type === ContentTypeEnum.File) {
     return (
-      <div ref={setNodeRef} style={style} {...attributes} className="w-full">
+      <div ref={setNodeRef} style={style} {...attributes}>
         <div className="flex-start-center">
           {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
             <div
