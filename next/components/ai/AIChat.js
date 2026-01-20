@@ -122,7 +122,7 @@ function AIChat({
             </Collapse>
           </Paper>
         )}
-        <div className="local-scroll-unscrollable-y">
+        <div className="local-scroll-unscrollable-y relative">
           <div className="flex">
             <ToggleConversationButton
               drawerOpen={drawerOpen}
@@ -182,6 +182,9 @@ function AIChat({
             )}
           </Paper>
 
+          <ScrollToBottomButton/>
+          <AIStudioTour/>
+
           <div className="flex-around">
             <div className="flex-center">
               <SendButton
@@ -214,8 +217,6 @@ function AIChat({
           </div>
         </div>
       </div>
-      <ScrollToBottomButton/>
-      <AIStudioTour/>
     </div>
   );
 }
