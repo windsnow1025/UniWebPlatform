@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Link from "next/link";
-import {Box, Divider, Grid, Paper, Tab, Tabs, Typography, useTheme,} from "@mui/material";
+import {Divider, Tab, Tabs, Typography} from "@mui/material";
 import {TabContext, TabPanel} from "@mui/lab";
 import CreditSection from "./CreditSection";
 import UsernameSection from "./UsernameSection";
@@ -10,78 +10,68 @@ import AvatarSection from "./AvatarSection";
 
 function AccountDiv() {
   const [tabValue, setTabValue] = useState('0');
-  const theme = useTheme();
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
   return (
-    <Paper elevation={3} sx={{borderRadius: 2, overflow: 'hidden'}}>
-      <Box sx={{
-        p: 3,
-        background: `color-mix(in srgb, ${theme.vars.palette.primary.main}, black 25%)`,
-        color: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}>
-        <Typography variant="h5" fontWeight="bold">
-          Account Settings
-        </Typography>
-        <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
-          <CreditSection/>
-          <Link href="/pricing/pricing" target="_blank" style={{color: 'white'}}>
-            Pricing
-          </Link>
-          <Link href="/pricing/purchase" target="_blank" style={{color: 'white'}}>
-            Purchase Credit
-          </Link>
-        </Box>
-      </Box>
+    <div>
+      <h2>Account Settings</h2>
+
+      {/* Credit and Pricing Row */}
+      <div className="flex-normal gap-4 mb-2">
+        <CreditSection/>
+        <Link href="/pricing/pricing" target="_blank">
+          Pricing
+        </Link>
+        <Link href="/pricing/purchase" target="_blank">
+          Purchase Credit
+        </Link>
+      </div>
 
       <TabContext value={tabValue}>
-        <Grid container>
-          <Grid sx={{borderRight: 1, borderColor: 'divider'}}>
-            <div className="p-4 flex flex-col items-center">
-              <AvatarSection/>
-            </div>
-            <Divider/>
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
-              value={tabValue}
-              onChange={handleTabChange}
-            >
-              <Tab label="Email" value="0"/>
-              <Tab label="Username" value="1"/>
-              <Tab label="Password" value="2"/>
-            </Tabs>
-          </Grid>
+        {/* Horizontal Tabs */}
+        <Tabs
+          value={tabValue}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          <Tab label="Avatar" value="0"/>
+          <Tab label="Email" value="1"/>
+          <Tab label="Username" value="2"/>
+          <Tab label="Password" value="3"/>
+        </Tabs>
+        <Divider/>
 
-          <Grid>
-            <TabPanel value="0">
-              <Typography variant="h6" gutterBottom>
-                Email Settings
-              </Typography>
-              <EmailSection/>
-            </TabPanel>
-            <TabPanel value="1">
-              <Typography variant="h6" gutterBottom>
-                Update Username
-              </Typography>
-              <UsernameSection/>
-            </TabPanel>
-            <TabPanel value="2">
-              <Typography variant="h6" gutterBottom>
-                Change Password
-              </Typography>
-              <PasswordSection/>
-            </TabPanel>
-          </Grid>
-        </Grid>
+        {/* Tab Panels */}
+        <TabPanel value="0">
+          <Typography variant="h6" gutterBottom>
+            Update Avatar
+          </Typography>
+          <AvatarSection/>
+        </TabPanel>
+        <TabPanel value="1">
+          <Typography variant="h6" gutterBottom>
+            Email Settings
+          </Typography>
+          <EmailSection/>
+        </TabPanel>
+        <TabPanel value="2">
+          <Typography variant="h6" gutterBottom>
+            Update Username
+          </Typography>
+          <UsernameSection/>
+        </TabPanel>
+        <TabPanel value="3">
+          <Typography variant="h6" gutterBottom>
+            Change Password
+          </Typography>
+          <PasswordSection/>
+        </TabPanel>
       </TabContext>
-    </Paper>
+    </div>
   );
 }
 

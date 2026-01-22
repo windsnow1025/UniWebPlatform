@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Avatar, Box, Button, CircularProgress, Snackbar, Typography} from '@mui/material';
+import {Alert, Avatar, Button, CircularProgress, Snackbar, Typography} from '@mui/material';
 import UserLogic from '../../../../../lib/common/user/UserLogic';
 import FileLogic from '../../../../../lib/common/file/FileLogic';
 import {useSession} from "@toolpad/core";
@@ -120,7 +120,7 @@ function AvatarSection() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 mb-6">
+    <div className="flex-column-center gap-4 mb-6">
       <Typography variant="h6">
         {username}
       </Typography>
@@ -132,7 +132,7 @@ function AvatarSection() {
       />
 
       {previewUrl && previewUrl !== avatar && (
-        <Box className="flex flex-col items-center">
+        <div>
           <Typography variant="body2" gutterBottom>
             Preview:
           </Typography>
@@ -141,7 +141,7 @@ function AvatarSection() {
             src={previewUrl}
             sx={{width: 56, height: 56}}
           />
-        </Box>
+        </div>
       )}
 
       <input
@@ -152,21 +152,14 @@ function AvatarSection() {
         ref={fileInputRef}
       />
 
-      <div className="flex flex-col sm:flex-row gap-2 w-full">
+      <div className="flex-normal gap-2">
         <Button
           variant="outlined"
           onClick={handleClickSelectFile}
           disabled={isUploading || isUpdating}
-          fullWidth
-          sx={{whiteSpace: 'nowrap'}}
+          sx={{flex: 1}}
         >
-          {isUploading ? (
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
-              <CircularProgress size={24} sx={{mr: 1}}/>
-            </Box>
-          ) : (
-            'Upload'
-          )}
+          {isUploading ? <CircularProgress size={24}/> : 'Upload'}
         </Button>
 
         <Button
@@ -174,8 +167,7 @@ function AvatarSection() {
           color="primary"
           onClick={handleUpdateAvatar}
           disabled={!previewUrl || isUploading || isUpdating}
-          fullWidth
-          sx={{whiteSpace: 'nowrap'}}
+          sx={{flex: 1}}
         >
           {isUpdating ? <CircularProgress size={24}/> : 'Confirm'}
         </Button>
