@@ -85,6 +85,13 @@ nextjs-portal {
     flex-direction: column;
 }
 
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .flex-stretch {
     display: flex;
     align-items: stretch;
