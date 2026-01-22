@@ -29,7 +29,7 @@
     "@toolpad/core": "^0.16.0",
     "axios": "1.12.0",
     "crypto-js": "^4.2.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "markdown-latex-renderer": "^1.6.0-alpha.3",
     "mime": "^4.0.7",
     "next": "^15.5.7",
