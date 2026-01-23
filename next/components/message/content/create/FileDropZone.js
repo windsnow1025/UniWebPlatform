@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Paper, Snackbar, Typography, useTheme } from '@mui/material';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Alert, Paper, Snackbar, Typography, useTheme} from '@mui/material';
 import FileLogic from "../../../../lib/common/file/FileLogic";
 import useScreenSize from "../../../common/hooks/useScreenSize";
 
-function FileDropZone({ setFiles, isUploading, setIsUploading }) {
+function FileDropZone({setFiles, isUploading, setIsUploading}) {
   const theme = useTheme();
   const screenSize = useScreenSize();
-  const smallScreen = screenSize === 'xs';
+  const smScreen = screenSize === 'sm' || screenSize === 'xs';
 
   const [isDragging, setIsDragging] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -214,7 +214,7 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
             ? "Release to add files or folders"
             : isFocused
               ? "Press Ctrl+V to paste files"
-              : (smallScreen ? "Drop / Paste" : "Drop files or folders, Paste files")}
+              : (smScreen ? "Drop / Paste" : "Drop files or folders, Paste files")}
         </Typography>
       </Paper>
       <Snackbar
@@ -222,7 +222,7 @@ function FileDropZone({ setFiles, isUploading, setIsUploading }) {
         autoHideDuration={6000}
         onClose={() => setAlertOpen(false)}
       >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
           {alertMessage}
         </Alert>
       </Snackbar>
