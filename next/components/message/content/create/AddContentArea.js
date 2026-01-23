@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
-import {Box, Divider} from "@mui/material";
+import {Divider} from "@mui/material";
 import FilesUpload from './FilesUpload';
 import AudioRecord from './AudioRecord';
 import FileDropZone from './FileDropZone';
 import UrlAdd from './UrlAdd';
 import {ContentTypeEnum} from "../../../../client/nest";
 import AddTextButton from "./AddTextButton";
+import useScreenSize from "../../../common/hooks/useScreenSize";
 
 function AddContentArea({contents, setContents}) {
+  const screenSize = useScreenSize();
+  const xsScreen = screenSize === 'xs';
+
   const [isUploading, setIsUploading] = useState(false);
 
   const handleAddFiles = (fileUrls) => {
@@ -56,13 +60,15 @@ function AddContentArea({contents, setContents}) {
             isUploading={isUploading}
           />
 
-          <div className="flex-1">
-            <FileDropZone
-              setFiles={handleAddFiles}
-              isUploading={isUploading}
-              setIsUploading={setIsUploading}
-            />
-          </div>
+          {xsScreen ? null : (
+            <div className="flex-1">
+              <FileDropZone
+                setFiles={handleAddFiles}
+                isUploading={isUploading}
+                setIsUploading={setIsUploading}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
