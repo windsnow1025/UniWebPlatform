@@ -1,3 +1,5 @@
+# https://docs.astral.sh/uv/guides/integration/github/
+
 name: FastAPI test
 
 permissions:
