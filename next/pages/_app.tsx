@@ -44,7 +44,7 @@ const NAVIGATION: Navigation = [
   },
   {
     segment: 'ai',
-    title: 'AI Studio',
+    title: 'PolyFlexLLM',
     icon: <AutoAwesomeIcon />,
   },
   {

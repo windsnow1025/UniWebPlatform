@@ -49,8 +49,8 @@ function FeatureCard({title, description, icon}) {
 function Index() {
   const features = [
     {
-      title: "AI Studio",
-      description: "A multi-model AI tool, supporting full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, stream output.",
+      title: "PolyFlexLLM",
+      description: "A unified web UI for native interactions with various LLM providers (OpenAI, Gemini, Claude, Grok), offering full context control, Markdown + LaTeX rendering, multimodal I/O, file processing, and stream output.",
       icon: <AutoAwesomeIcon/>,
     },
     {
@@ -81,7 +81,7 @@ function Index() {
             Windsnow1025
           </Typography>
           <Typography variant="h5" color="textSecondary">
-            Featuring AI Studio and utilities
+            Featuring PolyFlexLLM and utilities
           </Typography>
           <div className="flex-center gap-2 mt-2">
             <Chip

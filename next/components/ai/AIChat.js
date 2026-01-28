@@ -73,9 +73,9 @@ function AIChat({
       <Head>
         <meta
           name="description"
-          content="AI Studio - Windsnow1025, a multi-model AI tool. Support full control of conversations, Markdown + LaTeX rendering, multimodal input and output, file processing, stream output."
+          content="PolyFlexLLM by windsnow1025. A unified web UI for native interactions with various LLM providers (OpenAI, Gemini, Claude, Grok), offering full context control, Markdown + LaTeX rendering, multimodal I/O, file processing, and stream output."
         />
-        <title>AI Studio - Windsnow1025</title>
+        <title>PolyFlexLLM - Windsnow1025</title>
       </Head>
       <div className="local-scroll-unscrollable-x">
         {screenSize === 'xs' || screenSize === 'sm' ? (
