@@ -3,7 +3,7 @@
 ## Introduction
 
 A full-stack web application for my personal website, featuring:
-1. AI Studio
+1. PolyFlexLLM
 2. Markdown-based Blogs
 3. Password Generator & AES Enctyption / Decryption
 

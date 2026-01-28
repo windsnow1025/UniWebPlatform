@@ -22,7 +22,7 @@ $$
 
 ### Where to Find Model Prices
 
-You can view the input and output price per 1M tokens for each model in the **model dropdown** on the **AI Studio** page.
+You can view the input and output price per 1M tokens for each model in the **model dropdown** on the **PolyFlexLLM** page.
 
 ## Important Notes
 

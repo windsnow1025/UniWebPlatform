@@ -8,7 +8,7 @@ import {Tooltip} from "@mui/material";
 const steps = [
   {
     target: 'body',
-    content: 'Welcome to the AI Studio! This tour will guide you through the main features.',
+    content: 'Welcome to the PolyFlexLLM! This tour will guide you through the main features.',
     placement: 'center',
     disableBeacon: true,
   },
@@ -75,7 +75,7 @@ const steps = [
   },
   {
     target: 'body',
-    content: 'That\'s it! You\'re now ready to use the AI Studio. Enjoy exploring!',
+    content: 'That\'s it! You\'re now ready to use the PolyFlexLLM. Enjoy exploring!',
     placement: 'center',
   },
 ];
