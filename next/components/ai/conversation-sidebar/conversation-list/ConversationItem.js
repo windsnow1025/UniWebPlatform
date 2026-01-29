@@ -67,8 +67,11 @@ function ConversationItem({
       showAlert('Conversation name updated', 'success');
     } catch (err) {
       showAlert(err.message, 'error');
-    } finally {
-      setIsSaving(false);
+    }
+    setIsSaving(false);
+
+    if (document.activeElement) {
+      document.activeElement.blur();
     }
   };
 
@@ -79,14 +82,11 @@ function ConversationItem({
 
   return (
     <>
-      <ListItem
-        dense
-        disablePadding
-        sx={{
-          bgcolor: isSelected ? 'action.selected' : 'inherit',
-        }}
-      >
-        <ListItemButton onClick={() => onSelect(conversation.id)}>
+      <ListItem dense disablePadding>
+        <ListItemButton
+          onClick={() => onSelect(conversation.id)}
+          selected={isSelected}
+        >
           {isEditing ? (
             <TextField
               value={editName}
