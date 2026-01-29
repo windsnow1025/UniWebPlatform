@@ -19,4 +19,10 @@ spec:
           image: windsnow1025/next
           ports:
             - containerPort: 3000
+          env:
+            - name: FRONTEND_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FRONTEND_URL
   revisionHistoryLimit: 0
