@@ -20,4 +20,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
+          env:
+            - name: FRONTEND_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: FRONTEND_URL
   revisionHistoryLimit: 0
