@@ -1,54 +1,55 @@
 import type {MetadataRoute} from "next";
-import {BaseUrl} from "@/lib/common/Constants";
+import {getBaseUrl} from "@/lib/common/Constants";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = getBaseUrl();
   return [
     {
-      url: BaseUrl,
+      url: baseUrl,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/auth/signin`,
+      url: `${baseUrl}/auth/signin`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/auth/signup`,
+      url: `${baseUrl}/auth/signup`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/auth/password-reset`,
+      url: `${baseUrl}/auth/password-reset`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/legal/privacy`,
+      url: `${baseUrl}/legal/privacy`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/legal/terms`,
+      url: `${baseUrl}/legal/terms`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/settings`,
+      url: `${baseUrl}/settings`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/pricing/pricing`,
+      url: `${baseUrl}/pricing/pricing`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/pricing/purchase`,
+      url: `${baseUrl}/pricing/purchase`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/ai`,
+      url: `${baseUrl}/ai`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/password`,
+      url: `${baseUrl}/password`,
       lastModified: new Date(),
     },
     {
-      url: `${BaseUrl}/blog`,
+      url: `${baseUrl}/blog`,
       lastModified: new Date(),
     },
   ];
