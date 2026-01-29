@@ -8,14 +8,12 @@ export const StorageKeys = {
 
 export const AuthorEmail = "windsnow1025@windsnow1025.com";
 
-let baseUrl = "";
-if (process.env.NODE_ENV === "production") {
-  if (!process.env.FRONTEND_URL) {
-    throw new Error("FRONTEND_URL environment variable is not set");
+export const getBaseUrl = (): string => {
+  if (process.env.NODE_ENV === "production") {
+    if (!process.env.FRONTEND_URL) {
+      throw new Error("FRONTEND_URL environment variable is not set");
+    }
+    return process.env.FRONTEND_URL;
   }
-  baseUrl = process.env.FRONTEND_URL;
-} else {
-  baseUrl = "http://localhost:3000";
-}
-
-export const BaseUrl = baseUrl;
+  return "http://localhost:3000";
+};
