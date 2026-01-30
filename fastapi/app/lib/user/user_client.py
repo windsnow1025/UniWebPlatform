@@ -17,7 +17,7 @@ async def get_user(token: str) -> UserResDto:
         raise HTTPException(status_code=e.status_code, detail=e.content.decode(errors='ignore'))
 
 
-async def reduce_user_credit(amount: float, token: str) -> UserResDto:
+async def reduce_user_credit(token: str, amount: float) -> UserResDto:
     client = get_client(token)
     try:
         async with client as client:
