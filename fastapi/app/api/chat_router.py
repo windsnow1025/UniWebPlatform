@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from typing import Any, Optional
 
 import app.lib.auth as auth
+from app.client.nest_js_client.models import UserResDto
 from app.lib.chat.chat_service import handle_chat_interaction
 from app.lib.user import user_logic
 
@@ -31,13 +32,13 @@ async def generate(
         credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     try:
-        token = credentials.credentials
-        user_id = auth.get_user_id_from_token(token)
+        token: str = credentials.credentials
+        user_id: str = auth.get_user_id_from_token(token)
 
         if find_model_prices(chat_request.api_type, chat_request.model) is None:
             raise HTTPException(status_code=400, detail="Invalid API Type and Model combination")
 
-        user = await user_logic.get_user(token)
+        user: UserResDto = await user_logic.get_user(token)
         if not user.email_verified:
             raise HTTPException(status_code=401, detail="Email not verified")
         if user.credit <= 0:

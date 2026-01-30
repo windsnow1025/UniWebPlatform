@@ -8,7 +8,7 @@ from ...client.nest_js_client.models.reduce_credit_req_dto import ReduceCreditRe
 from ...config import get_client
 
 
-async def get_user(token: str = None) -> UserResDto:
+async def get_user(token: str) -> UserResDto:
     client = get_client(token)
     try:
         async with client as client:
@@ -17,7 +17,7 @@ async def get_user(token: str = None) -> UserResDto:
         raise HTTPException(status_code=e.status_code, detail=e.content.decode(errors='ignore'))
 
 
-async def reduce_user_credit(amount: float, token: str = None) -> UserResDto:
+async def reduce_user_credit(amount: float, token: str) -> UserResDto:
     client = get_client(token)
     try:
         async with client as client:
