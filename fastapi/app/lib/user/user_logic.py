@@ -23,9 +23,9 @@ async def get_user(token: str) -> UserResDto:
         raise HTTPException(status_code=500, detail=detail)
 
 
-async def reduce_credit(cost: float, token: str) -> float:
+async def reduce_credit(token: str, cost: float) -> float:
     try:
-        user_res_dto: UserResDto = await user_client.reduce_user_credit(cost, token)
+        user_res_dto: UserResDto = await user_client.reduce_user_credit(token, cost)
         return user_res_dto.credit
     except HTTPException as e:
         raise e

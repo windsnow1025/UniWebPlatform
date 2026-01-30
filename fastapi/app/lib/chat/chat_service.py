@@ -32,7 +32,7 @@ async def handle_chat_interaction(
             input_tokens=input_tokens,
             output_tokens=output_tokens,
         )
-        await user_logic.reduce_credit(cost, token)
+        await user_logic.reduce_credit(token, cost)
         return cost
 
     api_keys = {
