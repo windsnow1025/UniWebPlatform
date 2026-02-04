@@ -56,6 +56,8 @@ import { PaymentModule } from './payment/payment.module';
             Label,
           ],
           synchronize: true,
+          logging: ['query', 'error'],
+          logger: 'advanced-console',
         };
       },
     }),
