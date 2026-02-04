@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**request_id** | **string** |  | [default to undefined]
+**request_id** | **string** |  | [optional] [default to undefined]
 **messages** | [**Array&lt;Message&gt;**](Message.md) |  | [default to undefined]
 **api_type** | **string** |  | [default to undefined]
 **model** | **string** |  | [default to undefined]

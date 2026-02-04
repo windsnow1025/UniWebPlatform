@@ -27,7 +27,7 @@ export interface AbortRequest {
     'request_id': string;
 }
 export interface ChatRequest {
-    'request_id': string;
+    'request_id'?: string | null;
     'messages': Array<Message>;
     'api_type': string;
     'model': string;
