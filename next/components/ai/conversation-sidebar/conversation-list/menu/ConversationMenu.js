@@ -226,7 +226,6 @@ function ConversationMenu({
 
           setConversations(prev => [newConversation, ...prev]);
           setSelectedConversationId(newConversation.id);
-          setMessages(newConversation.messages);
           setConversationLoadKey(prev => prev + 1);
         }}
       />
