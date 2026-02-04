@@ -6,10 +6,10 @@ from llm_bridge import Message, get_model_prices, ModelPrice, find_model_prices
 from pydantic import BaseModel
 from typing import Any, Optional
 
-import app.lib.auth as auth
+import app.service.auth as auth
 from app.client.nest_js_client.models import UserResDto
-from app.lib.chat.chat_service import handle_chat_interaction
-from app.lib.user import user_logic
+from app.service.chat.chat_service import handle_chat_interaction
+from app.service.user import user_logic
 
 chat_router = APIRouter()
 security = HTTPBearer()
