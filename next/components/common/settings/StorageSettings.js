@@ -1,17 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {
-  Alert,
-  Button,
-  Checkbox,
-  CircularProgress,
-  Snackbar,
-  Typography
-} from "@mui/material";
+import {Alert, Button, Checkbox, CircularProgress, FormControlLabel, Snackbar, Switch, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileLogic from "../../../lib/common/file/FileLogic";
 import FileDiv from "../../message/content/file/FileDiv";
 import FilesUpload from "../../message/content/create/FilesUpload";
 import UserLogic from "../../../lib/common/user/UserLogic";
+import ConversationLogic from "../../../lib/conversation/ConversationLogic";
+import SystemPromptLogic from "../../../lib/system-prompt/SystemPromptLogic";
 
 const StorageSettings = () => {
   const fileLogic = new FileLogic();
@@ -25,10 +20,17 @@ const StorageSettings = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
+  // Orphaned files filter
+  const [showOrphanedOnly, setShowOrphanedOnly] = useState(false);
+  const [referencedFiles, setReferencedFiles] = useState(new Set());
+
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("info");
+
+  const conversationLogic = new ConversationLogic();
+  const systemPromptLogic = new SystemPromptLogic();
 
   useEffect(() => {
     fetchFiles();
@@ -55,6 +57,30 @@ const StorageSettings = () => {
       const fetchedFiles = await fileLogic.fetchFiles();
       setFiles(fetchedFiles);
       setSelectedFiles(new Set());
+
+      // Fetch referenced files
+      const conversations = await conversationLogic.fetchConversations();
+      const systemPrompts = await systemPromptLogic.fetchSystemPrompts();
+
+      const fileUrls = new Set();
+
+      // Extract referenced files
+      const extractFileUrlsFromContents = (contents) => {
+        return contents
+          .filter(content => content.type === 'file')
+          .map(content => content.data);
+      };
+
+      conversations.forEach(conv => {
+        conv.messages?.forEach(msg => {
+          extractFileUrlsFromContents(msg.contents).forEach(url => fileUrls.add(url));
+        });
+      });
+      systemPrompts.forEach(sp => {
+        extractFileUrlsFromContents(sp.contents).forEach(url => fileUrls.add(url));
+      });
+
+      setReferencedFiles(fileUrls);
     } catch (err) {
       setAlertMessage(err.message);
       setAlertSeverity("error");
@@ -72,14 +98,6 @@ const StorageSettings = () => {
       newSelected.add(fileUrl);
     }
     setSelectedFiles(newSelected);
-  };
-
-  const handleSelectAll = () => {
-    if (selectedFiles.size === files.length) {
-      setSelectedFiles(new Set());
-    } else {
-      setSelectedFiles(new Set(files));
-    }
   };
 
   const handleDeleteSelected = async () => {
@@ -110,6 +128,15 @@ const StorageSettings = () => {
     setAlertOpen(true);
   };
 
+  const handleOrphanedToggle = (event) => {
+    setShowOrphanedOnly(event.target.checked);
+    setSelectedFiles(new Set());
+  };
+
+  const displayedFiles = showOrphanedOnly
+    ? files.filter(url => !referencedFiles.has(url))
+    : files;
+
   return (
     <div>
       <h2>Storage Settings</h2>
@@ -117,16 +144,22 @@ const StorageSettings = () => {
       {isAdmin && (
         <div className="flex-normal gap-2 my-2">
           <Typography variant="body2">Upload:</Typography>
-          <FilesUpload onFilesUpload={handleFilesUploaded} isUploading={isUploading} setIsUploading={setIsUploading} />
+          <FilesUpload onFilesUpload={handleFilesUploaded} isUploading={isUploading} setIsUploading={setIsUploading}/>
         </div>
       )}
 
       {files.length > 0 && (
-        <div className="flex-normal gap-2">
+        <div className="flex-center">
           <Checkbox
-            checked={selectedFiles.size === files.length && files.length > 0}
-            indeterminate={selectedFiles.size > 0 && selectedFiles.size < files.length}
-            onChange={handleSelectAll}
+            checked={selectedFiles.size === displayedFiles.length && displayedFiles.length > 0}
+            indeterminate={selectedFiles.size > 0 && selectedFiles.size < displayedFiles.length}
+            onChange={() => {
+              if (selectedFiles.size === displayedFiles.length) {
+                setSelectedFiles(new Set());
+              } else {
+                setSelectedFiles(new Set(displayedFiles));
+              }
+            }}
             disabled={loading || deleting}
           />
           <Typography variant="body2">
@@ -134,6 +167,20 @@ const StorageSettings = () => {
               ? `${selectedFiles.size} selected`
               : 'Select All'}
           </Typography>
+          <div className="ml-8">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={showOrphanedOnly}
+                  onChange={handleOrphanedToggle}
+                  disabled={loading || deleting}
+                  size="small"
+                />
+              }
+              label={<Typography variant="body2">Show orphaned only</Typography>}
+            />
+          </div>
+          <div className="flex-1"/>
           <Button
             variant="contained"
             color="error"
@@ -150,8 +197,8 @@ const StorageSettings = () => {
       <div className="my-2">
         {loading ? (
           <CircularProgress/>
-        ) : files.length > 0 ? (
-          files.map((fileUrl) => (
+        ) : displayedFiles.length > 0 ? (
+          displayedFiles.map((fileUrl) => (
             <div key={fileUrl} className="flex-center">
               <Checkbox
                 checked={selectedFiles.has(fileUrl)}
@@ -163,6 +210,8 @@ const StorageSettings = () => {
               </div>
             </div>
           ))
+        ) : showOrphanedOnly && files.length > 0 ? (
+          <Typography>No orphaned files found.</Typography>
         ) : (
           <Typography>No files uploaded yet.</Typography>
         )}
