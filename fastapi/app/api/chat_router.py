@@ -1,4 +1,5 @@
 import logging
+import uuid
 from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException, Depends
@@ -17,7 +18,7 @@ security = HTTPBearer()
 
 
 class ChatRequest(BaseModel):
-    request_id: str
+    request_id: Optional[str] = None
     messages: list[Message]
     api_type: str
     model: str
@@ -51,8 +52,10 @@ async def generate(
         if user.credit <= 0:
             raise HTTPException(status_code=402, detail="Insufficient credit")
 
+        request_id = chat_request.request_id or str(uuid.uuid4())
+
         return await handle_chat_interaction(
-            request_id=chat_request.request_id,
+            request_id=request_id,
             token=token,
             user_id=user_id,
             messages=chat_request.messages,
