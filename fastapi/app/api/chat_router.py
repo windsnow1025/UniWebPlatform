@@ -1,13 +1,14 @@
 import logging
+from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from llm_bridge import Message, get_model_prices, ModelPrice, find_model_prices
 from pydantic import BaseModel
-from typing import Any, Optional
 
 import app.service.auth as auth
 from app.client.nest_js_client.models import UserResDto
+from app.service.chat import abort_manager
 from app.service.chat.chat_service import handle_chat_interaction
 from app.service.user import user_logic
 
@@ -16,6 +17,7 @@ security = HTTPBearer()
 
 
 class ChatRequest(BaseModel):
+    request_id: str
     messages: list[Message]
     api_type: str
     model: str
@@ -24,6 +26,11 @@ class ChatRequest(BaseModel):
     thought: bool
     code_execution: bool
     structured_output_schema: Optional[dict[str, Any]] = None
+    conversation_id: Optional[int] = None
+
+
+class AbortRequest(BaseModel):
+    request_id: str
 
 
 @chat_router.post("/chat")
@@ -45,6 +52,7 @@ async def generate(
             raise HTTPException(status_code=402, detail="Insufficient credit")
 
         return await handle_chat_interaction(
+            request_id=chat_request.request_id,
             token=token,
             user_id=user_id,
             messages=chat_request.messages,
@@ -55,12 +63,24 @@ async def generate(
             thought=chat_request.thought,
             code_execution=chat_request.code_execution,
             structured_output_schema=chat_request.structured_output_schema,
+            conversation_id=chat_request.conversation_id,
         )
     except HTTPException as e:
         raise e
     except Exception as e:
         logging.exception(e)
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@chat_router.post("/chat/abort")
+async def abort_chat(
+        abort_request: AbortRequest,
+        credentials: HTTPAuthorizationCredentials = Depends(security),
+) -> bool:
+    token: str = credentials.credentials
+    auth.get_user_id_from_token(token)
+    abort_manager.set_aborted(abort_request.request_id)
+    return True
 
 
 @chat_router.get("/model")

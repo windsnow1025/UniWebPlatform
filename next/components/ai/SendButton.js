@@ -2,7 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Alert, Button, Snackbar, Tooltip} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
+import {v4 as uuidv4} from 'uuid';
 import ChatLogic from "../../lib/chat/ChatLogic";
+import ConversationLogic from "../../lib/conversation/ConversationLogic";
 import {StorageKeys} from "../../lib/common/Constants";
 
 function SendButton({
@@ -10,10 +12,13 @@ function SendButton({
                       setIsGenerating,
                       isGeneratingRef,
                       setIsLastChunkThought,
-                      setConversationUpdateKey,
+                      setConversationLoadKey,
                       setCreditRefreshKey,
                       handleGenerateRef,
+                      clearUIStateRef,
                       isTemporaryChat,
+                      selectedConversationId,
+                      conversations,
                       messages,
                       setMessages,
                       apiType,
@@ -24,11 +29,14 @@ function SendButton({
                       codeExecution,
                     }) {
   const chatLogic = new ChatLogic();
+  const conversationLogic = new ConversationLogic();
 
   const sendButtonRef = useRef(null);
 
   const latestRequestIndex = useRef(0);
   const isFirstStreamOpen = useRef(true);
+  const abortControllerRef = useRef(null);
+  const requestIdRef = useRef(null);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -48,8 +56,12 @@ function SendButton({
   }, [messages]);
 
   const handleNonStreamGenerate = async (currentReqIndex) => {
+    const conversationId = isTemporaryChat ? undefined : selectedConversationId;
+    requestIdRef.current = uuidv4();
+
     const content = await chatLogic.nonStreamGenerate(
-      messages, apiType, model, temperature, thought, codeExecution
+      requestIdRef.current, messages, apiType, model, temperature, thought, codeExecution,
+      conversationId
     );
 
     if (latestRequestIndex.current !== currentReqIndex || !isGeneratingRef.current) {
@@ -62,27 +74,35 @@ function SendButton({
         setAlertMessage('File generation is not supported in Temporary Chat mode. Please create a new conversation to save files.');
         setAlertSeverity('warning');
         setAlertOpen(true);
-      } else {
-        fileUrls = await ChatLogic.getFileUrls(content.files);
       }
     }
 
     setMessages(prevMessages => [
       ...prevMessages,
       ChatLogic.createAssistantMessage(content, fileUrls),
-      ChatLogic.getEmptyUserMessage(),
+      ...(isTemporaryChat ? [ChatLogic.getEmptyUserMessage()] : []),
     ]);
+
+    if (conversationId) {
+      setConversationLoadKey(prev => prev + 1);
+    }
 
     return true;
   };
 
-  const handleStreamGenerate = async (currentReqIndex, onOpenCallback) => {
+  const handleStreamGenerate = async (currentReqIndex, onOpenCallback, onDoneCallback) => {
     let isFirstChunk = true;
+    const conversationId = isTemporaryChat ? undefined : selectedConversationId;
+    requestIdRef.current = uuidv4();
+    abortControllerRef.current = new AbortController();
+
     const generator = chatLogic.streamGenerate(
-      messages, apiType, model, temperature, thought, codeExecution, onOpenCallback
+      requestIdRef.current, messages, apiType, model, temperature, thought, codeExecution,
+      conversationId, onOpenCallback, onDoneCallback, abortControllerRef.current.signal
     );
 
     for await (const chunk of generator) {
+      // Frontend Abort
       if (!(currentReqIndex === latestRequestIndex.current && isGeneratingRef.current)) {
         return false;
       }
@@ -109,8 +129,6 @@ function SendButton({
           setAlertMessage('File generation is not supported in Temporary Chat mode. Please create a new conversation to save files.');
           setAlertSeverity('warning');
           setAlertOpen(true);
-        } else {
-          fileUrls = await ChatLogic.getFileUrls(chunk.files);
         }
       }
 
@@ -125,7 +143,9 @@ function SendButton({
       }
     }
 
-    setMessages(prevMessages => [...prevMessages, ChatLogic.getEmptyUserMessage()]);
+    if (isTemporaryChat) {
+      setMessages(prevMessages => [...prevMessages, ChatLogic.getEmptyUserMessage()]);
+    }
 
     return true;
   };
@@ -133,6 +153,24 @@ function SendButton({
   const switchStatus = (status) => {
     isGeneratingRef.current = status;
     setIsGenerating(status);
+  };
+
+  const clearUIState = () => {
+    requestIdRef.current = null;
+    abortControllerRef.current = null;
+    switchStatus(false);
+  }
+
+  const abortRequest = () => {
+    // Backend Abort
+    if (requestIdRef.current) {
+      chatLogic.abortChat(requestIdRef.current);
+    }
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    clearUIState();
+    switchStatus(false);
   };
 
   const handleGenerate = async () => {
@@ -168,10 +206,21 @@ function SendButton({
         });
       };
 
+      const handleDone = () => {
+        setConversationLoadKey(prev => prev + 1);
+      };
+
       try {
+        if (!isTemporaryChat) {
+          const currentConversation = conversations.find(convo => convo.id === selectedConversationId);
+          const latestConversation = await conversationLogic.fetchConversation(selectedConversationId);
+          if (latestConversation.version !== currentConversation.version) {
+            throw new Error("Conversation is stale. Please reload the conversation.")
+          }
+        }
         let success;
         if (stream) {
-          success = await handleStreamGenerate(currentReqIndex, handleStreamOpen);
+          success = await handleStreamGenerate(currentReqIndex, handleStreamOpen, handleDone);
         } else {
           success = await handleNonStreamGenerate(currentReqIndex);
         }
@@ -179,21 +228,21 @@ function SendButton({
           switchStatus(false);
         }
       } catch (err) {
-        switchStatus(false);
+        abortRequest();
         setAlertMessage(err.message);
         setAlertSeverity('error');
         setAlertOpen(true);
       } finally {
-        setConversationUpdateKey(prev => prev + 1);
         setCreditRefreshKey(prev => prev + 1);
       }
     } else {
-      switchStatus(false);
+      abortRequest();
     }
   };
 
   useEffect(() => {
     handleGenerateRef.current = handleGenerate;
+    clearUIStateRef.current = clearUIState;
   })
 
   return (

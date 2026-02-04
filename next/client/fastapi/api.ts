@@ -23,7 +23,11 @@ import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
+export interface AbortRequest {
+    'request_id': string;
+}
 export interface ChatRequest {
+    'request_id': string;
     'messages': Array<Message>;
     'api_type': string;
     'model': string;
@@ -32,6 +36,7 @@ export interface ChatRequest {
     'thought': boolean;
     'code_execution': boolean;
     'structured_output_schema'?: { [key: string]: any; } | null;
+    'conversation_id'?: number | null;
 }
 export interface Content {
     'type': ContentType;
@@ -90,6 +95,46 @@ export interface ValidationErrorLocInner {
  */
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @summary Abort Chat
+         * @param {AbortRequest} abortRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        abortChatChatAbortPost: async (abortRequest: AbortRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'abortRequest' is not null or undefined
+            assertParamExists('abortChatChatAbortPost', 'abortRequest', abortRequest)
+            const localVarPath = `/chat/abort`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication HTTPBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(abortRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @summary Convert Messages
@@ -237,6 +282,19 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Abort Chat
+         * @param {AbortRequest} abortRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async abortChatChatAbortPost(abortRequest: AbortRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.abortChatChatAbortPost(abortRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.abortChatChatAbortPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Convert Messages
          * @param {MessagesConvertRequest} messagesConvertRequest 
          * @param {*} [options] Override http request option.
@@ -296,6 +354,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Abort Chat
+         * @param {AbortRequest} abortRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        abortChatChatAbortPost(abortRequest: AbortRequest, options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
+            return localVarFp.abortChatChatAbortPost(abortRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Convert Messages
          * @param {MessagesConvertRequest} messagesConvertRequest 
          * @param {*} [options] Override http request option.
@@ -339,6 +407,17 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * DefaultApi - object-oriented interface
  */
 export class DefaultApi extends BaseAPI {
+    /**
+     * 
+     * @summary Abort Chat
+     * @param {AbortRequest} abortRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public abortChatChatAbortPost(abortRequest: AbortRequest, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).abortChatChatAbortPost(abortRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Convert Messages

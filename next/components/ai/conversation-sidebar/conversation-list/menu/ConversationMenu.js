@@ -25,8 +25,7 @@ function ConversationMenu({
                             setSelectedConversationId,
                             setMessages,
                             setConversationLoadKey,
-                            isGeneratingRef,
-                            handleGenerateRef,
+                            clearUIStateRef,
                             setLoadingConversationId,
                             labels,
                           }) {
@@ -66,8 +65,8 @@ function ConversationMenu({
     const conversationId = conversations[index].id;
 
     // If the conversation is currently selected, stop generating
-    if (conversationId === selectedConversationId && isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
-      handleGenerateRef.current();
+    if (conversationId === selectedConversationId) {
+      clearUIStateRef.current?.();
     }
 
     setLoadingConversationId(conversationId);
@@ -220,9 +219,7 @@ function ConversationMenu({
         conversationId={conversations[saveAsConversationIndex]?.id}
         defaultName={(conversations[saveAsConversationIndex]?.name) + ' Copy'}
         onSaved={(newConversation) => {
-          if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
-            handleGenerateRef.current();
-          }
+          clearUIStateRef.current?.();
 
           setConversations(prev => [newConversation, ...prev]);
           setSelectedConversationId(newConversation.id);

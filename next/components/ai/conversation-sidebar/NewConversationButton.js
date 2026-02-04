@@ -1,4 +1,4 @@
-import {Alert, Button, Snackbar, CircularProgress} from "@mui/material";
+import {Alert, Button, CircularProgress, Snackbar} from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import React, {useState} from "react";
 import ChatLogic from "../../../lib/chat/ChatLogic";
@@ -11,8 +11,7 @@ function NewConversationButton({
                                  setConversationLoadKey,
                                  setIsTemporaryChat,
                                  size,
-                                 isGeneratingRef,
-                                 handleGenerateRef,
+                                 clearUIStateRef,
                                }) {
   const conversationLogic = new ConversationLogic();
 
@@ -22,9 +21,7 @@ function NewConversationButton({
   const [loading, setLoading] = useState(false);
 
   const handleNewConversation = async () => {
-    if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
-      handleGenerateRef.current();
-    }
+    clearUIStateRef.current?.();
     setLoading(true);
     try {
       // YYYY-MM-DD HH:MM:SS

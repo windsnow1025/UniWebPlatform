@@ -8,15 +8,15 @@ export default class ConversationClient {
     return res.data;
   }
 
-  async fetchConversationUpdatedTimes(): Promise<ConversationUpdateTimeResDto[]> {
-    const api = new ConversationsApi(getNestOpenAPIConfiguration());
-    const res = await api.conversationsControllerFindUpdateTimes();
-    return res.data;
-  }
-
   async fetchConversation(id: number): Promise<ConversationResDto> {
     const api = new ConversationsApi(getNestOpenAPIConfiguration());
     const res = await api.conversationsControllerFindOne(id);
+    return res.data;
+  }
+
+  async fetchConversationUpdatedTimes(): Promise<ConversationUpdateTimeResDto[]> {
+    const api = new ConversationsApi(getNestOpenAPIConfiguration());
+    const res = await api.conversationsControllerFindUpdateTimes();
     return res.data;
   }
 

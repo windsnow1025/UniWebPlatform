@@ -1,6 +1,7 @@
 import {handleError} from "@/lib/common/ErrorHandler";
 import ConversationClient from "./ConversationClient";
-import {ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto} from "@/client/nest";
+import {ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto, Message} from "@/client/nest";
+import SystemPromptLogic from "@/lib/system-prompt/SystemPromptLogic";
 
 export default class ConversationLogic {
   private conversationService: ConversationClient;
@@ -9,9 +10,28 @@ export default class ConversationLogic {
     this.conversationService = new ConversationClient();
   }
 
+  static async populateSystemPromptContents(messages: Message[]): Promise<void> {
+    const systemPromptLogic = new SystemPromptLogic();
+    for (const message of messages) {
+      if (message.systemPromptId) {
+        const systemPrompt = await systemPromptLogic.fetchSystemPrompt(message.systemPromptId);
+        message.contents = systemPrompt.contents;
+      }
+    }
+  }
+
+  static stripSystemPromptContents(messages: Message[]): Message[] {
+    return messages.map(message => {
+      if (message.systemPromptId) {
+        return {...message, contents: []};
+      }
+      return message;
+    });
+  }
+
   static formatDate(dateString: string): string {
     const date = new Date(dateString);
-    const now = new Date();``
+    const now = new Date();
 
     const diffMs = Math.max(0, now.getTime() - date.getTime());
     const diffMins = Math.floor(diffMs / 60000);

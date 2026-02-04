@@ -2,7 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import ChatClient from "./ChatClient";
 import {ApiTypeModel, ChatResponse, ResponseFile} from "@/lib/chat/ChatResponse";
 import {Content, ContentTypeEnum, Message, MessageRoleEnum} from "@/client/nest";
-import {Message as ReqMessage, Role as ReqRole, ContentType as ReqContentType} from "@/client/fastapi";
+import {ContentType as ReqContentType, Message as ReqMessage, Role as ReqRole} from "@/client/fastapi";
 import FileLogic from "@/lib/common/file/FileLogic";
 import {handleError} from "@/lib/common/ErrorHandler";
 
@@ -250,17 +250,20 @@ export default class ChatLogic {
 
   // For chat request
   async nonStreamGenerate(
+    request_id: string,
     messages: Message[],
     api_type: string,
     model: string,
     temperature: number,
     thought: boolean,
     code_execution: boolean,
+    conversation_id?: number,
   ): Promise<ChatResponse> {
     try {
       const filteredMessages = ChatLogic.convertMessagesFromUIToReq(messages);
       const content = await this.chatClient.nonStreamGenerate(
-        filteredMessages, api_type, model, temperature, thought, code_execution
+        request_id, filteredMessages, api_type, model, temperature, thought, code_execution,
+        conversation_id
       );
       if (content.error) {
         throw new Error(content.error);
@@ -281,18 +284,23 @@ export default class ChatLogic {
 
   // For chat request
   async* streamGenerate(
+    request_id: string,
     messages: Message[],
     api_type: string,
     model: string,
     temperature: number,
     thought: boolean,
     code_execution: boolean,
+    conversation_id?: number,
     onOpenCallback?: () => void,
+    onDoneCallback?: () => void,
+    signal?: AbortSignal,
   ): AsyncGenerator<ChatResponse, void, unknown> {
     try {
       const filteredMessages = ChatLogic.convertMessagesFromUIToReq(messages);
       const response = this.chatClient.streamGenerate(
-        filteredMessages, api_type, model, temperature, thought, code_execution, onOpenCallback
+        request_id, filteredMessages, api_type, model, temperature, thought, code_execution,
+        conversation_id, onOpenCallback, onDoneCallback, signal
       );
 
       for await (const chunk of response) {
@@ -312,5 +320,9 @@ export default class ChatLogic {
     } catch (error) {
       handleError(error, 'Failed to generate streaming chat response');
     }
+  }
+
+  async abortChat(request_id: string): Promise<boolean> {
+    return this.chatClient.abortChat(request_id);
   }
 }

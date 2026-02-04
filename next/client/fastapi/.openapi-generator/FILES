@@ -5,6 +5,7 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/AbortRequest.md
 docs/ChatRequest.md
 docs/Content.md
 docs/ContentType.md
