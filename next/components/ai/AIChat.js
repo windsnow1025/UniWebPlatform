@@ -52,6 +52,7 @@ function AIChat({
 
   // Ref for handleGenerate function
   const handleGenerateRef = useRef(null);
+  const clearUIStateRef = useRef(null);
 
   // Refresh conversations when page becomes visible
   useEffect(() => {
@@ -98,8 +99,7 @@ function AIChat({
               conversationLoadKey={conversationLoadKey}
               setConversationLoadKey={setConversationLoadKey}
               setIsTemporaryChat={setIsTemporaryChat}
-              isGeneratingRef={isGeneratingRef}
-              handleGenerateRef={handleGenerateRef}
+              clearUIStateRef={clearUIStateRef}
             />
           </Drawer>
         ) : (
@@ -116,8 +116,7 @@ function AIChat({
                 conversationLoadKey={conversationLoadKey}
                 setConversationLoadKey={setConversationLoadKey}
                 setIsTemporaryChat={setIsTemporaryChat}
-                isGeneratingRef={isGeneratingRef}
-                handleGenerateRef={handleGenerateRef}
+                clearUIStateRef={clearUIStateRef}
               />
             </Collapse>
           </Paper>
@@ -167,16 +166,14 @@ function AIChat({
                   setConversationLoadKey={setConversationLoadKey}
                   setIsTemporaryChat={setIsTemporaryChat}
                   size="large"
-                  isGeneratingRef={isGeneratingRef}
-                  handleGenerateRef={handleGenerateRef}
+                  clearUIStateRef={clearUIStateRef}
                 />
                 <TemporaryChatButton
                   setMessages={setMessages}
                   setSelectedConversationId={setSelectedConversationId}
                   setIsTemporaryChat={setIsTemporaryChat}
                   size="large"
-                  isGeneratingRef={isGeneratingRef}
-                  handleGenerateRef={handleGenerateRef}
+                  clearUIStateRef={clearUIStateRef}
                 />
               </div>
             )}
@@ -192,10 +189,13 @@ function AIChat({
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
                 setIsLastChunkThought={setIsLastChunkThought}
-                setConversationUpdateKey={setConversationUpdateKey}
+                setConversationLoadKey={setConversationLoadKey}
                 setCreditRefreshKey={setCreditRefreshKey}
                 handleGenerateRef={handleGenerateRef}
+                clearUIStateRef={clearUIStateRef}
                 isTemporaryChat={isTemporaryChat}
+                selectedConversationId={selectedConversationId}
+                conversations={conversations}
                 messages={messages}
                 setMessages={setMessages}
                 apiType={apiType}

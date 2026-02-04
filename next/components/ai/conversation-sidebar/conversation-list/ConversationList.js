@@ -31,8 +31,7 @@ function ConversationList({
                             conversationLoadKey,
                             setConversationLoadKey,
                             setIsTemporaryChat,
-                            isGeneratingRef,
-                            handleGenerateRef,
+                            clearUIStateRef,
                           }) {
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
@@ -107,6 +106,15 @@ function ConversationList({
 
       const newConversations = await conversationLogic.fetchConversations();
       setConversations(newConversations);
+
+      if (selectedConversationId) {
+        const currentConversation = newConversations.find(c => c.id === selectedConversationId);
+        if (currentConversation) {
+          await ConversationLogic.populateSystemPromptContents(currentConversation.messages);
+          setMessages(currentConversation.messages);
+        }
+      }
+
       return JSON.parse(JSON.stringify(newConversations));
     } catch (err) {
       showAlert(err.message, 'error');
@@ -116,9 +124,7 @@ function ConversationList({
   };
 
   const selectConversation = async (conversationId) => {
-    if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
-      handleGenerateRef.current();
-    }
+    clearUIStateRef.current?.();
 
     setLoadingConversationId(conversationId);
 
@@ -126,17 +132,7 @@ function ConversationList({
     const conversation = conversations.find(conversation => conversation.id === conversationId);
     const messages = conversation.messages;
 
-    // Fetch System Prompt
-    for (const message of messages) {
-      if (message.systemPromptId) {
-        try {
-          const systemPrompt = await systemPromptLogic.fetchSystemPrompt(message.systemPromptId);
-          message.contents = systemPrompt.contents;
-        } catch (err) {
-          showAlert(err.message, 'error');
-        }
-      }
-    }
+    await ConversationLogic.populateSystemPromptContents(messages);
 
     setIsTemporaryChat(false);
     setMessages(messages);
@@ -255,8 +251,7 @@ function ConversationList({
                           setSelectedConversationId={setSelectedConversationId}
                           setMessages={setMessages}
                           setConversationLoadKey={setConversationLoadKey}
-                          isGeneratingRef={isGeneratingRef}
-                          handleGenerateRef={handleGenerateRef}
+                          clearUIStateRef={clearUIStateRef}
                           setLoadingConversationId={setLoadingConversationId}
                           labels={labels}
                         />

@@ -4,7 +4,6 @@ import ConversationList from './conversation-list/ConversationList';
 import NewConversationButton from "./NewConversationButton";
 import TemporaryChatButton from "../TemporaryChatButton";
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
-import {wait} from "next/dist/lib/wait";
 
 function ConversationSidebar({
                                messages,
@@ -17,8 +16,7 @@ function ConversationSidebar({
                                conversationLoadKey,
                                setConversationLoadKey,
                                setIsTemporaryChat,
-                               isGeneratingRef,
-                               handleGenerateRef,
+                               clearUIStateRef,
                              }) {
   const conversationLogic = new ConversationLogic();
 
@@ -47,12 +45,7 @@ function ConversationSidebar({
         conversations[index].version,
         {
           name: conversations[index].name,
-          messages: messages.map(message => {
-            if (message.systemPromptId) {
-              return {...message, contents: []};
-            }
-            return message;
-          })
+          messages: ConversationLogic.stripSystemPromptContents(messages)
         }
       );
 
@@ -99,8 +92,7 @@ function ConversationSidebar({
               setSelectedConversationId={setSelectedConversationId}
               setIsTemporaryChat={setIsTemporaryChat}
               size="small"
-              isGeneratingRef={isGeneratingRef}
-              handleGenerateRef={handleGenerateRef}
+              clearUIStateRef={clearUIStateRef}
             />
           </div>
           <div className="w-full px-4 py-1">
@@ -111,8 +103,7 @@ function ConversationSidebar({
               setConversationLoadKey={setConversationLoadKey}
               setIsTemporaryChat={setIsTemporaryChat}
               size="small"
-              isGeneratingRef={isGeneratingRef}
-              handleGenerateRef={handleGenerateRef}
+              clearUIStateRef={clearUIStateRef}
             />
           </div>
         </div>
@@ -127,8 +118,7 @@ function ConversationSidebar({
           conversationLoadKey={conversationLoadKey}
           setConversationLoadKey={setConversationLoadKey}
           setIsTemporaryChat={setIsTemporaryChat}
-          isGeneratingRef={isGeneratingRef}
-          handleGenerateRef={handleGenerateRef}
+          clearUIStateRef={clearUIStateRef}
         />
       </div>
       <Snackbar

@@ -1,6 +1,6 @@
-import {Alert, Button, Snackbar, CircularProgress} from "@mui/material";
+import {Button} from "@mui/material";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import React, {useState} from "react";
+import React from "react";
 import ChatLogic from "../../lib/chat/ChatLogic";
 
 function TemporaryChatButton({
@@ -8,13 +8,10 @@ function TemporaryChatButton({
                                setSelectedConversationId,
                                setIsTemporaryChat,
                                size,
-                               isGeneratingRef,
-                               handleGenerateRef,
+                               clearUIStateRef,
                              }) {
   const handleTemporaryChat = async () => {
-    if (isGeneratingRef && isGeneratingRef.current && handleGenerateRef.current) {
-      handleGenerateRef.current();
-    }
+    clearUIStateRef.current?.();
     setMessages(ChatLogic.getInitMessages());
     setSelectedConversationId(null);
     setIsTemporaryChat(true);

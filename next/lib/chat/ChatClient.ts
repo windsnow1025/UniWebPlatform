@@ -2,19 +2,22 @@ import {ApiTypeModel, ChatResponse} from "./ChatResponse";
 import {getAPIBaseURLs, getFastAPIOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {EventSourceMessage, fetchEventSource} from '@microsoft/fetch-event-source';
 import {handleError} from "@/lib/common/ErrorHandler";
-import {DefaultApi, type ChatRequest, type Message} from "@/client/fastapi";
+import {type ChatRequest, DefaultApi, type Message} from "@/client/fastapi";
 import {StorageKeys} from "@/lib/common/Constants";
 
 export default class ChatClient {
   async nonStreamGenerate(
+    request_id: string,
     messages: Message[],
     api_type: string,
     model: string,
     temperature: number,
     thought: boolean,
     code_execution: boolean,
+    conversation_id?: number,
   ): Promise<ChatResponse> {
     const requestData: ChatRequest = {
+      request_id: request_id,
       messages: messages,
       api_type: api_type,
       model: model,
@@ -22,6 +25,7 @@ export default class ChatClient {
       stream: false,
       thought: thought,
       code_execution: code_execution,
+      conversation_id: conversation_id,
     };
 
     try {
@@ -34,17 +38,22 @@ export default class ChatClient {
   }
 
   async* streamGenerate(
+    request_id: string,
     messages: Message[],
     api_type: string,
     model: string,
     temperature: number,
     thought: boolean,
     code_execution: boolean,
+    conversation_id?: number,
     onOpenCallback?: () => void,
+    onDoneCallback?: () => void,
+    signal?: AbortSignal,
   ): AsyncGenerator<ChatResponse, void, unknown> {
     const token = localStorage.getItem(StorageKeys.Token)!;
 
     const requestData: ChatRequest = {
+      request_id: request_id,
       messages: messages,
       api_type: api_type,
       model: model,
@@ -52,6 +61,7 @@ export default class ChatClient {
       stream: true,
       thought: thought,
       code_execution: code_execution,
+      conversation_id: conversation_id,
     };
 
     const queue: ChatResponse[] = [];
@@ -67,6 +77,7 @@ export default class ChatClient {
         'Authorization': `Bearer ${token}`
       },
       openWhenHidden: true,
+      signal: signal,
       async onopen(response: Response) {
         if (onOpenCallback) {
           onOpenCallback();
@@ -92,6 +103,12 @@ export default class ChatClient {
       },
       onmessage(event: EventSourceMessage) {
         const parsedData = JSON.parse(event.data);
+        if (parsedData.done) {
+          if (onDoneCallback) {
+            onDoneCallback();
+          }
+          return;
+        }
         queue.push(parsedData);
         if (resolveQueue) {
           resolveQueue();
@@ -125,6 +142,12 @@ export default class ChatClient {
     if (errorOccurred) {
       throw errorOccurred;
     }
+  }
+
+  async abortChat(request_id: string): Promise<boolean> {
+    const api = new DefaultApi(getFastAPIOpenAPIConfiguration());
+    const res = await api.abortChatChatAbortPost({request_id});
+    return res.data;
   }
 
   async fetchApiModels(): Promise<ApiTypeModel[]> {

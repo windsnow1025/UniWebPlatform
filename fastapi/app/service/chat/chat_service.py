@@ -10,6 +10,7 @@ from app.service.user import user_logic
 
 
 async def handle_chat_interaction(
+        request_id: str,
         token: str,
         user_id: str,
         messages: list[Message],
@@ -20,8 +21,9 @@ async def handle_chat_interaction(
         thought: bool,
         code_execution: bool,
         structured_output_schema: dict | None,
+        conversation_id: int | None,
 ):
-    logging.info(f"User ID: {user_id}, Model: {model}")
+    logging.info(f"User ID: {user_id}, Request ID: {request_id}")
 
     await preprocess_messages(messages, api_type)
 
@@ -61,19 +63,21 @@ async def handle_chat_interaction(
 
     if stream:
         response = chat_client.generate_stream_response()
+
         async def final_response_handler(
                 generator: AsyncGenerator[ChatResponse, None]
         ) -> StreamingResponse:
             return await response_handler.stream_handler(
-                generator, reduce_credit
+                request_id, generator, reduce_credit, token, conversation_id
             )
     else:
         response = await chat_client.generate_non_stream_response()
+
         async def final_response_handler(
                 content: ChatResponse
         ) -> ChatResponse:
             return await response_handler.non_stream_handler(
-                content, reduce_credit
+                request_id, content, reduce_credit, token, conversation_id
             )
 
     return await final_response_handler(response)
