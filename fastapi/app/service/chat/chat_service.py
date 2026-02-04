@@ -5,8 +5,8 @@ from typing import AsyncGenerator
 from llm_bridge import *
 from starlette.responses import StreamingResponse
 
-from app.lib.chat import response_handler
-from app.lib.user import user_logic
+from app.service.chat import response_handler
+from app.service.user import user_logic
 
 
 async def handle_chat_interaction(

@@ -5,7 +5,7 @@ import httpx
 from fastapi import HTTPException
 
 from app.client.nest_js_client.models import UserResDto
-from app.lib.user import user_client
+from app.service.user import user_client
 
 
 async def get_user(token: str) -> UserResDto:
