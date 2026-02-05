@@ -30,7 +30,7 @@ const StorageSettings = () => {
   const [alertSeverity, setAlertSeverity] = useState("info");
 
   const conversationLogic = new ConversationLogic();
-  const systemPromptLogic = new PromptLogic();
+  const promptLogic = new PromptLogic();
 
   useEffect(() => {
     fetchFiles();
@@ -60,7 +60,7 @@ const StorageSettings = () => {
 
       // Fetch referenced files
       const conversations = await conversationLogic.fetchConversations();
-      const systemPrompts = await systemPromptLogic.fetchSystemPrompts();
+      const prompts = await promptLogic.fetchPrompts();
 
       const fileUrls = new Set();
 
@@ -76,7 +76,7 @@ const StorageSettings = () => {
           extractFileUrlsFromContents(msg.contents).forEach(url => fileUrls.add(url));
         });
       });
-      systemPrompts.forEach(sp => {
+      prompts.forEach(sp => {
         extractFileUrlsFromContents(sp.contents).forEach(url => fileUrls.add(url));
       });
 

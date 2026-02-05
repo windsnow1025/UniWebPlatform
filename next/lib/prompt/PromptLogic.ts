@@ -3,75 +3,75 @@ import PromptClient from './PromptClient';
 import {PromptReqDto, PromptResDto} from '@/client/nest';
 
 export default class PromptLogic {
-  private systemPromptClient: PromptClient;
+  private promptClient: PromptClient;
 
   constructor() {
-    this.systemPromptClient = new PromptClient();
+    this.promptClient = new PromptClient();
   }
 
-  async fetchSystemPrompts(): Promise<PromptResDto[]> {
+  async fetchPrompts(): Promise<PromptResDto[]> {
     try {
-      return await this.systemPromptClient.fetchSystemPrompts();
+      return await this.promptClient.fetchPrompts();
     } catch (error) {
-      handleError(error, 'Failed to fetch system prompts');
+      handleError(error, 'Failed to fetch prompts');
     }
   }
 
-  async fetchSystemPrompt(id: number): Promise<PromptResDto> {
+  async fetchPrompt(id: number): Promise<PromptResDto> {
     try {
-      return await this.systemPromptClient.fetchSystemPrompt(id);
+      return await this.promptClient.fetchPrompt(id);
     } catch (error) {
-      handleError(error, 'Failed to fetch system prompt');
+      handleError(error, 'Failed to fetch prompt');
     }
   }
 
-  async saveSystemPrompt(
-    systemPrompt: PromptReqDto
+  async savePrompt(
+    prompt: PromptReqDto
   ): Promise<PromptResDto> {
     try {
-      return await this.systemPromptClient.saveSystemPrompt(systemPrompt);
+      return await this.promptClient.savePrompt(prompt);
     } catch (error) {
-      handleError(error, 'Failed to add system prompt');
+      handleError(error, 'Failed to add prompt');
     }
   }
 
-  async updateSystemPrompt(
+  async updatePrompt(
     id: number,
     etag: string,
-    systemPrompt: PromptReqDto
+    prompt: PromptReqDto
   ): Promise<PromptResDto> {
     try {
-      return await this.systemPromptClient.updateSystemPrompt(
+      return await this.promptClient.updatePrompt(
         id,
         etag,
-        systemPrompt
+        prompt
       );
     } catch (error) {
-      handleError(error, 'Failed to update system prompt');
+      handleError(error, 'Failed to update prompt');
     }
   }
 
-  async updateSystemPromptName(
+  async updatePromptName(
     id: number,
     etag: string,
     name: string
   ): Promise<PromptResDto> {
     try {
-      return await this.systemPromptClient.updateSystemPromptName(
+      return await this.promptClient.updatePromptName(
         id,
         etag,
         name
       );
     } catch (error) {
-      handleError(error, 'Failed to update system prompt name');
+      handleError(error, 'Failed to update prompt name');
     }
   }
 
-  async deleteSystemPrompt(id: number): Promise<PromptResDto> {
+  async deletePrompt(id: number): Promise<PromptResDto> {
     try {
-      return await this.systemPromptClient.deleteSystemPrompt(id);
+      return await this.promptClient.deletePrompt(id);
     } catch (error) {
-      handleError(error, 'Failed to delete system prompt');
+      handleError(error, 'Failed to delete prompt');
     }
   }
 }

@@ -45,7 +45,7 @@ function ConversationSidebar({
         conversations[index].version,
         {
           name: conversations[index].name,
-          messages: ConversationLogic.stripSystemPromptContents(messages)
+          messages: ConversationLogic.stripPromptContents(messages)
         }
       );
 

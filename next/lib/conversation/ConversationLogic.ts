@@ -10,17 +10,17 @@ export default class ConversationLogic {
     this.conversationService = new ConversationClient();
   }
 
-  static async populateSystemPromptContents(messages: Message[]): Promise<void> {
-    const systemPromptLogic = new PromptLogic();
+  static async populatePromptContents(messages: Message[]): Promise<void> {
+    const promptLogic = new PromptLogic();
     for (const message of messages) {
       if (message.promptId) {
-        const systemPrompt = await systemPromptLogic.fetchSystemPrompt(message.promptId);
-        message.contents = systemPrompt.contents;
+        const prompt = await promptLogic.fetchPrompt(message.promptId);
+        message.contents = prompt.contents;
       }
     }
   }
 
-  static stripSystemPromptContents(messages: Message[]): Message[] {
+  static stripPromptContents(messages: Message[]): Message[] {
     return messages.map(message => {
       if (message.promptId) {
         return {...message, contents: []};
