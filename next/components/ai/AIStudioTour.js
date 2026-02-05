@@ -29,6 +29,11 @@ const steps = [
     placement: 'bottom',
   },
   {
+    target: '#prompt-select',
+    content: 'Manage prompt templates here. You can save, rename, unlink, or delete prompts.',
+    placement: 'bottom',
+  },
+  {
     target: 'div[style*="justify-content: center"] .markdown-body',
     content: 'This is the system message that provides instructions to the AI. It sets the behavior and capabilities of the assistant.',
     placement: 'bottom',
