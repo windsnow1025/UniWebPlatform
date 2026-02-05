@@ -1,9 +1,9 @@
 import React from 'react';
-import AIChat from "../../components/ai/AIChat";
+import AIStudio from "../../components/ai/AIStudio";
 
 function Index() {
   return (
-    <AIChat/>
+    <AIStudio/>
   );
 }
 
