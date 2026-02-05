@@ -91,7 +91,7 @@ function ConversationSidebar({
               setMessages={setMessages}
               setSelectedConversationId={setSelectedConversationId}
               setIsTemporaryChat={setIsTemporaryChat}
-              size="small"
+              buttonStyle="sidebar"
               clearUIStateRef={clearUIStateRef}
             />
           </div>
@@ -102,7 +102,7 @@ function ConversationSidebar({
               setSelectedConversationId={setSelectedConversationId}
               setConversationsReloadKey={setConversationsReloadKey}
               setIsTemporaryChat={setIsTemporaryChat}
-              size="small"
+              buttonStyle="sidebar"
               clearUIStateRef={clearUIStateRef}
             />
           </div>
