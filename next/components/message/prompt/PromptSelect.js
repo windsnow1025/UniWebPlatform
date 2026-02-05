@@ -25,16 +25,16 @@ import PromptLogic from '../../../lib/prompt/PromptLogic';
 import FileLogic from '../../../lib/common/file/FileLogic';
 import {ContentTypeEnum} from '../../../client/nest';
 
-function SystemPromptSelect({
+function PromptSelect({
                               message,
                               setMessage,
                               setConversationUpdateKey,
                             }) {
   const fileLogic = new FileLogic();
-  const systemPromptLogic = new PromptLogic();
+  const promptLogic = new PromptLogic();
 
-  // System prompts list
-  const [systemPrompts, setSystemPrompts] = useState([]);
+  // Prompts list
+  const [prompts, setPrompts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Alert state
@@ -56,7 +56,7 @@ function SystemPromptSelect({
   const [deletingId, setDeletingId] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
-  const selectedSystemPromptId = message.promptId || '';
+  const selectedPromptId = message.promptId || '';
 
   const showAlert = (message, severity = 'info') => {
     setAlertMessage(message);
@@ -65,14 +65,14 @@ function SystemPromptSelect({
   };
 
   useEffect(() => {
-    fetchSystemPrompts();
+    fetchPrompts();
   }, []);
 
-  const fetchSystemPrompts = async () => {
+  const fetchPrompts = async () => {
     setLoading(true);
     try {
-      const prompts = await systemPromptLogic.fetchSystemPrompts();
-      setSystemPrompts(prompts);
+      const prompts = await promptLogic.fetchPrompts();
+      setPrompts(prompts);
     } catch (err) {
       showAlert(err.message, 'error');
     } finally {
@@ -97,7 +97,7 @@ function SystemPromptSelect({
       return;
     }
 
-    const selectedPrompt = systemPrompts.find(systemPrompt => systemPrompt.id === value);
+    const selectedPrompt = prompts.find(prompt => prompt.id === value);
     if (selectedPrompt) {
       setMessage(message.id, {
         ...message,
@@ -111,22 +111,22 @@ function SystemPromptSelect({
   const handleSave = async () => {
     setSaving(true);
     try {
-      const newSystemPrompt = await systemPromptLogic.saveSystemPrompt({
+      const newPrompt = await promptLogic.savePrompt({
         name: newName.trim(),
         contents: message.contents,
       });
 
       setMessage(message.id, {
         ...message,
-        promptId: newSystemPrompt.id,
+        promptId: newPrompt.id,
       });
       setConversationUpdateKey(prev => prev + 1);
 
-      await fetchSystemPrompts();
+      await fetchPrompts();
 
       setSaveDialogOpen(false);
       setNewName('');
-      showAlert('System prompt saved', 'success');
+      showAlert('Prompt saved', 'success');
     } catch (err) {
       showAlert(err.message, 'error');
     } finally {
@@ -169,7 +169,7 @@ function SystemPromptSelect({
 
       setConversationUpdateKey(prev => prev + 1);
       setUnlinkDialogOpen(false);
-      showAlert('Unlinked from system prompt', 'success');
+      showAlert('Unlinked from prompt', 'success');
     } catch (err) {
       showAlert(err.message, 'error');
     } finally {
@@ -188,7 +188,7 @@ function SystemPromptSelect({
 
     setDeleting(true);
     try {
-      const deletedPrompt = await systemPromptLogic.deleteSystemPrompt(deletingId);
+      const deletedPrompt = await promptLogic.deletePrompt(deletingId);
 
       // Delete the files from storage
       const fileUrls = (deletedPrompt.contents)
@@ -210,10 +210,10 @@ function SystemPromptSelect({
         setConversationUpdateKey(prev => prev + 1);
       }
 
-      await fetchSystemPrompts();
+      await fetchPrompts();
       setDeleteDialogOpen(false);
       setDeletingId(null);
-      showAlert('System prompt deleted', 'success');
+      showAlert('Prompt deleted', 'success');
     } catch (err) {
       showAlert(err.message, 'error');
     } finally {
@@ -224,11 +224,11 @@ function SystemPromptSelect({
   const handleContentsUpdate = async () => {
     if (!message.promptId) return;
 
-    const currentPrompt = systemPrompts.find(systemPrompt => systemPrompt.id === message.promptId);
+    const currentPrompt = prompts.find(prompt => prompt.id === message.promptId);
     if (!currentPrompt) return;
 
     try {
-      await systemPromptLogic.updateSystemPrompt(
+      await promptLogic.updatePrompt(
         message.promptId,
         currentPrompt.version,
         {
@@ -236,7 +236,7 @@ function SystemPromptSelect({
           contents: message.contents,
         }
       );
-      await fetchSystemPrompts();
+      await fetchPrompts();
     } catch (err) {
       showAlert(err.message, 'error');
     }
@@ -251,20 +251,20 @@ function SystemPromptSelect({
   return (
     <>
       <FormControl size="small" sx={{minWidth: 160, ml: 1}}>
-        <InputLabel id="system-prompt-select-label">System Prompt</InputLabel>
+        <InputLabel id="prompt-select-label">Prompt</InputLabel>
         <Select
-          labelId="system-prompt-select-label"
-          value={selectedSystemPromptId}
+          labelId="prompt-select-label"
+          value={selectedPromptId}
           onChange={handleSelect}
-          label="System Prompt"
+          label="Prompt"
           disabled={loading}
           renderValue={(value) => {
-            const prompt = systemPrompts.find(sp => sp.id === value);
+            const prompt = prompts.find(sp => sp.id === value);
             return prompt ? prompt.name : '';
           }}
         >
           {/* Save option */}
-          {!selectedSystemPromptId && (
+          {!selectedPromptId && (
             <MenuItem value="save">
               <ListItemIcon><AddIcon fontSize="small"/></ListItemIcon>
               <ListItemText>Save</ListItemText>
@@ -272,7 +272,7 @@ function SystemPromptSelect({
           )}
 
           {/* Unlink option */}
-          {selectedSystemPromptId && (
+          {selectedPromptId && (
             <MenuItem value="unlink">
               <ListItemIcon><LinkOffIcon fontSize="small"/></ListItemIcon>
               <ListItemText>Unlink</ListItemText>
@@ -281,8 +281,8 @@ function SystemPromptSelect({
 
           <Divider/>
 
-          {/* List of system prompts */}
-          {systemPrompts.map((sp) => (
+          {/* List of prompts */}
+          {prompts.map((sp) => (
             <MenuItem key={sp.id} value={sp.id}>
               <ListItemText primary={sp.name}/>
               <IconButton
@@ -296,15 +296,15 @@ function SystemPromptSelect({
             </MenuItem>
           ))}
 
-          {systemPrompts.length === 0 && !loading && (
-            <MenuItem disabled>No saved system prompts</MenuItem>
+          {prompts.length === 0 && !loading && (
+            <MenuItem disabled>No saved prompts</MenuItem>
           )}
         </Select>
       </FormControl>
 
       {/* Save Dialog */}
       <Dialog open={saveDialogOpen} onClose={saving ? undefined : () => setSaveDialogOpen(false)}>
-        <DialogTitle>Save System Prompt</DialogTitle>
+        <DialogTitle>Save Prompt</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -331,7 +331,7 @@ function SystemPromptSelect({
 
       {/* Unlink Dialog */}
       <Dialog open={unlinkDialogOpen} onClose={unlinking ? undefined : () => setUnlinkDialogOpen(false)}>
-        <DialogTitle>Unlink from System Prompt</DialogTitle>
+        <DialogTitle>Unlink from Prompt</DialogTitle>
         <DialogContent>
           Do you want to keep the current content?
         </DialogContent>
@@ -357,9 +357,9 @@ function SystemPromptSelect({
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={deleting ? undefined : () => setDeleteDialogOpen(false)}>
-        <DialogTitle>Delete System Prompt?</DialogTitle>
+        <DialogTitle>Delete Prompt?</DialogTitle>
         <DialogContent>
-          This will make the system prompt unavailable for any conversations using it.
+          This will make the prompt unavailable for any conversations using it.
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)} disabled={deleting}>Cancel</Button>
@@ -389,4 +389,4 @@ function SystemPromptSelect({
   );
 }
 
-export default SystemPromptSelect;
+export default PromptSelect;

@@ -57,7 +57,6 @@ function ConversationList({
   const [isLoadingLabels, setIsLoadingLabels] = useState(false);
 
   const conversationLogic = new ConversationLogic();
-  const systemPromptLogic = new PromptLogic();
   const labelLogic = new LabelLogic();
 
   const showAlert = (message, severity = 'info') => {
@@ -110,7 +109,7 @@ function ConversationList({
       if (selectedConversationId) {
         const currentConversation = newConversations.find(c => c.id === selectedConversationId);
         if (currentConversation) {
-          await ConversationLogic.populateSystemPromptContents(currentConversation.messages);
+          await ConversationLogic.populatePromptContents(currentConversation.messages);
           setMessages(currentConversation.messages);
         }
       }
@@ -132,7 +131,7 @@ function ConversationList({
     const conversation = conversations.find(conversation => conversation.id === conversationId);
     const messages = conversation.messages;
 
-    await ConversationLogic.populateSystemPromptContents(messages);
+    await ConversationLogic.populatePromptContents(messages);
 
     setIsTemporaryChat(false);
     setMessages(messages);

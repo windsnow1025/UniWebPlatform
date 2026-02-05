@@ -2,37 +2,37 @@ import {getNestOpenAPIConfiguration} from '@/lib/common/APIConfig';
 import {PromptReqDto, PromptResDto, PromptsApi} from '@/client/nest';
 
 export default class PromptClient {
-  async fetchSystemPrompts(): Promise<PromptResDto[]> {
+  async fetchPrompts(): Promise<PromptResDto[]> {
     const api = new PromptsApi(getNestOpenAPIConfiguration());
     const res = await api.promptsControllerFind();
     return res.data;
   }
 
-  async fetchSystemPrompt(id: number): Promise<PromptResDto> {
+  async fetchPrompt(id: number): Promise<PromptResDto> {
     const api = new PromptsApi(getNestOpenAPIConfiguration());
     const res = await api.promptsControllerFindOne(id);
     return res.data;
   }
 
-  async saveSystemPrompt(
-    systemPrompt: PromptReqDto
+  async savePrompt(
+    prompt: PromptReqDto
   ): Promise<PromptResDto> {
     const api = new PromptsApi(getNestOpenAPIConfiguration());
-    const res = await api.promptsControllerCreate(systemPrompt);
+    const res = await api.promptsControllerCreate(prompt);
     return res.data;
   }
 
-  async updateSystemPrompt(
+  async updatePrompt(
     id: number,
     etag: string,
-    systemPrompt: PromptReqDto
+    prompt: PromptReqDto
   ): Promise<PromptResDto> {
     const api = new PromptsApi(getNestOpenAPIConfiguration());
-    const res = await api.promptsControllerUpdate(id, etag, systemPrompt);
+    const res = await api.promptsControllerUpdate(id, etag, prompt);
     return res.data;
   }
 
-  async updateSystemPromptName(
+  async updatePromptName(
     id: number,
     etag: string,
     name: string
@@ -42,7 +42,7 @@ export default class PromptClient {
     return res.data;
   }
 
-  async deleteSystemPrompt(id: number): Promise<PromptResDto> {
+  async deletePrompt(id: number): Promise<PromptResDto> {
     const api = new PromptsApi(getNestOpenAPIConfiguration());
     const res = await api.promptsControllerDelete(id);
     return res.data;
