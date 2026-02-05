@@ -302,6 +302,7 @@ function PromptSelect({
       <FormControl size="small" sx={{minWidth: 160, ml: 1}}>
         <InputLabel id="prompt-select-label">Prompt</InputLabel>
         <Select
+          id="prompt-select"
           labelId="prompt-select-label"
           value={selectedPromptId}
           onChange={handleSelect}
