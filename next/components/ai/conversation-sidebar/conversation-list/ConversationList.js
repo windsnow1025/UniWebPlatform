@@ -28,8 +28,8 @@ function ConversationList({
                             selectedConversationId,
                             setSelectedConversationId,
                             setMessages,
-                            conversationLoadKey,
-                            setConversationLoadKey,
+                            conversationsReloadKey,
+                            setConversationsReloadKey,
                             setIsTemporaryChat,
                             clearUIStateRef,
                           }) {
@@ -79,7 +79,7 @@ function ConversationList({
     }
     loadConversations();
     loadLabels();
-  }, [conversationLoadKey, signedIn]);
+  }, [conversationsReloadKey, signedIn]);
 
   const loadLabels = async () => {
     setIsLoadingLabels(true);
@@ -249,7 +249,7 @@ function ConversationList({
                           selectedConversationId={selectedConversationId}
                           setSelectedConversationId={setSelectedConversationId}
                           setMessages={setMessages}
-                          setConversationLoadKey={setConversationLoadKey}
+                          setConversationsReloadKey={setConversationsReloadKey}
                           clearUIStateRef={clearUIStateRef}
                           setLoadingConversationId={setLoadingConversationId}
                           labels={labels}

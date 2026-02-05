@@ -13,8 +13,8 @@ function ConversationSidebar({
                                conversationUpdateKey,
                                conversations,
                                setConversations,
-                               conversationLoadKey,
-                               setConversationLoadKey,
+                               conversationsReloadKey,
+                               setConversationsReloadKey,
                                setIsTemporaryChat,
                                clearUIStateRef,
                              }) {
@@ -63,7 +63,7 @@ function ConversationSidebar({
         return newConversations;
       });
 
-      setConversationLoadKey(prev => prev + 1);
+      setConversationsReloadKey(prev => prev + 1);
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage(err.message);
@@ -100,7 +100,7 @@ function ConversationSidebar({
               setMessages={setMessages}
               setConversations={setConversations}
               setSelectedConversationId={setSelectedConversationId}
-              setConversationLoadKey={setConversationLoadKey}
+              setConversationsReloadKey={setConversationsReloadKey}
               setIsTemporaryChat={setIsTemporaryChat}
               size="small"
               clearUIStateRef={clearUIStateRef}
@@ -115,8 +115,8 @@ function ConversationSidebar({
           selectedConversationId={selectedConversationId}
           setSelectedConversationId={setSelectedConversationId}
           setMessages={setMessages}
-          conversationLoadKey={conversationLoadKey}
-          setConversationLoadKey={setConversationLoadKey}
+          conversationsReloadKey={conversationsReloadKey}
+          setConversationsReloadKey={setConversationsReloadKey}
           setIsTemporaryChat={setIsTemporaryChat}
           clearUIStateRef={clearUIStateRef}
         />

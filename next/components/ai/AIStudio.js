@@ -44,9 +44,9 @@ function AIStudio({
   // Conversation
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [conversationUpdateKey, setConversationUpdateKey] = useState(0);
-  const [promptUpdateKey, setPromptUpdateKey] = useState(0);
   const [conversations, setConversations] = useState([]);
-  const [conversationLoadKey, setConversationLoadKey] = useState(0);
+  const [conversationsReloadKey, setConversationsReloadKey] = useState(0);
+  const [promptsReloadKey, setPromptsReloadKey] = useState(0);
 
   // Credit refresh
   const [creditRefreshKey, setCreditRefreshKey] = useState(0);
@@ -59,7 +59,7 @@ function AIStudio({
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        setConversationLoadKey(prev => prev + 1);
+        setConversationsReloadKey(prev => prev + 1);
       }
     };
 
@@ -97,8 +97,8 @@ function AIStudio({
               conversationUpdateKey={conversationUpdateKey}
               conversations={conversations}
               setConversations={setConversations}
-              conversationLoadKey={conversationLoadKey}
-              setConversationLoadKey={setConversationLoadKey}
+              conversationsReloadKey={conversationsReloadKey}
+              setConversationsReloadKey={setConversationsReloadKey}
               setIsTemporaryChat={setIsTemporaryChat}
               clearUIStateRef={clearUIStateRef}
             />
@@ -114,8 +114,8 @@ function AIStudio({
                 conversationUpdateKey={conversationUpdateKey}
                 conversations={conversations}
                 setConversations={setConversations}
-                conversationLoadKey={conversationLoadKey}
-                setConversationLoadKey={setConversationLoadKey}
+                conversationsReloadKey={conversationsReloadKey}
+                setConversationsReloadKey={setConversationsReloadKey}
                 setIsTemporaryChat={setIsTemporaryChat}
                 clearUIStateRef={clearUIStateRef}
               />
@@ -155,8 +155,8 @@ function AIStudio({
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
                 setConversationUpdateKey={setConversationUpdateKey}
-                promptUpdateKey={promptUpdateKey}
-                setPromptUpdateKey={setPromptUpdateKey}
+                promptsReloadKey={promptsReloadKey}
+                setPromptsReloadKey={setPromptsReloadKey}
                 isTemporaryChat={isTemporaryChat}
                 isLastChunkThought={isLastChunkThought}
               />
@@ -166,7 +166,7 @@ function AIStudio({
                   setMessages={setMessages}
                   setConversations={setConversations}
                   setSelectedConversationId={setSelectedConversationId}
-                  setConversationLoadKey={setConversationLoadKey}
+                  setConversationsReloadKey={setConversationsReloadKey}
                   setIsTemporaryChat={setIsTemporaryChat}
                   size="large"
                   clearUIStateRef={clearUIStateRef}
@@ -192,7 +192,7 @@ function AIStudio({
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
                 setIsLastChunkThought={setIsLastChunkThought}
-                setConversationLoadKey={setConversationLoadKey}
+                setConversationsReloadKey={setConversationsReloadKey}
                 setCreditRefreshKey={setCreditRefreshKey}
                 handleGenerateRef={handleGenerateRef}
                 clearUIStateRef={clearUIStateRef}

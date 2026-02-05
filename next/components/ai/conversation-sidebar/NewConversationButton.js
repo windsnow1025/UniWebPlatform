@@ -8,7 +8,7 @@ function NewConversationButton({
                                  setMessages,
                                  setConversations,
                                  setSelectedConversationId,
-                                 setConversationLoadKey,
+                                 setConversationsReloadKey,
                                  setIsTemporaryChat,
                                  size,
                                  clearUIStateRef,
@@ -39,7 +39,7 @@ function NewConversationButton({
       setConversations(prev => [newConversation, ...prev]);
       setSelectedConversationId(newConversation.id);
       setMessages(newConversation.messages);
-      setConversationLoadKey(prev => prev + 1);
+      setConversationsReloadKey(prev => prev + 1);
     } catch (err) {
       setAlertOpen(true);
       setAlertMessage(err.message);
