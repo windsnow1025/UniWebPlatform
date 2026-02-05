@@ -29,10 +29,10 @@ import {ContentTypeEnum} from '../../../client/nest';
 import ConfirmDialog from '../../common/ConfirmDialog';
 
 function PromptSelect({
-                              message,
-                              setMessage,
-                              setConversationUpdateKey,
-                            }) {
+                        message,
+                        setMessage,
+                        setConversationUpdateKey,
+                      }) {
   const fileLogic = new FileLogic();
   const promptLogic = new PromptLogic();
 
@@ -210,8 +210,6 @@ function PromptSelect({
       setDeletingId(null);
       return;
     }
-
-    if (deleting) return;
 
     setDeleting(true);
     try {
@@ -401,14 +399,12 @@ function PromptSelect({
             setUnlinkDialogOpen(false);
             return;
           }
-          if (unlinking) {
-            return;
-          }
           handleUnlink(true);
         }}
         title="Unlink from Prompt"
         content="This will re-upload all files in the message contents. Continue?"
         disableBackdropClose={unlinking}
+        isLoading={unlinking}
       />
 
       {/* Rename Dialog */}
@@ -445,6 +441,7 @@ function PromptSelect({
         title="Delete Prompt?"
         content="This will make the prompt unavailable for any conversations using it."
         disableBackdropClose={deleting}
+        isLoading={deleting}
       />
 
       {/* Alert Snackbar */}
