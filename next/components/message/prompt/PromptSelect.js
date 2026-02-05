@@ -22,6 +22,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import PromptLogic from '../../../lib/prompt/PromptLogic';
 import FileLogic from '../../../lib/common/file/FileLogic';
 import {ContentTypeEnum} from '../../../client/nest';
@@ -51,6 +52,12 @@ function PromptSelect({
   // Unlink dialog
   const [unlinkDialogOpen, setUnlinkDialogOpen] = useState(false);
   const [unlinking, setUnlinking] = useState(false);
+
+  // Rename dialog
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+  const [renameValue, setRenameValue] = useState('');
+  const [renamingId, setRenamingId] = useState(null);
+  const [renaming, setRenaming] = useState(false);
 
   // Delete confirmation dialog
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -189,6 +196,13 @@ function PromptSelect({
     setDeleteDialogOpen(true);
   };
 
+  const handleRenameClick = (event, id, name) => {
+    event.stopPropagation();
+    setRenamingId(id);
+    setRenameValue(name);
+    setRenameDialogOpen(true);
+  };
+
   const handleDeleteConfirm = async () => {
     if (!deletingId) return;
 
@@ -224,6 +238,28 @@ function PromptSelect({
       showAlert(err.message, 'error');
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const handleRenameConfirm = async () => {
+    const currentPrompt = prompts.find(prompt => prompt.id === renamingId);
+    if (!currentPrompt) return;
+
+    setRenaming(true);
+    try {
+      await promptLogic.updatePromptName(
+        currentPrompt.id,
+        currentPrompt.version,
+        renameValue.trim()
+      );
+      await fetchPrompts();
+      setRenameDialogOpen(false);
+      setRenamingId(null);
+      showAlert('Prompt renamed', 'success');
+    } catch (err) {
+      showAlert(err.message, 'error');
+    } finally {
+      setRenaming(false);
     }
   };
 
@@ -301,9 +337,16 @@ function PromptSelect({
               <ListItemText primary={sp.name}/>
               <IconButton
                 size="small"
+                onClick={(e) => handleRenameClick(e, sp.id, sp.name)}
+                sx={{ml: 1}}
+              >
+                <EditIcon fontSize="small"/>
+              </IconButton>
+              <IconButton
+                size="small"
                 color="error"
                 onClick={(e) => handleDeleteClick(e, sp.id)}
-                sx={{ml: 1}}
+                sx={{ml: 0.5}}
               >
                 <DeleteIcon fontSize="small"/>
               </IconButton>
@@ -358,6 +401,33 @@ function PromptSelect({
             startIcon={unlinking ? <CircularProgress size={16}/> : null}
           >
             Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Rename Dialog */}
+      <Dialog open={renameDialogOpen} onClose={renaming ? undefined : () => setRenameDialogOpen(false)}>
+        <DialogTitle>Rename Prompt</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            fullWidth
+            margin="dense"
+            label="Name"
+            value={renameValue}
+            onChange={(e) => setRenameValue(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && renameValue.trim() && handleRenameConfirm()}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setRenameDialogOpen(false)} disabled={renaming}>Cancel</Button>
+          <Button
+            onClick={handleRenameConfirm}
+            variant="contained"
+            disabled={renaming || !renameValue.trim()}
+            startIcon={renaming ? <CircularProgress size={16}/> : null}
+          >
+            Save
           </Button>
         </DialogActions>
       </Dialog>
