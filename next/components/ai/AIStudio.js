@@ -168,14 +168,14 @@ function AIStudio({
                   setSelectedConversationId={setSelectedConversationId}
                   setConversationsReloadKey={setConversationsReloadKey}
                   setIsTemporaryChat={setIsTemporaryChat}
-                  size="large"
+                  buttonStyle="main"
                   clearUIStateRef={clearUIStateRef}
                 />
                 <TemporaryChatButton
                   setMessages={setMessages}
                   setSelectedConversationId={setSelectedConversationId}
                   setIsTemporaryChat={setIsTemporaryChat}
-                  size="large"
+                  buttonStyle="main"
                   clearUIStateRef={clearUIStateRef}
                 />
               </div>

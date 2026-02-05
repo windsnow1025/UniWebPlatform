@@ -10,7 +10,7 @@ function NewConversationButton({
                                  setSelectedConversationId,
                                  setConversationsReloadKey,
                                  setIsTemporaryChat,
-                                 size,
+                                 buttonStyle,
                                  clearUIStateRef,
                                }) {
   const conversationLogic = new ConversationLogic();
@@ -49,16 +49,38 @@ function NewConversationButton({
     }
   };
 
+  const isMainStyle = buttonStyle === "main";
+  const buttonProps = isMainStyle ? {
+    size: "large",
+    variant: "contained",
+    color: "primary",
+    fullWidth: false,
+    sx: {
+      borderRadius: 999,
+      px: 4,
+      py: 1.2,
+      textTransform: 'none',
+      fontWeight: 600,
+      boxShadow: '0 10px 24px rgba(0, 0, 0, 0.35)'
+    }
+  } : {
+    size: "small",
+    variant: "text",
+    fullWidth: true
+  };
+
   return (
     <div className="text-nowrap">
       <Button
-        size={size}
-        variant="text"
+        size={buttonProps.size}
+        variant={buttonProps.variant}
+        color={buttonProps.color}
         startIcon={loading ? <CircularProgress size={16}/> : <ChatIcon/>}
         onClick={handleNewConversation}
         disabled={loading}
-        id={`new-conversation-button-${size}`}
-        fullWidth
+        id={`new-conversation-button-${buttonStyle}`}
+        fullWidth={buttonProps.fullWidth}
+        sx={buttonProps.sx}
       >
         {loading ? "Creating..." : "New Conversation"}
       </Button>
