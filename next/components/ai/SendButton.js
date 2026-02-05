@@ -12,7 +12,7 @@ function SendButton({
                       setIsGenerating,
                       isGeneratingRef,
                       setIsLastChunkThought,
-                      setConversationLoadKey,
+                      setConversationsReloadKey,
                       setCreditRefreshKey,
                       handleGenerateRef,
                       clearUIStateRef,
@@ -84,7 +84,7 @@ function SendButton({
     ]);
 
     if (conversationId) {
-      setConversationLoadKey(prev => prev + 1);
+      setConversationsReloadKey(prev => prev + 1);
     }
 
     return true;
@@ -207,7 +207,7 @@ function SendButton({
       };
 
       const handleDone = () => {
-        setConversationLoadKey(prev => prev + 1);
+        setConversationsReloadKey(prev => prev + 1);
       };
 
       try {

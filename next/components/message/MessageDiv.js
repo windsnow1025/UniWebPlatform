@@ -20,8 +20,8 @@ function MessageDiv(props) {
     setMessage,
     onMessageDelete,
     setConversationUpdateKey,
-    promptUpdateKey,
-    setPromptUpdateKey,
+    promptsReloadKey,
+    setPromptsReloadKey,
     isTemporaryChat,
     isThoughtLoading,
   } = props;
@@ -122,8 +122,8 @@ function MessageDiv(props) {
               message={message}
               setMessage={setMessage}
               setConversationUpdateKey={setConversationUpdateKey}
-              promptUpdateKey={promptUpdateKey}
-              setPromptUpdateKey={setPromptUpdateKey}
+              promptsReloadKey={promptsReloadKey}
+              setPromptsReloadKey={setPromptsReloadKey}
             />
           )}
           <div className="inflex-fill"></div>

@@ -24,7 +24,7 @@ function ConversationMenu({
                             selectedConversationId,
                             setSelectedConversationId,
                             setMessages,
-                            setConversationLoadKey,
+                            setConversationsReloadKey,
                             clearUIStateRef,
                             setLoadingConversationId,
                             labels,
@@ -97,7 +97,7 @@ function ConversationMenu({
       // Remove the conversation in UI
       setConversations((prevConversations) => prevConversations.filter(c => c.id !== conversationId));
 
-      setConversationLoadKey(prev => prev + 1);
+      setConversationsReloadKey(prev => prev + 1);
       setAlertOpen(true);
       setAlertMessage('Conversation deleted');
       setAlertSeverity('success');
@@ -223,7 +223,7 @@ function ConversationMenu({
 
           setConversations(prev => [newConversation, ...prev]);
           setSelectedConversationId(newConversation.id);
-          setConversationLoadKey(prev => prev + 1);
+          setConversationsReloadKey(prev => prev + 1);
         }}
       />
 
