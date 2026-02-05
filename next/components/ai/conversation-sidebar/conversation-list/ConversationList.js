@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import {ExpandMore as ExpandMoreIcon} from '@mui/icons-material';
 import ConversationLogic from "../../../../lib/conversation/ConversationLogic";
-import SystemPromptLogic from "../../../../lib/system-prompt/SystemPromptLogic";
+import PromptLogic from "../../../../lib/prompt/PromptLogic";
 import LabelLogic from "../../../../lib/label/LabelLogic";
 import {isEqual} from 'lodash';
 import {NO_LABEL_COLOR} from "./label/PresetColors";
@@ -57,7 +57,7 @@ function ConversationList({
   const [isLoadingLabels, setIsLoadingLabels] = useState(false);
 
   const conversationLogic = new ConversationLogic();
-  const systemPromptLogic = new SystemPromptLogic();
+  const systemPromptLogic = new PromptLogic();
   const labelLogic = new LabelLogic();
 
   const showAlert = (message, severity = 'info') => {

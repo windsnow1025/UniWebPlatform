@@ -1,4 +1,4 @@
-# SystemPromptNameReqDto
+# PromptNameReqDto
 
 
 ## Properties
@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { SystemPromptNameReqDto } from './api';
+import { PromptNameReqDto } from './api';
 
-const instance: SystemPromptNameReqDto = {
+const instance: PromptNameReqDto = {
     name,
 };
 ```

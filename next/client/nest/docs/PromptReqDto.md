@@ -1,29 +1,21 @@
-# SystemPromptResDto
+# PromptReqDto
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **number** |  | [default to undefined]
 **name** | **string** |  | [default to undefined]
 **contents** | [**Array&lt;Content&gt;**](Content.md) |  | [default to undefined]
-**user** | [**UserResDto**](UserResDto.md) |  | [default to undefined]
-**updatedAt** | **string** |  | [default to undefined]
-**version** | **number** |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { SystemPromptResDto } from './api';
+import { PromptReqDto } from './api';
 
-const instance: SystemPromptResDto = {
-    id,
+const instance: PromptReqDto = {
     name,
     contents,
-    user,
-    updatedAt,
-    version,
 };
 ```
 

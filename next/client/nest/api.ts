@@ -118,7 +118,7 @@ export interface Message {
     'id'?: string;
     'role': MessageRoleEnum;
     'contents': Array<Content>;
-    'systemPromptId'?: number;
+    'promptId'?: number;
     'thought'?: string;
     'display'?: string;
 }
@@ -135,23 +135,23 @@ export interface ProductResDto {
     'id': string;
     'credit': number;
 }
-export interface ReduceCreditReqDto {
-    'amount': number;
-}
-export interface SystemPromptNameReqDto {
+export interface PromptNameReqDto {
     'name': string;
 }
-export interface SystemPromptReqDto {
+export interface PromptReqDto {
     'name': string;
     'contents': Array<Content>;
 }
-export interface SystemPromptResDto {
+export interface PromptResDto {
     'id': number;
     'name': string;
     'contents': Array<Content>;
     'user': UserResDto;
     'updatedAt': string;
     'version': number;
+}
+export interface ReduceCreditReqDto {
+    'amount': number;
 }
 export interface UserAvatarReqDto {
     'avatar': string;
@@ -2930,20 +2930,20 @@ export class PaymentApi extends BaseAPI {
 
 
 /**
- * SystemPromptsApi - axios parameter creator
+ * PromptsApi - axios parameter creator
  */
-export const SystemPromptsApiAxiosParamCreator = function (configuration?: Configuration) {
+export const PromptsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {SystemPromptReqDto} systemPromptReqDto 
+         * @param {PromptReqDto} promptReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerCreate: async (systemPromptReqDto: SystemPromptReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'systemPromptReqDto' is not null or undefined
-            assertParamExists('systemPromptsControllerCreate', 'systemPromptReqDto', systemPromptReqDto)
-            const localVarPath = `/system-prompts/system-prompt`;
+        promptsControllerCreate: async (promptReqDto: PromptReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'promptReqDto' is not null or undefined
+            assertParamExists('promptsControllerCreate', 'promptReqDto', promptReqDto)
+            const localVarPath = `/prompts/prompt`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2966,7 +2966,7 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(systemPromptReqDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(promptReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2979,10 +2979,10 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        promptsControllerDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemPromptsControllerDelete', 'id', id)
-            const localVarPath = `/system-prompts/system-prompt/{id}`
+            assertParamExists('promptsControllerDelete', 'id', id)
+            const localVarPath = `/prompts/prompt/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3015,8 +3015,8 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerFind: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/system-prompts`;
+        promptsControllerFind: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/prompts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3049,10 +3049,10 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerFindOne: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        promptsControllerFindOne: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemPromptsControllerFindOne', 'id', id)
-            const localVarPath = `/system-prompts/system-prompt/{id}`
+            assertParamExists('promptsControllerFindOne', 'id', id)
+            const localVarPath = `/prompts/prompt/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3084,18 +3084,18 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
          * 
          * @param {number} id 
          * @param {string} ifMatch 
-         * @param {SystemPromptReqDto} systemPromptReqDto 
+         * @param {PromptReqDto} promptReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerUpdate: async (id: number, ifMatch: string, systemPromptReqDto: SystemPromptReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        promptsControllerUpdate: async (id: number, ifMatch: string, promptReqDto: PromptReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemPromptsControllerUpdate', 'id', id)
+            assertParamExists('promptsControllerUpdate', 'id', id)
             // verify required parameter 'ifMatch' is not null or undefined
-            assertParamExists('systemPromptsControllerUpdate', 'ifMatch', ifMatch)
-            // verify required parameter 'systemPromptReqDto' is not null or undefined
-            assertParamExists('systemPromptsControllerUpdate', 'systemPromptReqDto', systemPromptReqDto)
-            const localVarPath = `/system-prompts/system-prompt/{id}`
+            assertParamExists('promptsControllerUpdate', 'ifMatch', ifMatch)
+            // verify required parameter 'promptReqDto' is not null or undefined
+            assertParamExists('promptsControllerUpdate', 'promptReqDto', promptReqDto)
+            const localVarPath = `/prompts/prompt/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3122,7 +3122,7 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(systemPromptReqDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(promptReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3133,18 +3133,18 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
          * 
          * @param {number} id 
          * @param {string} ifMatch 
-         * @param {SystemPromptNameReqDto} systemPromptNameReqDto 
+         * @param {PromptNameReqDto} promptNameReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerUpdateName: async (id: number, ifMatch: string, systemPromptNameReqDto: SystemPromptNameReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        promptsControllerUpdateName: async (id: number, ifMatch: string, promptNameReqDto: PromptNameReqDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemPromptsControllerUpdateName', 'id', id)
+            assertParamExists('promptsControllerUpdateName', 'id', id)
             // verify required parameter 'ifMatch' is not null or undefined
-            assertParamExists('systemPromptsControllerUpdateName', 'ifMatch', ifMatch)
-            // verify required parameter 'systemPromptNameReqDto' is not null or undefined
-            assertParamExists('systemPromptsControllerUpdateName', 'systemPromptNameReqDto', systemPromptNameReqDto)
-            const localVarPath = `/system-prompts/system-prompt/{id}/name`
+            assertParamExists('promptsControllerUpdateName', 'ifMatch', ifMatch)
+            // verify required parameter 'promptNameReqDto' is not null or undefined
+            assertParamExists('promptsControllerUpdateName', 'promptNameReqDto', promptNameReqDto)
+            const localVarPath = `/prompts/prompt/{id}/name`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3171,7 +3171,7 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(systemPromptNameReqDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(promptNameReqDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3182,21 +3182,21 @@ export const SystemPromptsApiAxiosParamCreator = function (configuration?: Confi
 };
 
 /**
- * SystemPromptsApi - functional programming interface
+ * PromptsApi - functional programming interface
  */
-export const SystemPromptsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = SystemPromptsApiAxiosParamCreator(configuration)
+export const PromptsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PromptsApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {SystemPromptReqDto} systemPromptReqDto 
+         * @param {PromptReqDto} promptReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemPromptsControllerCreate(systemPromptReqDto: SystemPromptReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemPromptResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemPromptsControllerCreate(systemPromptReqDto, options);
+        async promptsControllerCreate(promptReqDto: PromptReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PromptResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promptsControllerCreate(promptReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemPromptsApi.systemPromptsControllerCreate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PromptsApi.promptsControllerCreate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3205,10 +3205,10 @@ export const SystemPromptsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemPromptsControllerDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemPromptResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemPromptsControllerDelete(id, options);
+        async promptsControllerDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PromptResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promptsControllerDelete(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemPromptsApi.systemPromptsControllerDelete']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PromptsApi.promptsControllerDelete']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3216,69 +3216,69 @@ export const SystemPromptsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemPromptsControllerFind(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SystemPromptResDto>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemPromptsControllerFind(options);
+        async promptsControllerFind(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PromptResDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promptsControllerFind(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemPromptsApi.systemPromptsControllerFind']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemPromptsControllerFindOne(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemPromptResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemPromptsControllerFindOne(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemPromptsApi.systemPromptsControllerFindOne']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PromptsApi.promptsControllerFind']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {number} id 
-         * @param {string} ifMatch 
-         * @param {SystemPromptReqDto} systemPromptReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemPromptsControllerUpdate(id: number, ifMatch: string, systemPromptReqDto: SystemPromptReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemPromptResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemPromptsControllerUpdate(id, ifMatch, systemPromptReqDto, options);
+        async promptsControllerFindOne(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PromptResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promptsControllerFindOne(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemPromptsApi.systemPromptsControllerUpdate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PromptsApi.promptsControllerFindOne']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {number} id 
          * @param {string} ifMatch 
-         * @param {SystemPromptNameReqDto} systemPromptNameReqDto 
+         * @param {PromptReqDto} promptReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemPromptsControllerUpdateName(id: number, ifMatch: string, systemPromptNameReqDto: SystemPromptNameReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemPromptResDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemPromptsControllerUpdateName(id, ifMatch, systemPromptNameReqDto, options);
+        async promptsControllerUpdate(id: number, ifMatch: string, promptReqDto: PromptReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PromptResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promptsControllerUpdate(id, ifMatch, promptReqDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SystemPromptsApi.systemPromptsControllerUpdateName']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PromptsApi.promptsControllerUpdate']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} ifMatch 
+         * @param {PromptNameReqDto} promptNameReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async promptsControllerUpdateName(id: number, ifMatch: string, promptNameReqDto: PromptNameReqDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PromptResDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.promptsControllerUpdateName(id, ifMatch, promptNameReqDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PromptsApi.promptsControllerUpdateName']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * SystemPromptsApi - factory interface
+ * PromptsApi - factory interface
  */
-export const SystemPromptsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = SystemPromptsApiFp(configuration)
+export const PromptsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PromptsApiFp(configuration)
     return {
         /**
          * 
-         * @param {SystemPromptReqDto} systemPromptReqDto 
+         * @param {PromptReqDto} promptReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerCreate(systemPromptReqDto: SystemPromptReqDto, options?: RawAxiosRequestConfig): AxiosPromise<SystemPromptResDto> {
-            return localVarFp.systemPromptsControllerCreate(systemPromptReqDto, options).then((request) => request(axios, basePath));
+        promptsControllerCreate(promptReqDto: PromptReqDto, options?: RawAxiosRequestConfig): AxiosPromise<PromptResDto> {
+            return localVarFp.promptsControllerCreate(promptReqDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3286,63 +3286,63 @@ export const SystemPromptsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerDelete(id: number, options?: RawAxiosRequestConfig): AxiosPromise<SystemPromptResDto> {
-            return localVarFp.systemPromptsControllerDelete(id, options).then((request) => request(axios, basePath));
+        promptsControllerDelete(id: number, options?: RawAxiosRequestConfig): AxiosPromise<PromptResDto> {
+            return localVarFp.promptsControllerDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerFind(options?: RawAxiosRequestConfig): AxiosPromise<Array<SystemPromptResDto>> {
-            return localVarFp.systemPromptsControllerFind(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemPromptsControllerFindOne(id: number, options?: RawAxiosRequestConfig): AxiosPromise<SystemPromptResDto> {
-            return localVarFp.systemPromptsControllerFindOne(id, options).then((request) => request(axios, basePath));
+        promptsControllerFind(options?: RawAxiosRequestConfig): AxiosPromise<Array<PromptResDto>> {
+            return localVarFp.promptsControllerFind(options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {number} id 
-         * @param {string} ifMatch 
-         * @param {SystemPromptReqDto} systemPromptReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerUpdate(id: number, ifMatch: string, systemPromptReqDto: SystemPromptReqDto, options?: RawAxiosRequestConfig): AxiosPromise<SystemPromptResDto> {
-            return localVarFp.systemPromptsControllerUpdate(id, ifMatch, systemPromptReqDto, options).then((request) => request(axios, basePath));
+        promptsControllerFindOne(id: number, options?: RawAxiosRequestConfig): AxiosPromise<PromptResDto> {
+            return localVarFp.promptsControllerFindOne(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {number} id 
          * @param {string} ifMatch 
-         * @param {SystemPromptNameReqDto} systemPromptNameReqDto 
+         * @param {PromptReqDto} promptReqDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemPromptsControllerUpdateName(id: number, ifMatch: string, systemPromptNameReqDto: SystemPromptNameReqDto, options?: RawAxiosRequestConfig): AxiosPromise<SystemPromptResDto> {
-            return localVarFp.systemPromptsControllerUpdateName(id, ifMatch, systemPromptNameReqDto, options).then((request) => request(axios, basePath));
+        promptsControllerUpdate(id: number, ifMatch: string, promptReqDto: PromptReqDto, options?: RawAxiosRequestConfig): AxiosPromise<PromptResDto> {
+            return localVarFp.promptsControllerUpdate(id, ifMatch, promptReqDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} ifMatch 
+         * @param {PromptNameReqDto} promptNameReqDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        promptsControllerUpdateName(id: number, ifMatch: string, promptNameReqDto: PromptNameReqDto, options?: RawAxiosRequestConfig): AxiosPromise<PromptResDto> {
+            return localVarFp.promptsControllerUpdateName(id, ifMatch, promptNameReqDto, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * SystemPromptsApi - object-oriented interface
+ * PromptsApi - object-oriented interface
  */
-export class SystemPromptsApi extends BaseAPI {
+export class PromptsApi extends BaseAPI {
     /**
      * 
-     * @param {SystemPromptReqDto} systemPromptReqDto 
+     * @param {PromptReqDto} promptReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public systemPromptsControllerCreate(systemPromptReqDto: SystemPromptReqDto, options?: RawAxiosRequestConfig) {
-        return SystemPromptsApiFp(this.configuration).systemPromptsControllerCreate(systemPromptReqDto, options).then((request) => request(this.axios, this.basePath));
+    public promptsControllerCreate(promptReqDto: PromptReqDto, options?: RawAxiosRequestConfig) {
+        return PromptsApiFp(this.configuration).promptsControllerCreate(promptReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3351,8 +3351,8 @@ export class SystemPromptsApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public systemPromptsControllerDelete(id: number, options?: RawAxiosRequestConfig) {
-        return SystemPromptsApiFp(this.configuration).systemPromptsControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
+    public promptsControllerDelete(id: number, options?: RawAxiosRequestConfig) {
+        return PromptsApiFp(this.configuration).promptsControllerDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3360,42 +3360,42 @@ export class SystemPromptsApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public systemPromptsControllerFind(options?: RawAxiosRequestConfig) {
-        return SystemPromptsApiFp(this.configuration).systemPromptsControllerFind(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    public systemPromptsControllerFindOne(id: number, options?: RawAxiosRequestConfig) {
-        return SystemPromptsApiFp(this.configuration).systemPromptsControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    public promptsControllerFind(options?: RawAxiosRequestConfig) {
+        return PromptsApiFp(this.configuration).promptsControllerFind(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {number} id 
-     * @param {string} ifMatch 
-     * @param {SystemPromptReqDto} systemPromptReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public systemPromptsControllerUpdate(id: number, ifMatch: string, systemPromptReqDto: SystemPromptReqDto, options?: RawAxiosRequestConfig) {
-        return SystemPromptsApiFp(this.configuration).systemPromptsControllerUpdate(id, ifMatch, systemPromptReqDto, options).then((request) => request(this.axios, this.basePath));
+    public promptsControllerFindOne(id: number, options?: RawAxiosRequestConfig) {
+        return PromptsApiFp(this.configuration).promptsControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {number} id 
      * @param {string} ifMatch 
-     * @param {SystemPromptNameReqDto} systemPromptNameReqDto 
+     * @param {PromptReqDto} promptReqDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public systemPromptsControllerUpdateName(id: number, ifMatch: string, systemPromptNameReqDto: SystemPromptNameReqDto, options?: RawAxiosRequestConfig) {
-        return SystemPromptsApiFp(this.configuration).systemPromptsControllerUpdateName(id, ifMatch, systemPromptNameReqDto, options).then((request) => request(this.axios, this.basePath));
+    public promptsControllerUpdate(id: number, ifMatch: string, promptReqDto: PromptReqDto, options?: RawAxiosRequestConfig) {
+        return PromptsApiFp(this.configuration).promptsControllerUpdate(id, ifMatch, promptReqDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {string} ifMatch 
+     * @param {PromptNameReqDto} promptNameReqDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public promptsControllerUpdateName(id: number, ifMatch: string, promptNameReqDto: PromptNameReqDto, options?: RawAxiosRequestConfig) {
+        return PromptsApiFp(this.configuration).promptsControllerUpdateName(id, ifMatch, promptNameReqDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -22,7 +22,7 @@ export class Message {
   contents: Content[];
 
   // not send to FastAPI
-  systemPromptId?: number; // only for system role
+  promptId?: number;
   thought?: string;
   display?: string;
 }

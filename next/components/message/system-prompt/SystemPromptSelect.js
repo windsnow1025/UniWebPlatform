@@ -21,7 +21,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 import DeleteIcon from '@mui/icons-material/Delete';
-import SystemPromptLogic from '../../../lib/system-prompt/SystemPromptLogic';
+import PromptLogic from '../../../lib/prompt/PromptLogic';
 import FileLogic from '../../../lib/common/file/FileLogic';
 import {ContentTypeEnum} from '../../../client/nest';
 
@@ -31,7 +31,7 @@ function SystemPromptSelect({
                               setConversationUpdateKey,
                             }) {
   const fileLogic = new FileLogic();
-  const systemPromptLogic = new SystemPromptLogic();
+  const systemPromptLogic = new PromptLogic();
 
   // System prompts list
   const [systemPrompts, setSystemPrompts] = useState([]);
@@ -56,7 +56,7 @@ function SystemPromptSelect({
   const [deletingId, setDeletingId] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
-  const selectedSystemPromptId = message.systemPromptId || '';
+  const selectedSystemPromptId = message.promptId || '';
 
   const showAlert = (message, severity = 'info') => {
     setAlertMessage(message);
@@ -101,7 +101,7 @@ function SystemPromptSelect({
     if (selectedPrompt) {
       setMessage(message.id, {
         ...message,
-        systemPromptId: selectedPrompt.id,
+        promptId: selectedPrompt.id,
         contents: selectedPrompt.contents,
       });
       setConversationUpdateKey(prev => prev + 1);
@@ -118,7 +118,7 @@ function SystemPromptSelect({
 
       setMessage(message.id, {
         ...message,
-        systemPromptId: newSystemPrompt.id,
+        promptId: newSystemPrompt.id,
       });
       setConversationUpdateKey(prev => prev + 1);
 
@@ -140,7 +140,7 @@ function SystemPromptSelect({
       if (!keepContent) {
         setMessage(message.id, {
           ...message,
-          systemPromptId: undefined,
+          promptId: undefined,
           contents: [{type: ContentTypeEnum.Text, data: ''}],
         });
       } else {
@@ -162,7 +162,7 @@ function SystemPromptSelect({
 
         setMessage(message.id, {
           ...message,
-          systemPromptId: undefined,
+          promptId: undefined,
           contents: newContents,
         });
       }
@@ -201,10 +201,10 @@ function SystemPromptSelect({
       }
 
       // If current message was linked to deleted prompt, unlink it
-      if (message.systemPromptId === deletingId) {
+      if (message.promptId === deletingId) {
         setMessage(message.id, {
           ...message,
-          systemPromptId: undefined,
+          promptId: undefined,
           contents: [{type: ContentTypeEnum.Text, data: ''}],
         });
         setConversationUpdateKey(prev => prev + 1);
@@ -222,14 +222,14 @@ function SystemPromptSelect({
   };
 
   const handleContentsUpdate = async () => {
-    if (!message.systemPromptId) return;
+    if (!message.promptId) return;
 
-    const currentPrompt = systemPrompts.find(systemPrompt => systemPrompt.id === message.systemPromptId);
+    const currentPrompt = systemPrompts.find(systemPrompt => systemPrompt.id === message.promptId);
     if (!currentPrompt) return;
 
     try {
       await systemPromptLogic.updateSystemPrompt(
-        message.systemPromptId,
+        message.promptId,
         currentPrompt.version,
         {
           name: currentPrompt.name,
@@ -243,7 +243,7 @@ function SystemPromptSelect({
   };
 
   useEffect(() => {
-    if (message.systemPromptId) {
+    if (message.promptId) {
       handleContentsUpdate();
     }
   }, [message.contents]);

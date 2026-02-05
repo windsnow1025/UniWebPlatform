@@ -35,11 +35,11 @@ docs/MarkdownsApi.md
 docs/Message.md
 docs/PaymentApi.md
 docs/ProductResDto.md
+docs/PromptNameReqDto.md
+docs/PromptReqDto.md
+docs/PromptResDto.md
+docs/PromptsApi.md
 docs/ReduceCreditReqDto.md
-docs/SystemPromptNameReqDto.md
-docs/SystemPromptReqDto.md
-docs/SystemPromptResDto.md
-docs/SystemPromptsApi.md
 docs/UserAvatarReqDto.md
 docs/UserEmailPasswordReqDto.md
 docs/UserEmailReqDto.md

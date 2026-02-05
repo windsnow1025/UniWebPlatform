@@ -1,44 +1,32 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-if TYPE_CHECKING:
-    from ..models.content import Content
-
-
-T = TypeVar("T", bound="SystemPromptReqDto")
+T = TypeVar("T", bound="PromptNameReqDto")
 
 
 @_attrs_define
-class SystemPromptReqDto:
+class PromptNameReqDto:
     """
     Attributes:
         name (str):
-        contents (list[Content]):
     """
 
     name: str
-    contents: list[Content]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
-
-        contents = []
-        for contents_item_data in self.contents:
-            contents_item = contents_item_data.to_dict()
-            contents.append(contents_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "name": name,
-                "contents": contents,
             }
         )
 
@@ -46,25 +34,15 @@ class SystemPromptReqDto:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.content import Content
-
         d = dict(src_dict)
         name = d.pop("name")
 
-        contents = []
-        _contents = d.pop("contents")
-        for contents_item_data in _contents:
-            contents_item = Content.from_dict(contents_item_data)
-
-            contents.append(contents_item)
-
-        system_prompt_req_dto = cls(
+        prompt_name_req_dto = cls(
             name=name,
-            contents=contents,
         )
 
-        system_prompt_req_dto.additional_properties = d
-        return system_prompt_req_dto
+        prompt_name_req_dto.additional_properties = d
+        return prompt_name_req_dto
 
     @property
     def additional_keys(self) -> list[str]:

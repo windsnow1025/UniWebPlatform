@@ -23,8 +23,8 @@ import { Markdown } from './markdowns/markdown.entity';
 import { MarkdownsModule } from './markdowns/markdowns.module';
 import { Announcement } from './announcement/announcement.entity';
 import { AnnouncementModule } from './announcement/announcement.module';
-import { SystemPrompt } from './system-prompts/system-prompt.entity';
-import { SystemPromptsModule } from './system-prompts/system-prompts.module';
+import { Prompt } from './prompts/prompt.entity';
+import { PromptsModule } from './prompts/prompts.module';
 import { Label } from './labels/label.entity';
 import { LabelsModule } from './labels/labels.module';
 import { PaymentModule } from './payment/payment.module';
@@ -52,7 +52,7 @@ import { PaymentModule } from './payment/payment.module';
             Conversation,
             Markdown,
             Announcement,
-            SystemPrompt,
+            Prompt,
             Label,
           ],
           synchronize: true,
@@ -96,7 +96,7 @@ import { PaymentModule } from './payment/payment.module';
     ConversationsModule,
     MarkdownsModule,
     AnnouncementModule,
-    SystemPromptsModule,
+    PromptsModule,
     LabelsModule,
     PaymentModule,
   ],

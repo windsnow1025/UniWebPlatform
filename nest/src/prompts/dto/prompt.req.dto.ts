@@ -1,7 +1,7 @@
 import { IsArray, IsString } from 'class-validator';
 import { Content } from '../../conversations/message.entity';
 
-export class SystemPromptReqDto {
+export class PromptReqDto {
   @IsString()
   name: string;
 
@@ -9,7 +9,7 @@ export class SystemPromptReqDto {
   contents: Content[];
 }
 
-export class SystemPromptNameReqDto {
+export class PromptNameReqDto {
   @IsString()
   name: string;
 }
