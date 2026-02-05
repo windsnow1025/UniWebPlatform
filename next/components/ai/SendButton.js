@@ -212,8 +212,8 @@ function SendButton({
 
       try {
         if (!isTemporaryChat) {
-          const currentConversation = conversations.find(convo => convo.id === selectedConversationId);
           const latestConversation = await conversationLogic.fetchConversation(selectedConversationId);
+          const currentConversation = conversations.find(convo => convo.id === selectedConversationId);
           if (latestConversation.version !== currentConversation.version) {
             throw new Error("Conversation is stale. Please reload the conversation.")
           }
