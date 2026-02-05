@@ -45,6 +45,10 @@ function ConversationItem({
     setAlertOpen(true);
   };
 
+  const stopEvent = (e) => {
+    e.stopPropagation();
+  };
+
   const startEditing = (e) => {
     e.stopPropagation();
     setIsEditing(true);
@@ -94,6 +98,8 @@ function ConversationItem({
               autoFocus
               fullWidth
               onClick={(e) => e.stopPropagation()}
+              onMouseDown={stopEvent}
+              onTouchStart={stopEvent}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   e.stopPropagation();
@@ -129,19 +135,32 @@ function ConversationItem({
             </IconButton>
           ) : isEditing ? (
             <Tooltip title="Save (Enter)">
-              <IconButton onClick={handleSave}>
+              <IconButton
+                onClick={handleSave}
+                onMouseDown={stopEvent}
+                onTouchStart={stopEvent}
+              >
                 <SaveOutlinedIcon/>
               </IconButton>
             </Tooltip>
           ) : (
             <Tooltip title="Rename">
-              <IconButton size="small" onClick={startEditing}>
+              <IconButton
+                size="small"
+                onClick={startEditing}
+                onMouseDown={stopEvent}
+                onTouchStart={stopEvent}
+              >
                 <EditIcon fontSize="small"/>
               </IconButton>
             </Tooltip>
           )}
           <Tooltip size="small" title="More">
-            <IconButton onClick={handleMenuClick}>
+            <IconButton
+              onClick={handleMenuClick}
+              onMouseDown={stopEvent}
+              onTouchStart={stopEvent}
+            >
               <MoreVertIcon fontSize="small"/>
             </IconButton>
           </Tooltip>
