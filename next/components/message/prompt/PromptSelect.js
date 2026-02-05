@@ -26,6 +26,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PromptLogic from '../../../lib/prompt/PromptLogic';
 import FileLogic from '../../../lib/common/file/FileLogic';
 import {ContentTypeEnum} from '../../../client/nest';
+import ConfirmDialog from '../../common/ConfirmDialog';
 
 function PromptSelect({
                               message,
@@ -203,8 +204,14 @@ function PromptSelect({
     setRenameDialogOpen(true);
   };
 
-  const handleDeleteConfirm = async () => {
-    if (!deletingId) return;
+  const handleDeleteDialogClose = async (confirmed) => {
+    if (!confirmed) {
+      setDeleteDialogOpen(false);
+      setDeletingId(null);
+      return;
+    }
+
+    if (deleting) return;
 
     setDeleting(true);
     try {
@@ -387,23 +394,22 @@ function PromptSelect({
       </Dialog>
 
       {/* Unlink Dialog */}
-      <Dialog open={unlinkDialogOpen} onClose={unlinking ? undefined : () => setUnlinkDialogOpen(false)}>
-        <DialogTitle>Unlink from Prompt</DialogTitle>
-        <DialogContent>
-          This will re-upload all files in the message contents. Continue?
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setUnlinkDialogOpen(false)} disabled={unlinking}>Cancel</Button>
-          <Button
-            onClick={() => handleUnlink(true)}
-            variant="contained"
-            disabled={unlinking}
-            startIcon={unlinking ? <CircularProgress size={16}/> : null}
-          >
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmDialog
+        open={unlinkDialogOpen}
+        onClose={(confirmed) => {
+          if (!confirmed) {
+            setUnlinkDialogOpen(false);
+            return;
+          }
+          if (unlinking) {
+            return;
+          }
+          handleUnlink(true);
+        }}
+        title="Unlink from Prompt"
+        content="This will re-upload all files in the message contents. Continue?"
+        disableBackdropClose={unlinking}
+      />
 
       {/* Rename Dialog */}
       <Dialog open={renameDialogOpen} onClose={renaming ? undefined : () => setRenameDialogOpen(false)}>
@@ -433,24 +439,13 @@ function PromptSelect({
       </Dialog>
 
       {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteDialogOpen} onClose={deleting ? undefined : () => setDeleteDialogOpen(false)}>
-        <DialogTitle>Delete Prompt?</DialogTitle>
-        <DialogContent>
-          This will make the prompt unavailable for any conversations using it.
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} disabled={deleting}>Cancel</Button>
-          <Button
-            onClick={handleDeleteConfirm}
-            color="error"
-            variant="contained"
-            disabled={deleting}
-            startIcon={deleting ? <CircularProgress size={16}/> : null}
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteDialogClose}
+        title="Delete Prompt?"
+        content="This will make the prompt unavailable for any conversations using it."
+        disableBackdropClose={deleting}
+      />
 
       {/* Alert Snackbar */}
       <Snackbar
