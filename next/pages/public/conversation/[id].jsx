@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import AIChat from '../../../components/ai/AIChat';
+import AIStudio from '../../../components/ai/AIStudio';
 import ConversationLogic from '../../../lib/conversation/ConversationLogic';
 import {Alert, CircularProgress, Snackbar} from "@mui/material";
 
@@ -44,7 +44,7 @@ export default function PublicConversationPage() {
 
   return (
     <div>
-      <AIChat initMessages={messages} initIsTemporaryChat={true} />
+      <AIStudio initMessages={messages} initIsTemporaryChat={true} />
 
       <Snackbar
         open={alertOpen}

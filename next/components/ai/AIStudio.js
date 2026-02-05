@@ -15,7 +15,7 @@ import ScrollToBottomButton from './ScrollToBottomButton';
 import NewConversationButton from "./conversation-sidebar/NewConversationButton";
 import TemporaryChatButton from "./TemporaryChatButton";
 
-function AIChat({
+function AIStudio({
                   initMessages = null,
                   initIsTemporaryChat = false,
                 }) {
@@ -224,4 +224,4 @@ function AIChat({
   );
 }
 
-export default AIChat;
+export default AIStudio;
