@@ -32,6 +32,8 @@ function PromptSelect({
                         message,
                         setMessage,
                         setConversationUpdateKey,
+                        promptUpdateKey,
+                        setPromptUpdateKey,
                       }) {
   const fileLogic = new FileLogic();
   const promptLogic = new PromptLogic();
@@ -75,7 +77,7 @@ function PromptSelect({
 
   useEffect(() => {
     fetchPrompts();
-  }, []);
+  }, [promptUpdateKey]);
 
   const fetchPrompts = async () => {
     setLoading(true);
@@ -136,7 +138,7 @@ function PromptSelect({
       });
       setConversationUpdateKey(prev => prev + 1);
 
-      await fetchPrompts();
+      setPromptUpdateKey(prev => prev + 1);
 
       setSaveDialogOpen(false);
       setNewName('');
@@ -235,7 +237,7 @@ function PromptSelect({
         setConversationUpdateKey(prev => prev + 1);
       }
 
-      await fetchPrompts();
+      setPromptUpdateKey(prev => prev + 1);
       setDeleteDialogOpen(false);
       setDeletingId(null);
       showAlert('Prompt deleted', 'success');
@@ -257,7 +259,7 @@ function PromptSelect({
         currentPrompt.version,
         renameValue.trim()
       );
-      await fetchPrompts();
+      setPromptUpdateKey(prev => prev + 1);
       setRenameDialogOpen(false);
       setRenamingId(null);
       showAlert('Prompt renamed', 'success');

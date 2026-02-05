@@ -44,6 +44,7 @@ function AIChat({
   // Conversation
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [conversationUpdateKey, setConversationUpdateKey] = useState(0);
+  const [promptUpdateKey, setPromptUpdateKey] = useState(0);
   const [conversations, setConversations] = useState([]);
   const [conversationLoadKey, setConversationLoadKey] = useState(0);
 
@@ -154,6 +155,8 @@ function AIChat({
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
                 setConversationUpdateKey={setConversationUpdateKey}
+                promptUpdateKey={promptUpdateKey}
+                setPromptUpdateKey={setPromptUpdateKey}
                 isTemporaryChat={isTemporaryChat}
                 isLastChunkThought={isLastChunkThought}
               />

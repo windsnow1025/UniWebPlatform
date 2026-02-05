@@ -12,6 +12,8 @@ function ChatMessagesDiv({
                            setIsGenerating,
                            isGeneratingRef,
                            setConversationUpdateKey,
+                           promptUpdateKey,
+                           setPromptUpdateKey,
                            isTemporaryChat,
                            isLastChunkThought,
                          }) {
@@ -90,6 +92,8 @@ function ChatMessagesDiv({
                 setMessage={handleMessageUpdate}
                 onMessageDelete={handleMessageDelete}
                 setConversationUpdateKey={setConversationUpdateKey}
+                promptUpdateKey={promptUpdateKey}
+                setPromptUpdateKey={setPromptUpdateKey}
                 isTemporaryChat={isTemporaryChat}
                 isThoughtLoading={isThoughtLoading}
               />
