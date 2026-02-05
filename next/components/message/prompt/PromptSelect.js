@@ -19,6 +19,7 @@ import {
   TextField,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PromptLogic from '../../../lib/prompt/PromptLogic';
@@ -90,6 +91,11 @@ function PromptSelect({
 
     if (value === 'unlink') {
       setUnlinkDialogOpen(true);
+      return;
+    }
+
+    if (value === 'clear') {
+      await handleUnlink(false);
       return;
     }
 
@@ -271,6 +277,14 @@ function PromptSelect({
             </MenuItem>
           )}
 
+          {/* Clear option */}
+          {selectedPromptId && (
+            <MenuItem value="clear">
+              <ListItemIcon><ClearIcon fontSize="small"/></ListItemIcon>
+              <ListItemText>Clear</ListItemText>
+            </MenuItem>
+          )}
+
           {/* Unlink option */}
           {selectedPromptId && (
             <MenuItem value="unlink">
@@ -333,24 +347,17 @@ function PromptSelect({
       <Dialog open={unlinkDialogOpen} onClose={unlinking ? undefined : () => setUnlinkDialogOpen(false)}>
         <DialogTitle>Unlink from Prompt</DialogTitle>
         <DialogContent>
-          Do you want to keep the current content?
+          This will re-upload all files in the message contents. Continue?
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setUnlinkDialogOpen(false)} disabled={unlinking}>Cancel</Button>
-          <Button
-            onClick={() => handleUnlink(false)}
-            disabled={unlinking}
-            color="error"
-          >
-            Discard Content
-          </Button>
           <Button
             onClick={() => handleUnlink(true)}
             variant="contained"
             disabled={unlinking}
             startIcon={unlinking ? <CircularProgress size={16}/> : null}
           >
-            Keep Content
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
