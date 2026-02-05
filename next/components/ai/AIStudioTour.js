@@ -13,7 +13,7 @@ const steps = [
     disableBeacon: true,
   },
   {
-    target: '#new-conversation-button-large',
+    target: '#new-conversation-button-main',
     content: 'Now click on the button to start a fresh conversation. This will create a new chat where you can interact with the AI.',
     placement: 'bottom',
     spotlightClicks: true,
