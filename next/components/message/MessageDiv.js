@@ -114,7 +114,7 @@ function MessageDiv(props) {
         }}
       >
         <div className="flex items-center">
-          <RoleSelect role={message.role} setRole={handleRoleChange} disabled={!!message.systemPromptId}/>
+          <RoleSelect role={message.role} setRole={handleRoleChange} disabled={!!message.promptId}/>
           {message.role === MessageRoleEnum.System && !isTemporaryChat && (
             <SystemPromptSelect
               message={message}

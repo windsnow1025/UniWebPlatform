@@ -1,7 +1,7 @@
 import {handleError} from "@/lib/common/ErrorHandler";
 import ConversationClient from "./ConversationClient";
 import {ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto, Message} from "@/client/nest";
-import SystemPromptLogic from "@/lib/system-prompt/SystemPromptLogic";
+import PromptLogic from "@/lib/prompt/PromptLogic";
 
 export default class ConversationLogic {
   private conversationService: ConversationClient;
@@ -11,10 +11,10 @@ export default class ConversationLogic {
   }
 
   static async populateSystemPromptContents(messages: Message[]): Promise<void> {
-    const systemPromptLogic = new SystemPromptLogic();
+    const systemPromptLogic = new PromptLogic();
     for (const message of messages) {
-      if (message.systemPromptId) {
-        const systemPrompt = await systemPromptLogic.fetchSystemPrompt(message.systemPromptId);
+      if (message.promptId) {
+        const systemPrompt = await systemPromptLogic.fetchSystemPrompt(message.promptId);
         message.contents = systemPrompt.contents;
       }
     }
@@ -22,7 +22,7 @@ export default class ConversationLogic {
 
   static stripSystemPromptContents(messages: Message[]): Message[] {
     return messages.map(message => {
-      if (message.systemPromptId) {
+      if (message.promptId) {
         return {...message, contents: []};
       }
       return message;

@@ -6,7 +6,7 @@ import FileDiv from "../../message/content/file/FileDiv";
 import FilesUpload from "../../message/content/create/FilesUpload";
 import UserLogic from "../../../lib/common/user/UserLogic";
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
-import SystemPromptLogic from "../../../lib/system-prompt/SystemPromptLogic";
+import PromptLogic from "../../../lib/prompt/PromptLogic";
 
 const StorageSettings = () => {
   const fileLogic = new FileLogic();
@@ -30,7 +30,7 @@ const StorageSettings = () => {
   const [alertSeverity, setAlertSeverity] = useState("info");
 
   const conversationLogic = new ConversationLogic();
-  const systemPromptLogic = new SystemPromptLogic();
+  const systemPromptLogic = new PromptLogic();
 
   useEffect(() => {
     fetchFiles();

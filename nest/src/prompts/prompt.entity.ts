@@ -10,7 +10,7 @@ import { User } from '../users/user.entity';
 import { Content } from '../conversations/message.entity';
 
 @Entity()
-export class SystemPrompt extends BaseEntity {
+export class Prompt extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,36 +1,36 @@
-# SystemPromptsApi
+# PromptsApi
 
 All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**systemPromptsControllerCreate**](#systempromptscontrollercreate) | **POST** /system-prompts/system-prompt | |
-|[**systemPromptsControllerDelete**](#systempromptscontrollerdelete) | **DELETE** /system-prompts/system-prompt/{id} | |
-|[**systemPromptsControllerFind**](#systempromptscontrollerfind) | **GET** /system-prompts | |
-|[**systemPromptsControllerFindOne**](#systempromptscontrollerfindone) | **GET** /system-prompts/system-prompt/{id} | |
-|[**systemPromptsControllerUpdate**](#systempromptscontrollerupdate) | **PUT** /system-prompts/system-prompt/{id} | |
-|[**systemPromptsControllerUpdateName**](#systempromptscontrollerupdatename) | **PUT** /system-prompts/system-prompt/{id}/name | |
+|[**promptsControllerCreate**](#promptscontrollercreate) | **POST** /prompts/prompt | |
+|[**promptsControllerDelete**](#promptscontrollerdelete) | **DELETE** /prompts/prompt/{id} | |
+|[**promptsControllerFind**](#promptscontrollerfind) | **GET** /prompts | |
+|[**promptsControllerFindOne**](#promptscontrollerfindone) | **GET** /prompts/prompt/{id} | |
+|[**promptsControllerUpdate**](#promptscontrollerupdate) | **PUT** /prompts/prompt/{id} | |
+|[**promptsControllerUpdateName**](#promptscontrollerupdatename) | **PUT** /prompts/prompt/{id}/name | |
 
-# **systemPromptsControllerCreate**
-> SystemPromptResDto systemPromptsControllerCreate(systemPromptReqDto)
+# **promptsControllerCreate**
+> PromptResDto promptsControllerCreate(promptReqDto)
 
 
 ### Example
 
 ```typescript
 import {
-    SystemPromptsApi,
+    PromptsApi,
     Configuration,
-    SystemPromptReqDto
+    PromptReqDto
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new SystemPromptsApi(configuration);
+const apiInstance = new PromptsApi(configuration);
 
-let systemPromptReqDto: SystemPromptReqDto; //
+let promptReqDto: PromptReqDto; //
 
-const { status, data } = await apiInstance.systemPromptsControllerCreate(
-    systemPromptReqDto
+const { status, data } = await apiInstance.promptsControllerCreate(
+    promptReqDto
 );
 ```
 
@@ -38,12 +38,12 @@ const { status, data } = await apiInstance.systemPromptsControllerCreate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **systemPromptReqDto** | **SystemPromptReqDto**|  | |
+| **promptReqDto** | **PromptReqDto**|  | |
 
 
 ### Return type
 
-**SystemPromptResDto**
+**PromptResDto**
 
 ### Authorization
 
@@ -62,24 +62,24 @@ const { status, data } = await apiInstance.systemPromptsControllerCreate(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **systemPromptsControllerDelete**
-> SystemPromptResDto systemPromptsControllerDelete()
+# **promptsControllerDelete**
+> PromptResDto promptsControllerDelete()
 
 
 ### Example
 
 ```typescript
 import {
-    SystemPromptsApi,
+    PromptsApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new SystemPromptsApi(configuration);
+const apiInstance = new PromptsApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.systemPromptsControllerDelete(
+const { status, data } = await apiInstance.promptsControllerDelete(
     id
 );
 ```
@@ -93,7 +93,7 @@ const { status, data } = await apiInstance.systemPromptsControllerDelete(
 
 ### Return type
 
-**SystemPromptResDto**
+**PromptResDto**
 
 ### Authorization
 
@@ -112,22 +112,22 @@ const { status, data } = await apiInstance.systemPromptsControllerDelete(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **systemPromptsControllerFind**
-> Array<SystemPromptResDto> systemPromptsControllerFind()
+# **promptsControllerFind**
+> Array<PromptResDto> promptsControllerFind()
 
 
 ### Example
 
 ```typescript
 import {
-    SystemPromptsApi,
+    PromptsApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new SystemPromptsApi(configuration);
+const apiInstance = new PromptsApi(configuration);
 
-const { status, data } = await apiInstance.systemPromptsControllerFind();
+const { status, data } = await apiInstance.promptsControllerFind();
 ```
 
 ### Parameters
@@ -136,7 +136,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**Array<SystemPromptResDto>**
+**Array<PromptResDto>**
 
 ### Authorization
 
@@ -155,24 +155,24 @@ This endpoint does not have any parameters.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **systemPromptsControllerFindOne**
-> SystemPromptResDto systemPromptsControllerFindOne()
+# **promptsControllerFindOne**
+> PromptResDto promptsControllerFindOne()
 
 
 ### Example
 
 ```typescript
 import {
-    SystemPromptsApi,
+    PromptsApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new SystemPromptsApi(configuration);
+const apiInstance = new PromptsApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.systemPromptsControllerFindOne(
+const { status, data } = await apiInstance.promptsControllerFindOne(
     id
 );
 ```
@@ -186,7 +186,7 @@ const { status, data } = await apiInstance.systemPromptsControllerFindOne(
 
 ### Return type
 
-**SystemPromptResDto**
+**PromptResDto**
 
 ### Authorization
 
@@ -205,30 +205,30 @@ const { status, data } = await apiInstance.systemPromptsControllerFindOne(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **systemPromptsControllerUpdate**
-> SystemPromptResDto systemPromptsControllerUpdate(systemPromptReqDto)
+# **promptsControllerUpdate**
+> PromptResDto promptsControllerUpdate(promptReqDto)
 
 
 ### Example
 
 ```typescript
 import {
-    SystemPromptsApi,
+    PromptsApi,
     Configuration,
-    SystemPromptReqDto
+    PromptReqDto
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new SystemPromptsApi(configuration);
+const apiInstance = new PromptsApi(configuration);
 
 let id: number; // (default to undefined)
 let ifMatch: string; // (default to undefined)
-let systemPromptReqDto: SystemPromptReqDto; //
+let promptReqDto: PromptReqDto; //
 
-const { status, data } = await apiInstance.systemPromptsControllerUpdate(
+const { status, data } = await apiInstance.promptsControllerUpdate(
     id,
     ifMatch,
-    systemPromptReqDto
+    promptReqDto
 );
 ```
 
@@ -236,14 +236,14 @@ const { status, data } = await apiInstance.systemPromptsControllerUpdate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **systemPromptReqDto** | **SystemPromptReqDto**|  | |
+| **promptReqDto** | **PromptReqDto**|  | |
 | **id** | [**number**] |  | defaults to undefined|
 | **ifMatch** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**SystemPromptResDto**
+**PromptResDto**
 
 ### Authorization
 
@@ -262,30 +262,30 @@ const { status, data } = await apiInstance.systemPromptsControllerUpdate(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **systemPromptsControllerUpdateName**
-> SystemPromptResDto systemPromptsControllerUpdateName(systemPromptNameReqDto)
+# **promptsControllerUpdateName**
+> PromptResDto promptsControllerUpdateName(promptNameReqDto)
 
 
 ### Example
 
 ```typescript
 import {
-    SystemPromptsApi,
+    PromptsApi,
     Configuration,
-    SystemPromptNameReqDto
+    PromptNameReqDto
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new SystemPromptsApi(configuration);
+const apiInstance = new PromptsApi(configuration);
 
 let id: number; // (default to undefined)
 let ifMatch: string; // (default to undefined)
-let systemPromptNameReqDto: SystemPromptNameReqDto; //
+let promptNameReqDto: PromptNameReqDto; //
 
-const { status, data } = await apiInstance.systemPromptsControllerUpdateName(
+const { status, data } = await apiInstance.promptsControllerUpdateName(
     id,
     ifMatch,
-    systemPromptNameReqDto
+    promptNameReqDto
 );
 ```
 
@@ -293,14 +293,14 @@ const { status, data } = await apiInstance.systemPromptsControllerUpdateName(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **systemPromptNameReqDto** | **SystemPromptNameReqDto**|  | |
+| **promptNameReqDto** | **PromptNameReqDto**|  | |
 | **id** | [**number**] |  | defaults to undefined|
 | **ifMatch** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
 
-**SystemPromptResDto**
+**PromptResDto**
 
 ### Authorization
 

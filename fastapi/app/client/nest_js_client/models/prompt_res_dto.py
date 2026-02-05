@@ -1,82 +1,81 @@
 from __future__ import annotations
 
+import datetime
 from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..models.message_role import MessageRole
-from ..types import UNSET, Unset
+from dateutil.parser import isoparse
 
 if TYPE_CHECKING:
     from ..models.content import Content
+    from ..models.user_res_dto import UserResDto
 
 
-T = TypeVar("T", bound="Message")
+T = TypeVar("T", bound="PromptResDto")
 
 
 @_attrs_define
-class Message:
+class PromptResDto:
     """
     Attributes:
-        role (MessageRole):
+        id (float):
+        name (str):
         contents (list[Content]):
-        id (str | Unset):
-        prompt_id (float | Unset):
-        thought (str | Unset):
-        display (str | Unset):
+        user (UserResDto):
+        updated_at (datetime.datetime):
+        version (float):
     """
 
-    role: MessageRole
+    id: float
+    name: str
     contents: list[Content]
-    id: str | Unset = UNSET
-    prompt_id: float | Unset = UNSET
-    thought: str | Unset = UNSET
-    display: str | Unset = UNSET
+    user: UserResDto
+    updated_at: datetime.datetime
+    version: float
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        role = self.role.value
+        id = self.id
+
+        name = self.name
 
         contents = []
         for contents_item_data in self.contents:
             contents_item = contents_item_data.to_dict()
             contents.append(contents_item)
 
-        id = self.id
+        user = self.user.to_dict()
 
-        prompt_id = self.prompt_id
+        updated_at = self.updated_at.isoformat()
 
-        thought = self.thought
-
-        display = self.display
+        version = self.version
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "role": role,
+                "id": id,
+                "name": name,
                 "contents": contents,
+                "user": user,
+                "updatedAt": updated_at,
+                "version": version,
             }
         )
-        if id is not UNSET:
-            field_dict["id"] = id
-        if prompt_id is not UNSET:
-            field_dict["promptId"] = prompt_id
-        if thought is not UNSET:
-            field_dict["thought"] = thought
-        if display is not UNSET:
-            field_dict["display"] = display
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.content import Content
+        from ..models.user_res_dto import UserResDto
 
         d = dict(src_dict)
-        role = MessageRole(d.pop("role"))
+        id = d.pop("id")
+
+        name = d.pop("name")
 
         contents = []
         _contents = d.pop("contents")
@@ -85,25 +84,23 @@ class Message:
 
             contents.append(contents_item)
 
-        id = d.pop("id", UNSET)
+        user = UserResDto.from_dict(d.pop("user"))
 
-        prompt_id = d.pop("promptId", UNSET)
+        updated_at = isoparse(d.pop("updatedAt"))
 
-        thought = d.pop("thought", UNSET)
+        version = d.pop("version")
 
-        display = d.pop("display", UNSET)
-
-        message = cls(
-            role=role,
-            contents=contents,
+        prompt_res_dto = cls(
             id=id,
-            prompt_id=prompt_id,
-            thought=thought,
-            display=display,
+            name=name,
+            contents=contents,
+            user=user,
+            updated_at=updated_at,
+            version=version,
         )
 
-        message.additional_properties = d
-        return message
+        prompt_res_dto.additional_properties = d
+        return prompt_res_dto
 
     @property
     def additional_keys(self) -> list[str]:

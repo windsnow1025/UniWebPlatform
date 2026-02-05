@@ -1,15 +1,15 @@
 import {handleError} from '@/lib/common/ErrorHandler';
-import SystemPromptClient from './SystemPromptClient';
-import {SystemPromptReqDto, SystemPromptResDto} from '@/client/nest';
+import PromptClient from './PromptClient';
+import {PromptReqDto, PromptResDto} from '@/client/nest';
 
-export default class SystemPromptLogic {
-  private systemPromptClient: SystemPromptClient;
+export default class PromptLogic {
+  private systemPromptClient: PromptClient;
 
   constructor() {
-    this.systemPromptClient = new SystemPromptClient();
+    this.systemPromptClient = new PromptClient();
   }
 
-  async fetchSystemPrompts(): Promise<SystemPromptResDto[]> {
+  async fetchSystemPrompts(): Promise<PromptResDto[]> {
     try {
       return await this.systemPromptClient.fetchSystemPrompts();
     } catch (error) {
@@ -17,7 +17,7 @@ export default class SystemPromptLogic {
     }
   }
 
-  async fetchSystemPrompt(id: number): Promise<SystemPromptResDto> {
+  async fetchSystemPrompt(id: number): Promise<PromptResDto> {
     try {
       return await this.systemPromptClient.fetchSystemPrompt(id);
     } catch (error) {
@@ -26,8 +26,8 @@ export default class SystemPromptLogic {
   }
 
   async saveSystemPrompt(
-    systemPrompt: SystemPromptReqDto
-  ): Promise<SystemPromptResDto> {
+    systemPrompt: PromptReqDto
+  ): Promise<PromptResDto> {
     try {
       return await this.systemPromptClient.saveSystemPrompt(systemPrompt);
     } catch (error) {
@@ -38,8 +38,8 @@ export default class SystemPromptLogic {
   async updateSystemPrompt(
     id: number,
     etag: string,
-    systemPrompt: SystemPromptReqDto
-  ): Promise<SystemPromptResDto> {
+    systemPrompt: PromptReqDto
+  ): Promise<PromptResDto> {
     try {
       return await this.systemPromptClient.updateSystemPrompt(
         id,
@@ -55,7 +55,7 @@ export default class SystemPromptLogic {
     id: number,
     etag: string,
     name: string
-  ): Promise<SystemPromptResDto> {
+  ): Promise<PromptResDto> {
     try {
       return await this.systemPromptClient.updateSystemPromptName(
         id,
@@ -67,7 +67,7 @@ export default class SystemPromptLogic {
     }
   }
 
-  async deleteSystemPrompt(id: number): Promise<SystemPromptResDto> {
+  async deleteSystemPrompt(id: number): Promise<PromptResDto> {
     try {
       return await this.systemPromptClient.deleteSystemPrompt(id);
     } catch (error) {

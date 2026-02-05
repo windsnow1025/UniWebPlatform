@@ -1,39 +1,33 @@
 from http import HTTPStatus
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.system_prompt_req_dto import SystemPromptReqDto
-from ...models.system_prompt_res_dto import SystemPromptResDto
+from ...models.prompt_res_dto import PromptResDto
 from ...types import Response
 
 
 def _get_kwargs(
-    *,
-    body: SystemPromptReqDto,
+    id: float,
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
     _kwargs: dict[str, Any] = {
-        "method": "post",
-        "url": "/system-prompts/system-prompt",
+        "method": "get",
+        "url": "/prompts/prompt/{id}".format(
+            id=quote(str(id), safe=""),
+        ),
     }
 
-    _kwargs["json"] = body.to_dict()
-
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> SystemPromptResDto | None:
-    if response.status_code == 201:
-        response_201 = SystemPromptResDto.from_dict(response.json())
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> PromptResDto | None:
+    if response.status_code == 200:
+        response_200 = PromptResDto.from_dict(response.json())
 
-        return response_201
+        return response_200
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -41,7 +35,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[SystemPromptResDto]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[PromptResDto]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -51,24 +45,24 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
 def sync_detailed(
+    id: float,
     *,
     client: AuthenticatedClient | Client,
-    body: SystemPromptReqDto,
-) -> Response[SystemPromptResDto]:
+) -> Response[PromptResDto]:
     """
     Args:
-        body (SystemPromptReqDto):
+        id (float):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SystemPromptResDto]
+        Response[PromptResDto]
     """
 
     kwargs = _get_kwargs(
-        body=body,
+        id=id,
     )
 
     response = client.get_httpx_client().request(
@@ -79,47 +73,47 @@ def sync_detailed(
 
 
 def sync(
+    id: float,
     *,
     client: AuthenticatedClient | Client,
-    body: SystemPromptReqDto,
-) -> SystemPromptResDto | None:
+) -> PromptResDto | None:
     """
     Args:
-        body (SystemPromptReqDto):
+        id (float):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SystemPromptResDto
+        PromptResDto
     """
 
     return sync_detailed(
+        id=id,
         client=client,
-        body=body,
     ).parsed
 
 
 async def asyncio_detailed(
+    id: float,
     *,
     client: AuthenticatedClient | Client,
-    body: SystemPromptReqDto,
-) -> Response[SystemPromptResDto]:
+) -> Response[PromptResDto]:
     """
     Args:
-        body (SystemPromptReqDto):
+        id (float):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SystemPromptResDto]
+        Response[PromptResDto]
     """
 
     kwargs = _get_kwargs(
-        body=body,
+        id=id,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -128,25 +122,25 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    id: float,
     *,
     client: AuthenticatedClient | Client,
-    body: SystemPromptReqDto,
-) -> SystemPromptResDto | None:
+) -> PromptResDto | None:
     """
     Args:
-        body (SystemPromptReqDto):
+        id (float):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SystemPromptResDto
+        PromptResDto
     """
 
     return (
         await asyncio_detailed(
+            id=id,
             client=client,
-            body=body,
         )
     ).parsed
