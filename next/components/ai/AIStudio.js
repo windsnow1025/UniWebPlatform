@@ -38,24 +38,28 @@ function AIStudio({
   const [isGenerating, setIsGenerating] = useState(false);
   const isGeneratingRef = useRef(false);
 
+  // Ref for handleGenerate function
+  const handleGenerateRef = useRef(null);
+  const clearUIStateRef = useRef(null);
+
   // Thought Loading
   const [isLastChunkThought, setIsLastChunkThought] = useState(false);
 
   // Conversation
+  const [conversations, setConversations] = useState([]);
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [conversationUpdateKey, setConversationUpdateKey] = useState(0);
-  const [conversations, setConversations] = useState([]);
   const [conversationsReloadKey, setConversationsReloadKey] = useState(0);
-  const [promptsReloadKey, setPromptsReloadKey] = useState(0);
+
+  // Ref for conversation sync
   const conversationUpdatePromiseRef = useRef(null);
   const conversationVersionRef = useRef({});
 
+  // Prompt refresh
+  const [promptsReloadKey, setPromptsReloadKey] = useState(0);
+
   // Credit refresh
   const [creditRefreshKey, setCreditRefreshKey] = useState(0);
-
-  // Ref for handleGenerate function
-  const handleGenerateRef = useRef(null);
-  const clearUIStateRef = useRef(null);
 
   // Refresh conversations when page becomes visible
   useEffect(() => {
