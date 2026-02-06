@@ -9,7 +9,8 @@ function RetryButton({
                        setIsGenerating,
                        isGeneratingRef,
                        abortGenerateRef,
-                       handleGenerate
+                       handleGenerate,
+                       setConversationUpdateKey
                      }) {
   const isRetryEnabled = () => {
     if (messages === null) return false;
@@ -63,6 +64,10 @@ function RetryButton({
 
       return prevMessages.slice(0, lastAssistantIndex);
     });
+
+    if (setConversationUpdateKey) {
+      setConversationUpdateKey(prev => prev + 1);
+    }
 
     // 3. Trigger sending
     setTimeout(() => {
