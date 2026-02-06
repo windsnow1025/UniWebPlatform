@@ -219,8 +219,13 @@ function SendButton({
           const latestConversation = await conversationLogic.fetchConversation(selectedConversationId);
           const currentVersion = conversationVersionRef.current[selectedConversationId] ??
             conversations.find(convo => convo.id === selectedConversationId).version;
-          if (latestConversation.version !== currentVersion) {
+          if (latestConversation.version > currentVersion) {
             throw new Error("Conversation is stale. Please reload the conversation.")
+          }
+          if (latestConversation.version < currentVersion) {
+            setAlertMessage("Local conversation is ahead of server. Continuing generation.");
+            setAlertSeverity("warning");
+            setAlertOpen(true);
           }
         }
         let success;
