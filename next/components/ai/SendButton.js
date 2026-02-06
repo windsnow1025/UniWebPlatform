@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Button, Snackbar, Tooltip} from "@mui/material";
+import {Alert, Button, CircularProgress, Snackbar, Tooltip} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import StopIcon from '@mui/icons-material/Stop';
 import {v4 as uuidv4} from 'uuid';
 import ChatLogic from "../../lib/chat/ChatLogic";
 import ConversationLogic from "../../lib/conversation/ConversationLogic";
@@ -259,7 +258,7 @@ function SendButton({
           variant="contained"
           color="primary"
           onClick={handleGenerate}
-          startIcon={isGenerating ? <StopIcon/> : <PlayArrowIcon/>}
+          startIcon={isGenerating ? <CircularProgress size={16} color="inherit"/> : <PlayArrowIcon/>}
           disabled={messages === null}
           ref={sendButtonRef}
         >
