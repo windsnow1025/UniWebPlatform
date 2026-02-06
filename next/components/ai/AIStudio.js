@@ -47,6 +47,7 @@ function AIStudio({
   const [conversations, setConversations] = useState([]);
   const [conversationsReloadKey, setConversationsReloadKey] = useState(0);
   const [promptsReloadKey, setPromptsReloadKey] = useState(0);
+  const conversationUpdatePromiseRef = useRef(null);
 
   // Credit refresh
   const [creditRefreshKey, setCreditRefreshKey] = useState(0);
@@ -95,6 +96,7 @@ function AIStudio({
               selectedConversationId={selectedConversationId}
               setSelectedConversationId={setSelectedConversationId}
               conversationUpdateKey={conversationUpdateKey}
+              conversationUpdatePromiseRef={conversationUpdatePromiseRef}
               conversations={conversations}
               setConversations={setConversations}
               conversationsReloadKey={conversationsReloadKey}
@@ -112,6 +114,7 @@ function AIStudio({
                 selectedConversationId={selectedConversationId}
                 setSelectedConversationId={setSelectedConversationId}
                 conversationUpdateKey={conversationUpdateKey}
+                conversationUpdatePromiseRef={conversationUpdatePromiseRef}
                 conversations={conversations}
                 setConversations={setConversations}
                 conversationsReloadKey={conversationsReloadKey}
@@ -199,6 +202,7 @@ function AIStudio({
                 isTemporaryChat={isTemporaryChat}
                 selectedConversationId={selectedConversationId}
                 conversations={conversations}
+                conversationUpdatePromiseRef={conversationUpdatePromiseRef}
                 messages={messages}
                 setMessages={setMessages}
                 apiType={apiType}
