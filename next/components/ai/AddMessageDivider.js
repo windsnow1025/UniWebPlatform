@@ -19,14 +19,14 @@ function AddMessageDivider({
                              index,
                              setIsGenerating,
                              isGeneratingRef,
+                             abortGenerateRef,
                              setConversationUpdateKey
                            }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMessageAdd = (index) => {
     if (index === messages.length - 1) {
-      setIsGenerating(false);
-      isGeneratingRef.current = false;
+      abortGenerateRef.current();
     }
 
     const newMessages = [...messages];

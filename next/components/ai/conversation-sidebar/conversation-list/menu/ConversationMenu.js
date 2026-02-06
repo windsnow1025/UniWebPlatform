@@ -25,6 +25,7 @@ function ConversationMenu({
                             setSelectedConversationId,
                             setMessages,
                             setConversationsReloadKey,
+                         abortGenerateRef,
                             clearUIStateRef,
                             setLoadingConversationId,
                             labels,
@@ -66,7 +67,7 @@ function ConversationMenu({
 
     // If the conversation is currently selected, stop generating
     if (conversationId === selectedConversationId) {
-      clearUIStateRef.current?.();
+      abortGenerateRef.current();
     }
 
     setLoadingConversationId(conversationId);

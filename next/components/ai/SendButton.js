@@ -14,6 +14,7 @@ function SendButton({
                       setConversationsReloadKey,
                       setCreditRefreshKey,
                       handleGenerateRef,
+                      abortGenerateRef,
                       clearUIStateRef,
                       isTemporaryChat,
                       selectedConversationId,
@@ -251,6 +252,7 @@ function SendButton({
 
   useEffect(() => {
     handleGenerateRef.current = handleGenerate;
+    abortGenerateRef.current = abortRequest;
     clearUIStateRef.current = clearUIState;
   })
 

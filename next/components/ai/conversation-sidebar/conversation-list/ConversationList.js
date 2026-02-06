@@ -31,6 +31,7 @@ function ConversationList({
                             conversationsReloadKey,
                             setConversationsReloadKey,
                             setIsTemporaryChat,
+                            abortGenerateRef,
                             clearUIStateRef,
                           }) {
   // Alert state
@@ -250,6 +251,7 @@ function ConversationList({
                           setSelectedConversationId={setSelectedConversationId}
                           setMessages={setMessages}
                           setConversationsReloadKey={setConversationsReloadKey}
+                          abortGenerateRef={abortGenerateRef}
                           clearUIStateRef={clearUIStateRef}
                           setLoadingConversationId={setLoadingConversationId}
                           labels={labels}
