@@ -18,6 +18,7 @@ function ConversationSidebar({
                                conversationsReloadKey,
                                setConversationsReloadKey,
                                setIsTemporaryChat,
+                               abortGenerateRef,
                                clearUIStateRef,
                              }) {
   const conversationLogic = new ConversationLogic();
@@ -128,6 +129,7 @@ function ConversationSidebar({
           conversationsReloadKey={conversationsReloadKey}
           setConversationsReloadKey={setConversationsReloadKey}
           setIsTemporaryChat={setIsTemporaryChat}
+          abortGenerateRef={abortGenerateRef}
           clearUIStateRef={clearUIStateRef}
         />
       </div>

@@ -11,6 +11,7 @@ function ChatMessagesDiv({
                            isGenerating,
                            setIsGenerating,
                            isGeneratingRef,
+                           abortGenerateRef,
                            setConversationUpdateKey,
                            promptsReloadKey,
                            setPromptsReloadKey,
@@ -39,6 +40,10 @@ function ChatMessagesDiv({
 
   const handleMessageDelete = useCallback(async (id) => {
     let fileUrlsToDelete = [];
+    const isDeletingLastMessage = messages.length > 0 && messages[messages.length - 1].id === id;
+    if (isDeletingLastMessage && isGeneratingRef.current) {
+      abortGenerateRef.current();
+    }
 
     // Remove the message from the UI
     setMessages((prevMessages) => {
@@ -48,11 +53,6 @@ function ChatMessagesDiv({
         fileUrlsToDelete = ChatLogic.getFileUrlsFromMessage(messageToDelete);
       }
 
-      // Stop generating if the last message is deleted
-      if (prevMessages.length > 0 && prevMessages[prevMessages.length - 1].id === id) {
-        setIsGenerating(false);
-        isGeneratingRef.current = false;
-      }
       return prevMessages.filter((msg) => msg.id !== id);
     });
 
@@ -70,7 +70,7 @@ function ChatMessagesDiv({
 
     setConversationUpdateKey(prev => prev + 1);
 
-  }, [setMessages, setIsGenerating, isGeneratingRef, setConversationUpdateKey]);
+  }, [messages, setMessages, setIsGenerating, isGeneratingRef, abortGenerateRef, setConversationUpdateKey]);
 
   return (
     <div>
@@ -80,6 +80,7 @@ function ChatMessagesDiv({
         index={-1}
         setIsGenerating={setIsGenerating}
         isGeneratingRef={isGeneratingRef}
+        abortGenerateRef={abortGenerateRef}
         setConversationUpdateKey={setConversationUpdateKey}
       />
       {messages.map((message, index) => {
@@ -103,6 +104,7 @@ function ChatMessagesDiv({
                 index={index}
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
+                abortGenerateRef={abortGenerateRef}
                 setConversationUpdateKey={setConversationUpdateKey}
               />
             </div>

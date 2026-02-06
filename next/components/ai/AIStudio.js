@@ -40,6 +40,7 @@ function AIStudio({
 
   // Ref for handleGenerate function
   const handleGenerateRef = useRef(null);
+  const abortGenerateRef = useRef(null);
   const clearUIStateRef = useRef(null);
 
   // Thought Loading
@@ -118,6 +119,7 @@ function AIStudio({
               conversationsReloadKey={conversationsReloadKey}
               setConversationsReloadKey={setConversationsReloadKey}
               setIsTemporaryChat={setIsTemporaryChat}
+              abortGenerateRef={abortGenerateRef}
               clearUIStateRef={clearUIStateRef}
             />
           </Drawer>
@@ -137,6 +139,7 @@ function AIStudio({
                 conversationsReloadKey={conversationsReloadKey}
                 setConversationsReloadKey={setConversationsReloadKey}
                 setIsTemporaryChat={setIsTemporaryChat}
+                abortGenerateRef={abortGenerateRef}
                 clearUIStateRef={clearUIStateRef}
               />
             </Collapse>
@@ -174,6 +177,7 @@ function AIStudio({
                 isGenerating={isGenerating}
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
+                abortGenerateRef={abortGenerateRef}
                 setConversationUpdateKey={setConversationUpdateKey}
                 promptsReloadKey={promptsReloadKey}
                 setPromptsReloadKey={setPromptsReloadKey}
@@ -215,6 +219,7 @@ function AIStudio({
                 setConversationsReloadKey={setConversationsReloadKey}
                 setCreditRefreshKey={setCreditRefreshKey}
                 handleGenerateRef={handleGenerateRef}
+                abortGenerateRef={abortGenerateRef}
                 clearUIStateRef={clearUIStateRef}
                 isTemporaryChat={isTemporaryChat}
                 selectedConversationId={selectedConversationId}
@@ -236,6 +241,7 @@ function AIStudio({
                 isGenerating={isGenerating}
                 setIsGenerating={setIsGenerating}
                 isGeneratingRef={isGeneratingRef}
+                abortGenerateRef={abortGenerateRef}
                 handleGenerate={() => handleGenerateRef.current && handleGenerateRef.current()}
               />
             </div>

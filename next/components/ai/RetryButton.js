@@ -8,6 +8,7 @@ function RetryButton({
                        isGenerating,
                        setIsGenerating,
                        isGeneratingRef,
+                       abortGenerateRef,
                        handleGenerate
                      }) {
   const isRetryEnabled = () => {
@@ -45,8 +46,7 @@ function RetryButton({
 
     // 1. Stop sending if it is sending
     if (isGenerating) {
-      isGeneratingRef.current = false;
-      setIsGenerating(false);
+      abortGenerateRef.current();
     }
 
     // 2. Remove empty messages after the last assistant message and remove the last assistant message
