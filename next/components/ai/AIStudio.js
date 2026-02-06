@@ -243,6 +243,7 @@ function AIStudio({
                 isGeneratingRef={isGeneratingRef}
                 abortGenerateRef={abortGenerateRef}
                 handleGenerate={() => handleGenerateRef.current && handleGenerateRef.current()}
+                setConversationUpdateKey={setConversationUpdateKey}
               />
             </div>
           </div>
