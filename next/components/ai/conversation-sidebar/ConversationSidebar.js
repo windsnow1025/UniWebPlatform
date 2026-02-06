@@ -11,6 +11,7 @@ function ConversationSidebar({
                                selectedConversationId,
                                setSelectedConversationId,
                                conversationUpdateKey,
+                               conversationUpdatePromiseRef,
                                conversations,
                                setConversations,
                                conversationsReloadKey,
@@ -40,7 +41,7 @@ function ConversationSidebar({
     if (!conversationId) return;
 
     try {
-      const updatedConversation = await conversationLogic.updateConversation(
+      const updatePromise = conversationLogic.updateConversation(
         conversationId,
         conversations[index].version,
         {
@@ -48,6 +49,8 @@ function ConversationSidebar({
           messages: ConversationLogic.stripPromptContents(messages)
         }
       );
+      conversationUpdatePromiseRef.current = updatePromise;
+      const updatedConversation = await updatePromise;
 
       setConversations((prevConversations) => {
         const targetIndex = prevConversations.findIndex(c => c.id === conversationId);
@@ -68,6 +71,10 @@ function ConversationSidebar({
       setAlertOpen(true);
       setAlertMessage(err.message);
       setAlertSeverity('error');
+    } finally {
+      if (conversationUpdatePromiseRef.current === updatePromise) {
+        conversationUpdatePromiseRef.current = null;
+      }
     }
   };
 

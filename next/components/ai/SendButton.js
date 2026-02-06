@@ -19,6 +19,7 @@ function SendButton({
                       isTemporaryChat,
                       selectedConversationId,
                       conversations,
+                      conversationUpdatePromiseRef,
                       messages,
                       setMessages,
                       apiType,
@@ -212,6 +213,9 @@ function SendButton({
 
       try {
         if (!isTemporaryChat) {
+          if (conversationUpdatePromiseRef?.current) {
+            await conversationUpdatePromiseRef.current;
+          }
           const latestConversation = await conversationLogic.fetchConversation(selectedConversationId);
           const currentConversation = conversations.find(convo => convo.id === selectedConversationId);
           if (latestConversation.version !== currentConversation.version) {
