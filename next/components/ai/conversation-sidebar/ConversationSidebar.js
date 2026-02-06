@@ -12,6 +12,7 @@ function ConversationSidebar({
                                setSelectedConversationId,
                                conversationUpdateKey,
                                conversationUpdatePromiseRef,
+                               conversationVersionRef,
                                conversations,
                                setConversations,
                                conversationsReloadKey,
@@ -40,8 +41,9 @@ function ConversationSidebar({
     const conversationId = conversations[index]?.id;
     if (!conversationId) return;
 
+    let updatePromise;
     try {
-      const updatePromise = conversationLogic.updateConversation(
+      updatePromise = conversationLogic.updateConversation(
         conversationId,
         conversations[index].version,
         {
@@ -51,6 +53,7 @@ function ConversationSidebar({
       );
       conversationUpdatePromiseRef.current = updatePromise;
       const updatedConversation = await updatePromise;
+      conversationVersionRef.current[updatedConversation.id] = updatedConversation.version;
 
       setConversations((prevConversations) => {
         const targetIndex = prevConversations.findIndex(c => c.id === conversationId);

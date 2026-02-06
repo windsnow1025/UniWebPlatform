@@ -20,6 +20,7 @@ function SendButton({
                       selectedConversationId,
                       conversations,
                       conversationUpdatePromiseRef,
+                      conversationVersionRef,
                       messages,
                       setMessages,
                       apiType,
@@ -213,12 +214,13 @@ function SendButton({
 
       try {
         if (!isTemporaryChat) {
-          if (conversationUpdatePromiseRef?.current) {
+          if (conversationUpdatePromiseRef.current) {
             await conversationUpdatePromiseRef.current;
           }
           const latestConversation = await conversationLogic.fetchConversation(selectedConversationId);
-          const currentConversation = conversations.find(convo => convo.id === selectedConversationId);
-          if (latestConversation.version !== currentConversation.version) {
+          const currentVersion = conversationVersionRef.current[selectedConversationId] ??
+            conversations.find(convo => convo.id === selectedConversationId).version;
+          if (latestConversation.version !== currentVersion) {
             throw new Error("Conversation is stale. Please reload the conversation.")
           }
         }
