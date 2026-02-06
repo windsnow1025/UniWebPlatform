@@ -55,6 +55,16 @@ function AIStudio({
   const conversationUpdatePromiseRef = useRef(null);
   const conversationVersionRef = useRef({});
 
+  // Conversation version sync
+  useEffect(() => {
+    conversations.forEach((conversation) => {
+      const current = conversationVersionRef.current[conversation.id];
+      if (current === undefined || conversation.version > current) {
+        conversationVersionRef.current[conversation.id] = conversation.version;
+      }
+    });
+  }, [conversations]);
+
   // Prompt refresh
   const [promptsReloadKey, setPromptsReloadKey] = useState(0);
 

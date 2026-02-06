@@ -217,8 +217,10 @@ function SendButton({
             await conversationUpdatePromiseRef.current;
           }
           const latestConversation = await conversationLogic.fetchConversation(selectedConversationId);
-          const currentVersion = conversationVersionRef.current[selectedConversationId] ??
-            conversations.find(convo => convo.id === selectedConversationId).version;
+          const currentVersion = conversationVersionRef.current[selectedConversationId];
+          if (currentVersion === undefined) {
+            throw new Error("Conversation version is missing locally. Please reload.");
+          }
           if (latestConversation.version > currentVersion) {
             throw new Error("Conversation is stale. Please reload the conversation.")
           }
