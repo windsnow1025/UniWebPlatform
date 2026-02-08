@@ -119,6 +119,7 @@ function AIStudio({
               conversationsReloadKey={conversationsReloadKey}
               setConversationsReloadKey={setConversationsReloadKey}
               setIsTemporaryChat={setIsTemporaryChat}
+              isGeneratingRef={isGeneratingRef}
               abortGenerateRef={abortGenerateRef}
               clearUIStateRef={clearUIStateRef}
             />
@@ -139,6 +140,7 @@ function AIStudio({
                 conversationsReloadKey={conversationsReloadKey}
                 setConversationsReloadKey={setConversationsReloadKey}
                 setIsTemporaryChat={setIsTemporaryChat}
+                isGeneratingRef={isGeneratingRef}
                 abortGenerateRef={abortGenerateRef}
                 clearUIStateRef={clearUIStateRef}
               />

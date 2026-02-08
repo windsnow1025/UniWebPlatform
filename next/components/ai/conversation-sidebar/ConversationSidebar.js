@@ -18,6 +18,7 @@ function ConversationSidebar({
                                conversationsReloadKey,
                                setConversationsReloadKey,
                                setIsTemporaryChat,
+                               isGeneratingRef,
                                abortGenerateRef,
                                clearUIStateRef,
                              }) {
@@ -38,6 +39,17 @@ function ConversationSidebar({
     handleUpdateConversation(conversations.indexOf(conversationToUpdate));
   }, [conversationUpdateKey]);
 
+  const getMessagesForUpdate = () => {
+    const strippedMessages = ConversationLogic.stripPromptContents(messages);
+    if (isGeneratingRef?.current && strippedMessages.length > 0) {
+      const lastMessage = strippedMessages[strippedMessages.length - 1];
+      if (lastMessage?.role === 'assistant') {
+        return strippedMessages.slice(0, -1);
+      }
+    }
+    return strippedMessages;
+  };
+
   const handleUpdateConversation = async (index) => {
     const conversationId = conversations[index]?.id;
     if (!conversationId) return;
@@ -49,7 +61,7 @@ function ConversationSidebar({
           conversationVersionRef.current[conversationId] ?? conversations[index]?.version,
           {
             name: conversations[index].name,
-            messages: ConversationLogic.stripPromptContents(messages)
+            messages: getMessagesForUpdate()
           }
         );
         conversationVersionRef.current[updatedConversation.id] = updatedConversation.version;
