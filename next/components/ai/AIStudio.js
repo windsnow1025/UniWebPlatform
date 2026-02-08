@@ -239,8 +239,6 @@ function AIStudio({
                 messages={messages}
                 setMessages={setMessages}
                 isGenerating={isGenerating}
-                setIsGenerating={setIsGenerating}
-                isGeneratingRef={isGeneratingRef}
                 abortGenerateRef={abortGenerateRef}
                 handleGenerate={() => handleGenerateRef.current && handleGenerateRef.current()}
                 setConversationUpdateKey={setConversationUpdateKey}

@@ -6,8 +6,6 @@ function RetryButton({
                        messages,
                        setMessages,
                        isGenerating,
-                       setIsGenerating,
-                       isGeneratingRef,
                        abortGenerateRef,
                        handleGenerate,
                        setConversationUpdateKey
