@@ -223,7 +223,6 @@ function AIStudio({
                 clearUIStateRef={clearUIStateRef}
                 isTemporaryChat={isTemporaryChat}
                 selectedConversationId={selectedConversationId}
-                conversations={conversations}
                 conversationUpdatePromiseRef={conversationUpdatePromiseRef}
                 conversationVersionRef={conversationVersionRef}
                 messages={messages}
@@ -238,9 +237,8 @@ function AIStudio({
               <RetryButton
                 messages={messages}
                 setMessages={setMessages}
-                isGenerating={isGenerating}
                 abortGenerateRef={abortGenerateRef}
-                handleGenerate={() => handleGenerateRef.current && handleGenerateRef.current()}
+                handleGenerateRef={handleGenerateRef}
                 setConversationUpdateKey={setConversationUpdateKey}
               />
             </div>
