@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, IconButton, Tooltip} from "@mui/material";
 import ReplayIcon from '@mui/icons-material/Replay';
+import {wait} from "../common/utils/Wait";
 
 function RetryButton({
                        messages,
@@ -40,8 +41,6 @@ function RetryButton({
   };
 
   const handleRetry = async () => {
-    if (!isRetryEnabled()) return;
-
     // 1. Stop sending if it is sending
     abortGenerateRef.current?.();
 
@@ -65,7 +64,9 @@ function RetryButton({
     }
 
     // 3. Trigger sending
-    handleGenerateRef.current?.();
+    // Wait for setMessages
+    await wait(0);
+    handleGenerateRef?.current();
   };
 
   return (
