@@ -18,7 +18,6 @@ function SendButton({
                       clearUIStateRef,
                       isTemporaryChat,
                       selectedConversationId,
-                      conversations,
                       conversationUpdatePromiseRef,
                       conversationVersionRef,
                       messages,

@@ -5,9 +5,8 @@ import ReplayIcon from '@mui/icons-material/Replay';
 function RetryButton({
                        messages,
                        setMessages,
-                       isGenerating,
                        abortGenerateRef,
-                       handleGenerate,
+                       handleGenerateRef,
                        setConversationUpdateKey
                      }) {
   const isRetryEnabled = () => {
@@ -44,9 +43,7 @@ function RetryButton({
     if (!isRetryEnabled()) return;
 
     // 1. Stop sending if it is sending
-    if (isGenerating) {
-      abortGenerateRef.current();
-    }
+    abortGenerateRef.current();
 
     // 2. Remove empty messages after the last assistant message and remove the last assistant message
     setMessages(prevMessages => {
@@ -69,7 +66,7 @@ function RetryButton({
 
     // 3. Trigger sending
     setTimeout(() => {
-      handleGenerate();
+      handleGenerateRef.current();
     }, 0);
   };
 
