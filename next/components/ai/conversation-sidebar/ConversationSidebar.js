@@ -42,39 +42,49 @@ function ConversationSidebar({
     const conversationId = conversations[index]?.id;
     if (!conversationId) return;
 
-    let updatePromise;
+    const updateConversation = async () => {
+      try {
+        const updatedConversation = await conversationLogic.updateConversation(
+          conversationId,
+          conversationVersionRef.current[conversationId] ?? conversations[index]?.version,
+          {
+            name: conversations[index].name,
+            messages: ConversationLogic.stripPromptContents(messages)
+          }
+        );
+        conversationVersionRef.current[updatedConversation.id] = updatedConversation.version;
+
+        setConversations((prevConversations) => {
+          const targetIndex = prevConversations.findIndex(c => c.id === conversationId);
+
+          if (targetIndex === -1) {
+            return prevConversations;
+          }
+
+          const newConversations = [...prevConversations];
+
+          newConversations[targetIndex] = updatedConversation;
+
+          return newConversations;
+        });
+
+        setConversationsReloadKey(prev => prev + 1);
+      } catch (err) {
+        setAlertOpen(true);
+        setAlertMessage(err.message);
+        setAlertSeverity('error');
+      }
+    };
+
+    const previous = conversationUpdatePromiseRef.current ?? Promise.resolve();
+    const updatePromise = previous
+      .catch(() => {})
+      .then(updateConversation);
+
+    conversationUpdatePromiseRef.current = updatePromise;
+
     try {
-      updatePromise = conversationLogic.updateConversation(
-        conversationId,
-        conversations[index].version,
-        {
-          name: conversations[index].name,
-          messages: ConversationLogic.stripPromptContents(messages)
-        }
-      );
-      conversationUpdatePromiseRef.current = updatePromise;
-      const updatedConversation = await updatePromise;
-      conversationVersionRef.current[updatedConversation.id] = updatedConversation.version;
-
-      setConversations((prevConversations) => {
-        const targetIndex = prevConversations.findIndex(c => c.id === conversationId);
-
-        if (targetIndex === -1) {
-          return prevConversations;
-        }
-
-        const newConversations = [...prevConversations];
-
-        newConversations[targetIndex] = updatedConversation;
-
-        return newConversations;
-      });
-
-      setConversationsReloadKey(prev => prev + 1);
-    } catch (err) {
-      setAlertOpen(true);
-      setAlertMessage(err.message);
-      setAlertSeverity('error');
+      await updatePromise;
     } finally {
       if (conversationUpdatePromiseRef.current === updatePromise) {
         conversationUpdatePromiseRef.current = null;

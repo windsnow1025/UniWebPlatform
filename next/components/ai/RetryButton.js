@@ -43,7 +43,7 @@ function RetryButton({
     if (!isRetryEnabled()) return;
 
     // 1. Stop sending if it is sending
-    abortGenerateRef.current();
+    abortGenerateRef.current?.();
 
     // 2. Remove empty messages after the last assistant message and remove the last assistant message
     setMessages(prevMessages => {
@@ -65,9 +65,7 @@ function RetryButton({
     }
 
     // 3. Trigger sending
-    setTimeout(() => {
-      handleGenerateRef.current();
-    }, 0);
+    handleGenerateRef.current?.();
   };
 
   return (
