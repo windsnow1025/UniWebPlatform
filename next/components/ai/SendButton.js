@@ -182,7 +182,7 @@ function SendButton({
       return;
     }
 
-    if (!isGenerating) {
+    if (!isGeneratingRef.current) {
       switchStatus(true);
       latestRequestIndex.current += 1;
       const currentReqIndex = latestRequestIndex.current;
