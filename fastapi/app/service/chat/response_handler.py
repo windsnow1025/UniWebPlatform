@@ -149,6 +149,7 @@ async def stream_handler(
         display = ""
         input_tokens = 0
         output_tokens = 0
+        error = ""
 
         try:
             async for chunk in generator:
@@ -174,8 +175,13 @@ async def stream_handler(
                     input_tokens = chunk.input_tokens
                 if chunk.output_tokens:
                     output_tokens += chunk.output_tokens
+                if chunk.error:
+                    error += chunk.error
 
                 await queue.put(chunk)
+
+            if error:
+                return
 
             chat_response = ChatResponse(
                 text=text,
@@ -207,7 +213,7 @@ async def stream_handler(
 
         except Exception as e:
             logging.exception(f"Error in background_generator: {e}")
-            await queue.put({"error": str(e)})
+            await queue.put(ChatResponse(error=str(e)))
         finally:
             await queue.put(None)
             abort_manager.clear_aborted(request_id)
@@ -216,12 +222,10 @@ async def stream_handler(
         while True:
             chunk = await queue.get()
             if chunk is None:
-                yield f"data: {json.dumps({'done': True})}\n\n"
-                break
-            if isinstance(chunk, dict) and "error" in chunk:
-                yield f"data: {json.dumps(chunk)}\n\n"
-                break
+                chunk = {'done': True}
             yield f"data: {json.dumps(serialize(chunk))}\n\n"
+            if (isinstance(chunk, dict) and chunk.get("done")) or (hasattr(chunk, "error") and chunk.error):
+                break
 
     create_task(background_generator())
 
