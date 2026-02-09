@@ -2,8 +2,11 @@ import React, {useEffect, useState} from 'react';
 import UserLogic from "../../../../../lib/common/user/UserLogic";
 import TextField from "@mui/material/TextField";
 import {Alert, Button, Snackbar} from "@mui/material";
+import {useSession} from "@toolpad/core";
 
 function UsernameSection() {
+  const session = useSession();
+
   const [newUsername, setNewUsername] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -15,19 +18,9 @@ function UsernameSection() {
   const userLogic = new UserLogic();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await userLogic.fetchUser();
-        if (userData) {
-          setNewUsername(userData.username);
-        }
-      } catch (err) {
-        showAlert(err.message, 'error');
-      }
-    };
-
-    fetchUserData();
-  }, []);
+    if (!session) return;
+    setNewUsername(session.user.name);
+  }, [session]);
 
   const showAlert = (message, severity) => {
     setAlertMessage(message);
