@@ -4,12 +4,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FileLogic from "../../../lib/common/file/FileLogic";
 import FileDiv from "../../message/content/file/FileDiv";
 import FilesUpload from "../../message/content/create/FilesUpload";
-import UserLogic from "../../../lib/common/user/UserLogic";
 import ConversationLogic from "../../../lib/conversation/ConversationLogic";
 import PromptLogic from "../../../lib/prompt/PromptLogic";
+import {useSession} from "@toolpad/core";
+import UserLogic from "../../../lib/common/user/UserLogic";
 
 const StorageSettings = () => {
-  const fileLogic = new FileLogic();
+  const session = useSession();
 
   const [files, setFiles] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState(new Set());
@@ -29,15 +30,16 @@ const StorageSettings = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("info");
 
+  const userLogic = new UserLogic();
+  const fileLogic = new FileLogic();
   const conversationLogic = new ConversationLogic();
   const promptLogic = new PromptLogic();
 
   useEffect(() => {
     fetchFiles();
-  }, []);
+  }, [session]);
 
   useEffect(() => {
-    const userLogic = new UserLogic();
     const checkAdmin = async () => {
       try {
         const adminStatus = await userLogic.isAdmin();
@@ -79,6 +81,10 @@ const StorageSettings = () => {
       prompts.forEach(sp => {
         extractFileUrlsFromContents(sp.contents).forEach(url => fileUrls.add(url));
       });
+
+      if (session) {
+        fileUrls.add(session.user.image);
+      }
 
       setReferencedFiles(fileUrls);
     } catch (err) {
