@@ -64,7 +64,7 @@ function AvatarSection() {
       const urls = await fileLogic.uploadFiles([file]);
 
       if (urls && urls.length > 0) {
-        showAlert('Image uploaded successfully. Click Update to set as avatar.', 'success');
+        showAlert('Image uploaded successfully. Click Confirm to set as avatar.', 'success');
         setPreviewUrl(urls[0]);
       } else {
         throw new Error('Failed to upload image');
