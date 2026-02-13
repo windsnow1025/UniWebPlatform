@@ -65,7 +65,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.fetchConversationUpdatedTimes();
     } catch (error) {
-      handleError(error, 'Failed to fetch conversation-sidebar updated times');
+      handleError(error, 'Failed to fetch conversation updated times');
     }
   }
 
@@ -73,7 +73,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.fetchConversation(id);
     } catch (error) {
-      handleError(error, 'Failed to fetch conversation-sidebar');
+      handleError(error, 'Failed to fetch conversation');
     }
   }
 
@@ -81,7 +81,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.fetchPublicConversation(id);
     } catch (error) {
-      handleError(error, 'Failed to fetch public conversation-sidebar');
+      handleError(error, 'Failed to fetch public conversation');
     }
   }
 
@@ -89,7 +89,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.saveConversation(conversation);
     } catch (error) {
-      handleError(error, 'Failed to add conversation-sidebar');
+      handleError(error, 'Failed to add conversation');
     }
   }
 
@@ -99,7 +99,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.cloneConversationForUser(id, username);
     } catch (error) {
-      handleError(error, 'Failed to add conversation-sidebar for user');
+      handleError(error, 'Failed to add conversation for user');
     }
   }
 
@@ -109,7 +109,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.updateConversation(id, etag, conversation);
     } catch (error) {
-      handleError(error, 'Failed to update conversation-sidebar');
+      handleError(error, 'Failed to update conversation');
     }
   }
 
@@ -119,7 +119,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.updateConversationName(id, etag, name);
     } catch (error) {
-      handleError(error, 'Failed to update conversation-sidebar name');
+      handleError(error, 'Failed to update conversation name');
     }
   }
 
@@ -129,7 +129,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.updateConversationPublic(id, etag, isPublic);
     } catch (error) {
-      handleError(error, 'Failed to update conversation-sidebar public status');
+      handleError(error, 'Failed to update conversation public status');
     }
   }
 
@@ -139,7 +139,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.updateConversationLabelLink(id, etag, labelId);
     } catch (error) {
-      handleError(error, 'Failed to update conversation-sidebar label');
+      handleError(error, 'Failed to update conversation label');
     }
   }
 
@@ -149,7 +149,7 @@ export default class ConversationLogic {
     try {
       return await this.conversationService.addUserToConversation(id, etag, username);
     } catch (error) {
-      handleError(error, 'Failed to share conversation-sidebar');
+      handleError(error, 'Failed to share conversation');
     }
   }
 
@@ -157,7 +157,7 @@ export default class ConversationLogic {
     try {
       await this.conversationService.deleteConversation(id);
     } catch (error) {
-      handleError(error, 'Failed to delete conversation-sidebar');
+      handleError(error, 'Failed to delete conversation');
     }
   }
 }
