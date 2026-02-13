@@ -2,9 +2,9 @@ import {getNestOpenAPIConfiguration} from "@/lib/common/APIConfig";
 import {ConversationReqDto, ConversationResDto, ConversationsApi, ConversationVersionResDto} from "@/client/nest";
 
 export default class ConversationClient {
-  async fetchConversations(): Promise<ConversationResDto[]> {
+  async fetchConversations(ids?: number[]): Promise<ConversationResDto[]> {
     const api = new ConversationsApi(getNestOpenAPIConfiguration());
-    const res = await api.conversationsControllerFind();
+    const res = await api.conversationsControllerFind(ids);
     return res.data;
   }
 
