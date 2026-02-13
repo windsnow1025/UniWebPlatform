@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
 import { PromptsService } from './prompts.service';
-import { PromptReqDto, PromptNameReqDto } from './dto/prompt.req.dto';
+import { PromptNameReqDto, PromptReqDto } from './dto/prompt.req.dto';
 
 @Controller('prompts')
 export class PromptsController {
@@ -22,9 +22,7 @@ export class PromptsController {
   async find(@Request() req: RequestWithUser) {
     const userId = req.user.id;
     const prompts = await this.service.find(userId);
-    return prompts.map((prompt) =>
-      this.service.toPromptDto(prompt),
-    );
+    return prompts.map((prompt) => this.service.toPromptDto(prompt));
   }
 
   @Get('prompt/:id')
