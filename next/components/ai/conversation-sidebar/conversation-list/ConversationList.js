@@ -33,6 +33,7 @@ function ConversationList({
                             setIsTemporaryChat,
                             abortGenerateRef,
                             clearUIStateRef,
+                            conversationUpdatePromiseRef,
                           }) {
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
@@ -105,6 +106,10 @@ function ConversationList({
         return JSON.parse(JSON.stringify(conversations));
       }
 
+      if (conversationUpdatePromiseRef?.current) {
+        await conversationUpdatePromiseRef.current.catch(() => {});
+      }
+
       const newConversations = await conversationLogic.fetchConversations();
       setConversations(newConversations);
 
@@ -113,6 +118,8 @@ function ConversationList({
         if (currentConversation) {
           await ConversationLogic.populatePromptContents(currentConversation.messages);
           setMessages(currentConversation.messages);
+        } else {
+          showAlert('Selected conversation not found', 'warning');
         }
       }
 

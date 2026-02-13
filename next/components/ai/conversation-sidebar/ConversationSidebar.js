@@ -153,6 +153,7 @@ function ConversationSidebar({
           setIsTemporaryChat={setIsTemporaryChat}
           abortGenerateRef={abortGenerateRef}
           clearUIStateRef={clearUIStateRef}
+          conversationUpdatePromiseRef={conversationUpdatePromiseRef}
         />
       </div>
       <Snackbar
