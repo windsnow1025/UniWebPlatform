@@ -131,6 +131,13 @@ function ConversationList({
     }
   };
 
+  const activateConversation = async (conversation) => {
+    await ConversationLogic.populatePromptContents(conversation.messages);
+    setIsTemporaryChat(false);
+    setMessages(conversation.messages);
+    setSelectedConversationId(conversation.id);
+  };
+
   const selectConversation = async (conversationId) => {
     clearUIStateRef.current?.();
 
@@ -138,14 +145,9 @@ function ConversationList({
 
     const conversations = await loadConversations();
     const conversation = conversations.find(conversation => conversation.id === conversationId);
-    const messages = conversation.messages;
 
-    await ConversationLogic.populatePromptContents(messages);
-
-    setIsTemporaryChat(false);
-    setMessages(messages);
+    await activateConversation(conversation);
     setLoadingConversationId(null);
-    setSelectedConversationId(conversationId);
   };
 
   const handleAccordionChange = (panel) => (event, isExpanded) => {
@@ -261,6 +263,7 @@ function ConversationList({
                           setConversationsReloadKey={setConversationsReloadKey}
                           abortGenerateRef={abortGenerateRef}
                           clearUIStateRef={clearUIStateRef}
+                          activateConversation={activateConversation}
                           setLoadingConversationId={setLoadingConversationId}
                           labels={labels}
                         />

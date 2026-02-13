@@ -25,8 +25,9 @@ function ConversationMenu({
                             setSelectedConversationId,
                             setMessages,
                             setConversationsReloadKey,
-                         abortGenerateRef,
+                            abortGenerateRef,
                             clearUIStateRef,
+                            activateConversation,
                             setLoadingConversationId,
                             labels,
                           }) {
@@ -219,11 +220,10 @@ function ConversationMenu({
         onClose={() => setSaveAsDialogOpen(false)}
         conversationId={conversations[saveAsConversationIndex]?.id}
         defaultName={(conversations[saveAsConversationIndex]?.name) + ' Copy'}
-        onSaved={(newConversation) => {
+        onSaved={async (newConversation) => {
           clearUIStateRef.current?.();
-
           setConversations(prev => [newConversation, ...prev]);
-          setSelectedConversationId(newConversation.id);
+          await activateConversation(newConversation);
           setConversationsReloadKey(prev => prev + 1);
         }}
       />
