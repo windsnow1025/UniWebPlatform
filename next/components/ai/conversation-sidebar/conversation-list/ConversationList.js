@@ -100,7 +100,8 @@ function ConversationList({
       const updatedTimes = await conversationLogic.fetchConversationUpdatedTimes();
 
       const currentMetadata = conversations.map(conv => ({id: conv.id, updatedAt: conv.updatedAt}));
-      if (isEqual(updatedTimes, currentMetadata)) {
+      const sortById = (a, b) => a.id - b.id;
+      if (isEqual([...updatedTimes].sort(sortById), [...currentMetadata].sort(sortById))) {
         return JSON.parse(JSON.stringify(conversations));
       }
 
