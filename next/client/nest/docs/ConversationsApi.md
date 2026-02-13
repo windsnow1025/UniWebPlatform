@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 |[**conversationsControllerFind**](#conversationscontrollerfind) | **GET** /conversations | |
 |[**conversationsControllerFindOne**](#conversationscontrollerfindone) | **GET** /conversations/conversation/{id} | |
 |[**conversationsControllerFindPublicOne**](#conversationscontrollerfindpublicone) | **GET** /conversations/public/conversation/{id} | |
-|[**conversationsControllerFindUpdateTimes**](#conversationscontrollerfindupdatetimes) | **GET** /conversations/update-times | |
+|[**conversationsControllerFindVersions**](#conversationscontrollerfindversions) | **GET** /conversations/versions | |
 |[**conversationsControllerUpdate**](#conversationscontrollerupdate) | **PUT** /conversations/conversation/{id} | |
 |[**conversationsControllerUpdateLabelLink**](#conversationscontrollerupdatelabellink) | **PUT** /conversations/conversation/{id}/label | |
 |[**conversationsControllerUpdateName**](#conversationscontrollerupdatename) | **PUT** /conversations/conversation/{id}/name | |
@@ -372,8 +372,8 @@ const { status, data } = await apiInstance.conversationsControllerFindPublicOne(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **conversationsControllerFindUpdateTimes**
-> Array<ConversationUpdateTimeResDto> conversationsControllerFindUpdateTimes()
+# **conversationsControllerFindVersions**
+> Array<ConversationVersionResDto> conversationsControllerFindVersions()
 
 
 ### Example
@@ -387,7 +387,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new ConversationsApi(configuration);
 
-const { status, data } = await apiInstance.conversationsControllerFindUpdateTimes();
+const { status, data } = await apiInstance.conversationsControllerFindVersions();
 ```
 
 ### Parameters
@@ -396,7 +396,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**Array<ConversationUpdateTimeResDto>**
+**Array<ConversationVersionResDto>**
 
 ### Authorization
 

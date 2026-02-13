@@ -1,5 +1,5 @@
 import {getNestOpenAPIConfiguration} from "@/lib/common/APIConfig";
-import {ConversationReqDto, ConversationResDto, ConversationsApi, ConversationUpdateTimeResDto} from "@/client/nest";
+import {ConversationReqDto, ConversationResDto, ConversationsApi, ConversationVersionResDto} from "@/client/nest";
 
 export default class ConversationClient {
   async fetchConversations(): Promise<ConversationResDto[]> {
@@ -14,9 +14,9 @@ export default class ConversationClient {
     return res.data;
   }
 
-  async fetchConversationUpdatedTimes(): Promise<ConversationUpdateTimeResDto[]> {
+  async fetchConversationVersions(): Promise<ConversationVersionResDto[]> {
     const api = new ConversationsApi(getNestOpenAPIConfiguration());
-    const res = await api.conversationsControllerFindUpdateTimes();
+    const res = await api.conversationsControllerFindVersions();
     return res.data;
   }
 

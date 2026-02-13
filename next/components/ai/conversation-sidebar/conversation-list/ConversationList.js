@@ -98,11 +98,11 @@ function ConversationList({
   const loadConversations = async () => {
     setIsLoadingConversations(true);
     try {
-      const updatedTimes = await conversationLogic.fetchConversationUpdatedTimes();
+      const versions = await conversationLogic.fetchConversationVersions();
 
-      const currentMetadata = conversations.map(conv => ({id: conv.id, updatedAt: conv.updatedAt}));
+      const currentMetadata = conversations.map(conv => ({id: conv.id, version: conv.version}));
       const sortById = (a, b) => a.id - b.id;
-      if (isEqual([...updatedTimes].sort(sortById), [...currentMetadata].sort(sortById))) {
+      if (isEqual([...versions].sort(sortById), [...currentMetadata].sort(sortById))) {
         return JSON.parse(JSON.stringify(conversations));
       }
 

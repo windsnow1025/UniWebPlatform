@@ -1,6 +1,6 @@
 import {handleError} from "@/lib/common/ErrorHandler";
 import ConversationClient from "./ConversationClient";
-import {ConversationReqDto, ConversationResDto, ConversationUpdateTimeResDto, Message} from "@/client/nest";
+import {ConversationReqDto, ConversationResDto, ConversationVersionResDto, Message} from "@/client/nest";
 import PromptLogic from "@/lib/prompt/PromptLogic";
 
 export default class ConversationLogic {
@@ -61,11 +61,11 @@ export default class ConversationLogic {
     }
   }
 
-  async fetchConversationUpdatedTimes(): Promise<ConversationUpdateTimeResDto[]> {
+  async fetchConversationVersions(): Promise<ConversationVersionResDto[]> {
     try {
-      return await this.conversationService.fetchConversationUpdatedTimes();
+      return await this.conversationService.fetchConversationVersions();
     } catch (error) {
-      handleError(error, 'Failed to fetch conversation updated times');
+      handleError(error, 'Failed to fetch conversation versions');
     }
   }
 

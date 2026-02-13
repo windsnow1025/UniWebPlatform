@@ -38,10 +38,10 @@ export class ConversationsController {
     );
   }
 
-  @Get('update-times')
-  async findUpdateTimes(@Request() req: RequestWithUser) {
+  @Get('versions')
+  async findVersions(@Request() req: RequestWithUser) {
     const userId = req.user.id;
-    return await this.service.findUpdateTimes(userId);
+    return await this.service.findVersions(userId);
   }
 
   @Get('conversation/:id')
