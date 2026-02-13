@@ -6,13 +6,27 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.conversation_res_dto import ConversationResDto
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
-def _get_kwargs() -> dict[str, Any]:
+def _get_kwargs(
+    *,
+    ids: list[float] | Unset = UNSET,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {}
+
+    json_ids: list[float] | Unset = UNSET
+    if not isinstance(ids, Unset):
+        json_ids = ids
+
+    params["ids"] = json_ids
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/conversations",
+        "params": params,
     }
 
     return _kwargs
@@ -51,8 +65,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    ids: list[float] | Unset = UNSET,
 ) -> Response[list[ConversationResDto]]:
     """
+    Args:
+        ids (list[float] | Unset):
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -61,7 +79,9 @@ def sync_detailed(
         Response[list[ConversationResDto]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        ids=ids,
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -73,8 +93,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    ids: list[float] | Unset = UNSET,
 ) -> list[ConversationResDto] | None:
     """
+    Args:
+        ids (list[float] | Unset):
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -85,14 +109,19 @@ def sync(
 
     return sync_detailed(
         client=client,
+        ids=ids,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    ids: list[float] | Unset = UNSET,
 ) -> Response[list[ConversationResDto]]:
     """
+    Args:
+        ids (list[float] | Unset):
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -101,7 +130,9 @@ async def asyncio_detailed(
         Response[list[ConversationResDto]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        ids=ids,
+    )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 
@@ -111,8 +142,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    ids: list[float] | Unset = UNSET,
 ) -> list[ConversationResDto] | None:
     """
+    Args:
+        ids (list[float] | Unset):
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -124,5 +159,6 @@ async def asyncio(
     return (
         await asyncio_detailed(
             client=client,
+            ids=ids,
         )
     ).parsed

@@ -10,7 +10,7 @@ export class ConversationsCoreService {
     private conversationsRepository: Repository<Conversation>,
   ) {}
 
-  async find(userId: number) {
+  async find(userId: number, filterIds?: number[]) {
     const conversationIds = await this.conversationsRepository
       .createQueryBuilder('conversation')
       .leftJoin('conversation.users', 'user')
@@ -18,7 +18,12 @@ export class ConversationsCoreService {
       .select('conversation.id')
       .getMany();
 
-    const ids = conversationIds.map((conversation) => conversation.id);
+    let ids = conversationIds.map((conversation) => conversation.id);
+
+    if (filterIds) {
+      const filterSet = new Set(filterIds);
+      ids = ids.filter((id) => filterSet.has(id));
+    }
 
     if (ids.length === 0) {
       return [];

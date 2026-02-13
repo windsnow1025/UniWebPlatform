@@ -244,11 +244,18 @@ import {
 const configuration = new Configuration();
 const apiInstance = new ConversationsApi(configuration);
 
-const { status, data } = await apiInstance.conversationsControllerFind();
+let ids: Array<number>; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.conversationsControllerFind(
+    ids
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **ids** | **Array&lt;number&gt;** |  | (optional) defaults to undefined|
 
 
 ### Return type
