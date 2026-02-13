@@ -5,9 +5,11 @@ import {
   Get,
   Headers,
   Param,
+  ParseArrayPipe,
   ParseIntPipe,
   Post,
   Put,
+  Query,
   Request,
 } from '@nestjs/common';
 import { RequestWithUser } from '../auth/interfaces/request-with-user.interface';
@@ -21,6 +23,7 @@ import {
 import { UserUsernameReqDto } from '../users/dto/user.req.dto';
 import { Public } from '../common/decorators/public.decorator';
 import { ConversationsCoreService } from './conversations.core.service';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('conversations')
 export class ConversationsController {
@@ -30,9 +33,17 @@ export class ConversationsController {
   ) {}
 
   @Get()
-  async find(@Request() req: RequestWithUser) {
+  @ApiQuery({ name: 'ids', required: false, type: [Number] })
+  async find(
+    @Request() req: RequestWithUser,
+    @Query(
+      'ids',
+      new ParseArrayPipe({ items: Number, separator: ',', optional: true }),
+    )
+    ids?: number[],
+  ) {
     const userId = req.user.id;
-    const conversations = await this.coreService.find(userId);
+    const conversations = await this.coreService.find(userId, ids);
     return conversations.map((conversation) =>
       this.service.toConversationDto(conversation),
     );

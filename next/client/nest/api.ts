@@ -815,10 +815,11 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
+         * @param {Array<number>} [ids] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerFind: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        conversationsControllerFind: async (ids?: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/conversations`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -834,6 +835,10 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (ids) {
+                localVarQueryParameter['ids'] = ids;
+            }
 
 
     
@@ -1211,11 +1216,12 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {Array<number>} [ids] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async conversationsControllerFind(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConversationResDto>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerFind(options);
+        async conversationsControllerFind(ids?: Array<number>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConversationResDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerFind(ids, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerFind']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1361,11 +1367,12 @@ export const ConversationsApiFactory = function (configuration?: Configuration, 
         },
         /**
          * 
+         * @param {Array<number>} [ids] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerFind(options?: RawAxiosRequestConfig): AxiosPromise<Array<ConversationResDto>> {
-            return localVarFp.conversationsControllerFind(options).then((request) => request(axios, basePath));
+        conversationsControllerFind(ids?: Array<number>, options?: RawAxiosRequestConfig): AxiosPromise<Array<ConversationResDto>> {
+            return localVarFp.conversationsControllerFind(ids, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1489,11 +1496,12 @@ export class ConversationsApi extends BaseAPI {
 
     /**
      * 
+     * @param {Array<number>} [ids] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public conversationsControllerFind(options?: RawAxiosRequestConfig) {
-        return ConversationsApiFp(this.configuration).conversationsControllerFind(options).then((request) => request(this.axios, this.basePath));
+    public conversationsControllerFind(ids?: Array<number>, options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerFind(ids, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
