@@ -1,39 +1,37 @@
 from __future__ import annotations
 
-import datetime
 from collections.abc import Mapping
 from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
-T = TypeVar("T", bound="ConversationUpdateTimeResDto")
+T = TypeVar("T", bound="ConversationVersionResDto")
 
 
 @_attrs_define
-class ConversationUpdateTimeResDto:
+class ConversationVersionResDto:
     """
     Attributes:
         id (float):
-        updated_at (datetime.datetime):
+        version (float):
     """
 
     id: float
-    updated_at: datetime.datetime
+    version: float
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
-        updated_at = self.updated_at.isoformat()
+        version = self.version
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "id": id,
-                "updatedAt": updated_at,
+                "version": version,
             }
         )
 
@@ -44,15 +42,15 @@ class ConversationUpdateTimeResDto:
         d = dict(src_dict)
         id = d.pop("id")
 
-        updated_at = isoparse(d.pop("updatedAt"))
+        version = d.pop("version")
 
-        conversation_update_time_res_dto = cls(
+        conversation_version_res_dto = cls(
             id=id,
-            updated_at=updated_at,
+            version=version,
         )
 
-        conversation_update_time_res_dto.additional_properties = d
-        return conversation_update_time_res_dto
+        conversation_version_res_dto.additional_properties = d
+        return conversation_version_res_dto
 
     @property
     def additional_keys(self) -> list[str]:

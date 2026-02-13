@@ -84,9 +84,9 @@ export interface ConversationResDto {
     'updatedAt': string;
     'version': number;
 }
-export interface ConversationUpdateTimeResDto {
+export interface ConversationVersionResDto {
     'id': number;
-    'updatedAt': string;
+    'version': number;
 }
 export interface FilesReqDto {
     'filenames': Array<string>;
@@ -925,8 +925,8 @@ export const ConversationsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerFindUpdateTimes: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/conversations/update-times`;
+        conversationsControllerFindVersions: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/conversations/versions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1249,10 +1249,10 @@ export const ConversationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async conversationsControllerFindUpdateTimes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConversationUpdateTimeResDto>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerFindUpdateTimes(options);
+        async conversationsControllerFindVersions(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConversationVersionResDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.conversationsControllerFindVersions(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerFindUpdateTimes']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['ConversationsApi.conversationsControllerFindVersions']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -1390,8 +1390,8 @@ export const ConversationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        conversationsControllerFindUpdateTimes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ConversationUpdateTimeResDto>> {
-            return localVarFp.conversationsControllerFindUpdateTimes(options).then((request) => request(axios, basePath));
+        conversationsControllerFindVersions(options?: RawAxiosRequestConfig): AxiosPromise<Array<ConversationVersionResDto>> {
+            return localVarFp.conversationsControllerFindVersions(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1521,8 +1521,8 @@ export class ConversationsApi extends BaseAPI {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public conversationsControllerFindUpdateTimes(options?: RawAxiosRequestConfig) {
-        return ConversationsApiFp(this.configuration).conversationsControllerFindUpdateTimes(options).then((request) => request(this.axios, this.basePath));
+    public conversationsControllerFindVersions(options?: RawAxiosRequestConfig) {
+        return ConversationsApiFp(this.configuration).conversationsControllerFindVersions(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -10,7 +10,7 @@ import { Conversation } from './conversation.entity';
 import { UsersCoreService } from '../users/users.core.service';
 import {
   ConversationResDto,
-  ConversationUpdateTimeResDto,
+  ConversationVersionResDto,
 } from './dto/conversation.res.dto';
 import { Message } from './message.entity';
 import { ConversationsCoreService } from './conversations.core.service';
@@ -80,14 +80,12 @@ export class ConversationsService {
     return conversation;
   }
 
-  async findUpdateTimes(
-    userId: number,
-  ): Promise<ConversationUpdateTimeResDto[]> {
+  async findVersions(userId: number): Promise<ConversationVersionResDto[]> {
     const conversations = await this.conversationsCoreService.find(userId);
 
     return conversations.map((conversation) => ({
       id: conversation.id,
-      updatedAt: conversation.updatedAt,
+      version: conversation.version,
     }));
   }
 

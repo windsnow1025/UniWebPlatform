@@ -14,7 +14,7 @@ from .conversation_name_req_dto import ConversationNameReqDto
 from .conversation_public_req_dto import ConversationPublicReqDto
 from .conversation_req_dto import ConversationReqDto
 from .conversation_res_dto import ConversationResDto
-from .conversation_update_time_res_dto import ConversationUpdateTimeResDto
+from .conversation_version_res_dto import ConversationVersionResDto
 from .files_req_dto import FilesReqDto
 from .files_res_dto import FilesResDto
 from .label_req_dto import LabelReqDto
@@ -55,7 +55,7 @@ __all__ = (
     "ConversationPublicReqDto",
     "ConversationReqDto",
     "ConversationResDto",
-    "ConversationUpdateTimeResDto",
+    "ConversationVersionResDto",
     "FilesReqDto",
     "FilesResDto",
     "LabelReqDto",

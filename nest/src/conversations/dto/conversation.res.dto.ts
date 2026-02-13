@@ -13,7 +13,7 @@ export class ConversationResDto {
   version: number;
 }
 
-export class ConversationUpdateTimeResDto {
+export class ConversationVersionResDto {
   id: number;
-  updatedAt: Date;
+  version: number;
 }

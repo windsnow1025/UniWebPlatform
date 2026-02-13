@@ -41,8 +41,6 @@ pnpm run dev
 
 ### Generate Client Package
 
-### Generate Client Package
-
 ```bash
 rm -r ../next/client/nest # TypeScript
 rm -r ../fastapi/app/client # Python

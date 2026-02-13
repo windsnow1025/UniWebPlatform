@@ -1,4 +1,4 @@
-# ConversationUpdateTimeResDto
+# ConversationVersionResDto
 
 
 ## Properties
@@ -6,16 +6,16 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **number** |  | [default to undefined]
-**updatedAt** | **string** |  | [default to undefined]
+**version** | **number** |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { ConversationUpdateTimeResDto } from './api';
+import { ConversationVersionResDto } from './api';
 
-const instance: ConversationUpdateTimeResDto = {
+const instance: ConversationVersionResDto = {
     id,
-    updatedAt,
+    version,
 };
 ```
 

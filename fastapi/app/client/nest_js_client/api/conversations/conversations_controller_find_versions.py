@@ -5,14 +5,14 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.conversation_update_time_res_dto import ConversationUpdateTimeResDto
+from ...models.conversation_version_res_dto import ConversationVersionResDto
 from ...types import Response
 
 
 def _get_kwargs() -> dict[str, Any]:
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/conversations/update-times",
+        "url": "/conversations/versions",
     }
 
     return _kwargs
@@ -20,12 +20,12 @@ def _get_kwargs() -> dict[str, Any]:
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> list[ConversationUpdateTimeResDto] | None:
+) -> list[ConversationVersionResDto] | None:
     if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
         for response_200_item_data in _response_200:
-            response_200_item = ConversationUpdateTimeResDto.from_dict(response_200_item_data)
+            response_200_item = ConversationVersionResDto.from_dict(response_200_item_data)
 
             response_200.append(response_200_item)
 
@@ -39,7 +39,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[list[ConversationUpdateTimeResDto]]:
+) -> Response[list[ConversationVersionResDto]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -51,14 +51,14 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-) -> Response[list[ConversationUpdateTimeResDto]]:
+) -> Response[list[ConversationVersionResDto]]:
     """
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list[ConversationUpdateTimeResDto]]
+        Response[list[ConversationVersionResDto]]
     """
 
     kwargs = _get_kwargs()
@@ -73,14 +73,14 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-) -> list[ConversationUpdateTimeResDto] | None:
+) -> list[ConversationVersionResDto] | None:
     """
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list[ConversationUpdateTimeResDto]
+        list[ConversationVersionResDto]
     """
 
     return sync_detailed(
@@ -91,14 +91,14 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-) -> Response[list[ConversationUpdateTimeResDto]]:
+) -> Response[list[ConversationVersionResDto]]:
     """
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list[ConversationUpdateTimeResDto]]
+        Response[list[ConversationVersionResDto]]
     """
 
     kwargs = _get_kwargs()
@@ -111,14 +111,14 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-) -> list[ConversationUpdateTimeResDto] | None:
+) -> list[ConversationVersionResDto] | None:
     """
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list[ConversationUpdateTimeResDto]
+        list[ConversationVersionResDto]
     """
 
     return (
