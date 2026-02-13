@@ -98,11 +98,11 @@ function ConversationList({
   const loadConversations = async () => {
     setIsLoadingConversations(true);
     try {
-      const versions = await conversationLogic.fetchConversationVersions();
+      const newVersions = await conversationLogic.fetchConversationVersions();
 
-      const currentMetadata = conversations.map(conv => ({id: conv.id, version: conv.version}));
+      const currentVersions = conversations.map(conv => ({id: conv.id, version: conv.version}));
       const sortById = (a, b) => a.id - b.id;
-      if (isEqual([...versions].sort(sortById), [...currentMetadata].sort(sortById))) {
+      if (isEqual([...newVersions].sort(sortById), [...currentVersions].sort(sortById))) {
         return JSON.parse(JSON.stringify(conversations));
       }
 
@@ -110,11 +110,30 @@ function ConversationList({
         await conversationUpdatePromiseRef.current.catch(() => {});
       }
 
-      const newConversations = await conversationLogic.fetchConversations();
-      setConversations(newConversations);
+      // Fetch only changed/new conversations
+      const currentMap = new Map(conversations.map(c => [c.id, c]));
+      const changedOrNewIds = newVersions
+        .filter(newVersion => {
+          const currentVersion = currentMap.get(newVersion.id);
+          return !currentVersion || currentVersion.version !== newVersion.version;
+        })
+        .map(newVersion => newVersion.id);
+      const fetchedConversations = changedOrNewIds.length > 0
+        ? await conversationLogic.fetchConversations(changedOrNewIds)
+        : [];
+
+      // Merge conversations
+      const fetchedMap = new Map(fetchedConversations.map(c => [c.id, c]));
+      const mergedConversations = newVersions
+        .map(newVersion =>
+          fetchedMap.get(newVersion.id) ?? currentMap.get(newVersion.id)
+        )
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
+      setConversations(mergedConversations);
 
       if (selectedConversationId) {
-        const currentConversation = newConversations.find(c => c.id === selectedConversationId);
+        const currentConversation = mergedConversations.find(c => c.id === selectedConversationId);
         if (currentConversation) {
           await ConversationLogic.populatePromptContents(currentConversation.messages);
           setMessages(currentConversation.messages);
@@ -123,7 +142,7 @@ function ConversationList({
         }
       }
 
-      return JSON.parse(JSON.stringify(newConversations));
+      return JSON.parse(JSON.stringify(mergedConversations));
     } catch (err) {
       showAlert(err.message, 'error');
     } finally {
