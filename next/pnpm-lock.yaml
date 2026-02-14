@@ -3130,8 +3130,8 @@ packages:
   markdown-it-sup@2.0.0:
     resolution: {integrity: sha512-5VgmdKlkBd8sgXuoDoxMpiU+BiEt3I49GItBzzw7Mxq9CxvnhE/k09HFli09zgfFDRixDQDfDxi0mgBCXtaTvA==}
 
-  markdown-it@14.1.0:
-    resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
+  markdown-it@14.1.1:
+    resolution: {integrity: sha512-BuU2qnTti9YKgK5N+IeMubp14ZUKUUw7yeJbkjtosvHiP0AZ5c8IAgEMk79D0eC8F23r4Ac/q8cAIFdm2FtyoA==}
     hasBin: true
 
   markdown-latex-renderer@1.6.0:
@@ -4939,26 +4939,26 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@mdit/helper@0.22.1(markdown-it@14.1.0)':
+  '@mdit/helper@0.22.1(markdown-it@14.1.1)':
     dependencies:
       '@types/markdown-it': 14.1.2
     optionalDependencies:
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
-  '@mdit/plugin-katex@0.23.2(markdown-it@14.1.0)':
+  '@mdit/plugin-katex@0.23.2(markdown-it@14.1.1)':
     dependencies:
-      '@mdit/helper': 0.22.1(markdown-it@14.1.0)
-      '@mdit/plugin-tex': 0.22.2(markdown-it@14.1.0)
+      '@mdit/helper': 0.22.1(markdown-it@14.1.1)
+      '@mdit/plugin-tex': 0.22.2(markdown-it@14.1.1)
       '@types/markdown-it': 14.1.2
       katex: 0.16.27
     optionalDependencies:
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
-  '@mdit/plugin-tex@0.22.2(markdown-it@14.1.0)':
+  '@mdit/plugin-tex@0.22.2(markdown-it@14.1.1)':
     dependencies:
       '@types/markdown-it': 14.1.2
     optionalDependencies:
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
 
   '@microsoft/fetch-event-source@2.0.1': {}
 
@@ -7614,7 +7614,7 @@ snapshots:
 
   markdown-it-sup@2.0.0: {}
 
-  markdown-it@14.1.0:
+  markdown-it@14.1.1:
     dependencies:
       argparse: 2.0.1
       entities: 4.5.0
@@ -7625,10 +7625,10 @@ snapshots:
 
   markdown-latex-renderer@1.6.0:
     dependencies:
-      '@mdit/plugin-katex': 0.23.2(markdown-it@14.1.0)
+      '@mdit/plugin-katex': 0.23.2(markdown-it@14.1.1)
       highlight.js: 11.11.1
       katex: 0.16.27
-      markdown-it: 14.1.0
+      markdown-it: 14.1.1
       markdown-it-sub: 2.0.0
       markdown-it-sup: 2.0.0
 
