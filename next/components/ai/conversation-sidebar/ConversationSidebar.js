@@ -54,6 +54,9 @@ function ConversationSidebar({
     const conversationId = conversations[index]?.id;
     if (!conversationId) return;
 
+    // Skip reload for intermediate updates when multiple updates are queued
+    let currentPromise;
+
     const updateConversation = async () => {
       try {
         const updatedConversation = await conversationLogic.updateConversation(
@@ -80,7 +83,9 @@ function ConversationSidebar({
           return newConversations;
         });
 
-        setConversationsReloadKey(prev => prev + 1);
+        if (conversationUpdatePromiseRef.current === currentPromise) {
+          setConversationsReloadKey(prev => prev + 1);
+        }
       } catch (err) {
         setAlertOpen(true);
         setAlertMessage(err.message);
@@ -93,6 +98,7 @@ function ConversationSidebar({
       .catch(() => {})
       .then(updateConversation);
 
+    currentPromise = updatePromise;
     conversationUpdatePromiseRef.current = updatePromise;
 
     try {
