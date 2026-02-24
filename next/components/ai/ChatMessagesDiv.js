@@ -17,6 +17,7 @@ function ChatMessagesDiv({
                            setPromptsReloadKey,
                            isTemporaryChat,
                            isLastChunkThought,
+                           setUploadingCount,
                          }) {
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
@@ -97,6 +98,7 @@ function ChatMessagesDiv({
                 setPromptsReloadKey={setPromptsReloadKey}
                 isTemporaryChat={isTemporaryChat}
                 isThoughtLoading={isThoughtLoading}
+                setUploadingCount={setUploadingCount}
               />
               <AddMessageDivider
                 messages={messages}

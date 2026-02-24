@@ -28,6 +28,7 @@ function SendButton({
                       stream,
                       thought,
                       codeExecution,
+                      isUploading,
                     }) {
   const chatLogic = new ChatLogic();
   const conversationLogic = new ConversationLogic();
@@ -264,7 +265,7 @@ function SendButton({
           color="primary"
           onClick={handleGenerate}
           startIcon={isGenerating ? <CircularProgress size={16} color="inherit"/> : <PlayArrowIcon/>}
-          disabled={messages === null}
+          disabled={!messages || isUploading}
           ref={sendButtonRef}
         >
           {isGenerating ? "Stop" : "Send"}

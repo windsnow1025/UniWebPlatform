@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Divider} from "@mui/material";
 import FilesUpload from './FilesUpload';
 import AudioRecord from './AudioRecord';
@@ -8,11 +8,17 @@ import {ContentTypeEnum} from "../../../../client/nest";
 import AddTextButton from "./AddTextButton";
 import useScreenSize from "../../../common/hooks/useScreenSize";
 
-function AddContentArea({contents, setContents}) {
+function AddContentArea({contents, setContents, setUploadingCount}) {
   const screenSize = useScreenSize();
   const xsScreen = screenSize === 'xs';
 
   const [isUploading, setIsUploading] = useState(false);
+
+  useEffect(() => {
+    if (!setUploadingCount || !isUploading) return;
+    setUploadingCount(prev => prev + 1);
+    return () => setUploadingCount(prev => prev - 1);
+  }, [isUploading, setUploadingCount]);
 
   const handleAddFiles = (fileUrls) => {
     setContents(prevContents => {

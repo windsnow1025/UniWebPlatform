@@ -8,7 +8,8 @@ function RetryButton({
                        setMessages,
                        abortGenerateRef,
                        handleGenerateRef,
-                       setConversationUpdateKey
+                       setConversationUpdateKey,
+                       isUploading,
                      }) {
   const isRetryEnabled = () => {
     if (messages === null) return false;
@@ -76,7 +77,7 @@ function RetryButton({
           id="retry"
           color="secondary"
           onClick={handleRetry}
-          disabled={!isRetryEnabled()}
+          disabled={!isRetryEnabled() || isUploading}
         >
           <ReplayIcon/>
         </IconButton>
