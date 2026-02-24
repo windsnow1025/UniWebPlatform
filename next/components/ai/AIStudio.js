@@ -46,6 +46,10 @@ function AIStudio({
   // Thought Loading
   const [isLastChunkThought, setIsLastChunkThought] = useState(false);
 
+  // Upload Tracking
+  const [uploadingCount, setUploadingCount] = useState(0);
+  const isUploading = uploadingCount > 0;
+
   // Conversation
   const [conversations, setConversations] = useState([]);
   const [selectedConversationId, setSelectedConversationId] = useState(null);
@@ -185,6 +189,7 @@ function AIStudio({
                 setPromptsReloadKey={setPromptsReloadKey}
                 isTemporaryChat={isTemporaryChat}
                 isLastChunkThought={isLastChunkThought}
+                setUploadingCount={setUploadingCount}
               />
             ) : (
               <div className="flex-around h-full">
@@ -235,6 +240,7 @@ function AIStudio({
                 stream={stream}
                 thought={thought}
                 codeExecution={codeExecution}
+                isUploading={isUploading}
               />
               <RetryButton
                 messages={messages}
@@ -242,6 +248,7 @@ function AIStudio({
                 abortGenerateRef={abortGenerateRef}
                 handleGenerateRef={handleGenerateRef}
                 setConversationUpdateKey={setConversationUpdateKey}
+                isUploading={isUploading}
               />
             </div>
           </div>

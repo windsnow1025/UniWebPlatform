@@ -24,6 +24,7 @@ function MessageDiv(props) {
     setPromptsReloadKey,
     isTemporaryChat,
     isThoughtLoading,
+    setUploadingCount,
   } = props;
 
   // import usePropsChangeLogger from "../../hooks/usePropsChangeLogger";
@@ -176,6 +177,7 @@ function MessageDiv(props) {
           <AddContentArea
             contents={message.contents}
             setContents={handleContentsChange}
+            setUploadingCount={setUploadingCount}
           />
         )}
       </div>
