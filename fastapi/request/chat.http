@@ -21,7 +21,7 @@ Authorization: {{token}}
     }
   ],
   "model": "gemini-3-pro-preview",
-  "api_type": "Gemini-Vertex",
+  "api_type": "Vertex AI",
   "temperature": 0,
   "stream": true,
   "thought": true,
