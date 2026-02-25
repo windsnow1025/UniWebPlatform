@@ -26,7 +26,7 @@ export class Message {
   role: MessageRole;
   contents: Content[];
 
-  systemPromptId?: number;
+  promptId?: number;
   thought?: string;
   display?: string;
 }
