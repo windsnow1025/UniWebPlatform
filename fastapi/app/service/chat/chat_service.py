@@ -42,9 +42,9 @@ async def handle_chat_interaction(
         "AZURE_API_KEY": os.environ.get("AZURE_API_KEY"),
         "AZURE_API_BASE": os.environ.get("AZURE_API_BASE"),
         "GITHUB_API_KEY": os.environ.get("GITHUB_API_KEY"),
-        "GEMINI_FREE_API_KEY": os.environ.get("GEMINI_FREE_API_KEY"),
-        "GEMINI_PAID_API_KEY": os.environ.get("GEMINI_PAID_API_KEY"),
-        "GEMINI_VERTEX_API_KEY": os.environ.get("GEMINI_VERTEX_API_KEY"),
+        "GOOGLE_AI_STUDIO_FREE_TIER_API_KEY": os.environ.get("GOOGLE_AI_STUDIO_FREE_TIER_API_KEY"),
+        "GOOGLE_AI_STUDIO_API_KEY": os.environ.get("GOOGLE_AI_STUDIO_API_KEY"),
+        "VERTEX_AI_API_KEY": os.environ.get("VERTEX_AI_API_KEY"),
         "ANTHROPIC_API_KEY": os.environ.get("ANTHROPIC_API_KEY"),
         "XAI_API_KEY": os.environ.get("XAI_API_KEY"),
     }
