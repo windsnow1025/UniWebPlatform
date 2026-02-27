@@ -50,7 +50,7 @@ function ChatMessagesDiv({
     setMessages((prevMessages) => {
       // Find files in the message
       const messageToDelete = prevMessages.find(msg => msg.id === id);
-      if (messageToDelete) {
+      if (messageToDelete && !messageToDelete.promptId) {
         fileUrlsToDelete = ChatLogic.getFileUrlsFromMessage(messageToDelete);
       }
 
