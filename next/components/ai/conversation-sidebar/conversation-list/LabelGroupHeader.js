@@ -104,7 +104,7 @@ function LabelGroupHeader({
       </Typography>
       {!isNoLabel && (
         <Tooltip title="Edit label">
-          <IconButton size="small" onClick={openEditDialog}>
+          <IconButton size="small" onClick={openEditDialog} sx={{p: 0, mr: 1}}>
             <SettingsIcon fontSize="small"/>
           </IconButton>
         </Tooltip>

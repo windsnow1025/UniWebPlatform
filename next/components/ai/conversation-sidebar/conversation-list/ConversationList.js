@@ -237,11 +237,10 @@ function ConversationList({
                 expanded={expandedAccordion[key] !== false}
                 onChange={handleAccordionChange(key)}
                 disableGutters
-                elevation={4}
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
-                  sx={{backgroundColor: 'background.paper'}}
+                  sx={{backgroundColor: 'action.selected', borderBottom: 2, borderColor: 'divider'}}
                 >
                   <div className="flex-center w-full">
                     <LabelGroupHeader
