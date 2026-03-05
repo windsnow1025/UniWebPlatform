@@ -42,7 +42,7 @@ function AddContentArea({contents, setContents, setUploadingCount}) {
       <div className="flex pt-2">
         <div className="flex-center">
           <AddTextButton
-            setContent={(content) => setContents([...contents, content])}
+            setContent={(content) => setContents(prev => [...prev, content])}
           />
         </div>
 

@@ -37,15 +37,19 @@ function SortableContent({
   };
 
   const handleContentUpdate = (newValue) => {
-    const newContents = [...contents];
-    newContents[index] = {...newContents[index], data: newValue};
-    setContents(newContents);
+    setContents(prevContents => {
+      const newContents = [...prevContents];
+      newContents[index] = {...newContents[index], data: newValue};
+      return newContents;
+    });
   };
 
   const handleContentDelete = () => {
-    const newContents = [...contents];
-    newContents.splice(index, 1);
-    setContents(newContents);
+    setContents(prevContents => {
+      const newContents = [...prevContents];
+      newContents.splice(index, 1);
+      return newContents;
+    });
   };
 
   const handleCopy = () => {
