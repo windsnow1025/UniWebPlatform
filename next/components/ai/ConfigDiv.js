@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   Alert,
   Box,
+  Chip,
   FormControl,
   FormControlLabel,
   IconButton,
@@ -86,8 +87,8 @@ function ConfigDiv({
 
   return (
     <>
-      <div className="flex-around mt-1">
-        <div className="mt-2">
+      <div className="flex-around mt-3">
+        <div>
           <FormControl fullWidth size="small">
             <InputLabel id="api-type-select-label">API Type</InputLabel>
             <Select
@@ -104,7 +105,7 @@ function ConfigDiv({
             </Select>
           </FormControl>
         </div>
-        <div className="mt-2">
+        <div>
           <FormControl fullWidth size="small">
             <InputLabel id="model-select-label">Model</InputLabel>
             <Select
@@ -179,20 +180,18 @@ function ConfigDiv({
         )}
         {!smallScreen && (
           <>
-            <FormControlLabel control={
-              <Switch
-                checked={thought}
-                onChange={e => setThought(e.target.checked)}
-                size="small"
-              />
-            } label="Thought"/>
-            <FormControlLabel control={
-              <Switch
-                checked={codeExecution}
-                onChange={e => setCodeExecution(e.target.checked)}
-                size="small"
-              />
-            } label="Code Execution"/>
+            <Chip
+              label="Thought"
+              variant={thought ? "filled" : "outlined"}
+              color={thought ? "secondary" : "default"}
+              onClick={() => setThought(!thought)}
+            />
+            <Chip
+              label="Code Execution"
+              variant={codeExecution ? "filled" : "outlined"}
+              color={codeExecution ? "secondary" : "default"}
+              onClick={() => setCodeExecution(!codeExecution)}
+            />
           </>
         )}
       </div>
