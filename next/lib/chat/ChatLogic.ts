@@ -256,13 +256,14 @@ export default class ChatLogic {
     model: string,
     temperature: number,
     thought: boolean,
+    web_search: boolean,
     code_execution: boolean,
     conversation_id?: number,
   ): Promise<ChatResponse> {
     try {
       const filteredMessages = ChatLogic.convertMessagesFromUIToReq(messages);
       const content = await this.chatClient.nonStreamGenerate(
-        request_id, filteredMessages, api_type, model, temperature, thought, code_execution,
+        request_id, filteredMessages, api_type, model, temperature, thought, web_search, code_execution,
         conversation_id
       );
       if (content.error) {
@@ -290,6 +291,7 @@ export default class ChatLogic {
     model: string,
     temperature: number,
     thought: boolean,
+    web_search: boolean,
     code_execution: boolean,
     conversation_id?: number,
     onOpenCallback?: () => void,
@@ -299,7 +301,7 @@ export default class ChatLogic {
     try {
       const filteredMessages = ChatLogic.convertMessagesFromUIToReq(messages);
       const response = this.chatClient.streamGenerate(
-        request_id, filteredMessages, api_type, model, temperature, thought, code_execution,
+        request_id, filteredMessages, api_type, model, temperature, thought, web_search, code_execution,
         conversation_id, onOpenCallback, onDoneCallback, signal
       );
 

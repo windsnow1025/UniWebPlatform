@@ -31,6 +31,7 @@ function AIStudio({
   const [temperature, setTemperature] = useState(0);
   const [stream, setStream] = useState(true);
   const [thought, setThought] = useState(true);
+  const [webSearch, setWebSearch] = useState(true);
   const [codeExecution, setCodeExecution] = useState(false);
   const [isTemporaryChat, setIsTemporaryChat] = useState(initIsTemporaryChat);
 
@@ -169,6 +170,8 @@ function AIStudio({
                 setStream={setStream}
                 thought={thought}
                 setThought={setThought}
+                webSearch={webSearch}
+                setWebSearch={setWebSearch}
                 codeExecution={codeExecution}
                 setCodeExecution={setCodeExecution}
                 refreshKey={creditRefreshKey}
@@ -239,6 +242,7 @@ function AIStudio({
                 temperature={temperature}
                 stream={stream}
                 thought={thought}
+                webSearch={webSearch}
                 codeExecution={codeExecution}
                 isUploading={isUploading}
               />
