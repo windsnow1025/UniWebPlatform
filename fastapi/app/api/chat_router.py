@@ -25,6 +25,7 @@ class ChatRequest(BaseModel):
     temperature: float
     stream: bool
     thought: bool
+    web_search: bool
     code_execution: bool
     structured_output_schema: Optional[dict[str, Any]] = None
     conversation_id: Optional[int] = None
@@ -64,6 +65,7 @@ async def generate(
             temperature=chat_request.temperature,
             stream=chat_request.stream,
             thought=chat_request.thought,
+            web_search=chat_request.web_search,
             code_execution=chat_request.code_execution,
             structured_output_schema=chat_request.structured_output_schema,
             conversation_id=chat_request.conversation_id,
