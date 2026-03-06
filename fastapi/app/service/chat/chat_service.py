@@ -19,6 +19,7 @@ async def handle_chat_interaction(
         temperature: float,
         stream: bool,
         thought: bool,
+        web_search: bool,
         code_execution: bool,
         structured_output_schema: dict | None,
         conversation_id: int | None,
@@ -57,6 +58,7 @@ async def handle_chat_interaction(
         temperature=temperature,
         stream=stream,
         thought=thought,
+        web_search=web_search,
         code_execution=code_execution,
         structured_output_schema=structured_output_schema,
     )
