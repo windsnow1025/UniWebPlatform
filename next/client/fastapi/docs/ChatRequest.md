@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **temperature** | **number** |  | [default to undefined]
 **stream** | **boolean** |  | [default to undefined]
 **thought** | **boolean** |  | [default to undefined]
+**web_search** | **boolean** |  | [default to undefined]
 **code_execution** | **boolean** |  | [default to undefined]
 **structured_output_schema** | **{ [key: string]: any; }** |  | [optional] [default to undefined]
 **conversation_id** | **number** |  | [optional] [default to undefined]
@@ -29,6 +30,7 @@ const instance: ChatRequest = {
     temperature,
     stream,
     thought,
+    web_search,
     code_execution,
     structured_output_schema,
     conversation_id,

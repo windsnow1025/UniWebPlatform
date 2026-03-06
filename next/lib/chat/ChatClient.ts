@@ -13,6 +13,7 @@ export default class ChatClient {
     model: string,
     temperature: number,
     thought: boolean,
+    web_search: boolean,
     code_execution: boolean,
     conversation_id?: number,
   ): Promise<ChatResponse> {
@@ -24,6 +25,7 @@ export default class ChatClient {
       temperature: temperature,
       stream: false,
       thought: thought,
+      web_search: web_search,
       code_execution: code_execution,
       conversation_id: conversation_id,
     };
@@ -44,6 +46,7 @@ export default class ChatClient {
     model: string,
     temperature: number,
     thought: boolean,
+    web_search: boolean,
     code_execution: boolean,
     conversation_id?: number,
     onOpenCallback?: () => void,
@@ -60,6 +63,7 @@ export default class ChatClient {
       temperature: temperature,
       stream: true,
       thought: thought,
+      web_search: web_search,
       code_execution: code_execution,
       conversation_id: conversation_id,
     };

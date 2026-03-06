@@ -27,6 +27,7 @@ function SendButton({
                       temperature,
                       stream,
                       thought,
+                      webSearch,
                       codeExecution,
                       isUploading,
                     }) {
@@ -62,7 +63,7 @@ function SendButton({
     requestIdRef.current = uuidv4();
 
     const content = await chatLogic.nonStreamGenerate(
-      requestIdRef.current, messages, apiType, model, temperature, thought, codeExecution,
+      requestIdRef.current, messages, apiType, model, temperature, thought, webSearch, codeExecution,
       conversationId
     );
 
@@ -99,7 +100,7 @@ function SendButton({
     abortControllerRef.current = new AbortController();
 
     const generator = chatLogic.streamGenerate(
-      requestIdRef.current, messages, apiType, model, temperature, thought, codeExecution,
+      requestIdRef.current, messages, apiType, model, temperature, thought, webSearch, codeExecution,
       conversationId, onOpenCallback, onDoneCallback, abortControllerRef.current.signal
     );
 

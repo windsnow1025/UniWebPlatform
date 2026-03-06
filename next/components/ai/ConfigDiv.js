@@ -33,6 +33,8 @@ function ConfigDiv({
                      setStream,
                      thought,
                      setThought,
+                     webSearch,
+                     setWebSearch,
                      codeExecution,
                      setCodeExecution,
                      refreshKey,
@@ -185,6 +187,12 @@ function ConfigDiv({
               variant={thought ? "filled" : "outlined"}
               color={thought ? "secondary" : "default"}
               onClick={() => setThought(!thought)}
+            />
+            <Chip
+              label="Web Search"
+              variant={webSearch ? "filled" : "outlined"}
+              color={webSearch ? "secondary" : "default"}
+              onClick={() => setWebSearch(!webSearch)}
             />
             <Chip
               label="Code Execution"
