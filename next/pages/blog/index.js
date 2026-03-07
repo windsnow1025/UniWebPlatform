@@ -47,7 +47,7 @@ function Index() {
             <Button
               variant="contained"
               color="primary"
-              href="/markdown/add"
+              href="/blog/add"
               target="_blank"
               rel="noopener noreferrer"
               startIcon={<AddIcon/>}
