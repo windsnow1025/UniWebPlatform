@@ -12,8 +12,8 @@ import {
   Snackbar,
   TextField
 } from "@mui/material";
-import {defaultAPIBaseURLs} from "../../../lib/common/APIConfig";
-import {StorageKeys} from "../../../lib/common/Constants";
+import {defaultAPIBaseURLs} from "@/lib/common/APIConfig";
+import {StorageKeys} from "@/lib/common/Constants";
 
 const APIBaseURLSelect = ({apiType, label}) => {
   const [selected, setSelected] = useState(defaultAPIBaseURLs);

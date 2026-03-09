@@ -6,11 +6,11 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import TextContent from "./text/TextContent";
-import {RawEditableState} from "../../../lib/common/message/EditableState";
+import {RawEditableState} from "@/lib/common/message/EditableState";
 import FileDiv from "./file/FileDiv";
 import CodeDiv from "./code/CodeDiv";
 import CodeOutputDiv from "./code/CodeOutputDiv";
-import {ContentTypeEnum} from "../../../client/nest";
+import {ContentTypeEnum} from "@/client/nest";
 
 function SortableContent({
                            id,

@@ -1,5 +1,5 @@
 import React from 'react';
-import AIStudio from "../../components/ai/AIStudio";
+import AIStudio from "@/components/ai/AIStudio";
 
 function Index() {
   return (

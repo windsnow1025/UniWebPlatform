@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import Link from "next/link";
-import UserLogic from "../../lib/common/user/UserLogic";
+import UserLogic from "@/lib/common/user/UserLogic";
 import {Alert, Button, Checkbox, FormControlLabel, FormGroup, Paper, Snackbar, Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import {wait} from "../../components/common/utils/Wait";
+import {wait} from "@/components/common/utils/Wait";
 import Head from "next/head";
 
 function SignUp() {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PasswordGenerator from "../../components/password/PasswordGenerator";
-import EncryptorDecryptor from "../../components/password/EncryptorDecryptor";
-import SecretKeyDialog from "../../components/password/SecretKeyDialog";
+import PasswordGenerator from "@/components/password/PasswordGenerator";
+import EncryptorDecryptor from "@/components/password/EncryptorDecryptor";
+import SecretKeyDialog from "@/components/password/SecretKeyDialog";
 import { Button } from "@mui/material";
 import Head from "next/head";
-import {StorageKeys} from "../../lib/common/Constants";
+import {StorageKeys} from "@/lib/common/Constants";
 
 function PasswordEncryptionTool() {
   const [key, setKey] = useState(0);

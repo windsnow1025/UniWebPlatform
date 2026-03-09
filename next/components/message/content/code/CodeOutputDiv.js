@@ -3,7 +3,7 @@ import {IconButton, Tooltip} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import TextContent from "../text/TextContent";
-import {RawEditableState} from "../../../../lib/common/message/EditableState";
+import {RawEditableState} from "@/lib/common/message/EditableState";
 import CollapsibleSection from "../../../common/CollapsibleSection";
 
 function CodeOutputDiv({output, setOutput, isPreview, isLoading}) {

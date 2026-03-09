@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Head from 'next/head';
 import {Collapse, Drawer, Paper} from "@mui/material";
 
-import ChatLogic from "../../lib/chat/ChatLogic";
+import ChatLogic from "@/lib/chat/ChatLogic";
 import ConfigDiv from "./ConfigDiv";
 import SendButton from "./SendButton";
 import RetryButton from "./RetryButton";

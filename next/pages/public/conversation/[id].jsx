@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import AIStudio from '../../../components/ai/AIStudio';
-import ConversationLogic from '../../../lib/conversation/ConversationLogic';
+import AIStudio from '@/components/ai/AIStudio';
+import ConversationLogic from '@/lib/conversation/ConversationLogic';
 import {Alert, CircularProgress, Snackbar} from "@mui/material";
 
 export default function PublicConversationPage() {

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import MarkdownLogic from '../../../lib/markdown/MarkdownLogic';
+import MarkdownLogic from '@/lib/markdown/MarkdownLogic';
 import {Alert, Button, Snackbar, useTheme} from "@mui/material";
-import TextContent from '../../../components/message/content/text/TextContent';
-import {RawEditableState} from '../../../lib/common/message/EditableState';
+import TextContent from '@/components/message/content/text/TextContent';
+import {RawEditableState} from '@/lib/common/message/EditableState';
 import Head from "next/head";
 
 function MarkdownAdd() {
