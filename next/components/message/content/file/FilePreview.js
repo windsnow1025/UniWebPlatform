@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import mime from 'mime';
-import { codeFileExtensions } from "../../../../lib/common/message/CodeFileExtensions";
+import { codeFileExtensions } from "@/lib/common/message/CodeFileExtensions";
 import { Typography } from '@mui/material';
 
 const FilePreview = ({ fileUrl, fileName }) => {

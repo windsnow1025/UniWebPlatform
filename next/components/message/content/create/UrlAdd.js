@@ -19,7 +19,7 @@ import {
   Alert
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
-import FileLogic from "../../../../lib/common/file/FileLogic";
+import FileLogic from "@/lib/common/file/FileLogic";
 
 function UrlAdd({setUrl, isUploading}) {
   const [open, setOpen] = useState(false);

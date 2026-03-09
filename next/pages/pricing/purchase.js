@@ -11,8 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
-import PaymentLogic from "../../lib/payment/PaymentLogic";
-import CreditSection from "../../components/common/settings/auth/signed-in/CreditSection";
+import PaymentLogic from "@/lib/payment/PaymentLogic";
+import CreditSection from "@/components/common/settings/auth/signed-in/CreditSection";
 
 function Purchase() {
   const [products, setProducts] = useState([]);

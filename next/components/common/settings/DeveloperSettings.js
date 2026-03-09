@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Switch, FormControlLabel, Typography, Divider} from "@mui/material";
 import APIBaseURLSelect from "./APIBaseURLSelect";
-import {StorageKeys} from "../../../lib/common/Constants";
+import {StorageKeys} from "@/lib/common/Constants";
 
 const DeveloperSettings = () => {
   const [developerMode, setDeveloperMode] = useState(false);

@@ -21,7 +21,7 @@ import {
   Lock as LockIcon,
   LockOpen as LockOpenIcon,
 } from "@mui/icons-material";
-import {encryptAES, decryptAES} from "../../lib/password/EncryptionLogic";
+import {encryptAES, decryptAES} from "@/lib/password/EncryptionLogic";
 
 function EncryptorDecryptor({keyValue}) {
   const [tabValue, setTabValue] = useState('0');

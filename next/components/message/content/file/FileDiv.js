@@ -16,8 +16,8 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 import FilePreview from './FilePreview';
-import {RawEditableState} from "../../../../lib/common/message/EditableState";
-import FileLogic from "../../../../lib/common/file/FileLogic";
+import {RawEditableState} from "@/lib/common/message/EditableState";
+import FileLogic from "@/lib/common/file/FileLogic";
 
 const FileDiv = ({fileUrl, rawEditableState, onDelete}) => {
   const fileName = fileUrl.split('/').pop().split(/-(.+)/)[1] || fileUrl.split('/').pop();

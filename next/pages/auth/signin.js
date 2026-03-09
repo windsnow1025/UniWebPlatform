@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {useRouter} from "next/router";
-import UserLogic from "../../lib/common/user/UserLogic";
+import UserLogic from "@/lib/common/user/UserLogic";
 import {Alert, Link, Snackbar, Tab, Tabs, TextField, useTheme} from "@mui/material";
 import {SignInPage} from '@toolpad/core/SignInPage';
-import {wait} from "../../components/common/utils/Wait";
+import {wait} from "@/components/common/utils/Wait";
 import Head from "next/head";
 
 function SignUpLink() {
