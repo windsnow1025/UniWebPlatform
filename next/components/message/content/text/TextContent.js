@@ -60,9 +60,25 @@ function TextContent({
       return;
     }
 
-    // Existing bug for Android Chrome:
-    // `textContent` loses the line breaks when text is paste by clipboard
-    const newContent = desanitizeContent(contentRef.current.textContent);
+    // Like textContent, but also converts <br> and <div> boundaries to \n
+    const getTextWithLineBreaks = (element) => {
+      let text = '';
+      for (const node of element.childNodes) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          text += node.textContent;
+        } else if (node.nodeName === 'BR') {
+          text += '\n';
+        } else if (node.nodeName === 'DIV') {
+          if (text.length > 0 && !text.endsWith('\n')) {
+            text += '\n';
+          }
+          text += getTextWithLineBreaks(node);
+        }
+      }
+      return text;
+    };
+
+    const newContent = desanitizeContent(getTextWithLineBreaks(contentRef.current));
     setContent(newContent);
   };
 
