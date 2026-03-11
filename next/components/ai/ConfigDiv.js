@@ -89,7 +89,7 @@ function ConfigDiv({
 
   return (
     <>
-      <div className="flex-around mt-3">
+      <div className="flex-around mt-3 gap-y-2">
         <div>
           <FormControl fullWidth size="small">
             <InputLabel id="api-type-select-label">API Type</InputLabel>
