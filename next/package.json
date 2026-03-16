@@ -36,6 +36,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-joyride": "^3.0.0-7",
+    "react-transition-group": "^4.4.5",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

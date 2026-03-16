@@ -3,7 +3,8 @@ import React, {useCallback, useEffect, useState} from "react";
 import AddMessageDivider from "./AddMessageDivider";
 import FileLogic from "../../lib/common/file/FileLogic";
 import ChatLogic from "../../lib/chat/ChatLogic";
-import {Alert, Snackbar} from "@mui/material";
+import {Alert, Collapse, Snackbar} from "@mui/material";
+import {TransitionGroup} from "react-transition-group";
 
 function ChatMessagesDiv({
                            messages,
@@ -96,36 +97,40 @@ function ChatMessagesDiv({
         setConversationUpdateKey={setConversationUpdateKey}
         setScrollToIndex={setScrollToIndex}
       />
-      {messages.map((message, index) => {
-          const isLastMessage = index === messages.length - 1;
-          const isThoughtLoading = isLastMessage && isGenerating && isLastChunkThought;
-          return (
-            <div key={message.id} data-message-index={index}>
-              <MessageDiv
-                message={message}
-                setMessage={handleMessageUpdate}
-                onMessageDelete={handleMessageDelete}
-                setConversationUpdateKey={setConversationUpdateKey}
-                promptsReloadKey={promptsReloadKey}
-                setPromptsReloadKey={setPromptsReloadKey}
-                isTemporaryChat={isTemporaryChat}
-                isThoughtLoading={isThoughtLoading}
-                setUploadingCount={setUploadingCount}
-              />
-              <AddMessageDivider
-                messages={messages}
-                setMessages={setMessages}
-                index={index}
-                setIsGenerating={setIsGenerating}
-                isGeneratingRef={isGeneratingRef}
-                abortGenerateRef={abortGenerateRef}
-                setConversationUpdateKey={setConversationUpdateKey}
-                setScrollToIndex={setScrollToIndex}
-              />
-            </div>
-          )
-        }
-      )}
+      <TransitionGroup>
+        {messages.map((message, index) => {
+            const isLastMessage = index === messages.length - 1;
+            const isThoughtLoading = isLastMessage && isGenerating && isLastChunkThought;
+            return (
+              <Collapse key={message.id}>
+                <div data-message-index={index}>
+                  <MessageDiv
+                    message={message}
+                    setMessage={handleMessageUpdate}
+                    onMessageDelete={handleMessageDelete}
+                    setConversationUpdateKey={setConversationUpdateKey}
+                    promptsReloadKey={promptsReloadKey}
+                    setPromptsReloadKey={setPromptsReloadKey}
+                    isTemporaryChat={isTemporaryChat}
+                    isThoughtLoading={isThoughtLoading}
+                    setUploadingCount={setUploadingCount}
+                  />
+                  <AddMessageDivider
+                    messages={messages}
+                    setMessages={setMessages}
+                    index={index}
+                    setIsGenerating={setIsGenerating}
+                    isGeneratingRef={isGeneratingRef}
+                    abortGenerateRef={abortGenerateRef}
+                    setConversationUpdateKey={setConversationUpdateKey}
+                    setScrollToIndex={setScrollToIndex}
+                  />
+                </div>
+              </Collapse>
+            )
+          }
+        )}
+      </TransitionGroup>
 
       <Snackbar
         open={alertOpen}
