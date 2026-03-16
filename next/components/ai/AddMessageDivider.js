@@ -20,7 +20,8 @@ function AddMessageDivider({
                              setIsGenerating,
                              isGeneratingRef,
                              abortGenerateRef,
-                             setConversationUpdateKey
+                             setConversationUpdateKey,
+                             setScrollToIndex,
                            }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -34,6 +35,8 @@ function AddMessageDivider({
     setMessages(newMessages);
 
     setConversationUpdateKey(prev => prev + 1);
+
+    setScrollToIndex(index + 1);
   };
 
   return (

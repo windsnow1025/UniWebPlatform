@@ -1,5 +1,5 @@
 import MessageDiv from "../message/MessageDiv";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import AddMessageDivider from "./AddMessageDivider";
 import FileLogic from "../../lib/common/file/FileLogic";
 import ChatLogic from "../../lib/chat/ChatLogic";
@@ -19,6 +19,17 @@ function ChatMessagesDiv({
                            isLastChunkThought,
                            setUploadingCount,
                          }) {
+  // Scroll to newly added message
+  const [scrollToIndex, setScrollToIndex] = useState(null);
+
+  useEffect(() => {
+    if (scrollToIndex === null) return;
+    const container = document.querySelector('#chat-messages');
+    const target = container.querySelector(`[data-message-index="${scrollToIndex}"]`);
+    target.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+    setScrollToIndex(null);
+  }, [scrollToIndex]);
+
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -83,12 +94,13 @@ function ChatMessagesDiv({
         isGeneratingRef={isGeneratingRef}
         abortGenerateRef={abortGenerateRef}
         setConversationUpdateKey={setConversationUpdateKey}
+        setScrollToIndex={setScrollToIndex}
       />
       {messages.map((message, index) => {
           const isLastMessage = index === messages.length - 1;
           const isThoughtLoading = isLastMessage && isGenerating && isLastChunkThought;
           return (
-            <div key={message.id}>
+            <div key={message.id} data-message-index={index}>
               <MessageDiv
                 message={message}
                 setMessage={handleMessageUpdate}
@@ -108,6 +120,7 @@ function ChatMessagesDiv({
                 isGeneratingRef={isGeneratingRef}
                 abortGenerateRef={abortGenerateRef}
                 setConversationUpdateKey={setConversationUpdateKey}
+                setScrollToIndex={setScrollToIndex}
               />
             </div>
           )
