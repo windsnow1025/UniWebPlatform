@@ -1,5 +1,5 @@
 import MessageDiv from "../message/MessageDiv";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import AddMessageDivider from "./AddMessageDivider";
 import FileLogic from "../../lib/common/file/FileLogic";
 import ChatLogic from "../../lib/chat/ChatLogic";
@@ -20,16 +20,18 @@ function ChatMessagesDiv({
                            isLastChunkThought,
                            setUploadingCount,
                          }) {
-  // Scroll to newly added message
-  const [scrollToIndex, setScrollToIndex] = useState(null);
+  // Scroll to newly added message after Collapse animation
+  const scrollPendingRef = useRef(false);
 
-  useEffect(() => {
-    if (scrollToIndex === null) return;
-    const container = document.querySelector('#chat-messages');
-    const target = container.querySelector(`[data-message-index="${scrollToIndex}"]`);
-    target.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-    setScrollToIndex(null);
-  }, [scrollToIndex]);
+  const setScrollToIndex = useCallback(() => {
+    scrollPendingRef.current = true;
+  }, []);
+
+  const handleCollapseEntered = useCallback((node) => {
+    if (!scrollPendingRef.current) return;
+    scrollPendingRef.current = false;
+    node.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  }, []);
 
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
@@ -102,7 +104,7 @@ function ChatMessagesDiv({
             const isLastMessage = index === messages.length - 1;
             const isThoughtLoading = isLastMessage && isGenerating && isLastChunkThought;
             return (
-              <Collapse key={message.id}>
+              <Collapse key={message.id} onEntered={handleCollapseEntered}>
                 <div data-message-index={index}>
                   <MessageDiv
                     message={message}
