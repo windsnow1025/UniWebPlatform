@@ -29,9 +29,6 @@ docs/FilesResDto.md
 docs/LabelReqDto.md
 docs/LabelResDto.md
 docs/LabelsApi.md
-docs/MarkdownReqDto.md
-docs/MarkdownResDto.md
-docs/MarkdownsApi.md
 docs/Message.md
 docs/PaymentApi.md
 docs/ProductResDto.md

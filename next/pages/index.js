@@ -16,7 +16,6 @@ import PolicyIcon from '@mui/icons-material/Policy';
 import GavelIcon from '@mui/icons-material/Gavel';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PasswordIcon from '@mui/icons-material/Password';
-import EditNoteIcon from '@mui/icons-material/EditNote';
 import Head from "next/head";
 
 function FeatureCard({title, description, icon}) {
@@ -57,11 +56,6 @@ function Index() {
       title: "Password & Encryption Tools",
       description: "Generate secure and customizable passwords by your key.",
       icon: <PasswordIcon/>,
-    },
-    {
-      title: "Markdown Blogs",
-      description: "Blogs with Markdown and LaTeX support for personal usage.",
-      icon: <EditNoteIcon/>,
     },
   ];
 
