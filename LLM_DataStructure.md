@@ -42,8 +42,8 @@ export interface ChatRequest {
   temperature: number;
   stream: boolean;
   thought: boolean;
+  web_search: boolean;
   code_execution: boolean;
-  structured_output_schema?: object | null;
 }
 
 export interface Content {

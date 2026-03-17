@@ -19,8 +19,6 @@ import { UsersModule } from './users/users.module';
 import { FilesModule } from './files/files.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { Conversation } from './conversations/conversation.entity';
-import { Markdown } from './markdowns/markdown.entity';
-import { MarkdownsModule } from './markdowns/markdowns.module';
 import { Announcement } from './announcement/announcement.entity';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { Prompt } from './prompts/prompt.entity';
@@ -47,14 +45,7 @@ import { PaymentModule } from './payment/payment.module';
           username: config.postgres.user,
           password: config.postgres.password,
           database: config.postgres.database,
-          entities: [
-            User,
-            Conversation,
-            Markdown,
-            Announcement,
-            Prompt,
-            Label,
-          ],
+          entities: [User, Conversation, Announcement, Prompt, Label],
           synchronize: true,
           logging: ['query', 'error'],
           logger: 'advanced-console',
@@ -94,7 +85,6 @@ import { PaymentModule } from './payment/payment.module';
     UsersModule,
     FilesModule,
     ConversationsModule,
-    MarkdownsModule,
     AnnouncementModule,
     PromptsModule,
     LabelsModule,
