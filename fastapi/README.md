@@ -17,12 +17,6 @@ Add New Interpreter >> Add Local Interpreter
   - Environment: Select existing
   - Type: uv
 
-### Test
-
-```bash
-uv run pytest
-```
-
 ## OpenAPI
 
 ### Requirements
