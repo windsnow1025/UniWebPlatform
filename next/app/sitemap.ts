@@ -50,9 +50,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/password`,
       lastModified: new Date(),
     },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-    },
   ];
 }

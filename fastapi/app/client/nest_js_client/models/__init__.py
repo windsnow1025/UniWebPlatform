@@ -19,8 +19,6 @@ from .files_req_dto import FilesReqDto
 from .files_res_dto import FilesResDto
 from .label_req_dto import LabelReqDto
 from .label_res_dto import LabelResDto
-from .markdown_req_dto import MarkdownReqDto
-from .markdown_res_dto import MarkdownResDto
 from .message import Message
 from .message_role import MessageRole
 from .product_res_dto import ProductResDto
@@ -60,8 +58,6 @@ __all__ = (
     "FilesResDto",
     "LabelReqDto",
     "LabelResDto",
-    "MarkdownReqDto",
-    "MarkdownResDto",
     "Message",
     "MessageRole",
     "ProductResDto",
