@@ -36,7 +36,7 @@ function AddMessageDivider({
 
     setConversationUpdateKey(prev => prev + 1);
 
-    setScrollToIndex(index + 1);
+    setScrollToIndex();
   };
 
   return (
