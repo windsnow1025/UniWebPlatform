@@ -59,7 +59,7 @@ function Purchase() {
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Purchase Credit - Windsnow1025</title>
+        <title>Purchase Credit</title>
       </Head>
       <div className="local-scroll-scrollable flex-center">
         <Paper elevation={4} className="p-6">

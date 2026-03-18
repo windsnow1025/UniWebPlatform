@@ -111,7 +111,7 @@ function SignIn() {
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Sign In - Windsnow1025</title>
+        <title>Sign In</title>
       </Head>
       <div className="local-scroll-scrollable">
         <Tabs

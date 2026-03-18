@@ -43,18 +43,18 @@ const NAVIGATION: Navigation = [
   },
   {
     segment: 'ai',
-    title: 'PolyFlexLLM',
+    title: 'AI Studio',
     icon: <AutoAwesomeIcon />,
   },
   {
     segment: 'password',
-    title: 'Password & Encryption',
+    title: 'Crypto',
     icon: <PasswordIcon />,
   },
 ];
 
 const BRANDING = {
-  title: 'Windsnow1025',
+  title: 'PolyFlexLLM',
 };
 
 const muiTheme = createTheme({
