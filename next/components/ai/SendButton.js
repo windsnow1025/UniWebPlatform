@@ -30,6 +30,7 @@ function SendButton({
                       webSearch,
                       codeExecution,
                       isUploading,
+                      isAtBottomRef,
                     }) {
   const chatLogic = new ChatLogic();
   const conversationLogic = new ConversationLogic();
@@ -110,9 +111,6 @@ function SendButton({
         return false;
       }
 
-      const scrollableContainer = document.querySelector('#chat-messages');
-      const isAtBottom = (scrollableContainer.scrollHeight - scrollableContainer.scrollTop) <= (scrollableContainer.clientHeight + 50);
-
       // Create Empty Assistant Message on First Chunk
       if (isFirstChunk) {
         setMessages(prevMessages => [...prevMessages, ChatLogic.getEmptyAssistantMessage()]);
@@ -139,7 +137,8 @@ function SendButton({
         prevMessages, prevMessages.length - 1, chunk, fileUrls
       ));
 
-      if (isAtBottom) {
+      if (isAtBottomRef.current) {
+        const scrollableContainer = document.querySelector('#chat-messages');
         setTimeout(() => {
           scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
         }, 0);

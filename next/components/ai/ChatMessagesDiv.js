@@ -19,8 +19,9 @@ function ChatMessagesDiv({
                            isTemporaryChat,
                            isLastChunkThought,
                            setUploadingCount,
+                           isAtBottomRef,
                          }) {
-  // Scroll to newly added message after Collapse animation
+  // Scroll to manually added message after Collapse animation
   const scrollPendingRef = useRef(false);
 
   const setScrollToIndex = useCallback(() => {
@@ -28,9 +29,16 @@ function ChatMessagesDiv({
   }, []);
 
   const handleCollapseEntered = useCallback((node) => {
-    if (!scrollPendingRef.current) return;
-    scrollPendingRef.current = false;
-    node.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+    // Manual add via AddMessageDivider: always scroll
+    if (scrollPendingRef.current) {
+      scrollPendingRef.current = false;
+      node.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+      return;
+    }
+    // Auto-added messages: scroll if user was at bottom
+    if (isAtBottomRef.current) {
+      node.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+    }
   }, []);
 
   // Alert state

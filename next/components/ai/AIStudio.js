@@ -77,6 +77,19 @@ function AIStudio({
   // Credit refresh
   const [creditRefreshKey, setCreditRefreshKey] = useState(0);
 
+  // Track whether user is at bottom of chat scroll container
+  const isAtBottomRef = useRef(true);
+
+  useEffect(() => {
+    const container = document.querySelector('#chat-messages');
+    if (!container) return;
+    const handleScroll = () => {
+      isAtBottomRef.current = (container.scrollHeight - container.scrollTop) <= (container.clientHeight + 50);
+    };
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [messages !== null]);
+
   // Refresh conversations when page becomes visible
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -193,6 +206,7 @@ function AIStudio({
                 isTemporaryChat={isTemporaryChat}
                 isLastChunkThought={isLastChunkThought}
                 setUploadingCount={setUploadingCount}
+                isAtBottomRef={isAtBottomRef}
               />
             ) : (
               <div className="flex-around h-full">
@@ -245,6 +259,7 @@ function AIStudio({
                 webSearch={webSearch}
                 codeExecution={codeExecution}
                 isUploading={isUploading}
+                isAtBottomRef={isAtBottomRef}
               />
               <RetryButton
                 messages={messages}
