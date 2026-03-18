@@ -1,7 +1,7 @@
 import React, {memo, useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import {IconButton, Tooltip} from "@mui/material";
+import {Box, IconButton, Tooltip} from "@mui/material";
 import RoleSelect from './role/RoleSelect';
 import DisplayDiv from "./content/display/DisplayDiv";
 import ThoughtDiv from "./content/thought/ThoughtDiv";
@@ -63,23 +63,24 @@ function MessageDiv(props) {
     setMessage(message.id, {...message, thought: newThought});
   };
 
-  const getRoleBorderStyles = (role) => {
+  const getRoleBorderColor = (role) => {
     switch (role) {
       case MessageRoleEnum.User:
-        return {
-          border: `1px solid color-mix(in srgb, ${theme.vars.palette.primary.main}, white 50%)`
-        };
+        return theme.vars.palette.primary.main;
       case MessageRoleEnum.Assistant:
-        return {
-          border: `1px solid color-mix(in srgb, ${theme.vars.palette.secondary.main}, white 50%)`
-        };
+        return theme.vars.palette.secondary.main;
       case MessageRoleEnum.System:
-        return {
-          border: `1px solid color-mix(in srgb, ${theme.vars.palette.warning.main}, white 50%)`
-        };
+        return theme.vars.palette.warning.main;
       default:
-        return {};
+        return 'transparent';
     }
+  };
+
+  const getRoleBorderStyles = (role) => {
+    const color = getRoleBorderColor(role);
+    return {
+      border: `1px solid color-mix(in srgb, ${color}, white 50%)`
+    };
   };
 
   const getMessageContainerStyles = (role) => {
@@ -108,12 +109,18 @@ function MessageDiv(props) {
 
   return (
     <div style={{...getMessageContainerStyles(message.role), display: 'flex'}}>
-      <div
+      <Box
         className="p-2 rounded-lg"
-        style={{
+        sx={{
           ...getRoleBorderStyles(message.role),
           minWidth: "75%",
           maxWidth: "95%",
+          transition: 'border-color 0.2s ease, outline 0.2s ease, box-shadow 0.2s ease',
+          '&:hover': {
+            borderColor: getRoleBorderColor(message.role),
+            outline: `1px solid ${getRoleBorderColor(message.role)}`,
+            boxShadow: theme.shadows[3],
+          },
         }}
       >
         <div className="flex items-center">
@@ -180,7 +187,7 @@ function MessageDiv(props) {
             setUploadingCount={setUploadingCount}
           />
         )}
-      </div>
+      </Box>
     </div>
   );
 }
