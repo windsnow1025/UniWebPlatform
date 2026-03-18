@@ -2,9 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Alert, Button, CircularProgress, Snackbar, Tooltip} from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {v4 as uuidv4} from 'uuid';
-import ChatLogic from "../../lib/chat/ChatLogic";
-import ConversationLogic from "../../lib/conversation/ConversationLogic";
-import {StorageKeys} from "../../lib/common/Constants";
+import ChatLogic from "@/lib/chat/ChatLogic";
+import ConversationLogic from "@/lib/conversation/ConversationLogic";
+import {StorageKeys} from "@/lib/common/Constants";
 
 function SendButton({
                       isGenerating,

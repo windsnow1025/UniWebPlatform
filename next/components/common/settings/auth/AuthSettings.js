@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Button, CircularProgress, Snackbar, Typography} from "@mui/material";
-import UserLogic from "../../../../lib/common/user/UserLogic";
+import UserLogic from "@/lib/common/user/UserLogic";
 import AccountDiv from "./signed-in/AccountDiv";
 import SignDiv from "./signed-out/SignDiv";
-import ConfirmDialog from "../../ConfirmDialog";
+import ConfirmDialog from "../../components/ConfirmDialog";
 import {useSession} from "@toolpad/core";
-import {StorageKeys} from "../../../../lib/common/Constants";
+import {StorageKeys} from "@/lib/common/Constants";
 
 const AuthSettings = () => {
   const session = useSession();

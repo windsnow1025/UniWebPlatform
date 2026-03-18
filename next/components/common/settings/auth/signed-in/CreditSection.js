@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {CircularProgress, Typography} from "@mui/material";
-import UserLogic from "../../../../../lib/common/user/UserLogic";
-import {StorageKeys} from "../../../../../lib/common/Constants";
+import UserLogic from "@/lib/common/user/UserLogic";
+import {StorageKeys} from "@/lib/common/Constants";
 
 function CreditSection({refreshKey = 0, decimalPlaces = null}) {
   const userLogic = new UserLogic();

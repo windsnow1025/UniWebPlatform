@@ -3,7 +3,7 @@ import {Alert, Box, Divider, Snackbar,} from '@mui/material';
 import ConversationList from './conversation-list/ConversationList';
 import NewConversationButton from "./NewConversationButton";
 import TemporaryChatButton from "../TemporaryChatButton";
-import ConversationLogic from "../../../lib/conversation/ConversationLogic";
+import ConversationLogic from "@/lib/conversation/ConversationLogic";
 
 function ConversationSidebar({
                                messages,

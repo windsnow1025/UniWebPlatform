@@ -23,10 +23,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import PromptLogic from '../../../lib/prompt/PromptLogic';
-import FileLogic from '../../../lib/common/file/FileLogic';
-import {ContentTypeEnum} from '../../../client/nest';
-import ConfirmDialog from '../../common/ConfirmDialog';
+import PromptLogic from '@/lib/prompt/PromptLogic';
+import FileLogic from '@/lib/common/file/FileLogic';
+import {ContentTypeEnum} from '@/client/nest';
+import ConfirmDialog from '../../common/components/ConfirmDialog';
 
 function PromptSelect({
                         message,

@@ -1,8 +1,8 @@
 import MessageDiv from "../message/MessageDiv";
 import React, {useCallback, useRef, useState} from "react";
 import AddMessageDivider from "./AddMessageDivider";
-import FileLogic from "../../lib/common/file/FileLogic";
-import ChatLogic from "../../lib/chat/ChatLogic";
+import FileLogic from "@/lib/common/file/FileLogic";
+import ChatLogic from "@/lib/chat/ChatLogic";
 import {Alert, Collapse, Snackbar} from "@mui/material";
 import {TransitionGroup} from "react-transition-group";
 

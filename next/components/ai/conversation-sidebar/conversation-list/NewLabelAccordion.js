@@ -14,7 +14,7 @@ import {
 import {Add as AddIcon, ExpandMore as ExpandMoreIcon} from '@mui/icons-material';
 import ColorPicker from './label/ColorPicker';
 import {PRESET_COLORS} from './label/PresetColors';
-import LabelLogic from '../../../../lib/label/LabelLogic';
+import LabelLogic from '@/lib/label/LabelLogic';
 
 function NewLabelAccordion({setLabels}) {
   const labelLogic = new LabelLogic();

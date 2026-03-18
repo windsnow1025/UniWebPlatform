@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import GuidedTour from '../common/GuidedTour';
+import GuidedTour from '../common/components/GuidedTour';
 import IconButton from '@mui/material/IconButton';
 import {useTheme} from '@mui/material/styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';

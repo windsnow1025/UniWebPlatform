@@ -18,7 +18,7 @@ import {
   SaveOutlined as SaveOutlinedIcon,
 } from '@mui/icons-material';
 import {NO_LABEL_COLOR} from './label/PresetColors';
-import ConversationLogic from '../../../../lib/conversation/ConversationLogic';
+import ConversationLogic from '@/lib/conversation/ConversationLogic';
 
 function ConversationItem({
                             conversation,
