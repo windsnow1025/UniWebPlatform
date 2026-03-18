@@ -107,13 +107,6 @@ function AIStudio({
 
   return (
     <div className="local-scroll-container">
-      <Head>
-        <meta
-          name="description"
-          content="PolyFlexLLM by windsnow1025. A unified web UI for native interactions with various LLM providers (OpenAI, Gemini, Claude, Grok), offering full context control, Markdown + LaTeX rendering, multimodal I/O, file processing, and stream output."
-        />
-        <title>PolyFlexLLM - Windsnow1025</title>
-      </Head>
       <div className="local-scroll-unscrollable-x">
         {screenSize === 'xs' || screenSize === 'sm' ? (
           <Drawer

@@ -1,7 +1,7 @@
 {
-  "name": "UniWebPlatform",
-  "short_name": "UniWebPlatform",
-  "description": "A unified web platform by Windsnow1025",
+  "name": "PolyFlexLLM",
+  "short_name": "PolyFlexLLM",
+  "description": "A full-stack web platform for interacting with various LLMs (OpenAI, Gemini, Claude), featuring full conversation context control, and Markdown + LaTeX rendering.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fff",
