@@ -2,21 +2,30 @@ import React from "react";
 import {
   BottomNavigation,
   BottomNavigationAction,
+  Box,
   Button,
   Card,
   CardContent,
   Chip,
+  Divider,
+  Grid,
   Typography,
   useTheme
 } from "@mui/material";
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 import PolicyIcon from '@mui/icons-material/Policy';
 import GavelIcon from '@mui/icons-material/Gavel';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import PasswordIcon from '@mui/icons-material/Password';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import CodeIcon from '@mui/icons-material/Code';
+import StreamIcon from '@mui/icons-material/Stream';
+import TuneIcon from '@mui/icons-material/Tune';
+import ImageIcon from '@mui/icons-material/Image';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import Head from "next/head";
+import {useRouter} from "next/router";
 
 function FeatureCard({title, description, icon}) {
   const theme = useTheme();
@@ -24,7 +33,7 @@ function FeatureCard({title, description, icon}) {
   return (
     <Card
       sx={{
-        margin: 2,
+        height: '100%',
         transition: 'transform 0.2s',
         '&:hover': {
           transform: 'scale(1.02)',
@@ -34,10 +43,10 @@ function FeatureCard({title, description, icon}) {
     >
       <CardContent className="text-center">
         {React.cloneElement(icon, {sx: {fontSize: 40, color: theme.vars.palette.primary.main}})}
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography gutterBottom variant="h6" component="h2">
           {title}
         </Typography>
-        <Typography>
+        <Typography variant="body2" color="textSecondary">
           {description}
         </Typography>
       </CardContent>
@@ -45,67 +54,102 @@ function FeatureCard({title, description, icon}) {
   );
 }
 
+const features = [
+  {
+    title: "Multi-Model Support",
+    description: "Unified interface to access OpenAI, Gemini, Claude, and Grok through a single platform.",
+    icon: <SmartToyIcon/>,
+  },
+  {
+    title: "Markdown + LaTeX Rendering",
+    description: "Native rendering of rich text, code blocks, and mathematical formulas in AI responses.",
+    icon: <CodeIcon/>,
+  },
+  {
+    title: "Stream Output",
+    description: "Real-time streaming of AI responses for a smooth, interactive experience.",
+    icon: <StreamIcon/>,
+  },
+  {
+    title: "Full Context Control",
+    description: "Manage conversation context with system, user, and assistant messages for precise interactions.",
+    icon: <TuneIcon/>,
+  },
+  {
+    title: "Multimodal I/O",
+    description: "Support for images and other media types as both input and output.",
+    icon: <ImageIcon/>,
+  },
+  {
+    title: "File Processing",
+    description: "Upload, process, and download files directly within your conversations.",
+    icon: <UploadFileIcon/>,
+  },
+];
+
+const providers = ["OpenAI", "Gemini", "Claude", "Grok"];
+
 function Index() {
-  const features = [
-    {
-      title: "PolyFlexLLM",
-      description: "A unified web UI for native interactions with various LLM providers (OpenAI, Gemini, Claude, Grok), offering full context control, Markdown + LaTeX rendering, multimodal I/O, file processing, and stream output.",
-      icon: <AutoAwesomeIcon/>,
-    },
-    {
-      title: "Password & Encryption Tools",
-      description: "Generate secure and customizable passwords by your key.",
-      icon: <PasswordIcon/>,
-    },
-  ];
+  const theme = useTheme();
+  const router = useRouter();
 
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Windsnow1025</title>
+        <title>PolyFlexLLM</title>
       </Head>
       <div className="local-scroll-scrollable flex-column gap-y-8 p-4">
         {/* Hero Section */}
-        <div className="text-center">
-          <Typography
-            variant="h2"
-            color="primary"
-            gutterBottom
-          >
-            Windsnow1025
+        <Box sx={{textAlign: 'center', py: 4}}>
+          <Typography variant="h2" color="primary" gutterBottom>
+            PolyFlexLLM
           </Typography>
-          <Typography variant="h5" color="textSecondary">
-            Featuring PolyFlexLLM and utilities
+          <Typography variant="h5" color="textSecondary" sx={{mb: 3, maxWidth: 700, mx: 'auto'}}>
+            A full-stack web platform for interacting with various LLMs, featuring full conversation context control and Markdown + LaTeX rendering.
           </Typography>
-          <div className="flex-center gap-2 mt-2">
-            <Chip
-              icon={<EmailIcon/>}
-              label="windsnow1025@windsnow1025.com"
-              color="primary"
-              variant="outlined"
-              clickable
-              onClick={() => window.location.href = 'mailto:windsnow1025@windsnow1025.com'}
-              sx={{p: 1}}
-            />
-          </div>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<LocalOfferIcon/>}
-            onClick={() => window.open('/pricing/pricing')}
-            sx={{mt: 2}}
-          >
+          <Box sx={{display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap', mt: 3}}>
+            {providers.map((provider) => (
+              <Chip key={provider} label={provider} variant="outlined" size="small"/>
+            ))}
+          </Box>
+        </Box>
+
+        <Divider/>
+
+        {/* Features Section */}
+        <Box sx={{py: 2}}>
+          <Typography variant="h4" align="center" gutterBottom>
+            Features
+          </Typography>
+          <Typography variant="body1" color="textSecondary" align="center" sx={{mb: 4, maxWidth: 600, mx: 'auto'}}>
+            Everything you need to interact with the leading AI models in one place.
+          </Typography>
+          <Grid container spacing={3} justifyContent="center">
+            {features.map((feature) => (
+              <Grid key={feature.title} size={{xs: 12, sm: 6, md: 4}}>
+                <FeatureCard {...feature} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        <Divider/>
+
+        {/* Pricing CTA Section */}
+        <Box sx={{textAlign: 'center', py: 4}}>
+          <LocalOfferIcon sx={{fontSize: 48, color: theme.vars.palette.primary.main, mb: 1}}/>
+          <Typography variant="h4" gutterBottom>
+            Simple, Transparent Pricing
+          </Typography>
+          <Typography variant="body1" color="textSecondary" sx={{mb: 3, maxWidth: 500, mx: 'auto'}}>
+            Pay only for what you use. Check out our pricing details to find the plan that works for you.
+          </Typography>
+          <Button variant="contained" size="large" onClick={() => router.push('/pricing/pricing')}>
             View Pricing
           </Button>
-        </div>
+        </Box>
 
-        {/* Features Grid */}
-        <div className="flex-center gap-4">
-          {features.map((feature, index) => (
-            <FeatureCard key={index} {...feature} />
-          ))}
-        </div>
+        <Divider/>
 
         {/* AI Wrapper Disclaimer and Disclosure */}
         <div className="text-center mt-2">

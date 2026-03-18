@@ -29,7 +29,7 @@ const Settings = () => {
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Settings - Windsnow1025</title>
+        <title>Settings</title>
       </Head>
       <Tabs
         value={activeTab}

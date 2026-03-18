@@ -20,7 +20,7 @@ function Pricing() {
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Pricing - Windsnow1025</title>
+        <title>Pricing</title>
       </Head>
       <div className="local-scroll-scrollable">
         <div className="m-2">

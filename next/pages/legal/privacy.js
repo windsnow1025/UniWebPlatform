@@ -20,7 +20,7 @@ function PrivacyPolicy() {
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Privacy Policy - Windsnow1025</title>
+        <title>Privacy Policy</title>
       </Head>
       <div className="local-scroll-scrollable">
         <div className="m-2">

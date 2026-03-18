@@ -20,7 +20,7 @@ function TermsConditions() {
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Terms & Conditions - Windsnow1025</title>
+        <title>Terms & Conditions</title>
       </Head>
       <div className="local-scroll-scrollable">
         <div className="m-2">

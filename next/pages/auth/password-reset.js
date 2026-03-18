@@ -71,7 +71,7 @@ function PasswordReset() {
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Reset Password - Windsnow1025</title>
+        <title>Reset Password</title>
       </Head>
       <div className="local-scroll-scrollable flex-center">
         <Paper elevation={3} className="flex-center p-6 max-w-md gap-y-4">

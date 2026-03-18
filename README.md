@@ -1,10 +1,6 @@
-# UniWebPlatform
+# PolyFlexLLM
 
-## Introduction
-
-A full-stack web application for my personal website, featuring:
-1. PolyFlexLLM
-2. Password Generator & AES Enctyption / Decryption
+A full-stack web platform for interacting with various LLMs (OpenAI, Gemini, Claude), featuring full conversation context control, and Markdown + LaTeX rendering.
 
 ## Tech Stack
 

@@ -78,7 +78,7 @@ function SignUp() {
   return (
     <div className="local-scroll-container">
       <Head>
-        <title>Sign Up - Windsnow1025</title>
+        <title>Sign Up</title>
       </Head>
       <div className="local-scroll-scrollable flex-center">
         <Paper elevation={3} className="flex-center p-6 max-w-md gap-y-4">

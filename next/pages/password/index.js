@@ -28,7 +28,7 @@ function PasswordEncryptionTool() {
     <div>
       <Head>
         <meta name="description" content="Generate secure and customizable passwords by your key." />
-        <title>Password & Encryption - Windsnow1025</title>
+        <title>Crypto</title>
       </Head>
 
       <div className="flex-center mt-4">
