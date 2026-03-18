@@ -16,7 +16,6 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 import PolicyIcon from '@mui/icons-material/Policy';
 import GavelIcon from '@mui/icons-material/Gavel';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import CodeIcon from '@mui/icons-material/Code';
 import StreamIcon from '@mui/icons-material/Stream';
@@ -26,6 +25,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import Head from "next/head";
 import {useRouter} from "next/router";
+import {AuthorEmail} from "@/lib/common/Constants";
 
 function FeatureCard({title, description, icon}) {
   const theme = useTheme();
@@ -97,6 +97,10 @@ function Index() {
     <div className="local-scroll-container">
       <Head>
         <title>PolyFlexLLM</title>
+        <meta
+          name="description"
+          content="PolyFlexLLM, A full-stack web platform for interacting with various LLMs (OpenAI, Gemini, Claude), featuring full conversation context control, and Markdown + LaTeX rendering."
+        />
       </Head>
       <div className="local-scroll-scrollable flex-column gap-y-8 p-4">
         {/* Hero Section */}
@@ -168,7 +172,7 @@ function Index() {
         <BottomNavigationAction
           label="Email"
           icon={<EmailIcon/>}
-          onClick={() => window.location.href = 'mailto:windsnow1025@windsnow1025.com'}
+          onClick={() => window.location.href = `mailto:${AuthorEmail}`}
         />
         <BottomNavigationAction
           label="GitHub"
