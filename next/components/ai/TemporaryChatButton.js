@@ -1,7 +1,7 @@
 import {Button} from "@mui/material";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import React from "react";
-import ChatLogic from "../../lib/chat/ChatLogic";
+import ChatLogic from "@/lib/chat/ChatLogic";
 
 function TemporaryChatButton({
                                setMessages,

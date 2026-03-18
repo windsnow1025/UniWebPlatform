@@ -17,8 +17,8 @@ import {
 import {Settings as SettingsIcon} from '@mui/icons-material';
 import ColorDot from './label/ColorDot';
 import ColorPicker from './label/ColorPicker';
-import LabelLogic from '../../../../lib/label/LabelLogic';
-import ConfirmDialog from '../../../common/ConfirmDialog';
+import LabelLogic from '@/lib/label/LabelLogic';
+import ConfirmDialog from '../../../common/components/ConfirmDialog';
 
 function LabelGroupHeader({
                             label,

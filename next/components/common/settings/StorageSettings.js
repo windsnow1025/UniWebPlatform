@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Button, Checkbox, CircularProgress, FormControlLabel, Snackbar, Switch, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FileLogic from "../../../lib/common/file/FileLogic";
+import FileLogic from "@/lib/common/file/FileLogic";
 import FileDiv from "../../message/content/file/FileDiv";
 import FilesUpload from "../../message/content/create/FilesUpload";
-import ConversationLogic from "../../../lib/conversation/ConversationLogic";
-import PromptLogic from "../../../lib/prompt/PromptLogic";
+import ConversationLogic from "@/lib/conversation/ConversationLogic";
+import PromptLogic from "@/lib/prompt/PromptLogic";
 import {useSession} from "@toolpad/core";
-import UserLogic from "../../../lib/common/user/UserLogic";
+import UserLogic from "@/lib/common/user/UserLogic";
 
 const StorageSettings = () => {
   const session = useSession();

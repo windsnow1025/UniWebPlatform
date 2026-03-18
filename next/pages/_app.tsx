@@ -18,8 +18,8 @@ import PasswordIcon from '@mui/icons-material/Password';
 import UserLogic from "@/lib/common/user/UserLogic";
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
-import EmailVerificationDialog from "@/components/common/EmailVerificationDialog";
-import AnnouncementSnackbar from "@/components/common/AnnouncementSnackbar";
+import EmailVerificationDialog from "@/components/common/components/EmailVerificationDialog";
+import AnnouncementSnackbar from "@/components/common/components/AnnouncementSnackbar";
 import {createTheme, ThemeProvider } from "@mui/material/styles";
 import {StorageKeys} from "@/lib/common/Constants";
 

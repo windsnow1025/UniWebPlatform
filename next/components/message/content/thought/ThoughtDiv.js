@@ -3,7 +3,7 @@ import {IconButton, Tooltip} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import TextContent from "../text/TextContent";
 import {RawEditableState} from "@/lib/common/message/EditableState";
-import CollapsibleSection from "../../../common/CollapsibleSection";
+import CollapsibleSection from "../../../common/components/CollapsibleSection";
 
 function ThoughtDiv({thought, setThought, isPreview, isLoading}) {
   if (!thought) return null;

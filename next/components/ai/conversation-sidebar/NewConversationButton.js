@@ -1,8 +1,8 @@
 import {Alert, Button, CircularProgress, Snackbar} from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import React, {useState} from "react";
-import ChatLogic from "../../../lib/chat/ChatLogic";
-import ConversationLogic from "../../../lib/conversation/ConversationLogic";
+import ChatLogic from "@/lib/chat/ChatLogic";
+import ConversationLogic from "@/lib/conversation/ConversationLogic";
 
 function NewConversationButton({
                                  setMessages,

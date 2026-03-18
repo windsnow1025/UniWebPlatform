@@ -5,9 +5,9 @@ import {
   Share as ShareIcon,
 } from '@mui/icons-material';
 import React, {useState} from "react";
-import ConversationLogic from "../../../../../lib/conversation/ConversationLogic";
-import ChatLogic from "../../../../../lib/chat/ChatLogic";
-import FileLogic from "../../../../../lib/common/file/FileLogic";
+import ConversationLogic from "@/lib/conversation/ConversationLogic";
+import ChatLogic from "@/lib/chat/ChatLogic";
+import FileLogic from "@/lib/common/file/FileLogic";
 import {NO_LABEL_COLOR} from "../label/PresetColors";
 import ShareConversationDialog from "./ShareConversationDialog";
 import SaveAsConversationDialog from "./SaveAsConversationDialog";

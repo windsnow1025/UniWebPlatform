@@ -11,13 +11,12 @@ import {
   Typography,
 } from '@mui/material';
 import {ExpandMore as ExpandMoreIcon} from '@mui/icons-material';
-import ConversationLogic from "../../../../lib/conversation/ConversationLogic";
-import PromptLogic from "../../../../lib/prompt/PromptLogic";
-import LabelLogic from "../../../../lib/label/LabelLogic";
+import ConversationLogic from "@/lib/conversation/ConversationLogic";
+import LabelLogic from "@/lib/label/LabelLogic";
 import {isEqual} from 'lodash';
 import {NO_LABEL_COLOR} from "./label/PresetColors";
 import ConversationMenu from "./menu/ConversationMenu";
-import {StorageKeys} from "../../../../lib/common/Constants";
+import {StorageKeys} from "@/lib/common/Constants";
 import NewLabelAccordion from "./NewLabelAccordion";
 import LabelGroupHeader from "./LabelGroupHeader";
 import ConversationItem from "./ConversationItem";
