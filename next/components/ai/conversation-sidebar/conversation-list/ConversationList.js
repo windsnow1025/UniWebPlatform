@@ -136,7 +136,13 @@ function ConversationList({
         const currentConversation = mergedConversations.find(c => c.id === selectedConversationId);
         if (currentConversation) {
           await ConversationLogic.populatePromptContents(currentConversation.messages);
-          setMessages(currentConversation.messages);
+          setMessages(prevMsgs => {
+            const serverMsgs = currentConversation.messages;
+            if (!prevMsgs || serverMsgs.length <= prevMsgs.length) {
+              return serverMsgs
+            }
+            return [...prevMsgs, ...serverMsgs.slice(prevMsgs.length)];
+          });
         } else {
           showAlert('Selected conversation not found', 'warning');
         }
