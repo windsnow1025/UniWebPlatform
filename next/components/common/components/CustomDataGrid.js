@@ -182,10 +182,6 @@ function CustomDataGrid({
   const [alertSeverity, setAlertSeverity] = useState('info');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
-
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
@@ -230,6 +226,10 @@ function CustomDataGrid({
       setLoading(false);
     }
   }, [fetchData]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const processRowUpdate = async (newRow) => {
     const updatedRow = {...newRow, isNew: false};
