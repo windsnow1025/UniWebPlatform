@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import UserLogic from "@/lib/common/user/UserLogic";
 import TextField from "@mui/material/TextField";
 import {Alert, Button, Snackbar} from "@mui/material";
-import {useSession} from "@toolpad/core";
+import {useSession} from "@/lib/common/session/SessionContext";
 
 function UsernameSection() {
   const session = useSession();

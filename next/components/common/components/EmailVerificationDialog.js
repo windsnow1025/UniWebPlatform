@@ -3,7 +3,7 @@ import UserLogic from '@/lib/common/user/UserLogic';
 import ConfirmDialog from './ConfirmDialog';
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
-import {useSession} from "@toolpad/core";
+import {useSession} from "@/lib/common/session/SessionContext";
 import {Alert, Snackbar} from "@mui/material";
 
 const EmailVerificationDialog = () => {
