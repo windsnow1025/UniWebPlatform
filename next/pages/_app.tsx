@@ -1,25 +1,24 @@
 import '../lib/global.css';
 
 import * as React from 'react';
-import {NextAppProvider} from '@toolpad/core/nextjs';
-import {DashboardLayout} from '@toolpad/core/DashboardLayout';
 import Head from 'next/head';
 import {AppCacheProvider} from '@mui/material-nextjs/v14-pagesRouter';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {type Navigation} from '@toolpad/core/AppProvider';
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PasswordIcon from '@mui/icons-material/Password';
 
-import UserLogic from "@/lib/common/user/UserLogic";
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
+import UserLogic from "@/lib/common/user/UserLogic";
+import {StorageKeys} from "@/lib/common/Constants";
+import {type Session, SessionProvider} from "@/components/common/session/SessionContext";
+import Dashboard from "@/components/common/dashboard/Dashboard";
 import EmailVerificationDialog from "@/components/common/components/EmailVerificationDialog";
 import AnnouncementSnackbar from "@/components/common/components/AnnouncementSnackbar";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {StorageKeys} from "@/lib/common/Constants";
-import {type Session, SessionProvider} from "@/lib/common/session/SessionContext";
 
 const NAVIGATION: Navigation = [
   {
@@ -57,7 +56,7 @@ const BRANDING = {
 
 const muiTheme = createTheme({
   cssVariables: {
-    colorSchemeSelector: 'data-toolpad-color-scheme',
+    colorSchemeSelector: 'data-mui-color-scheme',
   },
   colorSchemes: {light: true, dark: true},
 });
@@ -107,20 +106,13 @@ export default function App({Component}: { Component: React.ElementType }) {
       </Head>
       <ThemeProvider theme={muiTheme}>
         <SessionProvider session={session} authentication={authentication}>
-          <NextAppProvider
-            session={session}
-            authentication={authentication}
-            navigation={NAVIGATION}
-            branding={BRANDING}
-          >
-            <EmailVerificationDialog/>
-            <AnnouncementSnackbar/>
-            <div className="local-scroll-root">
-              <DashboardLayout defaultSidebarCollapsed={true}>
-                <Component/>
-              </DashboardLayout>
-            </div>
-          </NextAppProvider>
+          <EmailVerificationDialog/>
+          <AnnouncementSnackbar/>
+          <div className="local-scroll-root">
+            <Dashboard>
+              <Component/>
+            </Dashboard>
+          </div>
         </SessionProvider>
       </ThemeProvider>
     </AppCacheProvider>

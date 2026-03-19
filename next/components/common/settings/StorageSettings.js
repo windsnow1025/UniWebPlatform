@@ -6,7 +6,7 @@ import FileDiv from "../../message/content/file/FileDiv";
 import FilesUpload from "../../message/content/create/FilesUpload";
 import ConversationLogic from "@/lib/conversation/ConversationLogic";
 import PromptLogic from "@/lib/prompt/PromptLogic";
-import {useSession} from "@/lib/common/session/SessionContext";
+import {useSession} from "@/components/common/session/SessionContext";
 import UserLogic from "@/lib/common/user/UserLogic";
 
 const StorageSettings = () => {
