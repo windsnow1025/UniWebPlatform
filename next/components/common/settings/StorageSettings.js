@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {Alert, Button, Checkbox, CircularProgress, FormControlLabel, Snackbar, Switch, Typography} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileLogic from "@/lib/common/file/FileLogic";
@@ -30,14 +30,14 @@ const StorageSettings = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("info");
 
-  const userLogic = new UserLogic();
-  const fileLogic = new FileLogic();
-  const conversationLogic = new ConversationLogic();
-  const promptLogic = new PromptLogic();
+  const userLogic = useMemo(() => new UserLogic(), []);
+  const fileLogic = useMemo(() => new FileLogic(), []);
+  const conversationLogic = useMemo(() => new ConversationLogic(), []);
+  const promptLogic = useMemo(() => new PromptLogic(), []);
 
   useEffect(() => {
     fetchFiles();
-  }, [session]);
+  }, [session, fetchFiles]);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -51,9 +51,9 @@ const StorageSettings = () => {
       }
     };
     checkAdmin();
-  }, []);
+  }, [userLogic]);
 
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     setLoading(true);
     try {
       const fetchedFiles = await fileLogic.fetchFiles();
@@ -94,7 +94,7 @@ const StorageSettings = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [fileLogic, conversationLogic, promptLogic, session]);
 
   const handleFileSelect = (fileUrl) => {
     const newSelected = new Set(selectedFiles);

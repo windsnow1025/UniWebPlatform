@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Alert, Snackbar} from '@mui/material';
 import AnnouncementLogic from '@/lib/announcement/AnnouncementLogic';
 import TextContent from "@/components/message/content/text/TextContent";
@@ -10,7 +10,7 @@ const AnnouncementSnackbar = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  const announcementLogic = new AnnouncementLogic();
+  const announcementLogic = useMemo(() => new AnnouncementLogic(), []);
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
@@ -30,7 +30,7 @@ const AnnouncementSnackbar = () => {
     };
 
     fetchAnnouncement();
-  }, []);
+  }, [announcementLogic]);
 
   return (
     <Snackbar

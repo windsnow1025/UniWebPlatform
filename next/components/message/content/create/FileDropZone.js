@@ -18,7 +18,7 @@ function FileDropZone({setFiles, isUploading, setIsUploading}) {
 
   const [isFocused, setIsFocused] = useState(false);
 
-  const traverseFileTree = (item, path = "") => {
+  const traverseFileTree = useCallback((item, path = "") => {
     return new Promise((resolve) => {
       if (item.isFile) {
         item.file((file) => {
@@ -36,9 +36,9 @@ function FileDropZone({setFiles, isUploading, setIsUploading}) {
         });
       }
     });
-  };
+  }, []);
 
-  const getAllFiles = async (items) => {
+  const getAllFiles = useCallback(async (items) => {
     let allFiles = [];
 
     const filePromises = [];
@@ -55,7 +55,7 @@ function FileDropZone({setFiles, isUploading, setIsUploading}) {
     }
 
     return allFiles;
-  };
+  }, [traverseFileTree]);
 
   const handleDragEnter = useCallback((e) => {
     if (isUploading) return;
@@ -114,7 +114,7 @@ function FileDropZone({setFiles, isUploading, setIsUploading}) {
         setIsUploading(false);
       }
     }
-  }, [setFiles, fileLogic, isUploading, setIsUploading]);
+  }, [setFiles, fileLogic, isUploading, setIsUploading, getAllFiles]);
 
   const handlePaste = useCallback(async (e) => {
     if (isUploading) return;

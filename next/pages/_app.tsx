@@ -100,7 +100,7 @@ export default function App({ Component }: { Component: React.ElementType }) {
         router.push(`/auth/signin?redirect=${encodeURIComponent(pathname!)}`);
       },
     };
-  }, []);
+  }, [pathname, router]);
 
   return (
     <AppCacheProvider>

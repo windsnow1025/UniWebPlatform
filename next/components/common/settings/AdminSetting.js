@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import UserLogic from "@/lib/common/user/UserLogic";
 import AnnouncementLogic from "@/lib/announcement/AnnouncementLogic";
 import CustomDataGrid from "../components/CustomDataGrid";
@@ -9,8 +9,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const AdminSetting = () => {
-  const userLogic = new UserLogic();
-  const announcementLogic = new AnnouncementLogic();
+  const userLogic = useMemo(() => new UserLogic(), []);
+  const announcementLogic = useMemo(() => new AnnouncementLogic(), []);
 
   const [announcement, setAnnouncement] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ const AdminSetting = () => {
     };
 
     fetchAnnouncement();
-  }, []);
+  }, [announcementLogic]);
 
   const handleUpdateAnnouncement = async () => {
     setLoading(true);

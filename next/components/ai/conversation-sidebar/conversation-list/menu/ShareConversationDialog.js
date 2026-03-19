@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Alert,
   Autocomplete,
@@ -33,22 +33,10 @@ function ShareConversationDialog({open, onClose, conversation, setConversation})
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  const userLogic = new UserLogic();
-  const conversationLogic = new ConversationLogic();
+  const userLogic = useMemo(() => new UserLogic(), []);
+  const conversationLogic = useMemo(() => new ConversationLogic(), []);
 
-  useEffect(() => {
-    if (open) {
-      fetchUsernames();
-    }
-  }, [open]);
-
-  const publicUrl = useMemo(() => {
-    if (!conversation?.isPublic || !conversation?.id) return '';
-    const origin = window.location.origin;
-    return `${origin}/public/conversation/${conversation.id}`;
-  }, [conversation]);
-
-  const fetchUsernames = async () => {
+  const fetchUsernamesCb = useCallback(async () => {
     try {
       setUsernames(await userLogic.fetchUsernames());
     } catch (err) {
@@ -56,7 +44,19 @@ function ShareConversationDialog({open, onClose, conversation, setConversation})
       setAlertSeverity('error');
       setAlertOpen(true);
     }
-  };
+  }, [userLogic]);
+
+  useEffect(() => {
+    if (open) {
+      fetchUsernamesCb();
+    }
+  }, [open, fetchUsernamesCb]);
+
+  const publicUrl = useMemo(() => {
+    if (!conversation?.isPublic || !conversation?.id) return '';
+    const origin = window.location.origin;
+    return `${origin}/public/conversation/${conversation.id}`;
+  }, [conversation]);
 
   const handleShare = async () => {
     try {

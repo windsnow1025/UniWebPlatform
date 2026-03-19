@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Link from "next/link";
 import {
   Alert,
@@ -42,7 +42,7 @@ function ConfigDiv({
   const screenSize = useScreenSize();
   const smallScreen = screenSize === 'xs';
 
-  const chatLogic = new ChatLogic();
+  const chatLogic = useMemo(() => new ChatLogic(), []);
 
   const [filteredApiTypeModels, setFilteredApiTypeModels] = useState([]);
   const [apiTypeModels, setApiTypeModels] = useState([]);
@@ -68,7 +68,7 @@ function ConfigDiv({
     };
 
     fetchApiTypeModels();
-  }, []);
+  }, [chatLogic]);
 
   useEffect(() => {
     const storedDeveloperMode = localStorage.getItem(StorageKeys.DeveloperMode);
@@ -80,12 +80,12 @@ function ConfigDiv({
   useEffect(() => {
     setApiTypes(ChatLogic.getAllApiTypes(apiTypeModels));
     setApiType(ChatLogic.getDefaultApiType(apiTypeModels));
-  }, [apiTypeModels]);
+  }, [apiTypeModels, setApiType]);
 
   useEffect(() => {
     setFilteredApiTypeModels(ChatLogic.filterApiTypeModelsByApiType(apiTypeModels, apiType));
     setModel(ChatLogic.filterDefaultModelByApiType(apiTypeModels, apiType));
-  }, [apiType]);
+  }, [apiType, apiTypeModels, setModel]);
 
   return (
     <>

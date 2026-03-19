@@ -80,6 +80,7 @@ function AIStudio({
   // Track whether user is at bottom of chat scroll container
   const isAtBottomRef = useRef(true);
 
+  const hasMessages = messages !== null;
   useEffect(() => {
     const container = document.querySelector('#chat-messages');
     if (!container) return;
@@ -88,7 +89,7 @@ function AIStudio({
     };
     container.addEventListener('scroll', handleScroll);
     return () => container.removeEventListener('scroll', handleScroll);
-  }, [messages !== null]);
+  }, [hasMessages]);
 
   // Refresh conversations when page becomes visible
   useEffect(() => {

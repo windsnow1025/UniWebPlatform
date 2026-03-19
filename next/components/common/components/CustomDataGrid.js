@@ -184,9 +184,9 @@ function CustomDataGrid({
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
       const newData = await fetchData();
@@ -229,7 +229,7 @@ function CustomDataGrid({
     } finally {
       setLoading(false);
     }
-  };
+  }, [fetchData]);
 
   const processRowUpdate = async (newRow) => {
     const updatedRow = {...newRow, isNew: false};

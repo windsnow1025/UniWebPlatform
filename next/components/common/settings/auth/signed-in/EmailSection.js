@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import UserLogic from "@/lib/common/user/UserLogic";
 import TextField from "@mui/material/TextField";
 import {Alert, Button, Snackbar, Typography} from "@mui/material";
@@ -19,7 +19,7 @@ function EmailSection() {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  const userLogic = new UserLogic();
+  const userLogic = useMemo(() => new UserLogic(), []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -35,7 +35,7 @@ function EmailSection() {
       }
     };
     fetchUserData();
-  }, []);
+  }, [userLogic]);
 
   useEffect(() => {
     let timer;
