@@ -5,9 +5,8 @@ import Drawer, { drawerClasses } from '@mui/material/Drawer';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import MenuButton from './MenuButton';
 import MenuContent from './MenuContent';
+import AnnouncementBell from '../../components/AnnouncementBell';
 import { useSession, useAuthentication } from '@/components/common/session/SessionContext';
 
 interface SideMenuMobileProps {
@@ -53,9 +52,7 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
               {session?.user?.name ?? 'Guest'}
             </Typography>
           </Stack>
-          <MenuButton showBadge>
-            <NotificationsRoundedIcon />
-          </MenuButton>
+          <AnnouncementBell />
         </Stack>
         <Divider />
         <Stack sx={{ flexGrow: 1 }}>
