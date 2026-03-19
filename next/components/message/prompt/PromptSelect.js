@@ -75,10 +75,6 @@ function PromptSelect({
     setAlertOpen(true);
   };
 
-  useEffect(() => {
-    fetchPrompts();
-  }, [promptsReloadKey, fetchPrompts]);
-
   const fetchPrompts = useCallback(async () => {
     setLoading(true);
     try {
@@ -90,6 +86,10 @@ function PromptSelect({
       setLoading(false);
     }
   }, [promptLogic]);
+
+  useEffect(() => {
+    fetchPrompts();
+  }, [promptsReloadKey, fetchPrompts]);
 
   const handleSelect = async (event) => {
     const value = event.target.value;
