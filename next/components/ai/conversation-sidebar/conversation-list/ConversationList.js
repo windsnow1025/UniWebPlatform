@@ -74,14 +74,6 @@ function ConversationList({
     }
   }, []);
 
-  useEffect(() => {
-    if (!signedIn) {
-      return;
-    }
-    loadConversations();
-    loadLabels();
-  }, [conversationsReloadKey, signedIn, loadConversations, loadLabels]);
-
   const loadLabels = useCallback(async () => {
     setIsLoadingLabels(true);
     try {
@@ -188,6 +180,14 @@ function ConversationList({
       setIsLoadingConversations(false);
     }
   }, [conversationLogic, conversations, conversationUpdatePromiseRef, selectedConversationId, setConversations, setMessages]);
+
+  useEffect(() => {
+    if (!signedIn) {
+      return;
+    }
+    loadConversations();
+    loadLabels();
+  }, [conversationsReloadKey, signedIn, loadConversations, loadLabels]);
 
   const activateConversation = async (conversation) => {
     await ConversationLogic.populatePromptContents(conversation.messages);

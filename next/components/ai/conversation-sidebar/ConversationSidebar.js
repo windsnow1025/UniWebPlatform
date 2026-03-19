@@ -28,17 +28,6 @@ function ConversationSidebar({
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  useEffect(() => {
-    if (!selectedConversationId) {
-      return;
-    }
-    const conversationToUpdate = conversations.find(c => c.id === selectedConversationId);
-    if (!conversationToUpdate) {
-      return;
-    }
-    handleUpdateConversation(conversations.indexOf(conversationToUpdate));
-  }, [conversationUpdateKey, conversations, handleUpdateConversation, selectedConversationId]);
-
   const getMessagesForUpdate = useCallback(() => {
     const strippedMessages = ConversationLogic.stripPromptContents(messages);
     if (isGeneratingRef?.current && strippedMessages.length > 0) {
@@ -109,6 +98,17 @@ function ConversationSidebar({
       }
     }
   }, [conversations, conversationLogic, conversationVersionRef, conversationUpdatePromiseRef, getMessagesForUpdate, setConversations, setConversationsReloadKey]);
+
+  useEffect(() => {
+    if (!selectedConversationId) {
+      return;
+    }
+    const conversationToUpdate = conversations.find(c => c.id === selectedConversationId);
+    if (!conversationToUpdate) {
+      return;
+    }
+    handleUpdateConversation(conversations.indexOf(conversationToUpdate));
+  }, [conversationUpdateKey, conversations, handleUpdateConversation, selectedConversationId]);
 
   return (
     <Box
