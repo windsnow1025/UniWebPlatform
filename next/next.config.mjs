@@ -7,7 +7,6 @@ const nextConfig = {
     '@mui/x-data-grid-pro',
     '@mui/x-data-grid-premium',
     'markdown-latex-renderer',
-    'markdown-latex-renderer',
   ],
   productionBrowserSourceMaps: true,
 };
