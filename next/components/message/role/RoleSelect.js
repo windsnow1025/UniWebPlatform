@@ -3,7 +3,7 @@ import {Avatar, Tooltip, useTheme, Menu, MenuItem, ListItemIcon, ListItemText} f
 import BuildIcon from '@mui/icons-material/Build';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import {MessageRoleEnum} from "@/client/nest";
-import {useSession} from "@toolpad/core";
+import {useSession} from "@/lib/common/session/SessionContext";
 
 function RoleSelect({role, setRole, disabled}) {
   const theme = useTheme();

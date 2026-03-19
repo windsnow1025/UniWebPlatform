@@ -4,7 +4,7 @@ import UserLogic from "@/lib/common/user/UserLogic";
 import AccountDiv from "./signed-in/AccountDiv";
 import SignDiv from "./signed-out/SignDiv";
 import ConfirmDialog from "../../components/ConfirmDialog";
-import {useSession} from "@toolpad/core";
+import {useSession} from "@/lib/common/session/SessionContext";
 import {StorageKeys} from "@/lib/common/Constants";
 
 const AuthSettings = () => {

@@ -6,10 +6,7 @@ import {DashboardLayout} from '@toolpad/core/DashboardLayout';
 import Head from 'next/head';
 import {AppCacheProvider} from '@mui/material-nextjs/v14-pagesRouter';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import {
-  type Session,
-  type Navigation,
-} from '@toolpad/core/AppProvider';
+import {type Navigation} from '@toolpad/core/AppProvider';
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -20,8 +17,9 @@ import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
 import EmailVerificationDialog from "@/components/common/components/EmailVerificationDialog";
 import AnnouncementSnackbar from "@/components/common/components/AnnouncementSnackbar";
-import {createTheme, ThemeProvider } from "@mui/material/styles";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {StorageKeys} from "@/lib/common/Constants";
+import {type Session, SessionProvider} from "@/lib/common/session/SessionContext";
 
 const NAVIGATION: Navigation = [
   {
@@ -31,12 +29,12 @@ const NAVIGATION: Navigation = [
   {
     segment: '',
     title: 'Dashboard',
-    icon: <DashboardIcon />,
+    icon: <DashboardIcon/>,
   },
   {
     segment: 'settings',
     title: 'Settings',
-    icon: <SettingsIcon />,
+    icon: <SettingsIcon/>,
   },
   {
     kind: 'divider',
@@ -44,12 +42,12 @@ const NAVIGATION: Navigation = [
   {
     segment: 'ai',
     title: 'AI Studio',
-    icon: <AutoAwesomeIcon />,
+    icon: <AutoAwesomeIcon/>,
   },
   {
     segment: 'password',
     title: 'Crypto',
-    icon: <PasswordIcon />,
+    icon: <PasswordIcon/>,
   },
 ];
 
@@ -61,10 +59,10 @@ const muiTheme = createTheme({
   cssVariables: {
     colorSchemeSelector: 'data-toolpad-color-scheme',
   },
-  colorSchemes: { light: true, dark: true },
+  colorSchemes: {light: true, dark: true},
 });
 
-export default function App({ Component }: { Component: React.ElementType }) {
+export default function App({Component}: { Component: React.ElementType }) {
   const [session, setSession] = React.useState<Session | null>(null);
 
   const router = useRouter();
@@ -105,25 +103,25 @@ export default function App({ Component }: { Component: React.ElementType }) {
   return (
     <AppCacheProvider>
       <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta name="viewport" content="initial-scale=1, width=device-width"/>
       </Head>
       <ThemeProvider theme={muiTheme}>
-        <NextAppProvider
+        <SessionProvider session={session} authentication={authentication}>
+          <NextAppProvider
             session={session}
             authentication={authentication}
             navigation={NAVIGATION}
             branding={BRANDING}
-        >
-          <EmailVerificationDialog/>
-          <AnnouncementSnackbar/>
-          <div className="local-scroll-root">
-            <DashboardLayout defaultSidebarCollapsed={true}>
-              {/*<PageContainer>*/}
-              <Component />
-              {/*</PageContainer>*/}
-            </DashboardLayout>
-          </div>
-        </NextAppProvider>
+          >
+            <EmailVerificationDialog/>
+            <AnnouncementSnackbar/>
+            <div className="local-scroll-root">
+              <DashboardLayout defaultSidebarCollapsed={true}>
+                <Component/>
+              </DashboardLayout>
+            </div>
+          </NextAppProvider>
+        </SessionProvider>
       </ThemeProvider>
     </AppCacheProvider>
   );
