@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Alert, Box, Divider, Snackbar,} from '@mui/material';
 import ConversationList from './conversation-list/ConversationList';
 import NewConversationButton from "./NewConversationButton";
@@ -22,7 +22,7 @@ function ConversationSidebar({
                                abortGenerateRef,
                                clearUIStateRef,
                              }) {
-  const conversationLogic = new ConversationLogic();
+  const conversationLogic = useMemo(() => new ConversationLogic(), []);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -37,9 +37,9 @@ function ConversationSidebar({
       return;
     }
     handleUpdateConversation(conversations.indexOf(conversationToUpdate));
-  }, [conversationUpdateKey]);
+  }, [conversationUpdateKey, conversations, handleUpdateConversation, selectedConversationId]);
 
-  const getMessagesForUpdate = () => {
+  const getMessagesForUpdate = useCallback(() => {
     const strippedMessages = ConversationLogic.stripPromptContents(messages);
     if (isGeneratingRef?.current && strippedMessages.length > 0) {
       const lastMessage = strippedMessages[strippedMessages.length - 1];
@@ -48,9 +48,9 @@ function ConversationSidebar({
       }
     }
     return strippedMessages;
-  };
+  }, [messages, isGeneratingRef]);
 
-  const handleUpdateConversation = async (index) => {
+  const handleUpdateConversation = useCallback(async (index) => {
     const conversationId = conversations[index]?.id;
     if (!conversationId) return;
 
@@ -108,7 +108,7 @@ function ConversationSidebar({
         conversationUpdatePromiseRef.current = null;
       }
     }
-  };
+  }, [conversations, conversationLogic, conversationVersionRef, conversationUpdatePromiseRef, getMessagesForUpdate, setConversations, setConversationsReloadKey]);
 
   return (
     <Box

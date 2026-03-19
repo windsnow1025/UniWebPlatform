@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Tab, Tabs} from "@mui/material";
 import AuthSettings from "@/components/common/settings/auth/AuthSettings";
 import DeveloperSettings from "@/components/common/settings/DeveloperSettings";
@@ -8,7 +8,7 @@ import StorageSettings from "@/components/common/settings/StorageSettings";
 import Head from "next/head";
 
 const Settings = () => {
-  const userLogic = new UserLogic();
+  const userLogic = useMemo(() => new UserLogic(), []);
 
   const [activeTab, setActiveTab] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -20,7 +20,7 @@ const Settings = () => {
     };
 
     checkAdmin();
-  }, []);
+  }, [userLogic]);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);

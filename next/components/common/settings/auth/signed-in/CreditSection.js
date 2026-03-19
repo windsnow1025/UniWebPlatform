@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {CircularProgress, Typography} from "@mui/material";
 import UserLogic from "@/lib/common/user/UserLogic";
 import {StorageKeys} from "@/lib/common/Constants";
 
 function CreditSection({refreshKey = 0, decimalPlaces = null}) {
-  const userLogic = new UserLogic();
+  const userLogic = useMemo(() => new UserLogic(), []);
 
   const [credit, setCredit] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ function CreditSection({refreshKey = 0, decimalPlaces = null}) {
     };
 
     fetchCredit();
-  }, [refreshKey]);
+  }, [refreshKey, userLogic]);
 
   const formatCredit = (value) => {
     if (value === null || value === "error") return value;

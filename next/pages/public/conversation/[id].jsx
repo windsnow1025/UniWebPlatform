@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import AIStudio from '@/components/ai/AIStudio';
 import ConversationLogic from '@/lib/conversation/ConversationLogic';
@@ -14,9 +14,9 @@ export default function PublicConversationPage() {
 
   const [messages, setMessages] = useState(null);
 
-  const conversationLogic = new ConversationLogic();
+  const conversationLogic = useMemo(() => new ConversationLogic(), []);
 
-  const fetchPublicConversation = async () => {
+  const fetchPublicConversation = useCallback(async () => {
     const numId = Number(id);
     try {
       const conversation = await conversationLogic.fetchPublicConversation(numId);
@@ -27,12 +27,12 @@ export default function PublicConversationPage() {
       setAlertSeverity('error');
       setAlertOpen(true);
     }
-  }
+  }, [id, conversationLogic]);
 
   useEffect(() => {
     if (!id) return;
     fetchPublicConversation();
-  }, [id]);
+  }, [id, fetchPublicConversation]);
 
   if (messages === null) {
     return (

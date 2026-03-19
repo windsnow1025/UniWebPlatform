@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import UserLogic from '@/lib/common/user/UserLogic';
 import ConfirmDialog from './ConfirmDialog';
 import {useRouter} from "next/router";
@@ -13,7 +13,7 @@ const EmailVerificationDialog = () => {
   const pathname = usePathname();
 
   const [openDialog, setOpenDialog] = useState(false);
-  const userLogic = new UserLogic();
+  const userLogic = useMemo(() => new UserLogic(), []);
 
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
@@ -46,7 +46,7 @@ const EmailVerificationDialog = () => {
     };
 
     checkEmailVerification();
-  }, [session, pathname]);
+  }, [session, pathname, userLogic]);
 
   const handleDialogClose = (confirmed) => {
     setOpenDialog(false);

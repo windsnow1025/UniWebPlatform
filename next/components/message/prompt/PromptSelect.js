@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Alert,
   Button,
@@ -35,8 +35,8 @@ function PromptSelect({
                         promptsReloadKey,
                         setPromptsReloadKey,
                       }) {
-  const fileLogic = new FileLogic();
-  const promptLogic = new PromptLogic();
+  const fileLogic = useMemo(() => new FileLogic(), []);
+  const promptLogic = useMemo(() => new PromptLogic(), []);
 
   // Prompts list
   const [prompts, setPrompts] = useState([]);
@@ -77,9 +77,9 @@ function PromptSelect({
 
   useEffect(() => {
     fetchPrompts();
-  }, [promptsReloadKey]);
+  }, [promptsReloadKey, fetchPrompts]);
 
-  const fetchPrompts = async () => {
+  const fetchPrompts = useCallback(async () => {
     setLoading(true);
     try {
       const prompts = await promptLogic.fetchPrompts();
@@ -89,7 +89,7 @@ function PromptSelect({
     } finally {
       setLoading(false);
     }
-  };
+  }, [promptLogic]);
 
   const handleSelect = async (event) => {
     const value = event.target.value;
@@ -270,7 +270,7 @@ function PromptSelect({
     }
   };
 
-  const handleContentsUpdate = async () => {
+  const handleContentsUpdate = useCallback(async () => {
     if (!message.promptId) return;
 
     const currentPrompt = prompts.find(prompt => prompt.id === message.promptId);
@@ -289,13 +289,13 @@ function PromptSelect({
     } catch (err) {
       showAlert(err.message, 'error');
     }
-  };
+  }, [message.promptId, message.contents, prompts, promptLogic, fetchPrompts]);
 
   useEffect(() => {
     if (message.promptId) {
       handleContentsUpdate();
     }
-  }, [message.contents]);
+  }, [message.contents, handleContentsUpdate, message.promptId]);
 
   return (
     <>

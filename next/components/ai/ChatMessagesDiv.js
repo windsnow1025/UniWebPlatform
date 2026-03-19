@@ -1,5 +1,5 @@
 import MessageDiv from "../message/MessageDiv";
-import React, {useCallback, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import AddMessageDivider from "./AddMessageDivider";
 import FileLogic from "@/lib/common/file/FileLogic";
 import ChatLogic from "@/lib/chat/ChatLogic";
@@ -39,14 +39,14 @@ function ChatMessagesDiv({
     if (isAtBottomRef.current) {
       node.scrollIntoView({behavior: 'smooth', block: 'nearest'});
     }
-  }, []);
+  }, [isAtBottomRef]);
 
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("info");
 
-  const fileLogic = new FileLogic();
+  const fileLogic = useMemo(() => new FileLogic(), []);
 
   const handleMessageUpdate = useCallback((id, updatedMessage) => {
     setMessages((prevMessages) =>
@@ -93,7 +93,7 @@ function ChatMessagesDiv({
 
     setConversationUpdateKey(prev => prev + 1);
 
-  }, [messages, setMessages, setIsGenerating, isGeneratingRef, abortGenerateRef, setConversationUpdateKey]);
+  }, [messages, setMessages, isGeneratingRef, abortGenerateRef, setConversationUpdateKey, fileLogic]);
 
   return (
     <div>

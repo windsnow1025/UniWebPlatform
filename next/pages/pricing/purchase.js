@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {
   Alert,
   Button,
@@ -24,7 +24,7 @@ function Purchase() {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
 
-  const paymentLogic = new PaymentLogic();
+  const paymentLogic = useMemo(() => new PaymentLogic(), []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -40,7 +40,7 @@ function Purchase() {
       }
     };
     fetchProducts();
-  }, []);
+  }, [paymentLogic]);
 
   const handlePurchase = async (productId) => {
     setPurchasing(productId);

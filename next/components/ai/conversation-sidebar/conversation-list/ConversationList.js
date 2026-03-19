@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -57,8 +57,8 @@ function ConversationList({
   const [loadingConversationId, setLoadingConversationId] = useState(null);
   const [isLoadingLabels, setIsLoadingLabels] = useState(false);
 
-  const conversationLogic = new ConversationLogic();
-  const labelLogic = new LabelLogic();
+  const conversationLogic = useMemo(() => new ConversationLogic(), []);
+  const labelLogic = useMemo(() => new LabelLogic(), []);
 
   const showAlert = (message, severity = 'info') => {
     setAlertMessage(message);
@@ -80,9 +80,9 @@ function ConversationList({
     }
     loadConversations();
     loadLabels();
-  }, [conversationsReloadKey, signedIn]);
+  }, [conversationsReloadKey, signedIn, loadConversations, loadLabels]);
 
-  const loadLabels = async () => {
+  const loadLabels = useCallback(async () => {
     setIsLoadingLabels(true);
     try {
       const fetchedLabels = await labelLogic.fetchLabels();
@@ -92,9 +92,9 @@ function ConversationList({
     } finally {
       setIsLoadingLabels(false);
     }
-  };
+  }, [labelLogic]);
 
-  const loadConversations = async () => {
+  const loadConversations = useCallback(async () => {
     setIsLoadingConversations(true);
     try {
       const newVersions = await conversationLogic.fetchConversationVersions();
@@ -187,7 +187,7 @@ function ConversationList({
     } finally {
       setIsLoadingConversations(false);
     }
-  };
+  }, [conversationLogic, conversations, conversationUpdatePromiseRef, selectedConversationId, setConversations, setMessages]);
 
   const activateConversation = async (conversation) => {
     await ConversationLogic.populatePromptContents(conversation.messages);

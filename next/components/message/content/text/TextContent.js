@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {applyTheme, desanitizeContent, parseMarkdownLaTeX, sanitizeContent} from "markdown-latex-renderer";
 import {ContentEditable, RawEditableState} from "@/lib/common/message/EditableState";
 import {useColorScheme, useTheme} from "@mui/material";
@@ -20,7 +20,7 @@ function TextContent({
     contentRef.current.innerHTML = sanitizeContent(content);
   }
 
-  const updateDisplay = async (content, editableState) => {
+  const updateDisplay = useCallback(async (content, editableState) => {
     function getResolvedMode(mode) {
       if (mode === "system") {
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
@@ -48,11 +48,11 @@ function TextContent({
       setContentEditable(ContentEditable.PlainTextOnly);
       return;
     }
-  }
+  }, [mode]);
 
   useEffect(() => {
     updateDisplay(content, rawEditableState);
-  }, [content, rawEditableState, mode]);
+  }, [content, rawEditableState, mode, updateDisplay]);
 
   const handleBlur = () => {
     // Prevent content update on blur caused by clicking links
