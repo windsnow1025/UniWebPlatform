@@ -12,7 +12,6 @@ import {StorageKeys} from "@/lib/common/Constants";
 import {type Session, SessionProvider} from "@/components/common/session/SessionContext";
 import Dashboard from "@/components/common/dashboard/Dashboard";
 import EmailVerificationDialog from "@/components/common/components/EmailVerificationDialog";
-import AnnouncementSnackbar from "@/components/common/components/AnnouncementSnackbar";
 
 const muiTheme = createTheme({
   cssVariables: {
@@ -67,7 +66,6 @@ export default function App({Component}: { Component: React.ElementType }) {
       <ThemeProvider theme={muiTheme}>
         <SessionProvider session={session} authentication={authentication}>
           <EmailVerificationDialog/>
-          <AnnouncementSnackbar/>
           <div className="local-scroll-root">
             <Dashboard>
               <Component/>
