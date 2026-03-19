@@ -3,13 +3,7 @@ import '../lib/global.css';
 import * as React from 'react';
 import Head from 'next/head';
 import {AppCacheProvider} from '@mui/material-nextjs/v14-pagesRouter';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {type Navigation} from '@toolpad/core/AppProvider';
-
-import SettingsIcon from '@mui/icons-material/Settings';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import PasswordIcon from '@mui/icons-material/Password';
 
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
