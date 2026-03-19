@@ -44,6 +44,7 @@ export default function App({Component}: { Component: React.ElementType }) {
   }, [router]);
 
   const pathname = usePathname();
+  const isAuthPage = pathname?.startsWith('/auth');
 
   const authentication = React.useMemo(() => {
     return {
@@ -67,9 +68,13 @@ export default function App({Component}: { Component: React.ElementType }) {
         <SessionProvider session={session} authentication={authentication}>
           <EmailVerificationDialog/>
           <div className="local-scroll-root">
-            <Dashboard>
+            {isAuthPage ? (
               <Component/>
-            </Dashboard>
+            ) : (
+              <Dashboard>
+                <Component/>
+              </Dashboard>
+            )}
           </div>
         </SessionProvider>
       </ThemeProvider>
