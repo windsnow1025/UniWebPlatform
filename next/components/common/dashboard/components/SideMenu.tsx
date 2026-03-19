@@ -5,10 +5,10 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import SelectContent from './SelectContent';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import MenuContent from './MenuContent';
-import CardAlert from './CardAlert';
 import OptionsMenu from './OptionsMenu';
+import { useSession } from '@/components/common/session/SessionContext';
 
 const drawerWidth = 240;
 
@@ -24,6 +24,8 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu() {
+  const session = useSession();
+
   return (
     <Drawer
       variant="permanent"
@@ -41,7 +43,12 @@ export default function SideMenu() {
           p: 1.5,
         }}
       >
-        <SelectContent />
+        <div className="flex-center w-full gap-2">
+          <AutoAwesomeIcon color="primary" />
+          <Typography variant="h5">
+            PolyFlexLLM
+          </Typography>
+        </div>
       </Box>
       <Divider />
       <Box
@@ -53,7 +60,6 @@ export default function SideMenu() {
         }}
       >
         <MenuContent />
-        <CardAlert />
       </Box>
       <Stack
         direction="row"
@@ -67,16 +73,16 @@ export default function SideMenu() {
       >
         <Avatar
           sizes="small"
-          alt="Riley Carter"
-          src="/static/images/avatar/7.jpg"
+          alt={session?.user?.name ?? ''}
+          src={session?.user?.image ?? undefined}
           sx={{ width: 36, height: 36 }}
         />
-        <Box sx={{ mr: 'auto' }}>
-          <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            Riley Carter
+        <Box sx={{ mr: 'auto', overflow: 'hidden' }}>
+          <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }} noWrap>
+            {session?.user?.name ?? 'Guest'}
           </Typography>
-          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            riley@email.com
+          <Typography variant="caption" sx={{ color: 'text.secondary' }} noWrap>
+            {session?.user?.email ?? ''}
           </Typography>
         </Box>
         <OptionsMenu />

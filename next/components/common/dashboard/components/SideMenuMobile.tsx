@@ -8,7 +8,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import MenuButton from './MenuButton';
 import MenuContent from './MenuContent';
-import CardAlert from './CardAlert';
+import { useSession, useAuthentication } from '@/components/common/session/SessionContext';
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
@@ -16,6 +16,9 @@ interface SideMenuMobileProps {
 }
 
 export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobileProps) {
+  const session = useSession();
+  const authentication = useAuthentication();
+
   return (
     <Drawer
       anchor="right"
@@ -42,12 +45,12 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           >
             <Avatar
               sizes="small"
-              alt="Riley Carter"
-              src="/static/images/avatar/7.jpg"
+              alt={session?.user?.name ?? ''}
+              src={session?.user?.image ?? undefined}
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Riley Carter
+              {session?.user?.name ?? 'Guest'}
             </Typography>
           </Stack>
           <MenuButton showBadge>
@@ -59,9 +62,13 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           <MenuContent />
           <Divider />
         </Stack>
-        <CardAlert />
         <Stack sx={{ p: 2 }}>
-          <Button variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<LogoutRoundedIcon />}
+            onClick={() => authentication?.signOut()}
+          >
             Logout
           </Button>
         </Stack>
