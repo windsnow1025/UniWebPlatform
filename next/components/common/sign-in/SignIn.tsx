@@ -8,8 +8,15 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './components/ForgotPassword';
+import { wait } from '@/components/common/utils/Wait';
+import UserLogic from '@/lib/common/user/UserLogic';
+import { useRouter } from 'next/router';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -31,7 +38,6 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
-  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
   minHeight: '100%',
   padding: theme.spacing(2),
   [theme.breakpoints.up('sm')]: {
@@ -60,6 +66,21 @@ export default function SignIn() {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
+  const userLogic = new UserLogic();
+  const router = useRouter();
+
+  const [tabValue, setTabValue] = React.useState(0);
+
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertSeverity, setAlertSeverity] = React.useState<'success' | 'error' | 'info'>('info');
+
+  const showAlert = (message: string, severity: 'success' | 'error' | 'info' = 'info') => {
+    setAlertMessage(message);
+    setAlertSeverity(severity);
+    setAlertOpen(true);
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -68,16 +89,38 @@ export default function SignIn() {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     if (emailError || passwordError) {
       event.preventDefault();
       return;
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const password = formData.get('password') as string;
+
+    try {
+      if (tabValue === 0) {
+        const email = formData.get('email') as string;
+        await userLogic.signInByEmail(email, password);
+      } else {
+        const username = formData.get('username') as string;
+        await userLogic.signInByUsername(username, password);
+      }
+
+      showAlert('Sign in success. Redirecting...', 'success');
+
+      let redirectUrl = router.query.redirect as string;
+      if (!redirectUrl || !redirectUrl.startsWith('/')) {
+        redirectUrl = '/';
+      }
+      if (!(await userLogic.fetchEmailVerified())) {
+        redirectUrl = '/settings';
+      }
+      await wait(1);
+      router.push(redirectUrl);
+    } catch (err: any) {
+      showAlert(err.message, 'error');
+    }
   };
 
   const validateInputs = () => {
@@ -86,13 +129,15 @@ export default function SignIn() {
 
     let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
+    if (tabValue === 0) {
+      if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+        setEmailError(true);
+        setEmailErrorMessage('Please enter a valid email address.');
+        isValid = false;
+      } else {
+        setEmailError(false);
+        setEmailErrorMessage('');
+      }
     }
 
     if (!password.value || password.value.length < 6) {
@@ -108,6 +153,7 @@ export default function SignIn() {
   };
 
   return (
+    <>
       <SignInContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <Typography
@@ -117,6 +163,15 @@ export default function SignIn() {
           >
             Sign in
           </Typography>
+          <Tabs
+            value={tabValue}
+            onChange={(_, v) => setTabValue(v)}
+            centered
+            sx={{ borderBottom: 1, borderColor: 'divider' }}
+          >
+            <Tab label="Email" />
+            <Tab label="Username" />
+          </Tabs>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -128,23 +183,39 @@ export default function SignIn() {
               gap: 2,
             }}
           >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                error={emailError}
-                helperText={emailErrorMessage}
-                id="email"
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={emailError ? 'error' : 'primary'}
-              />
-            </FormControl>
+            {tabValue === 0 ? (
+              <FormControl>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <TextField
+                  error={emailError}
+                  helperText={emailErrorMessage}
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="your@email.com"
+                  autoComplete="email"
+                  autoFocus
+                  required
+                  fullWidth
+                  variant="outlined"
+                  color={emailError ? 'error' : 'primary'}
+                />
+              </FormControl>
+            ) : (
+              <FormControl>
+                <FormLabel htmlFor="username">Username</FormLabel>
+                <TextField
+                  id="username"
+                  name="username"
+                  placeholder="Enter your username"
+                  autoComplete="username"
+                  autoFocus
+                  required
+                  fullWidth
+                  variant="outlined"
+                />
+              </FormControl>
+            )}
             <FormControl>
               <FormLabel htmlFor="password">Password</FormLabel>
               <TextField
@@ -193,5 +264,15 @@ export default function SignIn() {
           </Typography>
         </Card>
       </SignInContainer>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
