@@ -20,40 +20,6 @@ import Dashboard from "@/components/common/dashboard/Dashboard";
 import EmailVerificationDialog from "@/components/common/components/EmailVerificationDialog";
 import AnnouncementSnackbar from "@/components/common/components/AnnouncementSnackbar";
 
-const NAVIGATION: Navigation = [
-  {
-    kind: 'header',
-    title: 'Main items',
-  },
-  {
-    segment: '',
-    title: 'Dashboard',
-    icon: <DashboardIcon/>,
-  },
-  {
-    segment: 'settings',
-    title: 'Settings',
-    icon: <SettingsIcon/>,
-  },
-  {
-    kind: 'divider',
-  },
-  {
-    segment: 'ai',
-    title: 'AI Studio',
-    icon: <AutoAwesomeIcon/>,
-  },
-  {
-    segment: 'password',
-    title: 'Crypto',
-    icon: <PasswordIcon/>,
-  },
-];
-
-const BRANDING = {
-  title: 'PolyFlexLLM',
-};
-
 const muiTheme = createTheme({
   cssVariables: {
     colorSchemeSelector: 'data-mui-color-scheme',
