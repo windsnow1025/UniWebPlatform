@@ -1,5 +1,4 @@
 import Stack from '@mui/material/Stack';
-import NavbarBreadcrumbs from './NavbarBreadcrumbs';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import AnnouncementBell from '../../components/AnnouncementBell';
 
@@ -19,7 +18,7 @@ export default function Header() {
       }}
       spacing={2}
     >
-      <NavbarBreadcrumbs />
+      <div />
       <Stack direction="row" sx={{ gap: 1 }}>
         <Search />
         <AnnouncementBell />
