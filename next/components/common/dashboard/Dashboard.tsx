@@ -32,6 +32,7 @@ export default function Dashboard({ children }: { children?: React.ReactNode }) 
             sx={{
               alignItems: 'center',
               mx: 3,
+              pb: 1,
               mt: { xs: 8, md: 0 },
             }}
           >
