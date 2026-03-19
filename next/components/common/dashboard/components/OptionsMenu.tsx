@@ -9,6 +9,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon, { listItemIconClasses } from '@mui/material/ListItemIcon';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import { useRouter } from 'next/router';
+import { useAuthentication } from '@/components/common/session/SessionContext';
 import MenuButton from './MenuButton';
 
 const MenuItem = styled(MuiMenuItem)({
@@ -16,6 +19,8 @@ const MenuItem = styled(MuiMenuItem)({
 });
 
 export default function OptionsMenu() {
+  const router = useRouter();
+  const authentication = useAuthentication();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -56,11 +61,8 @@ export default function OptionsMenu() {
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
-        <Divider />
         <MenuItem
-          onClick={handleClose}
+          onClick={() => { handleClose(); authentication?.signOut(); }}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: 'auto',
