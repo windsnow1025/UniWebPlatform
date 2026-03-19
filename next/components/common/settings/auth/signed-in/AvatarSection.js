@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Alert, Avatar, Button, CircularProgress, Snackbar, Typography} from '@mui/material';
 import UserLogic from '@/lib/common/user/UserLogic';
 import FileLogic from '@/lib/common/file/FileLogic';
-import {useSession} from "@/lib/common/session/SessionContext";
+import {useSession} from "@/components/common/session/SessionContext";
 
 function AvatarSection() {
   const session = useSession();
