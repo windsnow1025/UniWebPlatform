@@ -33,7 +33,6 @@
     "@mui/x-tree-view": "^8.27.2",
     "@react-spring/web": "^10.0.3",
     "@tailwindcss/postcss": "^4.1.12",
-    "@toolpad/core": "^0.16.0",
     "axios": "1.13.5",
     "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
