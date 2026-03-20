@@ -4,6 +4,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PasswordIcon from '@mui/icons-material/Password';
@@ -21,7 +22,7 @@ const secondaryListItems = [
   { text: 'Settings', icon: <SettingsRoundedIcon />, href: '/settings' },
 ];
 
-export default function MenuContent() {
+export default function MenuContent({ collapsed = false }: { collapsed?: boolean }) {
   const pathname = usePathname();
 
   const isSelected = (href: string) => {
@@ -34,20 +35,24 @@ export default function MenuContent() {
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton component={Link} href={item.href} selected={isSelected(item.href)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
+            <Tooltip title={collapsed ? item.text : ''} placement="right">
+              <ListItemButton component={Link} href={item.href} selected={isSelected(item.href)} sx={{ overflow: 'hidden', whiteSpace: 'nowrap', ...(collapsed ? { justifyContent: 'center', minHeight: 36 } : {}) }}>
+                <ListItemIcon sx={collapsed ? { minWidth: 0 } : {}}>{item.icon}</ListItemIcon>
+                {!collapsed && <ListItemText primary={item.text} />}
+              </ListItemButton>
+            </Tooltip>
           </ListItem>
         ))}
       </List>
       <List dense>
         {secondaryListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton component={Link} href={item.href} selected={isSelected(item.href)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
+            <Tooltip title={collapsed ? item.text : ''} placement="right">
+              <ListItemButton component={Link} href={item.href} selected={isSelected(item.href)} sx={{ overflow: 'hidden', whiteSpace: 'nowrap', ...(collapsed ? { justifyContent: 'center', minHeight: 36 } : {}) }}>
+                <ListItemIcon sx={collapsed ? { minWidth: 0 } : {}}>{item.icon}</ListItemIcon>
+                {!collapsed && <ListItemText primary={item.text} />}
+              </ListItemButton>
+            </Tooltip>
           </ListItem>
         ))}
       </List>

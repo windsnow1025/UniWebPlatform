@@ -7,7 +7,7 @@ import MuiToolbar from '@mui/material/Toolbar';
 import { tabsClasses } from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import Brand from '../../components/Brand';
 import SideMenuMobile from './SideMenuMobile';
 import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
@@ -63,10 +63,7 @@ export default function AppNavbar() {
             spacing={1}
             sx={{ justifyContent: 'center', alignItems: 'center', mr: 'auto' }}
           >
-            <AutoAwesomeIcon color="primary" />
-            <Typography variant="h4" component="h1" sx={{ color: 'text.primary' }}>
-              PolyFlexLLM
-            </Typography>
+            <Brand variant="h4" />
           </Stack>
           <ColorModeIconDropdown />
           <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
