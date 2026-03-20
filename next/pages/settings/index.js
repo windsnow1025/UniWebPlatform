@@ -6,11 +6,16 @@ import AdminSetting from "@/components/common/settings/AdminSetting";
 import UserLogic from "@/lib/common/user/UserLogic";
 import StorageSettings from "@/components/common/settings/StorageSettings";
 import Head from "next/head";
+import {useRouter} from "next/router";
 
 const Settings = () => {
   const userLogic = useMemo(() => new UserLogic(), []);
+  const router = useRouter();
 
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(() => {
+    const tab = Number(router.query.tab);
+    return isNaN(tab) ? 0 : tab;
+  });
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -22,8 +27,14 @@ const Settings = () => {
     checkAdmin();
   }, [userLogic]);
 
+  useEffect(() => {
+    const tab = Number(router.query.tab);
+    setActiveTab(isNaN(tab) ? 0 : tab);
+  }, [router.query.tab]);
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
+    router.replace({ query: { ...router.query, tab: newValue } }, undefined, { shallow: true });
   };
 
   return (
