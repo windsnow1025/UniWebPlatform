@@ -147,7 +147,7 @@ function PasswordGenerator({keyValue}) {
               value={password}
               readOnly
               endAdornment={
-                <InputAdornment position="end">
+                <InputAdornment position="end" sx={{gap: 2}}>
                   <IconButton
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"

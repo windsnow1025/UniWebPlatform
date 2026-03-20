@@ -384,10 +384,10 @@ export const inputsCustomizations: Components<Theme> = {
   MuiOutlinedInput: {
     styleOverrides: {
       input: {
-        padding: 0,
+        // padding: 0,
       },
       root: ({ theme }) => ({
-        padding: '8px 12px',
+        // padding: '8px 12px',
         color: (theme.vars || theme).palette.text.primary,
         borderRadius: (theme.vars || theme).shape.borderRadius,
         border: `1px solid ${(theme.vars || theme).palette.divider}`,
@@ -411,7 +411,7 @@ export const inputsCustomizations: Components<Theme> = {
               size: 'small',
             },
             style: {
-              height: '2.25rem',
+              // height: '2.25rem',
             },
           },
           {
@@ -419,7 +419,7 @@ export const inputsCustomizations: Components<Theme> = {
               size: 'medium',
             },
             style: {
-              height: '2.5rem',
+              // height: '2.5rem',
             },
           },
         ],
