@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Alert, Paper, Snackbar, Typography, useTheme} from '@mui/material';
 import FileLogic from "@/lib/common/file/FileLogic";
-import useScreenSize from "../../../common/hooks/useScreenSize";
+import useScreenSize from "../../../../hooks/useScreenSize";
 
 function FileDropZone({setFiles, isUploading, setIsUploading}) {
   const theme = useTheme();

@@ -3,7 +3,7 @@ import PasswordGenerator from "@/components/password/PasswordGenerator";
 import EncryptorDecryptor from "@/components/password/EncryptorDecryptor";
 import SecretKeyDialog from "@/components/password/SecretKeyDialog";
 import { Button } from "@mui/material";
-import {usePageMeta} from "@/components/common/hooks/usePageMeta";
+import {usePageMeta} from "@/hooks/usePageMeta";
 import {StorageKeys} from "@/lib/common/Constants";
 
 function PasswordEncryptionTool() {

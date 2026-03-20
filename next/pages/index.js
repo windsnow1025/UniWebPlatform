@@ -23,7 +23,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import ImageIcon from '@mui/icons-material/Image';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import {usePageMeta} from "@/components/common/hooks/usePageMeta";
+import {usePageMeta} from "@/hooks/usePageMeta";
 import {useRouter} from "next/router";
 import {AuthorEmail} from "@/lib/common/Constants";
 

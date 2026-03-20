@@ -6,7 +6,7 @@ import FileDropZone from './FileDropZone';
 import UrlAdd from './UrlAdd';
 import {ContentTypeEnum} from "@/client/nest";
 import AddTextButton from "./AddTextButton";
-import useScreenSize from "../../../common/hooks/useScreenSize";
+import useScreenSize from "../../../../hooks/useScreenSize";
 
 function AddContentArea({contents, setContents, setUploadingCount}) {
   const screenSize = useScreenSize();
