@@ -108,7 +108,8 @@ function ConversationSidebar({
       return;
     }
     handleUpdateConversation(conversations.indexOf(conversationToUpdate));
-  }, [conversationUpdateKey, conversations, handleUpdateConversation, selectedConversationId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversationUpdateKey]);
 
   return (
     <Box
