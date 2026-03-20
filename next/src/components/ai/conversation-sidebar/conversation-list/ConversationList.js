@@ -298,8 +298,6 @@ function ConversationList({
                   expandIcon={<ExpandMoreIcon/>}
                   sx={{
                     backgroundColor: 'action.selected',
-                    borderBottom: 2,
-                    borderColor: 'divider',
                     '& .MuiAccordionSummary-content': {
                       marginY: 0,
                     },
