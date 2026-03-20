@@ -31,7 +31,7 @@ export const dataDisplayCustomizations: Components<Theme> = {
         },
         [`& .${buttonBaseClasses.root}`]: {
           display: 'flex',
-          gap: 8,
+          // gap: 8,
           padding: '2px 8px',
           borderRadius: (theme.vars || theme).shape.borderRadius,
           opacity: 0.7,
