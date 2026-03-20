@@ -87,7 +87,7 @@ function SortableContent({
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete">
-                <IconButton size="small" onClick={handleContentDelete} color="error">
+                <IconButton size="small" onClick={handleContentDelete}>
                   <DeleteIcon fontSize="small"/>
                 </IconButton>
               </Tooltip>
