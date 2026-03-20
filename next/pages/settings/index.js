@@ -5,7 +5,7 @@ import DeveloperSettings from "@/components/common/settings/DeveloperSettings";
 import AdminSetting from "@/components/common/settings/AdminSetting";
 import UserLogic from "@/lib/common/user/UserLogic";
 import StorageSettings from "@/components/common/settings/StorageSettings";
-import {usePageMeta} from "@/components/common/hooks/usePageMeta";
+import {usePageMeta} from "@/hooks/usePageMeta";
 import {useRouter} from "next/router";
 
 const Settings = () => {

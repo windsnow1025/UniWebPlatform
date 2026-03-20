@@ -9,7 +9,7 @@ import RetryButton from "./RetryButton";
 import ChatMessagesDiv from "./ChatMessagesDiv";
 import ConversationSidebar from "./conversation-sidebar/ConversationSidebar";
 import ToggleConversationButton from "./ToggleConversationButton";
-import useScreenSize from '../common/hooks/useScreenSize';
+import useScreenSize from '../../hooks/useScreenSize';
 import AIStudioTour from './AIStudioTour';
 import ScrollToBottomButton from './ScrollToBottomButton';
 import NewConversationButton from "./conversation-sidebar/NewConversationButton";

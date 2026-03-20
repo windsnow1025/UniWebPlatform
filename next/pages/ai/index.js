@@ -1,6 +1,6 @@
 import React from 'react';
 import AIStudio from "@/components/ai/AIStudio";
-import {usePageMeta} from "@/components/common/hooks/usePageMeta";
+import {usePageMeta} from "@/hooks/usePageMeta";
 
 function Index() {
   usePageMeta(

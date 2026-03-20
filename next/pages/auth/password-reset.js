@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import UserLogic from "@/lib/common/user/UserLogic";
 import { Alert, Button, Paper, Snackbar, TextField, Typography } from "@mui/material";
 import { wait } from "@/components/common/utils/Wait";
-import {usePageMeta} from "@/components/common/hooks/usePageMeta";
+import {usePageMeta} from "@/hooks/usePageMeta";
 
 function PasswordReset() {
   const [email, setEmail] = useState('');

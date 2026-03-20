@@ -19,7 +19,7 @@ import {
 import {InfoOutlined} from "@mui/icons-material";
 import ChatLogic from "@/lib/chat/ChatLogic";
 import {StorageKeys} from "@/lib/common/Constants";
-import useScreenSize from "../common/hooks/useScreenSize";
+import useScreenSize from "../../hooks/useScreenSize";
 import CreditSection from "../common/settings/auth/signed-in/CreditSection";
 
 function ConfigDiv({

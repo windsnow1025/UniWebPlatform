@@ -10,7 +10,7 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
-import {usePageMeta} from "@/components/common/hooks/usePageMeta";
+import {usePageMeta} from "@/hooks/usePageMeta";
 import PaymentLogic from "@/lib/payment/PaymentLogic";
 import CreditSection from "@/components/common/settings/auth/signed-in/CreditSection";
 
