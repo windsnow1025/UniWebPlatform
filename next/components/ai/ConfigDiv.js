@@ -184,18 +184,21 @@ function ConfigDiv({
           <>
             <Chip
               label="Thought"
+              size="medium"
               variant={thought ? "filled" : "outlined"}
               color={thought ? "secondary" : "default"}
               onClick={() => setThought(!thought)}
             />
             <Chip
               label="Web Search"
+              size="medium"
               variant={webSearch ? "filled" : "outlined"}
               color={webSearch ? "secondary" : "default"}
               onClick={() => setWebSearch(!webSearch)}
             />
             <Chip
-              label="Code Execution"
+              label="Code Exec"
+              size="medium"
               variant={codeExecution ? "filled" : "outlined"}
               color={codeExecution ? "secondary" : "default"}
               onClick={() => setCodeExecution(!codeExecution)}
