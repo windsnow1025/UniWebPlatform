@@ -67,8 +67,7 @@ export default function OptionsMenu({ trigger }: { trigger?: React.ReactElement<
       >
         {session?.user ? (
           <>
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={() => { handleClose(); router.push('/settings?tab=0'); }}>My account</MenuItem>
             <Divider />
             <MenuItem
               onClick={() => { handleClose(); authentication?.signOut(); }}
