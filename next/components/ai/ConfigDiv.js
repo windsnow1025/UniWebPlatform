@@ -89,7 +89,7 @@ function ConfigDiv({
 
   return (
     <>
-      <div className="flex-around mt-3 gap-y-2">
+      <div className="flex-around my-2.5 gap-y-2">
         <div>
           <FormControl fullWidth size="small">
             <InputLabel id="api-type-select-label">API Type</InputLabel>
@@ -181,7 +181,7 @@ function ConfigDiv({
           </>
         )}
         {!smallScreen && (
-          <>
+          <div className="flex-center-nowrap gap-2">
             <Chip
               label="Thought"
               size="medium"
@@ -203,7 +203,7 @@ function ConfigDiv({
               color={codeExecution ? "secondary" : "default"}
               onClick={() => setCodeExecution(!codeExecution)}
             />
-          </>
+          </div>
         )}
       </div>
       <Snackbar

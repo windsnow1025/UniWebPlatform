@@ -112,7 +112,7 @@ function ConversationItem({
             <div className="flex-start-center-nowrap w-full min-w-0">
               <LabelOutlinedIcon
                 fontSize="small"
-                sx={{color: conversation.label?.color || NO_LABEL_COLOR, mr: 2}}
+                sx={{color: `${conversation.label?.color || NO_LABEL_COLOR} !important`, mr: 2}}
               />
               <ListItemText
                 primary={conversation.name}
