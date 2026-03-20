@@ -8,10 +8,12 @@ import { listClasses } from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon, { listItemIconClasses } from '@mui/material/ListItemIcon';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { useRouter } from 'next/router';
-import { useAuthentication } from '@/components/common/session/SessionContext';
+import { useSession, useAuthentication } from '@/components/common/session/SessionContext';
 import MenuButton from './MenuButton';
 
 const MenuItem = styled(MuiMenuItem)({
@@ -19,7 +21,9 @@ const MenuItem = styled(MuiMenuItem)({
 });
 
 export default function OptionsMenu({ trigger }: { trigger?: React.ReactElement<{ onClick?: (e: React.MouseEvent<HTMLElement>) => void }> }) {
+  const session = useSession();
   const authentication = useAuthentication();
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -61,23 +65,42 @@ export default function OptionsMenu({ trigger }: { trigger?: React.ReactElement<
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <Divider />
-        <MenuItem
-          onClick={() => { handleClose(); authentication?.signOut(); }}
-          sx={{
-            [`& .${listItemIconClasses.root}`]: {
-              ml: 'auto',
-              minWidth: 0,
-            },
-          }}
-        >
-          <ListItemText>Logout</ListItemText>
-          <ListItemIcon>
-            <LogoutRoundedIcon fontSize="small" />
-          </ListItemIcon>
-        </MenuItem>
+        {session?.user ? (
+          <>
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <Divider />
+            <MenuItem
+              onClick={() => { handleClose(); authentication?.signOut(); }}
+              sx={{
+                [`& .${listItemIconClasses.root}`]: {
+                  ml: 'auto',
+                  minWidth: 0,
+                },
+              }}
+            >
+              <ListItemText>Logout</ListItemText>
+              <ListItemIcon>
+                <LogoutRoundedIcon fontSize="small" />
+              </ListItemIcon>
+            </MenuItem>
+          </>
+        ) : (
+          <>
+            <MenuItem onClick={() => { handleClose(); authentication?.signIn(); }}>
+              <ListItemIcon>
+                <LoginRoundedIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Sign in</ListItemText>
+            </MenuItem>
+            <MenuItem onClick={() => { handleClose(); router.push('/auth/signup'); }}>
+              <ListItemIcon>
+                <PersonAddRoundedIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Sign up</ListItemText>
+            </MenuItem>
+          </>
+        )}
       </Menu>
     </React.Fragment>
   );
