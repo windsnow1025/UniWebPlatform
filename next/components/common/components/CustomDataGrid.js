@@ -229,7 +229,8 @@ function CustomDataGrid({
 
   useEffect(() => {
     loadData();
-  }, [loadData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const processRowUpdate = async (newRow) => {
     const updatedRow = {...newRow, isNew: false};
