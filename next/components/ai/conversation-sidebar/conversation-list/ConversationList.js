@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {useRouter} from "next/router";
 import {
   Accordion,
   AccordionDetails,
@@ -34,6 +35,8 @@ function ConversationList({
                             clearUIStateRef,
                             conversationUpdatePromiseRef,
                           }) {
+  const router = useRouter();
+
   // Alert state
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -235,8 +238,21 @@ function ConversationList({
     );
   }
 
+  // Search filter
+  const searchQuery = (router.query.search || '').toLowerCase();
+  const filteredConversations = searchQuery
+    ? conversations.filter((conv) => {
+      if (conv.name?.toLowerCase().includes(searchQuery)) return true;
+      return conv.messages?.some((msg) =>
+        msg.contents?.some((content) =>
+          content.data?.toLowerCase().includes(searchQuery)
+        )
+      );
+    })
+    : conversations;
+
   // Group conversations by label.id
-  const groups = conversations.reduce((acc, conv, idx) => {
+  const groups = filteredConversations.reduce((acc, conv, idx) => {
     const key = conv.label?.id ?? 'no-label';
     if (!acc[key]) acc[key] = [];
     acc[key].push({conv, idx});
