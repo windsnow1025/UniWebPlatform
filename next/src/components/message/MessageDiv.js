@@ -115,7 +115,6 @@ function MessageDiv(props) {
           ...getRoleBorderStyles(message.role),
           minWidth: "75%",
           maxWidth: "95%",
-          transition: 'border-color 0.2s ease, outline 0.2s ease, box-shadow 0.2s ease',
           '&:hover': {
             borderColor: getRoleBorderColor(message.role),
             outline: `1px solid ${getRoleBorderColor(message.role)}`,
