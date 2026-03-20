@@ -2,6 +2,7 @@ import * as React from 'react';
 import { alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import AppNavbar from './components/AppNavbar';
 import Header from './components/Header';
@@ -40,6 +41,7 @@ export default function Dashboard({ children }: { children?: React.ReactNode }) 
           >
             <Header collapsed={collapsed} />
           </Stack>
+          <Divider />
           <Box
             component="main"
             sx={(theme) => ({
