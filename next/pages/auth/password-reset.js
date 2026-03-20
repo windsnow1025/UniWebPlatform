@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import UserLogic from "@/lib/common/user/UserLogic";
 import { Alert, Button, Paper, Snackbar, TextField, Typography } from "@mui/material";
 import { wait } from "@/components/common/utils/Wait";
-import Head from "next/head";
+import {usePageMeta} from "@/components/common/hooks/usePageMeta";
 
 function PasswordReset() {
   const [email, setEmail] = useState('');
@@ -68,11 +68,10 @@ function PasswordReset() {
     }
   };
 
+  usePageMeta("Reset Password");
+
   return (
     <div className="local-scroll-container">
-      <Head>
-        <title>Reset Password</title>
-      </Head>
       <div className="local-scroll-scrollable flex-center">
         <Paper elevation={3} className="flex-center p-6 max-w-md gap-y-4">
           <Typography variant="h5" align="center" gutterBottom>

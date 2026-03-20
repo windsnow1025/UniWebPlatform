@@ -14,7 +14,6 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import UserLogic from '@/lib/common/user/UserLogic';
 import { wait } from '@/components/common/utils/Wait';
@@ -241,9 +240,9 @@ export default function SignUp() {
                 label={
                   <Typography variant="body2">
                     I agree to the{' '}
-                    <NextLink href="/legal/privacy" target="_blank">
+                    <Link href="/legal/privacy" target="_blank">
                       Privacy Policy
-                    </NextLink>
+                    </Link>
                   </Typography>
                 }
               />
@@ -257,9 +256,9 @@ export default function SignUp() {
                 label={
                   <Typography variant="body2">
                     I agree to the{' '}
-                    <NextLink href="/legal/terms" target="_blank">
+                    <Link href="/legal/terms" target="_blank">
                       Terms &amp; Conditions
-                    </NextLink>
+                    </Link>
                   </Typography>
                 }
               />
