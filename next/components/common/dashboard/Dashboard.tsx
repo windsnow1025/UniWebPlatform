@@ -8,6 +8,8 @@ import Header from './components/Header';
 import SideMenu from './components/SideMenu';
 
 export default function Dashboard({ children }: { children?: React.ReactNode }) {
+  const [collapsed, setCollapsed] = React.useState(true);
+
   return (
     <>
       <CssBaseline enableColorScheme />
@@ -18,7 +20,7 @@ export default function Dashboard({ children }: { children?: React.ReactNode }) 
         height: '100vh',
         width: '100vw',
       }}>
-        <SideMenu />
+        <SideMenu collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
         <AppNavbar />
         {/* Main content */}
         <Box sx={{
@@ -36,7 +38,7 @@ export default function Dashboard({ children }: { children?: React.ReactNode }) 
               mt: { xs: 8, md: 0 },
             }}
           >
-            <Header />
+            <Header collapsed={collapsed} />
           </Stack>
           <Box
             component="main"

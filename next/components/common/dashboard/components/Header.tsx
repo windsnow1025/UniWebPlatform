@@ -1,10 +1,11 @@
 import Stack from '@mui/material/Stack';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
+import Brand from '../../components/Brand';
 import AnnouncementBell from '../../components/AnnouncementBell';
 
 import Search from './Search';
 
-export default function Header() {
+export default function Header({ collapsed = false }: { collapsed?: boolean }) {
   return (
     <Stack
       direction="row"
@@ -18,7 +19,7 @@ export default function Header() {
       }}
       spacing={2}
     >
-      <div />
+      {collapsed ? <Brand /> : <div />}
       <Stack direction="row" sx={{ gap: 1 }}>
         <Search />
         <AnnouncementBell />
