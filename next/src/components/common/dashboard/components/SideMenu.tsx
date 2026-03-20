@@ -55,7 +55,7 @@ export default function SideMenu({ collapsed, onToggle }: { collapsed: boolean; 
           overflow: 'hidden',
           mt: 'calc(var(--template-frame-height, 0px) + 4px)',
           p: 1.5,
-          minHeight: 48,
+          minHeight: 54,
         }}
       >
         {!collapsed && (
