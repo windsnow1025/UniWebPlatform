@@ -26,6 +26,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import Head from "next/head";
 import {useRouter} from "next/router";
 import {AuthorEmail} from "@/lib/common/Constants";
+import {useSession} from "@/components/common/session/SessionContext";
 
 function FeatureCard({title, description, icon}) {
   const theme = useTheme();
@@ -92,6 +93,7 @@ const providers = ["OpenAI", "Gemini", "Claude", "Grok"];
 function Index() {
   const theme = useTheme();
   const router = useRouter();
+  const session = useSession();
 
   return (
     <div className="local-scroll-container">
@@ -116,6 +118,16 @@ function Index() {
               <Chip key={provider} label={provider} variant="outlined" size="small"/>
             ))}
           </Box>
+          {!session?.user && (
+            <div className="flex-center gap-4 mt-6">
+              <Button variant="contained" onClick={() => router.push('/auth/signin')}>
+                Sign in
+              </Button>
+              <Button variant="outlined" onClick={() => router.push('/auth/signup')}>
+                Sign up
+              </Button>
+            </div>
+          )}
         </Box>
 
         <Divider/>
