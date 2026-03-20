@@ -124,27 +124,23 @@ function ConversationSidebar({
       className="local-scroll-container"
     >
       <div className="local-scroll-unscrollable-y">
-        <div className="py-2">
-          <div className="w-full px-4 py-1">
-            <TemporaryChatButton
-              setMessages={setMessages}
-              setSelectedConversationId={setSelectedConversationId}
-              setIsTemporaryChat={setIsTemporaryChat}
-              buttonStyle="sidebar"
-              clearUIStateRef={clearUIStateRef}
-            />
-          </div>
-          <div className="w-full px-4 py-1">
-            <NewConversationButton
-              setMessages={setMessages}
-              setConversations={setConversations}
-              setSelectedConversationId={setSelectedConversationId}
-              setConversationsReloadKey={setConversationsReloadKey}
-              setIsTemporaryChat={setIsTemporaryChat}
-              buttonStyle="sidebar"
-              clearUIStateRef={clearUIStateRef}
-            />
-          </div>
+        <div className="flex-center gap-2 px-4 py-2">
+          <TemporaryChatButton
+            setMessages={setMessages}
+            setSelectedConversationId={setSelectedConversationId}
+            setIsTemporaryChat={setIsTemporaryChat}
+            buttonStyle="sidebar"
+            clearUIStateRef={clearUIStateRef}
+          />
+          <NewConversationButton
+            setMessages={setMessages}
+            setConversations={setConversations}
+            setSelectedConversationId={setSelectedConversationId}
+            setConversationsReloadKey={setConversationsReloadKey}
+            setIsTemporaryChat={setIsTemporaryChat}
+            buttonStyle="sidebar"
+            clearUIStateRef={clearUIStateRef}
+          />
         </div>
         <Divider/>
 

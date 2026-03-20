@@ -48,7 +48,7 @@ function TemporaryChatButton({
         fullWidth={buttonProps.fullWidth}
         sx={buttonProps.sx}
       >
-        Temporary Chat
+        Temp Chat
       </Button>
     </div>
   )
