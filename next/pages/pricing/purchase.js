@@ -10,11 +10,12 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
-import Head from "next/head";
+import {usePageMeta} from "@/components/common/hooks/usePageMeta";
 import PaymentLogic from "@/lib/payment/PaymentLogic";
 import CreditSection from "@/components/common/settings/auth/signed-in/CreditSection";
 
 function Purchase() {
+  usePageMeta("Purchase Credit");
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [purchasing, setPurchasing] = useState(null);
@@ -58,9 +59,6 @@ function Purchase() {
 
   return (
     <div className="local-scroll-container">
-      <Head>
-        <title>Purchase Credit</title>
-      </Head>
       <div className="local-scroll-scrollable flex-center">
         <Paper elevation={4} className="p-6">
           <Typography variant="h5" gutterBottom>

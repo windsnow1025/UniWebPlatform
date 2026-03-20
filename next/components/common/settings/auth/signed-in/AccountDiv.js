@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import Link from "next/link";
-import {Divider, Tab, Tabs, Typography} from "@mui/material";
+import {Divider, Link, Tab, Tabs, Typography} from "@mui/material";
 import {TabContext, TabPanel} from "@mui/lab";
 import CreditSection from "./CreditSection";
 import UsernameSection from "./UsernameSection";

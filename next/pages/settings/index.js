@@ -5,7 +5,7 @@ import DeveloperSettings from "@/components/common/settings/DeveloperSettings";
 import AdminSetting from "@/components/common/settings/AdminSetting";
 import UserLogic from "@/lib/common/user/UserLogic";
 import StorageSettings from "@/components/common/settings/StorageSettings";
-import Head from "next/head";
+import {usePageMeta} from "@/components/common/hooks/usePageMeta";
 import {useRouter} from "next/router";
 
 const Settings = () => {
@@ -37,11 +37,10 @@ const Settings = () => {
     router.replace({ query: { ...router.query, tab: newValue } }, undefined, { shallow: true });
   };
 
+  usePageMeta("Settings");
+
   return (
     <div className="local-scroll-container">
-      <Head>
-        <title>Settings</title>
-      </Head>
       <Tabs
         value={activeTab}
         onChange={handleTabChange}

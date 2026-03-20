@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import PublicClient from "@/lib/common/public/PublicClient";
 import TextContent from '@/components/message/content/text/TextContent';
 import {RawEditableState} from '@/lib/common/message/EditableState';
-import Head from "next/head";
+import {usePageMeta} from "@/components/common/hooks/usePageMeta";
 
 function PrivacyPolicy() {
+  usePageMeta("Privacy Policy");
   const [markdown, setMarkdown] = useState('');
 
   const fetchMarkdown = async () => {
@@ -19,9 +20,6 @@ function PrivacyPolicy() {
 
   return (
     <div className="local-scroll-container">
-      <Head>
-        <title>Privacy Policy</title>
-      </Head>
       <div className="local-scroll-scrollable">
         <div className="m-2">
           <TextContent

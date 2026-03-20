@@ -23,7 +23,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import ImageIcon from '@mui/icons-material/Image';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import Head from "next/head";
+import {usePageMeta} from "@/components/common/hooks/usePageMeta";
 import {useRouter} from "next/router";
 import {AuthorEmail} from "@/lib/common/Constants";
 
@@ -92,16 +92,13 @@ const providers = ["OpenAI", "Gemini", "Claude", "Grok"];
 function Index() {
   const theme = useTheme();
   const router = useRouter();
+  usePageMeta(
+    "PolyFlexLLM",
+    "PolyFlexLLM, A full-stack web platform for interacting with various LLMs (OpenAI, Gemini, Claude), featuring full conversation context control, and Markdown + LaTeX rendering."
+  );
 
   return (
     <div className="local-scroll-container">
-      <Head>
-        <title>PolyFlexLLM</title>
-        <meta
-          name="description"
-          content="PolyFlexLLM, A full-stack web platform for interacting with various LLMs (OpenAI, Gemini, Claude), featuring full conversation context control, and Markdown + LaTeX rendering."
-        />
-      </Head>
       <div className="local-scroll-scrollable flex-column gap-y-8 p-4">
         {/* Hero Section */}
         <Box sx={{textAlign: 'center', py: 4}}>
