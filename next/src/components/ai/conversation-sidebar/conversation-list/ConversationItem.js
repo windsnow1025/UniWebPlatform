@@ -136,6 +136,7 @@ function ConversationItem({
           ) : isEditing ? (
             <Tooltip title="Save (Enter)">
               <IconButton
+                size="small"
                 onClick={handleSave}
                 onMouseDown={stopEvent}
                 onTouchStart={stopEvent}
@@ -155,8 +156,9 @@ function ConversationItem({
               </IconButton>
             </Tooltip>
           )}
-          <Tooltip size="small" title="More">
+          <Tooltip title="More">
             <IconButton
+              size="small"
               onClick={handleMenuClick}
               onMouseDown={stopEvent}
               onTouchStart={stopEvent}
