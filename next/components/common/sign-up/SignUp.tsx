@@ -2,9 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
@@ -13,9 +14,10 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import AppTheme from '../shared-theme/AppTheme';
-import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import UserLogic from '@/lib/common/user/UserLogic';
+import { wait } from '@/components/common/utils/Wait';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -37,7 +39,6 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
-  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
   minHeight: '100%',
   padding: theme.spacing(2),
   [theme.breakpoints.up('sm')]: {
@@ -59,18 +60,36 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignUp(props: { disableCustomTheme?: boolean }) {
+export default function SignUp() {
+  const userLogic = new UserLogic();
+  const router = useRouter();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = React.useState(false);
+  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState('');
+  const [agreedToPrivacy, setAgreedToPrivacy] = React.useState(false);
+  const [agreedToTerms, setAgreedToTerms] = React.useState(false);
+
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertSeverity, setAlertSeverity] = React.useState<'success' | 'error' | 'info' | 'warning'>('info');
+
+  const showAlert = (message: string, severity: 'success' | 'error' | 'info' | 'warning' = 'info') => {
+    setAlertMessage(message);
+    setAlertSeverity(severity);
+    setAlertOpen(true);
+  };
 
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
     const name = document.getElementById('name') as HTMLInputElement;
+    const confirmPassword = document.getElementById('confirmPassword') as HTMLInputElement;
 
     let isValid = true;
 
@@ -101,30 +120,43 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       setNameErrorMessage('');
     }
 
+    if (password.value !== confirmPassword.value) {
+      setConfirmPasswordError(true);
+      setConfirmPasswordErrorMessage('Passwords do not match.');
+      isValid = false;
+    } else {
+      setConfirmPasswordError(false);
+      setConfirmPasswordErrorMessage('');
+    }
+
     return isValid;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (nameError || emailError || passwordError) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (nameError || emailError || passwordError || confirmPasswordError) {
       event.preventDefault();
       return;
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const username = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    try {
+      await userLogic.signUp(username, email, password);
+      showAlert('Sign up success! Redirecting to sign in page...', 'success');
+      await wait(1);
+      router.push('/auth/signin');
+    } catch (err: any) {
+      showAlert(err.message, 'error');
+    }
   };
 
   return (
-    <AppTheme {...props}>
-      <CssBaseline enableColorScheme />
-      <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+    <>
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
-          <SitemarkIcon />
           <Typography
             component="h1"
             variant="h4"
@@ -138,14 +170,14 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="name">Full name</FormLabel>
+              <FormLabel htmlFor="name">Username</FormLabel>
               <TextField
-                autoComplete="name"
+                autoComplete="username"
                 name="name"
                 required
                 fullWidth
                 id="name"
-                placeholder="Jon Snow"
+                placeholder="Enter your username"
                 error={nameError}
                 helperText={nameErrorMessage}
                 color={nameError ? 'error' : 'primary'}
@@ -182,52 +214,87 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive updates via email."
-            />
+            <FormControl>
+              <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+              <TextField
+                required
+                fullWidth
+                name="confirmPassword"
+                placeholder="••••••"
+                type="password"
+                id="confirmPassword"
+                autoComplete="new-password"
+                variant="outlined"
+                error={confirmPasswordError}
+                helperText={confirmPasswordErrorMessage}
+                color={confirmPasswordError ? 'error' : 'primary'}
+              />
+            </FormControl>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={agreedToPrivacy}
+                    onChange={(e) => setAgreedToPrivacy(e.target.checked)}
+                  />
+                }
+                label={
+                  <Typography variant="body2">
+                    I agree to the{' '}
+                    <NextLink href="/legal/privacy" target="_blank">
+                      Privacy Policy
+                    </NextLink>
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={agreedToTerms}
+                    onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  />
+                }
+                label={
+                  <Typography variant="body2">
+                    I agree to the{' '}
+                    <NextLink href="/legal/terms" target="_blank">
+                      Terms &amp; Conditions
+                    </NextLink>
+                  </Typography>
+                }
+              />
+            </FormGroup>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               onClick={validateInputs}
+              disabled={!agreedToPrivacy || !agreedToTerms}
             >
               Sign up
             </Button>
           </Box>
-          <Divider>
-            <Typography sx={{ color: 'text.secondary' }}>or</Typography>
-          </Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => alert('Sign up with Google')}
-              startIcon={<GoogleIcon />}
+          <Typography sx={{ textAlign: 'center' }}>
+            Already have an account?{' '}
+            <Link
+              href="/auth/signin"
+              variant="body2"
+              sx={{ alignSelf: 'center' }}
             >
-              Sign up with Google
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => alert('Sign up with Facebook')}
-              startIcon={<FacebookIcon />}
-            >
-              Sign up with Facebook
-            </Button>
-            <Typography sx={{ textAlign: 'center' }}>
-              Already have an account?{' '}
-              <Link
-                href="/material-ui/getting-started/templates/sign-in/"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-              >
-                Sign in
-              </Link>
-            </Typography>
-          </Box>
+              Sign in
+            </Link>
+          </Typography>
         </Card>
       </SignUpContainer>
-    </AppTheme>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
