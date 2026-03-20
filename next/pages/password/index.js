@@ -42,7 +42,7 @@ function PasswordEncryptionTool() {
         keyValue={key}
         setKeyValue={handleSetKey}
       />
-      <div className="flex flex-col md:flex-row gap-8 justify-center">
+      <div className="flex flex-col md:flex-row gap-8 justify-center md:items-start">
         <PasswordGenerator keyValue={key} />
         <EncryptorDecryptor keyValue={key} />
       </div>
