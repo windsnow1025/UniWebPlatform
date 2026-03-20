@@ -52,6 +52,8 @@ function AddMessageDivider({
           onClick={() => handleMessageAdd(index)}
           sx={{
             py: 0,
+            width: 'auto',
+            height: 'auto',
             opacity: isHovered ? 1 : 0.2,
             transition: 'opacity 0.2s ease-in-out',
           }}
