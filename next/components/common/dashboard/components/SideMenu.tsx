@@ -15,7 +15,7 @@ import OptionsMenu from './OptionsMenu';
 import { useSession } from '@/components/common/session/SessionContext';
 
 const expandedWidth = 240;
-const collapsedWidth = 56;
+const collapsedWidth = 72;
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'collapsed',
