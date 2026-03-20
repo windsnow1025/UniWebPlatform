@@ -295,7 +295,14 @@ function ConversationList({
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
-                  sx={{backgroundColor: 'action.selected', borderBottom: 2, borderColor: 'divider'}}
+                  sx={{
+                    backgroundColor: 'action.selected',
+                    borderBottom: 2,
+                    borderColor: 'divider',
+                    '& .MuiAccordionSummary-content': {
+                      marginY: 0,
+                    },
+                }}
                 >
                   <div className="flex-center w-full">
                     <LabelGroupHeader
