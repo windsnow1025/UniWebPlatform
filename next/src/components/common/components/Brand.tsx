@@ -5,7 +5,7 @@ export default function Brand({ variant = 'h5' }: { variant?: TypographyProps['v
   return (
     <div className="flex-center-nowrap gap-2">
       <AutoAwesomeIcon color="primary" />
-      <Typography variant={variant} noWrap>
+      <Typography variant={variant} color="text.primary" noWrap>
         PolyFlexLLM
       </Typography>
     </div>
