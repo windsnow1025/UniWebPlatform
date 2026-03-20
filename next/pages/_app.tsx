@@ -3,7 +3,7 @@ import '../lib/global.css';
 import * as React from 'react';
 import Head from 'next/head';
 import {AppCacheProvider} from '@mui/material-nextjs/v14-pagesRouter';
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import AppTheme from "@/components/common/shared-theme/AppTheme";
 
 import {useRouter} from "next/router";
 import {usePathname} from "next/navigation";
@@ -12,13 +12,6 @@ import {StorageKeys} from "@/lib/common/Constants";
 import {type Session, SessionProvider} from "@/components/common/session/SessionContext";
 import Dashboard from "@/components/common/dashboard/Dashboard";
 import EmailVerificationDialog from "@/components/common/components/EmailVerificationDialog";
-
-const muiTheme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: 'data-mui-color-scheme',
-  },
-  colorSchemes: {light: true, dark: true},
-});
 
 export default function App({Component}: { Component: React.ElementType }) {
   const [session, setSession] = React.useState<Session | null>(null);
@@ -64,7 +57,7 @@ export default function App({Component}: { Component: React.ElementType }) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width"/>
       </Head>
-      <ThemeProvider theme={muiTheme}>
+      <AppTheme>
         <SessionProvider session={session} authentication={authentication}>
           <EmailVerificationDialog/>
           <div className="local-scroll-root">
@@ -77,7 +70,7 @@ export default function App({Component}: { Component: React.ElementType }) {
             )}
           </div>
         </SessionProvider>
-      </ThemeProvider>
+      </AppTheme>
     </AppCacheProvider>
   );
 }

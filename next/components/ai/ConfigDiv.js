@@ -133,7 +133,7 @@ function ConfigDiv({
             </Select>
           </FormControl>
         </div>
-        <div className="flex-center">
+        <div className="flex-center gap-1">
           <CreditSection refreshKey={refreshKey} decimalPlaces={5}/>
           <IconButton size="small" onClick={(e) => setAnchorEl(e.currentTarget)}>
             <InfoOutlined fontSize="small"/>
