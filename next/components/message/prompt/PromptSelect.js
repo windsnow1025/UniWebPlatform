@@ -295,7 +295,8 @@ function PromptSelect({
     if (message.promptId) {
       handleContentsUpdate();
     }
-  }, [message.contents, handleContentsUpdate, message.promptId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [message.contents]);
 
   return (
     <>

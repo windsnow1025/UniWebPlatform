@@ -190,7 +190,8 @@ function ConversationList({
     }
     loadConversations();
     loadLabels();
-  }, [conversationsReloadKey, signedIn, loadConversations, loadLabels]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversationsReloadKey, signedIn]);
 
   const activateConversation = async (conversation) => {
     await ConversationLogic.populatePromptContents(conversation.messages);
