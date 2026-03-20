@@ -36,10 +36,6 @@ const StorageSettings = () => {
   const promptLogic = useMemo(() => new PromptLogic(), []);
 
   useEffect(() => {
-    fetchFiles();
-  }, [session, fetchFiles]);
-
-  useEffect(() => {
     const checkAdmin = async () => {
       try {
         const adminStatus = await userLogic.isAdmin();
@@ -95,6 +91,10 @@ const StorageSettings = () => {
       setLoading(false);
     }
   }, [fileLogic, conversationLogic, promptLogic, session]);
+
+  useEffect(() => {
+    fetchFiles();
+  }, [session, fetchFiles]);
 
   const handleFileSelect = (fileUrl) => {
     const newSelected = new Set(selectedFiles);
