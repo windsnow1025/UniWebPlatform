@@ -120,7 +120,7 @@ function LabelGroupHeader({
       >
         <DialogTitle>Edit Label</DialogTitle>
         <DialogContent>
-          <Box sx={{display: 'flex', flexDirection: 'column', gap: 2, mt: 1}}>
+          <div className="flex-column gap-2 mt-2">
             <TextField
               label="Label name"
               size="small"
@@ -139,7 +139,7 @@ function LabelGroupHeader({
               setColor={setEditColor}
               size={24}
             />
-          </Box>
+          </div>
         </DialogContent>
         <DialogActions sx={{justifyContent: 'space-between', px: 3, pb: 2}}>
           <Button
