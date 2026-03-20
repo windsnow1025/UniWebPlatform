@@ -116,6 +116,7 @@ function EncryptorDecryptor({keyValue}) {
                 fullWidth
                 label="Text to Encrypt"
                 multiline
+                maxRows={5}
                 value={plaintext}
                 onChange={(e) => setPlaintext(e.target.value)}
                 variant="outlined"
@@ -188,6 +189,7 @@ function EncryptorDecryptor({keyValue}) {
                   <FormControl fullWidth variant="outlined">
                     <OutlinedInput
                       multiline
+                      maxRows={5}
                       value={decryptedText}
                       readOnly
                       endAdornment={
