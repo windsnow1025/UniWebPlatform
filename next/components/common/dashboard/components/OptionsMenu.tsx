@@ -18,8 +18,7 @@ const MenuItem = styled(MuiMenuItem)({
   margin: '2px 0',
 });
 
-export default function OptionsMenu() {
-  const router = useRouter();
+export default function OptionsMenu({ trigger }: { trigger?: React.ReactElement<{ onClick?: (e: React.MouseEvent<HTMLElement>) => void }> }) {
   const authentication = useAuthentication();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -31,20 +30,24 @@ export default function OptionsMenu() {
   };
   return (
     <React.Fragment>
-      <MenuButton
-        aria-label="Open menu"
-        onClick={handleClick}
-        sx={{ borderColor: 'transparent' }}
-      >
-        <MoreVertRoundedIcon />
-      </MenuButton>
+      {trigger ? (
+        React.cloneElement(trigger, { onClick: handleClick })
+      ) : (
+        <MenuButton
+          aria-label="Open menu"
+          onClick={handleClick}
+          sx={{ borderColor: 'transparent' }}
+        >
+          <MoreVertRoundedIcon />
+        </MenuButton>
+      )}
       <Menu
         anchorEl={anchorEl}
         id="menu"
         open={open}
         onClose={handleClose}
         onClick={handleClose}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        transformOrigin={{ horizontal: 'left', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         sx={{
           [`& .${listClasses.root}`]: {
