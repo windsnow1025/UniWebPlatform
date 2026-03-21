@@ -64,40 +64,50 @@ function SortableContent({
     return (
       <div ref={setNodeRef} style={style} {...attributes}>
         <div
-          className="p-1 rounded-md"
+          className="flex-column pb-1 px-1 rounded-md"
           style={{
             backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 90%)`
           }}
         >
-          {rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat && (
-            <div className="flex-start-center">
-              <div
-                {...listeners}
-                className="mr-2 flex"
-                style={{cursor: 'grab', touchAction: 'none'}}
-              >
-                <DragIndicatorIcon fontSize="small"/>
+          {(rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat) ? (
+            <>
+              <div className="flex-start-center">
+                <div
+                  {...listeners}
+                  className="mr-2 flex"
+                  style={{cursor: 'grab', touchAction: 'none'}}
+                >
+                  <DragIndicatorIcon fontSize="small"/>
+                </div>
+                <Typography variant="subtitle2" className="flex-grow">
+                  Text Content
+                </Typography>
+                <Tooltip title="Copy">
+                  <IconButton size="small" onClick={handleCopy}>
+                    <ContentCopyIcon fontSize="small"/>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <IconButton size="small" color="error" onClick={handleContentDelete}>
+                    <DeleteIcon fontSize="small"/>
+                  </IconButton>
+                </Tooltip>
               </div>
-              <Typography variant="subtitle2" className="flex-grow">
-                Text Content
-              </Typography>
-              <Tooltip title="Copy">
-                <IconButton size="small" onClick={handleCopy}>
-                  <ContentCopyIcon fontSize="small"/>
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton size="small" color="error" onClick={handleContentDelete}>
-                  <DeleteIcon fontSize="small"/>
-                </IconButton>
-              </Tooltip>
+              <TextContent
+                content={content.data}
+                setContent={handleContentUpdate}
+                rawEditableState={rawEditableState}
+              />
+            </>
+          ) : (
+            <div className="pt-1">
+              <TextContent
+                content={content.data}
+                setContent={handleContentUpdate}
+                rawEditableState={rawEditableState}
+              />
             </div>
           )}
-          <TextContent
-            content={content.data}
-            setContent={handleContentUpdate}
-            rawEditableState={rawEditableState}
-          />
         </div>
       </div>
     );
