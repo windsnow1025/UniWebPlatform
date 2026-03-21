@@ -66,7 +66,7 @@ function SortableContent({
         <div
           className="flex-column pb-1 px-1 rounded-md"
           style={{
-            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 90%)`
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main}, transparent 80%)`
           }}
         >
           {(rawEditableState !== RawEditableState.AlwaysFalse && !isTemporaryChat) ? (
