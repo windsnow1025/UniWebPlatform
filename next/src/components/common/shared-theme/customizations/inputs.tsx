@@ -234,7 +234,7 @@ export const inputsCustomizations: Components<Theme> = {
         textTransform: 'none',
         fontWeight: theme.typography.fontWeightMedium,
         letterSpacing: 0,
-        color: (theme.vars || theme).palette.text.primary,
+        // color: (theme.vars || theme).palette.text.primary,
         // border: '1px solid ',
         // borderColor: gray[200],
         // backgroundColor: alpha(gray[50], 0.3),
@@ -257,6 +257,12 @@ export const inputsCustomizations: Components<Theme> = {
         //   },
         // }),
         variants: [
+          {
+            props: { color: 'default' },
+            style: {
+              color: (theme.vars || theme).palette.text.primary,
+            },
+          },
           {
             props: {
               size: 'small',
