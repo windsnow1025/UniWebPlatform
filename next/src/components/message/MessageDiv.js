@@ -151,7 +151,7 @@ function MessageDiv(props) {
             </Tooltip>
           )}
           <Tooltip title="Delete Message">
-            <IconButton size="small" onClick={() => onMessageDelete(message.id)}>
+            <IconButton size="small" color="error" onClick={() => onMessageDelete(message.id)}>
               <RemoveCircleOutlineIcon fontSize="small"/>
             </IconButton>
           </Tooltip>
