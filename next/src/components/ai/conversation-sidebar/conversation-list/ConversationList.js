@@ -217,6 +217,7 @@ function ConversationList({
     try {
       const generating = await chatLogic.checkGenerating(conversationId);
       if (generating) {
+        const versionBefore = conversation.version;
         showAlert('Backend is still generating for this conversation. Will auto-refresh when done.', 'info');
         const pollInterval = setInterval(async () => {
           try {
@@ -224,15 +225,21 @@ function ConversationList({
             if (!stillGenerating) {
               clearInterval(pollInterval);
               setConversationsReloadKey(prev => prev + 1);
-              showAlert('Generation complete. Conversation refreshed.', 'success');
+              const updated = await conversationLogic.fetchConversation(conversationId);
+              if (updated.version > versionBefore) {
+                showAlert('Generation complete. Conversation refreshed.', 'success');
+              } else {
+                showAlert('Generation ended with no new messages. It either failed or crashed.', 'warning');
+              }
             }
-          } catch {
+          } catch (err) {
             clearInterval(pollInterval);
+            showAlert('Failed to check generating status: ' + err.message, 'error');
           }
         }, 3000);
       }
     } catch {
-      // Silently ignore - not critical
+      showAlert('Failed to check generating status: ' + err.message, 'error');
     }
   };
 
