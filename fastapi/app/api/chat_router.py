@@ -9,8 +9,8 @@ from pydantic import BaseModel
 
 import app.service.auth as auth
 from app.client.nest_js_client.models import UserResDto
-from app.service.chat import abort_manager
 from app.service.chat.chat_service import handle_chat_interaction
+from app.service.chat.generation_manager import generation_manager
 from app.service.user import user_logic
 
 chat_router = APIRouter()
@@ -84,8 +84,18 @@ async def abort_chat(
 ) -> bool:
     token: str = credentials.credentials
     auth.get_user_id_from_token(token)
-    abort_manager.set_aborted(abort_request.request_id)
+    generation_manager.set_aborted(abort_request.request_id)
     return True
+
+
+@chat_router.get("/chat/generating/{conversation_id}")
+async def is_generating(
+        conversation_id: int,
+        credentials: HTTPAuthorizationCredentials = Depends(security),
+) -> bool:
+    token: str = credentials.credentials
+    auth.get_user_id_from_token(token)
+    return generation_manager.is_generating(conversation_id)
 
 
 @chat_router.get("/model")

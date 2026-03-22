@@ -30,8 +30,8 @@ Add New Interpreter >> Add Local Interpreter
 ### Generate Client Package
 
 ```bash
-rm -r ../next/client/fastapi
+rm -r ../next/src/client/fastapi
 ```
 ```bash
-openapi-generator-cli generate -i http://localhost:8000/openapi.json -g typescript-axios -o ../next/client/fastapi
+openapi-generator-cli generate -i http://localhost:8000/openapi.json -g typescript-axios -o ../next/src/client/fastapi
 ```
