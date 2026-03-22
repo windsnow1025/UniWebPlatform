@@ -59,10 +59,10 @@ const FileDiv = ({fileUrl, rawEditableState, onDelete}) => {
 
   return (
     <>
-      <Paper key={fileUrl} className="p-2 flex-center">
+      <Paper key={fileUrl} elevation="1" className="flex-center">
         <div className="inflex-fill">
           <div className="flex-between">
-            <Typography variant="body2" className="break-all">
+            <Typography variant="body2" className="break-all" sx={{ pl: 2 }}>
               <a href={fileUrl} target="_blank" rel="noopener noreferrer">
                 {fileName}
               </a>
