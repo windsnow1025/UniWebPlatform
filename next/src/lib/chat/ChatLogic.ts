@@ -325,6 +325,18 @@ export default class ChatLogic {
   }
 
   async abortChat(request_id: string): Promise<boolean> {
-    return this.chatClient.abortChat(request_id);
+    try {
+      return await this.chatClient.abortChat(request_id);
+    } catch (error) {
+      handleError(error, 'Failed to abort chat');
+    }
+  }
+
+  async checkGenerating(conversationId: number): Promise<boolean> {
+    try {
+      return await this.chatClient.checkGenerating(conversationId);
+    } catch (error) {
+      handleError(error, 'Failed to check generating status');
+    }
   }
 }
