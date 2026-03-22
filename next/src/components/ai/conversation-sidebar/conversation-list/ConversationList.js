@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import {ExpandMore as ExpandMoreIcon} from '@mui/icons-material';
 import ConversationLogic from "@/lib/conversation/ConversationLogic";
+import ChatLogic from "@/lib/chat/ChatLogic";
 import LabelLogic from "@/lib/label/LabelLogic";
 import {isEqual} from 'lodash';
 import {NO_LABEL_COLOR} from "@/components/ai/conversation-sidebar/conversation-list/label/PresetColors";
@@ -61,6 +62,7 @@ function ConversationList({
   const [isLoadingLabels, setIsLoadingLabels] = useState(false);
 
   const conversationLogic = useMemo(() => new ConversationLogic(), []);
+  const chatLogic = useMemo(() => new ChatLogic(), []);
   const labelLogic = useMemo(() => new LabelLogic(), []);
 
   const showAlert = (message, severity = 'info') => {
@@ -210,6 +212,28 @@ function ConversationList({
 
     await activateConversation(conversation);
     setLoadingConversationId(null);
+
+    // Check if backend is still generating for this conversation
+    try {
+      const generating = await chatLogic.checkGenerating(conversationId);
+      if (generating) {
+        showAlert('Backend is still generating for this conversation. Will auto-refresh when done.', 'info');
+        const pollInterval = setInterval(async () => {
+          try {
+            const stillGenerating = await chatLogic.checkGenerating(conversationId);
+            if (!stillGenerating) {
+              clearInterval(pollInterval);
+              setConversationsReloadKey(prev => prev + 1);
+              showAlert('Generation complete. Conversation refreshed.', 'success');
+            }
+          } catch {
+            clearInterval(pollInterval);
+          }
+        }, 3000);
+      }
+    } catch {
+      // Silently ignore - not critical
+    }
   };
 
   const handleAccordionChange = (panel) => (event, isExpanded) => {

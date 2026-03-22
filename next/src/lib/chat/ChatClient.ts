@@ -154,6 +154,12 @@ export default class ChatClient {
     return res.data;
   }
 
+  async checkGenerating(conversationId: number): Promise<boolean> {
+    const api = new DefaultApi(getFastAPIOpenAPIConfiguration());
+    const res = await api.isGeneratingChatGeneratingConversationIdGet(conversationId);
+    return res.data;
+  }
+
   async fetchApiModels(): Promise<ApiTypeModel[]> {
     const api = new DefaultApi(getFastAPIOpenAPIConfiguration());
     const res = await api.getModelsModelGet();
