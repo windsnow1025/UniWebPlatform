@@ -41,7 +41,7 @@ export default function Dashboard({ children }: { children?: React.ReactNode }) 
           >
             <Header collapsed={collapsed} />
           </Stack>
-          <Divider />
+          <Divider sx={{ display: { xs: 'none', md: 'block' } }} />
           <Box
             component="main"
             sx={(theme) => ({
