@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse
 from llm_bridge import *
 
 from app.client.nest_js_client.models import Message, Content, ContentType, MessageRole
-from app.service.chat import abort_manager
+from app.service.chat.generation_manager import generation_manager
 from app.service.conversation import conversation_logic
 from app.service.file import file_logic
 
@@ -108,13 +108,14 @@ async def non_stream_handler(
         token: str,
         conversation_id: int | None,
 ) -> ChatResponse:
+    generation_manager.start(conversation_id, request_id)
     try:
         cost = await reduce_credit(chat_response.input_tokens, chat_response.output_tokens)
 
         logging.info(f"content: {_to_log_safe(chat_response)}")
         logging.info(f"cost: {cost}")
 
-        if conversation_id is not None and not abort_manager.is_aborted(request_id):
+        if conversation_id is not None and not generation_manager.is_aborted(request_id):
             await _save_conversation(
                 token=token,
                 conversation_id=conversation_id,
@@ -128,7 +129,7 @@ async def non_stream_handler(
 
         return chat_response
     finally:
-        abort_manager.clear_aborted(request_id)
+        generation_manager.finish(conversation_id, request_id)
 
 
 async def stream_handler(
@@ -138,6 +139,7 @@ async def stream_handler(
         token: str,
         conversation_id: int | None,
 ) -> StreamingResponse:
+    generation_manager.start(conversation_id, request_id)
     queue: Queue = Queue()
 
     async def background_generator():
@@ -153,7 +155,7 @@ async def stream_handler(
 
         try:
             async for chunk in generator:
-                if abort_manager.is_aborted(request_id):
+                if generation_manager.is_aborted(request_id):
                     logging.info(f"Request {request_id} aborted")
                     break
 
@@ -199,7 +201,7 @@ async def stream_handler(
             logging.info(f"content: {_to_log_safe(chat_response)}")
             logging.info(f"cost: {cost}")
 
-            if conversation_id is not None and not abort_manager.is_aborted(request_id):
+            if conversation_id is not None and not generation_manager.is_aborted(request_id):
                 await _save_conversation(
                     token=token,
                     conversation_id=conversation_id,
@@ -216,7 +218,7 @@ async def stream_handler(
             await queue.put(ChatResponse(error=str(e)))
         finally:
             await queue.put(None)
-            abort_manager.clear_aborted(request_id)
+            generation_manager.finish(conversation_id, request_id)
 
     async def sse_generator() -> AsyncGenerator[str, None]:
         while True:
