@@ -3,7 +3,7 @@ import PasswordGenerator from "@/components/password/PasswordGenerator";
 import EncryptorDecryptor from "@/components/password/EncryptorDecryptor";
 import SecretKeyDialog from "@/components/password/SecretKeyDialog";
 import { Button } from "@mui/material";
-import {usePageMeta} from "@/hooks/usePageMeta";
+import Head from "next/head";
 import {StorageKeys} from "@/lib/common/Constants";
 
 function PasswordEncryptionTool() {
@@ -24,10 +24,13 @@ function PasswordEncryptionTool() {
     }
   };
 
-  usePageMeta("Crypto", "Generate secure and customizable passwords by your key.");
-
   return (
     <div>
+      <Head>
+        <meta name="description" content="Generate secure and customizable passwords by your key." />
+        <title>Crypto</title>
+      </Head>
+
       <div className="flex-center mt-4">
         <Button variant="outlined" onClick={() => setDialogOpen(true)}>
           Set Secret Key
