@@ -36,7 +36,12 @@ export default function MenuContent({ collapsed = false }: { collapsed?: boolean
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <Tooltip title={collapsed ? item.text : ''} placement="right">
-              <ListItemButton component={Link} href={item.href} selected={isSelected(item.href)} sx={{ overflow: 'hidden', whiteSpace: 'nowrap', ...(collapsed ? { justifyContent: 'center', minHeight: 36 } : {}) }}>
+              <ListItemButton
+                component={Link}
+                href={item.href}
+                selected={isSelected(item.href)}
+                sx={{ gap: 1, overflow: 'hidden', whiteSpace: 'nowrap', ...(collapsed ? { justifyContent: 'center', minHeight: 36 } : {}) }}
+              >
                 <ListItemIcon sx={collapsed ? { minWidth: 0 } : {}}>{item.icon}</ListItemIcon>
                 {!collapsed && <ListItemText primary={item.text} />}
               </ListItemButton>
@@ -48,7 +53,12 @@ export default function MenuContent({ collapsed = false }: { collapsed?: boolean
         {secondaryListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <Tooltip title={collapsed ? item.text : ''} placement="right">
-              <ListItemButton component={Link} href={item.href} selected={isSelected(item.href)} sx={{ overflow: 'hidden', whiteSpace: 'nowrap', ...(collapsed ? { justifyContent: 'center', minHeight: 36 } : {}) }}>
+              <ListItemButton
+                component={Link}
+                href={item.href}
+                selected={isSelected(item.href)}
+                sx={{ gap: 1, overflow: 'hidden', whiteSpace: 'nowrap', ...(collapsed ? { justifyContent: 'center', minHeight: 36 } : {}) }}
+              >
                 <ListItemIcon sx={collapsed ? { minWidth: 0 } : {}}>{item.icon}</ListItemIcon>
                 {!collapsed && <ListItemText primary={item.text} />}
               </ListItemButton>
