@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import PublicClient from "@/lib/common/public/PublicClient";
 import TextContent from '@/components/message/content/text/TextContent';
 import {RawEditableState} from '@/lib/common/message/EditableState';
-import {usePageMeta} from "@/hooks/usePageMeta";
+import Head from "next/head";
 
 function TermsConditions() {
-  usePageMeta("Terms & Conditions");
   const [markdown, setMarkdown] = useState('');
 
   const fetchMarkdown = async () => {
@@ -20,6 +19,9 @@ function TermsConditions() {
 
   return (
     <div className="local-scroll-container">
+      <Head>
+        <title>Terms & Conditions</title>
+      </Head>
       <div className="local-scroll-scrollable">
         <div className="m-2">
           <TextContent

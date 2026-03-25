@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from 'react';
-
 import {Collapse, Drawer, Paper} from "@mui/material";
 
 import ChatLogic from "@/lib/chat/ChatLogic";
