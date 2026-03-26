@@ -76,14 +76,18 @@ function FilesUpload({onFilesUpload, isUploading, setIsUploading}) {
         disabled={isUploading}
       />
       <Tooltip title={isUploading ? "Uploading..." : "Upload File"}>
-        <IconButton onClick={triggerFileInput} size="small" disabled={isUploading}>
-          {isUploading ? <CircularProgress size={20}/> : <AttachFileIcon fontSize="small"/>}
-        </IconButton>
+        <span>
+          <IconButton onClick={triggerFileInput} size="small" disabled={isUploading}>
+            {isUploading ? <CircularProgress size={20}/> : <AttachFileIcon fontSize="small"/>}
+          </IconButton>
+        </span>
       </Tooltip>
       <Tooltip title={isUploading ? "Uploading..." : "Upload Folder"}>
-        <IconButton onClick={triggerFolderInput} size="small" disabled={isUploading}>
-          {isUploading ? <CircularProgress size={20}/> : <FolderOpenIcon fontSize="small"/>}
-        </IconButton>
+        <span>
+          <IconButton onClick={triggerFolderInput} size="small" disabled={isUploading}>
+            {isUploading ? <CircularProgress size={20}/> : <FolderOpenIcon fontSize="small"/>}
+          </IconButton>
+        </span>
       </Tooltip>
       <Snackbar
         open={alertOpen}

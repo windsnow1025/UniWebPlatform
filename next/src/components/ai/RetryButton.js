@@ -73,14 +73,16 @@ function RetryButton({
   return (
     <div>
       <Tooltip title="Retry last response">
-        <IconButton
-          id="retry"
-          color="secondary"
-          onClick={handleRetry}
-          disabled={!isRetryEnabled() || isUploading}
-        >
-          <ReplayIcon/>
-        </IconButton>
+        <span>
+          <IconButton
+            id="retry"
+            color="secondary"
+            onClick={handleRetry}
+            disabled={!isRetryEnabled() || isUploading}
+          >
+            <ReplayIcon/>
+          </IconButton>
+        </span>
       </Tooltip>
     </div>
   );

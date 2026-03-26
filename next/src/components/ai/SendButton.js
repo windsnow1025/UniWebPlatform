@@ -259,17 +259,19 @@ function SendButton({
   return (
     <div className="m-2">
       <Tooltip title="Ctrl/Cmd + Enter">
-        <Button
-          id="send"
-          variant="contained"
-          color="primary"
-          onClick={handleGenerate}
-          startIcon={isGenerating ? <CircularProgress size={16} color="inherit"/> : <PlayArrowIcon/>}
-          disabled={!messages || isUploading}
-          ref={sendButtonRef}
-        >
-          {isGenerating ? "Stop" : "Send"}
-        </Button>
+        <span>
+          <Button
+            id="send"
+            variant="contained"
+            color="primary"
+            onClick={handleGenerate}
+            startIcon={isGenerating ? <CircularProgress size={16} color="inherit"/> : <PlayArrowIcon/>}
+            disabled={!messages || isUploading}
+            ref={sendButtonRef}
+          >
+            {isGenerating ? "Stop" : "Send"}
+          </Button>
+        </span>
       </Tooltip>
       <Snackbar
         open={alertOpen}
