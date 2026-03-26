@@ -1,10 +1,9 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
   output: 'standalone',
   transpilePackages: [
-    '@mui/x-data-grid',
-    '@mui/x-data-grid-pro',
-    '@mui/x-data-grid-premium',
     'markdown-latex-renderer',
   ],
   productionBrowserSourceMaps: true,
