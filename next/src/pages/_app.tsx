@@ -2,7 +2,7 @@ import '../global.css';
 
 import * as React from 'react';
 import Head from 'next/head';
-import {AppCacheProvider} from '@mui/material-nextjs/v14-pagesRouter';
+
 import AppTheme from "@/components/common/shared-theme/AppTheme";
 
 import {useRouter} from "next/router";
@@ -53,7 +53,7 @@ export default function App({Component}: { Component: React.ElementType }) {
   }, [pathname, router]);
 
   return (
-    <AppCacheProvider>
+    <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width"/>
       </Head>
@@ -71,6 +71,6 @@ export default function App({Component}: { Component: React.ElementType }) {
           </div>
         </SessionProvider>
       </AppTheme>
-    </AppCacheProvider>
+    </>
   );
 }
