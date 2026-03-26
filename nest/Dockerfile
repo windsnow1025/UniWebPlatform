@@ -1,3 +1,5 @@
+# https://pnpm.io/docker
+
 FROM node:22-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
