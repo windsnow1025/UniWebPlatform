@@ -1,5 +1,5 @@
 import React from 'react';
-import Joyride from 'react-joyride';
+import {Joyride} from 'react-joyride';
 
 const GuidedTour = ({steps, run, callback}) => {
   return (

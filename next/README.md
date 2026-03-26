@@ -1,42 +1,36 @@
-# Next.js
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Development
+## Getting Started
 
-### pnpm
-
-1. Install Node.js
-2. Install pnpm (Run as Administrator): `corepack enable`
-3. Install dependencies: `pnpm install`
-
-### WebStorm
-
-Settings >> Languages & Frameworks >> JavaScript Runtime >> Package manager: `pnpm`
-
-### Run
+First, run the development server:
 
 ```bash
-pnpm run dev
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## Configuration changes made after `create-next-app`
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Jest
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-[https://nextjs.org/docs/app/building-your-application/testing/jest](https://nextjs.org/docs/app/building-your-application/testing/jest)
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### next.config.mjs
+## Learn More
 
-From:
+To learn more about Next.js, take a look at the following resources:
 
-```js
-const nextConfig = {};
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-To:
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-```js
-const nextConfig = {
-  output: 'standalone',
-  transpilePackages: ['<package_name>'],
-};
-```
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
