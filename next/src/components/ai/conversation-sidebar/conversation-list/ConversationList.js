@@ -326,6 +326,7 @@ function ConversationList({
                 disableGutters
               >
                 <AccordionSummary
+                  component="div"
                   expandIcon={<ExpandMoreIcon/>}
                   sx={{
                     backgroundColor: 'action.selected',
