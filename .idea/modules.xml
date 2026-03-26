@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/UniWebPlatform.iml" filepath="$PROJECT_DIR$/.idea/UniWebPlatform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PolyFlexLLM.iml" filepath="$PROJECT_DIR$/.idea/PolyFlexLLM.iml" />
     </modules>
   </component>
 </project>
