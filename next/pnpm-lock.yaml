@@ -99,7 +99,7 @@ importers:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
       react-joyride:
-        specifier: ^3.0.0-7
+        specifier: ^3.0.0
         version: 3.0.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react-transition-group:
         specifier: ^4.4.5
