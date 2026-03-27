@@ -10,12 +10,15 @@ permissions:
 
 on:
   push:
-    branches: [ "main", "test" ]
+    branches:
+      - "main"
+      - "test"
     paths:
       - 'next/**'
       - '.github/workflows/next-node-test.yml'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - "main"
     paths:
       - 'next/**'
       - '.github/workflows/next-node-test.yml'
