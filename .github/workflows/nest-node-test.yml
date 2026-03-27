@@ -10,12 +10,15 @@ permissions:
 
 on:
   push:
-    branches: [ "main", "test" ]
+    branches:
+      - "main"
+      - "test"
     paths:
       - 'nest/**'
       - '.github/workflows/nest-node-test.yml'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - "main"
     paths:
       - 'nest/**'
       - '.github/workflows/nest-node-test.yml'

@@ -7,12 +7,15 @@ permissions:
 
 on:
   push:
-    branches: [ "main", "test" ]
+    branches:
+      - "main"
+      - "test"
     paths:
       - 'fastapi/**'
       - '.github/workflows/fastapi-python-test.yaml'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - "main"
     paths:
       - 'fastapi/**'
       - '.github/workflows/fastapi-python-test.yaml'
@@ -23,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Enable caching
         uses: astral-sh/setup-uv@v7
