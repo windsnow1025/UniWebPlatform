@@ -35,7 +35,7 @@
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.20",
     "lodash": "^4.17.23",
-    "markdown-latex-renderer": "^1.6.0",
+    "markdown-latex-renderer": "^1.6.2",
     "mime": "^4.1.0",
     "next": "16.2.1",
     "react": "19.2.4",
