@@ -43,7 +43,7 @@ export class ConversationsCoreService {
     );
 
     for (const orphan of orphans) {
-      await this.conversationsRepository.delete(orphan.id);
+      await this.conversationsRepository.softDelete(orphan.id);
     }
   }
 }

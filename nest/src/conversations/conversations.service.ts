@@ -209,7 +209,7 @@ export class ConversationsService {
   async delete(userId: number, id: number): Promise<Conversation> {
     const conversation = await this.findOne(userId, id);
 
-    const result = await this.conversationsRepository.delete(id);
+    const result = await this.conversationsRepository.softDelete(id);
     if (result.affected === 0) {
       throw new NotFoundException('Conversation not deleted');
     }

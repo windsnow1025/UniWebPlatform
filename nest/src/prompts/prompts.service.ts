@@ -109,7 +109,7 @@ export class PromptsService {
   async delete(userId: number, id: number): Promise<Prompt> {
     const prompt = await this.findOne(userId, id);
 
-    const result = await this.promptsRepository.delete(id);
+    const result = await this.promptsRepository.softDelete(id);
     if (result.affected === 0) {
       throw new NotFoundException('Prompt not deleted');
     }
