@@ -1,19 +1,18 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Divider, { dividerClasses } from '@mui/material/Divider';
+import {styled} from '@mui/material/styles';
+import Divider, {dividerClasses} from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
 import MuiMenuItem from '@mui/material/MenuItem';
-import { paperClasses } from '@mui/material/Paper';
-import { listClasses } from '@mui/material/List';
+import {paperClasses} from '@mui/material/Paper';
+import {listClasses} from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon, { listItemIconClasses } from '@mui/material/ListItemIcon';
+import ListItemIcon, {listItemIconClasses} from '@mui/material/ListItemIcon';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import { useRouter } from 'next/router';
-import { useSession, useAuthentication } from '@/session/SessionContext';
+import {useRouter} from 'next/router';
+import {useAuthentication, useSession} from '@/session/SessionContext';
 import MenuButton from './MenuButton';
 
 const MenuItem = styled(MuiMenuItem)({

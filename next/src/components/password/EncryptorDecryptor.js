@@ -16,12 +16,8 @@ import {
   Typography,
 } from "@mui/material";
 import {TabContext, TabPanel} from "@mui/lab";
-import {
-  ContentCopy as ContentCopyIcon,
-  Lock as LockIcon,
-  LockOpen as LockOpenIcon,
-} from "@mui/icons-material";
-import {encryptAES, decryptAES} from "@/lib/password/EncryptionLogic";
+import {ContentCopy as ContentCopyIcon, Lock as LockIcon, LockOpen as LockOpenIcon,} from "@mui/icons-material";
+import {decryptAES, encryptAES} from "@/lib/password/EncryptionLogic";
 
 function EncryptorDecryptor({keyValue}) {
   const [tabValue, setTabValue] = useState('0');

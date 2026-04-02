@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Switch, FormControlLabel, Typography, Divider} from "@mui/material";
+import {Divider, FormControlLabel, Switch, Typography} from "@mui/material";
 import APIBaseURLSelect from "./APIBaseURLSelect";
 import {StorageKeys} from "@/lib/common/Constants";
 

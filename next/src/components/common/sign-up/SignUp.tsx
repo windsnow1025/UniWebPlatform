@@ -13,10 +13,10 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
-import { useRouter } from 'next/router';
+import {styled} from '@mui/material/styles';
+import {useRouter} from 'next/router';
 import UserLogic from '@/lib/common/user/UserLogic';
-import { wait } from '@/components/common/utils/Wait';
+import {wait} from '@/components/common/utils/Wait';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',

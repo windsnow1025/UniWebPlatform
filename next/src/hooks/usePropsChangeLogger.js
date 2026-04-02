@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 
 function usePropsChangeLogger(name, props) {
   const previousProps = useRef();

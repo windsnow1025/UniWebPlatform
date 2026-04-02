@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/router';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {useRouter} from 'next/router';
 import AIStudio from '@/components/ai/AIStudio';
 import ConversationLogic from '@/lib/conversation/ConversationLogic';
 import {Alert, CircularProgress, Snackbar} from "@mui/material";

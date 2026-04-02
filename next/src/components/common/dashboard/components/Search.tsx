@@ -5,8 +5,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { useRouter } from 'next/router';
-import { usePathname } from 'next/navigation';
+import {useRouter} from 'next/router';
+import {usePathname} from 'next/navigation';
 
 export default function Search() {
   const router = useRouter();

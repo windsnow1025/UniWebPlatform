@@ -1,13 +1,13 @@
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import Drawer, { drawerClasses } from '@mui/material/Drawer';
+import Drawer, {drawerClasses} from '@mui/material/Drawer';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MenuContent from './MenuContent';
 import AnnouncementBell from '@/components/common/components/AnnouncementBell';
-import { useSession, useAuthentication } from '@/session/SessionContext';
+import {useAuthentication, useSession} from '@/session/SessionContext';
 
 interface SideMenuMobileProps {
   open: boolean | undefined;

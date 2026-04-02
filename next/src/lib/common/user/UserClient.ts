@@ -1,5 +1,5 @@
 import {getNestOpenAPIConfiguration} from "@/lib/common/APIConfig";
-import {UserResDto, UsersApi, UserResDtoRolesEnum} from "@/client/nest";
+import {UserResDto, UserResDtoRolesEnum, UsersApi} from "@/client/nest";
 
 export default class UserClient {
   async fetchUsers(): Promise<UserResDto[]> {

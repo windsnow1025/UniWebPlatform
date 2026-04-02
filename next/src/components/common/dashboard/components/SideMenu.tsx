@@ -1,6 +1,6 @@
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
-import MuiDrawer, { drawerClasses } from '@mui/material/Drawer';
+import MuiDrawer, {drawerClasses} from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
@@ -12,7 +12,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuContent from './MenuContent';
 import OptionsMenu from './OptionsMenu';
-import { useSession } from '@/session/SessionContext';
+import {useSession} from '@/session/SessionContext';
 
 const expandedWidth = 240;
 const collapsedWidth = 72;

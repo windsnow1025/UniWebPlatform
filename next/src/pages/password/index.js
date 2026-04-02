@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import PasswordGenerator from "@/components/password/PasswordGenerator";
 import EncryptorDecryptor from "@/components/password/EncryptorDecryptor";
 import SecretKeyDialog from "@/components/password/SecretKeyDialog";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import Head from "next/head";
 import {StorageKeys} from "@/lib/common/Constants";
 

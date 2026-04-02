@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Collapse, IconButton, Tooltip, Typography, useTheme, CircularProgress} from "@mui/material";
+import {CircularProgress, Collapse, IconButton, Tooltip, Typography, useTheme} from "@mui/material";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 

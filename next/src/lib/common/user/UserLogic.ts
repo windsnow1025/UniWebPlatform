@@ -1,6 +1,5 @@
 import UserClient from "./UserClient";
 import AuthClient from "@/lib/common/user/AuthClient";
-import axios from "axios";
 import {handleError} from "@/lib/common/ErrorHandler";
 import {UserResDto, UserResDtoRolesEnum} from "@/client/nest";
 import {StorageKeys} from "@/lib/common/Constants";

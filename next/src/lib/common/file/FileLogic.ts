@@ -1,7 +1,6 @@
 import FileClient from "./FileClient";
 import axios from "axios";
 import {handleError} from "@/lib/common/ErrorHandler";
-import {getAPIBaseURLs} from "@/lib/common/APIConfig";
 
 export default class FileLogic {
   private fileClient: FileClient;

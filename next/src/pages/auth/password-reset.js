@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from "next/router";
+import React, {useState} from 'react';
+import {useRouter} from "next/router";
 import UserLogic from "@/lib/common/user/UserLogic";
-import { Alert, Button, Paper, Snackbar, TextField, Typography } from "@mui/material";
-import { wait } from "@/components/common/utils/Wait";
+import {Alert, Button, Paper, Snackbar, TextField, Typography} from "@mui/material";
+import {wait} from "@/components/common/utils/Wait";
 import Head from "next/head";
 
 function PasswordReset() {

@@ -12,11 +12,11 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import ForgotPassword from './components/ForgotPassword';
-import { wait } from '@/components/common/utils/Wait';
+import {wait} from '@/components/common/utils/Wait';
 import UserLogic from '@/lib/common/user/UserLogic';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
