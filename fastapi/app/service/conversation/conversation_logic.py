@@ -1,10 +1,7 @@
 import logging
 import uuid
 
-import httpcore
-import httpx
-from fastapi import HTTPException
-
+from app.client.nest_js_client.errors import UnexpectedStatus
 from app.client.nest_js_client.models import ConversationResDto, ConversationReqDto, Message, Content, ContentType, MessageRole
 from app.client.nest_js_client.types import UNSET
 from app.service.conversation import conversation_client
@@ -14,18 +11,7 @@ from llm_bridge import File
 
 
 async def get_conversation(token: str, conversation_id: int) -> ConversationResDto:
-    try:
-        return await conversation_client.get_conversation(token, conversation_id)
-    except HTTPException as e:
-        raise e
-    except (httpcore.ConnectError, httpx.ConnectError) as e:
-        detail = f"ConnectError while fetching conversation: {e}"
-        logging.exception(detail)
-        raise HTTPException(status_code=500, detail=detail)
-    except Exception as e:
-        detail = f"Unknown error while fetching conversation: {e}"
-        logging.exception(detail)
-        raise HTTPException(status_code=500, detail=detail)
+    return await conversation_client.get_conversation(token, conversation_id)
 
 
 async def update_conversation(
@@ -34,20 +20,9 @@ async def update_conversation(
         etag: str,
         conversation: ConversationReqDto
 ) -> ConversationResDto:
-    try:
-        return await conversation_client.update_conversation(
-            token, conversation_id, etag, conversation
-        )
-    except HTTPException as e:
-        raise e
-    except (httpcore.ConnectError, httpx.ConnectError) as e:
-        detail = f"ConnectError while updating conversation: {e}"
-        logging.exception(detail)
-        raise HTTPException(status_code=500, detail=detail)
-    except Exception as e:
-        detail = f"Unknown error while updating conversation: {e}"
-        logging.exception(detail)
-        raise HTTPException(status_code=500, detail=detail)
+    return await conversation_client.update_conversation(
+        token, conversation_id, etag, conversation
+    )
 
 
 async def add_messages_to_conversation(
@@ -120,9 +95,9 @@ async def save_response_to_conversation(
             conversation_id=conversation_id,
             new_messages=[assistant_message, empty_user_message],
         )
-    except HTTPException as e:
+    except UnexpectedStatus as e:
         if e.status_code == 404:
-            logging.warning(f"Conversation not found, skipping save: {e.detail}")
+            logging.warning(f"Conversation not found, skipping save: {e.content.decode(errors='ignore')}")
         else:
-            raise e
+            raise
 

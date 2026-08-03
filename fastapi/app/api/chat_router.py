@@ -1,4 +1,3 @@
-import logging
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Depends
@@ -43,39 +42,33 @@ async def generate(
         chat_request: ChatRequest,
         credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
-    try:
-        token: str = credentials.credentials
-        user_id: str = auth.get_user_id_from_token(token)
+    token: str = credentials.credentials
+    user_id: str = auth.get_user_id_from_token(token)
 
-        if find_model_prices(chat_request.api_type, chat_request.model) is None:
-            raise HTTPException(status_code=400, detail="Invalid API Type and Model combination")
+    if find_model_prices(chat_request.api_type, chat_request.model) is None:
+        raise HTTPException(status_code=400, detail="Invalid API Type and Model combination")
 
-        user: UserResDto = await user_logic.get_user(token)
-        if not user.email_verified:
-            raise HTTPException(status_code=401, detail="Email not verified")
-        if user.credit <= 0:
-            raise HTTPException(status_code=402, detail="Insufficient credit")
+    user: UserResDto = await user_logic.get_user(token)
+    if not user.email_verified:
+        raise HTTPException(status_code=401, detail="Email not verified")
+    if user.credit <= 0:
+        raise HTTPException(status_code=402, detail="Insufficient credit")
 
-        return await handle_chat_interaction(
-            token=token,
-            user_id=user_id,
-            messages=chat_request.messages,
-            model=chat_request.model,
-            api_type=chat_request.api_type,
-            temperature=chat_request.temperature,
-            stream=chat_request.stream,
-            thought=chat_request.thought,
-            web_search=chat_request.web_search,
-            code_execution=chat_request.code_execution,
-            structured_output_schema=chat_request.structured_output_schema,
-            conversation_id=chat_request.conversation_id,
-            assistant_message_id=chat_request.assistant_message_id,
-        )
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        logging.exception(e)
-        raise HTTPException(status_code=500, detail=str(e))
+    return await handle_chat_interaction(
+        token=token,
+        user_id=user_id,
+        messages=chat_request.messages,
+        model=chat_request.model,
+        api_type=chat_request.api_type,
+        temperature=chat_request.temperature,
+        stream=chat_request.stream,
+        thought=chat_request.thought,
+        web_search=chat_request.web_search,
+        code_execution=chat_request.code_execution,
+        structured_output_schema=chat_request.structured_output_schema,
+        conversation_id=chat_request.conversation_id,
+        assistant_message_id=chat_request.assistant_message_id,
+    )
 
 
 @chat_router.get("/chat/stream/{conversation_id}")
