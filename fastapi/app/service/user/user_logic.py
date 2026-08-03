@@ -30,11 +30,11 @@ async def reduce_credit(token: str, cost: float) -> float:
     except HTTPException as e:
         raise e
     except (httpcore.ConnectError, httpx.ConnectError) as e:
-        detail = f"ConnectError while fetching users: {e}"
+        detail = f"ConnectError while reducing credit: {e}"
         logging.exception(detail)
         raise HTTPException(status_code=500, detail=detail)
     except Exception as e:
-        detail = f"Unknown error while fetching users: {e}"
+        detail = f"Unknown error while reducing credit: {e}"
         logging.exception(detail)
         raise HTTPException(status_code=500, detail=detail)
 
