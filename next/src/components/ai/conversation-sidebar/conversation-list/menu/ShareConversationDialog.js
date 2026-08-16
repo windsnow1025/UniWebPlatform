@@ -52,11 +52,9 @@ function ShareConversationDialog({open, onClose, conversation, setConversation})
     }
   }, [open, fetchUsernamesCb]);
 
-  const publicUrl = useMemo(() => {
-    if (!conversation?.isPublic || !conversation?.id) return '';
-    const origin = window.location.origin;
-    return `${origin}/public/conversation/${conversation.id}`;
-  }, [conversation]);
+  const publicUrl = conversation?.isPublic && conversation?.id
+    ? `${window.location.origin}/public/conversation/${conversation.id}`
+    : '';
 
   const handleShare = async () => {
     try {

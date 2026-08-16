@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Alert,
   Button,
@@ -86,9 +86,7 @@ const APIBaseURLSelect = ({apiType, label}) => {
 
   const typeDefault = defaultAPIBaseURLs[apiType];
   const typeSelected = selected[apiType] || typeDefault;
-  const allOptions = useMemo(() => {
-    return [typeDefault, ...options[apiType]]
-  }, [typeDefault, options, apiType]);
+  const allOptions = [typeDefault, ...options[apiType]];
 
   const handleSelectChange = (e) => {
     const value = e.target.value;
