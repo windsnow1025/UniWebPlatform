@@ -1,26 +1,10 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {
-  Alert,
-  Box,
-  Chip,
-  FormControl,
-  FormControlLabel,
-  IconButton,
-  InputLabel,
-  Link,
-  MenuItem,
-  Popover,
-  Select,
-  Slider,
-  Snackbar,
-  Switch,
-  Typography
-} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Box, Chip, FormControlLabel, IconButton, Link, Popover, Slider, Switch, Typography} from "@mui/material";
 import {InfoOutlined} from "@mui/icons-material";
-import ChatLogic from "@/lib/chat/ChatLogic";
 import {StorageKeys} from "@/lib/common/Constants";
 import useScreenSize from "@/hooks/useScreenSize";
 import CreditSection from "@/components/common/settings/auth/signed-in/CreditSection";
+import ApiTypeModelSelect from "@/components/ai/ApiTypeModelSelect";
 
 function ConfigDiv({
                      apiType,
@@ -42,33 +26,9 @@ function ConfigDiv({
   const screenSize = useScreenSize();
   const smallScreen = screenSize === 'xs';
 
-  const chatLogic = useMemo(() => new ChatLogic(), []);
-
-  const [filteredApiTypeModels, setFilteredApiTypeModels] = useState([]);
-  const [apiTypeModels, setApiTypeModels] = useState([]);
-  const [apiTypes, setApiTypes] = useState([]);
-
   const [developerMode, setDeveloperMode] = useState(false);
 
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('info');
-
   const [anchorEl, setAnchorEl] = useState(null);
-
-  useEffect(() => {
-    const fetchApiTypeModels = async () => {
-      try {
-        setApiTypeModels(await chatLogic.fetchApiTypeModels());
-      } catch (err) {
-        setAlertMessage(err.message);
-        setAlertSeverity('error');
-        setAlertOpen(true);
-      }
-    };
-
-    fetchApiTypeModels();
-  }, [chatLogic]);
 
   useEffect(() => {
     const storedDeveloperMode = localStorage.getItem(StorageKeys.DeveloperMode);
@@ -77,62 +37,15 @@ function ConfigDiv({
     }
   }, []);
 
-  useEffect(() => {
-    setApiTypes(ChatLogic.getAllApiTypes(apiTypeModels));
-    setApiType(ChatLogic.getDefaultApiType(apiTypeModels));
-  }, [apiTypeModels, setApiType]);
-
-  useEffect(() => {
-    setFilteredApiTypeModels(ChatLogic.filterApiTypeModelsByApiType(apiTypeModels, apiType));
-    setModel(ChatLogic.filterDefaultModelByApiType(apiTypeModels, apiType));
-  }, [apiType, apiTypeModels, setModel]);
-
   return (
     <>
       <div className="flex-around my-2.5 gap-y-2">
-        <div>
-          <FormControl fullWidth size="small">
-            <InputLabel id="api-type-select-label">API Type</InputLabel>
-            <Select
-              labelId="api-type-select-label"
-              id="api-type-select"
-              value={apiType ? apiType : ''}
-              label="API Type"
-              variant="outlined"
-              onChange={e => setApiType(e.target.value)}
-            >
-              {apiTypes.map(type => (
-                <MenuItem key={type} value={type}>{type}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-        <div>
-          <FormControl fullWidth size="small">
-            <InputLabel id="model-select-label">Model</InputLabel>
-            <Select
-              labelId="model-select-label"
-              id="model-select"
-              value={model || ''}
-              label="Model"
-              variant="outlined"
-              onChange={e => setModel(e.target.value)}
-              renderValue={(selected) => selected}
-            >
-              {filteredApiTypeModels.map(apiTypeModel => {
-                const price = `Price: Input ${apiTypeModel.input}, Output: ${apiTypeModel.output}`;
-                return (
-                  <MenuItem key={apiTypeModel.model} value={apiTypeModel.model}>
-                    <div>
-                      <Typography variant="body2">{apiTypeModel.model}</Typography>
-                      <Typography variant="caption" color="textSecondary">{price}</Typography>
-                    </div>
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </div>
+        <ApiTypeModelSelect
+          apiType={apiType}
+          setApiType={setApiType}
+          model={model}
+          setModel={setModel}
+        />
         <div className="flex-center gap-1">
           <CreditSection refreshKey={refreshKey} decimalPlaces={5}/>
           <IconButton size="small" onClick={(e) => setAnchorEl(e.currentTarget)}>
@@ -206,15 +119,6 @@ function ConfigDiv({
           </div>
         )}
       </div>
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={6000}
-        onClose={() => setAlertOpen(false)}
-      >
-        <Alert onClose={() => setAlertOpen(false)} severity={alertSeverity} sx={{width: '100%'}}>
-          {alertMessage}
-        </Alert>
-      </Snackbar>
     </>
   );
 }
