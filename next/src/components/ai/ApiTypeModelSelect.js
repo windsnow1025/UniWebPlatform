@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Alert, FormControl, InputLabel, MenuItem, Select, Snackbar, Typography} from "@mui/material";
+import {Alert, FormControl, InputLabel, ListSubheader, MenuItem, Select, Snackbar, Typography} from "@mui/material";
 import ChatLogic from "@/lib/chat/ChatLogic";
 
 function ApiTypeModelSelect({
@@ -10,7 +10,6 @@ function ApiTypeModelSelect({
                             }) {
   const chatLogic = useMemo(() => new ChatLogic(), []);
 
-  const [filteredApiTypeModels, setFilteredApiTypeModels] = useState([]);
   const [apiTypeModels, setApiTypeModels] = useState([]);
   const [apiTypes, setApiTypes] = useState([]);
 
@@ -33,57 +32,51 @@ function ApiTypeModelSelect({
   }, [chatLogic]);
 
   useEffect(() => {
+    const defaultApiType = ChatLogic.getDefaultApiType(apiTypeModels);
     setApiTypes(ChatLogic.getAllApiTypes(apiTypeModels));
-    setApiType(ChatLogic.getDefaultApiType(apiTypeModels));
-  }, [apiTypeModels, setApiType]);
+    setApiType(defaultApiType);
+    setModel(ChatLogic.filterDefaultModelByApiType(apiTypeModels, defaultApiType));
+  }, [apiTypeModels, setApiType, setModel]);
 
-  useEffect(() => {
-    setFilteredApiTypeModels(ChatLogic.filterApiTypeModelsByApiType(apiTypeModels, apiType));
-    setModel(ChatLogic.filterDefaultModelByApiType(apiTypeModels, apiType));
-  }, [apiType, apiTypeModels, setModel]);
+  const getOptionValue = (apiType, model) => `${apiType}/${model}`;
+
+  const handleChange = (e) => {
+    const selected = apiTypeModels.find(
+      apiTypeModel => getOptionValue(apiTypeModel.apiType, apiTypeModel.model) === e.target.value
+    );
+    setApiType(selected.apiType);
+    setModel(selected.model);
+  };
 
   return (
     <>
-      <div>
-        <FormControl fullWidth size="small">
-          <InputLabel id="api-type-select-label">API Type</InputLabel>
-          <Select
-            labelId="api-type-select-label"
-            id="api-type-select"
-            value={apiType ? apiType : ''}
-            label="API Type"
-            variant="outlined"
-            onChange={e => setApiType(e.target.value)}
-          >
-            {apiTypes.map(type => (
-              <MenuItem key={type} value={type}>{type}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
       <div>
         <FormControl fullWidth size="small">
           <InputLabel id="model-select-label">Model</InputLabel>
           <Select
             labelId="model-select-label"
             id="model-select"
-            value={model || ''}
+            value={apiType && model ? getOptionValue(apiType, model) : ''}
             label="Model"
             variant="outlined"
-            onChange={e => setModel(e.target.value)}
-            renderValue={(selected) => selected}
+            onChange={handleChange}
+            renderValue={() => model}
           >
-            {filteredApiTypeModels.map(apiTypeModel => {
-              const price = `Price: Input ${apiTypeModel.input}, Output: ${apiTypeModel.output}`;
-              return (
-                <MenuItem key={apiTypeModel.model} value={apiTypeModel.model}>
-                  <div>
-                    <Typography variant="body2">{apiTypeModel.model}</Typography>
-                    <Typography variant="caption" color="textSecondary">{price}</Typography>
-                  </div>
-                </MenuItem>
-              );
-            })}
+            {apiTypes.flatMap(apiType => [
+              <ListSubheader key={apiType}>{apiType}</ListSubheader>,
+              ...ChatLogic.filterApiTypeModelsByApiType(apiTypeModels, apiType).map(apiTypeModel => {
+                const price = `Price: Input ${apiTypeModel.input}, Output: ${apiTypeModel.output}`;
+                const optionValue = getOptionValue(apiTypeModel.apiType, apiTypeModel.model);
+                return (
+                  <MenuItem key={optionValue} value={optionValue}>
+                    <div>
+                      <Typography variant="body2">{apiTypeModel.model}</Typography>
+                      <Typography variant="caption" color="textSecondary">{price}</Typography>
+                    </div>
+                  </MenuItem>
+                );
+              }),
+            ])}
           </Select>
         </FormControl>
       </div>

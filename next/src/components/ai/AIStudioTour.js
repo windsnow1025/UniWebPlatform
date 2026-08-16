@@ -19,13 +19,8 @@ const steps = [
     spotlightClicks: true,
   },
   {
-    target: '#api-type-select',
-    content: 'Select the API type for your AI model here.',
-    placement: 'bottom',
-  },
-  {
     target: '#model-select',
-    content: 'Choose from different AI models with varying capabilities.',
+    content: 'Choose models from different API Providers.',
     placement: 'bottom',
   },
   {
