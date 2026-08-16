@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef} from "react";
 import {applyTheme, desanitizeContent, parseMarkdownLaTeX, sanitizeContent} from "markdown-latex-renderer";
 import {ContentEditable, RawEditableState} from "@/lib/common/message/EditableState";
 import {useColorScheme} from "@mui/material";
@@ -10,7 +10,9 @@ function TextContent({
                      }) {
   const { mode } = useColorScheme();
 
-  const [contentEditable, setContentEditable] = useState(ContentEditable.PlainTextOnly);
+  const contentEditable = rawEditableState === RawEditableState.AlwaysFalse
+    ? ContentEditable.False
+    : ContentEditable.PlainTextOnly;
   const contentRef = useRef(null);
 
   const parse = (content) => {
@@ -38,14 +40,12 @@ function TextContent({
     // Always False -> Parse and not allow edit
     if (editableState === RawEditableState.AlwaysFalse) {
       parse(content);
-      setContentEditable(ContentEditable.False);
       return;
     }
 
     // Always True -> Unparse and allow edit
     if (editableState === RawEditableState.AlwaysTrue) {
       unparse(content);
-      setContentEditable(ContentEditable.PlainTextOnly);
       return;
     }
   }, [mode]);

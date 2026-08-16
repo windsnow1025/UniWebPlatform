@@ -11,11 +11,12 @@ function ApiTypeModelSelect({
   const chatLogic = useMemo(() => new ChatLogic(), []);
 
   const [apiTypeModels, setApiTypeModels] = useState([]);
-  const [apiTypes, setApiTypes] = useState([]);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
+
+  const apiTypes = ChatLogic.getAllApiTypes(apiTypeModels);
 
   useEffect(() => {
     const fetchApiTypeModels = async () => {
@@ -33,7 +34,6 @@ function ApiTypeModelSelect({
 
   useEffect(() => {
     const defaultApiType = ChatLogic.getDefaultApiType(apiTypeModels);
-    setApiTypes(ChatLogic.getAllApiTypes(apiTypeModels));
     setApiType(defaultApiType);
     setModel(ChatLogic.filterDefaultModelByApiType(apiTypeModels, defaultApiType));
   }, [apiTypeModels, setApiType, setModel]);

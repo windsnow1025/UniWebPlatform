@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Avatar, ListItemIcon, ListItemText, Menu, MenuItem, Tooltip, useTheme} from "@mui/material";
 import BuildIcon from '@mui/icons-material/Build';
 import AssistantIcon from '@mui/icons-material/Assistant';
@@ -9,14 +9,8 @@ function RoleSelect({role, setRole, disabled}) {
   const theme = useTheme();
   const session = useSession();
 
-  const [username, setUsername] = useState("");
-  const [avatar, setAvatar] = useState(null);
-
-  useEffect(() => {
-    if (!session) return;
-    setUsername(session.user.name);
-    setAvatar(session.user.image);
-  }, [session]);
+  const username = session ? session.user.name : "";
+  const avatar = session ? session.user.image : null;
 
   const rolesConfig = [
     {

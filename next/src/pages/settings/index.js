@@ -12,11 +12,10 @@ const Settings = () => {
   const userLogic = useMemo(() => new UserLogic(), []);
   const router = useRouter();
 
-  const [activeTab, setActiveTab] = useState(() => {
-    const tab = Number(router.query.tab);
-    return isNaN(tab) ? 0 : tab;
-  });
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const tab = Number(router.query.tab);
+  const activeTab = isNaN(tab) ? 0 : tab;
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -27,13 +26,7 @@ const Settings = () => {
     checkAdmin();
   }, [userLogic]);
 
-  useEffect(() => {
-    const tab = Number(router.query.tab);
-    setActiveTab(isNaN(tab) ? 0 : tab);
-  }, [router.query.tab]);
-
   const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
     router.replace({ query: { ...router.query, tab: newValue } }, undefined, { shallow: true });
   };
 
