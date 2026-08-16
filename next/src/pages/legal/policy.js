@@ -7,13 +7,13 @@ import Head from "next/head";
 function AcceptedUsePolicy() {
   const [markdown, setMarkdown] = useState('');
 
-  const fetchMarkdown = async () => {
-    const publicService = new PublicClient();
-    const markdownContent = await publicService.fetchMarkdown('AcceptableUsePolicy.md');
-    setMarkdown(markdownContent);
-  };
-
   useEffect(() => {
+    const fetchMarkdown = async () => {
+      const publicService = new PublicClient();
+      const markdownContent = await publicService.fetchMarkdown('AcceptableUsePolicy.md');
+      setMarkdown(markdownContent);
+    };
+
     fetchMarkdown();
   }, []);
 

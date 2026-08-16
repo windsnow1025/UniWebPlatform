@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   Alert,
   Autocomplete,
@@ -36,21 +36,23 @@ function ShareConversationDialog({open, onClose, conversation, setConversation})
   const userLogic = useMemo(() => new UserLogic(), []);
   const conversationLogic = useMemo(() => new ConversationLogic(), []);
 
-  const fetchUsernamesCb = useCallback(async () => {
-    try {
-      setUsernames(await userLogic.fetchUsernames());
-    } catch (err) {
-      setAlertMessage(err.message);
-      setAlertSeverity('error');
-      setAlertOpen(true);
-    }
-  }, [userLogic]);
-
   useEffect(() => {
-    if (open) {
-      fetchUsernamesCb();
+    if (!open) {
+      return;
     }
-  }, [open, fetchUsernamesCb]);
+
+    const fetchUsernames = async () => {
+      try {
+        setUsernames(await userLogic.fetchUsernames());
+      } catch (err) {
+        setAlertMessage(err.message);
+        setAlertSeverity('error');
+        setAlertOpen(true);
+      }
+    };
+
+    fetchUsernames();
+  }, [open, userLogic]);
 
   const publicUrl = conversation?.isPublic && conversation?.id
     ? `${window.location.origin}/public/conversation/${conversation.id}`
